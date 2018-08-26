@@ -11,8 +11,8 @@ class Particule(Command):
         'X': 0,
     }
 
-    def __init__(self, name='', *params, **kwargs):
-        super().__init__(name, Particule.PARAMETERS, self.PARAMETERS, *params, **kwargs)
+    def __init__(self, label1='', label2='', *params, **kwargs):
+        super().__init__(label1, label2, Particule.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
     def __str__(s):
         return f"""
@@ -53,6 +53,18 @@ class AntiMuon(Particule):
         'G': (-2.0023318418 - 2) / 2,
         'tau': 2.197029e-6,
     }
+
+
+class ImmortalMuon(AntiMuon):
+    PARAMETERS = dict(AntiMuon.PARAMETERS, **{
+        'tau': 0.0,
+    })
+
+
+class ImmortalAntiMuon(Muon):
+    PARAMETERS = dict(Muon.PARAMETERS, **{
+        'tau': 0.0,
+    })
 
 
 class Proton(Particule):

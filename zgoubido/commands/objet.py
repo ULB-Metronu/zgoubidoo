@@ -27,23 +27,25 @@ class Objet2(Objet):
         'KOBJ': 2,
         'IMAX': 1,
         'IDMAX': 1,
-        'Y': 0.0,
-        'T': 0.0,
-        'Z': 0.0,
-        'P': 0.0,
-        'X': 0.0,
-        'D': 0.0,
+        'Y': [0.0],
+        'T': [0.0],
+        'Z': [0.0],
+        'P': [0.0],
+        'X': [0.0],
+        'D': [0.0],
         'LET': 1.0,
         'IEX': 1,
     }
 
     def __str__(s):
-        return f"""
+        c = f"""
         {super().__str__().rstrip()}
         {s.IMAX} {s.IDMAX}
-        {s.Y} {s.T} {s.Z} {s.P} {s.X} {s.D} {s.LET}
-        {s.IEX}
         """
+        for p in zip(s.Y, s.T, s.Z, s.P, s.X, s.D):
+            c += f"{p[0]} {p[1]} {p[2]} {p[3]} {p[4]} {p[5]}"
+        c += f"{s.IEX}\n"
+        return c
 
 
 class Objet3(Objet):
