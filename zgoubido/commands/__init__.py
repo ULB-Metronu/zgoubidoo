@@ -1,4 +1,4 @@
-from .aimants import *
+from .magnetique import *
 from .commands import *
 from .mcobjet import *
 from .objet import *

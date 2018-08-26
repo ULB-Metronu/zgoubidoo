@@ -77,4 +77,3 @@ class Objet8(Objet):
 class ObjetA(Command):
     """Object from Monte-Carlo simulation of decay reaction."""
     KEYWORD = 'OBJETA'
-
