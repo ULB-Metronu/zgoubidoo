@@ -2,7 +2,9 @@ from .commands import Command
 
 
 class Objet(Command):
+    """Generation of an object."""
     KEYWORD = 'OBJET'
+
     PARAMETERS = {
         'BORO': 1.0,
     }
@@ -70,3 +72,9 @@ class Objet7(Objet):
 
 class Objet8(Objet):
     pass
+
+
+class ObjetA(Command):
+    """Object from Monte-Carlo simulation of decay reaction."""
+    KEYWORD = 'OBJETA'
+

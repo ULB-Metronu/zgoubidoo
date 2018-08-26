@@ -42,11 +42,19 @@ class Faiscnl(Command):
 
 
 class End(Command):
+    """End of input data list."""
     KEYWORD = 'END'
 
 
+class Fin(Command):
+    """End of input data list."""
+    KEYWORD = 'FIN'
+
+
 class Rebelote(Command):
+    """’Do it again’."""
     KEYWORD = 'REBELOTE'
+
     PARAMETERS = {
         'NPASS': 1,
         'KWRIT': 0.0,
@@ -59,4 +67,8 @@ class Rebelote(Command):
         {s.NPASS} {s.KWRIT} {s.K}
         """
 
+
+class Reset(Command):
+    """Reset counters and flags."""
+    KEYWORD = 'RESET'
 

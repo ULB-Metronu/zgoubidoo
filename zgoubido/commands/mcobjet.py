@@ -2,6 +2,9 @@ from .commands import Command
 
 
 class MCObjet(Command):
+    """Monte-Carlo generation of a 6-D object."""
+    KEYWORD = 'MCOBJET'
+
     PARAMETERS = {
         'BORO': 1.0,
         'IMAX': 1,
@@ -19,6 +22,7 @@ class MCObjet2(MCObjet):
 
 class MCObjet3(MCObjet):
     KEYWORD = 'MCOBJET'
+
     PARAMETERS = {
         'KY': 2,
         'KT': 1,

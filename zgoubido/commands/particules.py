@@ -2,6 +2,7 @@ from .commands import Command
 
 
 class Particule(Command):
+    """Particle characteristics."""
     KEYWORD = 'PARTICUL'
     PARAMETERS = {
         'M': 0,
@@ -22,6 +23,7 @@ class Particule(Command):
 
 
 class Electron(Particule):
+    """An electron particle."""
     PARAMETERS = {
         'M': 0.51099892,
         'Q': -1.60217653e-19,
@@ -30,6 +32,7 @@ class Electron(Particule):
 
 
 class Positron(Particule):
+    """A positron particle."""
     PARAMETERS = {
         'M': 0.51099892,
         'Q': 1.60217653e-19,
@@ -38,6 +41,7 @@ class Positron(Particule):
 
 
 class Muon(Particule):
+    """A muon particle."""
     PARAMETERS = {
         'M': 105.6583745,
         'Q': -1.60217653e-19,
@@ -47,6 +51,7 @@ class Muon(Particule):
 
 
 class AntiMuon(Particule):
+    """An anti-muon particle."""
     PARAMETERS = {
         'M': 105.6583745,
         'Q': 1.60217653e-19,
@@ -56,18 +61,21 @@ class AntiMuon(Particule):
 
 
 class ImmortalMuon(AntiMuon):
+    """A muon particle (no decay)."""
     PARAMETERS = dict(AntiMuon.PARAMETERS, **{
         'tau': 0.0,
     })
 
 
 class ImmortalAntiMuon(Muon):
+    """An anti-muon particle (no decay)."""
     PARAMETERS = dict(Muon.PARAMETERS, **{
         'tau': 0.0,
     })
 
 
 class Proton(Particule):
+    """A proton particle."""
     PARAMETERS = {
         'M': 938.27203,
         'Q': 1.602176487e-19,
@@ -76,6 +84,7 @@ class Proton(Particule):
 
 
 class AntiProton(Particule):
+    """An anti-proton particle."""
     PARAMETERS = {
         'M': 938.27203,
         'Q': -1.602176487e-19,

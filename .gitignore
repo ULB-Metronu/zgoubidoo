@@ -1,0 +1,4 @@
+.idea/
+zgoubido.egg-info/
+zgoubido/__pycache__/
+zgoubido/commands/__pycache__/

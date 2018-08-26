@@ -22,7 +22,9 @@ class DipoleM(Command):
 
 
 class Quadrupo(Command):
+    """Quadrupole magnet."""
     KEYWORD = 'QUADRUPO'
+
     PARAMETERS = {
         'IL': 2,
         'XL': 0,
@@ -101,7 +103,7 @@ class Brevol(Command):
     KEYWORD = 'BREVOL'
 
 
-class Cartemes(Command):
+class CartesianMesh(Command):
     """"2-D Cartesian uniform mesh magnetic field map."""
     KEYWORD = 'CARTEMES'
 
@@ -208,3 +210,176 @@ class ELMirCircular(Command):
 class ELMulti(Command):
     """Electric multipole."""
     KEYWORD = 'ELMULT'
+
+
+class ELRevol(Command):
+    """1-D uniform mesh electric field map."""
+    KEYWORD = 'ELREVOL'
+
+
+class Emma(Command):
+    """2-D Cartesian or cylindrical mesh field map for EMMA FFAG."""
+    KEYWORD = 'EMMA'
+
+
+class ESL(Command):
+    """??? Field free drift space."""
+    KEYWORD = 'ESL'
+
+
+class Faisceau(Command):
+    """Print particle coordinates."""
+    KEYWORD = 'FAISCEAU'
+
+
+class Faiscnl(Command):
+    """Store particle coordinates in file FNAME."""
+    KEYWORD = 'FAISCNL'
+
+
+class FaiStore(Command):
+    """Store coordinates every IP other pass at labeled elements."""
+    KEYWORD = 'FAISTORE'
+
+
+class FFAG(Command):
+    """FFAG magnet, N-tuple."""
+    KEYWORD = 'FFAG'
+
+
+class FFAGSpirale(Command):
+    """Spiral FFAG magnet, N-tuple."""
+    KEYWORD = 'FFAG-SPI'
+
+
+class Fit(Command):
+    """Fitting procedure."""
+    KEYWORD = 'FIT'
+
+
+class Fit2(Command):
+    """Fitting procedure."""
+    KEYWORD = 'FIT2'
+
+
+class Focale(Command):
+    """Particle coordinates and horizontal beam size at distance XL."""
+    KEYWORD = 'FOCALE'
+
+
+class FocaleZ(Command):
+    """Particle coordinates and vertical beam size at distance XL."""
+    KEYWORD = 'FOCALEZ'
+
+
+class GasScattering(Command):
+    """Gas scattering."""
+    KEYWORD = 'GASCAT'
+
+
+class GetFitVal(Command):
+    """Get values of variables as saved from former FIT[2] run."""
+    KEYWORD = 'GETFITVAL'
+
+
+class Histo(Command):
+    """1-Dhistogram"""
+    KEYWORD = 'HISTO'
+
+
+class Image(Command):
+    """Localization and size of horizontal waist."""
+    KEYWORD = 'IMAGE'
+
+
+class Images(Command):
+    """Localization and size of horizontal waists."""
+    KEYWORD = 'IMAGES'
+
+
+class ImageZ(Command):
+    """Localization and size of vertical waist."""
+    KEYWORD = 'IMAGEZ'
+
+
+class ImagesZ(Command):
+    """Localization and size of vertical waists."""
+    KEYWORD = 'IMAGESZ'
+
+
+class Map2D(Command):
+    """2-D Cartesian uniform mesh field map - arbitrary magnetic field."""
+    KEYWORD = 'MAP2D'
+
+
+class Map2DElectric(Command):
+    """2-D Cartesian uniform mesh field map - arbitrary electric field."""
+    KEYWORD = 'MAP2D-E'
+
+
+class Marker(Command):
+    """Marker."""
+    KEYWORD = 'MARKER'
+
+
+class Matrix(Command):
+    """Calculation of transfer coefficients, periodic parameters."""
+    KEYWORD = 'MATRIX'
+
+
+class MCDesintegration(Command):
+    """Monte-Carlo simulation of in-flight decay."""
+    KEYWORD = 'MCDESINT'
+
+
+class Multipole(Command):
+    """Magnetic multipole."""
+    KEYWORD = 'MULTIPOL'
+
+
+class Octupole(Command):
+    """Octupole magnet."""
+    KEYWORD = 'OCTUPOLE'
+
+
+class Optics(Command):
+    """Write out optical functions."""
+    KEYWORD = 'OPTICS'
+
+
+class Ordre(Command):
+    """Taylor expansions order."""
+    KEYWORD = 'ORDRE'
+
+
+class Pickups(Command):
+    """Beam centroid path; closed orbit."""
+    KEYWORD = 'PICKUPS'
+
+
+class PlotData(Command):
+    """Intermediate output for the PLOTDATA graphic software."""
+    KEYWORD = 'PLOTDATA'
+
+
+class Poisson(Command):
+    """Read magnetic field data from POISSON output."""
+    KEYWORD = 'POISSON'
+
+
+class PolarMesh(Command):
+    """2-D polar mesh magnetic field map."""
+    KEYWORD = 'POLARMES'
+
+
+class PS170(Command):
+    """Simulation of a round shape dipole magnet."""
+    KEYWORD = 'PS170'
+
+
+class Quadisex(Command):
+    """Sharp edge magnetic multipoles."""
+    KEYWORD = 'QUADISEX'
+
+
+class
