@@ -23,7 +23,9 @@ class Command:
         return str(s)
 
     def __str__(s):
-        return f"'{s.KEYWORD}' {s.LABEL1} {s.LABEL2}"
+        return f"""
+        '{s.KEYWORD}' {s.LABEL1} {s.LABEL2}
+        """
 
 
 class AutoRef(Command):
@@ -101,7 +103,7 @@ class Faiscnl(Command):
 
     def __str__(s):
         return f"""
-        {super().__str__()}
+        {super().__str__().rstrip()}
         {s.B_FNAME if s.binary else s.FNAME}
         """
 
@@ -279,4 +281,7 @@ class Ymy(Command):
     """Reverse signs of Y and Z reference axes."""
     KEYWORD = 'YMY'
 
-
+    def __str__(s):
+        return f"""
+        '{s.KEYWORD}' {s.LABEL1} {s.LABEL2}
+    """
