@@ -35,6 +35,53 @@ class DipoleM(Command):
     """Generation of dipole mid-plane 2-D map, polar frame."""
     KEYWORD = 'DIPOLE-M'
 
+    PARAMETERS = {
+        'NFACE': 3,
+        'IC': 1,
+        'IL': 1,
+        'IAMAX': 1,
+        'IRMAX': 1,
+        'B0': 1,
+        'N': 1,
+        'B': 1,
+        'G': 1,
+        'AT': 1,
+        'ACENT': 1,
+        'RM': 1,
+        'RMIN': 1,
+        'RMAX': 1,
+        'entrance_fb_lambda': 1,
+        'entrance_fb_xi': 1,
+        'entrance_fb_NC': 1,
+        'entrance_fb_C1': 1,
+        'entrance_fb_C2': 1,
+        'entrance_fb_C3': 1,
+        'entrance_fb_C4': 1,
+        'entrance_fb_C5': 1,
+        'entrance_fb_shift': 1,
+        'omega_minus': 1,
+        'theta': 1,
+        'R1': 1,
+        'U1': 1,
+        'U2': 1,
+        'R2': 1,
+
+    }
+
+    def __str__(s):
+        c = f"""
+        '{s.KEYWORD}' {s.LABEL1} {s.LABEL2}
+        {s.NFACE} {s.IC} {s.IL}
+        {s.IAMAX} {s.IRMAX}
+        {s.B0} {s.N} {s.B} {s.G}
+        {s.AT} {ACENT} {s.RM}
+        {s.RMIN} {s.RMAX}
+        {s.entrance_fb_lambda} {s.entrance_fb_xi}
+        {s.entrance_fb_NC} {s.entrance_fb_C1} {s.entrance_fb_C2} {s.entrance_fb_C3} {s.entrance_fb_C4} {s.entrance_fb_C5} {s.entrance_fb_shift}
+        
+        """
+        return c
+
 
 class Dipoles(Command):
     """Dipole magnet N-tuple, polarframe."""
