@@ -74,6 +74,16 @@ class ImmortalAntiMuon(Muon):
     })
 
 
+class Pion(Particule):
+    """A pion particle."""
+    PARAMETERS = {
+        'M': 139.57018,
+        'Q': 1.60217653e-19,
+        'G': 0,
+        'tau': 2.6033e-8,
+    }
+
+
 class Proton(Particule):
     """A proton particle."""
     PARAMETERS = {
