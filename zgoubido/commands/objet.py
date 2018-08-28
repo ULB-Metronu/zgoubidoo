@@ -16,12 +16,40 @@ class Objet(Command):
         {s.KOBJ}
         """
 
-    def __init__(self, *params, **kwargs):
-        super().__init__(Objet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
+    def __init__(self, label1='', label2='', *params, **kwargs):
+        super().__init__(label1, label2, Objet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
 
 class Objet1(Objet):
-    pass
+    PARAMETERS = {
+        'KOBJ': 1,
+        'IY': 1,
+        'IT': 1,
+        'IZ': 1,
+        'IP': 1,
+        'IX': 1,
+        'ID': 1,
+        'PY': 0.1,
+        'PT': 1.0,
+        'PZ': 0.1,
+        'PP': 1.0,
+        'PX': 0.1,
+        'PD': 0.1,
+        'YR': 0.0,
+        'TR': 0.0,
+        'ZR': 0.0,
+        'PR': 0.0,
+        'XR': 0.0,
+        'DR': 1.0,
+    }
+
+    def __str__(s):
+        return f"""
+        {super().__str__().rstrip()}
+        {s.IY} {s.IT} {s.IZ} {s.IP} {s.IX} {s.ID}
+        {s.PY} {s.PT} {s.PZ} {s.PP} {s.PX} {s.PD}
+        {s.YR} {s.TR} {s.ZR} {s.PR} {s.XR} {s.DR}
+        """
 
 
 class Objet2(Objet):

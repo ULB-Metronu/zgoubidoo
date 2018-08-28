@@ -307,6 +307,108 @@ class DipoleM(Command):
             somme += liste[l]
         return somme
 
+    PARAMETERS = {
+        'NFACE': 3,
+        'IC': 1,
+        'IL': 2,
+        'IAMAX': 1,
+        'IRMAX': 1,
+        'B0': 1,
+        'N': 1,
+        'B': 1,
+        'G': 1,
+        'AT': 1,
+        'ACENT': 1,
+        'RM': 1,
+        'RMIN': 1,
+        'RMAX': 1,
+        'entrance_fb_lambda': 1,
+        'entrance_fb_xi': 1,
+        'entrance_fb_NC': 1,
+        'entrance_fb_C1': 1,
+        'entrance_fb_C2': 1,
+        'entrance_fb_C3': 1,
+        'entrance_fb_C4': 1,
+        'entrance_fb_C5': 1,
+        'entrance_fb_shift': 1,
+        'entrance_fb_omega': 1,
+        'entrance_fb_theta': 1,
+        'entrance_fb_R1': 1,
+        'entrance_fb_U1': 1,
+        'entrance_fb_U2': 1,
+        'entrance_fb_R2': 1,
+        'exit_fb_lambda': 1,
+        'exit_fb_xi': 1,
+        'exit_fb_NC': 1,
+        'exit_fb_C1': 1,
+        'exit_fb_C2': 1,
+        'exit_fb_C3': 1,
+        'exit_fb_C4': 1,
+        'exit_fb_C5': 1,
+        'exit_fb_shift': 1,
+        'exit_fb_omega': 1,
+        'exit_fb_theta': 1,
+        'exit_fb_R1': 1,
+        'exit_fb_U1': 1,
+        'exit_fb_U2': 1,
+        'exit_fb_R2': 1,
+        'lateral_fb_lambda': 1,
+        'lateral_fb_xi': 1,
+        'lateral_fb_NC': 1,
+        'lateral_fb_C1': 1,
+        'lateral_fb_C2': 1,
+        'lateral_fb_C3': 1,
+        'lateral_fb_C4': 1,
+        'lateral_fb_C5': 1,
+        'lateral_fb_shift': 1,
+        'lateral_fb_omega': 1,
+        'lateral_fb_theta': 1,
+        'lateral_fb_R1': 1,
+        'lateral_fb_U1': 1,
+        'lateral_fb_U2': 1,
+        'lateral_fb_R2': 1,
+        'RM3': 1,
+        'NBS': 0,
+        'IORDRE': 4,
+        'XPAS': 0.1,
+        'KPOS': 1,
+        'RE': 1,
+        'TE': 1,
+        'RS': 1,
+        'TS': 1,
+        'DP': 1,
+    }
+
+    def __str__(s):
+        c = f"""
+        '{s.KEYWORD}' {s.LABEL1} {s.LABEL2}
+        {s.NFACE} {s.IC} {s.IL}
+        {s.IAMAX} {s.IRMAX}
+        {s.B0} {s.N} {s.B} {s.G}
+        {s.AT} {s.ACENT} {s.RM}
+        {s.RMIN} {s.RMAX}
+        {s.entrance_fb_lambda} {s.entrance_fb_xi}
+        {s.entrance_fb_NC} {s.entrance_fb_C1} {s.entrance_fb_C2} {s.entrance_fb_C3} {s.entrance_fb_C4} {s.entrance_fb_C5} {s.entrance_fb_shift}
+        {s.entrance_fb_omega} {s.entrance_fb_theta} {s.entrance_fb_R1} {s.entrance_fb_U1} {s.entrance_fb_U2} {s.entrance_fb_R2}
+        {s.exit_fb_lambda} {s.exit_fb_xi}
+        {s.exit_fb_NC} {s.exit_fb_C1} {s.exit_fb_C2} {s.exit_fb_C3} {s.exit_fb_C4} {s.exit_fb_C5} {s.exit_fb_shift}
+        {s.exit_fb_omega} {s.exit_fb_theta} {s.exit_fb_R1} {s.exit_fb_U1} {s.exit_fb_U2} {s.exit_fb_R2}
+        """
+        if s.NFACE == 3:
+            c += f"""
+            {s.lateral_fb_lambda} {s.lateral_fb_xi}
+            {s.lateral_fb_NC} {s.lateral_fb_C1} {s.lateral_fb_C2} {s.lateral_fb_C3} {s.lateral_fb_C4} {s.lateral_fb_C5} {s.lateral_fb_shift}
+            {s.lateral_fb_omega} {s.lateral_fb_theta} {s.lateral_fb_R1} {s.lateral_fb_U1} {s.lateral_fb_U2} {s.lateral_fb_R2}
+            """
+        c += f"""
+        {s.NBS}
+        {s.IORDRE}
+        {s.XPAS}
+        {s.KPOS}
+        {s.DP if s.KPOS == 1 else ''}
+        """
+        return c
+
 
 class Dipoles(Command):
     """Dipole magnet N-tuple, polar frame."""
@@ -435,7 +537,7 @@ class Drift(Command):
 
     def __str__(s):
         return f"""
-        '{s.KEYWORD}' {s.LABEL1} {s.LABEL2}
+        {super().__str__().rstrip()}
         {s.XL}
         """
 
