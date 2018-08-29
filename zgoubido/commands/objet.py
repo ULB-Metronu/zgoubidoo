@@ -12,7 +12,7 @@ class Objet(Command):
     def __str__(s):
         return f"""
         {super().__str__().rstrip()}
-        {s.BORO}
+        {s.BORO:.12e}
         {s.KOBJ}
         """
 

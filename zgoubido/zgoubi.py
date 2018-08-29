@@ -49,9 +49,12 @@ class Zgoubi:
             stderr = output[1].decode()
 
         # Extract CPU time
-        cputime = float(re.search("\d+\.\d+[E|e][\+|-]\d+",
-                                  [line.strip() for line in output[0].decode().split('\n') if
-                                   re.search('CPU time', line)][0]).group())
+        cputime = -1.0
+        if stderr is None:
+            lines = [line.strip() for line in output[0].decode().split('\n') if
+                     re.search('CPU time', line)]
+            if len(lines):
+                cputime = float(re.search("\d+\.\d+[E|e]?[\+|-]?\d+", lines[0]).group())
 
         return {
             'stdout': output[0].decode(),

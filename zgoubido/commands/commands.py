@@ -1,3 +1,10 @@
+class ZgoubidoException(Exception):
+    """Exception raised for errors in the Madx module."""
+
+    def __init__(self, m):
+        self.message = m
+
+
 class Command:
     PARAMETERS = {
         'LABEL1': '',
@@ -26,6 +33,9 @@ class Command:
         return f"""
         '{s.KEYWORD}' {s.LABEL1} {s.LABEL2}
         """
+
+    def plot(self, ax):
+        return ax
 
 
 class AutoRef(Command):

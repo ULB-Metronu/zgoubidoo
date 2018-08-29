@@ -1,4 +1,5 @@
-from .commands import Command
+from .commands import Command, ZgoubidoException
+import matplotlib.patches as patches
 
 
 class AGSMainMagnet(Command):
@@ -17,8 +18,59 @@ class Aimant(Command):
 
 
 class Bend(Command):
-    """Bending magnet, Cartesian frame."""
+    """Bending magnet, Cartesian frame.
+    Parameters:
+        IL:
+        XL (cm): magnet length (distance between EFB)
+
+    """
     KEYWORD = 'BEND'
+
+    PARAMETERS = {
+        'IL': 2,
+        'XL': 0.0,
+        'SK': 0.0,
+        'B1': 0.0,
+        'X_E': 0.0,
+        'LAM_E': 0.0,
+        'W_E': 0.0,
+        'C0_E': 0.0,
+        'C1_E': 0.0,
+        'C2_E': 0.0,
+        'C3_E': 0.0,
+        'C4_E': 0.0,
+        'C5_E': 0.0,
+        'X_S': 0.0,
+        'LAM_S': 0.0,
+        'W_S': 0.0,
+        'C0_S': 0.0,
+        'C1_S': 0.0,
+        'C2_S': 0.0,
+        'C3_S': 0.0,
+        'C4_S': 0.0,
+        'C5_S': 0.0,
+        'XPAS': 0.0,
+        'KPOS': 3,
+        'XCE': 0.0,
+        'YCE': 0.0,
+        'ALE': 0.0,
+    }
+
+    def __str__(s):
+        return f"""
+        {super().__str__().rstrip()}
+        {IL}
+        {XL:.12e} {SK:.12e} {B1:.12e}
+        {X_E:.12e} {LAM_E:.12e} {W_E:.12e}
+        0 {C0_E} {C1_E} {C2_E:.12e} {C3_E:.12e} {C4_E:.12e} {C5_E:.12e}
+        {X_S:.12e} {LAM_S:.12e} {W_S:.12e}
+        0 {C0_S:.12e} {C1_S:.12e} {C2_S:.12e} {C3_S:.12e} {C4_S:.12e} {C5_S:.12e}
+        {XPAS:.12e}
+        {KPOS} {XCE:.12e} {YCE:.12e} {ALE:.12e}
+        """
+
+    def plot(self, ax):
+        return ax
 
 
 class Decapole(Command):
@@ -135,12 +187,12 @@ class Dipole(Command):
 
 
 class DipoleM(Command):
-    KEYWORD = 'DIPOLEM'
+    KEYWORD = 'DIPOLE-M'
 
     PARAMETERS = {
-        'NFACE': 3,
-        'IC': 0,
-        'IL': 0,
+        'NFACE': 2,
+        'IC': 0,  # 1, 2: print field map
+        'IL': 0,  # 1, 2: print field and coordinates on trajectores
         'IAMAX': 0,
         'IRMAX': 0,
         'B0': 0,
@@ -164,10 +216,10 @@ class DipoleM(Command):
         'SHIFT_E': 0,
         'OMEGA_E': 0,
         'THETA_E': 0,
-        'R1_E': 0,
-        'U1_E': 0,
-        'U2_E': 0,
-        'R2_E': 0,
+        'R1_E': 1e9,
+        'U1_E': -1e9,
+        'U2_E': 1e9,
+        'R2_E': 1e9,
         'LAM_S': 0,
         'XI_S': 0,
         'NCS': 0,
@@ -180,10 +232,10 @@ class DipoleM(Command):
         'SHIFT_S': 0,
         'OMEGA_S': 0,
         'THETA_S': 0,
-        'R1_S': 0,
-        'U1_S': 0,
-        'U2_S': 0,
-        'R2_S': 0,
+        'R1_S': 1e9,
+        'U1_S': -1e9,
+        'U2_S': 1e9,
+        'R2_S': 1e9,
         'LAM_L': 0,
         'XI_L': 0,
         'NCL': 0,
@@ -196,16 +248,16 @@ class DipoleM(Command):
         'SHIFT_L': 0,
         'OMEGA_L': 0,
         'THETA_L': 0,
-        'R1_L': 0,
-        'U1_L': 0,
-        'U2_L': 0,
-        'R2_L': 0,
+        'R1_L': 1e9,
+        'U1_L': -1e9,
+        'U2_L': 1e9,
+        'R2_L': 1e9,
         'RM3': 0,
         'NBS': 0,
         'R0': 0,
         'DELTAB': 0,
         'THETA_0': 0,
-        'IORDRE': 0,
+        'IORDRE': 4,
         'XPAS': 0.1,
         'KPOS': 2,
         'RE': 0,
@@ -225,189 +277,109 @@ class DipoleM(Command):
     }
 
     def __str__(s):
-        liste = []
-        if s.NFACE != 3:
-            print('Error : Zgoubido does not support NFACE =', s.NFACE)
-        elif s.NFACE == 3:
-            f = f"""
+        command = []
+        if s.NFACE not in (2, 3):
+            raise ZgoubidoException(f"Error : Zgoubido does not support NFACE = {s.NFACE}")
+
+        c = f"""
             {super().__str__().rstrip()}
             {s.NFACE} {s.IC} {s.IL}
             {s.IAMAX} {s.IRMAX}
             {s.B0:.12e} {s.N:.12e} {s.B:.12e} {s.G:.12e}
-            {s.AT} {s.ACENT:.12e} {s.RM:.12e} {s.RMIN:.12e} {s.RMAX:.12e}
+            {s.AT:.12e} {s.ACENT:.12e} {s.RM:.12e} {s.RMIN:.12e} {s.RMAX:.12e}
             {s.LAM_E:.12e} {s.XI_E:.12e}
             {s.NCE} {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e} {s.SHIFT_E:.12e}
             {s.OMEGA_E:.12e} {s.THETA_E:.12e} {s.R1_E:.12e} {s.U1_E:.12e} {s.U2_E:.12e} {s.R2_E:.12e}
             {s.LAM_S:.12e} {s.XI_S:.12e}
             {s.NCS} {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e} {s.SHIFT_S:.12e}
             {s.OMEGA_S:.12e} {s.THETA_S:.12e} {s.R1_S:.12e} {s.U1_S:.12e} {s.U2_S:.12e} {s.R2_S:.12e}
-            {s.LAM_L:.12e} {s.XI_L:.12e}
-            {s.NCL} {s.C0_L:.12e} {s.C1_L:.12e} {s.C2_L:.12e} {s.C3_L:.12e} {s.C4_L:.12e} {s.C5_L:.12e} {s.SHIFT_L:.12e}
-            {s.OMEGA_L:.12e} {s.THETA_L:.12e} {s.R1_L:.12e} {s.U1_L:.12e} {s.U2_L:.12e} {s.R2_L:.12e} {s.RM3:.12e}"""
-            liste.append(f)
-            if NBS == 0:
-                g = f"""
-                {s.NBS}
-                {s.IORDRE}
-                {s.XPAS:.12e}"""
-                liste.append(g)
-            elif s.NBS == -2:
-                g = f"""
+        """
+        command.append(c)
+
+        if s.NFACE == 3:
+            c = f"""
+                {s.LAM_L:.12e} {s.XI_L:.12e}
+                {s.NCL} {s.C0_L:.12e} {s.C1_L:.12e} {s.C2_L:.12e} {s.C3_L:.12e} {s.C4_L:.12e} {s.C5_L:.12e} {s.SHIFT_L:.12e}
+                {s.OMEGA_L:.12e} {s.THETA_L:.12e} {s.R1_L:.12e} {s.U1_L:.12e} {s.U2_L:.12e} {s.R2_L:.12e} {s.RM3:.12e}
+            """
+            command.append(c)
+
+        if s.NBS == 0:
+            command.append(f"""
+            {s.NBS}
+            """)
+        elif s.NBS == -2:
+            c = f"""
                 {s.NBS}
                 {s.R0:.12e} {s.DELTAB:.12e}
-                {s.IORDRE}
-                {s.XPAS:.12e}"""
-                liste.append(g)
-            elif s.NBS == -1:
-                g = f"""
+                """
+            command.append(c)
+        elif s.NBS == -1:
+            c = f"""
                 {s.NBS}
                 {s.THETA_0:.12e} {s.DELTAB:.12e}
-                {s.IORDRE}
-                {s.XPAS:.12e}"""
-                liste.append(g)
-            elif s.NBS>=1:
-                g = f"""
-                {s.NBS}"""
-                list.append(g)
-                shim_r1 = len(s.SHIM_R1)
-                shim_r2 = len(s.SHIM_R2)
-                shim_theta1 = len(s.SHIM_THETA1)
-                shim_theta2 = len(s.SHIM_THETA2)
-                shim_LAMBDA = len(s.SHIM_LAMBDA)
-                shim_GAMMA = len(s.SHIM_GAMMA)
-                shim_ALPHA = len(s.SHIM_ALPHA)
-                shim_BETA = len(s.SHIM_BETA)
-                shim_MU = len(s.SHIM_MU)
-                if shim_r1 == shim_r2 == shim_theta1 == shim_theta2 == shim_LAMBDA == shim_GAMMA == shim_ALPHA == shim_BETA ==  shim_MU:
-                    for i in range (1,s.SHIM_R1):
-                        for i, j, k, l in zip(s.SHIM_R1, s.SHIM_R2, s.SHIM_THETA1, s.SHIM_LAMBDA):
-                            d1 = f"{i:.12e} {j:.12e} {k:.12e} {l:.12e}"
-                            liste.append(d1)
-                        for i, j, k, l in zip(s.GAMMA, s.ALPHA, s.MU, s.BETA):
-                            d2 = f"{i:.12e} {j:.12e} {k:.12e} {l:.12e}"
-                            liste.append(d2)
-                    j = f"""
-                    {s.IORDRE}
-                    {s.XPAS:.12e}"""
-                    liste.append(j)
-                    if s.KPOS == 2:
-                        k = f"""
-                        {s.KPOS}
-                        {s.RE:.12e} {s.TE:.12e} {s.RS:.12e} {s.TS:.12e}"""
-                        liste.append(j)
-                    elif s.KPOS == 1:
-                        k = f"""
-                        {s.KPOS}
-                        {s.DP:.12e}"""
-                        liste.append(j)
-                else:
-                    print('Error : The given lists have not the same lenghts')
-        somme = ''
-        for l in range(0,len(liste)):
-            somme += liste[l]
-        return somme
+                """
+            command.append(c)
+        elif s.NBS >= 1:
+            command.append(f"""
+            {s.NBS}""")
 
-    PARAMETERS = {
-        'NFACE': 3,
-        'IC': 1,
-        'IL': 2,
-        'IAMAX': 1,
-        'IRMAX': 1,
-        'B0': 1,
-        'N': 1,
-        'B': 1,
-        'G': 1,
-        'AT': 1,
-        'ACENT': 1,
-        'RM': 1,
-        'RMIN': 1,
-        'RMAX': 1,
-        'entrance_fb_lambda': 1,
-        'entrance_fb_xi': 1,
-        'entrance_fb_NC': 1,
-        'entrance_fb_C1': 1,
-        'entrance_fb_C2': 1,
-        'entrance_fb_C3': 1,
-        'entrance_fb_C4': 1,
-        'entrance_fb_C5': 1,
-        'entrance_fb_shift': 1,
-        'entrance_fb_omega': 1,
-        'entrance_fb_theta': 1,
-        'entrance_fb_R1': 1,
-        'entrance_fb_U1': 1,
-        'entrance_fb_U2': 1,
-        'entrance_fb_R2': 1,
-        'exit_fb_lambda': 1,
-        'exit_fb_xi': 1,
-        'exit_fb_NC': 1,
-        'exit_fb_C1': 1,
-        'exit_fb_C2': 1,
-        'exit_fb_C3': 1,
-        'exit_fb_C4': 1,
-        'exit_fb_C5': 1,
-        'exit_fb_shift': 1,
-        'exit_fb_omega': 1,
-        'exit_fb_theta': 1,
-        'exit_fb_R1': 1,
-        'exit_fb_U1': 1,
-        'exit_fb_U2': 1,
-        'exit_fb_R2': 1,
-        'lateral_fb_lambda': 1,
-        'lateral_fb_xi': 1,
-        'lateral_fb_NC': 1,
-        'lateral_fb_C1': 1,
-        'lateral_fb_C2': 1,
-        'lateral_fb_C3': 1,
-        'lateral_fb_C4': 1,
-        'lateral_fb_C5': 1,
-        'lateral_fb_shift': 1,
-        'lateral_fb_omega': 1,
-        'lateral_fb_theta': 1,
-        'lateral_fb_R1': 1,
-        'lateral_fb_U1': 1,
-        'lateral_fb_U2': 1,
-        'lateral_fb_R2': 1,
-        'RM3': 1,
-        'NBS': 0,
-        'IORDRE': 4,
-        'XPAS': 0.1,
-        'KPOS': 1,
-        'RE': 1,
-        'TE': 1,
-        'RS': 1,
-        'TS': 1,
-        'DP': 1,
-    }
+            shim_r1 = len(s.SHIM_R1)
+            shim_r2 = len(s.SHIM_R2)
+            shim_theta1 = len(s.SHIM_THETA1)
+            shim_theta2 = len(s.SHIM_THETA2)
+            shim_lambda = len(s.SHIM_LAMBDA)
+            shim_gamma = len(s.SHIM_GAMMA)
+            shim_alpha = len(s.SHIM_ALPHA)
+            shim_beta = len(s.SHIM_BETA)
+            shim_mu = len(s.SHIM_MU)
+            if shim_r1\
+                    == shim_r2 \
+                    == shim_theta1 \
+                    == shim_theta2 \
+                    == shim_lambda \
+                    == shim_gamma \
+                    == shim_alpha \
+                    == shim_beta \
+                    == shim_mu:
+                for i, j, k, l in zip(s.SHIM_R1, s.SHIM_R2, s.SHIM_THETA1, s.SHIM_LAMBDA):
+                    command.append(f"""
+                    {i:.12e} {j:.12e} {k:.12e} {l:.12e}
+                    """)
 
-    def __str__(s):
+                for i, j, k, l in zip(s.GAMMA, s.ALPHA, s.MU, s.BETA):
+                    command.append(f"""
+                                   {i:.12e} {j:.12e} {k:.12e} {l:.12e}
+                                   """)
+            else:
+                raise ZgoubidoException('Error : The shim parameters lists must have the same lenghts')
+
         c = f"""
-        '{s.KEYWORD}' {s.LABEL1} {s.LABEL2}
-        {s.NFACE} {s.IC} {s.IL}
-        {s.IAMAX} {s.IRMAX}
-        {s.B0} {s.N} {s.B} {s.G}
-        {s.AT} {s.ACENT} {s.RM}
-        {s.RMIN} {s.RMAX}
-        {s.entrance_fb_lambda} {s.entrance_fb_xi}
-        {s.entrance_fb_NC} {s.entrance_fb_C1} {s.entrance_fb_C2} {s.entrance_fb_C3} {s.entrance_fb_C4} {s.entrance_fb_C5} {s.entrance_fb_shift}
-        {s.entrance_fb_omega} {s.entrance_fb_theta} {s.entrance_fb_R1} {s.entrance_fb_U1} {s.entrance_fb_U2} {s.entrance_fb_R2}
-        {s.exit_fb_lambda} {s.exit_fb_xi}
-        {s.exit_fb_NC} {s.exit_fb_C1} {s.exit_fb_C2} {s.exit_fb_C3} {s.exit_fb_C4} {s.exit_fb_C5} {s.exit_fb_shift}
-        {s.exit_fb_omega} {s.exit_fb_theta} {s.exit_fb_R1} {s.exit_fb_U1} {s.exit_fb_U2} {s.exit_fb_R2}
-        """
-        if s.NFACE == 3:
-            c += f"""
-            {s.lateral_fb_lambda} {s.lateral_fb_xi}
-            {s.lateral_fb_NC} {s.lateral_fb_C1} {s.lateral_fb_C2} {s.lateral_fb_C3} {s.lateral_fb_C4} {s.lateral_fb_C5} {s.lateral_fb_shift}
-            {s.lateral_fb_omega} {s.lateral_fb_theta} {s.lateral_fb_R1} {s.lateral_fb_U1} {s.lateral_fb_U2} {s.lateral_fb_R2}
+            {s.IORDRE}
+            {s.XPAS:.12e}
             """
-        c += f"""
-        {s.NBS}
-        {s.IORDRE}
-        {s.XPAS}
-        {s.KPOS}
-        {s.DP if s.KPOS == 1 else ''}
-        """
-        return c
+        command.append(c)
+
+        if s.KPOS not in (1, 2):
+            raise ZgoubidoException("KPOS must be equal to 1 or 2.")
+
+        if s.KPOS == 2:
+            if s.RE == 0:
+                s.RE = s.RM
+            if s.RS == 0:
+                s.RS = s.RM
+            c = f"""
+                {s.KPOS}
+                {s.RE:.12e} {s.TE:.12e} {s.RS:.12e} {s.TS:.12e}
+                """
+            command.append(c)
+        elif s.KPOS == 1:
+            c = f"""
+                {s.KPOS}
+                {s.DP:.12e}"""
+            command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))
 
 
 class Dipoles(Command):
@@ -416,65 +388,67 @@ class Dipoles(Command):
 
     PARAMETERS = {
         'IL': 2,
-        'N': 2,
+        'N': 1,
         'AT': 0,
         'RM': 0,
-        'ACN': 0,
-        'DELTA_RM': 0,
-        'B0': 0,
-        'IND': 0,
-        'bi': 0,
-        'G0_E': 0,
-        'K_E': 0,
-        'NCE': 0,
-        'C0_E': 0,
-        'C1_E': 0,
-        'C2_E': 0,
-        'C3_E': 0,
-        'C4_E': 0,
-        'C5_E': 0,
-        'SHIFT_E': 0,
-        'OMEGA_E': 0,
-        'THETA_E': 0,
-        'R1_E': 0,
-        'U1_E': 0,
-        'U2_E': 0,
-        'R2_E': 0,
-        'G0_S': 0,
-        'K_S': 0,
-        'NCS': 0,
-        'C0_S': 0,
-        'C1_S': 0,
-        'C2_S': 0,
-        'C3_S': 0,
-        'C4_S': 0,
-        'C5_S': 0,
-        'SHIFT_S': 0,
-        'OMEGA_S': 0,
-        'THETA_S': 0,
-        'R1_S': 0,
-        'U1_S': 0,
-        'U2_S': 0,
-        'R2_S': 0,
-        'G0_L': 0,
-        'K_L': 0,
-        'NCL': 0,
-        'C0_L': 0,
-        'C1_L': 0,
-        'C2_L': 0,
-        'C3_L': 0,
-        'C4_L': 0,
-        'C5_L': 0,
-        'SHIFT_L': 0,
-        'OMEGA_L': 0,
-        'THETA_L': 0,
-        'R1_L': 0,
-        'U1_L': 0,
-        'U2_L': 0,
-        'R2_L': 0,
-        'R3': 0,
-        'KIRD': 2,
-        'n': 2,
+
+        'ACN': [0, ],
+        'DELTA_RM': [0, ],
+        'B0': [0, ],
+        'IND': [0, ],
+        'BI': [[0, ], ],
+        'G0_E': [0, ],
+        'K_E': [0, ],
+        'NCE': [0, ],
+        'C0_E': [0, ],
+        'C1_E': [0, ],
+        'C2_E': [0, ],
+        'C3_E': [0, ],
+        'C4_E': [0, ],
+        'C5_E': [0, ],
+        'SHIFT_E': [0, ],
+        'OMEGA_E': [0, ],
+        'THETA_E': [0, ],
+        'R1_E': [1e9, ],
+        'U1_E': [-1e9, ],
+        'U2_E': [1e9, ],
+        'R2_E': [1e9, ],
+        'G0_S': [0, ],
+        'K_S': [0, ],
+        'NCS': [0, ],
+        'C0_S': [0, ],
+        'C1_S': [0, ],
+        'C2_S': [0, ],
+        'C3_S': [0, ],
+        'C4_S': [0, ],
+        'C5_S': [0, ],
+        'SHIFT_S': [0, ],
+        'OMEGA_S': [0, ],
+        'THETA_S': [0, ],
+        'R1_S': [1e9, ],
+        'U1_S': [-1e9, ],
+        'U2_S': [1e9, ],
+        'R2_S': [1e9, ],
+        'G0_L': [0, ],
+        'K_L': [0, ],
+        'NCL': [0, ],
+        'C0_L': [0, ],
+        'C1_L': [0, ],
+        'C2_L': [0, ],
+        'C3_L': [0, ],
+        'C4_L': [0, ],
+        'C5_L': [0, ],
+        'SHIFT_L': [0, ],
+        'OMEGA_L': [0, ],
+        'THETA_L': [0, ],
+        'R1_L': [1e9, ],
+        'U1_L': [-1e9, ],
+        'U2_L': [1e9, ],
+        'R2_L': [1e9, ],
+        'R3': [1e9, ],
+
+        'KIRD': 0,
+        'n': 0,
         'Resol': 2,
         'XPAS': 0.1,
         'KPOS': 2,
@@ -485,41 +459,58 @@ class Dipoles(Command):
         'DP': 0,
     }
 
-    def __init__(self, label1='', label2='', *params, **kwargs):
-        super().__init__(label1, label2, Dipoles.PARAMETERS, self.PARAMETERS, *params, **kwargs)
-        for i in range(1, self.IND + 1):
-            setattr(self, f"b{i}", 0.0)
-
     def __str__(s):
-        c = []
-        f = f"""
+        command = []
+        c = f"""
         {super().__str__().rstrip()}
         {s.IL}
-        {s.N} {s.AT:.12e} {s.RM:.12e}"""
-        c.append(f)
-        liste_bi = []
-        for i in range (1,s.N +1):
-            g = f"""
-                {s.ACN:.12e} {s.DELTA_RM:.12e} {s.B0:.12e} {s.IND:.12e}"""
-            for j in range (1, s.IND + 1):
-                h = f"{s.bi:.12e}"
-        c.append(g)
+        {s.N} {s.AT:.12e} {s.RM:.12e}
+        """
+        command.append(c)
+
+        for i in range (0, s.N):
+            c = f"{s.ACN[i]:.12e} {s.DELTA_RM[i]:.12e} {s.B0[i]:.12e} {s.IND[i]} "
+            for bi in s.BI[i]:
+                c += f"{bi} "
+            command.append(c)
+
+            c = f"""
+                {s.G0_E[i]:.12e} {s.K_E[i]:.12e}
+                {s.NCE[i]} {s.C0_E[i]:.12e} {s.C1_E[i]:.12e} {s.C2_E[i]:.12e} {s.C3_E[i]:.12e} {s.C4_E[i]:.12e} {s.C5_E[i]:.12e} {s.SHIFT_E[i]:.12e}
+                {s.OMEGA_E[i]:.12e} {s.THETA_E[i]:.12e} {s.R1_E[i]:.12e} {s.U1_E[i]:.12e} {s.U2_E[i]:.12e} {s.R2_E[i]:.12e}
+                {s.G0_S[i]:.12e} {s.K_S[i]:.12e}
+                {s.NCS[i]} {s.C0_S[i]:.12e} {s.C1_S[i]:.12e} {s.C2_S[i]:.12e} {s.C3_S[i]:.12e} {s.C4_S[i]:.12e} {s.C5_S[i]:.12e} {s.SHIFT_S[i]:.12e}
+                {s.OMEGA_S[i]:.12e} {s.THETA_S[i]:.12e} {s.R1_S[i]:.12e} {s.U1_S[i]:.12e} {s.U2_S[i]:.12e} {s.R2_S[i]:.12e}
+                {s.G0_L[i]:.12e} {s.K_L[i]:.12e}
+                {s.NCL[i]} {s.C0_L[i]:.12e} {s.C1_L[i]:.12e} {s.C2_L[i]:.12e} {s.C3_L[i]:.12e} {s.C4_L[i]:.12e} {s.C5_L[i]:.12e} {s.SHIFT_L[i]:.12e}
+                {s.OMEGA_L[i]:.12e} {s.THETA_L[i]:.12e} {s.R1_L[i]:.12e} {s.U1_L[i]:.12e} {s.U2_L[i]:.12e} {s.R2_L[i]:.12e} {s.R3[i]:.12e}
+                """
+            command.append(c)
+
+        if s.KIRD == 0:
+            command.append(f"""
+            {s.KIRD}.{s.n} {s.Resol:.12e}
+            """)
+        else:
+            command.append(f"""
+            {s.KIRD} {s.Resol:.12e}
+            """)
+
+        command.append(f"""{s.XPAS:.12e}""")
+
         if s.KPOS == 2:
-            g = f"""
-            {s.RE:.12e}
-            {s.KIRD:.12e} {s.n:.12e}
+            c = f"""
             {s.KPOS}
-            {s.RE:.12e} {s.TE:.12e} {s.RS:.12e} {s.TS:.12e}"""
-            c.append(g)
+            {s.RE:.12e} {s.TE:.12e} {s.RS:.12e} {s.TS:.12e}
+            """
+            command.append(c)
         elif s.KPOS == 1:
-            g = f"""
+            c = f"""
             {s.KPOS}
             {s.DP:.12e}"""
-            c.append(g)
-        somme = ''
-        for l in range(0, len(c)):
-            somme += c[l]
-        return somme
+            command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))
 
 
 class Dodecapole(Command):
@@ -584,7 +575,7 @@ class Quadrupole(Command):
     PARAMETERS = {
         'IL': 2,
         'XL': 0,
-        'R0': 0,
+        'R0': 1.0,
         'B0': 0,
         'XE': 0,
         'LAM_E': 0,
@@ -617,6 +608,38 @@ class Quadrupole(Command):
         {s.XPAS}
         {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
         """
+
+    def plot(self, ax, width=0.4, coords=None):
+        if coords is None:
+            coords = [0, 0, 0, 0, 0, 0]
+        w = patches.Rectangle(
+            (
+                coords[0] - width / 2,
+                coords[1],
+            ),
+            width,
+            self.XL,
+            angle=coords[3],
+            alpha=1.0,
+            facecolor='b',
+            ec='b',
+            hatch=''
+        )
+        ax.add_patch(w)
+        w = patches.Rectangle(
+            (
+                coords[0] - width / 2,
+                coords[1],
+            ),
+            width/10,
+            self.XL,
+            angle=coords[3],
+            alpha=0.5,
+            facecolor='k',
+            ec='k',
+            hatch=''
+        )
+        ax.add_patch(w)
 
 
 class SexQuad(Command):
