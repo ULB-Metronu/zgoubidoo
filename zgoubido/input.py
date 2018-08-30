@@ -1,3 +1,6 @@
+from .commands import *
+
+
 class Input:
     """Zgoubi input data."""
 
@@ -21,9 +24,33 @@ class Input:
         self._line.append(o)
         return self
 
+    def __getitem__(self, item):
+        l, i = self._filter(item)
+        return Input(name=f"{self._name}_filtered_by_{i}"
+                     .replace(',', '_')
+                     .replace(' ', '')
+                     .replace("'", '')
+                     .replace("(", '')
+                     .replace(")", ''),
+                     line=l
+                     )
+
+    def __getattr__(self, item):
+        pass
+
+    def __contains__(self, item):
+        l, i = self._filter(item)
+        return len(l)
+
+    def _filter(self, item):
+        if not isinstance(item, tuple):
+            item = (item,)
+        item = tuple(map(lambda x: x.KEYWORD if isinstance(x, MetaCommand) else x, item))
+        return list(filter(lambda x: x.KEYWORD in item, self._line)), item
+
     @property
     def line(self):
-        return list(self._line)
+        return self._line
 
     @staticmethod
     def write(_, filename='zgoubi.dat'):
@@ -32,4 +59,6 @@ class Input:
 
     @staticmethod
     def build(name='beamline', line=None):
+        if len(line) == 0 or not isinstance(line[-1], End):
+            line.append(End())
         return ''.join(map(str, [name] + (line or [])))

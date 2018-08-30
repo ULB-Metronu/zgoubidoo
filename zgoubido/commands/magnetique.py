@@ -12,6 +12,10 @@ class AGSQuadrupole(Command):
     """AGS quadrupole."""
     KEYWORD = 'AGSQUAD'
 
+    PARAMETERS = {
+
+    }
+
 
 class Aimant(Command):
     """Generation of dipole mid-plane 2-D map, polar frame."""
