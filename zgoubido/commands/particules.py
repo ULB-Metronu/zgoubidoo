@@ -9,7 +9,6 @@ class Particule(Command):
         'Q': 0,
         'G': 0,
         'tau': 0,
-        'X': 0,
     }
 
     def __init__(self, label1='', label2='', *params, **kwargs):
@@ -17,8 +16,8 @@ class Particule(Command):
 
     def __str__(s):
         return f"""
-        {super().__str__()}
-        {s.M} {s.Q} {s.G} {s.tau} {s.X}
+        {super().__str__().strip()}
+        {s.M:.12e} {s.Q:.12e} {s.G:.12e} {s.tau:.12e} 0.0
         """
 
 

@@ -32,7 +32,7 @@ class Command(metaclass=MetaCommand):
 
     def __init__(self, label1='', label2='', *params, **kwargs):
         self._attributes = {}
-        for p in (Command.PARAMETERS, self.PARAMETERS,) + params + ({'LABEL1': label1, 'LABEL2': label2},):
+        for p in (Command.PARAMETERS, self.PARAMETERS,) + params + ({'LABEL1': label1 or hash(self), 'LABEL2': label2},):
             self._attributes = dict(self._attributes, **p)
         for k, v in kwargs.items():
             if k not in self._attributes.keys():
@@ -63,8 +63,8 @@ class Command(metaclass=MetaCommand):
         else:
             self._attributes[a] = v
 
-    def __repr__(s):
-        return str(s)
+    def __repr__(self):
+        return str(self)
 
     def __str__(s):
         return f"""
@@ -252,17 +252,24 @@ class ImagesZ(Command):
     """Localization and size of vertical waists."""
     KEYWORD = 'IMAGESZ'
 
-    class Marker(Command):
-        """Marker."""
-        KEYWORD = 'MARKER'
 
-    class Matrix(Command):
-        """Calculation of transfer coefficients, periodic parameters."""
-        KEYWORD = 'MATRIX'
+class Marker(Command):
+    """Marker."""
+    KEYWORD = 'MARKER'
 
-    class MCDesintegration(Command):
-        """Monte-Carlo simulation of in-flight decay."""
-        KEYWORD = 'MCDESINT'
+    def __init__(self, label1='', label2='', *params, with_plt=False, **kwargs):
+        super().__init__(label1, label2, self.PARAMETERS, *params, **kwargs)
+        self.LABEL2 = '.plt' if with_plt else ''
+
+
+class Matrix(Command):
+    """Calculation of transfer coefficients, periodic parameters."""
+    KEYWORD = 'MATRIX'
+
+
+class MCDesintegration(Command):
+    """Monte-Carlo simulation of in-flight decay."""
+    KEYWORD = 'MCDESINT'
 
 
 class Optics(Command):

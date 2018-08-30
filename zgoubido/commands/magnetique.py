@@ -3,12 +3,19 @@ import matplotlib.patches as patches
 from .. import ureg, Q_
 
 
-class AGSMainMagnet(Command):
+class Magnet(Command):
+    """Base class for all magnetic elements."""
+
+    def align(self, *args, **kwargs):
+        return self
+
+
+class AGSMainMagnet(Magnet):
     """AGS main magnet."""
     KEYWORD = 'AGSMM'
 
 
-class AGSQuadrupole(Command):
+class AGSQuadrupole(Magnet):
     """AGS quadrupole."""
     KEYWORD = 'AGSQUAD'
 
@@ -17,12 +24,12 @@ class AGSQuadrupole(Command):
     }
 
 
-class Aimant(Command):
+class Aimant(Magnet):
     """Generation of dipole mid-plane 2-D map, polar frame."""
     KEYWORD = 'AIMANT'
 
 
-class Bend(Command):
+class Bend(Magnet):
     """Bending magnet, Cartesian frame.
     Parameters:
         IL:
@@ -32,58 +39,58 @@ class Bend(Command):
     KEYWORD = 'BEND'
 
     PARAMETERS = {
-        'IL': 2,
-        'XL': (0.0 * ureg.centimeter, "Magnet length (straight reference frame)."),
-        'SK': 0.0,
-        'B1': 0.0,
-        'X_E': 0.0,
-        'LAM_E': 0.0,
-        'W_E': 0.0,
+        'IL': (2, "Print field and coordinates along trajectories"),
+        'XL': (0.0 * ureg.centimeter, "Magnet length (straight reference frame)"),
+        'SK': (0.0 * ureg.radian, "Skew angle"),
+        'B1': (0.0 * ureg.kilogauss, "Dipole field"),
+        'X_E': (0.0 * ureg.centimeter, "Integration zone extension (entrance face)"),
+        'LAM_E': (0.0 * ureg.centimeter, "Fringe field extension (entrance face)"),
+        'W_E': (0.0 * ureg.radian, "Wedge angle (entrance face)"),
         'C0_E': 0.0,
         'C1_E': 1.0,
         'C2_E': 0.0,
         'C3_E': 0.0,
         'C4_E': 0.0,
         'C5_E': 0.0,
-        'X_S': 0.0,
-        'LAM_S': 0.0,
-        'W_S': 0.0,
+        'X_S': (0.0 * ureg.centimeter, "Integration zone extension (exit face)"),
+        'LAM_S': (0.0 * ureg.centimeter, "Fringe field extension (exit face)"),
+        'W_S': (0.0 * ureg.radian, "Wedge angle (exit face)"),
         'C0_S': 0.0,
         'C1_S': 1.0,
         'C2_S': 0.0,
         'C3_S': 0.0,
         'C4_S': 0.0,
         'C5_S': 0.0,
-        'XPAS': 0.0,
+        'XPAS': (0.0 * ureg.centimeter, "Integration step"),
         'KPOS': 3,
-        'XCE': 0.0,
-        'YCE': 0.0,
-        'ALE': 0.0,
+        'XCE': 0.0 * ureg.centimeter,
+        'YCE': 0.0 * ureg.centimeter,
+        'ALE': 0.0 * ureg.radian,
     }
 
     def __str__(s):
         return f"""
         {super().__str__().rstrip()}
         {s.IL}
-        {s.XL.to('cm').magnitude:.12e} {s.SK:.12e} {s.B1:.12e}
-        {s.X_E:.12e} {s.LAM_E:.12e} {s.W_E:.12e}
+        {s.XL.to('cm').magnitude:.12e} {s.SK.to('radian').magnitude:.12e} {s.B1.to('kilogauss').magnitude:.12e}
+        {s.X_E.to('cm').magnitude:.12e} {s.LAM_E.to('cm').magnitude:.12e} {s.W_E.to('radian').magnitude:.12e}
         0 {s.C0_E} {s.C1_E} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
-        {s.X_S:.12e} {s.LAM_S:.12e} {s.W_S:.12e}
+        {s.X_S.to('cm').magnitude:.12e} {s.LAM_S.to('cm').magnitude:.12e} {s.W_S.to('radian').magnitude:.12e}
         0 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
-        {s.XPAS:.12e}
-        {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+        {s.XPAS.to('cm').magnitude:.12e}
+        {s.KPOS} {s.XCE.to('cm').magnitude:.12e} {s.YCE.to('cm').magnitude:.12e} {s.ALE.to('radian').magnitude:.12e}
         """
 
     def plot(self, ax):
         return ax
 
 
-class Decapole(Command):
+class Decapole(Magnet):
     """Decapole magnet."""
     KEYWORD = 'DECAPOLE'
 
 
-class Dipole(Command):
+class Dipole(Magnet):
     """Dipole magnet, polar frame."""
     KEYWORD = 'DIPOLE'
 
@@ -206,7 +213,7 @@ class Dipole(Command):
         ax.add_patch(w)
 
 
-class DipoleM(Command):
+class DipoleM(Magnet):
     KEYWORD = 'DIPOLE-M'
 
     PARAMETERS = {
@@ -402,7 +409,7 @@ class DipoleM(Command):
         return ''.join(map(lambda _: _.rstrip(), command))
 
 
-class Dipoles(Command):
+class Dipoles(Magnet):
     """Dipole magnet N-tuple, polar frame."""
     KEYWORD = 'DIPOLES'
 
@@ -533,12 +540,12 @@ class Dipoles(Command):
         return ''.join(map(lambda _: _.rstrip(), command))
 
 
-class Dodecapole(Command):
+class Dodecapole(Magnet):
     """Dodecapole magnet."""
     KEYWORD = 'DODECAPO'
 
 
-class Drift(Command):
+class Drift(Magnet):
     """Field free drift space."""
     KEYWORD = 'DRIFT'
 
@@ -553,81 +560,95 @@ class Drift(Command):
         """
 
 
-class Emma(Command):
+class Emma(Magnet):
     """2-D Cartesian or cylindrical mesh field map for EMMA FFAG."""
     KEYWORD = 'EMMA'
 
 
-class FFAG(Command):
+class FFAG(Magnet):
     """FFAG magnet, N-tuple."""
     KEYWORD = 'FFAG'
 
 
-class FFAGSpirale(Command):
+class FFAGSpirale(Magnet):
     """Spiral FFAG magnet, N-tuple."""
     KEYWORD = 'FFAG-SPI'
 
 
-class Multipole(Command):
+class Multipole(Magnet):
     """Magnetic multipole."""
     KEYWORD = 'MULTIPOL'
 
 
-class Octupole(Command):
+class Octupole(Magnet):
     """Octupole magnet."""
     KEYWORD = 'OCTUPOLE'
 
 
-class PS170(Command):
+class PS170(Magnet):
     """Simulation of a round shape dipole magnet."""
     KEYWORD = 'PS170'
 
 
-class Quadisex(Command):
+class Quadisex(Magnet):
     """Sharp edge magnetic multipoles."""
     KEYWORD = 'QUADISEX'
 
 
-class Quadrupole(Command):
+class Quadrupole(Magnet):
     """Quadrupole magnet."""
     KEYWORD = 'QUADRUPO'
 
     PARAMETERS = {
         'IL': 2,
-        'XL': 0,
-        'R0': 1.0,
-        'B0': 0,
-        'XE': 0,
-        'LAM_E': 0,
-        'NCE': 0,
-        'NCS': 0,
+        'XL': 0 * ureg.centimeter,
+        'R0': 1.0 * ureg.centimeter,
+        'B0': 0 * ureg.kilogauss,
+        'XE': 0 * ureg.centimeter,
+        'LAM_E': 0 * ureg.centimeter,
         'C0': 0,
-        'C1': 0,
+        'C1': 1,
         'C2': 0,
         'C3': 0,
         'C4': 0,
         'C5': 0,
-        'XS': 0,
-        'LAM_S': 0,
-        'XPAS': 0.1,
-        'KPOS': 0,
-        'XCE': 0,
-        'YCE': 0,
-        'ALE': 0,
+        'XS': 0 * ureg.centimeter,
+        'LAM_S': 0 * ureg.centimeter,
+        'XPAS': 0.1 * ureg.centimeter,
+        'KPOS': 1,
+        'XCE': 0 * ureg.centimeter,
+        'YCE': 0 * ureg.centimeter,
+        'ALE': 0 * ureg.radian,
     }
 
     def __str__(s):
         return f"""
         {super().__str__().rstrip()}
         {s.IL}
-        {s.XL:.12e} {s.R0:.12e} {s.B0:.12e}
-        {s.XE:.12e} {s.LAM_E:.12e}
-        {s.NCE} {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
-        {s.XS:.12e} {s.LAM_S:.12e}
-        {s.NCS} {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
-        {s.XPAS}
-        {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+        {s.XL.to('centimeter').magnitude:.12e} {s.R0.to('centimeter').magnitude:.12e} {s.B0.to('kilogauss').magnitude:.12e}
+        {s.XE.to('centimeter').magnitude:.12e} {s.LAM_E.to('centimeter').magnitude:.12e}
+        0 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
+        {s.XS.to('centimeter').magnitude:.12e} {s.LAM_S.to('centimeter').magnitude:.12e}
+        0 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
+        {s.XPAS.to('centimeter').magnitude}
+        {s.KPOS} {s.XCE.to('centimeter').magnitude:.12e} {s.YCE.to('centimeter').magnitude:.12e} {s.ALE.to('radian').magnitude:.12e}
         """
+
+    @property
+    def gradient(self):
+        return self.B0 / self.R0
+
+    @gradient.setter
+    # @ureg.wraps(ret=None, args='tesla / meter')
+    def gradient(self, g):
+        self.B0 = g * self.R0
+
+    def align(self, mode=''):
+        self.KPOS = 1
+        self.XCE = 0.0 * ureg.centimeter
+        self.YCE = 0.0 * ureg.centimeter
+        self.ALE = 0.0 * ureg.radians
+        return self
 
     def plot(self, ax, width=0.4, coords=None):
         if coords is None:
@@ -662,22 +683,22 @@ class Quadrupole(Command):
         ax.add_patch(w)
 
 
-class SexQuad(Command):
+class SexQuad(Magnet):
     """Sharp edge magnetic multipole."""
     KEYWORD = 'SEXQUAD'
 
 
-class Sextupole(Command):
+class Sextupole(Magnet):
     """Sextupole magnet."""
     KEYWORD = 'SEXTUPOL'
 
 
-class Solenoid(Command):
+class Solenoid(Magnet):
     """Solenoid."""
     KEYWORD = 'SOLENOID'
 
 
-class Undulator(Command):
+class Undulator(Magnet):
     """Undulator magnet."""
     KEYWORD = 'UNDULATOR'
 
@@ -685,3 +706,35 @@ class Undulator(Command):
 class Venus(Command):
     """Simulation of a rectangular shape dipole magnet."""
     KEYWORD = 'VENUS'
+
+    PARAMETERS = {
+        'IL': 2,
+        'XL': 100 * ureg.centimeter,
+        'YL': 100 * ureg.centimeter,
+        'B0': 10 * ureg.kilogauss,
+        'XPAS': 0.1 * ureg.centimeter,
+        'KPOS': 1,
+        'XCE': 0 * ureg.centimeter,
+        'YCE': 0 * ureg.centimeter,
+        'ALE': 0 * ureg.radian,
+    }
+
+    def __str__(s):
+        command = []
+        c = f"""
+        {super().__str__().rstrip()}
+        {s.IL}
+        {s.XL.to('centimeter').magnitude:.12e} {s.YL.to('centimeter').magnitude:.12e} {s.B0.to('kilogauss').magnitude:.12e}
+        {s.XPAS:.12e}"""
+        command.append(c)
+
+        if s.KPOS not in (1, 2):
+            raise ZgoubidoException("KPOS must be equal to 1 or 2")
+
+        c = f"""
+        {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE.to('radian').magnitude:.12e}
+        """
+        command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))
+

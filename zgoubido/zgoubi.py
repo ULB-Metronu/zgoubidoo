@@ -15,6 +15,7 @@ class ZgoubiException(Exception):
 
 class Zgoubi:
     """Encapsulation of methods to run Zgoubi from Python."""
+    ZGOUBI_RES_FILE = 'zgoubi.res'
 
     def __init__(self, executable='zgoubi', path=None, **kwargs):
         """
@@ -30,7 +31,7 @@ class Zgoubi:
     def executable(self):
         return self._get_exec()
 
-    def __call__(self, _):
+    def __call__(self, _, debug=False):
         _()
         stderr = None
         p = sub.Popen([self._get_exec()],
@@ -56,12 +57,18 @@ class Zgoubi:
             if len(lines):
                 cputime = float(re.search("\d+\.\d+[E|e]?[\+|-]?\d+", lines[0]).group())
 
-        return {
-            'stdout': output[0].decode(),
-            'stderr': stderr,
-            'cputime': cputime,
-            'result': open('zgoubi.res', 'r').read()
-        }
+        try:
+            return {
+                'stdout': output[0].decode().split('\n'),
+                'stderr': stderr,
+                'cputime': cputime,
+                'result': open(Zgoubi.ZGOUBI_RES_FILE, 'r').read().split('\n'),
+                'input': _,
+            }
+        except FileNotFoundError:
+            if debug:
+                print(output[0].decode())
+            raise ZgoubiException("Executation terminated with errors.")
 
     def _get_exec(self):
         """Retrive the path to the simulator executable."""
