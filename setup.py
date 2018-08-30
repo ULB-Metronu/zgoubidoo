@@ -34,7 +34,8 @@ setup(
         'numpy>=1.14.0',
         'pandas>=0.22.0',
         'scipy>=1.0.0',
+        'pint',
     ],
-    package_data={'georges': []},
-    data_files=[('bin', [os.path.join('bin', 'madx')])],  # Install MAD-X in f"{sys.prefix}/bin/madx"
+    package_data={'zgoubido': []},
+    #data_files=[('bin', [os.path.join('bin', 'madx')])],  # Install MAD-X in f"{sys.prefix}/bin/madx"
 )

@@ -1,3 +1,7 @@
+from .. import ureg, Q_
+from pint import UndefinedUnitError
+
+
 class ZgoubidoException(Exception):
     """Exception raised for errors in the Madx module."""
 
@@ -5,7 +9,22 @@ class ZgoubidoException(Exception):
         self.message = m
 
 
-class Command:
+class MetaCommand(type):
+    """
+    Dark magic.
+    Be careful.
+    """
+    def __new__(mcs, name, bases, dct):
+        dct['__doc__'] = ''
+        if dct.get('PARAMETERS'):
+            for k, v in dct.get('PARAMETERS').items():
+                dct['__doc__'] += f"{k}: {v}"
+        return super().__new__(mcs, name, bases, dct)
+
+
+class Command(metaclass=MetaCommand):
+    KEYWORD = ''
+
     PARAMETERS = {
         'LABEL1': '',
         'LABEL2': '',
@@ -15,10 +34,28 @@ class Command:
         self._attributes = {}
         for p in (Command.PARAMETERS, self.PARAMETERS,) + params + ({'LABEL1': label1, 'LABEL2': label2},):
             self._attributes = dict(self._attributes, **p)
-        self._attributes = dict(self._attributes, **kwargs)
+        for k, v in kwargs.items():
+            if k not in self._attributes.keys():
+                print(f"Warning: the parameter {k} will not be used.")
+            else:
+                self._attributes[k] = v
 
     def __getattr__(self, a):
-        return self._attributes[a]
+        if not isinstance(self._attributes[a], tuple):
+            attr = self._attributes[a]
+        else:
+            attr = self._attributes[a][0]
+        if attr is not '' and not isinstance(attr, Q_):
+            try:
+                _ = Q_(attr)
+                if _.dimensionless:
+                    return _.magnitude
+                else:
+                    return _
+            except (TypeError, ValueError, UndefinedUnitError):
+                return attr
+        else:
+            return attr
 
     def __setattr__(self, a, v):
         if a == '_attributes':
@@ -142,15 +179,48 @@ class Focale(Command):
     """Particle coordinates and horizontal beam size at distance XL."""
     KEYWORD = 'FOCALE'
 
+    PARAMETERS = {
+        'XL': (0.0 * ureg.centimeter, 'Distance from the location of the keyword.'),
+    }
+
+    def __str__(s):
+        return f"""
+        {super().__str__().rstrip()}
+        {s.XL.to('cm').magnitude}
+        """
+
 
 class FocaleZ(Command):
     """Particle coordinates and vertical beam size at distance XL."""
     KEYWORD = 'FOCALEZ'
 
+    PARAMETERS = {
+        'XL': (0.0 * ureg.centimeter, 'Distance from the location of the keyword.'),
+    }
+
+    def __str__(s):
+        return f"""
+        {super().__str__().rstrip()}
+        {s.XL.to('cm').magnitude}
+        """
+
 
 class GasScattering(Command):
     """Gas scattering."""
     KEYWORD = 'GASCAT'
+
+    PARAMETERS = {
+        'KGA': 0,
+        'AI': 0.0,
+        'DEN': 0.0,
+    }
+
+    def __str__(selfs):
+        return f"""
+        {super().__str__().rstrip()}
+        {s.KGA}
+        {s.AI} {s.DEN}
+        """
 
 
 class GetFitVal(Command):
