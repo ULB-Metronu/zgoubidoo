@@ -28,6 +28,198 @@ class Aimant(Magnet):
     """Generation of dipole mid-plane 2-D map, polar frame."""
     KEYWORD = 'AIMANT'
 
+    PARAMETERS = {
+        'NFACE': 2,
+        'IC': 0,  # 1, 2: print field map
+        'IL': 0,  # 1, 2: print field and coordinates on trajectores
+        'IAMAX': 0,
+        'IRMAX': 0,
+        'B0': 0,
+        'N': 0,
+        'B': 0,
+        'G': 0,
+        'AT': 0,
+        'ACENT': 0,
+        'RM': 0,
+        'RMIN': 0,
+        'RMAX': 0,
+        'LAM_E': 0,
+        'XI_E': 0,
+        'NCE': 0,
+        'C0_E': 0,
+        'C1_E': 0,
+        'C2_E': 0,
+        'C3_E': 0,
+        'C4_E': 0,
+        'C5_E': 0,
+        'SHIFT_E': 0,
+        'OMEGA_E': 0,
+        'THETA_E': 0,
+        'R1_E': 1e9,
+        'U1_E': -1e9,
+        'U2_E': 1e9,
+        'R2_E': 1e9,
+        'LAM_S': 0,
+        'XI_S': 0,
+        'NCS': 0,
+        'C0_S': 0,
+        'C1_S': 0,
+        'C2_S': 0,
+        'C3_S': 0,
+        'C4_S': 0,
+        'C5_S': 0,
+        'SHIFT_S': 0,
+        'OMEGA_S': 0,
+        'THETA_S': 0,
+        'R1_S': 1e9,
+        'U1_S': -1e9,
+        'U2_S': 1e9,
+        'R2_S': 1e9,
+        'LAM_L': 0,
+        'XI_L': 0,
+        'NCL': 0,
+        'C0_L': 0,
+        'C1_L': 0,
+        'C2_L': 0,
+        'C3_L': 0,
+        'C4_L': 0,
+        'C5_L': 0,
+        'SHIFT_L': 0,
+        'OMEGA_L': 0,
+        'THETA_L': 0,
+        'R1_L': 1e9,
+        'U1_L': -1e9,
+        'U2_L': 1e9,
+        'R2_L': 1e9,
+        'RM3': 0,
+        'NBS': 0,
+        'R0': 0,
+        'DELTAB': 0,
+        'THETA_0': 0,
+        'IORDRE': 4,
+        'XPAS': 0.1,
+        'KPOS': 2,
+        'RE': 0,
+        'TE': 0,
+        'RS': 0,
+        'TS': 0,
+        'DP': 0,
+        'SHIM_R1': [],
+        'SHIM_R2': [],
+        'SHIM_THETA1': [],
+        'SHIM_THETA2': [],
+        'SHIM_LAMBDA': [],
+        'SHIM_GAMMA': [],
+        'SHIM_ALPHA': [],
+        'SHIM_BETA': [],
+        'SHIM_MU': [],
+    }
+
+    def __str__(s):
+        command = []
+        if s.NFACE not in (2, 3):
+            raise ZgoubidoException(f"Error : Zgoubido does not support NFACE = {s.NFACE}")
+
+        c = f"""
+                {super().__str__().rstrip()}
+                {s.NFACE} {s.IC} {s.IL}
+                {s.IAMAX} {s.IRMAX}
+                {s.B0:.12e} {s.N:.12e} {s.B:.12e} {s.G:.12e}
+                {s.AT:.12e} {s.ACENT:.12e} {s.RM:.12e} {s.RMIN:.12e} {s.RMAX:.12e}
+                {s.LAM_E:.12e} {s.XI_E:.12e}
+                {s.NCE} {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e} {s.SHIFT_E:.12e}
+                {s.OMEGA_E:.12e} {s.THETA_E:.12e} {s.R1_E:.12e} {s.U1_E:.12e} {s.U2_E:.12e} {s.R2_E:.12e}
+                {s.LAM_S:.12e} {s.XI_S:.12e}
+                {s.NCS} {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e} {s.SHIFT_S:.12e}
+                {s.OMEGA_S:.12e} {s.THETA_S:.12e} {s.R1_S:.12e} {s.U1_S:.12e} {s.U2_S:.12e} {s.R2_S:.12e}
+            """
+        command.append(c)
+
+        if s.NFACE == 3:
+            c = f"""
+                    {s.LAM_L:.12e} {s.XI_L:.12e}
+                    {s.NCL} {s.C0_L:.12e} {s.C1_L:.12e} {s.C2_L:.12e} {s.C3_L:.12e} {s.C4_L:.12e} {s.C5_L:.12e} {s.SHIFT_L:.12e}
+                    {s.OMEGA_L:.12e} {s.THETA_L:.12e} {s.R1_L:.12e} {s.U1_L:.12e} {s.U2_L:.12e} {s.R2_L:.12e} {s.RM3:.12e}
+                """
+            command.append(c)
+
+        if s.NBS == 0:
+            command.append(f"""
+                {s.NBS}
+                """)
+        elif s.NBS == -2:
+            c = f"""
+                    {s.NBS}
+                    {s.R0:.12e} {s.DELTAB:.12e}
+                    """
+            command.append(c)
+        elif s.NBS == -1:
+            c = f"""
+                    {s.NBS}
+                    {s.THETA_0:.12e} {s.DELTAB:.12e}
+                    """
+            command.append(c)
+        elif s.NBS >= 1:
+            command.append(f"""
+                {s.NBS}""")
+
+            shim_r1 = len(s.SHIM_R1)
+            shim_r2 = len(s.SHIM_R2)
+            shim_theta1 = len(s.SHIM_THETA1)
+            shim_theta2 = len(s.SHIM_THETA2)
+            shim_lambda = len(s.SHIM_LAMBDA)
+            shim_gamma = len(s.SHIM_GAMMA)
+            shim_alpha = len(s.SHIM_ALPHA)
+            shim_beta = len(s.SHIM_BETA)
+            shim_mu = len(s.SHIM_MU)
+            if shim_r1 \
+                    == shim_r2 \
+                    == shim_theta1 \
+                    == shim_theta2 \
+                    == shim_lambda \
+                    == shim_gamma \
+                    == shim_alpha \
+                    == shim_beta \
+                    == shim_mu:
+                for i, j, k, l in zip(s.SHIM_R1, s.SHIM_R2, s.SHIM_THETA1, s.SHIM_LAMBDA):
+                    command.append(f"""
+                        {i:.12e} {j:.12e} {k:.12e} {l:.12e}
+                        """)
+
+                for i, j, k, l in zip(s.GAMMA, s.ALPHA, s.MU, s.BETA):
+                    command.append(f"""
+                                       {i:.12e} {j:.12e} {k:.12e} {l:.12e}
+                                       """)
+            else:
+                raise ZgoubidoException('Error : The shim parameters lists must have the same lenghts')
+
+        c = f"""
+                {s.IORDRE}
+                {s.XPAS:.12e}
+                """
+        command.append(c)
+
+        if s.KPOS not in (1, 2):
+            raise ZgoubidoException("KPOS must be equal to 1 or 2.")
+
+        if s.KPOS == 2:
+            if s.RE == 0:
+                s.RE = s.RM
+            if s.RS == 0:
+                s.RS = s.RM
+            c = f"""
+                    {s.KPOS}
+                    {s.RE:.12e} {s.TE:.12e} {s.RS:.12e} {s.TS:.12e}
+                    """
+            command.append(c)
+        elif s.KPOS == 1:
+            c = f"""
+                    {s.KPOS}
+                    {s.DP:.12e}
+                    """
+            command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))
 
 class Bend(Magnet):
     """Bending magnet, Cartesian frame.
@@ -89,6 +281,65 @@ class Decapole(Magnet):
     """Decapole magnet."""
     KEYWORD = 'DECAPOLE'
 
+    PARAMETERS = {
+        'IL': 2,
+        'XL': 0,
+        'R0': 0,
+        'B0': 0,
+        'X_E': 0,
+        'LAM_E': 0,
+        'NCE': 0,
+        'C0_E': 0,
+        'C1_E': 0,
+        'C2_E': 0,
+        'C3_E': 0,
+        'C4_E': 0,
+        'C5_E': 0,
+        'X_S': 0,
+        'LAM_S': 0,
+        'NCS': 0,
+        'C0_S': 0,
+        'C1_S': 0,
+        'C2_S': 0,
+        'C3_S': 0,
+        'C4_S': 0,
+        'C5_S': 0,
+        'XPAS': 0.1,
+        'KPOS': 1,
+        'XCE': 0,
+        'YCE': 0,
+        'ALE': 0,
+    }
+
+    def __str__(s):
+        command = []
+        c = f"""
+                {super().__str__().rstrip()}
+                {s.IL}
+                {s.XL:.12e} {s.R0:.12e} {s.B0:.12e}
+                {s.X_E:.12e} {s.LAM_E:.12e}
+                {s.NCE} {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
+                {s.X_S:.12e} {s.LAM_S:.12e}
+                {s.NCS} {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
+                {s.XPAS:.12e}  
+                """
+        command.append(c)
+
+        if s.KPOS not in (1, 2):
+            raise ZgoubidoException("KPOS must be equal to 1 or 2")
+
+        if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
+            c = f"""
+                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                """
+            command.append(c)
+        elif s.KPOS == 2:  # Elements are misaligned
+            c = f"""
+                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                """
+            command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))
 
 class Dipole(Magnet):
     """Dipole magnet, polar frame."""
@@ -159,8 +410,8 @@ class Dipole(Magnet):
     }
 
     def __str__(s):
-        liste = []
-        f = f"""
+        command = []
+        c = f"""
         {super().__str__().rstrip()}
         {s.IL}
         {s.AT.to('degree').magnitude:.12e} {s.RM.to('centimeter').magnitude:.12e}
@@ -175,24 +426,30 @@ class Dipole(Magnet):
         0 {s.C0_L:.12e} {s.C1_L:.12e} {s.C2_L:.12e} {s.C3_L:.12e} {s.C4_L:.12e} {s.C5_L:.12e} {s.SHIFT_L.to('centimeter').magnitude:.12e}
         {s.OMEGA_L:.12e} {s.THETA_L:.12e} {s.R1_L.to('centimeter').magnitude:.12e} {s.U1_L.to('centimeter').magnitude:.12e} {s.U2_L.to('centimeter').magnitude:.12e} {s.R2_L.to('centimeter').magnitude:.12e} {s.RM3.to('centimeter').magnitude:.12e}
         {s.IORDRE} {s.Resol}
-        {s.XPAS.to('centimeter').magnitude:.12e}"""
-        liste.append(f)
+        {s.XPAS}"""
+        command.append(c)
+
+        if s.KPOS not in (1, 2):
+            raise ZgoubidoException("KPOS must be equal to 1 or 2.")
+
         if s.KPOS == 2:
-            g = f"""
-        {s.KPOS}
-        {s.RE.to('centimeter').magnitude:.12e} {s.TE:.12e} {s.RS.to('centimeter').magnitude:.12e} {s.TS:.12e}
-        """
-            liste.append(g)
+            if s.RE == 0:
+                s.RE = s.RM
+            if s.RS == 0:
+                s.RS = s.RM
+            c = f"""
+                {s.KPOS}
+                {s.RE:.12e} {s.TE:.12e} {s.RS:.12e} {s.TS:.12e}
+                """
+            command.append(c)
         elif s.KPOS == 1:
-            g = f"""
-        {s.KPOS}
-        {s.DP:.12e}
-        """
-            liste.append(g)
-        somme = ''
-        for l in range(0, len(liste)):
-            somme += liste[l]
-        return somme
+            c = f"""
+                {s.KPOS}
+                {s.DP:.12e}
+                """
+            command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))
 
     def plot(self, ax, offset={}):
         offset = {
@@ -403,7 +660,8 @@ class DipoleM(Magnet):
         elif s.KPOS == 1:
             c = f"""
                 {s.KPOS}
-                {s.DP:.12e}"""
+                {s.DP:.12e}
+                """
             command.append(c)
 
         return ''.join(map(lambda _: _.rstrip(), command))
@@ -514,7 +772,14 @@ class Dipoles(Magnet):
                 """
             command.append(c)
 
-        if int(s.KIRD) == 0:
+        if s.KIRD != 0 and s.KIRD != 2 and s.KIRD != 4 and s.KIRD != 25:
+            raise ZgoubidoException("KIRD must be equal to 0,2,4 or 25")
+        if (s.KIRD == 0 and s.n !=2) and (s.KIRD == 0 and s.n !=1):
+            raise ZgoubidoException("n must be equal to 0 or 1 when KIRD = 0")
+        if (s.KIRD == 0 and s.Resol !=2) and (s.KIRD == 0 and s.Resol !=4):
+            raise ZgoubidoException("Resol must be equal to 2 or 4 when KIRD = 0")
+
+        if s.KIRD == 0:
             command.append(f"""
             {s.KIRD}.{s.n} {s.Resol:.12e}
             """)
@@ -525,75 +790,638 @@ class Dipoles(Magnet):
 
         command.append(f"""{s.XPAS:.12e}""")
 
-        if int(s.KPOS) == 2:
+        if int(s.KPOS) not in (1, 2):
+            raise ZgoubidoException("KPOS must be equal to 1 or 2.")
+
+        if s.KPOS == 2:
+            if s.RE == 0:
+                s.RE = s.RM
+            if s.RS == 0:
+                s.RS = s.RM
             c = f"""
-            {s.KPOS}
-            {s.RE:.12e} {s.TE:.12e} {s.RS:.12e} {s.TS:.12e}
-            """
+                {s.KPOS}
+                {s.RE:.12e} {s.TE:.12e} {s.RS:.12e} {s.TS:.12e}
+                """
             command.append(c)
         elif int(s.KPOS) == 1:
             c = f"""
-            {s.KPOS}
-            {s.DP:.12e}"""
+                {s.KPOS}
+                {s.DP:.12e}
+                """
             command.append(c)
 
         return ''.join(map(lambda _: _.rstrip(), command))
 
 
-class Dodecapole(Magnet):
+class Dodecapole(Command):
     """Dodecapole magnet."""
     KEYWORD = 'DODECAPO'
 
+    PARAMETERS = {
+        'IL': 2,
+        'XL': 0,
+        'R0': 0,
+        'B0': 0,
+        'X_E': 0,
+        'LAM_E': 0,
+        'NCE': 0,
+        'C0_E': 0,
+        'C1_E': 0,
+        'C2_E': 0,
+        'C3_E': 0,
+        'C4_E': 0,
+        'C5_E': 0,
+        'X_S': 0,
+        'LAM_S': 0,
+        'NCS': 0,
+        'C0_S': 0,
+        'C1_S': 0,
+        'C2_S': 0,
+        'C3_S': 0,
+        'C4_S': 0,
+        'C5_S': 0,
+        'XPAS': 0.1,
+        'KPOS': 1,
+        'XCE': 0,
+        'YCE': 0,
+        'ALE': 0,
+    }
 
-class Drift(Magnet):
+    def __str__(s):
+        command = []
+        c = f"""
+                {super().__str__().rstrip()}
+                {s.IL}
+                {s.XL:.12e} {s.R0:.12e} {s.B0:.12e}
+                {s.X_E:.12e} {s.LAM_E:.12e}
+                {s.NCE} {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
+                {s.X_S:.12e} {s.LAM_S:.12e}
+                {s.NCS} {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
+                {s.XPAS:.12e}  
+                """
+        command.append(c)
+
+        if s.KPOS not in (1, 2):
+            raise ZgoubidoException("KPOS must be equal to 1 or 2")
+
+        if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
+            c = f"""
+                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                """
+            command.append(c)
+        elif s.KPOS == 2:  # Elements are misaligned
+            c = f"""
+                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                """
+            command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))
+
+class Drift(Command):
     """Field free drift space."""
     KEYWORD = 'DRIFT'
 
     PARAMETERS = {
-        'XL': (0.0 * ureg.centimeter, "Drift length."),
+        'XL': 0.0
     }
 
     def __str__(s):
         return f"""
         {super().__str__().rstrip()}
-        {s.XL.to('centimeter').magnitude}
+        {s.XL}
         """
 
-
-class Emma(Magnet):
+class Emma(Command):
     """2-D Cartesian or cylindrical mesh field map for EMMA FFAG."""
     KEYWORD = 'EMMA'
 
-
-class FFAG(Magnet):
+class FFAG(Command):
     """FFAG magnet, N-tuple."""
     KEYWORD = 'FFAG'
 
+    PARAMETERS = {
+            'IL': 2,
+            'N': 1,
+            'AT': 0,
+            'RM': 0,
+
+            'ACN': [0, ],
+            'DELTA_RM': [0, ],
+            'BZ0': [0, ],
+            'K': [0, ],
+            'G0_E': [0, ],
+            'K_E': [0, ],
+            'NCE': [0, ],
+            'C0_E': [0, ],
+            'C1_E': [0, ],
+            'C2_E': [0, ],
+            'C3_E': [0, ],
+            'C4_E': [0, ],
+            'C5_E': [0, ],
+            'SHIFT_E': [0, ],
+            'OMEGA_E': [0, ],
+            'THETA_E': [0, ],
+            'R1_E': [1e9, ],
+            'U1_E': [-1e9, ],
+            'U2_E': [1e9, ],
+            'R2_E': [1e9, ],
+            'G0_S': [0, ],
+            'K_S': [0, ],
+            'NCS': [0, ],
+            'C0_S': [0, ],
+            'C1_S': [0, ],
+            'C2_S': [0, ],
+            'C3_S': [0, ],
+            'C4_S': [0, ],
+            'C5_S': [0, ],
+            'SHIFT_S': [0, ],
+            'OMEGA_S': [0, ],
+            'THETA_S': [0, ],
+            'R1_S': [1e9, ],
+            'U1_S': [-1e9, ],
+            'U2_S': [1e9, ],
+            'R2_S': [1e9, ],
+            'G0_L': [0, ],
+            'K_L': [0, ],
+            'NCL': [0, ],
+            'C0_L': [0, ],
+            'C1_L': [0, ],
+            'C2_L': [0, ],
+            'C3_L': [0, ],
+            'C4_L': [0, ],
+            'C5_L': [0, ],
+            'SHIFT_L': [0, ],
+            'OMEGA_L': [0, ],
+            'THETA_L': [0, ],
+            'R1_L': [1e9, ],
+            'U1_L': [-1e9, ],
+            'U2_L': [1e9, ],
+            'R2_L': [1e9, ],
+
+            'KIRD': 0,
+            'Resol': 2,
+            'XPAS': 0.1,
+            'KPOS': 2,
+            'RE': 0,
+            'TE': 0,
+            'RS': 0,
+            'TS': 0,
+            'DP': 0,
+    }
+
+    def __str__(s):
+        command = []
+        c = f"""
+        {super().__str__().rstrip()}
+        {s.IL}
+        {s.N} {s.AT:.12e} {s.RM:.12e}
+        """
+        command.append(c)
+
+        for i in range (0, s.N):
+            c = f"""
+            {s.ACN[i]:.12e} {s.DELTA_RM[i]:.12e} {s.BZ0[i]:.12e} {s.K[i]:.12e}
+            {s.G0_E[i]:.12e} {s.K_E[i]:.12e}
+            {s.NCE[i]} {s.C0_E[i]:.12e} {s.C1_E[i]:.12e} {s.C2_E[i]:.12e} {s.C3_E[i]:.12e} {s.C4_E[i]:.12e} {s.C5_E[i]:.12e} {s.SHIFT_E[i]:.12e}
+            {s.OMEGA_E[i]:.12e} {s.THETA_E[i]:.12e} {s.R1_E[i]:.12e} {s.U1_E[i]:.12e} {s.U2_E[i]:.12e} {s.R2_E[i]:.12e}
+            {s.G0_S[i]:.12e} {s.K_S[i]:.12e}
+            {s.NCS[i]} {s.C0_S[i]:.12e} {s.C1_S[i]:.12e} {s.C2_S[i]:.12e} {s.C3_S[i]:.12e} {s.C4_S[i]:.12e} {s.C5_S[i]:.12e} {s.SHIFT_S[i]:.12e}
+            {s.OMEGA_S[i]:.12e} {s.THETA_S[i]:.12e} {s.R1_S[i]:.12e} {s.U1_S[i]:.12e} {s.U2_S[i]:.12e} {s.R2_S[i]:.12e}
+            {s.G0_L[i]:.12e} {s.K_L[i]:.12e}
+            {s.NCL[i]} {s.C0_L[i]:.12e} {s.C1_L[i]:.12e} {s.C2_L[i]:.12e} {s.C3_L[i]:.12e} {s.C4_L[i]:.12e} {s.C5_L[i]:.12e} {s.SHIFT_L[i]:.12e}
+            {s.OMEGA_L[i]:.12e} {s.THETA_L[i]:.12e} {s.R1_L[i]:.12e} {s.U1_L[i]:.12e} {s.U2_L[i]:.12e} {s.R2_L[i]:.12e}
+            """
+            command.append(c)
+
+        if s.KIRD != 0 and s.KIRD != 2 and s.KIRD != 4 and s.KIRD != 25:
+            raise ZgoubidoException("KIRD must be equal to 0,2,4 or 25")
+        if (s.KIRD == 0 and s.Resol !=2) and (s.KIRD == 0 and s.Resol !=4):
+            raise ZgoubidoException("Resol must be equal to 2 or 4 when KIRD = 0")
+
+        command.append(f"""
+        {s.KIRD} {s.Resol:.12e} 
+        {s.XPAS:.12e}
+        """)
+
+        if s.KPOS not in (1, 2):
+            raise ZgoubidoException("KPOS must be equal to 1 or 2.")
+
+        if s.KPOS == 2:
+            if s.RE == 0:
+                s.RE = s.RM
+            if s.RS == 0:
+                s.RS = s.RM
+            c = f"""
+                {s.KPOS}
+                {s.RE:.12e} {s.TE:.12e} {s.RS:.12e} {s.TS:.12e}
+                """
+            command.append(c)
+        elif s.KPOS == 1:
+            c = f"""
+                {s.KPOS}
+                {s.DP:.12e}
+                """
+            command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))
 
 class FFAGSpirale(Magnet):
     """Spiral FFAG magnet, N-tuple."""
     KEYWORD = 'FFAG-SPI'
+
+    PARAMETERS = {
+        'IL': 2,
+        'N': 1,
+        'AT': 0,
+        'RM': 0,
+
+        'ACN': [0, ],
+        'DELTA_RM': [0, ],
+        'BZ0': [0, ],
+        'K': [0, ],
+        'G0_E': [0, ],
+        'K_E': [0, ],
+        'NCE': [0, ],
+        'C0_E': [0, ],
+        'C1_E': [0, ],
+        'C2_E': [0, ],
+        'C3_E': [0, ],
+        'C4_E': [0, ],
+        'C5_E': [0, ],
+        'SHIFT_E': [0, ],
+        'OMEGA_E': [0, ],
+        'XI_E': [0, ],
+        'DUMMY1_E': 0,
+        'DUMMY2_E': 0,
+        'DUMMY3_E': 0,
+        'DUMMY4_E': 0,
+        'G0_S': [0, ],
+        'K_S': [0, ],
+        'NCS': [0, ],
+        'C0_S': [0, ],
+        'C1_S': [0, ],
+        'C2_S': [0, ],
+        'C3_S': [0, ],
+        'C4_S': [0, ],
+        'C5_S': [0, ],
+        'SHIFT_S': [0, ],
+        'OMEGA_S': [0, ],
+        'XI_S': [0, ],
+        'DUMMY1_S': 0,
+        'DUMMY2_S': 0,
+        'DUMMY3_S': 0,
+        'DUMMY4_S': 0,
+        'G0_L': [0, ],
+        'K_L': [0, ],
+        'NCL': [0, ],
+        'C0_L': [0, ],
+        'C1_L': [0, ],
+        'C2_L': [0, ],
+        'C3_L': [0, ],
+        'C4_L': [0, ],
+        'C5_L': [0, ],
+        'SHIFT_L': [0, ],
+        'OMEGA_L': [0, ],
+        'THETA_L': [0, ],
+        'R1_L': [1e9, ],
+        'U1_L': [-1e9, ],
+        'U2_L': [1e9, ],
+        'R2_L': [1e9, ],
+
+        'KIRD': 0,
+        'Resol': 2,
+        'XPAS': 0.1,
+        'KPOS': 2,
+        'RE': 0,
+        'TE': 0,
+        'RS': 0,
+        'TS': 0,
+        'DP': 0,
+    }
+
+    def __str__(s):
+        command = []
+        c = f"""
+            {super().__str__().rstrip()}
+            {s.IL}
+            {s.N} {s.AT:.12e} {s.RM:.12e}
+            """
+        command.append(c)
+
+        for i in range(0, s.N):
+            c = f"""
+                {s.ACN[i]:.12e} {s.DELTA_RM[i]:.12e} {s.BZ0[i]:.12e} {s.K[i]:.12e}
+                {s.G0_E[i]:.12e} {s.K_E[i]:.12e}
+                {s.NCE[i]} {s.C0_E[i]:.12e} {s.C1_E[i]:.12e} {s.C2_E[i]:.12e} {s.C3_E[i]:.12e} {s.C4_E[i]:.12e} {s.C5_E[i]:.12e} {s.SHIFT_E[i]:.12e}
+                {s.OMEGA_E[i]:.12e} {s.XI_E[i]:.12e} {s.DUMMY1_E:.12e} {s.DUMMY2_E:.12e} {s.DUMMY3_E:.12e} {s.DUMMY4_E:.12e}
+                {s.G0_S[i]:.12e} {s.K_S[i]:.12e}
+                {s.NCS[i]} {s.C0_S[i]:.12e} {s.C1_S[i]:.12e} {s.C2_S[i]:.12e} {s.C3_S[i]:.12e} {s.C4_S[i]:.12e} {s.C5_S[i]:.12e} {s.SHIFT_S[i]:.12e}
+                {s.OMEGA_S[i]:.12e} {s.XI_S[i]:.12e} {s.DUMMY1_S:.12e} {s.DUMMY2_S:.12e} {s.DUMMY3_S:.12e} {s.DUMMY4_S:.12e}
+                {s.G0_L[i]:.12e} {s.K_L[i]:.12e}
+                {s.NCL[i]} {s.C0_L[i]:.12e} {s.C1_L[i]:.12e} {s.C2_L[i]:.12e} {s.C3_L[i]:.12e} {s.C4_L[i]:.12e} {s.C5_L[i]:.12e} {s.SHIFT_L[i]:.12e}
+                {s.OMEGA_L[i]:.12e} {s.THETA_L[i]:.12e} {s.R1_L[i]:.12e} {s.U1_L[i]:.12e} {s.U2_L[i]:.12e} {s.R2_L[i]:.12e}
+                """
+            command.append(c)
+
+        if s.KIRD != 0 and s.KIRD != 2 and s.KIRD != 4 and s.KIRD != 25:
+            raise ZgoubidoException("KIRD must be equal to 0,2,4 or 25")
+        if (s.KIRD == 0 and s.Resol != 2) and (s.KIRD == 0 and s.Resol != 4):
+            raise ZgoubidoException("Resol must be equal to 2 or 4 when KIRD = 0")
+
+        command.append(f"""
+            {s.KIRD} {s.Resol:.12e} 
+            {s.XPAS:.12e}
+            """)
+
+        if s.KPOS not in (1, 2):
+            raise ZgoubidoException("KPOS must be equal to 1 or 2.")
+
+        if s.KPOS == 2:
+            if s.RE == 0:
+                s.RE = s.RM
+            if s.RS == 0:
+                s.RS = s.RM
+            c = f"""
+                {s.KPOS}
+                {s.RE:.12e} {s.TE:.12e} {s.RS:.12e} {s.TS:.12e}
+                """
+            command.append(c)
+        elif s.KPOS == 1:
+            c = f"""
+                {s.KPOS}
+                {s.DP:.12e}
+                """
+            command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))
 
 
 class Multipole(Magnet):
     """Magnetic multipole."""
     KEYWORD = 'MULTIPOL'
 
+    PARAMETERS = {
+            'IL': 2,
+            'XL': 0,
+            'R0': 0,
+            'B1': 0,
+            'B2': 0,
+            'B3': 0,
+            'B4': 0,
+            'B5': 0,
+            'B6': 0,
+            'B7': 0,
+            'B8': 0,
+            'B9': 0,
+            'B10': 0,
+            'X_E': 0,
+            'LAM_E': 0,
+            'E_2': 0,
+            'E_3': 0,
+            'E_4': 0,
+            'E_5': 0,
+            'E_6': 0,
+            'E_7': 0,
+            'E_8': 0,
+            'E_9': 0,
+            'E_10': 0,
+            'NCE': 0,
+            'C0_E': 0,
+            'C1_E': 0,
+            'C2_E': 0,
+            'C3_E': 0,
+            'C4_E': 0,
+            'C5_E': 0,
+            'X_S': 0,
+            'LAM_S': 0,
+            'S_2': 0,
+            'S_3': 0,
+            'S_4': 0,
+            'S_5': 0,
+            'S_6': 0,
+            'S_7': 0,
+            'S_8': 0,
+            'S_9': 0,
+            'S_10': 0,
+            'NCS': 0,
+            'C0_S': 0,
+            'C1_S': 0,
+            'C2_S': 0,
+            'C3_S': 0,
+            'C4_S': 0,
+            'C5_S': 0,
+            'R1': 0,
+            'R2': 0,
+            'R3': 0,
+            'R4': 0,
+            'R5': 0,
+            'R6': 0,
+            'R7': 0,
+            'R8': 0,
+            'R9': 0,
+            'R10': 0,
+            'XPAS': 0.1,
+            'KPOS': 1,
+            'XCE': 0,
+            'YCE': 0,
+            'ALE': 0,
+    }
+
+    def __str__(s):
+        command = []
+        c = f"""
+            {super().__str__().rstrip()}
+            {s.IL}
+            {s.XL:.12e} {s.R0:.12e} {s.B1:.12e} {s.B2:.12e} {s.B3:.12e} {s.B4:.12e} {s.B5:.12e} {s.B6:.12e} {s.B7:.12e} {s.B8:.12e} {s.B9:.12e} {s.B10:.12e}
+            {s.X_E:.12e} {s.LAM_E:.12e} {s.E_2:.12e} {s.E_3:.12e} {s.E_4:.12e} {s.E_5:.12e} {s.E_6:.12e} {s.E_7:.12e} {s.E_8:.12e} {s.E_9:.12e} {s.E_10:.12e}
+            {s.NCE} {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
+            {s.X_S:.12e} {s.LAM_S:.12e} {s.S_2:.12e} {s.S_3:.12e} {s.S_4:.12e} {s.S_5:.12e} {s.S_6:.12e} {s.S_7:.12e} {s.S_8:.12e} {s.S_9:.12e} {s.S_10:.12e}
+            {s.NCS} {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
+            {s.R1:.12e} {s.R2:.12e} {s.R3:.12e} {s.R4:.12e} {s.R5:.12e} {s.R6:.12e} {s.R7:.12e} {s.R8:.12e} {s.R9:.12e} {s.R10:.12e}
+            {s.XPAS:.12e}  
+            """
+        command.append(c)
+
+        if s.KPOS not in (1, 3):
+            raise ZgoubidoException("KPOS must be equal to 1,2 or 3.")
+
+        if s.KPOS == 1: # XCE, YCE and ALE set to 0 and unused
+            c = f"""
+            {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+            """
+            command.append(c)
+        elif s.KPOS == 2: # Elements are misaligned
+            c = f"""
+            {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+            """
+            command.append(c)
+        elif s.KPOS == 3: # entrance and exit frames are shifted by YCE and tilted wrt. the magnet by an angle of either ALE of ALE != 0 or asin(B1*XL/BORO) if ALE == 0
+            if s.B1 == 0:
+                raise ZgoubidoException("B1 must be non-zero")
+            c = f"""
+            {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+            """
+            command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))
 
 class Octupole(Magnet):
     """Octupole magnet."""
     KEYWORD = 'OCTUPOLE'
 
+    PARAMETERS = {
+            'IL': 2,
+            'XL': 0,
+            'R0': 0,
+            'B0': 0,
+            'X_E': 0,
+            'LAM_E': 0,
+            'NCE': 0,
+            'C0_E': 0,
+            'C1_E': 0,
+            'C2_E': 0,
+            'C3_E': 0,
+            'C4_E': 0,
+            'C5_E': 0,
+            'X_S': 0,
+            'LAM_S': 0,
+            'NCS': 0,
+            'C0_S': 0,
+            'C1_S': 0,
+            'C2_S': 0,
+            'C3_S': 0,
+            'C4_S': 0,
+            'C5_S': 0,
+            'XPAS': 0.1,
+            'KPOS': 1,
+            'XCE': 0,
+            'YCE': 0,
+            'ALE': 0,
+    }
+
+    def __str__(s):
+        command = []
+        c = f"""
+            {super().__str__().rstrip()}
+            {s.IL}
+            {s.XL:.12e} {s.R0:.12e} {s.B0:.12e}
+            {s.X_E:.12e} {s.LAM_E:.12e}
+            {s.NCE} {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
+            {s.X_S:.12e} {s.LAM_S:.12e}
+            {s.NCS} {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
+            {s.XPAS:.12e}  
+            """
+        command.append(c)
+
+        if s.KPOS not in (1, 2):
+            raise ZgoubidoException("KPOS must be equal to 1 or 2")
+
+        if s.KPOS == 1: # XCE, YCE and ALE set to 0 and unused
+            c = f"""
+            {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+            """
+            command.append(c)
+        elif s.KPOS == 2: # Elements are misaligned
+            c = f"""
+            {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+            """
+            command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))
 
 class PS170(Magnet):
     """Simulation of a round shape dipole magnet."""
     KEYWORD = 'PS170'
+
+    PARAMETERS = {
+        'IL': 2,
+        'XL': 0,
+        'R0': 0,
+        'B0': 0,
+        'XPAS': 0.1,
+        'KPOS': 1,
+        'XCE': 0,
+        'YCE': 0,
+        'ALE': 0,
+    }
+
+    def __str__(s):
+        command = []
+        c = f"""
+                {super().__str__().rstrip()}
+                {s.IL}
+                {s.XL:.12e} {s.R0:.12e} {s.B0:.12e}
+                {s.XPAS:.12e}  
+                """
+        command.append(c)
+
+        if s.KPOS not in (1, 2):
+            raise ZgoubidoException("KPOS must be equal to 1 or 2")
+
+        if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
+            c = f"""
+                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                """
+            command.append(c)
+        elif s.KPOS == 2:  # Elements are misaligned
+            c = f"""
+                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                """
+            command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))
 
 
 class Quadisex(Magnet):
     """Sharp edge magnetic multipoles."""
     KEYWORD = 'QUADISEX'
 
+    PARAMETERS = {
+        'IL': 2,
+        'XL': 0,
+        'R0': 0,
+        'B0': 0,
+        'N': 0,
+        'EB1': 0,
+        'EB2': 0,
+        'EG1': 0,
+        'EG2': 0,
+        'XPAS': 0.1,
+        'KPOS': 1,
+        'XCE': 0,
+        'YCE': 0,
+        'ALE': 0,
+    }
+
+    def __str__(s):
+        command = []
+        c = f"""
+                {super().__str__().rstrip()}
+                {s.IL}
+                {s.XL:.12e} {s.R0:.12e} {s.B0:.12e}
+                {s.N:.12e} {s.EB1:.12e} {s.EB2:.12e} {s.EG1:.12e} {s.EG2:.12e} 
+                {s.XPAS:.12e}  
+                """
+        # Coefficients for the calculation of B.
+        # if Y > 0 : B = EB1 and G = EG1;
+        # if Y < 0: B = EB2 and G = EG2.
+        command.append(c)
+
+        if s.KPOS not in (1, 2):
+            raise ZgoubidoException("KPOS must be equal to 1 or 2")
+
+        if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
+            c = f"""
+                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                """
+            command.append(c)
+        elif s.KPOS == 2:  # Elements are misaligned
+            c = f"""
+                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                """
+            command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))
 
 class Quadrupole(Magnet):
     """Quadrupole magnet."""
@@ -687,15 +1515,162 @@ class SexQuad(Magnet):
     """Sharp edge magnetic multipole."""
     KEYWORD = 'SEXQUAD'
 
+    PARAMETERS = {
+        'IL': 2,
+        'XL': 0,
+        'R0': 0,
+        'N': 0,
+        'EB1': 0,
+        'EB2': 0,
+        'EG1': 0,
+        'EG2': 0,
+        'XPAS': 0.1,
+        'KPOS': 1,
+        'XCE': 0,
+        'YCE': 0,
+        'ALE': 0,
+    }
+
+    def __str__(s):
+        command = []
+        c = f"""
+                    {super().__str__().rstrip()}
+                    {s.IL}
+                    {s.XL:.12e} {s.R0:.12e} {s.B0:.12e}
+                    {s.N:.12e} {s.EB1:.12e} {s.EB2:.12e} {s.EG1:.12e} {s.EG2:.12e} 
+                    {s.XPAS:.12e}  
+                    """
+        # Coefficients for the calculation of B.
+        # if Y > 0 : B = EB1 and G = EG1;
+        # if Y < 0: B = EB2 and G = EG2.
+        command.append(c)
+
+        if s.KPOS not in (1, 2):
+            raise ZgoubidoException("KPOS must be equal to 1 or 2")
+
+        if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
+            c = f"""
+                    {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                    """
+            command.append(c)
+        elif s.KPOS == 2:  # Elements are misaligned
+            c = f"""
+                    {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                    """
+            command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))
+
 
 class Sextupole(Magnet):
     """Sextupole magnet."""
     KEYWORD = 'SEXTUPOL'
 
+    PARAMETERS = {
+        'IL': 2,
+        'XL': 0,
+        'R0': 0,
+        'B0': 0,
+        'X_E': 0,
+        'LAM_E': 0,
+        'NCE': 0,
+        'C0_E': 0,
+        'C1_E': 0,
+        'C2_E': 0,
+        'C3_E': 0,
+        'C4_E': 0,
+        'C5_E': 0,
+        'X_S': 0,
+        'LAM_S': 0,
+        'NCS': 0,
+        'C0_S': 0,
+        'C1_S': 0,
+        'C2_S': 0,
+        'C3_S': 0,
+        'C4_S': 0,
+        'C5_S': 0,
+        'XPAS': 0.1,
+        'KPOS': 1,
+        'XCE': 0,
+        'YCE': 0,
+        'ALE': 0,
+    }
+
+    def __str__(s):
+        command = []
+        c = f"""
+                {super().__str__().rstrip()}
+                {s.IL}
+                {s.XL:.12e} {s.R0:.12e} {s.B0:.12e}
+                {s.X_E:.12e} {s.LAM_E:.12e}
+                {s.NCE} {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
+                {s.X_S:.12e} {s.LAM_S:.12e}
+                {s.NCS} {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
+                {s.XPAS:.12e}  
+                """
+        command.append(c)
+
+        if s.KPOS not in (1, 2):
+            raise ZgoubidoException("KPOS must be equal to 1 or 2")
+
+        if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
+            c = f"""
+                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                """
+            command.append(c)
+        elif s.KPOS == 2:  # Elements are misaligned
+            c = f"""
+                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                """
+            command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))
+
 
 class Solenoid(Magnet):
     """Solenoid."""
     KEYWORD = 'SOLENOID'
+
+    PARAMETERS = {
+        'IL': 2,
+        'XL': 0,
+        'R0': 0,
+        'B0': 0,
+        'X_E': 0,
+        'X_S': 0,
+        'XPAS': 0.1,
+        'KPOS': 1,
+        'XCE': 0,
+        'YCE': 0,
+        'ALE': 0,
+    }
+
+    def __str__(s):
+        command = []
+        c = f"""
+                {super().__str__().rstrip()}
+                {s.IL}
+                {s.XL:.12e} {s.R0:.12e} {s.B0:.12e}
+                {s.X_E:.12e} {s.X_S:.12e}
+                {s.XPAS:.12e}  
+                """
+        command.append(c)
+
+        if s.KPOS not in (1, 2):
+            raise ZgoubidoException("KPOS must be equal to 1 or 2")
+
+        if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
+            c = f"""
+                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                """
+            command.append(c)
+        elif s.KPOS == 2:  # Elements are misaligned
+            c = f"""
+                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                """
+            command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))
 
 
 class Undulator(Magnet):
@@ -735,6 +1710,7 @@ class Venus(Command):
         {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE.to('radian').magnitude:.12e}
         """
         command.append(c)
+
 
         return ''.join(map(lambda _: _.rstrip(), command))
 
