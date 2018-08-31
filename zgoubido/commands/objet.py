@@ -1,3 +1,4 @@
+import numpy as np
 from .commands import Command, ZgoubidoException
 from .. import ureg, Q_
 
@@ -21,63 +22,87 @@ class Objet(Command):
 
 
 class Objet1(Objet):
+    """Objet with initial coordinates drawn from a regular grid"""
     PARAMETERS = {
         'KOBJ': 1,
-        'NN': 1,
-        'IY': 1,
-        'IT': 1,
-        'IZ': 1,
-        'IP': 1,
-        'IX': 1,
-        'ID': 1,
-        'PY': 0.1,
-        'PT': 1.0,
-        'PZ': 0.1,
-        'PP': 1.0,
-        'PX': 0.1,
-        'PD': 0.1,
-        'YR': 0.0,
-        'TR': 0.0,
-        'ZR': 0.0,
-        'PR': 0.0,
-        'XR': 0.0,
-        'DR': 1.0,
+        'K2': 0,
+        'IY': (1, 'Total number of points in +- Y'),
+        'IT': (1, 'Total number of points in +- T'),
+        'IZ': (1, 'Total number of points in +- Z (or +Z only if K2=01)'),
+        'IP': (1, 'Total number of points in +- P (or +P only if K2=01)'),
+        'IX': (1, 'Total number of points in +- X'),
+        'ID': (1, 'Total number of points in +- D'),
+        'PY': (0.1 * ureg.centimeter, 'Step size in Y'),
+        'PT': (0.1 * ureg.milliradian, 'Step size in T'),
+        'PZ': (0.1 * ureg.centimeter, 'Step size in Z'),
+        'PP': (0.1 * ureg.milliradian, 'Step size in P'),
+        'PX': (0.1 * ureg.centimeter, 'Step size in X'),
+        'PD': (0.1, 'Step size in Delta(BRHO)/BORO'),
+        'YR': (0.0 * ureg.centimeter, 'Reference Y'),
+        'TR': (0.0 * ureg.milliradian, 'Reference T'),
+        'ZR': (0.0 * ureg.centimeter, 'Reference Z'),
+        'PR': (0.0 * ureg.milliradian, 'Reference P'),
+        'XR': (0.0 * ureg.centimeter, 'Reference X'),
+        'DR': (1.0, 'Reference D'),
     }
 
     def __str__(s):
         return f"""
         {super().__str__().rstrip()}
-        {s.KOBJ}.{s.NN}
+        {s.KOBJ}.0{s.K2}
         {s.IY} {s.IT} {s.IZ} {s.IP} {s.IX} {s.ID}
-        {s.PY} {s.PT} {s.PZ} {s.PP} {s.PX} {s.PD}
-        {s.YR} {s.TR} {s.ZR} {s.PR} {s.XR} {s.DR}
+        {s.PY.to('centimeter').magnitude:.12e} {s.PT.to('milliradian').magnitude:.12e} {s.PZ.to('centimeter').magnitude:.12e} {s.PP.to('milliradian').magnitude:.12e} {s.PX.to('centimeter').magnitude:.12e} {s.PD:.12e}
+        {s.YR.to('centimeter').magnitude:.12e} {s.TR.to('milliradian').magnitude:.12e} {s.ZR.to('centimeter').magnitude:.12e} {s.PR.to('milliradian').magnitude:.12e} {s.XR.to('centimeter').magnitude:.12e} {s.DR:.12e}
         """
 
 
 class Objet2(Objet):
+    """Objet with all initial coordinates entered explicitely."""
     PARAMETERS = {
         'KOBJ': 2,
-        'IMAX': 1,
+        'K2': 0,
         'IDMAX': 1,
-        'Y': [0.0],
-        'T': [0.0],
-        'Z': [0.0],
-        'P': [0.0],
-        'X': [0.0],
-        'D': [0.0],
-        'LET': 1.0,
-        'IEX': 1,
+        '_PARTICULES': None,
     }
+
+    @property
+    def IMAX(self):
+        return self.PARTICULES.shape[0]
+
+    @property
+    def IEX(self):
+        return self._PARTICULES[:, 6]
+
+    @property
+    def PARTICULES(self):
+        if self._PARTICULES is None:
+            self._PARTICULES = np.zeros((1, 7))
+            self._PARTICULES[:, 5] = 1.0  # D = 1
+            self._PARTICULES[:, 6] = 1  # IEX
+        return self._PARTICULES
+
+    def clear(self):
+        self.PARTICULES = np.zeros((1, 7))
+        return self
+
+    def add(self, p):
+        if self._PARTICULES is None:
+            self._PARTICULES = p
+        else:
+            self._PARTICULES = np.append(self._PARTICULES, p)
+        return self
 
     def __str__(s):
         c = f"""
         {super().__str__().rstrip()}
-        {s.KOBJ}
+        {s.KOBJ}.0{s.K2}
         {s.IMAX} {s.IDMAX}
         """
-        for p in zip(s.Y, s.T, s.Z, s.P, s.X, s.D):
-            c += f"{p[0]} {p[1]} {p[2]} {p[3]} {p[4]} {p[5]}"
-        c += f"{s.IEX}\n"
+        for p in s.PARTICULES[:, 0:6]:
+            c += f"""
+        {p[0]} {p[1]} {p[2]} {p[3]} {p[4]} {p[5]} A
+        """.lstrip()
+        c += " ".join(map(lambda x: f"{int(x):d}", s.IEX)) + "\n"
         return c
 
 

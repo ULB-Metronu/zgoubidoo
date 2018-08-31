@@ -81,7 +81,11 @@ class Bend(Magnet):
         {s.KPOS} {s.XCE.to('cm').magnitude:.12e} {s.YCE.to('cm').magnitude:.12e} {s.ALE.to('radian').magnitude:.12e}
         """
 
-    def plot(self, ax):
+    @property
+    def frame(self):
+        return [self.XL + self.XCE, self.YCE, self.ALE- 20 * ureg.degree]
+
+    def plot(self, ax, coords=None):
         return ax
 
 
@@ -559,6 +563,10 @@ class Drift(Magnet):
         {s.XL.to('centimeter').magnitude}
         """
 
+    @property
+    def frame(self):
+        return [self.XL, 0 * ureg.centimeter, 0 * ureg.radian]
+
 
 class Emma(Magnet):
     """2-D Cartesian or cylindrical mesh field map for EMMA FFAG."""
@@ -635,6 +643,10 @@ class Quadrupole(Magnet):
         """
 
     @property
+    def frame(self):
+        return [self.XL + self.XCE, self.YCE, self.ALE]
+
+    @property
     def gradient(self):
         return self.B0 / self.R0
 
@@ -650,34 +662,20 @@ class Quadrupole(Magnet):
         self.ALE = 0.0 * ureg.radians
         return self
 
-    def plot(self, ax, width=0.4, coords=None):
+    def plot(self, ax, width=Q_(30, 'centimeter'), coords=None):
         if coords is None:
-            coords = [0, 0, 0, 0, 0, 0]
+            coords = [0, 0, 0]
         w = patches.Rectangle(
             (
-                coords[0] - width / 2,
-                coords[1],
+                coords[0].to('centimeter').magnitude,
+                coords[1].to('centimeter').magnitude - width.to('centimeter').magnitude / 2,
             ),
-            width,
-            self.XL,
-            angle=coords[3],
-            alpha=1.0,
+            self.XL.to('centimeter').magnitude,
+            width.to('centimeter').magnitude,
+            angle=coords[2].to('degree').magnitude,
+            alpha=0.1,
             facecolor='b',
             ec='b',
-            hatch=''
-        )
-        ax.add_patch(w)
-        w = patches.Rectangle(
-            (
-                coords[0] - width / 2,
-                coords[1],
-            ),
-            width/10,
-            self.XL,
-            angle=coords[3],
-            alpha=0.5,
-            facecolor='k',
-            ec='k',
             hatch=''
         )
         ax.add_patch(w)

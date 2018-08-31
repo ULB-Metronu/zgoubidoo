@@ -1,5 +1,6 @@
 from .. import ureg, Q_
 from pint import UndefinedUnitError
+import uuid
 
 
 class ZgoubidoException(Exception):
@@ -32,7 +33,7 @@ class Command(metaclass=MetaCommand):
 
     def __init__(self, label1='', label2='', *params, **kwargs):
         self._attributes = {}
-        for p in (Command.PARAMETERS, self.PARAMETERS,) + params + ({'LABEL1': label1 or hash(self), 'LABEL2': label2},):
+        for p in (Command.PARAMETERS, self.PARAMETERS,) + params + ({'LABEL1': label1 or str(uuid.uuid4().hex), 'LABEL2': label2},):
             self._attributes = dict(self._attributes, **p)
         for k, v in kwargs.items():
             if k not in self._attributes.keys():
@@ -41,6 +42,8 @@ class Command(metaclass=MetaCommand):
                 self._attributes[k] = v
 
     def __getattr__(self, a):
+        if self._attributes.get(a) is None:
+            return None
         if not isinstance(self._attributes[a], tuple):
             attr = self._attributes[a]
         else:
@@ -71,7 +74,11 @@ class Command(metaclass=MetaCommand):
         '{s.KEYWORD}' {s.LABEL1} {s.LABEL2}
         """
 
-    def plot(self, ax):
+    @property
+    def frame(self):
+        return [0 * ureg.centimeter, 0 * ureg.centimeter, 0 * ureg.radian]
+
+    def plot(self, ax, coords=None):
         return ax
 
 
