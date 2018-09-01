@@ -65,7 +65,7 @@ class CartesianMagnet(Magnet):
 
         getattr(artist, 'cartesian_bend')(
             entry=[global_entry_x, global_entry_y],
-            exit=[global_exit_x, global_exit_y],
+            sortie=[global_exit_x, global_exit_y],
             rotation=global_rotation,
             width=self.WIDTH,
         )

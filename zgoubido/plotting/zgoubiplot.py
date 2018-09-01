@@ -21,8 +21,10 @@ PALETTE = {
 
 
 class ZgoubiPlot:
-    def __init__(self):
-        pass
+    def __init__(self, with_boxes=True, with_frames=True):
+        self._with_boxes = with_boxes
+        self._with_frames = with_frames
+        self._palette = PALETTE['solarized']
 
     def cartesian_bend(self, **kwargs):
         pass
