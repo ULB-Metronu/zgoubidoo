@@ -86,8 +86,8 @@ class Command(metaclass=MetaCommand):
     def exit(self):
         return [0 * ureg.centimeter, 0 * ureg.centimeter]
 
-    def plot(self, ax, tracks=None, coords=None):
-        return ax
+    def plot(self, artist=None, coords=None):
+        return artist
 
 
 class AutoRef(Command):

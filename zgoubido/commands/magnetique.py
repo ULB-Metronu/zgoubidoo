@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.patches as patches
 from .commands import Command, ZgoubidoException
 from .. import ureg, Q_
 
@@ -13,19 +12,28 @@ class Magnet(Command):
 
 class CartesianMagnet(Magnet):
     """Base class for magnetic elements in cartesian coordinates"""
+    PARAMETERS = {
+        'WIDTH': 50 * ureg.cm,
+    }
+
+    def __init__(self, label1='', label2='', *params, with_plt=False, **kwargs):
+        super().__init__(label1, label2, CartesianMagnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
+
+    @property
+    def rotation(self):
+        return self.ALE or 0.0 * ureg.degree
 
     @property
     def entry(self):
         return [self.XCE or 0.0 * ureg.cm, self.YCE or 0.0 * ureg.cm]
 
-    def global_exit(self, a=0 * ureg.degree):
+    @property
+    def exit(self):
         x = self.XL + (self.XCE or 0.0 * ureg.cm)
-        y = self.YCE or 0.0 * ureg.cm
-        s = np.sin((self.ALE or 0.0 * ureg.degree) + a)
-        c = np.cos((self.ALE or 0.0 * ureg.degree) + a)
+        y = self.entry[1]
+        s = np.sin((self.ALE or 0.0 * ureg.degree))
+        c = np.cos((self.ALE or 0.0 * ureg.degree))
         return [c * x - s * y, s * x + c * y]
-
-    exit = property(global_exit)
 
     @property
     def frame(self):
@@ -36,22 +44,31 @@ class CartesianMagnet(Magnet):
             x_offset = self.exit[0]
             y_offset = self.exit[1]
             angle = self.ALE or 0.0 * ureg.degree
+        if self.KPOS == 2:
+            x_offset = self.exit[0]
+            y_offset = 0 * ureg.cm
+            angle = 0.0 * ureg.degree
         return [x_offset, y_offset, angle]
 
-    def plot(self, ax, width=Q_(30, 'centimeter'), coords=None):
-        coords = coords or [0.0 * ureg.cm, 0.0 * ureg.cm, 0.0 * ureg.radian]
-        ax.annotate(s='',
-                    xy=(
-                        (coords[0] + self.entry[0]).to('cm').magnitude,
-                        (coords[1] + self.entry[1]).to('cm').magnitude
-                    ),
-                    xytext=(
-                        (coords[0] + self.global_exit(coords[2])[0]).to('cm').magnitude,
-                        (coords[1] + self.global_exit(coords[2])[1]).to('cm').magnitude
-                    ),
-                    arrowprops=dict(arrowstyle='<->')
-                    )
+    def plot(self, artist=None, coords=None):
+        if artist is None:
+            return
 
+        coords = coords or [0.0 * ureg.cm, 0.0 * ureg.cm, 0.0 * ureg.radian]
+        s = np.sin(coords[2].to('radian').magnitude)
+        c = np.cos(coords[2].to('radian').magnitude)
+        global_entry_x = coords[0] + self.entry[0]
+        global_entry_y = coords[1] + self.entry[1]
+        global_exit_x = coords[0] + c * self.exit[0] - s * self.exit[1]
+        global_exit_y = coords[1] + s * self.exit[0] + c * self.exit[1]
+        global_rotation = self.rotation + coords[2]
+
+        getattr(artist, 'cartesian_bend')(
+            entry=[global_entry_x, global_entry_y],
+            exit=[global_exit_x, global_exit_y],
+            rotation=global_rotation,
+            width=self.WIDTH,
+        )
 
 
 class PolarMagnet(Magnet):
