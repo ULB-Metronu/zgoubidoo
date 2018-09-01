@@ -1,5 +1,6 @@
-from .commands import Command, ZgoubidoException
+import numpy as np
 import matplotlib.patches as patches
+from .commands import Command, ZgoubidoException
 from .. import ureg, Q_
 
 
@@ -8,6 +9,65 @@ class Magnet(Command):
 
     def align(self, *args, **kwargs):
         return self
+
+
+class CartesianMagnet(Magnet):
+    """Base class for magnetic elements in cartesian coordinates"""
+
+    @property
+    def entry(self):
+        return [self.XCE or 0.0 * ureg.cm, self.YCE or 0.0 * ureg.cm]
+
+    def global_exit(self, a=0 * ureg.degree):
+        x = self.XL + (self.XCE or 0.0 * ureg.cm)
+        y = self.YCE or 0.0 * ureg.cm
+        s = np.sin((self.ALE or 0.0 * ureg.degree) + a)
+        c = np.cos((self.ALE or 0.0 * ureg.degree) + a)
+        return [c * x - s * y, s * x + c * y]
+
+    exit = property(global_exit)
+
+    @property
+    def frame(self):
+        x_offset = 0 * ureg.cm
+        y_offset = 0 * ureg.cm
+        angle = 0
+        if self.KPOS == 1:
+            x_offset = self.exit[0]
+            y_offset = self.exit[1]
+            angle = self.ALE or 0.0 * ureg.degree
+        return [x_offset, y_offset, angle]
+
+    def plot(self, ax, width=Q_(30, 'centimeter'), coords=None):
+        coords = coords or [0.0 * ureg.cm, 0.0 * ureg.cm, 0.0 * ureg.radian]
+        ax.annotate(s='',
+                    xy=(
+                        (coords[0] + self.entry[0]).to('cm').magnitude,
+                        (coords[1] + self.entry[1]).to('cm').magnitude
+                    ),
+                    xytext=(
+                        (coords[0] + self.global_exit(coords[2])[0]).to('cm').magnitude,
+                        (coords[1] + self.global_exit(coords[2])[1]).to('cm').magnitude
+                    ),
+                    arrowprops=dict(arrowstyle='<->')
+                    )
+
+
+
+class PolarMagnet(Magnet):
+    """Base class for magnetic elements in polar coordinates"""
+
+    @property
+    def entry(self):
+        pass
+
+    @property
+    def exit(self):
+        pass
+
+    @property
+    def frame(self):
+        pass
 
 
 class AGSMainMagnet(Magnet):
@@ -221,7 +281,8 @@ class Aimant(Magnet):
 
         return ''.join(map(lambda _: _.rstrip(), command))
 
-class Bend(Magnet):
+
+class Bend(CartesianMagnet):
     """Bending magnet, Cartesian frame.
     Parameters:
         IL:
@@ -272,13 +333,6 @@ class Bend(Magnet):
         {s.XPAS.to('cm').magnitude:.12e}
         {s.KPOS} {s.XCE.to('cm').magnitude:.12e} {s.YCE.to('cm').magnitude:.12e} {s.ALE.to('radian').magnitude:.12e}
         """
-
-    @property
-    def frame(self):
-        return [self.XL + self.XCE, self.YCE, self.ALE- 20 * ureg.degree]
-
-    def plot(self, ax, coords=None):
-        return ax
 
 
 class Decapole(Magnet):
@@ -822,7 +876,7 @@ class Dodecapole(Command):
     KEYWORD = 'DODECAPO'
 
     PARAMETERS = {
-        'XL': (0.0 * ureg.centimeter, "Drift length."),
+        'XL': (0.0 * ureg.centimeter, "Magnet length."),
         'IL': 2,
         'R0': 0,
         'B0': 0,
@@ -881,43 +935,30 @@ class Dodecapole(Command):
 
         return ''.join(map(lambda _: _.rstrip(), command))
 
-class Drift(Command):
+
+class Drift(CartesianMagnet):
     """Field free drift space."""
     KEYWORD = 'DRIFT'
 
     PARAMETERS = {
         'XL': 0.0
->>>>>>> avdenhoeke-master
     }
 
     def __str__(s):
         return f"""
         {super().__str__().rstrip()}
-<<<<<<< HEAD
         {s.XL.to('centimeter').magnitude}
         """
 
     @property
     def frame(self):
-        return [self.XL, 0 * ureg.centimeter, 0 * ureg.radian]
+        return [self.exit[0], self.exit[1], 0 * ureg.radian]
 
-
-class Emma(Magnet):
-    """2-D Cartesian or cylindrical mesh field map for EMMA FFAG."""
-    KEYWORD = 'EMMA'
-
-
-class FFAG(Magnet):
-    """FFAG magnet, N-tuple."""
-    KEYWORD = 'FFAG'
-
-=======
-        {s.XL}
-        """
 
 class Emma(Command):
     """2-D Cartesian or cylindrical mesh field map for EMMA FFAG."""
     KEYWORD = 'EMMA'
+
 
 class FFAG(Command):
     """FFAG magnet, N-tuple."""
@@ -1048,7 +1089,7 @@ class FFAG(Command):
             command.append(c)
 
         return ''.join(map(lambda _: _.rstrip(), command))
->>>>>>> avdenhoeke-master
+
 
 class FFAGSpirale(Magnet):
     """Spiral FFAG magnet, N-tuple."""
@@ -1448,7 +1489,8 @@ class Quadisex(Magnet):
 
         return ''.join(map(lambda _: _.rstrip(), command))
 
-class Quadrupole(Magnet):
+
+class Quadrupole(CartesianMagnet):
     """Quadrupole magnet."""
     KEYWORD = 'QUADRUPO'
 
@@ -1488,10 +1530,6 @@ class Quadrupole(Magnet):
         """
 
     @property
-    def frame(self):
-        return [self.XL + self.XCE, self.YCE, self.ALE]
-
-    @property
     def gradient(self):
         return self.B0 / self.R0
 
@@ -1506,24 +1544,6 @@ class Quadrupole(Magnet):
         self.YCE = 0.0 * ureg.centimeter
         self.ALE = 0.0 * ureg.radians
         return self
-
-    def plot(self, ax, width=Q_(30, 'centimeter'), coords=None):
-        if coords is None:
-            coords = [0, 0, 0]
-        w = patches.Rectangle(
-            (
-                coords[0].to('centimeter').magnitude,
-                coords[1].to('centimeter').magnitude - width.to('centimeter').magnitude / 2,
-            ),
-            self.XL.to('centimeter').magnitude,
-            width.to('centimeter').magnitude,
-            angle=coords[2].to('degree').magnitude,
-            alpha=0.1,
-            facecolor='b',
-            ec='b',
-            hatch=''
-        )
-        ax.add_patch(w)
 
 
 class SexQuad(Magnet):

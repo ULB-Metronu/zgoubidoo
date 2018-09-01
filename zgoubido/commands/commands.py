@@ -78,7 +78,15 @@ class Command(metaclass=MetaCommand):
     def frame(self):
         return [0 * ureg.centimeter, 0 * ureg.centimeter, 0 * ureg.radian]
 
-    def plot(self, ax, coords=None):
+    @property
+    def entry(self):
+        return [0 * ureg.centimeter, 0 * ureg.centimeter]
+
+    @property
+    def exit(self):
+        return [0 * ureg.centimeter, 0 * ureg.centimeter]
+
+    def plot(self, ax, tracks=None, coords=None):
         return ax
 
 
