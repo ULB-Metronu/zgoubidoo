@@ -18,6 +18,7 @@ PALETTE = {
                    'green':   '#859900'
                    }
 }
+PALETTE['solarized']['gray'] = PALETTE['solarized']['base03']
 
 
 class ZgoubiPlot:

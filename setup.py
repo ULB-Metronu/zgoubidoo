@@ -5,7 +5,7 @@ import ast
 
 def get_version_from_init():
     init_file = os.path.join(
-        os.path.dirname(__file__), 'zgoubido', '__init__.py'
+        os.path.dirname(__file__), 'zgoubidoo', '__init__.py'
     )
     with open(init_file, 'r') as fd:
         for line in fd:
@@ -21,13 +21,13 @@ with open('LICENSE') as f:
 
 
 setup(
-    name='zgoubido',
+    name='zgoubidoo',
     version=get_version_from_init(),
-    description='Zgoubido: a Python interface for Zgoubi.',
+    description='Zgoubidoo: a Python interface for Zgoubi.',
     long_description=readme,
     author='Cédric Hernaslteens',
     author_email='cedric.hernalsteens@iba-group.com',
-    url='https://github.com/chernals/zgoubido',
+    url='https://github.com/chernals/zgoubidoo',
     license=lic,
     packages=find_packages(exclude=('tests', 'docs', 'examples')),
     install_requires=[
@@ -36,6 +36,5 @@ setup(
         'scipy>=1.0.0',
         'pint',
     ],
-    package_data={'zgoubido': []},
-    #data_files=[('bin', [os.path.join('bin', 'madx')])],  # Install MAD-X in f"{sys.prefix}/bin/madx"
+    package_data={'zgoubidoo': []},
 )

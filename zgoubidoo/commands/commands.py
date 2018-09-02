@@ -174,6 +174,18 @@ class FaiStore(Command):
     """Store coordinates every IP other pass at labeled elements."""
     KEYWORD = 'FAISTORE'
 
+    PARAMETERS = {
+        'FNAME': 'zgoubi.fai',
+        'IP': 1,
+    }
+
+    def __str__(s):
+        return f"""
+        {super().__str__().rstrip()}
+        {s.FNAME}
+        {s.IP}
+        """
+
 
 class Fin(Command):
     """End of input data list."""
@@ -184,8 +196,53 @@ class Fit(Command):
     """Fitting procedure."""
     KEYWORD = 'FIT'
 
+    PARAMETERS = {
+        'PARAMS': (
+            [
+                {
+                    'IR': 1,
+                    'IP': 1,
+                    'XC': 0,
+                    'DV': 1.0
+                }
+            ], 'Physical parameters to be varied'),
+        'CONSTRAINTS': (
+            [
+                {
+                    'IC': 1,
+                    'I': 1,
+                    'J': 1,
+                    'IR': 1,
+                    'V': 1,
+                    'WV': 1,
+                    'NP': 1
+                }
+            ], 'Constraints'),
+        'PENALTY': (1.0e-14, 'Penalty'),
+        'ITERATIONS': (1000, 'Iterations'),
+    }
 
-class Fit2(Command):
+    def __str__(s):
+        command = list()
+        command.append(super().__str__().rstrip())
+        command.append(f"""
+        {len(s.PARAMS)}
+        """)
+        for p in s.PARAMS:
+            command.append(f"""
+        {p['IR']} {p['IP']} {p['XC']} [-30.0,30.0]
+        """)
+        command.append(f"""
+        {len(s.CONSTRAINTS)} {s.PENALTY:.12e} {s.ITERATIONS}
+        """)
+        for c in s.CONSTRAINTS:
+            command.append(f"""
+        {c['IC']} {c['I']} {c['J']} {c['IR']} {c['V']} {c['WV']} {c['NP']}
+        """)
+        return ''.join(map(lambda x: x.rstrip(), command))
+
+
+class Fit2(Fit):
     """Fitting procedure."""
     KEYWORD = 'FIT2'
 
@@ -313,14 +370,18 @@ class Rebelote(Command):
 
     PARAMETERS = {
         'NPASS': 1,
-        'KWRIT': 0.0,
+        'KWRIT': 1.1,
         'K': 99,
+        'N': None,
+        'LABL1': None,
+        'LABL2': None,
+        'NPRM': 1,
     }
 
     def __str__(s):
         return f"""
         {super().__str__()}
-        {s.NPASS} {s.KWRIT} {s.K}
+        {s.NPASS} {s.KWRIT} {s.K}.{s.N or ''} {s.LABL1 or ''} {s.LABL2 or ''}
         """
 
 

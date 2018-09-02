@@ -68,6 +68,7 @@ class CartesianMagnet(Magnet):
             sortie=[global_exit_x, global_exit_y],
             rotation=global_rotation,
             width=self.WIDTH,
+            color=self.COLOR,
         )
 
 
@@ -306,6 +307,8 @@ class Bend(CartesianMagnet):
         XL (cm): magnet length (distance between EFB)
 
     """
+    COLOR = 'green'
+
     KEYWORD = 'BEND'
 
     PARAMETERS = {
@@ -416,6 +419,7 @@ class Decapole(Magnet):
 
         return ''.join(map(lambda _: _.rstrip(), command))
 
+
 class Dipole(Magnet):
     """Dipole magnet, polar frame."""
     KEYWORD = 'DIPOLE'
@@ -501,7 +505,7 @@ class Dipole(Magnet):
         0 {s.C0_L:.12e} {s.C1_L:.12e} {s.C2_L:.12e} {s.C3_L:.12e} {s.C4_L:.12e} {s.C5_L:.12e} {s.SHIFT_L.to('centimeter').magnitude:.12e}
         {s.OMEGA_L:.12e} {s.THETA_L:.12e} {s.R1_L.to('centimeter').magnitude:.12e} {s.U1_L.to('centimeter').magnitude:.12e} {s.U2_L.to('centimeter').magnitude:.12e} {s.R2_L.to('centimeter').magnitude:.12e} {s.RM3.to('centimeter').magnitude:.12e}
         {s.IORDRE} {s.Resol}
-        {s.XPAS}"""
+        {s.XPAS.to('centimeter').magnitude}"""
         command.append(c)
 
         if s.KPOS not in (1, 2):
@@ -514,7 +518,7 @@ class Dipole(Magnet):
                 s.RS = s.RM
             c = f"""
                 {s.KPOS}
-                {s.RE:.12e} {s.TE:.12e} {s.RS:.12e} {s.TS:.12e}
+                {s.RE.to('centimeter').magnitude:.12e} {s.TE.to('radian').magnitude:.12e} {s.RS.to('centimeter').magnitude:.12e} {s.TS.to('radian').magnitude:.12e}
                 """
             command.append(c)
         elif s.KPOS == 1:
@@ -955,6 +959,8 @@ class Dodecapole(Command):
 
 class Drift(CartesianMagnet):
     """Field free drift space."""
+    COLOR = 'gray'
+
     KEYWORD = 'DRIFT'
 
     PARAMETERS = {
@@ -1509,6 +1515,7 @@ class Quadisex(Magnet):
 
 class Quadrupole(CartesianMagnet):
     """Quadrupole magnet."""
+    COLOR = 'blue'
     KEYWORD = 'QUADRUPO'
 
     PARAMETERS = {

@@ -17,7 +17,7 @@ class ZgoubiMpl(ZgoubiPlot):
         self._fig = plt.figure()
         self._ax = self._fig.add_subplot(111)
 
-    def cartesian_bend(self, entry, sortie, rotation, width):
+    def cartesian_bend(self, entry, sortie, rotation, width, color='gray'):
         def do_frame():
             self._ax.annotate(s='',
                               xy=(
@@ -48,8 +48,9 @@ class ZgoubiMpl(ZgoubiPlot):
                     ),
                     width.to('cm').magnitude,
                     alpha=0.2,
-                    facecolor=self._palette['blue'],
-                    edgecolor='#268bd2',
+                    facecolor=self._palette.get(color, 'gray'),
+                    edgecolor=self._palette.get(color, 'gray'),
+                    linewidth=2,
                     transform=tr,
                 )
             )
