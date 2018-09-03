@@ -17,6 +17,34 @@ class ZgoubiMpl(ZgoubiPlot):
         self._fig = plt.figure()
         self._ax = self._fig.add_subplot(111)
 
+    def polar_bend(self, entry, sortie, rotation, width, color='gray'):
+        def do_frame():
+            pass
+
+        def do_box():
+            # Wedge(center, r, theta1, theta2, width=None, **kwargs)[source]
+            self._ax.add_patch(
+                patches.Wedge(
+                    (
+                        0.0,
+                        0.0
+                    ),
+                    10.0,
+                    0,
+                    20,
+                    width=5,
+                    alpha=0.2,
+                    facecolor=self._palette.get(color, 'gray'),
+                    edgecolor=self._palette.get(color, 'gray'),
+                    linewidth=2,
+                )
+            )
+
+        if self._with_boxes:
+            do_box()
+        if self._with_frames:
+            do_frame()
+
     def cartesian_bend(self, entry, sortie, rotation, width, color='gray'):
         def do_frame():
             self._ax.annotate(s='',

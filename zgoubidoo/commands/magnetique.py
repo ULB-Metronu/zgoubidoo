@@ -73,19 +73,55 @@ class CartesianMagnet(Magnet):
 
 
 class PolarMagnet(Magnet):
-    """Base class for magnetic elements in polar coordinates"""
+    """Base class for magnetic elements in cartesian coordinates"""
+    PARAMETERS = {
+        'WIDTH': 50 * ureg.cm,
+    }
+
+    # 'AT': (0 * ureg.degree, 'Total angular extent of the dipole'),
+    # 'RM': (0 * ureg.kilogauss, 'Reference radius'),
+    # 'ACENT': (0 * ureg.degree, 'Azimuth for positioning of EFBs'),
+
+
+    def __init__(self, label1='', label2='', *params, with_plt=False, **kwargs):
+        super().__init__(label1, label2, CartesianMagnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
     @property
-    def entry(self):
-        pass
+    def angular_opening(self):
+        return self.AT
+
+    @property
+    def radius(self):
+        return self.RM
 
     @property
     def exit(self):
-        pass
+        return [0.0 * ureg.cm, 0.0 * ureg.cm]
 
     @property
     def frame(self):
-        pass
+        return [0.0 * ureg.cm, 0.0 * ureg.cm, 0.0 * ureg.degree]
+
+    def plot(self, artist=None, coords=None):
+        if artist is None:
+            return
+
+        coords = coords or [0.0 * ureg.cm, 0.0 * ureg.cm, 0.0 * ureg.radian]
+        s = np.sin(coords[2].to('radian').magnitude)
+        c = np.cos(coords[2].to('radian').magnitude)
+        global_entry_x = coords[0] + self.entry[0]
+        global_entry_y = coords[1] + self.entry[1]
+        global_exit_x = coords[0] + c * self.exit[0] - s * self.exit[1]
+        global_exit_y = coords[1] + s * self.exit[0] + c * self.exit[1]
+        global_rotation = self.rotation + coords[2]
+
+        getattr(artist, 'polar_bend')(
+            entry=[global_entry_x, global_entry_y],
+            sortie=[global_exit_x, global_exit_y],
+            rotation=global_rotation,
+            width=self.WIDTH,
+            color=self.COLOR,
+        )
 
 
 class AGSMainMagnet(Magnet):
@@ -420,7 +456,7 @@ class Decapole(Magnet):
         return ''.join(map(lambda _: _.rstrip(), command))
 
 
-class Dipole(Magnet):
+class Dipole(PolarMagnet):
     """Dipole magnet, polar frame."""
     KEYWORD = 'DIPOLE'
 
@@ -481,10 +517,10 @@ class Dipole(Magnet):
         'Resol': 10,
         'XPAS': (1 * ureg.millimeter, 'Integration step'),
         'KPOS': 2,
-        'RE': 0,
-        'TE': 0,
-        'RS': 0,
-        'TS': 0,
+        'RE': 0 * ureg.millimeter,
+        'TE': 0 * ureg.radian,
+        'RS': 0 * ureg.millimeter,
+        'TS': 0 * ureg.radian,
         'DP': 0,
     }
 
@@ -504,7 +540,7 @@ class Dipole(Magnet):
         {s.LAM_L.to('centimeter').magnitude:.12e} {s.XI_L}
         0 {s.C0_L:.12e} {s.C1_L:.12e} {s.C2_L:.12e} {s.C3_L:.12e} {s.C4_L:.12e} {s.C5_L:.12e} {s.SHIFT_L.to('centimeter').magnitude:.12e}
         {s.OMEGA_L:.12e} {s.THETA_L:.12e} {s.R1_L.to('centimeter').magnitude:.12e} {s.U1_L.to('centimeter').magnitude:.12e} {s.U2_L.to('centimeter').magnitude:.12e} {s.R2_L.to('centimeter').magnitude:.12e} {s.RM3.to('centimeter').magnitude:.12e}
-        {s.IORDRE} {s.Resol}
+        {s.IORDRE} {s.Resol:.12e}
         {s.XPAS.to('centimeter').magnitude}"""
         command.append(c)
 
@@ -529,24 +565,6 @@ class Dipole(Magnet):
             command.append(c)
 
         return ''.join(map(lambda _: _.rstrip(), command))
-
-    def plot(self, ax, offset={}):
-        offset = {
-            'X': offset.get('X', 0),
-            'Y': offset.get('Y', 0),
-            'R': offset.get('R', 0),
-        }
-        w = patches.Wedge(
-            (offset['X'], offset['Y']),
-            0.2,
-            0.0,
-            0.0 + self.AT.to('degree').magnitude,
-            width=0.4,
-            alpha=1,
-            facecolor='r',
-            ec='r'
-        )
-        ax.add_patch(w)
 
 
 class DipoleM(Magnet):

@@ -29,3 +29,6 @@ class ZgoubiPlot:
 
     def cartesian_bend(self, **kwargs):
         pass
+
+    def polar_bend(self, **kwargs):
+        pass

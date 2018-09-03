@@ -60,7 +60,7 @@ class ZgoubiPlotly(ZgoubiPlot):
     def render(self):
         py.iplot(self.fig, config=self.config)
 
-    def cartesian_bend(self, entry, sortie, rotation, width):
+    def cartesian_bend(self, entry, sortie, rotation, width, color='gray'):
         def do_frame():
             pass
 
