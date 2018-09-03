@@ -338,6 +338,16 @@ class Matrix(Command):
     """Calculation of transfer coefficients, periodic parameters."""
     KEYWORD = 'MATRIX'
 
+    PARAMETERS = {
+        'IORD': 1,
+        'IFOC': 11,
+    }
+
+    def __str__(s):
+        return f"""
+        {super().__str__().rstrip()}
+        {s.IORD} {s.IFOC} {"zgoubi.MATRIX.out"}
+        """
 
 class MCDesintegration(Command):
     """Monte-Carlo simulation of in-flight decay."""
