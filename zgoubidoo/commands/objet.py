@@ -201,16 +201,17 @@ class Objet5(Objet): # Generation of 11 particles, or 11*NN if I ≥ 2 (for use 
     PARAMETERS = {
         'KOBJ' : 5,
         'NN' : 1,
-        'PY' : 0,
-        'PT' : 0,
-        'PZ' : 0,
-        'PP' : 0,
-        'PX' : 0,
-        'PD' : 0,
+        'PY' : 1e-3,
+        'PT' : 1e-3,
+        'PZ' : 1e-4,
+        'PP' : 1e-3,
+        'PX' : 1e-3,
+        'PD' : 1e-3,
         'YR' : 0,
         'TR' : 0,
         'ZR' : 0,
         'PR' : 0,
+        'XR' : 0,
         'DR' : 1,
         'ALPHA_Y' : 0,
         'BETA_Y' : 0,
@@ -226,12 +227,11 @@ class Objet5(Objet): # Generation of 11 particles, or 11*NN if I ≥ 2 (for use 
 
     def __str__(s):
         objet = []
-        ob =  f"""
+        ob = f"""
         {super().__str__().rstrip()}
+        {s.KOBJ}.0{s.NN}
         {s.PY:.12e} {s.PT:.12e} {s.PZ:.12e} {s.PP:.12e} {s.PX:.12e} {s.PD:.12e}
         {s.YR:.12e} {s.TR:.12e} {s.ZR:.12e} {s.PR:.12e} {s.XR:.12e} {s.DR:.12e}
-        {s.YF:.12e} {s.TF:.12e} {s.ZF:.12e} {s.PF:.12e} {s.XF:.12e} {s.DF:.12e} {s.TF:.12e} {s.TAG:.12e}
-        {s.YR:.12e} {s.TR:.12e} {s.ZR:.12e} {s.PR:.12e} {s.XR:.12e} {s.DR:.12e} {s.TR:.12e}
         """
         objet.append(ob)
         if s.NN == 1:
