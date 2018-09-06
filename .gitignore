@@ -1,4 +1,5 @@
 .idea/
-zgoubido.egg-info/
 zgoubidoo/__pycache__/
 zgoubidoo/commands/__pycache__/
+zgoubidoo.egg-info/
+zgoubidoo/plotting/__pycache__/
