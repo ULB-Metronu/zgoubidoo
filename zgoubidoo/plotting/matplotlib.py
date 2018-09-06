@@ -17,6 +17,9 @@ class ZgoubiMpl(ZgoubiPlot):
         self._fig = plt.figure()
         self._ax = self._fig.add_subplot(111)
 
+    def plot(self, *args, **kwargs):
+        self._ax.plot(*args, **kwargs)
+
     def polar_bend(self, entry, sortie, rotation, width, color='gray'):
         def do_frame():
             pass

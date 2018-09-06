@@ -53,7 +53,6 @@ class CartesianMagnet(Magnet):
     def plot(self, artist=None, coords=None):
         if artist is None:
             return
-
         coords = coords or [0.0 * ureg.cm, 0.0 * ureg.cm, 0.0 * ureg.radian]
         s = np.sin(coords[2].to('radian').magnitude)
         c = np.cos(coords[2].to('radian').magnitude)
