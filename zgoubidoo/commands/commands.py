@@ -2,6 +2,8 @@ from .. import ureg, Q_
 from pint import UndefinedUnitError
 import uuid
 
+ZGOUBI_LABEL_LENGTH = 10
+
 
 class ZgoubidoException(Exception):
     """Exception raised for errors in the Madx module."""
@@ -33,7 +35,11 @@ class Command(metaclass=MetaCommand):
 
     def __init__(self, label1='', label2='', *params, **kwargs):
         self._attributes = {}
-        for p in (Command.PARAMETERS, self.PARAMETERS,) + params + ({'LABEL1': label1 or str(uuid.uuid4().hex), 'LABEL2': label2},):
+        for p in (Command.PARAMETERS, self.PARAMETERS,) + params + (
+                {
+                    'LABEL1': label1 or str(uuid.uuid4().hex)[:ZGOUBI_LABEL_LENGTH],
+                    'LABEL2': label2
+                },):
             self._attributes = dict(self._attributes, **p)
         for k, v in kwargs.items():
             if k not in self._attributes.keys():
