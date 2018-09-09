@@ -81,19 +81,8 @@ class Command(metaclass=MetaCommand):
         """
 
     @property
-    def frame(self):
-        return [0 * ureg.centimeter, 0 * ureg.centimeter, 0 * ureg.radian]
-
-    @property
-    def entry(self):
-        return [0 * ureg.centimeter, 0 * ureg.centimeter]
-
-    @property
-    def exit(self):
-        return [0 * ureg.centimeter, 0 * ureg.centimeter]
-
-    def plot(self, artist=None, coords=None):
-        return artist
+    def patchable(self):
+        return False
 
 
 class AutoRef(Command):

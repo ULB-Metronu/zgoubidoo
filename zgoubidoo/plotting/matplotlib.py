@@ -20,22 +20,36 @@ class ZgoubiMpl(ZgoubiPlot):
     def plot(self, *args, **kwargs):
         self._ax.plot(*args, **kwargs)
 
-    def polar_bend(self, entry, sortie, rotation, width, color='gray'):
+    def polar_bend(self, entry, sortie, center, radius, angle, width, color='gray'):
+
         def do_frame():
-            pass
+            # Arc(xy, width, height, angle=0.0, theta1=0.0, theta2=360.0, **kwargs)[source]
+            self._ax.add_patch(
+                patches.Arc(
+                    (
+                        center[0].to('cm').magnitude,
+                        center[1].to('cm').magnitude,
+                    ),
+                    (radius + width).to('cm').magnitude,
+                    (radius + width).to('cm').magnitude,
+                    angle=0.0,
+                    theta1=90 - angle.to('degree').magnitude,
+                    theta2=90
+                )
+            )
 
         def do_box():
             # Wedge(center, r, theta1, theta2, width=None, **kwargs)[source]
             self._ax.add_patch(
                 patches.Wedge(
                     (
-                        0.0,
-                        0.0
+                        center[0].to('cm').magnitude,
+                        center[1].to('cm').magnitude,
                     ),
-                    10.0,
-                    0,
-                    20,
-                    width=5,
+                    (radius + width / 2.0).to('cm').magnitude,
+                    90 - entry[2].to('degree').magnitude - angle.to('degree').magnitude,
+                    90 - entry[2].to('degree').magnitude,
+                    width=width.to('cm').magnitude,
                     alpha=0.2,
                     facecolor=self._palette.get(color, 'gray'),
                     edgecolor=self._palette.get(color, 'gray'),
@@ -48,7 +62,7 @@ class ZgoubiMpl(ZgoubiPlot):
         if self._with_frames:
             do_frame()
 
-    def cartesian_bend(self, entry, sortie, rotation, width, color='gray'):
+    def cartesian_bend(self, entry, sortie, width, color='gray'):
         def do_frame():
             self._ax.annotate(s='',
                               xy=(
@@ -63,10 +77,11 @@ class ZgoubiMpl(ZgoubiPlot):
                               )
 
         def do_box():
+            print(entry[2])
             tr = transforms.Affine2D().rotate_deg_around(
                 entry[0].to('cm').magnitude,
                 entry[1].to('cm').magnitude,
-                rotation.to('degree').magnitude) + self._ax.transData
+                entry[2].to('degree').magnitude) + self._ax.transData
             self._ax.add_patch(
                 patches.Rectangle(
                     (

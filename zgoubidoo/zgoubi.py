@@ -56,7 +56,8 @@ class Zgoubi:
                      re.search('CPU time', line)]
             if len(lines):
                 cputime = float(re.search("\d+\.\d+[E|e]?[\+|-]?\d+", lines[0]).group())
-
+        if debug:
+            print(output[0].decode())
         try:
             return {
                 'stdout': output[0].decode().split('\n'),
@@ -66,8 +67,6 @@ class Zgoubi:
                 'input': _,
             }
         except FileNotFoundError:
-            if debug:
-                print(output[0].decode())
             raise ZgoubiException("Executation terminated with errors.")
 
     def _get_exec(self):
