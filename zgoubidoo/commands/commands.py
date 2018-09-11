@@ -362,7 +362,7 @@ class Matrix(Command):
     # MATRIX calculates periodic parameters characteristic of the structure such as optical functions
     # and tune numbers, assuming that it is NPeriod-periodic, and in the coupled hypothesis, based on
     # the Edwards-Teng method;
-# IFOC = 2 additional periodic parameters are computed such as chromaticities, beta-function mo- mentum
+# IORD = 2 additional periodic parameters are computed such as chromaticities, beta-function mo- mentum
     # dependence, etc.;
 
 #Addition of zgoubi.MATRIX.out next to IORD, IFOC will cause stacking of MATRIX output data into
@@ -376,7 +376,7 @@ class Matrix(Command):
     def __str__(s):
         return f"""
         {super().__str__().rstrip()}
-        {s.IORD} {s.IFOC} {"zgoubi.MATRIX.out"}
+        {s.IORD} {s.IFOC} PRINT
         """
 
 
@@ -475,6 +475,17 @@ class Twiss(Command):
     """Calculation of periodic optical parameters."""
     KEYWORD = 'TWISS'
 
+    PARAMETERS = {
+        'KTW': 2,
+        'FACD': 1.0,
+        'FACA': 0.0,
+    }
+
+    def __str__(s):
+        return f"""
+        {super().__str__().rstrip()}
+        {s.KTW} {s.FACD:.12e} {s.FACA:.12e}
+        """
 
 class WienFilter(Command):
     """Wien filter."""
