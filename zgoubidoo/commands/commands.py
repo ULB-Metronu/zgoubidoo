@@ -2,6 +2,8 @@ from .. import ureg, Q_
 from pint import UndefinedUnitError
 import uuid
 
+ZGOUBI_LABEL_LENGTH = 10
+
 
 class ZgoubidoException(Exception):
     """Exception raised for errors in the Madx module."""
@@ -33,7 +35,11 @@ class Command(metaclass=MetaCommand):
 
     def __init__(self, label1='', label2='', *params, **kwargs):
         self._attributes = {}
-        for p in (Command.PARAMETERS, self.PARAMETERS,) + params + ({'LABEL1': label1 or str(uuid.uuid4().hex), 'LABEL2': label2},):
+        for p in (Command.PARAMETERS, self.PARAMETERS,) + params + (
+                {
+                    'LABEL1': label1 or str(uuid.uuid4().hex)[:ZGOUBI_LABEL_LENGTH],
+                    'LABEL2': label2
+                },):
             self._attributes = dict(self._attributes, **p)
         for k, v in kwargs.items():
             if k not in self._attributes.keys():
@@ -75,19 +81,8 @@ class Command(metaclass=MetaCommand):
         """
 
     @property
-    def frame(self):
-        return [0 * ureg.centimeter, 0 * ureg.centimeter, 0 * ureg.radian]
-
-    @property
-    def entry(self):
-        return [0 * ureg.centimeter, 0 * ureg.centimeter]
-
-    @property
-    def exit(self):
-        return [0 * ureg.centimeter, 0 * ureg.centimeter]
-
-    def plot(self, artist=None, coords=None):
-        return artist
+    def patchable(self):
+        return False
 
 
 class AutoRef(Command):
@@ -370,7 +365,7 @@ class Matrix(Command):
 
     PARAMETERS = {
         'IORD': 1,
-        'IFOC': 11,
+        'IFOC': (11, 'If IFOC=11, periodic parameters (single pass)'),
     }
 
     def __str__(s):

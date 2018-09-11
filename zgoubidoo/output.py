@@ -18,36 +18,62 @@ def read_plt_file(filename='zgoubi.plt'):
     # Header line from the Zgoubi .plt file
     with open(filename) as file:
         headers = list(map(lambda s: s.strip(' '), file.read().split('\n')[2].split(',')))
-    return pd.read_table(filename,
-                         skiprows=4,
-                         names=headers,
-                         sep='\s+',
-                         skipinitialspace=True,
-                         quotechar='\''
-                         )
+    df = pd.read_table(filename,
+                       skiprows=4,
+                       names=headers,
+                       sep='\s+',
+                       skipinitialspace=True,
+                       quotechar='\''
+                       )
+    df['LABEL1'] = df['LABEL1'].map(lambda x: x.strip())
+    df['Y-DY'] *= 1e-2
+    df['T'] *= 1e-3
+    df['Z'] *= 1e-2
+    df['P'] *= 1e-3
+    df['Yo'] *= 1e-2
+    df['To'] *= 1e-3
+    df['Zo'] *= 1e-2
+    df['Po'] *= 1e-3
 
-def read_MATRIX_out_file(filename='zgoubi.MATRIX.out'):
-    # Header line from the zgoubi.MATRIX.out file
-    with open(filename) as file:
-        headers = []
-        for i in range(1, 61):
-            headers.append(f"""{i}""")
-    return pd.read_table(filename,
-                         skiprows=2,
-                         names=headers,
-                         sep='\s+',
-                         skipinitialspace=True,
-                         quotechar='\''
-                         )
+    return df
 
-def read_TWISS_out_file(filename='zgoubi.TWISS.out'):
-    # Header line from the Zgoubi .plt file
-    with open(filename) as file:
-        headers = list(map(lambda s: s.strip(' '), file.read().split('\n')[46].split(' ')))
-    return pd.read_table(filename,
-                         skiprows=48,
-                         names=headers,
-                         sep='\s+',
-                         skipinitialspace=True,
-                         quotechar='\''
-                         )
+
+def read_matrix_file(filename='zgoubi.MATRIX.out'):
+    headers = [
+        'R11', 'R12', 'R13', 'R14', 'R15', 'R16',
+        'R21', 'R22', 'R23', 'R24', 'R25', 'R26',
+        'R31', 'R32', 'R33', 'R34', 'R35', 'R36',
+        'R41', 'R42', 'R43', 'R44', 'R45', 'R46',
+        'R51', 'R52', 'R53', 'R54', 'R55', 'R56',
+        'R61', 'R62', 'R63', 'R64', 'R65', 'R66',
+        'ALFY', 'BETY',
+        'ALFZ', 'BETZ',
+        'DY', 'DYP',
+        'DZ', 'DZP',
+        'PHIY', 'PHIZ',
+        'F(1IREF)', 'F(2IREF)', 'F(3IREF)', 'F(4IREF)', 'F(5IREF)', 'F(6IREF)', 'F(7IREF)',
+        'CMUY',
+        'CMUZ',
+        'QY',
+        'QZ',
+        'XCE',
+        'YCE',
+        'ALE'
+    ]
+
+    df = pd.read_table('zgoubi.MATRIX.out',
+                       skiprows=2,
+                       names=headers,
+                       sep='\s+',
+                       skipinitialspace=True,
+                       quotechar='\''
+                       )
+
+    df['ALPHA11'] = df['ALFY']
+    df['BETA11'] = df['BETY']
+    df['GAMMA11'] = (1 + df['ALPHA11']**2) / df['BETA11']
+    df['ALPHA22'] = df['ALFZ']
+    df['BETA22'] = df['BETZ']
+    df['GAMMA22'] = (1 + df['ALPHA22']**2) / df['BETA22']
+
+    return df

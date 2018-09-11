@@ -197,56 +197,59 @@ class Objet4(Objet):
         else:
             raise ZgoubidoException("NN != 1 not supported")
 
-class Objet5(Objet): # Generation of 11 particles, or 11*NN if I ≥ 2 (for use with MATRIX, IORD = 1)
+
+class Objet5(Objet):
+    """Generation of 11 particles, or 11*NN if I ≥ 2 (for use with MATRIX, IORD = 1)"""
+
     PARAMETERS = {
-        'KOBJ' : 5,
-        'NN' : 1,
-        'PY' : 1e-3,
-        'PT' : 1e-3,
-        'PZ' : 1e-4,
-        'PP' : 1e-3,
-        'PX' : 1e-3,
-        'PD' : 1e-3,
-        'YR' : 0,
-        'TR' : 0,
-        'ZR' : 0,
-        'PR' : 0,
-        'XR' : 0,
-        'DR' : 1,
-        'ALPHA_Y' : 0,
-        'BETA_Y' : 0,
-        'ALPHA_Z' : 0,
-        'BETA_Z' : 0,
-        'ALPHA_X' : 0,
-        'BETA_X' : 0,
-        'D_Y' : 0,
-        'D_YP' : 0,
-        'D_Z' : 0,
-        'D_ZP' : 0,
+        'KOBJ': 5,
+        'NN': 1,
+        'PY': 1e-3,
+        'PT': 1e-3,
+        'PZ': 1e-3,
+        'PP': 1e-3,
+        'PX': 1e-3,
+        'PD': 1e-3,
+        'YR': 0,
+        'TR': 0,
+        'ZR': 0,
+        'PR': 0,
+        'XR': 0,
+        'DR': 1,
+        'ALPHA_Y': 0,
+        'BETA_Y': 0,
+        'ALPHA_Z': 0,
+        'BETA_Z': 0,
+        'ALPHA_X': 0,
+        'BETA_X': 0,
+        'D_Y': 0,
+        'D_YP': 0,
+        'D_Z': 0,
+        'D_ZP': 0,
     }
 
     def __str__(s):
-        objet = []
-        ob = f"""
+        command = []
+        c = f"""
         {super().__str__().rstrip()}
         {s.KOBJ}.0{s.NN}
         {s.PY:.12e} {s.PT:.12e} {s.PZ:.12e} {s.PP:.12e} {s.PX:.12e} {s.PD:.12e}
         {s.YR:.12e} {s.TR:.12e} {s.ZR:.12e} {s.PR:.12e} {s.XR:.12e} {s.DR:.12e}
         """
-        objet.append(ob)
+        command.append(c)
         if s.NN == 1:
-            ob = f"""
+            c = f"""
             {s.ALPHA_Y:.12e} {s.BETA_Y:.12e} {s.ALPHA_Z:.12e} {s.BETA_Z:.12e} {s.ALPHA_X:.12e} {s.BETA_X:.12e}
             {s.D_Y:.12e} {s.D_YP:.12e} {s.D_Z:.12e} {s.D_ZP:.12e}
             """
-            objet.append(ob)
-        elif s.NN in range(2,99):
-            ob = f"""
+            command.append(c)
+        elif s.NN in range(2, 99):
+            c = f"""
             {s.YR:.12e} {s.TR:.12e} {s.ZR:.12e} {s.PR:.12e} {s.XR:.12e} {s.DR:.12e}
             """
-            objet.append(ob)
+            command.append(c)
 
-        return ''.join(map(lambda _: _.rstrip(), objet))
+        return ''.join(map(lambda _: _.rstrip(), command)) + '\n'
 
 
 class Objet6(Objet):

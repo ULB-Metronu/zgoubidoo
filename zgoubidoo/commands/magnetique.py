@@ -5,9 +5,19 @@ from .. import ureg, Q_
 
 class Magnet(Command):
     """Base class for all magnetic elements."""
+    PARAMETERS = {
+        'PLACEMENT': [0 * ureg.cm, 0 * ureg.cm, 0 * ureg.degree],
+    }
+
+    def __init__(self, label1='', label2='', *params, with_plt=False, **kwargs):
+        super().__init__(label1, label2, Magnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
     def align(self, *args, **kwargs):
         return self
+
+    @property
+    def patchable(self):
+        return True
 
 
 class CartesianMagnet(Magnet):
@@ -20,105 +30,111 @@ class CartesianMagnet(Magnet):
         super().__init__(label1, label2, CartesianMagnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
     @property
+    def patchable(self):
+        return True
+
+    @property
     def rotation(self):
         return self.ALE or 0.0 * ureg.degree
 
     @property
     def entry(self):
-        return [self.XCE or 0.0 * ureg.cm, self.YCE or 0.0 * ureg.cm]
+        c = self.PLACEMENT
+        return [
+            c[0] + (self.XCE or 0.0 * ureg.cm),
+            c[1] + (self.YCE or 0.0 * ureg.cm),
+            c[2] + self.rotation,
+        ]
 
     @property
-    def exit(self):
-        x = self.XL + (self.XCE or 0.0 * ureg.cm)
-        y = self.entry[1]
-        s = np.sin((self.ALE or 0.0 * ureg.degree))
-        c = np.cos((self.ALE or 0.0 * ureg.degree))
-        return [c * x - s * y, s * x + c * y]
+    def sortie(self):
+        if self.KPOS == 1 or self.KPOS is None:
+            s = np.sin(self.entry[2].to('radian').magnitude)
+            c = np.cos(self.entry[2].to('radian').magnitude)
+            return [
+                self.entry[0] + self.XL * c,
+                self.entry[1] + self.XL * s,
+                self.entry[2]
+            ]
+        elif self.KPOS == 2:
+            x = self.entry[0] + self.XL - (self.XCE or 0.0 * ureg.cm)
+            y = self.entry[1] - (self.YCE or 0.0 * ureg.cm)
+            s = np.sin((self.ALE or 0.0 * ureg.degree))
+            c = np.cos((self.ALE or 0.0 * ureg.degree))
+            return [
+                c * x - s * y,
+                s * x + c * y,
+                self.entry[2] - self.rotation
+            ]
 
-    @property
-    def frame(self):
-        x_offset = 0 * ureg.cm
-        y_offset = 0 * ureg.cm
-        angle = 0
-        if self.KPOS == 1:
-            x_offset = self.exit[0]
-            y_offset = self.exit[1]
-            angle = self.ALE or 0.0 * ureg.degree
-        if self.KPOS == 2:
-            x_offset = self.exit[0]
-            y_offset = 0 * ureg.cm
-            angle = 0.0 * ureg.degree
-        return [x_offset, y_offset, angle]
-
-    def plot(self, artist=None, coords=None):
+    def plot(self, artist=None):
         if artist is None:
             return
 
-        coords = coords or [0.0 * ureg.cm, 0.0 * ureg.cm, 0.0 * ureg.radian]
-        s = np.sin(coords[2].to('radian').magnitude)
-        c = np.cos(coords[2].to('radian').magnitude)
-        global_entry_x = coords[0] + self.entry[0]
-        global_entry_y = coords[1] + self.entry[1]
-        global_exit_x = coords[0] + c * self.exit[0] - s * self.exit[1]
-        global_exit_y = coords[1] + s * self.exit[0] + c * self.exit[1]
-        global_rotation = self.rotation + coords[2]
-
         getattr(artist, 'cartesian_bend')(
-            entry=[global_entry_x, global_entry_y],
-            sortie=[global_exit_x, global_exit_y],
-            rotation=global_rotation,
+            entry=self.entry,
+            sortie=self.sortie,
             width=self.WIDTH,
             color=self.COLOR,
         )
 
 
 class PolarMagnet(Magnet):
-    """Base class for magnetic elements in cartesian coordinates"""
+    """Base class for magnetic elements in polar coordinates"""
     PARAMETERS = {
         'WIDTH': 50 * ureg.cm,
     }
 
-    # 'AT': (0 * ureg.degree, 'Total angular extent of the dipole'),
-    # 'RM': (0 * ureg.kilogauss, 'Reference radius'),
-    # 'ACENT': (0 * ureg.degree, 'Azimuth for positioning of EFBs'),
-
-
     def __init__(self, label1='', label2='', *params, with_plt=False, **kwargs):
-        super().__init__(label1, label2, CartesianMagnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
+        super().__init__(label1, label2, PolarMagnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
     @property
     def angular_opening(self):
-        return self.AT
+        return self.AT or 0 * ureg.degree
 
     @property
     def radius(self):
-        return self.RM
+        return self.RM or 0 * ureg.cm
 
     @property
-    def exit(self):
-        return [0.0 * ureg.cm, 0.0 * ureg.cm]
+    def center(self):
+        c = self.PLACEMENT
+        a = c[2].to('radian').magnitude
+        entry = self.entry
+        return [
+            entry[0] + self.radius * np.sin(a),
+            entry[1] - self.radius * np.cos(a),
+        ]
 
     @property
-    def frame(self):
-        return [0.0 * ureg.cm, 0.0 * ureg.cm, 0.0 * ureg.degree]
+    def entry(self):
+        c = self.PLACEMENT
+        return [
+            c[0] + 0.0 * ureg.cm,
+            c[1] + 0.0 * ureg.cm,
+            c[2] + 0.0 * ureg.degree,
+        ]
 
-    def plot(self, artist=None, coords=None):
+    @property
+    def sortie(self):
+        a = self.angular_opening.to('radian').magnitude
+        c = self.PLACEMENT
+        return [
+            self.center[0] + (c[0]-self.center[0]) * np.cos(a) + (c[1]-self.center[1]) * np.sin(a),
+            self.center[1] + -(c[0]-self.center[0]) * np.sin(a) + (c[1]-self.center[1]) * np.cos(a),
+            c[2] - self.angular_opening,
+        ]
+
+    def plot(self, artist=None):
         if artist is None:
             return
 
-        coords = coords or [0.0 * ureg.cm, 0.0 * ureg.cm, 0.0 * ureg.radian]
-        s = np.sin(coords[2].to('radian').magnitude)
-        c = np.cos(coords[2].to('radian').magnitude)
-        global_entry_x = coords[0] + self.entry[0]
-        global_entry_y = coords[1] + self.entry[1]
-        global_exit_x = coords[0] + c * self.exit[0] - s * self.exit[1]
-        global_exit_y = coords[1] + s * self.exit[0] + c * self.exit[1]
-        global_rotation = self.rotation + coords[2]
-
         getattr(artist, 'polar_bend')(
-            entry=[global_entry_x, global_entry_y],
-            sortie=[global_exit_x, global_exit_y],
-            rotation=global_rotation,
+            entry=self.entry,
+            sortie=self.sortie,
+            center=self.center,
+            radius=self.radius,
+            angle=self.angular_opening,
             width=self.WIDTH,
             color=self.COLOR,
         )
@@ -463,19 +479,19 @@ class Dipole(PolarMagnet):
     PARAMETERS = {
         'IL': (2, 'Print field and coordinates along trajectories'),
         'AT': (0 * ureg.degree, 'Total angular extent of the dipole'),
-        'RM': (0 * ureg.kilogauss, 'Reference radius'),
+        'RM': (0 * ureg.centimeter, 'Reference radius'),
         'ACENT': (0 * ureg.degree, 'Azimuth for positioning of EFBs'),
         'B0': (0 * ureg.kilogauss, 'Reference field'),
         'N': (0, 'Field index (radial quadrupolar)'),
         'B': (0, 'Field index (radial sextupolar)'),
         'G': (0, 'Field index (radial octupolar)'),
         'LAM_E': (0 * ureg.centimeter, 'Entrance fringe field extent (normally ≃ gap size)'),
-        'C0_E': 0,
-        'C1_E': 1,
-        'C2_E': 0,
-        'C3_E': 0,
-        'C4_E': 0,
-        'C5_E': 0,
+        'C0_E': (0, 'Fringe field coefficient C0'),
+        'C1_E': (1, 'Fringe field coefficient C1'),
+        'C2_E': (0, 'Fringe field coefficient C2'),
+        'C3_E': (0, 'Fringe field coefficient C3'),
+        'C4_E': (0, 'Fringe field coefficient C4'),
+        'C5_E': (0, 'Fringe field coefficient C5'),
         'SHIFT_E': (0 * ureg.centimeter, 'Shift of the EFB'),
         'OMEGA_E': 0,
         'THETA_E': 0,
@@ -484,12 +500,12 @@ class Dipole(PolarMagnet):
         'U2_E': (1e9 * ureg.centimeter, 'Entrance EFB linear extent'),
         'R2_E': (1e9 * ureg.centimeter, 'Entrance EFB radius'),
         'LAM_S': (0 * ureg.centimeter, 'Exit fringe field extent (normally ≃ gap size)'),
-        'C0_S': 0,
-        'C1_S': 1,
-        'C2_S': 0,
-        'C3_S': 0,
-        'C4_S': 0,
-        'C5_S': 0,
+        'C0_S': (0, 'Fringe field coefficient C0'),
+        'C1_S': (1, 'Fringe field coefficient C1'),
+        'C2_S': (0, 'Fringe field coefficient C2'),
+        'C3_S': (0, 'Fringe field coefficient C3'),
+        'C4_S': (0, 'Fringe field coefficient C4'),
+        'C5_S': (0, 'Fringe field coefficient C5'),
         'SHIFT_S': (0 * ureg.centimeter, 'Shift of the EFB'),
         'OMEGA_S': 0,
         'THETA_S': 0,
@@ -499,12 +515,12 @@ class Dipole(PolarMagnet):
         'R2_S': (1e9 * ureg.centimeter, 'Exit EFB radius'),
         'LAM_L': (0 * ureg.centimeter, 'Lateral fringe field extent (normally ≃ gap size)'),
         'XI_L': (0.0, 'Flag to activate/deactivate the lateral EFB (0 to deactivate)'),
-        'C0_L': 0,
-        'C1_L': 1,
-        'C2_L': 0,
-        'C3_L': 0,
-        'C4_L': 0,
-        'C5_L': 0,
+        'C0_L': (0, 'Fringe field coefficient C0'),
+        'C1_L': (1, 'Fringe field coefficient C1'),
+        'C2_L': (0, 'Fringe field coefficient C2'),
+        'C3_L': (0, 'Fringe field coefficient C3'),
+        'C4_L': (0, 'Fringe field coefficient C4'),
+        'C5_L': (0, 'Fringe field coefficient C5'),
         'SHIFT_L': (0 * ureg.centimeter, 'Shift of the EFB'),
         'OMEGA_L': 0,
         'THETA_L': 0,
@@ -553,14 +569,14 @@ class Dipole(PolarMagnet):
             if s.RS == 0:
                 s.RS = s.RM
             c = f"""
-                {s.KPOS}
-                {s.RE.to('centimeter').magnitude:.12e} {s.TE.to('radian').magnitude:.12e} {s.RS.to('centimeter').magnitude:.12e} {s.TS.to('radian').magnitude:.12e}
+        {s.KPOS}
+        {s.RE.to('centimeter').magnitude:.12e} {s.TE.to('radian').magnitude:.12e} {s.RS.to('centimeter').magnitude:.12e} {s.TS.to('radian').magnitude:.12e}
                 """
             command.append(c)
         elif s.KPOS == 1:
             c = f"""
-                {s.KPOS}
-                {s.DP:.12e}
+        {s.KPOS}
+        {s.DP:.12e}
                 """
             command.append(c)
 
@@ -1576,7 +1592,6 @@ class Quadrupole(CartesianMagnet):
         return self.B0 / self.R0
 
     @gradient.setter
-    # @ureg.wraps(ret=None, args='tesla / meter')
     def gradient(self, g):
         self.B0 = g * self.R0
 
