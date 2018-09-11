@@ -32,7 +32,7 @@ def plot_beamline(beamline=None, tracks=None, artist=None, with_elements=True, r
                 tracks_x = np.append(tracks_x, (ref[0] + e.entry[0]).to('cm').magnitude + xx)
                 tracks_y = np.append(tracks_y, (ref[1] + e.entry[1]).to('cm').magnitude + yy)
         artist.plot(e.entry[0], e.entry[1], 'gs', ms=4)
-        artist.plot(e.sortie[0], e.sortie[1], 'k^', ms=10)
+        artist.plot(e.sortie[0], e.sortie[1], 'ks', ms=4)
         # artist.plot(tracks_x, tracks_y, 'b-', ms=1)
         ref[0] = e.sortie[0]
         ref[1] = e.sortie[1]

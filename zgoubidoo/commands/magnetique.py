@@ -43,7 +43,7 @@ class CartesianMagnet(Magnet):
         return [
             c[0] + (self.XCE or 0.0 * ureg.cm),
             c[1] + (self.YCE or 0.0 * ureg.cm),
-            -c[2] + (self.ALE or 0.0 * ureg.degree),
+            c[2] + self.rotation,
         ]
 
     @property
@@ -64,7 +64,7 @@ class CartesianMagnet(Magnet):
             return [
                 c * x - s * y,
                 s * x + c * y,
-                self.entry[2] - (self.ALE or 0.0 * ureg.degree)
+                self.entry[2] - self.rotation
             ]
 
     def plot(self, artist=None):
@@ -102,7 +102,7 @@ class PolarMagnet(Magnet):
         a = c[2].to('radian').magnitude
         entry = self.entry
         return [
-            entry[0] - self.radius * np.sin(a),
+            entry[0] + self.radius * np.sin(a),
             entry[1] - self.radius * np.cos(a),
         ]
 
@@ -122,7 +122,7 @@ class PolarMagnet(Magnet):
         return [
             self.center[0] + (c[0]-self.center[0]) * np.cos(a) + (c[1]-self.center[1]) * np.sin(a),
             self.center[1] + -(c[0]-self.center[0]) * np.sin(a) + (c[1]-self.center[1]) * np.cos(a),
-            c[2] + self.angular_opening,
+            c[2] - self.angular_opening,
         ]
 
     def plot(self, artist=None):

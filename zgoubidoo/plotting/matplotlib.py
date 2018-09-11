@@ -23,20 +23,7 @@ class ZgoubiMpl(ZgoubiPlot):
     def polar_bend(self, entry, sortie, center, radius, angle, width, color='gray'):
 
         def do_frame():
-            # Arc(xy, width, height, angle=0.0, theta1=0.0, theta2=360.0, **kwargs)[source]
-            self._ax.add_patch(
-                patches.Arc(
-                    (
-                        center[0].to('cm').magnitude,
-                        center[1].to('cm').magnitude,
-                    ),
-                    (radius + width).to('cm').magnitude,
-                    (radius + width).to('cm').magnitude,
-                    angle=0.0,
-                    theta1=90 - angle.to('degree').magnitude,
-                    theta2=90
-                )
-            )
+            pass
 
         def do_box():
             # Wedge(center, r, theta1, theta2, width=None, **kwargs)[source]
@@ -47,8 +34,8 @@ class ZgoubiMpl(ZgoubiPlot):
                         center[1].to('cm').magnitude,
                     ),
                     (radius + width / 2.0).to('cm').magnitude,
-                    90 - entry[2].to('degree').magnitude - angle.to('degree').magnitude,
-                    90 - entry[2].to('degree').magnitude,
+                    90 + entry[2].to('degree').magnitude - angle.to('degree').magnitude,
+                    90 + entry[2].to('degree').magnitude,
                     width=width.to('cm').magnitude,
                     alpha=0.2,
                     facecolor=self._palette.get(color, 'gray'),
