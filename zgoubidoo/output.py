@@ -1,5 +1,5 @@
 import pandas as pd
-
+import numpy as np
 
 def read_fai_file(filename='zgoubi.fai'):
     # Header line from the Zgoubi .plt file
@@ -39,6 +39,7 @@ def read_plt_file(filename='zgoubi.plt'):
 
 
 def read_matrix_file(filename='zgoubi.MATRIX.out'):
+    # Cleaned up header lines
     headers = [
         'R11', 'R12', 'R13', 'R14', 'R15', 'R16',
         'R21', 'R22', 'R23', 'R24', 'R25', 'R26',

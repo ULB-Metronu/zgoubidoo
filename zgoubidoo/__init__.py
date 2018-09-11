@@ -8,6 +8,7 @@ Q_ = ureg.Quantity
 
 from . import commands
 from . import plotting
+from . import twiss
 from .input import Input
 from .output import read_fai_file, read_plt_file, read_matrix_file
 from .zgoubi import Zgoubi, ZgoubiException
