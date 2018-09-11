@@ -3,7 +3,7 @@ import pandas as pd
 from .commands import Magnet
 
 
-def compute_alpha_from_matrix(m, twiss, plane='X'):
+def compute_alpha_from_matrix(m, twiss, plane=1):
     p = 1 if plane == 1 else 3
     v = 1 if plane == 1 else 2
     R11 = m[f"R{p}{p}"]
@@ -13,36 +13,38 @@ def compute_alpha_from_matrix(m, twiss, plane='X'):
     ALPHA = twiss[f"ALPHA{v}{v}"]
     BETA = twiss[f"BETA{v}{v}"]
     GAMMA = twiss[f"GAMMA{v}{v}"]
-    return -R11 * R21 * BETA + (R11 * R22 - R12 * R21) * ALPHA - R12 * R22 * GAMMA
+    return -R11 * R21 * BETA + (R11 * R22 + R12 * R21) * ALPHA - R12 * R22 * GAMMA
 
 
-def compute_beta_from_matrix(m, twiss, plane='X'):
+def compute_beta_from_matrix(m, twiss, plane=1):
     p = 1 if plane == 1 else 3
     v = 1 if plane == 1 else 2
     R11 = m[f"R{p}{p}"]
     R12 = m[f"R{p}{p+1}"]
+    #R21 = m[f"R{p+1}{p}"]
+    #R22 = m[f"R{p+1}{p+1}"]
+    ALPHA = twiss[f"ALPHA{v}{v}"]
+    BETA = twiss[f"BETA{v}{v}"]
+    GAMMA = twiss[f"GAMMA{v}{v}"]
+    _ = R11**2 * BETA - 2.0 * R11 * R12 * ALPHA + R12**2 * GAMMA
+    #assert(_ > 0)
+    return _
+
+
+def compute_gamma_from_matrix(m, twiss, plane=1):
+    p = 1 if plane == 1 else 3
+    v = 1 if plane == 1 else 2
+    #R11 = m[f"R{p}{p}"]
+    #R12 = m[f"R{p}{p+1}"]
     R21 = m[f"R{p+1}{p}"]
     R22 = m[f"R{p+1}{p+1}"]
     ALPHA = twiss[f"ALPHA{v}{v}"]
     BETA = twiss[f"BETA{v}{v}"]
     GAMMA = twiss[f"GAMMA{v}{v}"]
-    return R11**2 * BETA - 2.0 * R11 * R12 * ALPHA + R12**2 * GAMMA
+    return R21**2 * BETA - 2.0 * R21 * R22 * ALPHA + R22**2 * GAMMA
 
 
-def compute_gamma_from_matrix(m, twiss, plane='X'):
-    p = 1 if plane == 1 else 3
-    v = 1 if plane == 1 else 2
-    R11 = m[f"R{p}{p}"]
-    R12 = m[f"R{p}{p+1}"]
-    R21 = m[f"R{p+1}{p}"]
-    R22 = m[f"R{p+1}{p+1}"]
-    ALPHA = twiss[f"ALPHA{v}{v}"]
-    BETA = twiss[f"BETA{v}{v}"]
-    GAMMA = twiss[f"GAMMA{v}{v}"]
-    return R11**2 * BETA - 2.0 * R11 * R12 * ALPHA + R12**2 * GAMMA
-
-
-def compute_mu_from_matrix(m, twiss, plane='X'):
+def compute_mu_from_matrix(m, twiss, plane=1):
     return 0.0
 
 
@@ -52,7 +54,7 @@ def compute_jacobian_from_matrix(m, plane):
     R12 = m[f"R{p}{p+1}"]
     R21 = m[f"R{p+1}{p}"]
     R22 = m[f"R{p+1}{p+1}"]
-    return  R11 * R22 - R12 * R21
+    return R11 * R22 - R12 * R21
 
 
 def compute_twiss(matrix, twiss_init):
@@ -64,8 +66,8 @@ def compute_twiss(matrix, twiss_init):
     matrix['GAMMA22'] = compute_gamma_from_matrix(matrix, twiss_init, 2)
     matrix['MU1'] = compute_mu_from_matrix(matrix, twiss_init, 1)
     matrix['MU2'] = compute_mu_from_matrix(matrix, twiss_init, 2)
-    matrix['DET1'] = compute_jacobian_from_matrix(m, 1)
-    matrix['DET2'] = compute_jacobian_from_matrix(m, 2)
+    matrix['DET1'] = compute_jacobian_from_matrix(matrix, 1)
+    matrix['DET2'] = compute_jacobian_from_matrix(matrix, 2)
     return matrix
 
 

@@ -1,8 +1,9 @@
+import logging
 from .. import ureg, Q_
 from pint import UndefinedUnitError
 import uuid
 
-ZGOUBI_LABEL_LENGTH = 10
+ZGOUBI_LABEL_LENGTH = 10  # Used to be 8 on older versions
 
 
 class ZgoubidoException(Exception):
