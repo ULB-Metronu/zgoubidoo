@@ -1,6 +1,7 @@
 import numpy as np
 from .commands import Command, ZgoubidoException
 from .. import ureg, Q_
+from ..frame import Frame
 
 
 class Magnet(Command):
@@ -78,7 +79,7 @@ class CartesianMagnet(Magnet):
     def plot(self, artist=None):
         if artist is None:
             return
-        artist.cartesian_magnet(entry=self.entry, sortie=self.sortie, width=self.WIDTH, color=self.COLOR)
+        getattr(artist, CartesianMagnet.__name__.lower())(self)
 
 
 class PolarMagnet(Magnet):
@@ -101,21 +102,17 @@ class PolarMagnet(Magnet):
     @property
     def center(self):
         c = self.PLACEMENT
-        a = c[2].to('radian').magnitude
+        a = c.tz.to('radian').magnitude
         entry = self.entry
         return [
-            entry[0] + self.radius * np.sin(a),
-            entry[1] - self.radius * np.cos(a),
+            entry[0] + self.radius * np.sin(a) * np.sign(np.cos(self.entry.tz.to('radian').magnitude)),
+            entry[1] - self.radius * np.cos(a) * np.sign(np.cos(self.entry.tz.to('radian').magnitude)),
         ]
 
     @property
     def entry(self):
         c = self.PLACEMENT
-        return [
-            c[0] + 0.0 * ureg.cm,
-            c[1] + 0.0 * ureg.cm,
-            c[2] + 0.0 * ureg.degree,
-        ]
+        return Frame()
 
     @property
     def sortie(self):
@@ -124,22 +121,13 @@ class PolarMagnet(Magnet):
         return [
             self.center[0] + (c[0]-self.center[0]) * np.cos(a) + (c[1]-self.center[1]) * np.sin(a),
             self.center[1] + -(c[0]-self.center[0]) * np.sin(a) + (c[1]-self.center[1]) * np.cos(a),
-            c[2] - self.angular_opening,
+            c.tz - self.angular_opening,
         ]
 
     def plot(self, artist=None):
         if artist is None:
             return
-
-        getattr(artist, 'polar_bend')(
-            entry=self.entry,
-            sortie=self.sortie,
-            center=self.center,
-            radius=self.radius,
-            angle=self.angular_opening,
-            width=self.WIDTH,
-            color=self.COLOR,
-        )
+        getattr(artist, PolarMagnet.__name__.lower())(self)
 
 
 class AGSMainMagnet(Magnet):
