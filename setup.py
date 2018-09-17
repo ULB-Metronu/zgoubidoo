@@ -35,6 +35,7 @@ setup(
         'pandas>=0.22.0',
         'scipy>=1.0.0',
         'pint',
+        'matplotlib',
     ],
     package_data={'zgoubidoo': []},
 )
