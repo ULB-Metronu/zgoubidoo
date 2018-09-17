@@ -49,7 +49,7 @@ class ZgoubiMpl(ZgoubiPlot):
         if self._with_frames:
             do_frame()
 
-    def cartesian_bend(self, entry, sortie, width, color='gray'):
+    def cartesian_magnet(self, entry, sortie, width, color='gray'):
         def do_frame():
             self._ax.annotate(s='',
                               xy=(

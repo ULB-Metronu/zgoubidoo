@@ -3,6 +3,13 @@ from ..input import Input
 from .. import ureg
 from ..commands import CartesianMagnet, PolarMagnet
 
+def plot(beamline=None, artist=None, reference=None):
+    if beamline is None or not isinstance(beamline, Input):
+        raise Exception("'beamline' must be a Zgoubi input object.")
+    if artist is None:
+        raise Exception("Unable to plot if no arist is provided.")
+
+    ref = reference or
 
 def plot_beamline(beamline=None, tracks=None, artist=None, with_elements=True, reference=None):
     if beamline is None or not isinstance(beamline, Input):

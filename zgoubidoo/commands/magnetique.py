@@ -19,6 +19,10 @@ class Magnet(Command):
     def patchable(self):
         return True
 
+    @property
+    def plotable(self):
+        return True
+
 
 class CartesianMagnet(Magnet):
     """Base class for magnetic elements in cartesian coordinates"""
@@ -30,19 +34,23 @@ class CartesianMagnet(Magnet):
         super().__init__(label1, label2, CartesianMagnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
     @property
-    def patchable(self):
-        return True
-
-    @property
     def rotation(self):
         return self.ALE or 0.0 * ureg.degree
+
+    @property
+    def x_offset(self):
+        return self.XCE or 0.0 * ureg.cm
+
+    @property
+    def y_offset(self):
+        return self.YCE or 0.0 * ureg.cm
 
     @property
     def entry(self):
         c = self.PLACEMENT
         return [
-            c[0] + (self.XCE or 0.0 * ureg.cm),
-            c[1] + (self.YCE or 0.0 * ureg.cm),
+            c[0] + self.x_offset,
+            c[1] + self._yoffset,
             c[2] + self.rotation,
         ]
 
@@ -70,13 +78,7 @@ class CartesianMagnet(Magnet):
     def plot(self, artist=None):
         if artist is None:
             return
-
-        getattr(artist, 'cartesian_bend')(
-            entry=self.entry,
-            sortie=self.sortie,
-            width=self.WIDTH,
-            color=self.COLOR,
-        )
+        artist.cartesian_magnet(entry=self.entry, sortie=self.sortie, width=self.WIDTH, color=self.COLOR)
 
 
 class PolarMagnet(Magnet):
@@ -507,7 +509,7 @@ class Dipole(PolarMagnet):
         'C4_S': (0, 'Fringe field coefficient C4'),
         'C5_S': (0, 'Fringe field coefficient C5'),
         'SHIFT_S': (0 * ureg.centimeter, 'Shift of the EFB'),
-        'OMEGA_S': 0,
+        'OMEGA_S': (0 * ureg.degree, ''),
         'THETA_S': 0,
         'R1_S': (1e9 * ureg.centimeter, 'Exit EFB radius'),
         'U1_S': (1e9 * ureg.centimeter, 'Exit EFB linear extent'),
@@ -552,7 +554,7 @@ class Dipole(PolarMagnet):
         {s.OMEGA_E:.12e} {s.THETA_E:.12e} {s.R1_E.to('centimeter').magnitude:.12e} {s.U1_E.to('centimeter').magnitude:.12e} {s.U2_E.to('centimeter').magnitude:.12e} {s.R2_E.to('centimeter').magnitude:.12e}
         {s.LAM_S.to('centimeter').magnitude:.12e} 0.0
         0 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e} {s.SHIFT_S.to('centimeter').magnitude:.12e}
-        {s.OMEGA_S:.12e} {s.THETA_S:.12e} {s.R1_S.to('centimeter').magnitude:.12e} {s.U1_S.to('centimeter').magnitude:.12e} {s.U2_S.to('centimeter').magnitude:.12e} {s.R2_S.to('centimeter').magnitude:.12e}
+        {s.OMEGA_S.to('degree').magnitude:.12e} {s.THETA_S:.12e} {s.R1_S.to('centimeter').magnitude:.12e} {s.U1_S.to('centimeter').magnitude:.12e} {s.U2_S.to('centimeter').magnitude:.12e} {s.R2_S.to('centimeter').magnitude:.12e}
         {s.LAM_L.to('centimeter').magnitude:.12e} {s.XI_L}
         0 {s.C0_L:.12e} {s.C1_L:.12e} {s.C2_L:.12e} {s.C3_L:.12e} {s.C4_L:.12e} {s.C5_L:.12e} {s.SHIFT_L.to('centimeter').magnitude:.12e}
         {s.OMEGA_L:.12e} {s.THETA_L:.12e} {s.R1_L.to('centimeter').magnitude:.12e} {s.U1_L.to('centimeter').magnitude:.12e} {s.U2_L.to('centimeter').magnitude:.12e} {s.R2_L.to('centimeter').magnitude:.12e} {s.RM3.to('centimeter').magnitude:.12e}
