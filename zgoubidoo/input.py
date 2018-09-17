@@ -1,17 +1,18 @@
-from .commands import *
+from typing import Callable
+from .commands import Command
 
 
 class Input:
     """Zgoubi input data."""
 
-    def __init__(self, name='beamline', line=None):
+    def __init__(self, name: str='beamline', line=None):
         self._name = name
         self._line = list(line or [])
 
     def __str__(self):
         return self.build(self._name, self._line)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return str(self)
 
     def __call__(self, filename='zgoubi.dat'):
@@ -47,6 +48,9 @@ class Input:
             item = (item,)
         item = tuple(map(lambda x: x.KEYWORD if isinstance(x, MetaCommand) else x, item))
         return list(filter(lambda x: x.KEYWORD in item, self._line)), item
+
+    def apply(self, f: Callable[[Command],Command]):
+        self._line = list(map(f, self._line))
 
     @property
     def line(self):

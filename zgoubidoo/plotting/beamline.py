@@ -2,14 +2,10 @@ import numpy as np
 from ..input import Input
 from .. import ureg
 from ..commands import CartesianMagnet, PolarMagnet
+from .zgoubiplot import ZgoubiPlot
 
 
-def plot(beamline=None, tracks=None, artist=None, with_elements=True):
-    if beamline is None or not isinstance(beamline, Input):
-        raise Exception("'line' must be a Zgoubi input object.")
-    if artist is None:
-        raise Exception("Unable to plot if no artist is provided.")
-
+def plot(beamline: Input=None, tracks=None, artist: ZgoubiPlot=None, with_elements=True):
     #tracks_x = np.array(ref[0])
     #tracks_y = np.array(ref[1])
     for e in beamline.line:
@@ -28,7 +24,7 @@ def plot(beamline=None, tracks=None, artist=None, with_elements=True):
         #         yy = s * x + c * y
         #         tracks_x = np.append(tracks_x, (ref[0] + e.entry[0]).to('cm').magnitude + xx)
         #         tracks_y = np.append(tracks_y, (ref[1] + e.entry[1]).to('cm').magnitude + yy)
-        artist.plot(e.entry[0], e.entry[1], 'gs', ms=4)
-        artist.plot(e.sortie[0], e.sortie[1], 'ks', ms=4)
+        artist.plot(e.entry.x, e.entry.y, 'gs', ms=4)
+        artist.plot(e.sortie.x, e.sortie.y, 'ks', ms=4)
         # artist.plot(tracks_x, tracks_y, 'b-', ms=1)
 

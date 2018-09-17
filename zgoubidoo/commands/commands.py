@@ -73,20 +73,20 @@ class Command(metaclass=MetaCommand):
         else:
             self._attributes[a] = v
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return str(self)
 
-    def __str__(s):
+    def __str__(self) -> str:
         return f"""
-        '{s.KEYWORD}' {s.LABEL1} {s.LABEL2}
+        '{self.KEYWORD}' {self.LABEL1} {self.LABEL2}
         """
 
     @property
-    def patchable(self):
+    def patchable(self) -> bool:
         return False
 
     @property
-    def plotable(self):
+    def plotable(self) -> bool:
         return False
 
 
@@ -485,7 +485,6 @@ class Ymy(Command):
     """Reverse signs of Y and Z reference axes."""
     KEYWORD = 'YMY'
 
-    def __str__(s):
-        return f"""
-        '{s.KEYWORD}' {s.LABEL1} {s.LABEL2}
-    """
+    @property
+    def patchable(self) -> bool:
+        return True

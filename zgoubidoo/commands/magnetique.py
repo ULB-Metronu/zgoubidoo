@@ -2,6 +2,7 @@ import numpy as np
 from .commands import Command, ZgoubidoException
 from .. import ureg, Q_
 from ..frame import Frame
+from ..plotting import ZgoubiPlot
 
 
 class Magnet(Command):
@@ -88,7 +89,7 @@ class PolarMagnet(Magnet):
         'WIDTH': 50 * ureg.cm,
     }
 
-    def __init__(self, label1='', label2='', *params, with_plt=False, **kwargs):
+    def __init__(self, label1: str='', label2: str='', *params, **kwargs):
         super().__init__(label1, label2, PolarMagnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
     @property
@@ -101,32 +102,32 @@ class PolarMagnet(Magnet):
 
     @property
     def center(self):
-        c = self.PLACEMENT
-        a = c.tz.to('radian').magnitude
-        entry = self.entry
+        tx = self.entry.tx.to('radian').magnitude
+        tz = self.entry.tz.to('radian').magnitude
         return [
-            entry[0] + self.radius * np.sin(a) * np.sign(np.cos(self.entry.tz.to('radian').magnitude)),
-            entry[1] - self.radius * np.cos(a) * np.sign(np.cos(self.entry.tz.to('radian').magnitude)),
+            self.entry.x + self.radius * np.sin(tz) * np.sign(np.cos(tx)),
+            self.entry.y - self.radius * np.cos(tz) * np.sign(np.cos(tx)),
         ]
 
     @property
     def entry(self):
-        c = self.PLACEMENT
-        return Frame()
+        frame = self.PLACEMENT
+        return frame
 
     @property
     def sortie(self):
         a = self.angular_opening.to('radian').magnitude
-        c = self.PLACEMENT
-        return [
-            self.center[0] + (c[0]-self.center[0]) * np.cos(a) + (c[1]-self.center[1]) * np.sin(a),
-            self.center[1] + -(c[0]-self.center[0]) * np.sin(a) + (c[1]-self.center[1]) * np.cos(a),
-            c.tz - self.angular_opening,
-        ]
+        frame = self.PLACEMENT.copy()
+        x = self.center[0] + (frame.x-self.center[0]) * np.cos(a) + (frame.y-self.center[1]) * np.sin(a)
+        y = self.center[1] + -(frame.x-self.center[0]) * np.sin(a) + (frame.y-self.center[1]) * np.cos(a)
+        tz = frame.tz - self.angular_opening
+        frame.x = x
+        frame.y = y
+        frame.tz = tz
+        print(frame)
+        return frame
 
-    def plot(self, artist=None):
-        if artist is None:
-            return
+    def plot(self, artist: ZgoubiPlot):
         getattr(artist, PolarMagnet.__name__.lower())(self)
 
 

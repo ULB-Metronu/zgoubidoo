@@ -6,7 +6,7 @@ from .zgoubiplot import ZgoubiPlot
 
 
 class ZgoubiMpl(ZgoubiPlot):
-    def __init__(self, ax=None, with_boxes=True, with_frames=True):
+    def __init__(self, ax=None, with_boxes: bool=True, with_frames: bool=True):
         super().__init__(with_boxes, with_frames)
         if ax is None:
             self._init_plot()
@@ -17,16 +17,14 @@ class ZgoubiMpl(ZgoubiPlot):
         self._fig = plt.figure()
         self._ax = self._fig.add_subplot(111)
 
-    def plot(self, *args, **kwargs):
+    def plot(self, *args, **kwargs) -> None:
         self._ax.plot(*args, **kwargs)
 
-    def polarmagnet(self, magnet):
-
-        def do_frame():
+    def polarmagnet(self, magnet) -> None:
+        def do_frame() -> None:
             pass
 
-        def do_box():
-            # Wedge(center, r, theta1, theta2, width=None, **kwargs)[source]
+        def do_box() -> None:
             self._ax.add_patch(
                 patches.Wedge(
                     (
@@ -49,7 +47,7 @@ class ZgoubiMpl(ZgoubiPlot):
         if self._with_frames:
             do_frame()
 
-    def cartesianmagnet(self, magnet):
+    def cartesianmagnet(self) -> None:
         def do_frame():
             self._ax.annotate(s='',
                               xy=(
