@@ -27,7 +27,7 @@ class MetaCommand(type):
 
 
 class Command(metaclass=MetaCommand):
-    KEYWORD = ''
+    KEYWORD: str = ''
 
     PARAMETERS = {
         'LABEL1': '',
