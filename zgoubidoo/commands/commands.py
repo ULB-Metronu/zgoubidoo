@@ -2,6 +2,7 @@ import logging
 from .. import ureg, Q_
 from pint import UndefinedUnitError
 import uuid
+from ..frame import Frame
 
 ZGOUBI_LABEL_LENGTH = 10  # Used to be 8 on older versions
 
@@ -34,7 +35,7 @@ class Command(metaclass=MetaCommand):
         'LABEL2': '',
     }
 
-    def __init__(self, label1='', label2='', *params, **kwargs):
+    def __init__(self, label1: str='', label2: str='', *params, **kwargs):
         self._attributes = {}
         for p in (Command.PARAMETERS, self.PARAMETERS,) + params + (
                 {
@@ -338,36 +339,6 @@ class Matrix(Command):
     """Calculation of transfer coefficients, periodic parameters."""
     KEYWORD = 'MATRIX'
 
-# --- USEFULL COMMENTS ---
-
-# - IORD :
-#    = 0 : MATRIX is inhibited (equivalent to FAISCEAU, whatever IFOC);
-#    = 1 : the first order transfer matrix [Rij ] is calculated, from a third order approximation of the
-#          coordinates. Use OBJET(KOBJ = 5[.NN, NN=01,99]), that generates up to 99*11 sets of initial
-    # coordi- nates. In this case, up to ninety nine matrices may be calculated, each one wrt. to the
-    # reference trajectory of concern;
-#    = 2 : fifth order Taylor expansions are used for the calculation of the first order transfer matrix
-    # [Rij] and of the second order matrix [Tijk]. Other higher order coefficients are also calculated.
-    # Use OBJET (KOBJ = 6) that generates 61 sets of initial coordinates.
-# - IFOC :
-#    = 0 : the transfer coefficients are calculated at the location of MATRIX, and with respect to the
-    # reference trajectory;
-#    = 1 : the transfer coefficients are calculated at the horizontal focus closest to MATRIX
-    # (deter- mined automatically);
-#    = 2 : no change of reference frame is performed : the coordinates refer to the current frame.
-
-
-# --- PERIODIC STRUCTURES ---
-# IFOC = 10 + NPeriod, then, from the 1-turn transport matrix as obtained in the way described above,
-    # MATRIX calculates periodic parameters characteristic of the structure such as optical functions
-    # and tune numbers, assuming that it is NPeriod-periodic, and in the coupled hypothesis, based on
-    # the Edwards-Teng method;
-# IORD = 2 additional periodic parameters are computed such as chromaticities, beta-function mo- mentum
-    # dependence, etc.;
-
-#Addition of zgoubi.MATRIX.out next to IORD, IFOC will cause stacking of MATRIX output data into
-    # zgoubi.MATRIX.out file (convenient for use with e.g. gnuplot type of data treatment software).
-
     PARAMETERS = {
         'IORD': 1,
         'IFOC': (11, 'If IFOC=11, periodic parameters (single pass)'),
@@ -488,3 +459,9 @@ class Ymy(Command):
     @property
     def patchable(self) -> bool:
         return True
+
+    @property
+    def sortie(self):
+        frame = Frame(coords=self.PLACEMENT.coordinates.copy())
+        frame.tx = 180 * ureg.degree
+        return frame

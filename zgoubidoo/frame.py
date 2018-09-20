@@ -18,11 +18,12 @@ class Frame:
                                   0 * ureg.degree
                                   ]
 
-    def __copy__(self):
-        return Frame(coords=self._coords)
-
     def __getitem__(self, item):
         return self._coords[item]
+
+    @property
+    def coordinates(self):
+        return self._coords
 
     @property
     def x(self):

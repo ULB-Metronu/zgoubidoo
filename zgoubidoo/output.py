@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
 
-def read_fai_file(filename='zgoubi.fai'):
+
+def read_fai_file(filename='zgoubi.fai') -> pd.DataFrame:
     # Header line from the Zgoubi .plt file
     with open(filename) as file:
         headers = list(map(lambda s: s.strip(' '), file.read().split('\n')[2].split(',')))
@@ -14,7 +15,7 @@ def read_fai_file(filename='zgoubi.fai'):
                          )
 
 
-def read_plt_file(filename='zgoubi.plt'):
+def read_plt_file(filename='zgoubi.plt') -> pd.DataFrame:
     # Header line from the Zgoubi .plt file
     with open(filename) as file:
         headers = list(map(lambda s: s.strip(' '), file.read().split('\n')[2].split(',')))
@@ -38,7 +39,7 @@ def read_plt_file(filename='zgoubi.plt'):
     return df
 
 
-def read_matrix_file(filename='zgoubi.MATRIX.out'):
+def read_matrix_file(filename='zgoubi.MATRIX.out') -> pd.DataFrame:
     # Cleaned up header lines
     headers = [
         'R11', 'R12', 'R13', 'R14', 'R15', 'R16',

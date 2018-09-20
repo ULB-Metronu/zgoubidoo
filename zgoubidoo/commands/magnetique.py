@@ -8,21 +8,21 @@ from ..plotting import ZgoubiPlot
 class Magnet(Command):
     """Base class for all magnetic elements."""
     PARAMETERS = {
-        'PLACEMENT': [0 * ureg.cm, 0 * ureg.cm, 0 * ureg.degree],
+        'PLACEMENT': Frame(),
     }
 
-    def __init__(self, label1='', label2='', *params, with_plt=False, **kwargs):
+    def __init__(self, label1='', label2='', *params, **kwargs):
         super().__init__(label1, label2, Magnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
     def align(self, *args, **kwargs):
         return self
 
     @property
-    def patchable(self):
+    def patchable(self) -> bool:
         return True
 
     @property
-    def plotable(self):
+    def plotable(self) -> bool:
         return True
 
 
@@ -32,7 +32,7 @@ class CartesianMagnet(Magnet):
         'WIDTH': 50 * ureg.cm,
     }
 
-    def __init__(self, label1='', label2='', *params, with_plt=False, **kwargs):
+    def __init__(self, label1='', label2='', *params, **kwargs):
         super().__init__(label1, label2, CartesianMagnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
     @property
@@ -105,8 +105,8 @@ class PolarMagnet(Magnet):
         tx = self.entry.tx.to('radian').magnitude
         tz = self.entry.tz.to('radian').magnitude
         return [
-            self.entry.x + self.radius * np.sin(tz) * np.sign(np.cos(tx)),
-            self.entry.y - self.radius * np.cos(tz) * np.sign(np.cos(tx)),
+            self.entry.x + self.radius * np.sin(tz),
+            self.entry.y - self.radius * np.cos(tz) * np.cos(tx),
         ]
 
     @property
@@ -117,14 +117,13 @@ class PolarMagnet(Magnet):
     @property
     def sortie(self):
         a = self.angular_opening.to('radian').magnitude
-        frame = self.PLACEMENT.copy()
+        frame = Frame(coords=self.PLACEMENT.coordinates.copy())
         x = self.center[0] + (frame.x-self.center[0]) * np.cos(a) + (frame.y-self.center[1]) * np.sin(a)
         y = self.center[1] + -(frame.x-self.center[0]) * np.sin(a) + (frame.y-self.center[1]) * np.cos(a)
         tz = frame.tz - self.angular_opening
         frame.x = x
         frame.y = y
         frame.tz = tz
-        print(frame)
         return frame
 
     def plot(self, artist: ZgoubiPlot):
@@ -523,12 +522,12 @@ class Dipole(PolarMagnet):
         'IORDRE': 2,
         'Resol': 10,
         'XPAS': (1 * ureg.millimeter, 'Integration step'),
-        'KPOS': 2,
+        'KPOS': 1,
         'RE': 0 * ureg.millimeter,
         'TE': 0 * ureg.radian,
         'RS': 0 * ureg.millimeter,
         'TS': 0 * ureg.radian,
-        'DP': 0,
+        'DP': 1.0,
     }
 
     def __str__(s):
