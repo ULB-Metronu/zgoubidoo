@@ -24,11 +24,11 @@ class Zgoubi:
         :param path: path to the simulator executable (default: lookup using 'which')
         :param kwargs:
         """
-        self._executable = executable
-        self._path = path
+        self._executable: str = executable
+        self._path: str = path
 
     @property
-    def executable(self):
+    def executable(self) -> str:
         return self._get_exec()
 
     def __call__(self, _, debug=False):
@@ -69,7 +69,7 @@ class Zgoubi:
         except FileNotFoundError:
             raise ZgoubiException("Executation terminated with errors.")
 
-    def _get_exec(self):
+    def _get_exec(self) -> str:
         """Retrive the path to the simulator executable."""
         if self._path is not None:
             return os.path.join(self._path, self._executable)

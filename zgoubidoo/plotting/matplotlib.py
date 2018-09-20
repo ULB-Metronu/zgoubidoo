@@ -6,7 +6,7 @@ from .zgoubiplot import ZgoubiPlot
 
 
 class ZgoubiMpl(ZgoubiPlot):
-    def __init__(self, ax=None, with_boxes=True, with_frames=True):
+    def __init__(self, ax=None, with_boxes: bool=True, with_frames: bool=True):
         super().__init__(with_boxes, with_frames)
         if ax is None:
             self._init_plot()
@@ -17,29 +17,27 @@ class ZgoubiMpl(ZgoubiPlot):
         self._fig = plt.figure()
         self._ax = self._fig.add_subplot(111)
 
-    def plot(self, *args, **kwargs):
+    def plot(self, *args, **kwargs) -> None:
         self._ax.plot(*args, **kwargs)
 
-    def polar_bend(self, entry, sortie, center, radius, angle, width, color='gray'):
-
-        def do_frame():
+    def polarmagnet(self, magnet) -> None:
+        def do_frame() -> None:
             pass
 
-        def do_box():
-            # Wedge(center, r, theta1, theta2, width=None, **kwargs)[source]
+        def do_box() -> None:
             self._ax.add_patch(
                 patches.Wedge(
                     (
-                        center[0].to('cm').magnitude,
-                        center[1].to('cm').magnitude,
+                        magnet.center[0].to('cm').magnitude,
+                        magnet.center[1].to('cm').magnitude,
                     ),
-                    (radius + width / 2.0).to('cm').magnitude,
-                    90 + entry[2].to('degree').magnitude - angle.to('degree').magnitude,
-                    90 + entry[2].to('degree').magnitude,
-                    width=width.to('cm').magnitude,
+                    (magnet.radius + magnet.WIDTH / 2.0).to('cm').magnitude,
+                    90 + magnet.sortie.tx.to('degree').magnitude + magnet.entry.tz.to('degree').magnitude - magnet.angular_opening.to('degree').magnitude,
+                    90 + magnet.sortie.tx.to('degree').magnitude + magnet.entry.tz.to('degree').magnitude,
+                    width=magnet.WIDTH.to('cm').magnitude,
                     alpha=0.2,
-                    facecolor=self._palette.get(color, 'gray'),
-                    edgecolor=self._palette.get(color, 'gray'),
+                    facecolor=self._palette.get(magnet.color, 'gray'),
+                    edgecolor=self._palette.get(magnet.color, 'gray'),
                     linewidth=2,
                 )
             )
@@ -49,7 +47,7 @@ class ZgoubiMpl(ZgoubiPlot):
         if self._with_frames:
             do_frame()
 
-    def cartesian_magnet(self, entry, sortie, width, color='gray'):
+    def cartesianmagnet(self) -> None:
         def do_frame():
             self._ax.annotate(s='',
                               xy=(

@@ -87,7 +87,7 @@ def align_tracks(tracks, align_on='X', identifier='LET', reference_track='O'):
     return data, ref
 
 
-def compute_transfer_matrix(line, tracks, alignment='X'):
+def compute_transfer_matrix(line, tracks, alignment='X') -> pd.DataFrame:
     elements = tracks.LABEL1.unique()
     offset = 0
     matrix = pd.DataFrame()

@@ -1,26 +1,28 @@
 import numpy as np
 from .commands import Command, ZgoubidoException
 from .. import ureg, Q_
+from ..frame import Frame
+from ..plotting import ZgoubiPlot
 
 
 class Magnet(Command):
     """Base class for all magnetic elements."""
     PARAMETERS = {
-        'PLACEMENT': [0 * ureg.cm, 0 * ureg.cm, 0 * ureg.degree],
+        'PLACEMENT': Frame(),
     }
 
-    def __init__(self, label1='', label2='', *params, with_plt=False, **kwargs):
+    def __init__(self, label1='', label2='', *params, **kwargs):
         super().__init__(label1, label2, Magnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
     def align(self, *args, **kwargs):
         return self
 
     @property
-    def patchable(self):
+    def patchable(self) -> bool:
         return True
 
     @property
-    def plotable(self):
+    def plotable(self) -> bool:
         return True
 
 
@@ -30,7 +32,7 @@ class CartesianMagnet(Magnet):
         'WIDTH': 50 * ureg.cm,
     }
 
-    def __init__(self, label1='', label2='', *params, with_plt=False, **kwargs):
+    def __init__(self, label1='', label2='', *params, **kwargs):
         super().__init__(label1, label2, CartesianMagnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
     @property
@@ -78,7 +80,7 @@ class CartesianMagnet(Magnet):
     def plot(self, artist=None):
         if artist is None:
             return
-        artist.cartesian_magnet(entry=self.entry, sortie=self.sortie, width=self.WIDTH, color=self.COLOR)
+        getattr(artist, CartesianMagnet.__name__.lower())(self)
 
 
 class PolarMagnet(Magnet):
@@ -87,7 +89,7 @@ class PolarMagnet(Magnet):
         'WIDTH': 50 * ureg.cm,
     }
 
-    def __init__(self, label1='', label2='', *params, with_plt=False, **kwargs):
+    def __init__(self, label1: str='', label2: str='', *params, **kwargs):
         super().__init__(label1, label2, PolarMagnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
     @property
@@ -100,46 +102,32 @@ class PolarMagnet(Magnet):
 
     @property
     def center(self):
-        c = self.PLACEMENT
-        a = c[2].to('radian').magnitude
-        entry = self.entry
+        tx = self.entry.tx.to('radian').magnitude
+        tz = self.entry.tz.to('radian').magnitude
         return [
-            entry[0] + self.radius * np.sin(a),
-            entry[1] - self.radius * np.cos(a),
+            self.entry.x + self.radius * np.sin(tz),
+            self.entry.y - self.radius * np.cos(tz) * np.cos(tx),
         ]
 
     @property
     def entry(self):
-        c = self.PLACEMENT
-        return [
-            c[0] + 0.0 * ureg.cm,
-            c[1] + 0.0 * ureg.cm,
-            c[2] + 0.0 * ureg.degree,
-        ]
+        frame = self.PLACEMENT
+        return frame
 
     @property
     def sortie(self):
         a = self.angular_opening.to('radian').magnitude
-        c = self.PLACEMENT
-        return [
-            self.center[0] + (c[0]-self.center[0]) * np.cos(a) + (c[1]-self.center[1]) * np.sin(a),
-            self.center[1] + -(c[0]-self.center[0]) * np.sin(a) + (c[1]-self.center[1]) * np.cos(a),
-            c[2] - self.angular_opening,
-        ]
+        frame = Frame(coords=self.PLACEMENT.coordinates.copy())
+        x = self.center[0] + (frame.x-self.center[0]) * np.cos(a) + (frame.y-self.center[1]) * np.sin(a)
+        y = self.center[1] + -(frame.x-self.center[0]) * np.sin(a) + (frame.y-self.center[1]) * np.cos(a)
+        tz = frame.tz - self.angular_opening
+        frame.x = x
+        frame.y = y
+        frame.tz = tz
+        return frame
 
-    def plot(self, artist=None):
-        if artist is None:
-            return
-
-        getattr(artist, 'polar_bend')(
-            entry=self.entry,
-            sortie=self.sortie,
-            center=self.center,
-            radius=self.radius,
-            angle=self.angular_opening,
-            width=self.WIDTH,
-            color=self.COLOR,
-        )
+    def plot(self, artist: ZgoubiPlot):
+        getattr(artist, PolarMagnet.__name__.lower())(self)
 
 
 class AGSMainMagnet(Magnet):
@@ -534,12 +522,12 @@ class Dipole(PolarMagnet):
         'IORDRE': 2,
         'Resol': 10,
         'XPAS': (1 * ureg.millimeter, 'Integration step'),
-        'KPOS': 2,
+        'KPOS': 1,
         'RE': 0 * ureg.millimeter,
         'TE': 0 * ureg.radian,
         'RS': 0 * ureg.millimeter,
         'TS': 0 * ureg.radian,
-        'DP': 0,
+        'DP': 1.0,
     }
 
     def __str__(s):
