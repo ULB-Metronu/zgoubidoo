@@ -2,6 +2,7 @@ import logging
 from .. import ureg, Q_
 from pint import UndefinedUnitError
 import uuid
+import numpy as np
 
 ZGOUBI_LABEL_LENGTH = 10  # Used to be 8 on older versions
 
@@ -483,16 +484,7 @@ class Twiss(Command):
         {s.KTW} {s.FACD:.12e} {s.FACA:.12e}
         """
 
+
 class WienFilter(Command):
     """Wien filter."""
     KEYWORD = 'WIENFILT'
-
-
-class Ymy(Command):
-    """Reverse signs of Y and Z reference axes."""
-    KEYWORD = 'YMY'
-
-    def __str__(s):
-        return f"""
-        '{s.KEYWORD}' {s.LABEL1} {s.LABEL2}
-    """

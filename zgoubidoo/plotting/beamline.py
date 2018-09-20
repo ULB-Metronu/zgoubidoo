@@ -19,7 +19,11 @@ def plot_beamline(beamline=None, tracks=None, artist=None, with_elements=True, r
             continue
         if with_elements:
             e.PLACEMENT = ref
+            print(ref)
+            print(e.center)
             e.plot(artist=artist)
+            if e.KEYWORD == 'YMY':
+                print('ok')
         if tracks is not None:
             t = tracks.query(f"LABEL1 == '{e.LABEL1}'")
             if isinstance(e, CartesianMagnet) and t.size > 0:
