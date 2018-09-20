@@ -86,6 +86,10 @@ class Command(metaclass=MetaCommand):
     def patchable(self):
         return False
 
+    @property
+    def plotable(self):
+        return False
+
 
 class AutoRef(Command):
     """Automatic transformation to a new reference frame."""
