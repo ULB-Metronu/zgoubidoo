@@ -60,7 +60,35 @@ class ZgoubiPlotly(ZgoubiPlot):
     def render(self):
         py.iplot(self.fig, config=self.config)
 
-    def cartesian_bend(self, entry, sortie, rotation, width, color='gray'):
+    def polarmagnet(self, magnet):
+        def build_vertices(m):
+            x = [m.entry.x, m.entry.x, m.entry.x + m.longueur, m.entry.x + m.longueur,
+                 m.entry.x, m.entry.x, m.entry.x + m.longueur, m.entry.x + m.longueur]
+
+            y = [m.entree.y, m.entree.y + m.WIDTH, m.entree.y + m.largeur, m.entree.y,
+                 m.entree.y, m.entree.y + m.largeur, m.entree.y + m.largeur, m.entree.y]
+
+            z = [m.entree.z, m.entree.z, m.entree.z, m.entree.z, m.entree.z + m.hauteur,
+                 m.entree.z + m.hauteur, m.entree.z + m.hauteur, m.entree.z + m.hauteur]
+
+            return x, y, z
+
+        x, y, z = build_vertices(magnet)
+        my_data = go.Mesh3d(
+                x=x,
+                y=y,
+                z=z,
+
+                i=[7, 0, 0, 0, 4, 4, 6, 6, 4, 0, 3, 2],
+                j=[3, 4, 1, 2, 5, 6, 5, 2, 0, 1, 6, 3],
+                k=[0, 7, 2, 3, 6, 7, 1, 1, 5, 5, 7, 6],
+                showscale=True,
+                opacity=0.3,
+                color=magnet.COLOR,
+            )
+        self._data.append(my_data)
+
+    def cartesianmagnet(self, entry, sortie, rotation, width, color='gray'):
         def do_frame():
             pass
 

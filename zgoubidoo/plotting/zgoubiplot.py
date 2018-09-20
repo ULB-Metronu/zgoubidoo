@@ -27,8 +27,8 @@ class ZgoubiPlot:
         self._with_frames = with_frames
         self._palette = PALETTE['solarized']
 
-    def cartesian_bend(self, **kwargs):
+    def cartesianmagnet(self, **kwargs):
         pass
 
-    def polar_bend(self, **kwargs):
+    def polarmagnet(self, **kwargs):
         pass

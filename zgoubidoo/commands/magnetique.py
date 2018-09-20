@@ -40,6 +40,10 @@ class CartesianMagnet(Magnet):
         return self.ALE or 0.0 * ureg.degree
 
     @property
+    def length(self):
+        return np.linalg.norm(self.sortie.origin - self.entree.origin)
+
+    @property
     def x_offset(self):
         return self.XCE or 0.0 * ureg.cm
 

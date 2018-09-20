@@ -1,3 +1,4 @@
+import numpy as np
 from . import ureg, Q_
 
 
@@ -24,6 +25,14 @@ class Frame:
     @property
     def coordinates(self):
         return self._coords
+
+    @property
+    def origin(self):
+        return np.array(self._coords[:3])
+
+    @property
+    def angles(self):
+        return np.array(self._coords[3:])
 
     @property
     def x(self):
