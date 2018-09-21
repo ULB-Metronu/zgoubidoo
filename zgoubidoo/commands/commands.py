@@ -4,7 +4,7 @@ from pint import UndefinedUnitError
 import uuid
 from ..frame import Frame
 
-ZGOUBI_LABEL_LENGTH = 10  # Used to be 8 on older versions
+ZGOUBI_LABEL_LENGTH: int = 10  # Used to be 8 on older versions
 
 
 class ZgoubidoException(Exception):
@@ -473,7 +473,7 @@ class Ymy(Command):
         return True
 
     @property
-    def sortie(self):
+    def sortie(self) -> Frame:
         frame = Frame(coords=self.PLACEMENT.coordinates.copy())
         frame.tx += 180 * ureg.degree
         return frame
