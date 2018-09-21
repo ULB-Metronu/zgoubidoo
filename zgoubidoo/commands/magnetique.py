@@ -9,6 +9,7 @@ class Magnet(Command):
     """Base class for all magnetic elements."""
     PARAMETERS = {
         'PLACEMENT': Frame(),
+        'HEIGHT': 20 * ureg.cm,
     }
 
     def __init__(self, label1='', label2='', *params, **kwargs):
@@ -38,6 +39,10 @@ class CartesianMagnet(Magnet):
     @property
     def rotation(self):
         return self.ALE or 0.0 * ureg.degree
+
+    @property
+    def length(self):
+        return np.linalg.norm(self.sortie.origin - self.entree.origin)
 
     @property
     def x_offset(self):
@@ -1793,6 +1798,9 @@ class Venus(Command):
         """
         command.append(c)
 
-
         return ''.join(map(lambda _: _.rstrip(), command))
 
+
+class Ymy(Command):
+    """Reverse signs of Y and Z reference axes."""
+    KEYWORD = 'YMY'

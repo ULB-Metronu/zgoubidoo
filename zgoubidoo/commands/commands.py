@@ -446,6 +446,18 @@ class Twiss(Command):
     """Calculation of periodic optical parameters."""
     KEYWORD = 'TWISS'
 
+    PARAMETERS = {
+        'KTW': 2,
+        'FACD': 1.0,
+        'FACA': 0.0,
+    }
+
+    def __str__(s):
+        return f"""
+        {super().__str__().rstrip()}
+        {s.KTW} {s.FACD:.12e} {s.FACA:.12e}
+        """
+
 
 class WienFilter(Command):
     """Wien filter."""
