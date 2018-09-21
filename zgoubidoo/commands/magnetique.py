@@ -1799,8 +1799,3 @@ class Venus(Command):
         command.append(c)
 
         return ''.join(map(lambda _: _.rstrip(), command))
-
-
-class Ymy(Command):
-    """Reverse signs of Y and Z reference axes."""
-    KEYWORD = 'YMY'
