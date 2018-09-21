@@ -463,5 +463,5 @@ class Ymy(Command):
     @property
     def sortie(self):
         frame = Frame(coords=self.PLACEMENT.coordinates.copy())
-        frame.tx = 180 * ureg.degree
+        frame.tx += 180 * ureg.degree
         return frame

@@ -25,6 +25,8 @@ class ZgoubiMpl(ZgoubiPlot):
             pass
 
         def do_box() -> None:
+            theta1 = 90 + magnet.entry.tz.to('degree').magnitude - magnet.angular_opening.to('degree').magnitude
+            theta2 = 90 + magnet.entry.tz.to('degree').magnitude
             self._ax.add_patch(
                 patches.Wedge(
                     (
@@ -32,8 +34,8 @@ class ZgoubiMpl(ZgoubiPlot):
                         magnet.center[1].to('cm').magnitude,
                     ),
                     (magnet.radius + magnet.WIDTH / 2.0).to('cm').magnitude,
-                    90 + magnet.sortie.tx.to('degree').magnitude + magnet.entry.tz.to('degree').magnitude - magnet.angular_opening.to('degree').magnitude,
-                    90 + magnet.sortie.tx.to('degree').magnitude + magnet.entry.tz.to('degree').magnitude,
+                    theta1,
+                    theta2,
                     width=magnet.WIDTH.to('cm').magnitude,
                     alpha=0.2,
                     facecolor=self._palette.get(magnet.color, 'gray'),

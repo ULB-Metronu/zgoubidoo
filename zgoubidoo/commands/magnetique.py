@@ -94,7 +94,7 @@ class PolarMagnet(Magnet):
 
     @property
     def angular_opening(self):
-        return self.AT or 0 * ureg.degree
+        return self.AT * np.sign(np.cos(self.PLACEMENT.tx.to('radian').magnitude)) or 0 * ureg.degree
 
     @property
     def radius(self):
@@ -105,7 +105,7 @@ class PolarMagnet(Magnet):
         tx = self.entry.tx.to('radian').magnitude
         tz = self.entry.tz.to('radian').magnitude
         return [
-            self.entry.x + self.radius * np.sin(tz),
+            self.entry.x + self.radius * np.sin(tz) * np.sign(np.cos(tx)),
             self.entry.y - self.radius * np.cos(tz) * np.cos(tx),
         ]
 
