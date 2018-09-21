@@ -1798,73 +1798,9 @@ class Venus(Command):
         """
         command.append(c)
 
-
         return ''.join(map(lambda _: _.rstrip(), command))
 
-class Ymy(PolarMagnet):
+
+class Ymy(Command):
     """Reverse signs of Y and Z reference axes."""
     KEYWORD = 'YMY'
-
-    """Base class for magnetic elements in polar coordinates"""
-    PARAMETERS = {
-        'WIDTH': 50 * ureg.cm,
-    }
-
-    def __init__(self, label1='', label2='', *params, with_plt=False, **kwargs):
-        super().__init__(label1, label2, Command.PARAMETERS, self.PARAMETERS, *params, **kwargs)
-
-    def __str__(s):
-        return f"""
-        '{s.KEYWORD}' {s.LABEL1} {s.LABEL2}
-    """
-
-    @property
-    def angular_opening(self):
-        return 0 * ureg.degree
-
-    @property
-    def radius(self):
-        return self.RM or 0 * ureg.cm
-
-    @property
-    def center(self):
-        c = self.PLACEMENT
-        a = c[2].to('radian').magnitude
-        entry = self.entry
-        return [
-            entry[0] + self.radius * np.sin(a),
-            entry[1] - self.radius * np.cos(a),
-        ]
-
-    @property
-    def entry(self):
-        c = self.PLACEMENT
-        return [
-            c[0] + 0.0 * ureg.cm,
-            c[1] + 0.0 * ureg.cm,
-            c[2] + 0.0 * ureg.degree,
-        ]
-
-    @property
-    def sortie(self):
-        c = self.PLACEMENT
-        return [
-            c[0] + 0.0 * ureg.cm,
-            c[1] + 0.0 * ureg.cm,
-            c[2] + 0.0 * ureg.degree,
-        ]
-
-    def plot(self, artist=None):
-        if artist is None:
-            return
-
-        getattr(artist, 'polar_bend')(
-            entry=self.entry,
-            sortie=self.sortie,
-            center=self.center,
-            radius=self.radius,
-            angle=self.angular_opening,
-            width=self.WIDTH,
-            color=self.COLOR,
-        )
-
