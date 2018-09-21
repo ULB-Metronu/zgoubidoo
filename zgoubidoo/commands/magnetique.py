@@ -9,6 +9,7 @@ class Magnet(Command):
     """Base class for all magnetic elements."""
     PARAMETERS = {
         'PLACEMENT': Frame(),
+        'HEIGHT': 20 * ureg.cm,
     }
 
     def __init__(self, label1='', label2='', *params, **kwargs):
