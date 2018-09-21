@@ -6,8 +6,8 @@ from .zgoubiplot import ZgoubiPlot
 
 
 class ZgoubiMpl(ZgoubiPlot):
-    def __init__(self, ax=None, with_boxes: bool=True, with_frames: bool=True):
-        super().__init__(with_boxes, with_frames)
+    def __init__(self, ax=None, with_boxes: bool=True, with_frames: bool=True, **kwargs):
+        super().__init__(with_boxes, with_frames, **kwargs)
         if ax is None:
             self._init_plot()
         else:

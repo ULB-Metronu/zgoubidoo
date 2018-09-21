@@ -6,8 +6,8 @@ from .zgoubiplot import ZgoubiPlot
 
 
 class ZgoubiPlotly(ZgoubiPlot):
-    def __init__(self, with_boxes=True, with_frames=True):
-        super().__init__(with_boxes, with_frames)
+    def __init__(self, with_boxes=True, with_frames=True, **kwargs):
+        super().__init__(with_boxes, with_frames, **kwargs)
         self._data = []
         self._layout = {}
         self._shapes = []
@@ -100,8 +100,8 @@ class ZgoubiPlotly(ZgoubiPlot):
 
 
 class ZgoubiPlotly3d(ZgoubiPlot):
-    def __init__(self, with_boxes=True, with_frames=True):
-        super().__init__(with_boxes, with_frames)
+    def __init__(self, with_boxes=True, with_frames=True, **kwargs):
+        super().__init__(with_boxes, with_frames, **kwargs)
         self._data = []
         self._layout = {}
         self._shapes = []

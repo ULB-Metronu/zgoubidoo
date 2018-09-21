@@ -485,7 +485,7 @@ class Dipole(PolarMagnet):
         'C4_E': (0, 'Fringe field coefficient C4'),
         'C5_E': (0, 'Fringe field coefficient C5'),
         'SHIFT_E': (0 * ureg.centimeter, 'Shift of the EFB'),
-        'OMEGA_E': 0,
+        'OMEGA_E': (0 * ureg.degree, ''),
         'THETA_E': 0,
         'R1_E': (1e9 * ureg.centimeter, 'Entrance EFB radius'),
         'U1_E': (1e9 * ureg.centimeter, 'Entrance EFB linear extent'),
@@ -514,7 +514,7 @@ class Dipole(PolarMagnet):
         'C4_L': (0, 'Fringe field coefficient C4'),
         'C5_L': (0, 'Fringe field coefficient C5'),
         'SHIFT_L': (0 * ureg.centimeter, 'Shift of the EFB'),
-        'OMEGA_L': 0,
+        'OMEGA_L': (0 * ureg.degree, ''),
         'THETA_L': 0,
         'R1_L': (1e9 * ureg.centimeter, 'Lateral EFB radius'),
         'U1_L': (1e9 * ureg.centimeter, 'Lateral EFB linear extent'),
@@ -522,7 +522,7 @@ class Dipole(PolarMagnet):
         'R2_L': (1e9 * ureg.centimeter, 'Lateral EFB radius'),
         'RM3': (1e9 * ureg.centimeter, 'Reference radius of the lateral EFB'),
         'IORDRE': 2,
-        'Resol': 10,
+        'RESOL': 10,
         'XPAS': (1 * ureg.millimeter, 'Integration step'),
         'KPOS': 1,
         'RE': 0 * ureg.millimeter,
@@ -541,14 +541,14 @@ class Dipole(PolarMagnet):
         {s.ACENT.to('degree').magnitude:.12e} {s.B0.to('kilogauss').magnitude:.12e} {s.N:.12e} {s.B:.12e} {s.G:.12e}
         {s.LAM_E.to('centimeter').magnitude:.12e} 0.0
         0 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e} {s.SHIFT_E.to('centimeter').magnitude:.12e}
-        {s.OMEGA_E:.12e} {s.THETA_E:.12e} {s.R1_E.to('centimeter').magnitude:.12e} {s.U1_E.to('centimeter').magnitude:.12e} {s.U2_E.to('centimeter').magnitude:.12e} {s.R2_E.to('centimeter').magnitude:.12e}
+        {s.OMEGA_E.to('degree').magnitude:.12e} {s.THETA_E:.12e} {s.R1_E.to('centimeter').magnitude:.12e} {s.U1_E.to('centimeter').magnitude:.12e} {s.U2_E.to('centimeter').magnitude:.12e} {s.R2_E.to('centimeter').magnitude:.12e}
         {s.LAM_S.to('centimeter').magnitude:.12e} 0.0
         0 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e} {s.SHIFT_S.to('centimeter').magnitude:.12e}
         {s.OMEGA_S.to('degree').magnitude:.12e} {s.THETA_S:.12e} {s.R1_S.to('centimeter').magnitude:.12e} {s.U1_S.to('centimeter').magnitude:.12e} {s.U2_S.to('centimeter').magnitude:.12e} {s.R2_S.to('centimeter').magnitude:.12e}
         {s.LAM_L.to('centimeter').magnitude:.12e} {s.XI_L}
         0 {s.C0_L:.12e} {s.C1_L:.12e} {s.C2_L:.12e} {s.C3_L:.12e} {s.C4_L:.12e} {s.C5_L:.12e} {s.SHIFT_L.to('centimeter').magnitude:.12e}
-        {s.OMEGA_L:.12e} {s.THETA_L:.12e} {s.R1_L.to('centimeter').magnitude:.12e} {s.U1_L.to('centimeter').magnitude:.12e} {s.U2_L.to('centimeter').magnitude:.12e} {s.R2_L.to('centimeter').magnitude:.12e} {s.RM3.to('centimeter').magnitude:.12e}
-        {s.IORDRE} {s.Resol:.12e}
+        {s.OMEGA_L.to('degree').magnitude:.12e} {s.THETA_L:.12e} {s.R1_L.to('centimeter').magnitude:.12e} {s.U1_L.to('centimeter').magnitude:.12e} {s.U2_L.to('centimeter').magnitude:.12e} {s.R2_L.to('centimeter').magnitude:.12e} {s.RM3.to('centimeter').magnitude:.12e}
+        {s.IORDRE} {s.RESOL:.12e}
         {s.XPAS.to('centimeter').magnitude}"""
         command.append(c)
 
@@ -1002,6 +1002,11 @@ class Drift(CartesianMagnet):
     @property
     def frame(self):
         return [self.exit[0], self.exit[1], 0 * ureg.radian]
+
+    def plot(self, artist=None):
+        if artist is None or not artist.with_drifts:
+            return
+        super().plot(artist)
 
 
 class Emma(Command):
