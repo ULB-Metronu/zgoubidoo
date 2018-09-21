@@ -54,33 +54,30 @@ class CartesianMagnet(Magnet):
 
     @property
     def entry(self):
-        c = self.PLACEMENT
-        return [
-            c[0] + self.x_offset,
-            c[1] + self._yoffset,
-            c[2] + self.rotation,
-        ]
+        frame = Frame(coords=self.PLACEMENT.coordinates.copy())
+        frame.x += self.x_offset
+        frame.y += self.y_offset
+        frame.tz += self.rotation
+        return frame
 
     @property
     def sortie(self):
+        frame = Frame(coords=self.entry.coordinates.copy())
         if self.KPOS == 1 or self.KPOS is None:
-            s = np.sin(self.entry[2].to('radian').magnitude)
-            c = np.cos(self.entry[2].to('radian').magnitude)
-            return [
-                self.entry[0] + self.XL * c,
-                self.entry[1] + self.XL * s,
-                self.entry[2]
-            ]
+            s = np.sin(self.entry.tz.to('radian').magnitude)
+            c = np.cos(self.entry.tz.to('radian').magnitude)
+            frame.x += self.XL * c
+            frame.y += self.XL * s
         elif self.KPOS == 2:
-            x = self.entry[0] + self.XL - (self.XCE or 0.0 * ureg.cm)
-            y = self.entry[1] - (self.YCE or 0.0 * ureg.cm)
-            s = np.sin((self.ALE or 0.0 * ureg.degree))
-            c = np.cos((self.ALE or 0.0 * ureg.degree))
-            return [
-                c * x - s * y,
-                s * x + c * y,
-                self.entry[2] - self.rotation
-            ]
+            x = self.entry.x + self.XL - (self.x_offset or 0.0 * ureg.cm)
+            y = self.entry.y - (self.y_offset or 0.0 * ureg.cm)
+            s = np.sin((self.rotation or 0.0 * ureg.degree))
+            c = np.cos((self.rotation or 0.0 * ureg.degree))
+            frame.x = c * x - s * y
+            frame.y = s * x + c * y
+            frame.tz -= self.rotation
+
+        return frame
 
     def plot(self, artist=None):
         if artist is None:

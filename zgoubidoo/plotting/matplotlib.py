@@ -22,11 +22,17 @@ class ZgoubiMpl(ZgoubiPlot):
 
     def polarmagnet(self, magnet) -> None:
         def do_frame() -> None:
-            pass
+            self.plot(magnet.entry.x, magnet.entry.y, 'gv', ms=5)
+            self.plot(magnet.sortie.x, magnet.sortie.y, 'k^', ms=5)
 
         def do_box() -> None:
             theta1 = 90 + magnet.entry.tz.to('degree').magnitude - magnet.angular_opening.to('degree').magnitude
             theta2 = 90 + magnet.entry.tz.to('degree').magnitude
+            if np.sign(np.cos(magnet.PLACEMENT.tx.to('radian').magnitude)) < 0:
+                theta1, theta2 = theta2, theta1
+                theta1 -= 180
+                theta2 -= 180
+
             self._ax.add_patch(
                 patches.Wedge(
                     (
@@ -38,8 +44,8 @@ class ZgoubiMpl(ZgoubiPlot):
                     theta2,
                     width=magnet.WIDTH.to('cm').magnitude,
                     alpha=0.2,
-                    facecolor=self._palette.get(magnet.color, 'gray'),
-                    edgecolor=self._palette.get(magnet.color, 'gray'),
+                    facecolor=self._palette.get(magnet.COLOR, 'gray'),
+                    edgecolor=self._palette.get(magnet.COLOR, 'gray'),
                     linewidth=2,
                 )
             )
@@ -49,40 +55,30 @@ class ZgoubiMpl(ZgoubiPlot):
         if self._with_frames:
             do_frame()
 
-    def cartesianmagnet(self) -> None:
+    def cartesianmagnet(self, magnet) -> None:
         def do_frame():
-            self._ax.annotate(s='',
-                              xy=(
-                                  entry[0].to('cm').magnitude,
-                                  entry[1].to('cm').magnitude
-                              ),
-                              xytext=(
-                                  sortie[0].to('cm').magnitude,
-                                  sortie[1].to('cm').magnitude
-                              ),
-                              arrowprops=dict(arrowstyle='<->')
-                              )
+            self.plot(magnet.entry.x, magnet.entry.y, 'gv', ms=5)
+            self.plot(magnet.sortie.x, magnet.sortie.y, 'k^', ms=5)
 
         def do_box():
-            print(entry[2])
             tr = transforms.Affine2D().rotate_deg_around(
-                entry[0].to('cm').magnitude,
-                entry[1].to('cm').magnitude,
-                entry[2].to('degree').magnitude) + self._ax.transData
+                magnet.entry.x.to('cm').magnitude,
+                magnet.entry.y.to('cm').magnitude,
+                magnet.entry.tz.to('degree').magnitude) + self._ax.transData
             self._ax.add_patch(
                 patches.Rectangle(
                     (
-                        entry[0].to('cm').magnitude,
-                        (entry[1] - width / 2).to('cm').magnitude
+                        magnet.entry.x.to('cm').magnitude,
+                        (magnet.entry.y - magnet.WIDTH / 2).to('cm').magnitude
                     ),
                     np.linalg.norm(
-                        np.array([sortie[0].to('cm').magnitude, sortie[1].to('cm').magnitude])
-                        - np.array([entry[0].to('cm').magnitude, entry[1].to('cm').magnitude])
+                        np.array([magnet.sortie.x.to('cm').magnitude, magnet.sortie.y.to('cm').magnitude])
+                        - np.array([magnet.entry.x.to('cm').magnitude, magnet.entry.y.to('cm').magnitude])
                     ),
-                    width.to('cm').magnitude,
+                    magnet.WIDTH.to('cm').magnitude,
                     alpha=0.2,
-                    facecolor=self._palette.get(color, 'gray'),
-                    edgecolor=self._palette.get(color, 'gray'),
+                    facecolor=self._palette.get(magnet.COLOR, 'gray'),
+                    edgecolor=self._palette.get(magnet.COLOR, 'gray'),
                     linewidth=2,
                     transform=tr,
                 )

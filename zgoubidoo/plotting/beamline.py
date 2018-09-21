@@ -1,13 +1,10 @@
-import numpy as np
-from .. import ureg
 from .zgoubiplot import ZgoubiPlot
 
 
-def plot(beamline=None, tracks=None, artist: ZgoubiPlot=None, with_elements=True):
+def plot(beamline=None, tracks=None, artist: ZgoubiPlot=None, with_elements: bool=True) -> None:
     #tracks_x = np.array(ref[0])
     #tracks_y = np.array(ref[1])
     for e in beamline.line:
-        print(e.KEYWORD)
         if not e.plotable:
             continue
         if with_elements:
@@ -23,10 +20,5 @@ def plot(beamline=None, tracks=None, artist: ZgoubiPlot=None, with_elements=True
         #         yy = s * x + c * y
         #         tracks_x = np.append(tracks_x, (ref[0] + e.entry[0]).to('cm').magnitude + xx)
         #         tracks_y = np.append(tracks_y, (ref[1] + e.entry[1]).to('cm').magnitude + yy)
-        artist.plot(e.entry.x, e.entry.y, 'gs', ms=4)
-        #artist.plot(e.entry.x)
-        artist.plot(e.sortie.x, e.sortie.y, 'ks', ms=4)
-        artist.plot(e.center[0], e.center[1], 'rs', ms=4)
-
         # artist.plot(tracks_x, tracks_y, 'b-', ms=1)
 
