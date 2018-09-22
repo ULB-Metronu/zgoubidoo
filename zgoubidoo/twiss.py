@@ -94,7 +94,7 @@ def compute_transfer_matrix(line, tracks, alignment='X') -> pd.DataFrame:
     for e in line.line:
         if e.LABEL1 not in elements:
             if isinstance(e, Magnet):
-                offset += e.exit[0].to('cm').magnitude
+                offset += (e.sortie.x - e.entry.x).to('cm').magnitude
             continue
         t = tracks[tracks.LABEL1 == e.LABEL1]
         data, ref = align_tracks(t)

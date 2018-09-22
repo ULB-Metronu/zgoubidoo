@@ -119,6 +119,17 @@ Chambr = Chambre
 class ChangeRef(Command):
     """Transformation to a new reference frame."""
     KEYWORD = 'CHANGREF'
+    PARAMETERS = {
+        'TRANSFORMATIONS': []
+    }
+
+    def __str__(s):
+        c =  f"""
+        {super().__str__().rstrip()}
+        """
+        for t in s.TRANSFORMATIONS:
+            c += f"{t[0]} {t[1]} "
+        return c
 
 
 # Alias
@@ -156,7 +167,6 @@ class Faisceau(Command):
 
 class Faiscnl(Command):
     """Store particle coordinates in file FNAME."""
-
     KEYWORD = 'FAISCNL'
     PARAMETERS = {
         'FNAME': 'zgoubi.fai',
@@ -468,9 +478,18 @@ class Ymy(Command):
     """Reverse signs of Y and Z reference axes."""
     KEYWORD = 'YMY'
 
+    def __str__(s):
+        return f"""
+        {super().__str__().rstrip()}
+        """
+
     @property
     def patchable(self) -> bool:
         return True
+
+    @property
+    def entry(self) -> Frame:
+        return Frame(coords=self.PLACEMENT.coordinates.copy())
 
     @property
     def sortie(self) -> Frame:
