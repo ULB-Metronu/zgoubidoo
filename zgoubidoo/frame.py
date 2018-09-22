@@ -1,5 +1,5 @@
 from sympy.physics.vector import ReferenceFrame, Point
-
+import numpy as np
 
 class Frame:
     """
@@ -53,14 +53,23 @@ class Frame:
 
     offset = property(offset_ref)
 
-    def offset_x(self, reference) -> float:
-        return self.offset_ref(reference)[0, 0]
+    def x(self, reference) -> float:
+        return float(self.offset_ref(reference)[0, 0])
 
-    def offset_y(self, reference) -> float:
-        return self.offset_ref(reference)[1, 0]
+    def y(self, reference) -> float:
+        return float(self.offset_ref(reference)[1, 0])
 
-    def offset_z(self, reference) -> float:
-        return self.offset_ref(reference)[2, 0]
+    def z(self, reference) -> float:
+        return float(self.offset_ref(reference)[2, 0])
+
+    def tx(self, reference) -> float:
+        return float(np.degrees(np.arccos(float(self.dcm_ref(reference)[0, 0]))))
+
+    def ty(self, reference) -> float:
+        return float(np.degrees(np.arccos(float(self.dcm_ref(reference)[1, 1]))))
+
+    def tz(self, reference) -> float:
+        return float(np.degrees(np.arccos(float(self.dcm_ref(reference)[2, 2]))))
 
     def rotate(self, axis: str, angle: float) -> None:
         self.frame.orient(self.ref_frame, "Axis", [angle, getattr(self.ref_frame, axis.lower())])

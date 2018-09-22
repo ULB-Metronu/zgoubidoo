@@ -122,24 +122,24 @@ class PolarMagnet(Magnet):
         return _cm(self.radius)
 
     @property
-    def center(self):
-        if self._center is None:
-            self._center = Frame(self.entry)
-            self._center.translate_y(self._radius)
-        return self._center
-
-    @property
     def entry_patched(self):
         if self._entry_patched is None:
             self._entry_patched = Frame(self.entry)
         return self._entry_patched
 
     @property
+    def center(self):
+        if self._center is None:
+            self._center = Frame(self.entry_patched)
+            self._center.translate_y(-self._radius)
+        return self._center
+
+    @property
     def exit(self) -> Frame:
         if self._exit is None:
-            self._exit = Frame(self.entry_patched)
-            self._exit.translate_x(10)
-            self._exit.rotate_z(self._angular_opening)
+            self._exit = Frame(self.center)
+            self._exit.translate_y(self._radius)
+            self._exit.rotate_z(-self._angular_opening)
         return self._exit
 
     @property
@@ -371,10 +371,7 @@ class Bend(CartesianMagnet):
         XL (cm): magnet length (distance between EFB)
 
     """
-    COLOR = 'green'
-
     KEYWORD = 'BEND'
-
     PARAMETERS = {
         'IL': (2, "Print field and coordinates along trajectories"),
         'XL': (0.0 * ureg.centimeter, "Magnet length (straight reference frame)"),
@@ -1008,8 +1005,8 @@ class Drift(CartesianMagnet):
     KEYWORD = 'DRIFT'
     PARAMETERS = {
         'XL': 0 * ureg.centimeter,
-        'COLOR': 'gray',
     }
+    COLOR = 'gray'
 
     def __str__(s):
         return f"""
@@ -1560,9 +1557,7 @@ class Quadisex(Magnet):
 
 class Quadrupole(CartesianMagnet):
     """Quadrupole magnet."""
-    COLOR = 'blue'
     KEYWORD = 'QUADRUPO'
-
     PARAMETERS = {
         'IL': 2,
         'XL': 0 * ureg.centimeter,
@@ -1584,6 +1579,7 @@ class Quadrupole(CartesianMagnet):
         'YCE': 0 * ureg.centimeter,
         'ALE': 0 * ureg.radian,
     }
+    COLOR = 'blue'
 
     def __str__(s):
         return f"""

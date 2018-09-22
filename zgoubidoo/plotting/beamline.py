@@ -4,7 +4,7 @@ from .zgoubiplot import ZgoubiPlot
 def plot(beamline=None, tracks=None, artist: ZgoubiPlot=None, with_elements: bool=True) -> None:
     #tracks_x = np.array(ref[0])
     #tracks_y = np.array(ref[1])
-    for e in beamline.line:
+    for e in beamline['Patchable'].line:
         if not e.plotable:
             continue
         if with_elements:

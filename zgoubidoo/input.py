@@ -1,3 +1,4 @@
+from functools import reduce
 from typing import Callable, List, Sequence
 from . import commands
 
@@ -25,9 +26,12 @@ class Input:
         self._line.append(o)
         return self
 
-    def __getitem__(self, item):
-        l, i = self._filter(item)
-        return Input(name=f"{self._name}_filtered_by_{i}"
+    def __getitem__(self, items):
+        if not isinstance(items, tuple):
+            items = (items,)
+        l, i = self._filter(items)
+        items = tuple(map(lambda x: x.__name__ if isinstance(x, type) else x, items))
+        return Input(name=f"{self._name}_filtered_by_{items}"
                      .replace(',', '_')
                      .replace(' ', '')
                      .replace("'", '')
@@ -43,11 +47,9 @@ class Input:
         l, i = self._filter(item)
         return len(l)
 
-    def _filter(self, item):
-        if not isinstance(item, tuple):
-            item = (item,)
-        item = tuple(map(lambda x: x.KEYWORD if isinstance(x, commands.MetaCommand) else x, item))
-        return list(filter(lambda x: x.KEYWORD in item, self._line)), item
+    def _filter(self, items):
+        items = tuple(map(lambda x: getattr(commands, x) if isinstance(x, str) else x, items))
+        return list(filter(lambda x: reduce(lambda u, v: u or v, [isinstance(x, i) for i in items]), self._line)), items
 
     def apply(self, f: Callable[[commands.Command], commands.Command]) -> None:
         self._line = list(map(f, self._line))

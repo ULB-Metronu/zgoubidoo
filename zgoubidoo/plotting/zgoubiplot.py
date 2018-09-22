@@ -22,7 +22,8 @@ PALETTE['solarized']['gray'] = PALETTE['solarized']['base03']
 
 
 class ZgoubiPlot:
-    def __init__(self, with_boxes=True, with_frames=True, with_drifts=True):
+    def __init__(self, with_boxes=True, with_frames=True, with_drifts=True, **kwargs):
+        self._reference_frame = kwargs['reference_frame']
         self._with_boxes = with_boxes
         self._with_frames = with_frames
         self._with_drifts = with_drifts

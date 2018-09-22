@@ -12,9 +12,7 @@ def survey(beamline: Input=None, reference_frame: Frame=None) -> Input:
     """
     surveyed_line: Input = Input(name=beamline.name, line=beamline.line)
     frame: Frame = reference_frame or Frame()
-    for e in beamline.line:
-        if not isinstance(e, Patchable):
-            continue
+    for e in beamline[Patchable].line:
         e.place(frame)
-        frame = e.exit
+        frame = e.exit_patched
     return surveyed_line
