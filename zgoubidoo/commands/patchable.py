@@ -9,10 +9,10 @@ class Patchable:
     _center: Frame
 
     def place(self, frame) -> None:
-        self.clear_placement()
+        self._clear_placement()
         self._entry = frame
 
-    def clear_placement(self) -> None:
+    def _clear_placement(self) -> None:
         self._entry = None
         self._entry_patched = None
         self._exit = None
@@ -40,3 +40,9 @@ class Patchable:
         if self._exit_patched is None:
             self._exit_patched = Frame(self.exit)
         return self._exit_patched
+
+    @property
+    def center(self) -> Frame:
+        if self._center is None:
+            self._center = Frame(self.entry)
+        return self._center

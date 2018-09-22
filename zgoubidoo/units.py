@@ -21,5 +21,9 @@ def _tesla(q: Q_) -> float:
     return q.to('tesla').magnitude
 
 
+def _gauss(q: Q_) -> float:
+    return q.to('gauss').magnitude
+
+
 def _kilogauss(q: Q_) -> float:
     return q.to('kilogauss').magnitude

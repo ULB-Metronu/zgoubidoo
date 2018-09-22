@@ -6,8 +6,9 @@ from .zgoubiplot import ZgoubiPlot
 
 
 class ZgoubiMpl(ZgoubiPlot):
-    def __init__(self, ax=None, with_boxes: bool=True, with_frames: bool=True, **kwargs):
+    def __init__(self, ax=None, with_boxes: bool=True, with_frames: bool=True, with_centers: bool=False, **kwargs):
         super().__init__(with_boxes, with_frames, **kwargs)
+        self._with_centers = with_centers
         if ax is None:
             self._init_plot()
         else:
@@ -21,12 +22,13 @@ class ZgoubiMpl(ZgoubiPlot):
         self._ax.plot(*args, **kwargs)
 
     def polarmagnet(self, magnet) -> None:
-        ref = self._reference_frame
+        ref = self.reference_frame
 
         def do_frame() -> None:
             self.plot(magnet.entry.x(ref), magnet.entry.y(ref), 'gv', ms=5)
             self.plot(magnet.exit.x(ref), magnet.exit.y(ref), 'k^', ms=5)
-            self.plot(magnet.center.x(ref), magnet.center.y(ref), 'r.', ms=5)
+            if self._with_centers:
+                self.plot(magnet.center.x(ref), magnet.center.y(ref), 'r.', ms=5)
 
         def do_box() -> None:
             if np.sign(np.cos(magnet.entry.tz(ref))) > 0:
@@ -58,7 +60,7 @@ class ZgoubiMpl(ZgoubiPlot):
             do_frame()
 
     def cartesianmagnet(self, magnet) -> None:
-        ref = self._reference_frame
+        ref = self.reference_frame
 
         def do_frame():
             self.plot(magnet.entry_patched.x(ref), magnet.entry_patched.y(ref), 'gv', ms=5)
@@ -95,3 +97,26 @@ class ZgoubiMpl(ZgoubiPlot):
             do_box()
         if self._with_frames:
             do_frame()
+
+    def tracks_cartesianmagnet(self, magnet, tracks) -> None:
+        x = tracks['X'].values
+        y = tracks['Y-DY'].values
+        angle = np.radians(magnet.entry_patched.tx(self.reference_frame))
+        s = np.sin(np.radians(angle))
+        c = np.cos(np.radians(angle))
+        xx = c * x - s * y
+        yy = s * x + c * y
+        tracks_x = magnet.entry_patched.x(self.reference_frame) + xx
+        tracks_y = magnet.entry_patched.y(self.reference_frame) + yy
+        self.plot(tracks_x, tracks_y, 'b.', ms=1)
+
+    def tracks_polarmagnet(self, magnet, tracks) -> None:
+        x = tracks['X'].values
+        y = tracks['Y-DY'].values
+        if np.sign(np.cos(magnet.entry.tz(self.reference_frame))) > 0:
+            rotation_angle = np.radians(90 - magnet.center.tx(self.reference_frame)) - x
+        else:
+            rotation_angle = np.radians(-90 - magnet.center.tx(self.reference_frame)) + x
+        tracks_x = magnet.center.x(self.reference_frame) + 100 * y * np.cos(rotation_angle)
+        tracks_y = magnet.center.y(self.reference_frame) + 100 * y * np.sin(rotation_angle)
+        self.plot(tracks_x, tracks_y, '.', ms=2)

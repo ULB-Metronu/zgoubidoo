@@ -23,7 +23,7 @@ PALETTE['solarized']['gray'] = PALETTE['solarized']['base03']
 
 class ZgoubiPlot:
     def __init__(self, with_boxes=True, with_frames=True, with_drifts=True, **kwargs):
-        self._reference_frame = kwargs['reference_frame']
+        self._reference_frame = None
         self._with_boxes = with_boxes
         self._with_frames = with_frames
         self._with_drifts = with_drifts
@@ -33,8 +33,16 @@ class ZgoubiPlot:
     def with_drifts(self) -> bool:
         return self._with_drifts
 
-    def cartesianmagnet(self, **kwargs):
+    @property
+    def reference_frame(self):
+        return self._reference_frame
+
+    @reference_frame.setter
+    def reference_frame(self, frame):
+        self._reference_frame = frame
+
+    def cartesianmagnet(self, **kwargs) -> None:
         pass
 
-    def polarmagnet(self, **kwargs):
+    def polarmagnet(self, **kwargs) -> None:
         pass

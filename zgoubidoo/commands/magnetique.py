@@ -4,7 +4,7 @@ from .. import ureg, Q_
 from ..frame import Frame
 from ..plotting import ZgoubiPlot
 from .patchable import Patchable
-from ..units import _cm, _degree, _radian
+from ..units import _cm, _radian
 
 
 class Magnet(Command, Patchable):
@@ -68,7 +68,7 @@ class CartesianMagnet(Magnet):
             self._entry_patched = Frame(self.entry)
             self._entry_patched.translate_x(self._x_offset)
             self._entry_patched.translate_y(self._y_offset)
-            self._entry_patched.rotate_z(self._rotation)
+            self._entry_patched.rotate_z(-self._rotation)
         return self._entry_patched
 
     @property
@@ -81,19 +81,22 @@ class CartesianMagnet(Magnet):
     @property
     def exit_patched(self) -> Frame:
         if self._exit_patched is None:
-            self._exit_patched = Frame(self.exit)
-            if self.KPOS == 1:
-                pass
+            if self.KPOS is None or self.KPOS == 1:
+                self._exit_patched = Frame(self.exit)
             elif self.KPOS == 2:
-                self._exit_patched.translate_x(-self._x_offset)
-                self._exit_patched.translate_y(-self._y_offset)
-                self._exit_patched.rotate_z(-self._rotation)
+                self._exit_patched = Frame(self.entry)
+                self._exit_patched.translate_x(self._length)
         return self._exit_patched
 
     def plot(self, artist=None):
         if artist is None:
             return
         getattr(artist, CartesianMagnet.__name__.lower())(self)
+
+    def plot_tracks(self, artist=None, tracks=None):
+        if artist is None or tracks is None:
+            return
+        getattr(artist, f"tracks_{CartesianMagnet.__name__.lower()}")(self, tracks)
 
 
 class PolarMagnet(Magnet):
@@ -150,6 +153,11 @@ class PolarMagnet(Magnet):
 
     def plot(self, artist: ZgoubiPlot):
         getattr(artist, PolarMagnet.__name__.lower())(self)
+
+    def plot_tracks(self, artist=None, tracks=None):
+        if artist is None or tracks is None:
+            return
+        getattr(artist, f"tracks_{PolarMagnet.__name__.lower()}")(self, tracks)
 
 
 class AGSMainMagnet(Magnet):
