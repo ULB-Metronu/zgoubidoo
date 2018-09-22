@@ -1,107 +1,60 @@
-import numpy as np
-from . import ureg, Q_
+from sympy.physics.vector import ReferenceFrame, Point
 
 
 class Frame:
-    X = 0
-    Y = 1
-    Z = 2
-    TX = 3
-    TY = 4
-    TZ = 5
+    """
 
-    def __init__(self, coords=None):
-        self._coords = coords or [0 * ureg.cm,
-                                  0 * ureg.cm,
-                                  0 * ureg.cm,
-                                  0 * ureg.degree,
-                                  0 * ureg.degree,
-                                  0 * ureg.degree
-                                  ]
+    """
 
-    def __getitem__(self, item):
-        return self._coords[item]
+    def __init__(self, reference=None):
+        if reference is not None:
+            f = reference.frame
+            o = reference.origin
+        else:
+            f = ReferenceFrame(f"REF_FRAME_{id(self)}")
+            o = Point(f"REF_ORIGIN_{id(self)}")
+        self._ref_frame = f
+        self._ref_origin = o
+        self._frame = f.orientnew(f"FRAME_{id(self)}", 'Quaternion', [1, 0, 0, 0])
+        self._origin = o.locatenew(f"ORIGIN_{id(self)}", 0 * f.x)
 
-    @property
-    def coordinates(self):
-        return self._coords
+    def __copy__(self):
+        return Frame(self)
 
     @property
-    def origin(self):
-        return np.array(self._coords[:3])
+    def frame(self) -> ReferenceFrame:
+        return self._frame
 
     @property
-    def angles(self):
-        return np.array(self._coords[3:])
+    def origin(self) -> Point:
+        return self._origin
 
     @property
-    def x(self):
-        return self._coords[Frame.X]
-
-    @x.setter
-    def x(self, v):
-        self._coords[Frame.X] = v
+    def ref_frame(self) -> ReferenceFrame:
+        return self._ref_frame
 
     @property
-    def y(self):
-        return self._coords[Frame.Y]
+    def ref_origin(self) -> Point:
+        return self._ref_origin
 
-    @y.setter
-    def y(self, v):
-        self._coords[Frame.Y] = v
+    def dcm_ref(self, reference=None):
+        if reference is None:
+            return self.frame.dcm(self.ref_frame)
+        else:
+            return self.frame.dcm(reference.frame)
 
-    @property
-    def z(self):
-        return self._coords[Frame.Z]
+    dcm = property(dcm_ref)
 
-    @z.setter
-    def z(self, v):
-        self._coords[Frame.Z] = v
+    def offset_ref(self, reference=None):
+        if reference is None:
+            return self.origin.pos_from(self.ref_origin)
+        else:
+            return self.origin.pos_from(reference.origin)
 
-    @property
-    def tx(self):
-        return self._coords[Frame.TX]
+    offset = property(offset_ref)
 
-    @tx.setter
-    def tx(self, v):
-        self._coords[Frame.TX] = v
+    def rotate(self, axis: str, angle: float) -> None:
+        self.frame.orient(self.ref_frame, "Axis", [angle, getattr(self.ref_frame, axis.lower())])
 
-    @property
-    def ty(self):
-        return self._coords[Frame.TY]
-
-    @ty.setter
-    def ty(self, v):
-        self._coords[Frame.TY] = v
-
-    @property
-    def tz(self):
-        return self._coords[Frame.TZ]
-
-    @tz.setter
-    def tz(self, v):
-        self._coords[Frame.TZ] = v
-
-    @property
-    def roll(self):
-        return self.tx
-
-    @roll.setter
-    def roll(self, v):
-        self.tx = v
-
-    @property
-    def pitch(self):
-        return self.ty
-
-    @pitch.setter
-    def pitch(self, v):
-        self.ty = v
-
-    @property
-    def yaw(self):
-        return self.tz
-
-    @yaw.setter
-    def yaw(self, v):
-        self.tz = v
+    def translate(self, axis: str, offset: float) -> None:
+        self.origin.set_pos(self.ref_origin, offset * getattr(self.frame, axis.lower()))

@@ -1,5 +1,6 @@
 from .input import Input
 from .frame import Frame
+from .commands.patchable import Patchable
 
 
 def survey(beamline: Input=None, reference_frame: Frame=None) -> Input:
@@ -12,8 +13,8 @@ def survey(beamline: Input=None, reference_frame: Frame=None) -> Input:
     surveyed_line: Input = Input(name=beamline.name, line=beamline.line)
     frame: Frame = reference_frame or Frame()
     for e in beamline.line:
-        if not e.patchable:
+        if not isinstance(e, Patchable):
             continue
-        e.PLACEMENT = frame
+        e.placement = frame
         frame = e.sortie
     return surveyed_line

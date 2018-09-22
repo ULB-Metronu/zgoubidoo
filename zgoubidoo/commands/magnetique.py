@@ -3,24 +3,18 @@ from .commands import Command, ZgoubidoException
 from .. import ureg, Q_
 from ..frame import Frame
 from ..plotting import ZgoubiPlot
+from .patchable import Patchable
+from ..units import *
 
 
-class Magnet(Command):
+class Magnet(Command, Patchable):
     """Base class for all magnetic elements."""
     PARAMETERS = {
-        'PLACEMENT': Frame(),
         'HEIGHT': 20 * ureg.cm,
     }
 
     def __init__(self, label1='', label2='', *params, **kwargs):
         super().__init__(label1, label2, Magnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
-
-    def align(self, *args, **kwargs):
-        return self
-
-    @property
-    def patchable(self) -> bool:
-        return True
 
     @property
     def plotable(self) -> bool:
@@ -37,48 +31,58 @@ class CartesianMagnet(Magnet):
         super().__init__(label1, label2, CartesianMagnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
     @property
-    def rotation(self):
+    def rotation(self) -> Q_:
         return self.ALE or 0.0 * ureg.degree
 
     @property
-    def length(self):
-        return np.linalg.norm(self.sortie.origin - self.entree.origin)
+    def _rotation(self) -> float:
+        return _radian(self.rotation)
 
     @property
-    def x_offset(self):
+    def length(self) -> Q_:
+        return self.XL or 0.0 * ureg.cm
+
+    @property
+    def _length_(self) -> float:
+        return _cm(self.length)
+
+    @property
+    def x_offset(self) -> Q_:
         return self.XCE or 0.0 * ureg.cm
 
     @property
-    def y_offset(self):
+    def _x_offset(self) -> float:
+        return _cm(self.x_offset)
+
+    @property
+    def y_offset(self) -> Q_:
         return self.YCE or 0.0 * ureg.cm
 
     @property
-    def entry(self) -> Frame:
-        frame = Frame(coords=self.PLACEMENT.coordinates.copy())
-        s = np.sin(frame.tz.to('radian').magnitude)
-        c = np.cos(frame.tz.to('radian').magnitude)
-        frame.x += self.x_offset * c - self.y_offset * s
-        frame.y += self.x_offset * s + self.y_offset * c
-        frame.tz += self.rotation
-        return frame
+    def _y_offset(self):
+        return _cm(self.y_offset)
 
     @property
-    def sortie(self) -> Frame:
-        if self.KPOS == 1 or self.KPOS is None:
-            frame = Frame(coords=self.entry.coordinates.copy())
-            s = np.sin(self.entry.tz.to('radian').magnitude)
-            c = np.cos(self.entry.tz.to('radian').magnitude)
-            frame.x += self.XL * c
-            frame.y += self.XL * s
-        elif self.KPOS == 2:
-            frame = Frame(coords=self.PLACEMENT.coordinates.copy())
-            x = self.PLACEMENT.x + self.XL
-            y = self.PLACEMENT.y
-            s = np.sin(self.PLACEMENT.tz.to('radian').magnitude)
-            c = np.cos(self.PLACEMENT.tz.to('radian').magnitude)
-            frame.x = c * x - s * y
-            frame.y = s * x + c * y
-        return frame
+    def entry_patched(self) -> Frame:
+        if self._entry_patched is None:
+            self._entry_patched = Frame(self.entry)
+            self._entry_patched.translate('X', self._x_offset)
+            self._entry_patched.translate('Y', self._y_offset)
+            self._entry_patched.rotate('Z', self._rotation)
+        return self._entry_patched
+
+    @property
+    def exit(self) -> Frame:
+        if self._exit is None:
+            self._exit = Frame(self.entry_patched)
+            self._exit.translate('X', self._length)
+        return self._exit
+
+    @property
+    def exit_patched(self) -> Frame:
+        if self._exit_patched is None:
+            self._exit_patched = Frame(self.exit)
+        return self._exit_patched
 
     def plot(self, artist=None):
         if artist is None:
@@ -97,11 +101,15 @@ class PolarMagnet(Magnet):
 
     @property
     def angular_opening(self):
-        return self.AT * np.sign(np.cos(self.PLACEMENT.tx.to('radian').magnitude)) or 0 * ureg.degree
+        return self.AT or 0 * ureg.degree
 
     @property
-    def radius(self):
+    def radius(self) -> Q_:
         return self.RM or 0 * ureg.cm
+
+    @property
+    def _radius(self) -> float:
+        return _cm(self.radius)
 
     @property
     def center(self):
@@ -113,21 +121,23 @@ class PolarMagnet(Magnet):
         ]
 
     @property
-    def entry(self):
-        frame = self.PLACEMENT
-        return frame
+    def entry_patched(self):
+        if self._entry_patched is None:
+            self._entry_patched = Frame(self.entry)
+        return self._entry_patched
 
     @property
-    def sortie(self):
-        a = self.angular_opening.to('radian').magnitude
-        frame = Frame(coords=self.PLACEMENT.coordinates.copy())
-        x = self.center[0] + (frame.x-self.center[0]) * np.cos(a) + (frame.y-self.center[1]) * np.sin(a)
-        y = self.center[1] + -(frame.x-self.center[0]) * np.sin(a) + (frame.y-self.center[1]) * np.cos(a)
-        tz = frame.tz - self.angular_opening
-        frame.x = x
-        frame.y = y
-        frame.tz = tz
-        return frame
+    def exit(self) -> Frame:
+        if self._exit is None:
+            self._exit = Frame(self.entry_patched)
+            self._exit.translate('X', self._length)
+        return self._exit
+
+    @property
+    def exit_patched(self) -> Frame:
+        if self._exit_patched is None:
+            self._exit_patched = Frame(self.exit)
+        return self._exit_patched
 
     def plot(self, artist: ZgoubiPlot):
         getattr(artist, PolarMagnet.__name__.lower())(self)
