@@ -4,7 +4,7 @@ from .. import ureg, Q_
 from ..frame import Frame
 from ..plotting import ZgoubiPlot
 from .patchable import Patchable
-from ..units import *
+from ..units import _cm, _degree, _radian
 
 
 class Magnet(Command, Patchable):
@@ -43,7 +43,7 @@ class CartesianMagnet(Magnet):
         return self.XL or 0.0 * ureg.cm
 
     @property
-    def _length_(self) -> float:
+    def _length(self) -> float:
         return _cm(self.length)
 
     @property
@@ -66,22 +66,28 @@ class CartesianMagnet(Magnet):
     def entry_patched(self) -> Frame:
         if self._entry_patched is None:
             self._entry_patched = Frame(self.entry)
-            self._entry_patched.translate('X', self._x_offset)
-            self._entry_patched.translate('Y', self._y_offset)
-            self._entry_patched.rotate('Z', self._rotation)
+            self._entry_patched.translate_x(self._x_offset)
+            self._entry_patched.translate_y(self._y_offset)
+            self._entry_patched.rotate_z(self._rotation)
         return self._entry_patched
 
     @property
     def exit(self) -> Frame:
         if self._exit is None:
             self._exit = Frame(self.entry_patched)
-            self._exit.translate('X', self._length)
+            self._exit.translate_x(self._length)
         return self._exit
 
     @property
     def exit_patched(self) -> Frame:
         if self._exit_patched is None:
             self._exit_patched = Frame(self.exit)
+            if self.KPOS == 1:
+                pass
+            elif self.KPOS == 2:
+                self._exit_patched.translate_x(-self._x_offset)
+                self._exit_patched.translate_y(-self._y_offset)
+                self._exit_patched.rotate_z(-self._rotation)
         return self._exit_patched
 
     def plot(self, artist=None):
@@ -104,6 +110,10 @@ class PolarMagnet(Magnet):
         return self.AT or 0 * ureg.degree
 
     @property
+    def _angular_opening(self):
+        return _radian(self.angular_opening)
+
+    @property
     def radius(self) -> Q_:
         return self.RM or 0 * ureg.cm
 
@@ -113,12 +123,10 @@ class PolarMagnet(Magnet):
 
     @property
     def center(self):
-        tx = self.entry.tx.to('radian').magnitude
-        tz = self.entry.tz.to('radian').magnitude
-        return [
-            self.entry.x + self.radius * np.sin(tz) * np.sign(np.cos(tx)),
-            self.entry.y - self.radius * np.cos(tz) * np.cos(tx),
-        ]
+        if self._center is None:
+            self._center = Frame(self.entry)
+            self._center.translate_y(self._radius)
+        return self._center
 
     @property
     def entry_patched(self):
@@ -130,7 +138,8 @@ class PolarMagnet(Magnet):
     def exit(self) -> Frame:
         if self._exit is None:
             self._exit = Frame(self.entry_patched)
-            self._exit.translate('X', self._length)
+            self._exit.translate_x(10)
+            self._exit.rotate_z(self._angular_opening)
         return self._exit
 
     @property
@@ -996,12 +1005,10 @@ class Dodecapole(Command):
 
 class Drift(CartesianMagnet):
     """Field free drift space."""
-    COLOR = 'gray'
-
     KEYWORD = 'DRIFT'
-
     PARAMETERS = {
-        'XL': 0.0
+        'XL': 0 * ureg.centimeter,
+        'COLOR': 'gray',
     }
 
     def __str__(s):
@@ -1009,10 +1016,6 @@ class Drift(CartesianMagnet):
         {super().__str__().rstrip()}
         {s.XL.to('centimeter').magnitude}
         """
-
-    @property
-    def frame(self):
-        return [self.exit[0], self.exit[1], 0 * ureg.radian]
 
     def plot(self, artist=None):
         if artist is None or not artist.with_drifts:

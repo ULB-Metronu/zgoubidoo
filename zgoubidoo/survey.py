@@ -15,6 +15,6 @@ def survey(beamline: Input=None, reference_frame: Frame=None) -> Input:
     for e in beamline.line:
         if not isinstance(e, Patchable):
             continue
-        e.placement = frame
-        frame = e.sortie
+        e.place(frame)
+        frame = e.exit
     return surveyed_line

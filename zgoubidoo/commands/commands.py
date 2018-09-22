@@ -3,6 +3,8 @@ from .. import ureg, Q_
 from pint import UndefinedUnitError
 import uuid
 from ..frame import Frame
+from .patchable import Patchable
+from ..units import _radian
 
 ZGOUBI_LABEL_LENGTH: int = 10  # Used to be 8 on older versions
 
@@ -474,7 +476,7 @@ class WienFilter(Command):
     KEYWORD = 'WIENFILT'
 
 
-class Ymy(Command):
+class Ymy(Command, Patchable):
     """Reverse signs of Y and Z reference axes."""
     KEYWORD = 'YMY'
 
@@ -484,15 +486,8 @@ class Ymy(Command):
         """
 
     @property
-    def patchable(self) -> bool:
-        return True
-
-    @property
-    def entry(self) -> Frame:
-        return Frame(coords=self.PLACEMENT.coordinates.copy())
-
-    @property
-    def sortie(self) -> Frame:
-        frame = Frame(coords=self.PLACEMENT.coordinates.copy())
-        frame.tx += 180 * ureg.degree
-        return frame
+    def entry_patched(self) -> Frame:
+        if self._entry_patched is None:
+            self._entry_patched = Frame(self.entry)
+            self._entry_patched.rotate_x(_radian(180 * ureg.degree))
+        return self._entry_patched
