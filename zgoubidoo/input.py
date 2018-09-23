@@ -43,8 +43,10 @@ class Input:
     def __getattr__(self, item):
         pass
 
-    def __contains__(self, item):
-        l, i = self._filter(item)
+    def __contains__(self, items):
+        if not isinstance(items, tuple):
+            items = (items,)
+        l, i = self._filter(items)
         return len(l)
 
     def _filter(self, items) -> tuple:
@@ -84,3 +86,9 @@ class Input:
         if len(line) == 0 or not isinstance(line[-1], commands.End):
             line.append(commands.End())
         return ''.join(map(str, [name] + (line or [])))
+
+
+class Beamline(Input):
+    def __init__(self, name: str='beamline', input_line: Input=None):
+        self._name: str = name
+        self._line: List[commands.Command] = input_line[commands.Magnet].line or []
