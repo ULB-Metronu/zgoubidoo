@@ -47,12 +47,28 @@ class Input:
         l, i = self._filter(item)
         return len(l)
 
-    def _filter(self, items):
+    def _filter(self, items) -> tuple:
         items = tuple(map(lambda x: getattr(commands, x) if isinstance(x, str) else x, items))
         return list(filter(lambda x: reduce(lambda u, v: u or v, [isinstance(x, i) for i in items]), self._line)), items
 
     def apply(self, f: Callable[[commands.Command], commands.Command]) -> None:
         self._line = list(map(f, self._line))
+
+    @property
+    def labels(self) -> list:
+        return [e.LABEL1 for e in self._line]
+
+    @property
+    def labels1(self) -> list:
+        return self.labels
+
+    @property
+    def labels2(self) -> list:
+        return [e.LABEL2 for e in self._line]
+
+    @property
+    def keywords(self) -> list:
+        return [e.KEYWORD for e in self._line]
 
     @property
     def line(self) -> Sequence[commands.Command]:

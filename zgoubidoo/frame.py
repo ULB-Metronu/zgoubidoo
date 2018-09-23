@@ -1,6 +1,7 @@
 from sympy.physics.vector import ReferenceFrame, Point
 import numpy as np
 
+
 class Frame:
     """
 

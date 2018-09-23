@@ -6,6 +6,19 @@ import sys
 import re
 
 
+def find_labeled_output(out, label):
+    data = []
+    for l in out:
+        if label in l and 'Keyword' in l:
+            data.append(l)
+            continue
+        if len(data) > 0:
+            if '****' in l:
+                break
+            data.append(l)
+    return list(filter(lambda _: len(_), data))
+
+
 class ZgoubiException(Exception):
     """Exception raised for errors when running Zgoubi."""
 
@@ -49,6 +62,11 @@ class Zgoubi:
         if output[1] is not None:
             stderr = output[1].decode()
 
+        # Extract element by element output
+        result = open(Zgoubi.ZGOUBI_RES_FILE, 'r').read().split('\n')
+        for e in _.line:
+            e.attach_output(find_labeled_output(result, e.LABEL1))
+
         # Extract CPU time
         cputime = -1.0
         if stderr is None:
@@ -63,7 +81,7 @@ class Zgoubi:
                 'stdout': output[0].decode().split('\n'),
                 'stderr': stderr,
                 'cputime': cputime,
-                'result': open(Zgoubi.ZGOUBI_RES_FILE, 'r').read().split('\n'),
+                'result': result,
                 'input': _,
             }
         except FileNotFoundError:
