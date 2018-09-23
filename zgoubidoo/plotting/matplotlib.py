@@ -101,7 +101,11 @@ class ZgoubiMpl(ZgoubiPlot):
     def tracks_cartesianmagnet(self, magnet, tracks) -> None:
         x = tracks['X'].values
         y = 100 * tracks['Y-DY'].values
-        angle = -np.radians(magnet.entry_patched.tx(self.reference_frame))
+        angle = - np.radians(magnet.entry_patched.tx(self.reference_frame))
+        if np.sign(np.cos(magnet.entry.tz(self.reference_frame))) > 0:
+            pass
+        else:
+            y *= -1
         s = np.sin(angle)
         c = np.cos(angle)
         xx = c * x - s * y
@@ -112,11 +116,11 @@ class ZgoubiMpl(ZgoubiPlot):
 
     def tracks_polarmagnet(self, magnet, tracks) -> None:
         x = tracks['X'].values
-        y = tracks['Y-DY'].values
+        y = 100 * tracks['Y-DY'].values
         if np.sign(np.cos(magnet.entry.tz(self.reference_frame))) > 0:
             rotation_angle = np.radians(90 - magnet.center.tx(self.reference_frame)) - x
         else:
             rotation_angle = np.radians(-90 - magnet.center.tx(self.reference_frame)) + x
-        tracks_x = magnet.center.x(self.reference_frame) + 100 * y * np.cos(rotation_angle)
-        tracks_y = magnet.center.y(self.reference_frame) + 100 * y * np.sin(rotation_angle)
+        tracks_x = magnet.center.x(self.reference_frame) + y * np.cos(rotation_angle)
+        tracks_y = magnet.center.y(self.reference_frame) + y * np.sin(rotation_angle)
         self.plot(tracks_x, tracks_y, '.', ms=2)
