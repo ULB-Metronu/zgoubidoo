@@ -31,12 +31,15 @@ class ZgoubiMpl(ZgoubiPlot):
                 self.plot(magnet.center.x(ref), magnet.center.y(ref), 'r.', ms=5)
 
         def do_box() -> None:
-            if np.sign(np.cos(magnet.entry.tz(ref))) > 0:
+            if np.cos(magnet.entry.tz(ref)) > 0:
                 theta1 = 90 - magnet.entry.tx(ref) - magnet.angular_opening.to('degree').magnitude
                 theta2 = 90 - magnet.entry.tx(ref)
             else:
                 theta1 = -90 - magnet.entry.tx(ref)
                 theta2 = -90 - magnet.entry.tx(ref) + magnet.angular_opening.to('degree').magnitude
+                if np.sin(magnet.entry.tx(ref)) < 0:
+                    theta1 = magnet.entry.tx(ref) - 90
+                    theta2 = magnet.entry.tx(ref) - 90 + magnet.angular_opening.to('degree').magnitude
             self._ax.add_patch(
                 patches.Wedge(
                     (
@@ -70,7 +73,7 @@ class ZgoubiMpl(ZgoubiPlot):
             tr = transforms.Affine2D().rotate_deg_around(
                 magnet.entry_patched.x(ref),
                 magnet.entry_patched.y(ref),
-                -magnet.entry_patched.tx(ref)
+                -magnet.entry_patched.tx(ref)*np.sign(np.cos(magnet.entry_patched.tz(ref)))
             ) + self._ax.transData
             self._ax.add_patch(
                 patches.Rectangle(

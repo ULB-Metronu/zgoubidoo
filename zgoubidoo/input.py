@@ -8,7 +8,9 @@ class Input:
 
     def __init__(self, name: str='beamline', line: Sequence[commands.Command]=None):
         self._name: str = name
-        self._line: List[commands.Command] = line or []
+        if line is None:
+            line = []
+        self._line: List[commands.Command] = line
 
     def __str__(self) -> str:
         return self.build(self._name, self._line)
