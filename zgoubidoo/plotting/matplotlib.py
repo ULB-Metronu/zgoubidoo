@@ -6,8 +6,9 @@ from .zgoubiplot import ZgoubiPlot
 
 
 class ZgoubiMpl(ZgoubiPlot):
-    def __init__(self, ax=None, with_boxes: bool=True, with_frames: bool=True, **kwargs):
+    def __init__(self, ax=None, with_boxes: bool=True, with_frames: bool=True, with_centers: bool=False, **kwargs):
         super().__init__(with_boxes, with_frames, **kwargs)
+        self._with_centers = with_centers
         if ax is None:
             self._init_plot()
         else:
@@ -21,23 +22,26 @@ class ZgoubiMpl(ZgoubiPlot):
         self._ax.plot(*args, **kwargs)
 
     def polarmagnet(self, magnet) -> None:
+        ref = self.reference_frame
+
         def do_frame() -> None:
-            self.plot(magnet.entry.x, magnet.entry.y, 'gv', ms=5)
-            self.plot(magnet.sortie.x, magnet.sortie.y, 'k^', ms=5)
+            self.plot(magnet.entry.x(ref), magnet.entry.y(ref), 'gv', ms=5)
+            self.plot(magnet.exit.x(ref), magnet.exit.y(ref), 'k^', ms=5)
+            if self._with_centers:
+                self.plot(magnet.center.x(ref), magnet.center.y(ref), 'r.', ms=5)
 
         def do_box() -> None:
-            theta1 = 90 + magnet.entry.tz.to('degree').magnitude - magnet.angular_opening.to('degree').magnitude
-            theta2 = 90 + magnet.entry.tz.to('degree').magnitude
-            if np.sign(np.cos(magnet.PLACEMENT.tx.to('radian').magnitude)) < 0:
-                theta1, theta2 = theta2, theta1
-                theta1 -= 180
-                theta2 -= 180
-
+            if np.sign(np.cos(magnet.entry.tz(ref))) > 0:
+                theta1 = 90 - magnet.entry.tx(ref) - magnet.angular_opening.to('degree').magnitude
+                theta2 = 90 - magnet.entry.tx(ref)
+            else:
+                theta1 = -90 - magnet.entry.tx(ref)
+                theta2 = -90 - magnet.entry.tx(ref) + magnet.angular_opening.to('degree').magnitude
             self._ax.add_patch(
                 patches.Wedge(
                     (
-                        magnet.center[0].to('cm').magnitude,
-                        magnet.center[1].to('cm').magnitude,
+                        magnet.center.x(ref),
+                        magnet.center.y(ref),
                     ),
                     (magnet.radius + magnet.WIDTH / 2.0).to('cm').magnitude,
                     theta1,
@@ -56,24 +60,29 @@ class ZgoubiMpl(ZgoubiPlot):
             do_frame()
 
     def cartesianmagnet(self, magnet) -> None:
+        ref = self.reference_frame
+
         def do_frame():
-            self.plot(magnet.entry.x, magnet.entry.y, 'gv', ms=5)
-            self.plot(magnet.sortie.x, magnet.sortie.y, 'k^', ms=5)
+            self.plot(magnet.entry_patched.x(ref), magnet.entry_patched.y(ref), 'gv', ms=5)
+            self.plot(magnet.exit.x(ref), magnet.exit.y(ref), 'k^', ms=5)
 
         def do_box():
             tr = transforms.Affine2D().rotate_deg_around(
-                magnet.entry.x.to('cm').magnitude,
-                magnet.entry.y.to('cm').magnitude,
-                magnet.entry.tz.to('degree').magnitude) + self._ax.transData
+                magnet.entry_patched.x(ref),
+                magnet.entry_patched.y(ref),
+                -magnet.entry_patched.tx(ref)
+            ) + self._ax.transData
             self._ax.add_patch(
                 patches.Rectangle(
                     (
-                        magnet.entry.x.to('cm').magnitude,
-                        (magnet.entry.y - magnet.WIDTH / 2).to('cm').magnitude
+                        magnet.entry_patched.x(ref),
+                        magnet.entry_patched.y(ref) - magnet.WIDTH.to('cm').magnitude / 2
                     ),
                     np.linalg.norm(
-                        np.array([magnet.sortie.x.to('cm').magnitude, magnet.sortie.y.to('cm').magnitude])
-                        - np.array([magnet.entry.x.to('cm').magnitude, magnet.entry.y.to('cm').magnitude])
+                        np.array([
+                            magnet.exit.x(ref) - magnet.entry_patched.x(ref),
+                            magnet.exit.y(ref) - magnet.entry_patched.y(ref)
+                        ]).astype(float)
                     ),
                     magnet.WIDTH.to('cm').magnitude,
                     alpha=0.2,
@@ -88,3 +97,30 @@ class ZgoubiMpl(ZgoubiPlot):
             do_box()
         if self._with_frames:
             do_frame()
+
+    def tracks_cartesianmagnet(self, magnet, tracks) -> None:
+        x = tracks['X'].values
+        y = 100 * tracks['Y-DY'].values
+        angle = - np.radians(magnet.entry_patched.tx(self.reference_frame))
+        if np.sign(np.cos(magnet.entry.tz(self.reference_frame))) > 0:
+            pass
+        else:
+            y *= -1
+        s = np.sin(angle)
+        c = np.cos(angle)
+        xx = c * x - s * y
+        yy = s * x + c * y
+        tracks_x = magnet.entry_patched.x(self.reference_frame) + xx
+        tracks_y = magnet.entry_patched.y(self.reference_frame) + yy
+        self.plot(tracks_x, tracks_y, 'b.', ms=1)
+
+    def tracks_polarmagnet(self, magnet, tracks) -> None:
+        x = tracks['X'].values
+        y = 100 * tracks['Y-DY'].values
+        if np.sign(np.cos(magnet.entry.tz(self.reference_frame))) > 0:
+            rotation_angle = np.radians(90 - magnet.center.tx(self.reference_frame)) - x
+        else:
+            rotation_angle = np.radians(-90 - magnet.center.tx(self.reference_frame)) + x
+        tracks_x = magnet.center.x(self.reference_frame) + y * np.cos(rotation_angle)
+        tracks_y = magnet.center.y(self.reference_frame) + y * np.sin(rotation_angle)
+        self.plot(tracks_x, tracks_y, '.', ms=2)

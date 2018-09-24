@@ -3,6 +3,8 @@ from .. import ureg, Q_
 from pint import UndefinedUnitError
 import uuid
 from ..frame import Frame
+from .patchable import Patchable
+from ..units import _radian, _degree, _cm
 
 ZGOUBI_LABEL_LENGTH: int = 10  # Used to be 8 on older versions
 
@@ -36,6 +38,7 @@ class Command(metaclass=MetaCommand):
     }
 
     def __init__(self, label1: str='', label2: str='', *params, **kwargs):
+        self._output = None
         self._attributes = {}
         for p in (Command.PARAMETERS, self.PARAMETERS,) + params + (
                 {
@@ -69,7 +72,7 @@ class Command(metaclass=MetaCommand):
             return attr
 
     def __setattr__(self, a, v):
-        if a == '_attributes':
+        if a == '_attributes' or a == '_output':
             self.__dict__[a] = v
         else:
             self._attributes[a] = v
@@ -83,12 +86,19 @@ class Command(metaclass=MetaCommand):
         """
 
     @property
-    def patchable(self) -> bool:
+    def plotable(self) -> bool:
         return False
 
     @property
-    def plotable(self) -> bool:
-        return False
+    def output(self):
+        return self._output
+
+    def attach_output(self, output):
+        self._output = output
+        self.process_output()
+
+    def process_output(self):
+        pass
 
 
 class AutoRef(Command):
@@ -116,9 +126,39 @@ Chamber = Chambre
 Chambr = Chambre
 
 
-class ChangeRef(Command):
-    """Transformation to a new reference frame."""
+class ChangeRef(Command, Patchable):
+    """Transformation to a new reference frame.
+
+    Supports only Zgoubi "new style" ChangeRef. To recover the "old style", do XS, YS, ZR.
+    """
     KEYWORD = 'CHANGREF'
+    PARAMETERS = {
+        'TRANSFORMATIONS': []
+    }
+
+    def __str__(s):
+        c =  f"""
+        {super().__str__().rstrip()}
+        """
+        for t in s.TRANSFORMATIONS:
+            if t[1].dimensionality == ureg.cm.dimensionality:
+                c += f"{t[0]} {_cm(t[1])} "
+            elif t[1].dimensionality == ureg.radian.dimensionality:
+                c += f"{t[0]} {_degree(t[1])} "
+            else:
+                raise ZgoubidoException("Incorrect dimensionality in CHANGEREF.")
+        return c
+
+    @property
+    def entry_patched(self) -> Frame:
+        if self._entry_patched is None:
+            self._entry_patched = Frame(self.entry)
+            for t in self.TRANSFORMATIONS:
+                if t[0].endswith('S'):
+                    self._entry_patched.translate(t[0][0], _cm(t[1]))
+                elif t[0].endswith('R'):
+                    self._entry_patched.rotate(t[0][0], _radian(t[1]))
+        return self._entry_patched
 
 
 # Alias
@@ -156,7 +196,6 @@ class Faisceau(Command):
 
 class Faiscnl(Command):
     """Store particle coordinates in file FNAME."""
-
     KEYWORD = 'FAISCNL'
     PARAMETERS = {
         'FNAME': 'zgoubi.fai',
@@ -299,6 +338,16 @@ class GasScattering(Command):
 class GetFitVal(Command):
     """Get values of variables as saved from former FIT[2] run."""
     KEYWORD = 'GETFITVAL'
+
+    PARAMETERS = {
+        'FNAME': 'zgoubi.res',
+    }
+
+    def __str__(self):
+        return f"""
+        {super().__str__().rstrip()}
+        {self.FNAME}
+        """
 
 
 class Histo(Command):
@@ -464,16 +513,18 @@ class WienFilter(Command):
     KEYWORD = 'WIENFILT'
 
 
-class Ymy(Command):
+class Ymy(Command, Patchable):
     """Reverse signs of Y and Z reference axes."""
     KEYWORD = 'YMY'
 
-    @property
-    def patchable(self) -> bool:
-        return True
+    def __str__(s):
+        return f"""
+        {super().__str__().rstrip()}
+        """
 
     @property
-    def sortie(self) -> Frame:
-        frame = Frame(coords=self.PLACEMENT.coordinates.copy())
-        frame.tx += 180 * ureg.degree
-        return frame
+    def entry_patched(self) -> Frame:
+        if self._entry_patched is None:
+            self._entry_patched = Frame(self.entry)
+            self._entry_patched.rotate_x(_radian(180 * ureg.degree))
+        return self._entry_patched

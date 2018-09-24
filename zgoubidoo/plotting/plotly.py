@@ -62,7 +62,7 @@ class ZgoubiPlotly(ZgoubiPlot):
         py.iplot(self.fig, config=self.config)
 
     def polarmagnet(self, magnet):
-       pass
+        pass
 
     def cartesianmagnet(self, entry, sortie, rotation, width, color='gray'):
         def do_frame():

@@ -1,5 +1,7 @@
+import copy
 from .input import Input
 from .frame import Frame
+from .commands.patchable import Patchable
 
 
 def survey(beamline: Input=None, reference_frame: Frame=None) -> Input:
@@ -9,11 +11,9 @@ def survey(beamline: Input=None, reference_frame: Frame=None) -> Input:
     :param reference_frame: a Zgoubidoo Frame object acting as the initial reference frame
     :return: a Zgoubidoo Input object
     """
-    surveyed_line: Input = Input(name=beamline.name, line=beamline.line)
+    surveyed_line: Input = Input(name=beamline.name, line=beamline.line.copy())
     frame: Frame = reference_frame or Frame()
-    for e in beamline.line:
-        if not e.patchable:
-            continue
-        e.PLACEMENT = frame
-        frame = e.sortie
+    for e in beamline[Patchable].line:
+        e.place(frame)
+        frame = e.exit_patched
     return surveyed_line

@@ -3,24 +3,18 @@ from .commands import Command, ZgoubidoException
 from .. import ureg, Q_
 from ..frame import Frame
 from ..plotting import ZgoubiPlot
+from .patchable import Patchable
+from ..units import _cm, _radian
 
 
-class Magnet(Command):
+class Magnet(Command, Patchable):
     """Base class for all magnetic elements."""
     PARAMETERS = {
-        'PLACEMENT': Frame(),
         'HEIGHT': 20 * ureg.cm,
     }
 
     def __init__(self, label1='', label2='', *params, **kwargs):
         super().__init__(label1, label2, Magnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
-
-    def align(self, *args, **kwargs):
-        return self
-
-    @property
-    def patchable(self) -> bool:
-        return True
 
     @property
     def plotable(self) -> bool:
@@ -37,52 +31,72 @@ class CartesianMagnet(Magnet):
         super().__init__(label1, label2, CartesianMagnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
     @property
-    def rotation(self):
+    def rotation(self) -> Q_:
         return self.ALE or 0.0 * ureg.degree
 
     @property
-    def length(self):
-        return np.linalg.norm(self.sortie.origin - self.entree.origin)
+    def _rotation(self) -> float:
+        return _radian(self.rotation)
 
     @property
-    def x_offset(self):
+    def length(self) -> Q_:
+        return self.XL or 0.0 * ureg.cm
+
+    @property
+    def _length(self) -> float:
+        return _cm(self.length)
+
+    @property
+    def x_offset(self) -> Q_:
         return self.XCE or 0.0 * ureg.cm
 
     @property
-    def y_offset(self):
+    def _x_offset(self) -> float:
+        return _cm(self.x_offset)
+
+    @property
+    def y_offset(self) -> Q_:
         return self.YCE or 0.0 * ureg.cm
 
     @property
-    def entry(self):
-        frame = Frame(coords=self.PLACEMENT.coordinates.copy())
-        frame.x += self.x_offset
-        frame.y += self.y_offset
-        frame.tz += self.rotation
-        return frame
+    def _y_offset(self):
+        return _cm(self.y_offset)
 
     @property
-    def sortie(self):
-        frame = Frame(coords=self.entry.coordinates.copy())
-        if self.KPOS == 1 or self.KPOS is None:
-            s = np.sin(self.entry.tz.to('radian').magnitude)
-            c = np.cos(self.entry.tz.to('radian').magnitude)
-            frame.x += self.XL * c
-            frame.y += self.XL * s
-        elif self.KPOS == 2:
-            x = self.entry.x + self.XL - (self.x_offset or 0.0 * ureg.cm)
-            y = self.entry.y - (self.y_offset or 0.0 * ureg.cm)
-            s = np.sin((self.rotation or 0.0 * ureg.degree))
-            c = np.cos((self.rotation or 0.0 * ureg.degree))
-            frame.x = c * x - s * y
-            frame.y = s * x + c * y
-            frame.tz -= self.rotation
+    def entry_patched(self) -> Frame:
+        if self._entry_patched is None:
+            self._entry_patched = Frame(self.entry)
+            self._entry_patched.translate_x(self._x_offset)
+            self._entry_patched.translate_y(self._y_offset)
+            self._entry_patched.rotate_z(-self._rotation)
+        return self._entry_patched
 
-        return frame
+    @property
+    def exit(self) -> Frame:
+        if self._exit is None:
+            self._exit = Frame(self.entry_patched)
+            self._exit.translate_x(self._length)
+        return self._exit
+
+    @property
+    def exit_patched(self) -> Frame:
+        if self._exit_patched is None:
+            if self.KPOS is None or self.KPOS == 1:
+                self._exit_patched = Frame(self.exit)
+            elif self.KPOS == 2:
+                self._exit_patched = Frame(self.entry)
+                self._exit_patched.translate_x(self._length)
+        return self._exit_patched
 
     def plot(self, artist=None):
         if artist is None:
             return
         getattr(artist, CartesianMagnet.__name__.lower())(self)
+
+    def plot_tracks(self, artist=None, tracks=None):
+        if artist is None or tracks is None:
+            return
+        getattr(artist, f"tracks_{CartesianMagnet.__name__.lower()}")(self, tracks)
 
 
 class PolarMagnet(Magnet):
@@ -96,40 +110,54 @@ class PolarMagnet(Magnet):
 
     @property
     def angular_opening(self):
-        return self.AT * np.sign(np.cos(self.PLACEMENT.tx.to('radian').magnitude)) or 0 * ureg.degree
+        return self.AT or 0 * ureg.degree
 
     @property
-    def radius(self):
+    def _angular_opening(self):
+        return _radian(self.angular_opening)
+
+    @property
+    def radius(self) -> Q_:
         return self.RM or 0 * ureg.cm
 
     @property
+    def _radius(self) -> float:
+        return _cm(self.radius)
+
+    @property
+    def entry_patched(self):
+        if self._entry_patched is None:
+            self._entry_patched = Frame(self.entry)
+        return self._entry_patched
+
+    @property
     def center(self):
-        tx = self.entry.tx.to('radian').magnitude
-        tz = self.entry.tz.to('radian').magnitude
-        return [
-            self.entry.x + self.radius * np.sin(tz) * np.sign(np.cos(tx)),
-            self.entry.y - self.radius * np.cos(tz) * np.cos(tx),
-        ]
+        if self._center is None:
+            self._center = Frame(self.entry_patched)
+            self._center.translate_y(-self._radius)
+        return self._center
 
     @property
-    def entry(self):
-        frame = self.PLACEMENT
-        return frame
+    def exit(self) -> Frame:
+        if self._exit is None:
+            self._exit = Frame(self.center)
+            self._exit.translate_y(self._radius)
+            self._exit.rotate_z(-self._angular_opening)
+        return self._exit
 
     @property
-    def sortie(self):
-        a = self.angular_opening.to('radian').magnitude
-        frame = Frame(coords=self.PLACEMENT.coordinates.copy())
-        x = self.center[0] + (frame.x-self.center[0]) * np.cos(a) + (frame.y-self.center[1]) * np.sin(a)
-        y = self.center[1] + -(frame.x-self.center[0]) * np.sin(a) + (frame.y-self.center[1]) * np.cos(a)
-        tz = frame.tz - self.angular_opening
-        frame.x = x
-        frame.y = y
-        frame.tz = tz
-        return frame
+    def exit_patched(self) -> Frame:
+        if self._exit_patched is None:
+            self._exit_patched = Frame(self.exit)
+        return self._exit_patched
 
     def plot(self, artist: ZgoubiPlot):
         getattr(artist, PolarMagnet.__name__.lower())(self)
+
+    def plot_tracks(self, artist=None, tracks=None):
+        if artist is None or tracks is None:
+            return
+        getattr(artist, f"tracks_{PolarMagnet.__name__.lower()}")(self, tracks)
 
 
 class AGSMainMagnet(Magnet):
@@ -351,10 +379,7 @@ class Bend(CartesianMagnet):
         XL (cm): magnet length (distance between EFB)
 
     """
-    COLOR = 'green'
-
     KEYWORD = 'BEND'
-
     PARAMETERS = {
         'IL': (2, "Print field and coordinates along trajectories"),
         'XL': (0.0 * ureg.centimeter, "Magnet length (straight reference frame)"),
@@ -378,12 +403,13 @@ class Bend(CartesianMagnet):
         'C3_S': 0.0,
         'C4_S': 0.0,
         'C5_S': 0.0,
-        'XPAS': (0.0 * ureg.centimeter, "Integration step"),
+        'XPAS': (0.1 * ureg.centimeter, "Integration step"),
         'KPOS': 3,
         'XCE': 0.0 * ureg.centimeter,
         'YCE': 0.0 * ureg.centimeter,
         'ALE': 0.0 * ureg.radian,
     }
+    COLOR = 'green'
 
     def __str__(s):
         return f"""
@@ -399,69 +425,44 @@ class Bend(CartesianMagnet):
         """
 
 
-class Decapole(Magnet):
+class Decapole(CartesianMagnet):
     """Decapole magnet."""
     KEYWORD = 'DECAPOLE'
 
     PARAMETERS = {
         'IL': 2,
-        'XL': 0,
-        'R0': 0,
-        'B0': 0,
-        'X_E': 0,
-        'LAM_E': 0,
-        'NCE': 0,
-        'C0_E': 0,
-        'C1_E': 0,
-        'C2_E': 0,
-        'C3_E': 0,
-        'C4_E': 0,
-        'C5_E': 0,
-        'X_S': 0,
-        'LAM_S': 0,
-        'NCS': 0,
-        'C0_S': 0,
-        'C1_S': 0,
-        'C2_S': 0,
-        'C3_S': 0,
-        'C4_S': 0,
-        'C5_S': 0,
-        'XPAS': 0.1,
+        'XL': 0 * ureg.centimeter,
+        'R0': 1.0 * ureg.centimeter,
+        'B0': 0 * ureg.kilogauss,
+        'XE': 0 * ureg.centimeter,
+        'LAM_E': 0 * ureg.centimeter,
+        'C0': 0,
+        'C1': 1,
+        'C2': 0,
+        'C3': 0,
+        'C4': 0,
+        'C5': 0,
+        'XS': 0 * ureg.centimeter,
+        'LAM_S': 0 * ureg.centimeter,
+        'XPAS': 0.1 * ureg.centimeter,
         'KPOS': 1,
-        'XCE': 0,
-        'YCE': 0,
-        'ALE': 0,
+        'XCE': 0 * ureg.centimeter,
+        'YCE': 0 * ureg.centimeter,
+        'ALE': 0 * ureg.radian,
     }
 
     def __str__(s):
-        command = []
-        c = f"""
-                {super().__str__().rstrip()}
-                {s.IL}
-                {s.XL:.12e} {s.R0:.12e} {s.B0:.12e}
-                {s.X_E:.12e} {s.LAM_E:.12e}
-                {s.NCE} {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
-                {s.X_S:.12e} {s.LAM_S:.12e}
-                {s.NCS} {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
-                {s.XPAS:.12e}  
-                """
-        command.append(c)
-
-        if s.KPOS not in (1, 2):
-            raise ZgoubidoException("KPOS must be equal to 1 or 2")
-
-        if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
-            c = f"""
-                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
-                """
-            command.append(c)
-        elif s.KPOS == 2:  # Elements are misaligned
-            c = f"""
-                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
-                """
-            command.append(c)
-
-        return ''.join(map(lambda _: _.rstrip(), command))
+        return f"""
+        {super().__str__().rstrip()}
+        {s.IL}
+        {s.XL.to('centimeter').magnitude:.12e} {s.R0.to('centimeter').magnitude:.12e} {s.B0.to('kilogauss').magnitude:.12e}
+        {s.XE.to('centimeter').magnitude:.12e} {s.LAM_E.to('centimeter').magnitude:.12e}
+        0 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
+        {s.XS.to('centimeter').magnitude:.12e} {s.LAM_S.to('centimeter').magnitude:.12e}
+        0 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
+        {s.XPAS.to('centimeter').magnitude}
+        {s.KPOS} {s.XCE.to('centimeter').magnitude:.12e} {s.YCE.to('centimeter').magnitude:.12e} {s.ALE.to('radian').magnitude:.12e}
+        """
 
 
 class Dipole(PolarMagnet):
@@ -985,23 +986,17 @@ class Dodecapole(Command):
 
 class Drift(CartesianMagnet):
     """Field free drift space."""
-    COLOR = 'gray'
-
     KEYWORD = 'DRIFT'
-
     PARAMETERS = {
-        'XL': 0.0
+        'XL': 0 * ureg.centimeter,
     }
+    COLOR = 'gray'
 
     def __str__(s):
         return f"""
         {super().__str__().rstrip()}
         {s.XL.to('centimeter').magnitude}
         """
-
-    @property
-    def frame(self):
-        return [self.exit[0], self.exit[1], 0 * ureg.radian]
 
     def plot(self, artist=None):
         if artist is None or not artist.with_drifts:
@@ -1546,9 +1541,7 @@ class Quadisex(Magnet):
 
 class Quadrupole(CartesianMagnet):
     """Quadrupole magnet."""
-    COLOR = 'blue'
     KEYWORD = 'QUADRUPO'
-
     PARAMETERS = {
         'IL': 2,
         'XL': 0 * ureg.centimeter,
@@ -1570,6 +1563,7 @@ class Quadrupole(CartesianMagnet):
         'YCE': 0 * ureg.centimeter,
         'ALE': 0 * ureg.radian,
     }
+    COLOR = 'blue'
 
     def __str__(s):
         return f"""

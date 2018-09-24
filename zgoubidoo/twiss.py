@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from .commands import Magnet
+from .commands import Patchable
 
 
 def compute_alpha_from_matrix(m, twiss, plane=1):
@@ -93,8 +93,8 @@ def compute_transfer_matrix(line, tracks, alignment='X') -> pd.DataFrame:
     matrix = pd.DataFrame()
     for e in line.line:
         if e.LABEL1 not in elements:
-            if isinstance(e, Magnet):
-                offset += e.exit[0].to('cm').magnitude
+            if isinstance(e, Patchable):
+                offset += (e.exit.x - e.entry.x).to('cm').magnitude
             continue
         t = tracks[tracks.LABEL1 == e.LABEL1]
         data, ref = align_tracks(t)
@@ -112,5 +112,5 @@ def compute_transfer_matrix(line, tracks, alignment='X') -> pd.DataFrame:
         m[alignment] = ref[alignment].values + offset
         m['LABEL1'] = ref['LABEL1']
         matrix = matrix.append(m)
-        offset += ref[alignment].max() if alignment != 's' else 0.0
+        offset += ref[alignment].max() if alignment != 'S' else 0.0
     return matrix.reset_index()
