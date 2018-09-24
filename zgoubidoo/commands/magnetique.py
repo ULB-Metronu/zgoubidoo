@@ -1380,6 +1380,7 @@ class Multipole(Magnet):
 
         return ''.join(map(lambda _: _.rstrip(), command))
 
+
 class Octupole(Magnet):
     """Octupole magnet."""
     KEYWORD = 'OCTUPOLE'
@@ -1443,6 +1444,7 @@ class Octupole(Magnet):
             command.append(c)
 
         return ''.join(map(lambda _: _.rstrip(), command))
+
 
 class PS170(Magnet):
     """Simulation of a round shape dipole magnet."""
