@@ -168,6 +168,22 @@ ChangRef = ChangeRef
 class Collimateur(Command):
     """Collimator."""
     KEYWORD = 'COLLIMA'
+    PARAMETERS = {
+        'IA': (2, 'Element active or not (0 - inactive, 1 - active, 2 - active and prints information.'),
+        'IFORM': (1, 'Aperture shape.'),
+        'J': (0, 'Description of the aperture coordinates system.'),
+        'C1': (0 * ureg.cm, 'Half opening (Y).'),
+        'C2': (0 * ureg.cm, 'Half opening (Z).'),
+        'C3': (0 * ureg.cm, 'Center of the aperture (Y).'),
+        'C4': (0 * ureg.cm, 'Center of the aperture (Z).'),
+    }
+
+    def __str__(s):
+        return f"""
+        {super().__str__().rstrip()}
+        {s.IA}
+        {s.IFORM}.{s.J} {s.C1} {s.C2} {s.C3} {s.C4}
+        """
 
 
 # Alias
