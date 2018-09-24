@@ -156,6 +156,25 @@ class ZgoubiPlotly3d(ZgoubiPlot):
         py.iplot(self.fig, config=self.config)
 
     def polarmagnet(self, magnet):
+        def do_frame() -> None:
+            self._data.append(go.Scatter3d(x=[magnet.entry.x.to('meter').magnitude],
+                                           y=[magnet.entry.y.to('meter').magnitude],
+                                           z = [0], mode='markers',
+                                           marker=dict(
+                                               size=5,
+                                               color = 'red',
+                                               opacity=0.8
+                                           )))
+            self._data.append(go.Scatter3d(x=[magnet.sortie.x.to('meter').magnitude],
+                                           y=[magnet.sortie.y.to('meter').magnitude],
+                                           z = [0],
+                                           mode='markers',
+                                           marker=dict(
+                                               size=5,
+                                               color = 'green',
+                                               opacity=0.8
+                                           )))
+
         def build_vertices(m):
             x = []
             y = []
@@ -189,12 +208,12 @@ class ZgoubiPlotly3d(ZgoubiPlot):
             un = []
             deux = []
             trois = []
-            # --- bottom face---
+            # Bottom face
             for i in range(0, int(len(x) / 2 - 2)):
                 un.append(i)
                 deux.append(i + 1)
                 trois.append(i + 2)
-            # --- top face---
+            # Top face
             for i in range(0, int(len(x) / 2 - 2)):
                 un.append(i + int(len(x) / 2))
                 deux.append(i + 1 + int(len(x) / 2))
@@ -221,14 +240,14 @@ class ZgoubiPlotly3d(ZgoubiPlot):
                     un.append(i - 1)
                     deux.append(i + int(len(x) / 2) + 1)
                     trois.append(i + 1)
-            # --- external face 1---
+            # External face 1
             un.append(0)
             deux.append(int(len(x) / 2))
             trois.append(1)
             un.append(1)
             deux.append(int(len(x) / 2))
             trois.append(int(len(x) / 2) + 1)
-            # --- external face 2---
+            # External face 2
             un.append(int(len(x)) - 1)
             deux.append(int(len(x)) - 2)
             trois.append(int(len(x) / 2) - 1)
@@ -253,6 +272,9 @@ class ZgoubiPlotly3d(ZgoubiPlot):
                 color=magnet.COLOR,
             )
         self._data.append(my_data)
+
+        if self._with_frames:
+            do_frame()
 
     def cartesianmagnet(self, entry, sortie, rotation, width, color='gray'):
         def do_frame():
