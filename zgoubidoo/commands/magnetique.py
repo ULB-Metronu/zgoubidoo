@@ -924,64 +924,39 @@ class Dodecapole(Command):
     KEYWORD = 'DODECAPO'
 
     PARAMETERS = {
-        'XL': (0.0 * ureg.centimeter, "Magnet length."),
         'IL': 2,
-        'R0': 0,
-        'B0': 0,
-        'X_E': 0,
-        'LAM_E': 0,
-        'NCE': 0,
-        'C0_E': 0,
-        'C1_E': 0,
-        'C2_E': 0,
-        'C3_E': 0,
-        'C4_E': 0,
-        'C5_E': 0,
-        'X_S': 0,
-        'LAM_S': 0,
-        'NCS': 0,
-        'C0_S': 0,
-        'C1_S': 0,
-        'C2_S': 0,
-        'C3_S': 0,
-        'C4_S': 0,
-        'C5_S': 0,
-        'XPAS': 0.1,
+        'XL': 0 * ureg.centimeter,
+        'R0': 1.0 * ureg.centimeter,
+        'B0': 0 * ureg.kilogauss,
+        'XE': 0 * ureg.centimeter,
+        'LAM_E': 0 * ureg.centimeter,
+        'C0': 0,
+        'C1': 1,
+        'C2': 0,
+        'C3': 0,
+        'C4': 0,
+        'C5': 0,
+        'XS': 0 * ureg.centimeter,
+        'LAM_S': 0 * ureg.centimeter,
+        'XPAS': 0.1 * ureg.centimeter,
         'KPOS': 1,
-        'XCE': 0,
-        'YCE': 0,
-        'ALE': 0,
+        'XCE': 0 * ureg.centimeter,
+        'YCE': 0 * ureg.centimeter,
+        'ALE': 0 * ureg.radian,
     }
 
     def __str__(s):
-        command = []
-        c = f"""
-                {super().__str__().rstrip()}
-                {s.IL}
-                {s.XL:.12e} {s.R0:.12e} {s.B0:.12e}
-                {s.X_E:.12e} {s.LAM_E:.12e}
-                {s.NCE} {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
-                {s.X_S:.12e} {s.LAM_S:.12e}
-                {s.NCS} {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
-                {s.XPAS:.12e}  
-                """
-        command.append(c)
-
-        if s.KPOS not in (1, 2):
-            raise ZgoubidoException("KPOS must be equal to 1 or 2")
-
-        if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
-            c = f"""
-                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
-                """
-            command.append(c)
-        elif s.KPOS == 2:  # Elements are misaligned
-            c = f"""
-                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
-                """
-            command.append(c)
-
-        return ''.join(map(lambda _: _.rstrip(), command))
+        return f"""
+        {super().__str__().rstrip()}
+        {s.IL}
+        {s.XL.to('centimeter').magnitude:.12e} {s.R0.to('centimeter').magnitude:.12e} {s.B0.to('kilogauss').magnitude:.12e}
+        {s.XE.to('centimeter').magnitude:.12e} {s.LAM_E.to('centimeter').magnitude:.12e}
+        0 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
+        {s.XS.to('centimeter').magnitude:.12e} {s.LAM_S.to('centimeter').magnitude:.12e}
+        0 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
+        {s.XPAS.to('centimeter').magnitude}
+        {s.KPOS} {s.XCE.to('centimeter').magnitude:.12e} {s.YCE.to('centimeter').magnitude:.12e} {s.ALE.to('radian').magnitude:.12e}
+        """
 
 
 class Drift(CartesianMagnet):
