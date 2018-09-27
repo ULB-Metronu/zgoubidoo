@@ -9,7 +9,7 @@ import re
 def find_labeled_output(out, label):
     data = []
     for l in out:
-        if label in l and 'Keyword' in l:
+        if str(label) in l and 'Keyword' in l:
             data.append(l)
             continue
         if len(data) > 0:

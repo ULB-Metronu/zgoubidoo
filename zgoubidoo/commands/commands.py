@@ -512,9 +512,9 @@ class Twiss(Command):
     KEYWORD = 'TWISS'
 
     PARAMETERS = {
-        'KTW': 2,
+        'KTW': 1,
         'FACD': 1.0,
-        'FACA': 0.0,
+        'FACA': (0.0, 'Unused'),
     }
 
     def __str__(s):
