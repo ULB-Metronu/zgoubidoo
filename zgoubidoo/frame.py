@@ -12,13 +12,24 @@ class Frame:
 
 
 class Frame:
+    """
+
+    """
     def __init__(self, parent: Optional[Frame] = None):
+        """
+
+        :param parent: parent frame, if None then the frame is considered as a global reference frame.
+        """
         self._p: Optional[Frame] = parent
         self._q: np.quaternion = np.quaternion(1, 0, 0, 0)
         self._o: np.ndarray = np.zeros(3)
 
     @property
     def parent(self) -> Optional[Frame]:
+        """
+
+        :return: parent frame, None in case the frame is a global reference frame.
+        """
         return self._p
 
     @parent.setter
@@ -26,6 +37,12 @@ class Frame:
         raise Exception("Setting the parent is not allowed.")
 
     def get_quaternion(self, ref: Optional[Frame] = None):
+        """
+        Provides the quaternion representation of the rotation of the frame with respect to another reference frame.
+        :param ref: reference frame with respect to which the rotation quaternion is returned.
+        If None then the rotation is provided with respect to the global reference frame.
+        :return: the quaternion representing the rotation with respect to a given reference frame.
+        """
         if self._p == ref:
             return self._q
         elif ref == self:
@@ -81,27 +98,43 @@ class Frame:
 
     tz = property(get_tz)
 
-    def rotate(self, angles):
+    def rotate(self, angles) -> Frame:
         self._q *= quaternion.from_rotation_vector(angles)
+        return self
 
-    def rotate_x(self, angle):
+    def rotate_x(self, angle) -> Frame:
         self.rotate([angle, 0, 0])
+        return self
 
-    def rotate_y(self, angle):
+    def rotate_y(self, angle) -> Frame:
         self.rotate([0, angle, 0])
+        return self
 
-    def rotate_z(self, angle):
+    def rotate_z(self, angle) -> Frame:
         self.rotate([0, 0, angle])
+        return self
 
-    def translate(self, offset: np.ndarray):
+    def translate(self, offset: np.ndarray) -> Frame:
         self._o += offset
-        print(self._o)
+        return self
 
-    def translate_x(self, offset: float):
+    def translate_x(self, offset: float) -> Frame:
         self._o[_X] += offset
+        return self
 
-    def translate_y(self, offset: float):
+    def translate_y(self, offset: float) -> Frame:
         self._o[_Y] += offset
+        return self
 
-    def translate_z(self, offset: float):
+    def translate_z(self, offset: float) -> Frame:
         self._o[_Z] += offset
+        return self
+
+    def reset(self) -> Frame:
+        """
+        Reset the frame (rotation and translation) with respect to the parent.
+        :return: the frame itself (to allow method chaining)
+        """
+        self._q: np.quaternion = np.quaternion(1, 0, 0, 0)
+        self._o: np.ndarray = np.zeros(3)
+        return self

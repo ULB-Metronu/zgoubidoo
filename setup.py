@@ -36,6 +36,7 @@ setup(
         'scipy>=1.0.0',
         'pint',
         'matplotlib',
+        'quaternion',
     ],
     package_data={'zgoubidoo': []},
 )
