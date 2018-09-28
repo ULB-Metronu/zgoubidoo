@@ -1,97 +1,107 @@
-from sympy.physics.vector import ReferenceFrame, Point
 import numpy as np
+import quaternion
+from typing import Optional
+
+_X = 0
+_Y = 1
+_Z = 2
 
 
 class Frame:
-    """
+    pass
 
-    """
 
-    def __init__(self, reference=None):
-        if reference is not None:
-            f = reference.frame
-            o = reference.origin
+class Frame:
+    def __init__(self, parent: Optional[Frame] = None):
+        self._p: Optional[Frame] = parent
+        self._q: np.quaternion = np.quaternion(1, 0, 0, 0)
+        self._o: np.ndarray = np.zeros(3)
+
+    @property
+    def parent(self) -> Optional[Frame]:
+        return self._p
+
+    @parent.setter
+    def parent(self, _):
+        raise Exception("Setting the parent is not allowed.")
+
+    def get_quaternion(self, ref: Optional[Frame] = None):
+        if self._p == ref:
+            return self._q
+        elif ref == self:
+            return np.quaternion(1, 0, 0, 0)
         else:
-            f = ReferenceFrame(f"REF_FRAME_{id(self)}")
-            o = Point(f"REF_ORIGIN_{id(self)}")
-        self._ref_frame: ReferenceFrame = f
-        self._ref_origin: Point = o
-        self._frame: ReferenceFrame = f.orientnew(f"FRAME_{id(self)}", 'Quaternion', [1, 0, 0, 0])  # Identity
-        self._origin: Point = o.locatenew(f"ORIGIN_{id(self)}", 0 * f.x)
+            return self._q * self._p.get_quaternion(ref)
 
-    def __copy__(self):
-        return Frame(self)
+    quaternion = property(get_quaternion)
+    q = property(get_quaternion)
 
-    @property
-    def frame(self) -> ReferenceFrame:
-        return self._frame
-
-    @property
-    def origin(self) -> Point:
-        return self._origin
-
-    @property
-    def ref_frame(self) -> ReferenceFrame:
-        return self._ref_frame
-
-    @property
-    def ref_origin(self) -> Point:
-        return self._ref_origin
-
-    def dcm_ref(self, reference=None):
-        if reference is None:
-            return self.frame.dcm(self.ref_frame)
+    def get_origin(self, ref: Optional[Frame] = None):
+        if self._p == ref:
+            return self._o
+        elif ref == self:
+            return np.zeros(3)
         else:
-            return self.frame.dcm(reference.frame)
+            return self._p.get_origin(ref) + np.matmul(quaternion.as_rotation_matrix(self._p.get_quaternion(ref)),
+                                                       self._o)
 
-    dcm = property(dcm_ref)
+    o = property(get_origin)
+    origin = property(get_origin)
 
-    def offset_ref(self, reference=None):
-        if reference is None:
-            return self.origin.pos_from(self.ref_origin).to_matrix(self.ref_frame)
-        else:
-            return self.origin.pos_from(reference.origin).to_matrix(reference.frame)
+    def get_x(self, ref: Optional[Frame] = None) -> float:
+        return self.get_origin(ref)[_X]
 
-    offset = property(offset_ref)
+    x = property(get_x)
 
-    def x(self, reference) -> float:
-        return float(self.offset_ref(reference)[0, 0])
+    def get_y(self, ref: Optional[Frame] = None) -> float:
+        return self.get_origin(ref)[_Y]
 
-    def y(self, reference) -> float:
-        return float(self.offset_ref(reference)[1, 0])
+    y = property(get_y)
 
-    def z(self, reference) -> float:
-        return float(self.offset_ref(reference)[2, 0])
+    def get_z(self, ref: Optional[Frame] = None) -> float:
+        return self.get_origin(ref)[_Z]
 
-    def tx(self, reference) -> float:
-        return float(np.degrees(np.arccos(float(self.dcm_ref(reference)[0, 0]))))
+    z = property(get_z)
 
-    def ty(self, reference) -> float:
-        return float(np.degrees(np.arccos(float(self.dcm_ref(reference)[1, 1]))))
+    def get_angles(self, ref: Optional[Frame] = None) -> float:
+        return quaternion.as_rotation_vector(self.get_quaternion(ref))
 
-    def tz(self, reference) -> float:
-        return float(np.degrees(np.arccos(float(self.dcm_ref(reference)[2, 2]))))
+    def get_tx(self, ref: Optional[Frame] = None) -> float:
+        return self.get_angles(ref)[_X]
 
-    def rotate(self, axis: str, angle: float) -> None:
-        self.frame.orient(self.ref_frame, "Axis", [angle, getattr(self.ref_frame, axis.lower())])
+    tx = property(get_tx)
 
-    def rotate_x(self, angle: float) -> None:
-        self.rotate('X', angle)
+    def get_ty(self, ref: Optional[Frame] = None) -> float:
+        return self.get_angles(ref)[_Y]
 
-    def rotate_y(self, angle: float) -> None:
-        self.rotate('Y', angle)
+    ty = property(get_ty)
 
-    def rotate_z(self, angle: float) -> None:
-        self.rotate('Z', angle)
+    def get_tz(self, ref: Optional[Frame] = None) -> float:
+        return self.get_angles(ref)[_Z]
 
-    def translate(self, axis: str, offset: float) -> None:
-        self.origin.set_pos(self.ref_origin, offset * getattr(self.frame, axis.lower()))
+    tz = property(get_tz)
 
-    def translate_x(self, offset: float) -> None:
-        self.translate('X', offset)
+    def rotate(self, angles):
+        self._q *= quaternion.from_rotation_vector(angles)
 
-    def translate_y(self, offset: float) -> None:
-        self.translate('Y', offset)
+    def rotate_x(self, angle):
+        self.rotate([angle, 0, 0])
 
-    def translate_z(self, offset: float) -> None:
-        self.translate('Z', offset)
+    def rotate_y(self, angle):
+        self.rotate([0, angle, 0])
+
+    def rotate_z(self, angle):
+        self.rotate([0, 0, angle])
+
+    def translate(self, offset: np.ndarray):
+        self._o += offset
+        print(self._o)
+
+    def translate_x(self, offset: float):
+        self._o[_X] += offset
+
+    def translate_y(self, offset: float):
+        self._o[_Y] += offset
+
+    def translate_z(self, offset: float):
+        self._o[_Z] += offset
