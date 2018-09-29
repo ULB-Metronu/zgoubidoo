@@ -4,4 +4,5 @@ numpy
 numpy-quaternion
 pandas
 pint
+plotly
 scipy
