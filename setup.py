@@ -31,12 +31,13 @@ setup(
     license=lic,
     packages=find_packages(exclude=('tests', 'docs', 'examples')),
     install_requires=[
+        'numba',
         'numpy>=1.14.0',
         'pandas>=0.22.0',
         'scipy>=1.0.0',
         'pint',
         'matplotlib',
-        'quaternion',
+        'numpy-quaternion',
     ],
     package_data={'zgoubidoo': []},
 )

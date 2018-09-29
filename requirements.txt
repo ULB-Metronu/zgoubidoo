@@ -1,6 +1,7 @@
 matplotlib
+numba
 numpy
+numpy-quaternion
 pandas
 pint
-quaternion
 scipy
