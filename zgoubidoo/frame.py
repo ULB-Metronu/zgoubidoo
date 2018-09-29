@@ -45,6 +45,7 @@ class Frame:
         self._p: Optional[Frame] = parent
         self._q: _np.quaternion = _np.quaternion(1, 0, 0, 0)
         self._o: _np.ndarray = _np.zeros(3)
+        self._flips: _np.ndarray = _np.ones(3)
 
     @property
     def parent(self) -> Optional[Frame]:
@@ -95,10 +96,10 @@ class Frame:
         if self._p == ref:
             return self._o
         elif ref == self:
-            return np.zeros(3)  # Identity translation with respect to oneself
+            return _np.zeros(3)  # Identity translation with respect to oneself
         else:
-            return self._p._get_origin(ref) + _np.matmul(_quaternion.as_rotation_matrix(self.get_quaternion(ref)),
-                                                         self._o)
+            m = _quaternion.as_rotation_matrix(self.get_quaternion(ref))
+            return self._p._get_origin(ref) + _np.matmul(m, self._o)
 
     def get_origin(self, ref: Optional[Frame] = None) -> List[ureg.Quantity]:
         """

@@ -543,8 +543,5 @@ class Ymy(Command, Patchable):
     def entry_patched(self) -> Frame:
         if self._entry_patched is None:
             self._entry_patched = Frame(self.entry)
-            q = self._entry_patched._q
-            self._entry_patched._q = np.quaternion(q.y, -q.z, -q.w, q.x)  # {y,-z,-w,-x}
-            print(self._entry_patched._q)
-            #self._entry_patched.rotate_x(180 * ureg.degree)
+            #self._entry_patched.flip_y()
         return self._entry_patched
