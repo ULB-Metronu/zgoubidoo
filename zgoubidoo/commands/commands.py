@@ -526,5 +526,5 @@ class Ymy(Command, Patchable):
     def entry_patched(self) -> Frame:
         if self._entry_patched is None:
             self._entry_patched = Frame(self.entry)
-            self._entry_patched.rotate_x(_radian(180 * ureg.degree))
+            self._entry_patched.rotate_z(_radian(60 * ureg.degree))
         return self._entry_patched

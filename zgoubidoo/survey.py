@@ -13,7 +13,11 @@ def survey(beamline: Input=None, reference_frame: Frame=None) -> Input:
     """
     surveyed_line: Input = Input(name=beamline.name, line=beamline.line.copy())
     frame: Frame = reference_frame or Frame()
+    angle = 0
     for e in beamline[Patchable].line:
         e.place(frame)
+        print('Angle tx en entrée: ', e.entry_patched.tx(frame)+angle)
         frame = e.exit_patched
+        print('Angle tx en sortie: ', e.entry_patched.tx(frame)+angle)
+        angle += e.entry_patched.tx(frame)
     return surveyed_line

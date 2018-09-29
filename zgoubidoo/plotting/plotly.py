@@ -1,5 +1,6 @@
 import numpy as np
 import math
+from ..units import _cm
 import plotly.offline as py
 import plotly.graph_objs as go
 from .zgoubiplot import ZgoubiPlot
@@ -157,21 +158,29 @@ class ZgoubiPlotly3d(ZgoubiPlot):
 
     def polarmagnet(self, magnet):
         def do_frame() -> None:
-            self._data.append(go.Scatter3d(x=[magnet.entry.x.to('meter').magnitude],
-                                           y=[magnet.entry.y.to('meter').magnitude],
-                                           z = [0], mode='markers',
+            self._data.append(go.Scatter3d(x=[magnet.entry_patched.x(self.reference_frame)],
+                                           y=[magnet.entry_patched.y(self.reference_frame)],
+                                           z=[0], mode='markers', name = 'entry',
                                            marker=dict(
                                                size=5,
                                                color = 'red',
                                                opacity=0.8
                                            )))
-            self._data.append(go.Scatter3d(x=[magnet.sortie.x.to('meter').magnitude],
-                                           y=[magnet.sortie.y.to('meter').magnitude],
-                                           z = [0],
-                                           mode='markers',
+            self._data.append(go.Scatter3d(x=[magnet.exit_patched.x(self.reference_frame)],
+                                           y=[magnet.exit_patched.y(self.reference_frame)],
+                                           z=[0],
+                                           mode='markers', name = 'exit',
                                            marker=dict(
                                                size=5,
                                                color = 'green',
+                                               opacity=0.8
+                                           )))
+            self._data.append(go.Scatter3d(x=[magnet.center.x(self.reference_frame)],
+                                           y=[magnet.center.y(self.reference_frame)],
+                                           z=[0], mode='markers', name='center',
+                                           marker=dict(
+                                               size=5,
+                                               color='blue',
                                                opacity=0.8
                                            )))
 
@@ -179,83 +188,84 @@ class ZgoubiPlotly3d(ZgoubiPlot):
             x = []
             y = []
             z = []
-            u = np.linspace(0, m.AT.to('radian').magnitude, m.AT.to('radian').magnitude*180/math.pi)
+            u = np.linspace(0, m.AT.to('radian').magnitude, m.AT.to('radian').magnitude*180/math.pi )
             for elem in u:
-                x.append(m.RM.to('meter').magnitude * math.cos(elem+m.entry[5].to('radians').magnitude) + m.center[0].to('meter').magnitude)
-                y.append(m.RM.to('meter').magnitude * math.sin(elem+m.entry[5].to('radians').magnitude) + m.center[1].to('meter').magnitude)
+                y.append(m.RM.to('centimeter').magnitude * math.cos(elem+np.deg2rad(m.entry_patched.ty(self.reference_frame))) + m.center.y(self.reference_frame))
+                x.append(m.RM.to('centimeter').magnitude * math.sin(elem+np.deg2rad(m.entry_patched.tx(self.reference_frame))) + m.center.x(self.reference_frame))
                 z.append(0)
 
-                x.append((m.RM.to('meter').magnitude + m.WIDTH.to('meter').magnitude) * math.cos(elem+m.entry[5].to('radians').magnitude) + m.center[0].to('meter').magnitude)
-                y.append((m.RM.to('meter').magnitude + m.WIDTH.to('meter').magnitude) * math.sin(elem+m.entry[5].to('radians').magnitude) + m.center[1].to('meter').magnitude)
+                y.append((m.RM.to('centimeter').magnitude + m.WIDTH.to('centimeter').magnitude) * math.cos(elem+np.deg2rad(m.entry_patched.ty(self.reference_frame))) + m.center.y(self.reference_frame))
+                x.append((m.RM.to('centimeter').magnitude + m.WIDTH.to('centimeter').magnitude) * math.sin(elem+np.deg2rad(m.entry_patched.tx(self.reference_frame))) + m.center.x(self.reference_frame))
                 z.append(0)
 
             for elem in u:
-                x.append(m.RM.to('meter').magnitude * math.cos(elem+m.entry[5].to('radians').magnitude) + m.center[0].to('meter').magnitude)
-                y.append(m.RM.to('meter').magnitude * math.sin(elem+m.entry[5].to('radians').magnitude) + m.center[1].to('meter').magnitude)
-                z.append(m.HEIGHT.to('meter').magnitude)
+                y.append(m.RM.to('centimeter').magnitude * math.cos(elem+np.deg2rad(m.entry_patched.ty(self.reference_frame))) + m.center.y(self.reference_frame))
+                x.append(m.RM.to('centimeter').magnitude * math.sin(elem+np.deg2rad(m.entry_patched.tx(self.reference_frame))) + m.center.x(self.reference_frame))
+                z.append(m.HEIGHT.to('centimeter').magnitude)
 
-                x.append((m.RM.to('meter').magnitude + m.WIDTH.to('meter').magnitude) * math.cos(elem+m.entry[5].to('radians').magnitude) + m.center[0].to('meter').magnitude)
-                y.append((m.RM.to('meter').magnitude + m.WIDTH.to('meter').magnitude) * math.sin(elem+m.entry[5].to('radians').magnitude) + m.center[1].to('meter').magnitude)
-                z.append(m.HEIGHT.to('meter').magnitude)
+                y.append((m.RM.to('centimeter').magnitude + m.WIDTH.to('centimeter').magnitude) * math.cos(elem+np.deg2rad(m.entry_patched.ty(self.reference_frame))) + m.center.y(self.reference_frame))
+                x.append((m.RM.to('centimeter').magnitude + m.WIDTH.to('centimeter').magnitude) * math.sin(elem+np.deg2rad(m.entry_patched.tx(self.reference_frame))) + m.center.x(self.reference_frame))
+                z.append(m.HEIGHT.to('centimeter').magnitude)
 
+            print('Angle du dernier référentiel :', m.entry_patched.tx(self.reference_frame))
             return x, y, z
 
-        def build_indices(x):
+        def build_indices(vec):
             # --- Filling the arrays containing the indices of the coordinates relative to the x,y,z arrays ---
             # {i[m],j[m],k[m]} completely define the mth vertex. i[m] = n where (x[n],y[n],z[n]) are the coordinates of the first
             # vertex of the mth triangle. j[m] = n where (x[n],y[n],z[n]) are the coordinates of the second vertex of the mth
             # triangle. k[m] = n where (x[n],y[n],z[n]) are the coordinates of the third vertex of the mth triangle.
-            un = []
-            deux = []
-            trois = []
+            i = []
+            j = []
+            k = []
             # Bottom face
-            for i in range(0, int(len(x) / 2 - 2)):
-                un.append(i)
-                deux.append(i + 1)
-                trois.append(i + 2)
+            for n in range(0, int(len(vec) / 2 - 2)):
+                i.append(n)
+                j.append(n + 1)
+                k.append(n + 2)
             # Top face
-            for i in range(0, int(len(x) / 2 - 2)):
-                un.append(i + int(len(x) / 2))
-                deux.append(i + 1 + int(len(x) / 2))
-                trois.append(i + 2 + int(len(x) / 2))
+            for n in range(0, int(len(vec) / 2 - 2)):
+                i.append(n + int(len(vec) / 2))
+                j.append(n + 1 + int(len(vec) / 2))
+                k.append(n + 2 + int(len(vec) / 2))
 
             # Outer lateral face
-            for i in range(0, int(len(x) / 2 - 2)):
-                if i % 2 == 0:  # even i
-                    un.append(i + int(len(x) / 2) + 1)
-                    deux.append(i + 1)
-                    trois.append(i + int(len(x) / 2) + 3)
-                else:  # odd i
-                    un.append(i)
-                    deux.append(i + int(len(x) / 2) + 2)
-                    trois.append(i + 2)
+            for n in range(0, int(len(vec) / 2 - 2)):
+                if n % 2 == 0:  # even n
+                    i.append(n + int(len(vec) / 2) + 1)
+                    j.append(n + 1)
+                    k.append(n + int(len(vec) / 2) + 3)
+                else:  # odd n
+                    i.append(n)
+                    j.append(n + int(len(vec) / 2) + 2)
+                    k.append(n + 2)
 
             # Inner lateral face
-            for i in range(0, int(len(x) / 2 - 2)):
-                if i % 2 == 0:  # even i
-                    un.append(i + int(len(x) / 2))
-                    deux.append(i)
-                    trois.append(i + int(len(x) / 2) + 2)
-                else:  # odd i
-                    un.append(i - 1)
-                    deux.append(i + int(len(x) / 2) + 1)
-                    trois.append(i + 1)
+            for n in range(0, int(len(vec) / 2 - 2)):
+                if n % 2 == 0:  # even n
+                    i.append(n + int(len(vec) / 2))
+                    j.append(n)
+                    k.append(n + int(len(vec) / 2) + 2)
+                else:  # odd n
+                    i.append(n - 1)
+                    j.append(n + int(len(vec) / 2) + 1)
+                    k.append(n + 1)
             # External face 1
-            un.append(0)
-            deux.append(int(len(x) / 2))
-            trois.append(1)
-            un.append(1)
-            deux.append(int(len(x) / 2))
-            trois.append(int(len(x) / 2) + 1)
+            i.append(0)
+            j.append(int(len(vec) / 2))
+            k.append(1)
+            i.append(1)
+            j.append(int(len(vec) / 2))
+            k.append(int(len(vec) / 2) + 1)
             # External face 2
-            un.append(int(len(x)) - 1)
-            deux.append(int(len(x)) - 2)
-            trois.append(int(len(x) / 2) - 1)
-            un.append(int(len(x) / 2) - 1)
-            deux.append(int(len(x) / 2) - 2)
-            trois.append(int(len(x)) - 2)
+            i.append(int(len(vec)) - 1)
+            j.append(int(len(vec)) - 2)
+            k.append(int(len(vec) / 2) - 1)
+            i.append(int(len(vec) / 2) - 1)
+            j.append(int(len(vec) / 2) - 2)
+            k.append(int(len(vec)) - 2)
 
-            return un, deux, trois
+            return i, j, k
 
         x, y, z = build_vertices(magnet)
         i, j, k = build_indices(x)
