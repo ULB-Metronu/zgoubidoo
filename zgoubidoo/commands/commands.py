@@ -1,4 +1,5 @@
 import logging
+import numpy as np
 from .. import ureg, Q_
 from pint import UndefinedUnitError
 import uuid
@@ -155,9 +156,9 @@ class ChangeRef(Command, Patchable):
             self._entry_patched = Frame(self.entry)
             for t in self.TRANSFORMATIONS:
                 if t[0].endswith('S'):
-                    self._entry_patched.translate(t[0][0], _cm(t[1]))
+                    self._entry_patched.translate_axis(t[0][0], t[1])
                 elif t[0].endswith('R'):
-                    self._entry_patched.rotate(t[0][0], _radian(t[1]))
+                    self._entry_patched.rotate_axis(t[0][0], t[1])
         return self._entry_patched
 
 
@@ -542,5 +543,8 @@ class Ymy(Command, Patchable):
     def entry_patched(self) -> Frame:
         if self._entry_patched is None:
             self._entry_patched = Frame(self.entry)
-            self._entry_patched.rotate_x(_radian(180 * ureg.degree))
+            q = self._entry_patched._q
+            self._entry_patched._q = np.quaternion(q.y, -q.z, -q.w, q.x)  # {y,-z,-w,-x}
+            print(self._entry_patched._q)
+            #self._entry_patched.rotate_x(180 * ureg.degree)
         return self._entry_patched
