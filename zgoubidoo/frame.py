@@ -566,7 +566,7 @@ class Frame:
         """
         if axis.lower() not in "xyz" or len(axis) > 1:
             raise Exception("Invalid rotation axis for 'translate_axis'")
-        return getattr(self, f"translate_{axis.lower()}")(offset)
+        return getattr(self, f"_translate_{axis.lower()}")(offset)
 
     def translate_axis(self, axis: str, offset: ureg.Quantity) -> Frame:
         """

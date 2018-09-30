@@ -153,6 +153,8 @@ class ChangeRef(Command, Patchable):
         if self._entry_patched is None:
             self._entry_patched = Frame(self.entry)
             for t in self.TRANSFORMATIONS:
+                if len(t) > 2:
+                    raise Exception("Invalid transformation.")
                 if t[0].endswith('S'):
                     self._entry_patched.translate_axis(t[0][0], t[1])
                 elif t[0].endswith('R'):
