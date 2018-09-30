@@ -1,9 +1,9 @@
+from typing import NoReturn
 from .commands import Command, ZgoubidoException
 from .. import ureg, Q_
 from ..frame import Frame
 from ..plotting import ZgoubiPlot
 from .patchable import Patchable
-from ..units import _cm, _radian
 
 
 class Magnet(Command, Patchable):
@@ -71,12 +71,12 @@ class CartesianMagnet(Magnet):
                 self._exit_patched.translate_x(self.length)
         return self._exit_patched
 
-    def plot(self, artist=None):
+    def plot(self, artist=None) -> NoReturn:
         if artist is None:
             return
         getattr(artist, CartesianMagnet.__name__.lower())(self)
 
-    def plot_tracks(self, artist=None, tracks=None):
+    def plot_tracks(self, artist=None, tracks=None) -> NoReturn:
         if artist is None or tracks is None:
             return
         getattr(artist, f"tracks_{CartesianMagnet.__name__.lower()}")(self, tracks)
@@ -349,10 +349,6 @@ class Aimant(Magnet):
 
 class Bend(CartesianMagnet):
     """Bending magnet, Cartesian frame.
-    Parameters:
-        IL:
-        XL (cm): magnet length (distance between EFB)
-
     """
     KEYWORD = 'BEND'
     PARAMETERS = {
@@ -1310,21 +1306,21 @@ class Multipole(Magnet):
         if s.KPOS not in (1, 3):
             raise ZgoubidoException("KPOS must be equal to 1,2 or 3.")
 
-        if s.KPOS == 1: # XCE, YCE and ALE set to 0 and unused
+        if s.KPOS == 1:
             c = f"""
-            {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+            {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
             """
             command.append(c)
-        elif s.KPOS == 2: # Elements are misaligned
+        elif s.KPOS == 2:
             c = f"""
-            {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+            {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
             """
             command.append(c)
-        elif s.KPOS == 3: # entrance and exit frames are shifted by YCE and tilted wrt. the magnet by an angle of either ALE of ALE != 0 or asin(B1*XL/BORO) if ALE == 0
+        elif s.KPOS == 3:
             if s.B1 == 0:
                 raise ZgoubidoException("B1 must be non-zero")
             c = f"""
-            {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+            {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
             """
             command.append(c)
 
@@ -1382,14 +1378,14 @@ class Octupole(Magnet):
         if s.KPOS not in (1, 2):
             raise ZgoubidoException("KPOS must be equal to 1 or 2")
 
-        if s.KPOS == 1: # XCE, YCE and ALE set to 0 and unused
+        if s.KPOS == 1:
             c = f"""
-            {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+            {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
             """
             command.append(c)
-        elif s.KPOS == 2: # Elements are misaligned
+        elif s.KPOS == 2:
             c = f"""
-            {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+            {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
             """
             command.append(c)
 
@@ -1427,12 +1423,12 @@ class PS170(Magnet):
 
         if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
             c = f"""
-                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
                 """
             command.append(c)
         elif s.KPOS == 2:  # Elements are misaligned
             c = f"""
-                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
                 """
             command.append(c)
 
@@ -1477,14 +1473,14 @@ class Quadisex(Magnet):
         if s.KPOS not in (1, 2):
             raise ZgoubidoException("KPOS must be equal to 1 or 2")
 
-        if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
+        if s.KPOS == 1:
             c = f"""
-                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
                 """
             command.append(c)
-        elif s.KPOS == 2:  # Elements are misaligned
+        elif s.KPOS == 2:
             c = f"""
-                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
                 """
             command.append(c)
 
@@ -1585,12 +1581,12 @@ class SexQuad(Magnet):
 
         if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
             c = f"""
-                    {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                    {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
                     """
             command.append(c)
         elif s.KPOS == 2:  # Elements are misaligned
             c = f"""
-                    {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                    {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
                     """
             command.append(c)
 
@@ -1650,12 +1646,12 @@ class Sextupole(Magnet):
 
         if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
             c = f"""
-                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
                 """
             command.append(c)
         elif s.KPOS == 2:  # Elements are misaligned
             c = f"""
-                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
                 """
             command.append(c)
 
@@ -1696,12 +1692,12 @@ class Solenoid(Magnet):
 
         if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
             c = f"""
-                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
                 """
             command.append(c)
         elif s.KPOS == 2:  # Elements are misaligned
             c = f"""
-                {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+                {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
                 """
             command.append(c)
 
@@ -1742,7 +1738,7 @@ class Venus(Command):
             raise ZgoubidoException("KPOS must be equal to 1 or 2")
 
         c = f"""
-        {n.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE.to('radian').magnitude:.12e}
+        {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE.to('radian').magnitude:.12e}
         """
         command.append(c)
 

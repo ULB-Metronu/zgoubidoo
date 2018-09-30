@@ -1,7 +1,9 @@
+from typing import NoReturn
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import matplotlib.transforms as transforms
+from .. import ureg
 from .zgoubiplot import ZgoubiPlot
 from ..units import _cm, _degree, _radian
 
@@ -19,10 +21,10 @@ class ZgoubiMpl(ZgoubiPlot):
         self._fig = plt.figure()
         self._ax = self._fig.add_subplot(111)
 
-    def plot(self, *args, **kwargs) -> None:
+    def plot(self, *args, **kwargs) -> NoReturn:
         self._ax.plot(*args, **kwargs)
 
-    def polarmagnet(self, magnet) -> None:
+    def polarmagnet(self, magnet) -> NoReturn:
 
         def do_frame() -> None:
             self.plot(_cm(magnet.entry.x), _cm(magnet.entry.y), 'gv', ms=5)
@@ -60,7 +62,7 @@ class ZgoubiMpl(ZgoubiPlot):
         if self._with_frames:
             do_frame()
 
-    def cartesianmagnet(self, magnet) -> None:
+    def cartesianmagnet(self, magnet) -> NoReturn:
 
         def do_frame():
             self.plot(_cm(magnet.entry_patched.x), _cm(magnet.entry_patched.y), 'gv', ms=5)
@@ -100,11 +102,11 @@ class ZgoubiMpl(ZgoubiPlot):
         if self._with_frames:
             do_frame()
 
-    def tracks_cartesianmagnet(self, magnet, tracks) -> None:
+    def tracks_cartesianmagnet(self, magnet, tracks) -> NoReturn:
         x = tracks['X'].values
         y = 100 * tracks['Y-DY'].values
-        angle = - np.radians(magnet.entry_patched.tx)
-        if np.sign(np.cos(magnet.entry.tz)) > 0:
+        angle = - _radian(magnet.entry_patched.tx)
+        if np.cos(_radian(magnet.entry.tz)) > 0:
             pass
         else:
             y *= -1
@@ -114,15 +116,15 @@ class ZgoubiMpl(ZgoubiPlot):
         yy = s * x + c * y
         tracks_x = _cm(magnet.entry_patched.x) + xx
         tracks_y = _cm(magnet.entry_patched.y) + yy
-        self.plot(tracks_x, tracks_y, 'b.', ms=1)
+        self.plot(tracks_x, tracks_y, '.', ms=1)
 
-    def tracks_polarmagnet(self, magnet, tracks) -> None:
+    def tracks_polarmagnet(self, magnet, tracks) -> NoReturn:
         x = tracks['X'].values  # Polar angle
         y = 100 * tracks['Y-DY'].values
-        if np.sign(np.cos(magnet.entry.tx)) > 0:
-            rotation_angle = np.radians(90 - magnet.center.tz) - x
+        if np.cos(_radian(magnet.entry.tz)) > 0:
+            rotation_angle = _radian(90 * ureg.degree - magnet.center.tx) - x
         else:
-            rotation_angle = np.radians(-90 - magnet.center.tx) + x
+            rotation_angle = _radian(-90 * ureg.degree - magnet.center.tx) + x
         tracks_x = _cm(magnet.center.x) + y * np.cos(rotation_angle)
         tracks_y = _cm(magnet.center.y) + y * np.sin(rotation_angle)
         self.plot(tracks_x, tracks_y, '.', ms=2)
