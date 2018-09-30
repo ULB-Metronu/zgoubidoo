@@ -41,14 +41,18 @@ class Frame:
     >>> f2.o == f2.origin == f2.get_origin(None)
     True
     """
-    def __init__(self, parent: Optional[Frame] = None):
+    def __init__(self, parent: Optional[Frame] = None, reference: Optional[Frame] = None):
         """
         Initialize a Frame with respect to a parent frame. If no parent is provided the newly created frame
         is considered to be a global reference frame. The frame is create with no rotation or translate with
         respect to its parent frame.
-        :param parent: parent frame, if None then the frame is considered as a global reference frame.
+        :param parent: parent frame, if None then the frame itself is considered as a global reference frame.
+        :param reference: reference frame, all quantities are provided by default with respect to this frame.
+        This allows to use the properties easily but can be modified on a case-by-case basis for each function.
+        Alternatively the reference frame can be modified after the object creation.
         """
         self._p: Optional[Frame] = parent
+        self._r: Optional[Frame] = reference
         self._q: _np.quaternion = _np.quaternion(1, 0, 0, 0)
         self._o: _np.ndarray = _np.zeros(3)
 
@@ -115,6 +119,25 @@ class Frame:
         """
         self._p = p
 
+    @property
+    def reference(self) -> Optional[Frame]:
+        """
+        Provides the reference frame with respect to which the quantities will be provided. None if not set.
+        >>> f = Frame()
+
+        :return: a frame serving as reference frame for the current frame (None if not set)
+        """
+        return self._r
+
+    @reference.setter
+    def reference(self, r) -> NoReturn:
+        """
+        Modifies the reference frame with respect to which the quantities are provided by default.
+        :param r: the new reference frame.
+        :return: NoReturn.
+        """
+        self._r = r
+
     def get_quaternion(self, ref: Optional[Frame] = None) -> _np.quaternion:
         """
         Provides the quaternion representation of the rotation of the frame with respect to another reference frame.
@@ -124,7 +147,7 @@ class Frame:
         quaternion(0.984807753012208, 0, 0, 0.17364817766693)
         >>> f2 = Frame(f1)
         >>> f2.rotate_x(10 * ureg.degree).get_quaternion() #doctest: +ELLIPSIS
-        quaternion(0.981060..., 0.085831..., -0.015134..., 0.172987...)
+        quaternion(0.981060..., 0.085831..., 0.015134..., 0.172987...)
         >>> f2.get_quaternion(f1) #doctest: +ELLIPSIS
         quaternion(0.996194..., 0.087155..., 0, 0)
 
@@ -132,6 +155,7 @@ class Frame:
         If None then the rotation is provided with respect to the global reference frame.
         :return: the quaternion representing the rotation with respect to a given reference frame.
         """
+        ref = ref or self._r
         if self._p is ref:
             return self._q
         elif ref is self:
@@ -155,6 +179,7 @@ class Frame:
         :return: the offset (numpy array, no units) representing the translation with respect to
         a given reference frame.
         """
+        ref = ref or self._r
         if self._p is ref:
             return self._o
         elif ref is self:
@@ -349,8 +374,8 @@ class Frame:
 
         >>> f = Frame()
         >>> q = _quaternion.from_rotation_vector([0, 0, 0.5])
-        >>> (f * q).tx #doctest: +ELLIPSIS
-        <Quantity(0.499..., 'radian')>
+        >>> (f * q).tx
+        <Quantity(-0.5, 'radian')>
 
         :param q: a quaternion by which the frame is multiplied representing the rotation
         :return: the rotated frame (in place)
