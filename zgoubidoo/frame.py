@@ -137,7 +137,8 @@ class Frame:
         elif ref is self:
             return _np.quaternion(1, 0, 0, 0)  # Identity rotation with respect to oneself
         else:
-            return self._q * self._p.get_quaternion(ref)  # Recursion
+            # Caution: this one DOES NOT commute
+            return self._p.get_quaternion(ref) * self._q   # Recursion
 
     quaternion = property(get_quaternion)
     q = property(get_quaternion)
@@ -256,17 +257,23 @@ class Frame:
         :param ref:
         :return:
         """
-        return _np.array([_np.arccos(e) for e in _np.diag(_quaternion.as_rotation_matrix(self.get_quaternion(ref)))])
+        m = _quaternion.as_rotation_matrix(self.get_quaternion(ref))
+        return _np.array([
+            -_np.pi / 2 + _np.arctan2(m[0, 0], m[1, 0]),
+            _np.arccos(m[1, 1]),
+            _np.arccos(m[2, 2]),
+        ])
 
-    def get_angles(self, ref: Optional[Frame] = None) -> List[ureg.Quantity]:
+    def get_angles(self, ref: Optional[Frame] = None, units: ureg.Unit = ureg.radian) -> List[ureg.Quantity]:
         """
 
         >>> f1 = Frame() # TODO
 
         :param ref:
+        :param units:
         :return:
         """
-        return list(map(lambda _: _ * ureg.radian , self._get_angles(ref)))
+        return list(map(lambda _: (_ * ureg.radian).to(units), self._get_angles(ref)))
 
     angles = property(get_angles)
 

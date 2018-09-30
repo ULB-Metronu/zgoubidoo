@@ -1,3 +1,4 @@
+from typing import NoReturn
 from ..frame import Frame
 
 
@@ -8,11 +9,11 @@ class Patchable:
     _exit_patched: Frame
     _center: Frame
 
-    def place(self, frame) -> None:
+    def place(self, frame: Frame) -> NoReturn:
         self._clear_placement()
         self._entry = frame
 
-    def _clear_placement(self) -> None:
+    def _clear_placement(self) -> NoReturn:
         self._entry = None
         self._entry_patched = None
         self._exit = None

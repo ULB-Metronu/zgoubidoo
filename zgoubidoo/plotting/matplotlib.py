@@ -26,20 +26,18 @@ class ZgoubiMpl(ZgoubiPlot):
 
         def do_frame() -> None:
             self.plot(_cm(magnet.entry.x), _cm(magnet.entry.y), 'gv', ms=5)
+            self.plot(_cm(magnet.entry_patched.x), _cm(magnet.entry_patched.y), 'bs', ms=2)
             self.plot(_cm(magnet.exit.x), _cm(magnet.exit.y), 'k^', ms=5)
             if self._with_centers:
                 self.plot(_cm(magnet.center.x), _cm(magnet.center.y), 'r.', ms=5)
 
         def do_box() -> None:
-            if np.cos(_degree(magnet.entry.tz)) > 0:
+            if np.cos(_radian(magnet.entry.tz)) > 0:
                 theta1 = 90 - _degree(magnet.entry.tx + magnet.angular_opening)
                 theta2 = 90 - _degree(magnet.entry.tx)
             else:
                 theta1 = -90 - _degree(magnet.entry.tx)
                 theta2 = -90 - _degree(magnet.entry.tx - magnet.angular_opening)
-                if np.sin(_degree(magnet.entry.tx)) < 0:
-                    theta1 = -90 + _degree(magnet.entry.tx)
-                    theta2 = -90 + _degree(magnet.entry.tx + magnet.angular_opening)
             self._ax.add_patch(
                 patches.Wedge(
                     (
@@ -66,13 +64,15 @@ class ZgoubiMpl(ZgoubiPlot):
 
         def do_frame():
             self.plot(_cm(magnet.entry_patched.x), _cm(magnet.entry_patched.y), 'gv', ms=5)
+            self.plot(_cm(magnet.entry_patched.x), _cm(magnet.entry_patched.y), 'bs', ms=2)
             self.plot(_cm(magnet.exit.x), _cm(magnet.exit.y), 'k^', ms=5)
 
         def do_box():
+            angle = -magnet.entry_patched.tx
             tr = transforms.Affine2D().rotate_deg_around(
                 _cm(magnet.entry_patched.x),
                 _cm(magnet.entry_patched.y),
-                _degree(-magnet.entry_patched.tx * np.sign(np.cos(_radian(magnet.entry_patched.tz))))
+                _degree(angle)
             ) + self._ax.transData
             self._ax.add_patch(
                 patches.Rectangle(

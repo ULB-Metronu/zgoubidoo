@@ -1,5 +1,5 @@
 from functools import reduce
-from typing import Callable, List, Sequence
+from typing import Callable, List, Sequence, Optional
 from . import commands
 
 
@@ -29,7 +29,7 @@ class Input:
         return self
 
     def __getitem__(self, items):
-        if not isinstance(items, tuple):
+        if not isinstance(items, (tuple, list)):
             items = (items,)
         l, i = self._filter(items)
         items = tuple(map(lambda x: x.__name__ if isinstance(x, type) else x, items))
@@ -91,6 +91,13 @@ class Input:
 
 
 class Beamline(Input):
-    def __init__(self, name: str='beamline', input_line: Input=None):
-        self._name: str = name
-        self._line: List[commands.Command] = input_line[commands.Magnet].line or []
+    def __init__(self, name: Optional[str]=None, input_line: Optional[Input]=None):
+        if name is None:
+            n = f"BEAMLINE_{input_line.name if input_line is not None else ''}"
+        else:
+            n = name
+        if input_line is None:
+            line = []
+        else:
+            line = input_line[commands.Magnet].line
+        super().__init__(n, line)

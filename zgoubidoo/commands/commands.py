@@ -1,9 +1,9 @@
-from .. import ureg, Q_
-from pint import UndefinedUnitError
 import uuid
-from ..frame import Frame
+from pint import UndefinedUnitError
 from .patchable import Patchable
-from ..units import _radian, _degree, _cm
+from .. import ureg, Q_
+from ..frame import Frame
+from ..units import _degree, _cm
 
 ZGOUBI_LABEL_LENGTH: int = 10  # Used to be 8 on older versions
 
@@ -541,5 +541,5 @@ class Ymy(Command, Patchable):
     def entry_patched(self) -> Frame:
         if self._entry_patched is None:
             self._entry_patched = Frame(self.entry)
-            self._entry_patched.rotate_x(_radian(180 * ureg.degree))
+            self._entry_patched.rotate_x(180 * ureg.degree)
         return self._entry_patched
