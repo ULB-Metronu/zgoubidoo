@@ -1,13 +1,19 @@
 from __future__ import annotations
 import numpy as _np
 import quaternion as _quaternion
-from typing import Optional, List
+from typing import Optional, List, NoReturn
 from . import ureg
 from .units import _m, _radian
 
 _X = 0
 _Y = 1
 _Z = 2
+
+_AXES = {
+    'X': 0,
+    'Y': 1,
+    'Z': 2
+}
 
 
 class Frame:
@@ -45,7 +51,26 @@ class Frame:
         self._p: Optional[Frame] = parent
         self._q: _np.quaternion = _np.quaternion(1, 0, 0, 0)
         self._o: _np.ndarray = _np.zeros(3)
-        self._flips: _np.ndarray = _np.ones(3)
+
+    def __eq__(self, o: Frame) -> bool:
+        """
+        Equality comparison with another Frame.
+
+        >>> f1 = Frame()
+        >>> f2 = Frame()
+        >>> f1.rotate_x(10 * ureg.degree) #doctest: +ELLIPSIS
+        <zgoubidoo.frame.Frame object at 0x...>
+        >>> f1 == f2
+        False
+        >>> f2.rotate_x(10 * ureg.degree) #doctest: +ELLIPSIS
+        <zgoubidoo.frame.Frame object at 0x...>
+        >>> f1 == f2
+        True
+
+        :param other: other frame to be compared with
+        :return: True if the two frames are strictly equal (same parent and equal rotation and origin) else otherwise
+        """
+        return self._p == o._p and self._q == o._q and _np.all(self._o == o._o)
 
     @property
     def parent(self) -> Optional[Frame]:
@@ -64,7 +89,7 @@ class Frame:
         return self._p
 
     @parent.setter
-    def parent(self, _):
+    def parent(self, _) -> NoReturn:
         raise Exception("Setting the parent is not allowed.")
 
     def get_quaternion(self, ref: Optional[Frame] = None) -> _np.quaternion:
@@ -74,9 +99,9 @@ class Frame:
         If None then the rotation is provided with respect to the global reference frame.
         :return: the quaternion representing the rotation with respect to a given reference frame.
         """
-        if self._p == ref:
+        if self._p is ref:
             return self._q
-        elif ref == self:
+        elif ref is self:
             return _np.quaternion(1, 0, 0, 0)  # Identity rotation with respect to oneself
         else:
             return self._q * self._p.get_quaternion(ref)  # Recursion
@@ -93,9 +118,9 @@ class Frame:
         :return: the offset (numpy array, no units) representing the translation with respect to
         a given reference frame.
         """
-        if self._p == ref:
+        if self._p is ref:
             return self._o
-        elif ref == self:
+        elif ref is self:
             return _np.zeros(3)  # Identity translation with respect to oneself
         else:
             m = _quaternion.as_rotation_matrix(self.get_quaternion(ref))
@@ -189,9 +214,28 @@ class Frame:
 
     tz = property(get_tz)
 
-    def _rotate(self, angles: _np.array) -> Frame:
-        self._q *= _quaternion.from_rotation_vector(angles)
+    def __mul__(self, q: _np.quaternion) -> Frame:
+        """
+        Provide a simple way to rotate the Frame in a generic way, by multiplying directly with a quaternion.
+
+        >>> f = Frame()
+        >>> q = _quaternion.from_rotation_vector([0, 0, 0.5])
+        >>> (f * q).tx #doctest: +ELLIPSIS
+        <Quantity(0.499..., 'radian')>
+
+        :param q: a quaternion by which the frame is multiplied representing the rotation
+        :return: the rotated frame (in place)
+        """
+        self._q *= q
         return self
+
+    def _rotate(self, angles: _np.array) -> Frame:
+        """
+
+        :param angles:
+        :return:
+        """
+        return self * _quaternion.from_rotation_vector(angles)
 
     def rotate(self, angles: List[ureg.Quantity]) -> Frame:
         return self._rotate(_np.array(list(map(lambda _: _radian(_), angles))))
@@ -221,6 +265,24 @@ class Frame:
         if axis.lower() not in "xyz" or len(axis) > 1:
             raise Exception("Invalid rotation axis for 'translate_axis'")
         return getattr(self, f"rotate_{axis.lower()}")(angle)
+
+    def __add__(self, offset: List[ureg.Quantity]) -> Frame:
+        """
+        Provide a simple way to translate the Frame in a generic way, by adding directly an offset.
+
+        >>> f = Frame()
+        >>> offset = [1.0 * ureg.cm, 2.0 * ureg.cm, 3.0 * ureg.cm]
+        >>> (f + offset).x
+        <Quantity(0.01, 'meter')>
+        >>> (f + offset).y
+        <Quantity(0.04, 'meter')>
+        >>> (f + offset).z
+        <Quantity(0.09, 'meter')>
+
+        :param offset: a list representing the offset (elements of the list must be a quanity of dimensions [LENGTH])
+        :return: the translated frame (in place)
+        """
+        return self.translate(offset)
 
     def _translate(self, offset: _np.ndarray) -> Frame:
         self._o += offset
