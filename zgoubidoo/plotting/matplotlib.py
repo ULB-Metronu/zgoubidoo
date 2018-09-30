@@ -9,9 +9,16 @@ from ..units import _cm, _degree, _radian
 
 
 class ZgoubiMpl(ZgoubiPlot):
-    def __init__(self, ax=None, with_boxes: bool=True, with_frames: bool=True, with_centers: bool=False, **kwargs):
+    def __init__(self,
+                 ax=None,
+                 with_boxes: bool=True,
+                 with_frames: bool=True,
+                 with_centers: bool=False,
+                 tracks_color: str='b',
+                 **kwargs):
         super().__init__(with_boxes, with_frames, **kwargs)
         self._with_centers = with_centers
+        self._tracks_color = tracks_color
         if ax is None:
             self._init_plot()
         else:
@@ -116,7 +123,7 @@ class ZgoubiMpl(ZgoubiPlot):
         yy = s * x + c * y
         tracks_x = _cm(magnet.entry_patched.x) + xx
         tracks_y = _cm(magnet.entry_patched.y) + yy
-        self.plot(tracks_x, tracks_y, '.', ms=1)
+        self.plot(tracks_x, tracks_y, '.', markeredgecolor=self._tracks_color, markerfacecolor=self._tracks_color, ms=1)
 
     def tracks_polarmagnet(self, magnet, tracks) -> NoReturn:
         x = tracks['X'].values  # Polar angle
@@ -127,4 +134,4 @@ class ZgoubiMpl(ZgoubiPlot):
             rotation_angle = _radian(-90 * ureg.degree - magnet.center.tx) + x
         tracks_x = _cm(magnet.center.x) + y * np.cos(rotation_angle)
         tracks_y = _cm(magnet.center.y) + y * np.sin(rotation_angle)
-        self.plot(tracks_x, tracks_y, '.', ms=2)
+        self.plot(tracks_x, tracks_y, '.c', markeredgecolor=self._tracks_color, markerfacecolor=self._tracks_color, ms=1)
