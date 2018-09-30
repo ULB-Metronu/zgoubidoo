@@ -1,3 +1,4 @@
 import doctest
 import zgoubidoo
-doctest.testmod(zgoubidoo.frame, verbose=False)
+doctest.testmod(zgoubidoo, verbose=True)
+doctest.testmod(zgoubidoo.frame, verbose=True)
