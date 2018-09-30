@@ -1,5 +1,3 @@
-import logging
-import numpy as np
 from .. import ureg, Q_
 from pint import UndefinedUnitError
 import uuid
@@ -344,7 +342,7 @@ class GasScattering(Command):
         'DEN': 0.0,
     }
 
-    def __str__(selfs):
+    def __str__(s):
         return f"""
         {super().__str__().rstrip()}
         {s.KGA}
@@ -543,5 +541,5 @@ class Ymy(Command, Patchable):
     def entry_patched(self) -> Frame:
         if self._entry_patched is None:
             self._entry_patched = Frame(self.entry)
-            #self._entry_patched.flip_y()
+            self._entry_patched.rotate_x(_radian(180 * ureg.degree))
         return self._entry_patched

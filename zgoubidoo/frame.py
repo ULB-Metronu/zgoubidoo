@@ -67,7 +67,7 @@ class Frame:
         >>> f1 == f2
         True
 
-        :param other: other frame to be compared with
+        :param o: other frame to be compared with
         :return: True if the two frames are strictly equal (same parent and equal rotation and origin) else otherwise
         """
         return self._p == o._p and self._q == o._q and _np.all(self._o == o._o)
@@ -84,17 +84,50 @@ class Frame:
         >>> f2.parent == f1
         True
 
+        The 'parent' property can also be set:
+
+        >>> f1 = Frame()
+        >>> f1.parent is None
+        True
+        >>> f2 = Frame()
+        >>> f2.parent is None
+        True
+        >>> f2.parent = f1
+        >>> f2.parent is f1
+        True
+        >>> f2.parent == f1
+        True
+        >>> f2.parent = None
+        >>> f2.parent is None
+        True
+
         :return: parent frame, None in case the frame is a global reference frame.
         """
         return self._p
 
     @parent.setter
-    def parent(self, _) -> NoReturn:
-        raise Exception("Setting the parent is not allowed.")
+    def parent(self, p) -> NoReturn:
+        """
+        Modifies the parent frame on the fly.
+
+        :param p: the new parent frame
+        :return: NoReturn
+        """
+        self._p = p
 
     def get_quaternion(self, ref: Optional[Frame] = None) -> _np.quaternion:
         """
         Provides the quaternion representation of the rotation of the frame with respect to another reference frame.
+
+        >>> f1 = Frame().rotate_z(20 * ureg.degree)
+        >>> f1.get_quaternion()
+        quaternion(0.984807753012208, 0, 0, 0.17364817766693)
+        >>> f2 = Frame(f1)
+        >>> f2.rotate_x(10 * ureg.degree).get_quaternion() #doctest: +ELLIPSIS
+        quaternion(0.981060..., 0.085831..., -0.015134..., 0.172987...)
+        >>> f2.get_quaternion(f1) #doctest: +ELLIPSIS
+        quaternion(0.996194..., 0.087155..., 0, 0)
+
         :param ref: reference frame with respect to which the rotation quaternion is returned.
         If None then the rotation is provided with respect to the global reference frame.
         :return: the quaternion representing the rotation with respect to a given reference frame.
@@ -113,6 +146,9 @@ class Frame:
         """
         Provides the offset representing the translation of the frame with respect to another reference frame.
         This method works in the internal unit representation of the class `Frame`.
+
+        >>> f1 = Frame() # TODO
+
         :param ref: reference frame with respect to which the origin is returned.
         If None then the translation is provided with respect to the global reference frame.
         :return: the offset (numpy array, no units) representing the translation with respect to
@@ -130,6 +166,9 @@ class Frame:
         """
         Provides the offset representing the translation of the frame with respect to another reference frame.
         This method supports units and returns `pint` quantities with dimensions of [LENGTH].
+
+        >>> f1 = Frame() # TODO
+
         :param ref: reference frame with respect to which the origin is returned.
         If None then the translation is provided with respect to the global reference frame.
         :return: the offset (list of quantities with dimensions of [LENGTH]) representing the translation
@@ -141,10 +180,19 @@ class Frame:
     origin = property(get_origin)
 
     def _get_x(self, ref: Optional[Frame] = None) -> float:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param ref:
+        :return:
+        """
         return self.get_origin(ref)[_X]
 
     def get_x(self, ref: Optional[Frame] = None) -> ureg.Quantity:
         """
+
+        >>> f1 = Frame() # TODO
 
         :param ref: reference frame with respect to which the origin is returned.
         If None then the translation offset is provided with respect to the global reference frame.
@@ -155,10 +203,19 @@ class Frame:
     x = property(get_x)
 
     def _get_y(self, ref: Optional[Frame] = None) -> float:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param ref:
+        :return:
+        """
         return self.get_origin(ref)[_Y]
 
     def get_y(self, ref: Optional[Frame] = None) -> ureg.Quantity:
         """
+
+        >>> f1 = Frame() # TODO
 
         :param ref: reference frame with respect to which the origin is returned.
         If None then the translation offset is provided with respect to the global reference frame.
@@ -169,10 +226,19 @@ class Frame:
     y = property(get_y)
 
     def _get_z(self, ref: Optional[Frame] = None) -> float:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param ref:
+        :return:
+        """
         return self.get_origin(ref)[_Z]
 
     def get_z(self, ref: Optional[Frame] = None) -> ureg.Quantity:
         """
+
+        >>> f1 = Frame() # TODO
 
         :param ref: reference frame with respect to which the origin is returned.
         If None then the translation offset is provided with respect to the global reference frame.
@@ -183,33 +249,89 @@ class Frame:
     z = property(get_z)
 
     def _get_angles(self, ref: Optional[Frame] = None) -> _np.ndarray:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param ref:
+        :return:
+        """
         return _np.array([_np.arccos(e) for e in _np.diag(_quaternion.as_rotation_matrix(self.get_quaternion(ref)))])
 
     def get_angles(self, ref: Optional[Frame] = None) -> List[ureg.Quantity]:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param ref:
+        :return:
+        """
         return list(map(lambda _: _ * ureg.radian , self._get_angles(ref)))
 
     angles = property(get_angles)
 
     def _get_tx(self, ref: Optional[Frame] = None) -> float:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param ref:
+        :return:
+        """
         return self._get_angles(ref)[_X]
 
     def get_tx(self, ref: Optional[Frame] = None) -> ureg.Quantity:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param ref:
+        :return:
+        """
         return self._get_tx(ref) * ureg.radian
 
     tx = property(get_tx)
 
     def _get_ty(self, ref: Optional[Frame] = None) -> float:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param ref:
+        :return:
+        """
         return self._get_angles(ref)[_Y]
 
     def get_ty(self, ref: Optional[Frame] = None) -> ureg.Quantity:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param ref:
+        :return:
+        """
         return self._get_ty(ref) * ureg.radian
 
     ty = property(get_ty)
 
     def _get_tz(self, ref: Optional[Frame] = None) -> float:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param ref:
+        :return:
+        """
         return self._get_angles(ref)[_Z]
 
     def get_tz(self, ref: Optional[Frame] = None) -> ureg.Quantity:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param ref:
+        :return:
+        """
         return self._get_tz(ref) * ureg.radian
 
     tz = property(get_tz)
@@ -238,30 +360,87 @@ class Frame:
         return self * _quaternion.from_rotation_vector(angles)
 
     def rotate(self, angles: List[ureg.Quantity]) -> Frame:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param angles:
+        :return:
+        """
         return self._rotate(_np.array(list(map(lambda _: _radian(_), angles))))
 
     def _rotate_x(self, angle: float) -> Frame:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param angle:
+        :return:
+        """
         self._rotate([angle, 0, 0])
         return self
 
     def rotate_x(self, angle: ureg.Quantity) -> Frame:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param angle:
+        :return:
+        """
         return self._rotate_x(_radian(angle))
 
     def _rotate_y(self, angle: float) -> Frame:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param angle:
+        :return:
+        """
         self._rotate([0, angle, 0])
         return self
 
     def rotate_y(self, angle: ureg.Quantity) -> Frame:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param angle:
+        :return:
+        """
         return self._rotate_y(_radian(angle))
 
     def _rotate_z(self, angle: float) -> Frame:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param angle:
+        :return:
+        """
         self._rotate([0, 0, angle])
         return self
 
     def rotate_z(self, angle: ureg.Quantity) -> Frame:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param angle:
+        :return:
+        """
         return self._rotate_z(_radian(angle))
 
     def rotate_axis(self, axis: str, angle: float) -> Frame:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param axis:
+        :param angle:
+        :return:
+        """
         if axis.lower() not in "xyz" or len(axis) > 1:
             raise Exception("Invalid rotation axis for 'translate_axis'")
         return getattr(self, f"rotate_{axis.lower()}")(angle)
@@ -285,39 +464,112 @@ class Frame:
         return self.translate(offset)
 
     def _translate(self, offset: _np.ndarray) -> Frame:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param offset:
+        :return:
+        """
         self._o += offset
         return self
 
     def translate(self, offset: List[ureg.Quantity]) -> Frame:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param offset:
+        :return:
+        """
         return self._translate(_np.array(_np.array(list(map(lambda _: _m(_), offset)))))
 
     def _translate_x(self, offset: float) -> Frame:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param offset:
+        :return:
+        """
         self._o[_X] += offset
         return self
 
     def translate_x(self, offset: ureg.Quantity) -> Frame:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param offset:
+        :return:
+        """
         return self._translate_x(_m(offset))
 
     def _translate_y(self, offset: float) -> Frame:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param offset:
+        :return:
+        """
         self._o[_Y] += offset
         return self
 
     def translate_y(self, offset: ureg.Quantity) -> Frame:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param offset:
+        :return:
+        """
         return self._translate_y(_m(offset))
 
     def _translate_z(self, offset: float) -> Frame:
+        """
+
+        >>> f1 = Frame() # TODO
+
+
+        :param offset:
+        :return:
+        """
         self._o[_Z] += offset
         return self
 
     def translate_z(self, offset: ureg.Quantity) -> Frame:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param offset:
+        :return:
+        """
         return self._translate_z(_m(offset))
 
     def _translate_axis(self, axis: str, offset: float) -> Frame:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param axis:
+        :param offset:
+        :return:
+        """
         if axis.lower() not in "xyz" or len(axis) > 1:
             raise Exception("Invalid rotation axis for 'translate_axis'")
         return getattr(self, f"translate_{axis.lower()}")(offset)
 
     def translate_axis(self, axis: str, offset: ureg.Quantity) -> Frame:
+        """
+
+        >>> f1 = Frame() # TODO
+
+        :param axis:
+        :param offset:
+        :return:
+        """
         return self._translate_axis(axis, _m(offset))
 
     def reset(self) -> Frame:
@@ -325,8 +577,8 @@ class Frame:
         Reset the frame (rotation and translation) with respect to the parent.
 
         >>> f1 = Frame().rotate_x(1 * ureg.radian)
-        >>> f1.get_angles()
-        [<Quantity(0.0, 'radian')>, <Quantity(0.9999999999999999, 'radian')>, <Quantity(0.9999999999999999, 'radian')>]
+        >>> f1.get_angles() #doctest: +ELLIPSIS
+        [<Quantity(0.0, 'radian')>, <Quantity(0.999..., 'radian')>, <Quantity(0.999..., 'radian')>]
         >>> f1.reset().get_angles()
         [<Quantity(0.0, 'radian')>, <Quantity(0.0, 'radian')>, <Quantity(0.0, 'radian')>]
 
