@@ -46,6 +46,7 @@ class Frame:
         Initialize a Frame with respect to a parent frame. If no parent is provided the newly created frame
         is considered to be a global reference frame. The frame is create with no rotation or translate with
         respect to its parent frame.
+
         :param parent: parent frame, if None then the frame itself is considered as a global reference frame.
         :param reference: reference frame, all quantities are provided by default with respect to this frame.
         This allows to use the properties easily but can be modified on a case-by-case basis for each function.
@@ -123,7 +124,18 @@ class Frame:
     def reference(self) -> Optional[Frame]:
         """
         Provides the reference frame with respect to which the quantities will be provided. None if not set.
-        >>> f = Frame()
+
+        >>> f1 = Frame(parent=None, reference=None)
+        >>> f1.reference is None
+        True
+        >>> f2 = Frame(parent=f1, reference=f1)
+        >>> f2.reference is f1
+        True
+        >>> f2.reference == f1
+        True
+        >>> f2.reference = None
+        >>> f2.reference is None
+        True
 
         :return: a frame serving as reference frame for the current frame (None if not set)
         """
@@ -133,6 +145,7 @@ class Frame:
     def reference(self, r) -> NoReturn:
         """
         Modifies the reference frame with respect to which the quantities are provided by default.
+
         :param r: the new reference frame.
         :return: NoReturn.
         """
@@ -172,7 +185,14 @@ class Frame:
         Provides the offset representing the translation of the frame with respect to another reference frame.
         This method works in the internal unit representation of the class `Frame`.
 
-        >>> f1 = Frame() # TODO
+        >>> f1 = Frame().translate_x(10 * ureg.cm)
+        >>> f1._get_origin()
+        array([0.1, 0. , 0. ])
+        >>> f2 = Frame(f1).translate_y(100 * ureg.cm)
+        >>> f2._get_origin()
+        array([0.1, 1. , 0. ])
+        >>> f2._get_origin(f1)
+        array([0., 1., 0.])
 
         :param ref: reference frame with respect to which the origin is returned.
         If None then the translation is provided with respect to the global reference frame.
@@ -193,7 +213,14 @@ class Frame:
         Provides the offset representing the translation of the frame with respect to another reference frame.
         This method supports units and returns `pint` quantities with dimensions of [LENGTH].
 
-        >>> f1 = Frame() # TODO
+        >>> f1 = Frame().translate_x(10 * ureg.cm)
+        >>> f1.get_origin()
+        [<Quantity(0.1, 'meter')>, <Quantity(0.0, 'meter')>, <Quantity(0.0, 'meter')>]
+        >>> f2 = Frame(f1).translate_y(100 * ureg.cm)
+        >>> f2.get_origin()
+        [<Quantity(0.1, 'meter')>, <Quantity(1.0, 'meter')>, <Quantity(0.0, 'meter')>]
+        >>> f2.get_origin(f1)
+        [<Quantity(0.0, 'meter')>, <Quantity(1.0, 'meter')>, <Quantity(0.0, 'meter')>]
 
         :param ref: reference frame with respect to which the origin is returned.
         If None then the translation is provided with respect to the global reference frame.
