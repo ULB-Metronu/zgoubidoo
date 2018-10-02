@@ -16,6 +16,13 @@ _AXES = {
 }
 
 
+class FrameException(Exception):
+    """Exception raised for errors in the Frame module."""
+
+    def __init__(self, m):
+        self.message = m
+
+
 class Frame:
     """
     A Frame object represents a reference frame for affine geometry transformations (rotations and translations).
@@ -561,12 +568,13 @@ class Frame:
         :return:
         """
         if axis.lower() not in "xyz" or len(axis) > 1:
-            raise Exception("Invalid rotation axis for 'translate_axis'")
+            raise FrameException("Invalid rotation axis for 'translate_axis'")
         return getattr(self, f"rotate_{axis.lower()}")(angle)
 
     def __add__(self, offset: List[ureg.Quantity]) -> Frame:
         """
-        Provide a simple way to translate the Frame in a generic way, by adding directly an offset.
+        Provide a simple way to translate the Frame in a generic way, by adding an offset directly.
+        This method is unit-aware and the offset must be provided as a list of pint Quantities.
 
         >>> f = Frame()
         >>> offset = [1.0 * ureg.cm, 2.0 * ureg.cm, 3.0 * ureg.cm]
@@ -577,7 +585,7 @@ class Frame:
         >>> (f + offset).z
         <Quantity(0.09, 'meter')>
 
-        :param offset: a list representing the offset (elements of the list must be a quanity of dimensions [LENGTH])
+        :param offset: a list representing the offset (elements of the list must be quantities of dimension [LENGTH])
         :return: the translated frame (in place)
         """
         return self.translate(offset)
@@ -595,13 +603,28 @@ class Frame:
 
     def translate(self, offset: List[ureg.Quantity]) -> Frame:
         """
+        Translates the origin of the Frame with respect to the parent reference frame.
+        The translations are extrinsic (done with respect to the axes of the parent frame).
 
-        >>> f1 = Frame() # TODO
+        >>> f1 = Frame()
+        >>> f1.translate([1.0 * ureg.meter, 2.0 * ureg.meter, 3.0 * ureg.meter]).o
+        [<Quantity(1.0, 'meter')>, <Quantity(2.0, 'meter')>, <Quantity(3.0, 'meter')>]
+        >>> f2 = Frame(parent=f1)
+        >>> f2.translate([-1.0 * ureg.meter, -2.0 * ureg.meter, -3.0 * ureg.meter]).o
+        [<Quantity(0.0, 'meter')>, <Quantity(0.0, 'meter')>, <Quantity(0.0, 'meter')>]
+        >>> f2.get_origin(f1)
+        [<Quantity(-1.0, 'meter')>, <Quantity(-2.0, 'meter')>, <Quantity(-3.0, 'meter')>]
+        >>> f2.rotate_x(180 * ureg.degree).o
+        [<Quantity(0.0, 'meter')>, <Quantity(4.0, 'meter')>, <Quantity(6.0, 'meter')>]
+        >>> f2.get_origin(f1)
+        [<Quantity(-1.0, 'meter')>, <Quantity(-2.0, 'meter')>, <Quantity(-3.0, 'meter')>]
 
-        :param offset:
-        :return:
+        :param offset: a list representing the offset (elements of the list must be quantities of dimension [LENGTH])
+        :return: the translated frame (in place), allows method chaining
         """
-        return self._translate(_np.array(_np.array(list(map(lambda _: _m(_), offset)))))
+        if len(offset) != 3:
+            raise FrameException("The offset must be of length 3.")
+        return self._translate(_np.array(list(map(lambda _: _m(_), offset))))
 
     def _translate_x(self, offset: float) -> Frame:
         """
@@ -677,7 +700,7 @@ class Frame:
         :return:
         """
         if axis.lower() not in "xyz" or len(axis) > 1:
-            raise Exception("Invalid rotation axis for 'translate_axis'")
+            raise FrameException("Invalid rotation axis for 'translate_axis'")
         return getattr(self, f"_translate_{axis.lower()}")(offset)
 
     def translate_axis(self, axis: str, offset: ureg.Quantity) -> Frame:
@@ -706,3 +729,4 @@ class Frame:
         self._q: _np.quaternion = _np.quaternion(1, 0, 0, 0)
         self._o: _np.ndarray = _np.zeros(3)
         return self
+
