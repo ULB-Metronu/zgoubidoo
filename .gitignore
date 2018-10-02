@@ -3,4 +3,4 @@ tests/__pycache__/
 zgoubidoo/__pycache__/
 zgoubidoo/commands/__pycache__/
 zgoubidoo.egg-info/
-zgoubidoo/plotting/__pycache__/
+zgoubidoo/vis/__pycache__/
