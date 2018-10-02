@@ -1,6 +1,6 @@
 import numpy as np
 from .commands import Command, ZgoubidoException
-from .. import ureg, Q_
+from .. import ureg
 
 
 class Objet(Command):
@@ -46,7 +46,7 @@ class Objet1(Objet):
         'DR': (1.0, 'Reference D'),
     }
 
-    def __str__(s):
+    def __str__(s) -> str:
         return f"""
         {super().__str__().rstrip()}
         {s.KOBJ}.0{s.K2}
@@ -71,7 +71,7 @@ class Objet2(Objet):
 
     @property
     def IEX(self):
-        return self._PARTICULES[:, 6]
+        return self.PARTICULES[:, 6]
 
     @property
     def PARTICULES(self):
@@ -82,7 +82,7 @@ class Objet2(Objet):
         return self._PARTICULES
 
     def clear(self):
-        self.PARTICULES = np.zeros((1, 7))
+        self._PARTICULES = np.zeros((1, 7))
         return self
 
     def add(self, p):
@@ -92,7 +92,7 @@ class Objet2(Objet):
             self._PARTICULES = np.append(self._PARTICULES, p)
         return self
 
-    def __str__(s):
+    def __str__(s) -> str:
         c = f"""
         {super().__str__().rstrip()}
         {s.KOBJ}.0{s.K2}
@@ -136,7 +136,7 @@ class Objet3(Objet):
         'FNAME': 'zgoubi.fai',  # (NN in KOBJ=3.NN determines storage FORMAT)
     }
 
-    def __str__(s):
+    def __str__(s) -> str:
         if s.NN == 1:
             return f"""
             {super().__str__().rstrip()}
@@ -183,7 +183,7 @@ class Objet4(Objet):
         'FNAME': 'zgoubi.fai', #(NN in KOBJ=3.NN determines storage FORMAT)
     }
 
-    def __str__(s):
+    def __str__(s) -> str:
         if s.NN == 1:
             return f"""
             {super().__str__().rstrip()}
@@ -228,7 +228,7 @@ class Objet5(Objet):
         'D_ZP': 0,
     }
 
-    def __str__(s):
+    def __str__(s) -> str:
         command = []
         c = f"""
         {super().__str__().rstrip()}

@@ -36,7 +36,7 @@ class CartesianMesh(Command):
         'ALE': (0 * ureg.radian, 'Misalignment tilt'),
     }
 
-    def __str__(s):
+    def __str__(s) -> str:
         return f"""
         {super().__str__().rstrip()}
         {s.IC} {s.IL}

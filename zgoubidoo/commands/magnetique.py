@@ -2,7 +2,7 @@ from typing import NoReturn
 from .commands import Command, ZgoubidoException
 from .. import ureg, Q_
 from ..frame import Frame
-from ..plotting import ZgoubiPlot
+from ..vis import ZgoubiPlot
 from .patchable import Patchable
 
 

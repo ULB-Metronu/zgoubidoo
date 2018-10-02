@@ -1,3 +1,4 @@
+from typing import NoReturn, Optional
 import uuid
 from pint import UndefinedUnitError
 from .patchable import Patchable
@@ -22,13 +23,19 @@ class MetaCommand(type):
     """
     def __new__(mcs, name, bases, dct):
         dct['__doc__'] = ''
+        d = []
         if dct.get('PARAMETERS'):
             for k, v in dct.get('PARAMETERS').items():
-                dct['__doc__'] += f"{k}: {v}"
+                d.append(f"{k}: {v}")
+            dct['__doc__'] = '\n'.join(d)
         return super().__new__(mcs, name, bases, dct)
 
 
 class Command(metaclass=MetaCommand):
+    """
+
+    """
+
     KEYWORD: str = ''
 
     PARAMETERS = {
@@ -36,8 +43,8 @@ class Command(metaclass=MetaCommand):
         'LABEL2': '',
     }
 
-    def __init__(self, label1: str='', label2: str='', *params, **kwargs):
-        self._output = None
+    def __init__(self, label1: str='', label2: str='', *params, **kwargs) -> NoReturn:
+        self._output = list()
         self._attributes = {}
         for p in (Command.PARAMETERS, self.PARAMETERS,) + params + (
                 {
@@ -90,19 +97,46 @@ class Command(metaclass=MetaCommand):
 
     @property
     def output(self):
+        """
+        Provides the outputs associated with a command after each successive Zgoubi run.
+        :return: the output, None if no output has been attached.
+        """
         return self._output
 
-    def attach_output(self, output):
-        self._output = output
+    def attach_output(self, output: str) -> NoReturn:
+        """
+        Attach the ouput that an element generated during a Zgoubi run.
+        :param output: the ouput from a Zgoubi run for the present element.
+        :return: NoReturn
+        """
+        self._output.append(output)
         self.process_output()
 
-    def process_output(self):
+    def process_output(self) ->Optional[bool]:
         pass
 
 
 class AutoRef(Command):
     """Automatic transformation to a new reference frame."""
     KEYWORD = 'AUTOREF'
+
+    PARAMETERS = {
+        'I': (1, 'Mode (1, 2 or 3.'),
+        'I1': (1, 'Particle number (only used if I = 3'),
+        'I2': (1, 'Particle number (only used if I = 3'),
+        'I3': (1, 'Particle number (only used if I = 3'),
+    }
+
+    def __str__(self):
+        c = f"""
+        {super().__str__().rstrip()}
+        {self.I}
+        """
+        if self.I == 3:
+            c += f"""
+        {self.I1} {self.I2} {self.I3}
+            """
+        return c
 
 
 class BeamBeam(Command):
@@ -118,6 +152,17 @@ class Binary(Command):
 class Chambre(Command):
     """Long transverse aperture limitation."""
     KEYWORD = 'CHAMBR'
+
+    PARAMETERS = {
+        'IA': (0, '0 (element inactive), 1 ((re)definition of the aperture), 2 (stop testing and reset counters,'
+                  'print information on stopped particles'),
+        'IFORM': (1, '1 (rectangular aperture), 2 (elliptical aperture)'),
+        'J': (0, '0 (default) or 1'),
+        'C1': (100 * ureg.cm, 'If J=0, Y opening, if J=1, inner Y opening'),
+        'C2': (100 * ureg.cm, 'If J=0, Z opening, if J=1, outer Y opening'),
+        'C3': (0 * ureg.cm, 'If J=0, Y center, if J=1, inner Z opening'),
+        'C4': (0 * ureg.cm, 'If J=0, Z center, if J=1, outer Z opening'),
+    }
 
 
 # Aliases

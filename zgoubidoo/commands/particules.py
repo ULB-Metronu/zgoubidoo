@@ -14,7 +14,7 @@ class Particule(Command):
     def __init__(self, label1='', label2='', *params, **kwargs):
         super().__init__(label1, label2, Particule.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
-    def __str__(s):
+    def __str__(s) -> str:
         return f"""
         {super().__str__().strip()}
         {s.M:.12e} {s.Q:.12e} {s.G:.12e} {s.tau:.12e} 0.0
@@ -98,4 +98,31 @@ class AntiProton(Particule):
         'M': 938.27203,
         'Q': -1.602176487e-19,
         'G': (5.585694701 - 2) / 2,
+    }
+
+
+class HeliumIon(Particule):
+    """A fully stripped Helium ion"""
+    PARAMETERS = {
+        'M': 1,
+        'Q': 1,
+        'G': 1,
+    }
+
+
+class CarbonIon(Particule):
+    """A fully stripped Carbon ion"""
+    PARAMETERS = {
+        'M': 1,
+        'Q': 1,
+        'G': 1,
+    }
+
+
+class LeadIon(Particule):
+    """A fully stripped Lead ion"""
+    PARAMETERS = {
+        'M': 1,
+        'Q': 1,
+        'G': 1,
     }
