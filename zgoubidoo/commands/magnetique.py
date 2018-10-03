@@ -4,6 +4,7 @@ from .. import ureg, Q_
 from ..frame import Frame
 from ..vis import ZgoubiPlot
 from .patchable import Patchable
+from ..units import _cm
 
 
 class Magnet(Command, Patchable):
@@ -1465,9 +1466,6 @@ class Quadisex(Magnet):
                 {s.N:.12e} {s.EB1:.12e} {s.EB2:.12e} {s.EG1:.12e} {s.EG2:.12e} 
                 {s.XPAS:.12e}  
                 """
-        # Coefficients for the calculation of B.
-        # if Y > 0 : B = EB1 and G = EG1;
-        # if Y < 0: B = EB2 and G = EG2.
         command.append(c)
 
         if s.KPOS not in (1, 2):
@@ -1491,21 +1489,27 @@ class Quadrupole(CartesianMagnet):
     """Quadrupole magnet."""
     KEYWORD = 'QUADRUPO'
     PARAMETERS = {
-        'IL': 2,
-        'XL': 0 * ureg.centimeter,
-        'R0': 1.0 * ureg.centimeter,
-        'B0': 0 * ureg.kilogauss,
-        'XE': 0 * ureg.centimeter,
-        'LAM_E': 0 * ureg.centimeter,
-        'C0': 0,
-        'C1': 1,
-        'C2': 0,
-        'C3': 0,
-        'C4': 0,
-        'C5': 0,
-        'XS': 0 * ureg.centimeter,
-        'LAM_S': 0 * ureg.centimeter,
-        'XPAS': 0.1 * ureg.centimeter,
+        'IL': (2, 'Print field and coordinates along trajectories'),
+        'XL': (0 * ureg.centimeter, 'Magnet length'),
+        'R0': (1.0 * ureg.centimeter, 'Radius of the pole tips'),
+        'B0': (0 * ureg.kilogauss, 'Field at pole tips'),
+        'XE': (0 * ureg.centimeter, 'Entrance face integration zone for the fringe field'),
+        'LAM_E': (0 * ureg.centimeter, 'Entrance face fringe field extent'),
+        'C0_E': 0,
+        'C1_E': 1,
+        'C2_E': 0,
+        'C3_E': 0,
+        'C4_E': 0,
+        'C5_E': 0,
+        'XS': (0 * ureg.centimeter, 'Exit face integration zone for the fringe field'),
+        'LAM_S': (0 * ureg.centimeter, 'Exit face fringe field extent'),
+        'C0_S': 0,
+        'C1_S': 1,
+        'C2_S': 0,
+        'C3_S': 0,
+        'C4_S': 0,
+        'C5_S': 0,
+        'XPAS': (0.1 * ureg.centimeter, 'Integration step'),
         'KPOS': 1,
         'XCE': 0 * ureg.centimeter,
         'YCE': 0 * ureg.centimeter,
@@ -1517,13 +1521,13 @@ class Quadrupole(CartesianMagnet):
         return f"""
         {super().__str__().rstrip()}
         {s.IL}
-        {s.XL.to('centimeter').magnitude:.12e} {s.R0.to('centimeter').magnitude:.12e} {s.B0.to('kilogauss').magnitude:.12e}
-        {s.XE.to('centimeter').magnitude:.12e} {s.LAM_E.to('centimeter').magnitude:.12e}
-        0 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
-        {s.XS.to('centimeter').magnitude:.12e} {s.LAM_S.to('centimeter').magnitude:.12e}
-        0 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
-        {s.XPAS.to('centimeter').magnitude}
-        {s.KPOS} {s.XCE.to('centimeter').magnitude:.12e} {s.YCE.to('centimeter').magnitude:.12e} {s.ALE.to('radian').magnitude:.12e}
+        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {s.B0.to('kilogauss').magnitude:.12e}
+        {_cm(s.XE):.12e} {_cm(s.LAM_E):.12e}
+        6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
+        {_cm(s.XS):.12e} {_cm(s.LAM_S):.12e}
+        6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
+        {_cm(s.XPAS)}
+        {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {s.ALE.to('radian').magnitude:.12e}
         """
 
     @property
