@@ -4,6 +4,7 @@ import os
 import os.path
 import sys
 import re
+from .input import Input
 
 
 def find_labeled_output(out, label):
@@ -44,7 +45,7 @@ class Zgoubi:
     def executable(self) -> str:
         return self._get_exec()
 
-    def __call__(self, _, debug=False):
+    def __call__(self, _: Input, debug=False):
         _()
         stderr = None
         p = sub.Popen([self._get_exec()],
@@ -65,7 +66,7 @@ class Zgoubi:
         # Extract element by element output
         result = open(Zgoubi.ZGOUBI_RES_FILE, 'r').read().split('\n')
         for e in _.line:
-            e.attach_output(find_labeled_output(result, e.LABEL1))
+            map(e.attach_output, find_labeled_output(result, e.LABEL1))
 
         # Extract CPU time
         cputime = -1.0
@@ -73,7 +74,7 @@ class Zgoubi:
             lines = [line.strip() for line in output[0].decode().split('\n') if
                      re.search('CPU time', line)]
             if len(lines):
-                cputime = float(re.search("\d+\.\d+[E|e]?[\+|-]?\d+", lines[0]).group())
+                cputime = float(re.search("\d+\.\d+[E|e]?[+|-]?\d+", lines[0]).group())
         if debug:
             print(output[0].decode())
         try:

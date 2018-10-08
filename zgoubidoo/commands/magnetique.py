@@ -36,7 +36,7 @@ class CartesianMagnet(Magnet):
 
     @property
     def length(self) -> Q_:
-        return self.XL or 0.0 * ureg.cm
+        return (self.XL or 0.0 * ureg.cm) + (self.X_E or 0.0 * ureg.cm) + (self.X_S or 0.0 * ureg.cm)
 
     @property
     def x_offset(self) -> Q_:
@@ -513,13 +513,13 @@ class Dipole(PolarMagnet):
         {s.AT.to('degree').magnitude:.12e} {s.RM.to('centimeter').magnitude:.12e}
         {s.ACENT.to('degree').magnitude:.12e} {s.B0.to('kilogauss').magnitude:.12e} {s.N:.12e} {s.B:.12e} {s.G:.12e}
         {s.LAM_E.to('centimeter').magnitude:.12e} 0.0
-        0 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e} {s.SHIFT_E.to('centimeter').magnitude:.12e}
+        6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e} {s.SHIFT_E.to('centimeter').magnitude:.12e}
         {s.OMEGA_E.to('degree').magnitude:.12e} {s.THETA_E:.12e} {s.R1_E.to('centimeter').magnitude:.12e} {s.U1_E.to('centimeter').magnitude:.12e} {s.U2_E.to('centimeter').magnitude:.12e} {s.R2_E.to('centimeter').magnitude:.12e}
         {s.LAM_S.to('centimeter').magnitude:.12e} 0.0
-        0 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e} {s.SHIFT_S.to('centimeter').magnitude:.12e}
+        6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e} {s.SHIFT_S.to('centimeter').magnitude:.12e}
         {s.OMEGA_S.to('degree').magnitude:.12e} {s.THETA_S:.12e} {s.R1_S.to('centimeter').magnitude:.12e} {s.U1_S.to('centimeter').magnitude:.12e} {s.U2_S.to('centimeter').magnitude:.12e} {s.R2_S.to('centimeter').magnitude:.12e}
         {s.LAM_L.to('centimeter').magnitude:.12e} {s.XI_L}
-        0 {s.C0_L:.12e} {s.C1_L:.12e} {s.C2_L:.12e} {s.C3_L:.12e} {s.C4_L:.12e} {s.C5_L:.12e} {s.SHIFT_L.to('centimeter').magnitude:.12e}
+        6 {s.C0_L:.12e} {s.C1_L:.12e} {s.C2_L:.12e} {s.C3_L:.12e} {s.C4_L:.12e} {s.C5_L:.12e} {s.SHIFT_L.to('centimeter').magnitude:.12e}
         {s.OMEGA_L.to('degree').magnitude:.12e} {s.THETA_L:.12e} {s.R1_L.to('centimeter').magnitude:.12e} {s.U1_L.to('centimeter').magnitude:.12e} {s.U2_L.to('centimeter').magnitude:.12e} {s.R2_L.to('centimeter').magnitude:.12e} {s.RM3.to('centimeter').magnitude:.12e}
         {s.IORDRE} {s.RESOL:.12e}
         {s.XPAS.to('centimeter').magnitude}"""

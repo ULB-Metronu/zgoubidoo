@@ -1,4 +1,5 @@
 from __future__ import annotations
+import os
 from functools import reduce
 from typing import Callable, List, Sequence, Optional, NoReturn
 from . import commands
@@ -33,7 +34,7 @@ class Input:
     def __repr__(self) -> str:
         return str(self)
 
-    def __call__(self, filename=ZGOUBI_INPUT_FILENAME) -> NoReturn:
+    def __call__(self, filename=ZGOUBI_INPUT_FILENAME, path='.') -> NoReturn:
         """
         Write the string representation of the object onto a file (Zgoubi input file).
         :param filename: the Zgoubi input file name (default: zgoubi.dat)
@@ -101,15 +102,16 @@ class Input:
         return self._line
 
     @staticmethod
-    def write(_: Input, filename=ZGOUBI_INPUT_FILENAME, mode='w') -> NoReturn:
+    def write(_: Input, filename: str=ZGOUBI_INPUT_FILENAME, path: str='.', mode: str='w') -> NoReturn:
         """
         Write a Zgoubi Input object to file.
         :param _: a Zgoubidoo Input object
         :param filename: the file name (default: zgoubi.dat)
+        :param path: path for the file (default: .)
         :param mode: the mode for the writer (default: 'w' - overwrite)
         :return: NoReturn
         """
-        with open(filename, mode) as f:
+        with open(os.path.join(path, filename), mode) as f:
             f.write(str(_))
 
     @staticmethod
