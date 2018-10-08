@@ -9,6 +9,10 @@ def _cm(q: Q_) -> float:
     return q.to('cm').magnitude
 
 
+def _mm(q: Q_) -> float:
+    return q.to('mm').magnitude
+
+
 def _degree(q: Q_) -> float:
     return q.to('degree').magnitude
 

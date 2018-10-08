@@ -1,5 +1,4 @@
-from .commands import Command, ZgoubidoException
-from .. import ureg, Q_
+from .commands import Command
 
 
 class MCObjet(Command):
@@ -57,7 +56,7 @@ class MCObjet3(MCObjet):
         'I3': 3,
     }
 
-    def __str__(s):
+    def __str__(s) -> str:
         return f"""
         '{s.KEYWORD}' {s.LABEL1} {s.LABEL2}
         3

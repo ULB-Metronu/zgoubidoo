@@ -1,12 +1,27 @@
+from __future__ import annotations
 from functools import reduce
-from typing import Callable, List, Sequence, Optional
+from typing import Callable, List, Sequence, Optional, NoReturn
 from . import commands
+
+ZGOUBI_INPUT_FILENAME: str = 'zgoubi.dat'
 
 
 class Input:
-    """Zgoubi input data."""
+    """
+    A Zgoubidoo `Input` object represents the Zgoubi input file data structure. It is thus essentially a list of
+    Zgoubidoo objects representing commands and elements for the generation of Zgoubi input files.
 
-    def __init__(self, name: str='beamline', line: Sequence[commands.Command]=None):
+    The `Input` supports a `str` representation allowing to generate the Zgoubi input. Additionnally, calling the object
+    will write the string representation to a Zgoubi input file.
+
+    >>> zi = Input(name='test_beamline')
+    >>> len(zi) == 0
+    True
+    >>> zi.name
+    'test_beamline'
+    """
+
+    def __init__(self, name: str='beamline', line: Sequence[commands.Command]=None) -> NoReturn:
         self._name: str = name
         if line is None:
             line = []
@@ -18,17 +33,22 @@ class Input:
     def __repr__(self) -> str:
         return str(self)
 
-    def __call__(self, filename='zgoubi.dat') -> None:
+    def __call__(self, filename=ZGOUBI_INPUT_FILENAME) -> NoReturn:
+        """
+        Write the string representation of the object onto a file (Zgoubi input file).
+        :param filename: the Zgoubi input file name (default: zgoubi.dat)
+        :return: NoReturn
+        """
         self.write(self, filename)
 
     def __len__(self) -> int:
         return len(self._line)
 
-    def __iadd__(self, o):
+    def __iadd__(self, o) -> Input:
         self._line.append(o)
         return self
 
-    def __getitem__(self, items):
+    def __getitem__(self, items) -> Input:
         if not isinstance(items, (tuple, list)):
             items = (items,)
         l, i = self._filter(items)
@@ -45,7 +65,7 @@ class Input:
     def __getattr__(self, item):
         pass
 
-    def __contains__(self, items):
+    def __contains__(self, items) -> int:
         if not isinstance(items, tuple):
             items = (items,)
         l, i = self._filter(items)
@@ -58,20 +78,22 @@ class Input:
     def apply(self, f: Callable[[commands.Command], commands.Command]) -> None:
         self._line = list(map(f, self._line))
 
-    @property
-    def labels(self) -> list:
-        return [e.LABEL1 for e in self._line]
+    def get_labels(self, label="LABEL1") -> List[str]:
+        return [getattr(e, label, '') for e in self._line]
+
+    labels = property(get_labels)
+    labels1 = property(get_labels)
 
     @property
-    def labels1(self) -> list:
-        return self.labels
-
-    @property
-    def labels2(self) -> list:
+    def labels2(self) -> List[str]:
         return [e.LABEL2 for e in self._line]
 
     @property
-    def keywords(self) -> list:
+    def name(self):
+        return self._name
+
+    @property
+    def keywords(self) -> List[str]:
         return [e.KEYWORD for e in self._line]
 
     @property
@@ -79,8 +101,15 @@ class Input:
         return self._line
 
     @staticmethod
-    def write(_, filename='zgoubi.dat') -> None:
-        with open(filename, 'w') as f:
+    def write(_: Input, filename=ZGOUBI_INPUT_FILENAME, mode='w') -> NoReturn:
+        """
+        Write a Zgoubi Input object to file.
+        :param _: a Zgoubidoo Input object
+        :param filename: the file name (default: zgoubi.dat)
+        :param mode: the mode for the writer (default: 'w' - overwrite)
+        :return: NoReturn
+        """
+        with open(filename, mode) as f:
             f.write(str(_))
 
     @staticmethod
@@ -101,3 +130,7 @@ class Beamline(Input):
         else:
             line = input_line[commands.Magnet].line
         super().__init__(n, line)
+
+    @staticmethod
+    def build(name='beamline', line=None) -> str:
+        return ''.join(map(str, [name] + (line or [])))
