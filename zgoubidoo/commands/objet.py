@@ -78,18 +78,22 @@ class Objet2(Objet):
         if self._PARTICULES is None:
             self._PARTICULES = np.zeros((1, 7))
             self._PARTICULES[:, 5] = 1.0  # D = 1
-            self._PARTICULES[:, 6] = 1  # IEX
+            self._PARTICULES[:, 6] = 1.0  # IEX
         return self._PARTICULES
 
     def clear(self):
-        self._PARTICULES = np.zeros((1, 7))
+        self._PARTICULES = None
+        return self
+
+    def __iadd__(self, other):
+        self.add(other)
         return self
 
     def add(self, p):
         if self._PARTICULES is None:
             self._PARTICULES = p
         else:
-            self._PARTICULES = np.append(self._PARTICULES, p)
+            self._PARTICULES = np.append(self._PARTICULES, p, axis=0)
         return self
 
     def __str__(s) -> str:

@@ -99,7 +99,7 @@ class Command(metaclass=MetaCommand):
                 if default is not None and ureg.Quantity(v).dimensionality != ureg.Quantity(default).dimensionality:
                     raise ZgoubidoException(f"Invalid dimension ({ureg.Quantity(v).dimensionality}"
                                             f" instead of {ureg.Quantity(default).dimensionality}) for parameter {k}.")
-            except (ValueError, UndefinedUnitError):
+            except (ValueError, TypeError, UndefinedUnitError):
                 pass
             self._attributes[k] = v
 
@@ -130,9 +130,9 @@ class Command(metaclass=MetaCommand):
         :return: NoReturn
         """
         self._output.append(output)
-        self.process_output()
+        self.process_output(output)
 
-    def process_output(self) ->Optional[bool]:
+    def process_output(self, output: str) -> Optional[bool]:
         pass
 
 

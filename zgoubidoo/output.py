@@ -1,11 +1,12 @@
+import os
 import pandas as pd
 
 
-def read_fai_file(filename='zgoubi.fai') -> pd.DataFrame:
+def read_fai_file(filename: str='zgoubi.fai', path: str='.') -> pd.DataFrame:
     # Header line from the Zgoubi .plt file
     with open(filename) as file:
         headers = list(map(lambda s: s.strip(' '), file.read().split('\n')[2].split(',')))
-    return pd.read_table(filename,
+    return pd.read_table(os.path.join(path, filename),
                          skiprows=4,
                          names=headers,
                          sep='\s+',
@@ -14,11 +15,11 @@ def read_fai_file(filename='zgoubi.fai') -> pd.DataFrame:
                          )
 
 
-def read_plt_file(filename='zgoubi.plt') -> pd.DataFrame:
+def read_plt_file(filename: str='zgoubi.plt', path: str='.') -> pd.DataFrame:
     # Header line from the Zgoubi .plt file
     with open(filename) as file:
         headers = list(map(lambda s: s.strip(' '), file.read().split('\n')[2].split(',')))
-    df = pd.read_table(filename,
+    df = pd.read_table(os.path.join(path, filename),
                        skiprows=4,
                        names=headers,
                        sep='\s+',
@@ -38,7 +39,7 @@ def read_plt_file(filename='zgoubi.plt') -> pd.DataFrame:
     return df
 
 
-def read_matrix_file(filename='zgoubi.MATRIX.out') -> pd.DataFrame:
+def read_matrix_file(filename: str='zgoubi.MATRIX.out', path: str='.') -> pd.DataFrame:
     # Cleaned up header lines
     headers = [
         'R11', 'R12', 'R13', 'R14', 'R15', 'R16',
@@ -62,7 +63,7 @@ def read_matrix_file(filename='zgoubi.MATRIX.out') -> pd.DataFrame:
         'ALE'
     ]
 
-    df = pd.read_table('zgoubi.MATRIX.out',
+    df = pd.read_table(os.path.join(path, filename),
                        skiprows=2,
                        names=headers,
                        sep='\s+',

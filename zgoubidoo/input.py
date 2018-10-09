@@ -1,10 +1,21 @@
 from __future__ import annotations
+from typing import Optional
+import tempfile
 import os
 from functools import reduce
 from typing import Callable, List, Sequence, Optional, NoReturn
 from . import commands
+from . beam import Beam
+import zgoubidoo.commands
 
 ZGOUBI_INPUT_FILENAME: str = 'zgoubi.dat'
+
+
+class ZgoubiInputException(Exception):
+    """Exception raised for errors within Zgoubi Input."""
+
+    def __init__(self, m):
+        self.message = m
 
 
 class Input:
@@ -27,6 +38,7 @@ class Input:
         if line is None:
             line = []
         self._line: List[commands.Command] = line
+        self._paths = list()
 
     def __str__(self) -> str:
         return self.build(self._name, self._line)
@@ -34,13 +46,28 @@ class Input:
     def __repr__(self) -> str:
         return str(self)
 
-    def __call__(self, filename=ZGOUBI_INPUT_FILENAME, path='.') -> NoReturn:
+    def __call__(self, beam: Optional[Beam]=None, filename: str=ZGOUBI_INPUT_FILENAME, path: str='.') -> NoReturn:
         """
         Write the string representation of the object onto a file (Zgoubi input file).
         :param filename: the Zgoubi input file name (default: zgoubi.dat)
         :return: NoReturn
         """
-        self.write(self, filename)
+        if beam is None:
+            self.write(self, filename, path)
+            return [path]
+        else:
+            objets = self[zgoubidoo.commands.Objet2]
+            if len(objets) == 1:
+                o2: zgoubidoo.commands.Objet2 = objets.line[0]
+                for s in beam.slices:
+                    o2.clear()
+                    o2 += s
+                    temp_dir = tempfile.TemporaryDirectory()
+                    self._paths.append(temp_dir)
+                    self.write(self, filename, path=temp_dir.name)
+                return self._paths
+            else:
+                raise ZgoubiInputException("One and only one Objet2 is required.")
 
     def __len__(self) -> int:
         return len(self._line)

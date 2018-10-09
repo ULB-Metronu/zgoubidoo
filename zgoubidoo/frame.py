@@ -16,7 +16,7 @@ _AXES = {
 }
 
 
-class FrameException(Exception):
+class ZgoubidooFrameException(Exception):
     """Exception raised for errors in the Frame module."""
 
     def __init__(self, m):
@@ -568,7 +568,7 @@ class Frame:
         :return:
         """
         if axis.lower() not in "xyz" or len(axis) > 1:
-            raise FrameException("Invalid rotation axis for 'translate_axis'")
+            raise ZgoubidooFrameException("Invalid rotation axis for 'translate_axis'")
         return getattr(self, f"rotate_{axis.lower()}")(angle)
 
     def __add__(self, offset: List[ureg.Quantity]) -> Frame:
@@ -623,7 +623,7 @@ class Frame:
         :return: the translated frame (in place), allows method chaining
         """
         if len(offset) != 3:
-            raise FrameException("The offset must be of length 3.")
+            raise ZgoubidooFrameException("The offset must be of length 3.")
         return self._translate(_np.array(list(map(lambda _: _m(_), offset))))
 
     def _translate_x(self, offset: float) -> Frame:
@@ -700,7 +700,7 @@ class Frame:
         :return:
         """
         if axis.lower() not in "xyz" or len(axis) > 1:
-            raise FrameException("Invalid rotation axis for 'translate_axis'")
+            raise ZgoubidooFrameException("Invalid rotation axis for 'translate_axis'")
         return getattr(self, f"_translate_{axis.lower()}")(offset)
 
     def translate_axis(self, axis: str, offset: ureg.Quantity) -> Frame:
