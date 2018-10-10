@@ -96,6 +96,8 @@ class Zgoubi:
         n = n_procs or multiprocessing.cpu_count()
         self._results = list()
         pool = ThreadPool(n)
+        if len(zgoubi_input.paths) == 0:
+            zgoubi_input()
         for p in zgoubi_input.paths:
             try:
                 path = p.name

@@ -54,8 +54,8 @@ class Input:
         :return: NoReturn
         """
         if beam is None:
+            self._paths.append(path)
             self.write(self, filename, path)
-            return [(path, )]
         else:
             objets = self[zgoubidoo.commands.Objet2]
             particules = self[zgoubidoo.commands.Particule]
@@ -74,10 +74,10 @@ class Input:
                     self._paths.append(temp_dir)
                     self._inputs.append(generated_input)
                     generated_input.write(generated_input, filename, path=temp_dir.name)
-                return self._paths
             else:
                 raise ZgoubiInputException("When applying a Beam on an Input, the input should not contain "
                                            "any 'Particle' or 'Objet'.")
+        return self
 
     def __len__(self) -> int:
         return len(self._line)
