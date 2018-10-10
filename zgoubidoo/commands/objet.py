@@ -91,7 +91,9 @@ class Objet2(Objet):
 
     def add(self, p):
         if self._PARTICULES is None:
-            if list(p.columns) == ['Y', 'T', 'Z', 'P', 'D']:
+            if not hasattr(p, 'columns'):
+                self._PARTICULES = p
+            elif list(p.columns) == ['Y', 'T', 'Z', 'P', 'D']:
                 p = p.copy()
                 p['X'] = 0.0
                 p['IEX'] = 1.0
