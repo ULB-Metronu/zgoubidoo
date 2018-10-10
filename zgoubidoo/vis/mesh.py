@@ -64,7 +64,7 @@ class ZgoubiMesh(ZgoubiPlot):
         self._data.append(m)
 
     def tracks_cartesianmagnet(self):
-        return None
+        pass
 
     def polarmagnet(self, magnet):
 
@@ -103,7 +103,6 @@ class ZgoubiMesh(ZgoubiPlot):
                                                                  angle / 2))) + _cm(magnet.center.y),
                                                          _cm(magnet.HEIGHT)]
         else:
-
             for angle in range(1, number_of_points + 1, 2):
                 vertices[angle - 1][:] = [(_cm(magnet.RM) - _cm(magnet.WIDTH) / 2) * math.cos(
                     -math.pi / 2 - (magnet.entry.tx - np.deg2rad(angle / 2))) + _cm(magnet.center.x),
@@ -130,7 +129,7 @@ class ZgoubiMesh(ZgoubiPlot):
                                                                  angle / 2))) + _cm(magnet.center.y),
                                                          _cm(magnet.HEIGHT)]
 
-        # Define the triangles composing the dipole
+        # Define the triangles composing the polar magnet
         number_of_faces = int(len(vertices) / 2 - 2)
         faces = np.empty([4 * number_of_faces + 2 * 2, 3])
 
@@ -151,7 +150,6 @@ class ZgoubiMesh(ZgoubiPlot):
         faces[-4][:] = [2 * number_of_points - 1, 2 * number_of_points - 2, number_of_points - 2]
 
         faces = faces.astype(int)
-
 
         x = []
         y = []
