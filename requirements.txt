@@ -6,3 +6,4 @@ pandas
 pint
 plotly
 scipy
+numpy-stl

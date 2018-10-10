@@ -39,6 +39,7 @@ setup(
         'matplotlib',
         'numpy-quaternion',
         'plotly',
+        'numpy-stl',
     ],
     package_data={'zgoubidoo': []},
 )
