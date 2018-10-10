@@ -1,4 +1,4 @@
-from typing import Optional, List, Mapping
+from typing import List, Mapping
 import logging
 import shutil
 import multiprocessing
@@ -9,7 +9,6 @@ import sys
 import re
 import pandas as pd
 from .input import Input
-from .beam import Beam
 from .output import read_plt_file
 
 
@@ -40,6 +39,10 @@ class ZgoubiRun:
 
     @property
     def tracks(self):
+        """
+        Collect all tracks from the different Zgoubi instances in the results and concatenate them
+        :return: A concatenated DataFrame with all the tracks in the result.
+        """
         if self._tracks is None:
             try:
                 tracks = list()
@@ -62,15 +65,13 @@ class ZgoubiRun:
 
 
 class Zgoubi:
-    """Encapsulation of methods to run Zgoubi from Python."""
+    """High level interface to run Zgoubi from Python."""
     ZGOUBI_RES_FILE = 'zgoubi.res'
 
     def __init__(self, executable='zgoubi', path=None):
         """
-
-        :param beamlines:
-        :param path: path to the simulator executable (default: lookup using 'which')
-        :param kwargs:
+        :param executable: name of the Zgoubi executable (default; zgoubi)
+        :param path: path to the Zgoubi executable (default: lookup using 'which')
         """
         self._executable: str = executable
         self._path: str = path
@@ -79,37 +80,36 @@ class Zgoubi:
     @property
     def executable(self) -> str:
         """
-
-        :return:
+        Provides the full path to the Zgoubi executable
+        :return: full path to the Zgoubi executable
         """
         return self._get_exec()
 
-    def __call__(self, _: Input, beam: Optional[Beam]=None, debug=False, n_procs=None):
+    def __call__(self, zgoubi_input: Input, debug: bool=False, n_procs: int=None) -> ZgoubiRun:
         """
 
-        :param _:
-        :param beam:
+        :param zgoubi_input:
         :param debug:
-        :return:
+        :param n_procs:
+        :return: a ZgoubiRun object
         """
         n = n_procs or multiprocessing.cpu_count()
-        paths = _(beam)
         self._results = list()
         pool = ThreadPool(n)
-        for p in paths:
+        for p in zgoubi_input.paths:
             try:
                 path = p.name
             except AttributeError:
                 path = p
-            self._results.append(pool.apply_async(self._execute_zgoubi, (_, path)))
+            self._results.append(pool.apply_async(self._execute_zgoubi, (zgoubi_input, path)))
         pool.close()
         pool.join()
         return ZgoubiRun(list(map(lambda _: getattr(_, 'get', None)(), self._results)))
 
-    def _execute_zgoubi(self, _: Input, path: str='.', debug=False) -> dict:
+    def _execute_zgoubi(self, zgoubi_input: Input, path: str= '.', debug=False) -> dict:
         """
 
-        :param _:
+        :param zgoubi_input:
         :param path:
         :param debug:
         :return: a dictionary holding the results of the run
@@ -132,7 +132,7 @@ class Zgoubi:
 
         # Extract element by element output
         result = open(os.path.join(path, Zgoubi.ZGOUBI_RES_FILE), 'r').read().split('\n')
-        for e in _.line:
+        for e in zgoubi_input.line:
             list(map(e.attach_output, find_labeled_output(result, e.LABEL1)))
 
         # Extract CPU time
@@ -144,17 +144,14 @@ class Zgoubi:
                 cputime = float(re.search("\d+\.\d+[E|e]?[+|-]?\d+", lines[0]).group())
         if debug:
             print(output[0].decode())
-        try:
-            return {
-                'stdout': output[0].decode().split('\n'),
-                'stderr': stderr,
-                'cputime': cputime,
-                'result': result,
-                'input': _,
-                'path': path,
-            }
-        except FileNotFoundError:
-            raise ZgoubiException("Executation terminated with errors.")
+        return {
+            'stdout': output[0].decode().split('\n'),
+            'stderr': stderr,
+            'cputime': cputime,
+            'result': result,
+            'input': zgoubi_input,
+            'path': path,
+        }
 
     def _get_exec(self, optional_path: str='/usr/local/bin') -> str:
         """Retrive the path to the Zgoubi executable."""

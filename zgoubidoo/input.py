@@ -1,14 +1,14 @@
 from __future__ import annotations
-from typing import Optional
+from typing import Callable, List, Sequence, Optional, NoReturn
 import tempfile
 import os
 from functools import reduce
-from typing import Callable, List, Sequence, Optional, NoReturn
 from . import commands
 from . beam import Beam
 import zgoubidoo.commands
 
 ZGOUBI_INPUT_FILENAME: str = 'zgoubi.dat'
+ZGOUBI_IMAX: int = 10000
 
 
 class ZgoubiInputException(Exception):
@@ -39,6 +39,7 @@ class Input:
             line = []
         self._line: List[commands.Command] = line
         self._paths = list()
+        self._inputs = list()
 
     def __str__(self) -> str:
         return self.build(self._name, self._line)
@@ -54,20 +55,29 @@ class Input:
         """
         if beam is None:
             self.write(self, filename, path)
-            return [path]
+            return [(path, )]
         else:
             objets = self[zgoubidoo.commands.Objet2]
-            if len(objets) == 1:
-                o2: zgoubidoo.commands.Objet2 = objets.line[0]
+            particules = self[zgoubidoo.commands.Particule]
+            if len(objets) == 0 and len(particules) == 0:
+                generated_input = Input(name=self.name, line=self.line.copy())
+                generated_input._line.insert(0, beam.particle())
+                objet = beam.objet(BORO=beam.brho)
+                generated_input._line.insert(0, objet)
                 for s in beam.slices:
-                    o2.clear()
-                    o2 += s
+                    if len(s) > ZGOUBI_IMAX:
+                        raise ZgoubiInputException(f"Trying to track too many particles (IMAX={ZGOUBI_IMAX}). "
+                                                   f"Try to increase the number of slices.")
+                    objet.clear()
+                    objet += s
                     temp_dir = tempfile.TemporaryDirectory()
                     self._paths.append(temp_dir)
-                    self.write(self, filename, path=temp_dir.name)
+                    self._inputs.append(generated_input)
+                    generated_input.write(generated_input, filename, path=temp_dir.name)
                 return self._paths
             else:
-                raise ZgoubiInputException("One and only one Objet2 is required.")
+                raise ZgoubiInputException("When applying a Beam on an Input, the input should not contain "
+                                           "any 'Particle' or 'Objet'.")
 
     def __len__(self) -> int:
         return len(self._line)
@@ -77,6 +87,11 @@ class Input:
         return self
 
     def __getitem__(self, items) -> Input:
+        # Behave like element access
+        if isinstance(items, int):
+            return self._line[items]
+
+        # Behave like a filtering
         if not isinstance(items, (tuple, list)):
             items = (items,)
         l, i = self._filter(items)
@@ -86,12 +101,18 @@ class Input:
                      .replace(' ', '')
                      .replace("'", '')
                      .replace("(", '')
-                     .replace(")", ''),
+                     .replace(")", '')
+                     .rstrip('_'),
                      line=l
                      )
 
-    def __getattr__(self, item):
-        pass
+    def __setattr__(self, key: str, value) -> NoReturn:
+        if key.startswith('_'):
+            self.__dict__[key] = value
+        else:
+            for e in self._line:
+                if getattr(e, key) is not None:
+                    setattr(e, key, value)
 
     def __contains__(self, items) -> int:
         if not isinstance(items, tuple):
@@ -100,11 +121,19 @@ class Input:
         return len(l)
 
     def _filter(self, items) -> tuple:
-        items = tuple(map(lambda x: getattr(commands, x) if isinstance(x, str) else x, items))
+        try:
+            items = tuple(map(lambda x: getattr(commands, x) if isinstance(x, str) else x, items))
+        except AttributeError:
+            return list(), tuple()
         return list(filter(lambda x: reduce(lambda u, v: u or v, [isinstance(x, i) for i in items]), self._line)), items
 
     def apply(self, f: Callable[[commands.Command], commands.Command]) -> None:
         self._line = list(map(f, self._line))
+
+    def cleanup(self):
+        for p in self._paths:
+            p.cleanup()
+        self._paths = list()
 
     def get_labels(self, label="LABEL1") -> List[str]:
         return [getattr(e, label, '') for e in self._line]
@@ -119,6 +148,14 @@ class Input:
     @property
     def name(self):
         return self._name
+
+    @property
+    def paths(self):
+        return self._paths
+
+    @property
+    def inputs(self):
+        return self._inputs
 
     @property
     def keywords(self) -> List[str]:

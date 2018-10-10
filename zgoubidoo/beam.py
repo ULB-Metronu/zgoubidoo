@@ -1,8 +1,9 @@
+from __future__ import annotations
 from typing import Optional
 import os
 import numpy as np
 import pandas as pd
-from .commands import Particule, Proton
+from .commands import Particule, Proton, Objet2
 
 
 class ZgoubidooBeamException(Exception):
@@ -28,7 +29,9 @@ class Beam:
                  **kwargs):
         self._initialize_distribution(distribution, *args, **kwargs)
         self._particle = particle
+        self._objet = Objet2
         self._energy = energy
+        self._brho  = brho,
         self._slices = slices
 
     def _initialize_distribution(self, distribution=None, *args, **kwargs):
@@ -58,6 +61,7 @@ class Beam:
         n_slices = int(np.floor(n_tot / n))
         for i in range(0, n + 1):
             d = self._distribution.iloc[i * n_slices:(i + 1) * n_slices]
+            d.columns = ['Y', 'T', 'Z', 'P', 'D']
             if len(d) < 1:
                 break
             else:
@@ -65,17 +69,29 @@ class Beam:
 
     slices = property(get_slices)
 
-    def from_file(self, n: int, file: str, path: str='.'):
-        self._initialize_distribution(Beam.generate_from_file(file, path))
+    @property
+    def particle(self):
+        return self._particle
+
+    @property
+    def objet(self):
+        return self._objet
+
+    @property
+    def brho(self):
+        return self._brho
+
+    def from_file(self, file: str, n: int=None, path: str='.') -> Beam:
+        self._initialize_distribution(Beam.generate_from_file(file, path, n))
         return self
 
-    def from_5d_sigma_matrix(self, n, **kwargs):
+    def from_5d_sigma_matrix(self, n, **kwargs) -> Beam:
         """Initialize a beam with a 5D particle distribution from a \Sigma matrix."""
         distribution = Beam.generate_from_5d_sigma_matrix(n, **kwargs)
-        self.__initialize_distribution(pd.DataFrame(distribution))
+        self._initialize_distribution(pd.DataFrame(distribution))
         return self
 
-    def from_twiss_parameters(self, n, **kwargs):
+    def from_twiss_parameters(self, n, **kwargs) -> Beam:
         """Initialize a beam with a 5D particle distribution from Twiss parameters."""
         keys = {'X', 'PX', 'Y', 'PY', 'DPP', 'DPPRMS', 'BETAX', 'ALPHAX', 'BETAY', 'ALPHAY', 'EMITX', 'EMITY'}
         if any([k not in keys for k in kwargs.keys()]):
@@ -104,9 +120,9 @@ class Beam:
         return self
 
     @staticmethod
-    def generate_from_file(file, path='.'):
+    def generate_from_file(file: str, path: str='.', n: Optional[int]=None) -> pd.DataFrame:
         """Read a beam distribution from file."""
-        return pd.read_csv(os.path.join(path, file))
+        return pd.read_csv(os.path.join(path, file))[:n]
 
     @staticmethod
     def generate_from_5d_sigma_matrix(n: int,
@@ -131,7 +147,7 @@ class Beam:
                                       s45: float = 0,
                                       dpprms: float = 0,
                                       matrix=None,
-                                      **kwargs):
+                                      ):
         # For performance considerations, see
         # https://software.intel.com/en-us/blogs/2016/06/15/faster-random-number-generation-in-intel-distribution-for-python
         try:

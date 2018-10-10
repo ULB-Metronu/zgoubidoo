@@ -4,7 +4,7 @@ from .. import ureg, Q_
 from ..frame import Frame
 from ..vis import ZgoubiPlot
 from .patchable import Patchable
-from ..units import _cm
+from ..units import _cm, _radian
 
 
 class Magnet(Command, Patchable):
@@ -921,13 +921,13 @@ class Dodecapole(Command):
         return f"""
         {super().__str__().rstrip()}
         {s.IL}
-        {s.XL.to('centimeter').magnitude:.12e} {s.R0.to('centimeter').magnitude:.12e} {s.B0.to('kilogauss').magnitude:.12e}
+        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {s.B0.to('kilogauss').magnitude:.12e}
         {s.XE.to('centimeter').magnitude:.12e} {s.LAM_E.to('centimeter').magnitude:.12e}
-        0 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
+        6 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
         {s.XS.to('centimeter').magnitude:.12e} {s.LAM_S.to('centimeter').magnitude:.12e}
-        0 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
-        {s.XPAS.to('centimeter').magnitude}
-        {s.KPOS} {s.XCE.to('centimeter').magnitude:.12e} {s.YCE.to('centimeter').magnitude:.12e} {s.ALE.to('radian').magnitude:.12e}
+        6 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
+        {_cm(s.XPAS)}
+        {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
         """
 
 
@@ -942,7 +942,7 @@ class Drift(CartesianMagnet):
     def __str__(s):
         return f"""
         {super().__str__().rstrip()}
-        {s.XL.to('centimeter').magnitude}
+        {_cm(s.XL):.12e}
         """
 
     def plot(self, artist=None):

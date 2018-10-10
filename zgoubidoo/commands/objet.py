@@ -91,7 +91,12 @@ class Objet2(Objet):
 
     def add(self, p):
         if self._PARTICULES is None:
-            self._PARTICULES = p
+            if list(p.columns) == ['Y', 'T', 'Z', 'P', 'D']:
+                p = p.copy()
+                p['X'] = 0.0
+                p['IEX'] = 1.0
+                p['D'] += 1.0
+                self._PARTICULES = p[['Y', 'T', 'Z', 'P', 'X', 'D', 'IEX']].values
         else:
             self._PARTICULES = np.append(self._PARTICULES, p, axis=0)
         return self
@@ -127,15 +132,12 @@ class Objet3(Objet):
         'PF': 0,
         'XF': 0,
         'DF': 0,
-        'TF': 0,
         'TAG': '*',  # No effect if '*'
         'YR': 0,
-        'TR': 0,
         'ZR': 0,
         'PR': 0,
         'XR': 0,
         'DR': 0,
-        'TR': 0,
         'InitC': 0,
         'FNAME': 'zgoubi.fai',  # (NN in KOBJ=3.NN determines storage FORMAT)
     }
