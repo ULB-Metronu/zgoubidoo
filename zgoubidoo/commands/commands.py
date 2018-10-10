@@ -1,4 +1,4 @@
-from typing import NoReturn, Optional
+from typing import NoReturn, Optional, Any
 import uuid
 from pint import UndefinedUnitError
 from .patchable import Patchable
@@ -43,6 +43,16 @@ class Command(metaclass=MetaCommand):
         'LABEL2': '',
     }
 
+    PROPERTIES = [
+        '_attributes',
+        '_output',
+        '_entry',
+        '_entry_patched',
+        '_exit',
+        '_exit_patched',
+        '_center',
+    ]
+
     def __init__(self, label1: str='', label2: str='', *params, **kwargs) -> NoReturn:
         self._output = list()
         self._attributes = {}
@@ -53,10 +63,7 @@ class Command(metaclass=MetaCommand):
                 },):
             self._attributes = dict(self._attributes, **p)
         for k, v in kwargs.items():
-            if k not in self._attributes.keys():
-                print(f"Warning: the parameter {k} will not be used.")
-            else:
-                self._attributes[k] = v
+            setattr(self, k, v)
 
     def __getattr__(self, a):
         if self._attributes.get(a) is None:
@@ -77,11 +84,24 @@ class Command(metaclass=MetaCommand):
         else:
             return attr
 
-    def __setattr__(self, a, v):
-        if a == '_attributes' or a == '_output':
-            self.__dict__[a] = v
+    def __setattr__(self, k, v: Any) -> NoReturn:
+        if k in Command.PROPERTIES:
+            self.__dict__[k] = v
         else:
-            self._attributes[a] = v
+            if k not in self._attributes.keys():
+                raise ZgoubidoException(f"The parameter {k} is not part of the {self.__class__.__name__} definition.")
+            else:
+                try:
+                    default = self._attributes[k][0]
+                except (TypeError, IndexError):
+                    default = self._attributes[k]
+            try:
+                if default is not None and ureg.Quantity(v).dimensionality != ureg.Quantity(default).dimensionality:
+                    raise ZgoubidoException(f"Invalid dimension ({ureg.Quantity(v).dimensionality}"
+                                            f" instead of {ureg.Quantity(default).dimensionality}) for parameter {k}.")
+            except (ValueError, TypeError, UndefinedUnitError):
+                pass
+            self._attributes[k] = v
 
     def __repr__(self) -> str:
         return str(self)
@@ -110,9 +130,9 @@ class Command(metaclass=MetaCommand):
         :return: NoReturn
         """
         self._output.append(output)
-        self.process_output()
+        self.process_output(output)
 
-    def process_output(self) ->Optional[bool]:
+    def process_output(self, output: str) -> Optional[bool]:
         pass
 
 
@@ -127,7 +147,7 @@ class AutoRef(Command):
         'I3': (1, 'Particle number (only used if I = 3'),
     }
 
-    def __str__(self):
+    def __str__(self) -> str:
         c = f"""
         {super().__str__().rstrip()}
         {self.I}
@@ -441,7 +461,7 @@ class Marker(Command):
     """Marker."""
     KEYWORD = 'MARKER'
 
-    def __init__(self, label1='', label2='', *params, with_plt=False, **kwargs):
+    def __init__(self, label1='', label2='', *params, with_plt=True, **kwargs):
         super().__init__(label1, label2, self.PARAMETERS, *params, **kwargs)
         self.LABEL2 = '.plt' if with_plt else ''
 
