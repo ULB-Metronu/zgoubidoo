@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Callable, List, Sequence, Optional, NoReturn
+from typing import Callable, List, Sequence, Optional, NoReturn, Union
 import tempfile
 import os
 from functools import reduce
@@ -64,16 +64,23 @@ class Input:
                 generated_input._line.insert(0, beam.particle())
                 objet = beam.objet(BORO=beam.brho)
                 generated_input._line.insert(0, objet)
-                for s in beam.slices:
-                    if len(s) > ZGOUBI_IMAX:
-                        raise ZgoubiInputException(f"Trying to track too many particles (IMAX={ZGOUBI_IMAX}). "
-                                                   f"Try to increase the number of slices.")
+                if beam.distribution is None:
                     objet.clear()
-                    objet += s
                     temp_dir = tempfile.TemporaryDirectory()
                     self._paths.append(temp_dir)
                     self._inputs.append(generated_input)
                     generated_input.write(generated_input, filename, path=temp_dir.name)
+                else:
+                    for s in beam.slices:
+                        if len(s) > ZGOUBI_IMAX:
+                            raise ZgoubiInputException(f"Trying to track too many particles (IMAX={ZGOUBI_IMAX}). "
+                                                       f"Try to increase the number of slices.")
+                        objet.clear()
+                        objet += s
+                        temp_dir = tempfile.TemporaryDirectory()
+                        self._paths.append(temp_dir)
+                        self._inputs.append(generated_input)
+                        generated_input.write(generated_input, filename, path=temp_dir.name)
             else:
                 raise ZgoubiInputException("When applying a Beam on an Input, the input should not contain "
                                            "any 'Particle' or 'Objet'.")
@@ -86,7 +93,7 @@ class Input:
         self._line.append(o)
         return self
 
-    def __getitem__(self, items) -> Input:
+    def __getitem__(self, items) -> Union[Command, Input]:
         # Behave like element access
         if isinstance(items, int):
             return self._line[items]

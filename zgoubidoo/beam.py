@@ -27,11 +27,12 @@ class Beam:
                  slices: int=1,
                  *args,
                  **kwargs):
+        self._distribution = None
         self._initialize_distribution(distribution, *args, **kwargs)
         self._particle = particle
         self._objet = Objet2
         self._energy = energy
-        self._brho  = brho,
+        self._brho = brho,
         self._slices = slices
 
     def _initialize_distribution(self, distribution=None, *args, **kwargs):
@@ -68,6 +69,10 @@ class Beam:
                 yield d
 
     slices = property(get_slices)
+
+    @property
+    def distribution(self):
+        return self._distribution
 
     @property
     def particle(self):

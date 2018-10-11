@@ -1,5 +1,9 @@
 import doctest
 import zgoubidoo
-doctest.testmod(zgoubidoo, verbose=True)
-doctest.testmod(zgoubidoo.frame, verbose=True)
-doctest.testmod(zgoubidoo.input, verbose=True)
+
+VERBOSITY = False
+
+doctest.testmod(zgoubidoo, verbose=VERBOSITY)
+doctest.testmod(zgoubidoo.frame, verbose=VERBOSITY)
+doctest.testmod(zgoubidoo.input, verbose=VERBOSITY)
+doctest.testmod(zgoubidoo.physics, verbose=VERBOSITY)
