@@ -132,7 +132,10 @@ class Input:
 
     def cleanup(self):
         for p in self._paths:
-            p.cleanup()
+            try:
+                p.cleanup()
+            except AttributeError:
+                pass
         self._paths = list()
 
     def get_labels(self, label="LABEL1") -> List[str]:

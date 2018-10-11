@@ -20,6 +20,14 @@ class Particule(Command):
         {s.M:.12e} {s.Q:.12e} {s.G:.12e} {s.tau:.12e} 0.0
         """
 
+    @property
+    def mass(self):
+        return self.M
+
+    @property
+    def charge(self):
+        return self.Q
+
 
 class Electron(Particule):
     """An electron particle."""
