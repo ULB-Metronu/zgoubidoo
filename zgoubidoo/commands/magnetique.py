@@ -375,8 +375,8 @@ class Bend(CartesianMagnet):
         'C3_S': 0.0,
         'C4_S': 0.0,
         'C5_S': 0.0,
-        'XPAS': (0.1 * ureg.centimeter, "Integration step"),
-        'KPOS': 3,
+        'XPAS': (1.0 * ureg.millimeter, "Integration step"),
+        'KPOS': (2, "Alignment parameter"),
         'XCE': 0.0 * ureg.centimeter,
         'YCE': 0.0 * ureg.centimeter,
         'ALE': 0.0 * ureg.radian,
@@ -389,9 +389,9 @@ class Bend(CartesianMagnet):
         {s.IL}
         {s.XL.to('cm').magnitude:.12e} {s.SK.to('radian').magnitude:.12e} {s.B1.to('kilogauss').magnitude:.12e}
         {s.X_E.to('cm').magnitude:.12e} {s.LAM_E.to('cm').magnitude:.12e} {s.W_E.to('radian').magnitude:.12e}
-        0 {s.C0_E} {s.C1_E} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
+        6 {s.C0_E} {s.C1_E} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
         {s.X_S.to('cm').magnitude:.12e} {s.LAM_S.to('cm').magnitude:.12e} {s.W_S.to('radian').magnitude:.12e}
-        0 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
+        6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
         {s.XPAS.to('cm').magnitude:.12e}
         {s.KPOS} {s.XCE.to('cm').magnitude:.12e} {s.YCE.to('cm').magnitude:.12e} {s.ALE.to('radian').magnitude:.12e}
         """

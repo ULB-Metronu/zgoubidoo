@@ -61,6 +61,38 @@ class Kinematic:
     gamma_ = property(partial(to_gamma, magnitude=True))
 
 
+def energy_to_momentum(e: Q_, particle: Particule=Proton()) -> Q_:
+    """
+    Converts momentum to kinetic energy.
+
+    >>> energy_to_momentum(100 * ureg.MeV).to('MeV_c')
+    <Quantity(444.58340724772927, 'megaelectronvolt_per_c')>
+    >>> energy_to_momentum(230 * ureg.MeV).to('MeV_c')
+    <Quantity(696.064029957015, 'megaelectronvolt_per_c')>
+
+    :param e:
+    :param particle:
+    :return:
+    """
+    return _np.sqrt((particle.mass * ureg.c**2 + e) ** 2 - particle.mass ** 2 * ureg.c ** 4) / ureg.c
+
+
+def energy_to_brho(e: Q_, particle: Particule=Proton()) -> Q_:
+    """
+    Converts momentum to kinetic energy.
+
+    >>> energy_to_momentum(100 * ureg.MeV).to('MeV_c')
+    <Quantity(444.58340724772927, 'megaelectronvolt_per_c')>
+    >>> energy_to_momentum(230 * ureg.MeV).to('MeV_c')
+    <Quantity(696.064029957015, 'megaelectronvolt_per_c')>
+
+    :param e:
+    :param particle:
+    :return:
+    """
+    return momentum_to_brho(energy_to_momentum(e, particle), particle)
+
+
 def momentum_to_energy(p: Q_, particle: Particule=Proton()) -> Q_:
     """
     Converts momentum to kinetic energy.
@@ -101,21 +133,6 @@ def brho_to_momentum(brho: Q_, particle: Particule=Proton()) -> Q_:
     :return:
     """
     return brho * particle.charge
-
-
-def brho_to_energy(brho):
-    return momentum_to_energy(brho / 3.33564E-3)
-
-
-def energy_to_brho(e):
-    """Return BRHO [T.m] from E [MeV] (proton)."""
-    return 3.33564E-3 * energy_to_momentum(e)
-
-
-def energy_to_momentum(ekin):
-    """Return P [MeV/c] from E [MeV/c^2] (proton)."""
-    E = PROTON_MASS + ekin
-    return _np.sqrt(E ** 2 - PROTON_MASS ** 2)
 
 
 def energy_to_beta(ekin):
