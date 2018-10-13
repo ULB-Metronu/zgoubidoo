@@ -1,3 +1,6 @@
+"""
+Zgoubi commands.
+"""
 from .magnetique import *
 from .commands import *
 from .mcobjet import *

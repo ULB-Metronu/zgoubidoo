@@ -1,9 +1,10 @@
 from __future__ import annotations
-from typing import Optional
+from typing import Optional, Union
 import os
 import numpy as np
 import pandas as pd
-from .commands import Particule, Proton, Objet2
+from .commands import Particule, Proton, Objet, Objet2
+from .physics import Kinematic
 
 
 class ZgoubidooBeamException(Exception):
@@ -21,19 +22,16 @@ class Beam:
     def __init__(self,
                  distribution: Optional[pd.DataFrame]=None,
                  particle: Particule=Proton,
-                 energy: Optional[float]=None,
-                 brho: Optional[float]=None,
-                 pc: Optional[float]=None,
+                 kinematic: Optional[Kinematic]=None,
                  slices: int=1,
                  *args,
                  **kwargs):
+        self._particle: Particule = particle
+        self._kinematic: Union[Kinematic, float, Q_] = kinematic
+        self._objet: Objet = Objet2
+        self._slices: int = slices
         self._distribution = None
         self._initialize_distribution(distribution, *args, **kwargs)
-        self._particle = particle
-        self._objet = Objet2
-        self._energy = energy
-        self._brho = brho,
-        self._slices = slices
 
     def _initialize_distribution(self, distribution=None, *args, **kwargs):
         """Try setting the internal pandas.DataFrame with a distribution."""
@@ -84,7 +82,7 @@ class Beam:
 
     @property
     def brho(self):
-        return self._brho
+        return self._kinematic.brho
 
     def from_file(self, file: str, n: int=None, path: str='.') -> Beam:
         self._initialize_distribution(Beam.generate_from_file(file, path, n))
