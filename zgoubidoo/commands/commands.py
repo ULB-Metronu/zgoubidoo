@@ -108,7 +108,7 @@ class Command(metaclass=MetaCommand):
 
     def __str__(self) -> str:
         return f"""
-        '{self.KEYWORD}' {self.LABEL1} {self.LABEL2}
+        '{self.KEYWORD or self.__class__.__name__.upper()}' {self.LABEL1} {self.LABEL2}
         """
 
     @property
