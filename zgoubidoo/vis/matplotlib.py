@@ -77,9 +77,10 @@ class ZgoubiMpl(ZgoubiPlot):
     def cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet) -> NoReturn:
 
         def do_frame():
-            self.plot(_cm(magnet.entry_patched.x), _cm(magnet.entry_patched.y), 'gv', ms=5)
+            self.plot(_cm(magnet.entry.x), _cm(magnet.entry.y), 'gv', ms=5)
             self.plot(_cm(magnet.entry_patched.x), _cm(magnet.entry_patched.y), 'bs', ms=2)
             self.plot(_cm(magnet.exit.x), _cm(magnet.exit.y), 'k^', ms=5)
+            self.plot(_cm(magnet.exit_patched.x), _cm(magnet.exit_patched.y), 'r>', ms=5)
 
         def do_box():
             angle = -magnet.entry_patched.tx

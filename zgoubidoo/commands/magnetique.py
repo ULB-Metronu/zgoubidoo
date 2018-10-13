@@ -50,6 +50,7 @@ class CartesianMagnet(Magnet):
     def entry_patched(self) -> Frame:
         if self._entry_patched is None:
             self._entry_patched = Frame(self.entry)
+            self._entry_patched.translate_x(-(self.X_E or 0.0 * ureg.cm))
             self._entry_patched.translate_x(self.x_offset)
             self._entry_patched.translate_y(self.y_offset)
             self._entry_patched.rotate_z(-self.rotation)
@@ -67,9 +68,10 @@ class CartesianMagnet(Magnet):
         if self._exit_patched is None:
             if self.KPOS is None or self.KPOS == 1:
                 self._exit_patched = Frame(self.exit)
-            elif self.KPOS == 2:
+                self._exit_patched.translate_x(-(self.X_S or 0.0 * ureg.cm))
+            elif self.KPOS == 0 or self.KPOS == 2:
                 self._exit_patched = Frame(self.entry)
-                self._exit_patched.translate_x(self.length)
+                self._exit_patched.translate_x(self.XL or 0.0 * ureg.cm)
         return self._exit_patched
 
     def plot(self, artist=None) -> NoReturn:
@@ -351,7 +353,6 @@ class Aimant(Magnet):
 class Bend(CartesianMagnet):
     """Bending magnet, Cartesian frame.
     """
-    KEYWORD = 'BEND'
     PARAMETERS = {
         'IL': (2, "Print field and coordinates along trajectories"),
         'XL': (0.0 * ureg.centimeter, "Magnet length (straight reference frame)"),
@@ -389,7 +390,7 @@ class Bend(CartesianMagnet):
         {s.IL}
         {s.XL.to('cm').magnitude:.12e} {s.SK.to('radian').magnitude:.12e} {s.B1.to('kilogauss').magnitude:.12e}
         {s.X_E.to('cm').magnitude:.12e} {s.LAM_E.to('cm').magnitude:.12e} {s.W_E.to('radian').magnitude:.12e}
-        6 {s.C0_E} {s.C1_E} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
+        6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
         {s.X_S.to('cm').magnitude:.12e} {s.LAM_S.to('cm').magnitude:.12e} {s.W_S.to('radian').magnitude:.12e}
         6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
         {s.XPAS.to('cm').magnitude:.12e}
@@ -399,8 +400,6 @@ class Bend(CartesianMagnet):
 
 class Decapole(CartesianMagnet):
     """Decapole magnet."""
-    KEYWORD = 'DECAPOLE'
-
     PARAMETERS = {
         'IL': 2,
         'XL': 0 * ureg.centimeter,
@@ -439,8 +438,6 @@ class Decapole(CartesianMagnet):
 
 class Dipole(PolarMagnet):
     """Dipole magnet, polar frame."""
-    KEYWORD = 'DIPOLE'
-
     PARAMETERS = {
         'IL': (2, 'Print field and coordinates along trajectories'),
         'AT': (0 * ureg.degree, 'Total angular extent of the dipole'),
@@ -747,8 +744,6 @@ class DipoleM(Magnet):
 
 class Dipoles(Magnet):
     """Dipole magnet N-tuple, polar frame."""
-    KEYWORD = 'DIPOLES'
-
     PARAMETERS = {
         'IL': 2,
         'N': 1,
@@ -933,7 +928,6 @@ class Dodecapole(Command):
 
 class Drift(CartesianMagnet):
     """Field free drift space."""
-    KEYWORD = 'DRIFT'
     PARAMETERS = {
         'XL': 0 * ureg.centimeter,
     }
