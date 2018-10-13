@@ -112,10 +112,6 @@ class Command(metaclass=MetaCommand):
         """
 
     @property
-    def plotable(self) -> bool:
-        return False
-
-    @property
     def output(self):
         """
         Provides the outputs associated with a command after each successive Zgoubi run.

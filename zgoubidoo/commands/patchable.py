@@ -3,6 +3,9 @@ from ..frame import Frame
 
 
 class Patchable:
+    """
+    Patchable elements are Zgoubi commands that affect the placement of the reference frame.
+    """
     _entry: Frame
     _entry_patched: Frame
     _exit: Frame

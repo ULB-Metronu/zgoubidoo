@@ -1,11 +1,10 @@
 from .zgoubiplot import ZgoubiPlot
+from .. import commands
 
 
 def plot(beamline=None, tracks=None, artist: ZgoubiPlot=None, with_elements: bool=True) -> None:
-    line = beamline['Patchable'].line
+    line = beamline[commands.Patchable][commands.Plotable].line
     for e in line:
-        if not e.plotable:
-            continue
         if with_elements:
             e.plot(artist=artist)
         if tracks is not None:

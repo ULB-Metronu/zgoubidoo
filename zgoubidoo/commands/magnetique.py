@@ -4,10 +4,11 @@ from .. import ureg, Q_
 from ..frame import Frame
 from ..vis import ZgoubiPlot
 from .patchable import Patchable
-from ..units import _cm, _radian
+from .plotable import Plotable
+from ..units import _cm, _radian, _kilogauss
 
 
-class Magnet(Command, Patchable):
+class Magnet(Command, Patchable, Plotable):
     """Base class for all magnetic elements."""
     PARAMETERS = {
         'HEIGHT': 20 * ureg.cm,
@@ -15,10 +16,6 @@ class Magnet(Command, Patchable):
 
     def __init__(self, label1='', label2='', *params, **kwargs):
         super().__init__(label1, label2, Magnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
-
-    @property
-    def plotable(self) -> bool:
-        return True
 
 
 class CartesianMagnet(Magnet):
@@ -154,8 +151,6 @@ class AGSQuadrupole(Magnet):
 
 class Aimant(Magnet):
     """Generation of dipole mid-plane 2-D map, polar frame."""
-    KEYWORD = 'AIMANT'
-
     PARAMETERS = {
         'NFACE': 2,
         'IC': 0,  # 1, 2: print field map
@@ -387,14 +382,14 @@ class Bend(CartesianMagnet):
     def __str__(s):
         return f"""
         {super().__str__().rstrip()}
-        {s.IL}
-        {s.XL.to('cm').magnitude:.12e} {s.SK.to('radian').magnitude:.12e} {s.B1.to('kilogauss').magnitude:.12e}
+        {int(s.IL):d}
+        {s.XL.to('cm').magnitude:.12e} {s.SK.to('radian').magnitude:.12e} {_kilogauss(s.B1):.12e}
         {s.X_E.to('cm').magnitude:.12e} {s.LAM_E.to('cm').magnitude:.12e} {s.W_E.to('radian').magnitude:.12e}
         6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
         {s.X_S.to('cm').magnitude:.12e} {s.LAM_S.to('cm').magnitude:.12e} {s.W_S.to('radian').magnitude:.12e}
         6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
-        {s.XPAS.to('cm').magnitude:.12e}
-        {s.KPOS} {s.XCE.to('cm').magnitude:.12e} {s.YCE.to('cm').magnitude:.12e} {s.ALE.to('radian').magnitude:.12e}
+        {_cm(s.XPAS):.12e}
+        {int(s.KPOS):d} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
         """
 
 
@@ -425,14 +420,14 @@ class Decapole(CartesianMagnet):
     def __str__(s):
         return f"""
         {super().__str__().rstrip()}
-        {s.IL}
-        {s.XL.to('centimeter').magnitude:.12e} {s.R0.to('centimeter').magnitude:.12e} {s.B0.to('kilogauss').magnitude:.12e}
-        {s.XE.to('centimeter').magnitude:.12e} {s.LAM_E.to('centimeter').magnitude:.12e}
-        0 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
-        {s.XS.to('centimeter').magnitude:.12e} {s.LAM_S.to('centimeter').magnitude:.12e}
-        0 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
-        {s.XPAS.to('centimeter').magnitude}
-        {s.KPOS} {s.XCE.to('centimeter').magnitude:.12e} {s.YCE.to('centimeter').magnitude:.12e} {s.ALE.to('radian').magnitude:.12e}
+        {int(s.IL):d}
+        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B0):.12e}
+        {_cm(s.XE):.12e} {_cm(s.LAM_E):.12e}
+        6 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
+        {_cm(s.XS):.12e} {_cm(s.LAM_S):.12e}
+        6 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
+        {_cm(s.XPAS)}
+        {int(s.KPOS):d} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
         """
 
 
@@ -927,7 +922,12 @@ class Dodecapole(Command):
 
 
 class Drift(CartesianMagnet):
-    """Field free drift space."""
+    """
+    Field free drift space.
+
+    >>> Drift()
+
+    """
     PARAMETERS = {
         'XL': 0 * ureg.centimeter,
     }
@@ -1388,52 +1388,39 @@ class Octupole(Magnet):
 
 
 class PS170(Magnet):
-    """Simulation of a round shape dipole magnet."""
-    KEYWORD = 'PS170'
+    """
+    Simulation of a round shape dipole magnet.
+
+    >>> PS170('PS170', IL=2, XL=2 * ureg.m, R0 = 1.5 * ureg.m, B0 = 1 * ureg.tesla)
+    """
 
     PARAMETERS = {
-        'IL': 2,
-        'XL': 0,
-        'R0': 0,
-        'B0': 0,
-        'XPAS': 0.1,
-        'KPOS': 1,
-        'XCE': 0,
-        'YCE': 0,
-        'ALE': 0,
+        'IL': (2, 'print field and coordinates along trajectories'),
+        'XL': (1 * ureg.m, 'Length of the element'),
+        'R0': (1 * ureg.m, ', radius of the circular dipole'),
+        'B0': (0 * ureg.tesla, 'field'),
+        'XPAS': (1.0 * ureg.mm, 'Integration step'),
+        'KPOS': (0, ),
+        'XCE': (0 * ureg.cm, ''),
+        'YCE': (0 * ureg.cm, ''),
+        'ALE': (0 * ureg.degree, ''),
     }
+    COLOR = 'red'
 
-    def __str__(s):
-        command = []
-        c = f"""
-                {super().__str__().rstrip()}
-                {s.IL}
-                {s.XL:.12e} {s.R0:.12e} {s.B0:.12e}
-                {s.XPAS:.12e}  
-                """
-        command.append(c)
-
-        if s.KPOS not in (1, 2):
-            raise ZgoubidoException("KPOS must be equal to 1 or 2")
-
-        if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
-            c = f"""
-                {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
-                """
-            command.append(c)
-        elif s.KPOS == 2:  # Elements are misaligned
-            c = f"""
-                {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
-                """
-            command.append(c)
-
-        return ''.join(map(lambda _: _.rstrip(), command))
+    def __str__(s) -> str:
+        if s.KPOS not in (0, 1, 2):
+            raise ZgoubidoException("KPOS must be in (0, 1, 2)")
+        return f"""
+        {super().__str__().rstrip()}
+        {int(s.IL):d}
+        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B0):.12e}
+        {_cm(s.XPAS):.12e}  
+        {int(s.KPOS):d} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
+        """
 
 
 class Quadisex(Magnet):
     """Sharp edge magnetic multipoles."""
-    KEYWORD = 'QUADISEX'
-
     PARAMETERS = {
         'IL': 2,
         'XL': 0,
@@ -1542,8 +1529,6 @@ class Quadrupole(CartesianMagnet):
 
 class SexQuad(Magnet):
     """Sharp edge magnetic multipole."""
-    KEYWORD = 'SEXQUAD'
-
     PARAMETERS = {
         'IL': 2,
         'XL': 0,
@@ -1658,8 +1643,6 @@ class Sextupole(Magnet):
 
 class Solenoid(Magnet):
     """Solenoid."""
-    KEYWORD = 'SOLENOID'
-
     PARAMETERS = {
         'IL': 2,
         'XL': 0,
@@ -1704,40 +1687,29 @@ class Solenoid(Magnet):
 
 class Undulator(Magnet):
     """Undulator magnet."""
-    KEYWORD = 'UNDULATOR'
 
 
 class Venus(Command):
     """Simulation of a rectangular shape dipole magnet."""
-    KEYWORD = 'VENUS'
-
     PARAMETERS = {
-        'IL': 2,
-        'XL': 100 * ureg.centimeter,
-        'YL': 100 * ureg.centimeter,
-        'B0': 10 * ureg.kilogauss,
-        'XPAS': 0.1 * ureg.centimeter,
+        'IL': (2, ),
+        'XL': (100 * ureg.centimeter, ),
+        'YL': (100 * ureg.centimeter, ),
+        'B0': (10 * ureg.kilogauss, ),
+        'XPAS': (0.1 * ureg.centimeter, ),
         'KPOS': 1,
-        'XCE': 0 * ureg.centimeter,
-        'YCE': 0 * ureg.centimeter,
-        'ALE': 0 * ureg.radian,
+        'XCE': (0 * ureg.centimeter, ),
+        'YCE': (0 * ureg.centimeter, ),
+        'ALE': (0 * ureg.radian, ),
     }
 
-    def __str__(s):
-        command = []
-        c = f"""
+    def __str__(self) -> str:
+        if self.KPOS not in (0, 1, 2):
+            raise ZgoubidoException("KPOS must be in (0, 1, 2)")
+        return f"""
         {super().__str__().rstrip()}
-        {s.IL}
-        {s.XL.to('centimeter').magnitude:.12e} {s.YL.to('centimeter').magnitude:.12e} {s.B0.to('kilogauss').magnitude:.12e}
-        {s.XPAS:.12e}"""
-        command.append(c)
-
-        if s.KPOS not in (1, 2):
-            raise ZgoubidoException("KPOS must be equal to 1 or 2")
-
-        c = f"""
-        {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE.to('radian').magnitude:.12e}
+        {int(self.IL):d}
+        {_cm(self.XL):.12e} {_cm(self.YL):.12e} {_kilogauss(self.B0):.12e}
+        {_cm(self.XPAS):.12e}  
+        {int(self.KPOS):d} {_cm(self.XCE):.12e} {_cm(self.YCE):.12e} {_radian(self.ALE):.12e}
         """
-        command.append(c)
-
-        return ''.join(map(lambda _: _.rstrip(), command))

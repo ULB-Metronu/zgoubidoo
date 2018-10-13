@@ -3,7 +3,7 @@ import pandas as pd
 
 
 def read_fai_file(filename: str='zgoubi.fai', path: str='.') -> pd.DataFrame:
-    # Header line from the Zgoubi .plt file
+    # Header line from the Zgoubi .fai file
     with open(filename) as file:
         headers = list(map(lambda s: s.strip(' '), file.read().split('\n')[2].split(',')))
     return pd.read_table(os.path.join(path, filename),

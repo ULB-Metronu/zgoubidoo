@@ -5,3 +5,4 @@ from .objet import *
 from .particules import *
 from .fieldmaps import *
 from .patchable import Patchable
+from .plotable import Plotable
