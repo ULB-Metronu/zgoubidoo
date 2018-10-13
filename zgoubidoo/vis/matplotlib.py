@@ -7,6 +7,7 @@ import matplotlib.transforms as transforms
 from .. import ureg
 from .zgoubiplot import ZgoubiPlot
 from ..units import _cm, _degree, _radian
+from ..frame import Frame
 import zgoubidoo.commands
 
 
@@ -116,19 +117,11 @@ class ZgoubiMpl(ZgoubiPlot):
             do_frame()
 
     def tracks_cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet, tracks) -> NoReturn:
-        x = tracks['X'].values
-        y = 100 * tracks['Y-DY'].values
-        angle = - _radian(magnet.entry_patched.tx)
-        if np.cos(_radian(magnet.entry.tz)) > 0:
-            pass
-        else:
-            y *= -1
-        s = np.sin(angle)
-        c = np.cos(angle)
-        xx = c * x - s * y
-        yy = s * x + c * y
-        tracks_x = _cm(magnet.entry_patched.x) + xx
-        tracks_y = _cm(magnet.entry_patched.y) + yy
+        v = 100 * tracks[['X', 'Y-DY', 'Z']].values
+        m = Frame(magnet.entry_patched).rotate_z(2 * magnet.entry_patched.tx).get_rotation_matrix()
+        tmp = np.dot(v, m)
+        tracks_x = _cm(magnet.entry_patched.x) + tmp[:, 0]
+        tracks_y = _cm(magnet.entry_patched.y) + tmp[:, 1]
         self.plot(tracks_x, tracks_y, '.', markeredgecolor=self._tracks_color, markerfacecolor=self._tracks_color, ms=1)
 
     def tracks_polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet, tracks) -> NoReturn:

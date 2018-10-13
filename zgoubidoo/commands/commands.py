@@ -43,7 +43,7 @@ class Command(metaclass=MetaCommand):
         'LABEL2': '',
     }
 
-    PROPERTIES = [
+    _PROPERTIES = [
         '_attributes',
         '_output',
         '_entry',
@@ -85,7 +85,7 @@ class Command(metaclass=MetaCommand):
             return attr
 
     def __setattr__(self, k, v: Any) -> NoReturn:
-        if k in Command.PROPERTIES:
+        if k in Command._PROPERTIES:
             self.__dict__[k] = v
         else:
             if k not in self._attributes.keys():
@@ -312,8 +312,6 @@ class Fin(Command):
 
 class Fit(Command):
     """Fitting procedure."""
-    KEYWORD = 'FIT'
-
     PARAMETERS = {
         'PARAMS': (
             [
@@ -373,10 +371,10 @@ class Focale(Command):
         'XL': (0.0 * ureg.centimeter, 'Distance from the location of the keyword.'),
     }
 
-    def __str__(s):
+    def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        {s.XL.to('cm').magnitude}
+        {_cm(self.XL)}
         """
 
 
@@ -405,11 +403,11 @@ class GasScattering(Command):
         'DEN': 0.0,
     }
 
-    def __str__(s):
+    def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        {s.KGA}
-        {s.AI} {s.DEN}
+        {self.KGA}
+        {self.AI} {self.DEN}
         """
 
 
@@ -455,7 +453,6 @@ class ImagesZ(Command):
 
 class Marker(Command):
     """Marker."""
-    KEYWORD = 'MARKER'
 
     def __init__(self, label1='', label2='', *params, with_plt=True, **kwargs):
         super().__init__(label1, label2, self.PARAMETERS, *params, **kwargs)
@@ -464,17 +461,16 @@ class Marker(Command):
 
 class Matrix(Command):
     """Calculation of transfer coefficients, periodic parameters."""
-    KEYWORD = 'MATRIX'
 
     PARAMETERS = {
         'IORD': 1,
         'IFOC': (11, 'If IFOC=11, periodic parameters (single pass)'),
     }
 
-    def __str__(s):
+    def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        {s.IORD} {s.IFOC} PRINT
+        {self.IORD} {self.IFOC} PRINT
         """
 
 
@@ -485,27 +481,22 @@ class MCDesintegration(Command):
 
 class Optics(Command):
     """Write out optical functions."""
-    KEYWORD = 'OPTICS'
 
 
 class Ordre(Command):
     """Taylor expansions order."""
-    KEYWORD = 'ORDRE'
 
 
 class Pickups(Command):
     """Beam centroid path; closed orbit."""
-    KEYWORD = 'PICKUPS'
 
 
 class PlotData(Command):
     """Intermediate output for the PLOTDATA graphic software."""
-    KEYWORD = 'PLOTDATA'
 
 
 class Rebelote(Command):
     """’Do it again’."""
-    KEYWORD = 'REBELOTE'
 
     PARAMETERS = {
         'NPASS': 1,
@@ -517,21 +508,19 @@ class Rebelote(Command):
         'NPRM': 1,
     }
 
-    def __str__(s):
+    def __str__(self):
         return f"""
         {super().__str__()}
-        {s.NPASS} {s.KWRIT} {s.K}.{s.N or ''} {s.LABL1 or ''} {s.LABL2 or ''}
+        {self.NPASS} {self.KWRIT} {self.K}.{self.N or ''} {self.LABL1 or ''} {self.LABL2 or ''}
         """
 
 
 class Reset(Command):
     """Reset counters and flags."""
-    KEYWORD = 'RESET'
 
 
 class Scaling(Command):
     """Power supplies and R.F. function generator."""
-    KEYWORD = 'SCALING'
 
 
 class Separa(Command):
@@ -556,7 +545,6 @@ class SynchrotronRadiation(Command):
 
 class Target(Command):
     """Generate a secondary beam following target interaction."""
-    KEYWORD = 'TARGET'
 
 
 class TransferMatrix(Command):
@@ -592,13 +580,7 @@ class WienFilter(Command):
 
 
 class Ymy(Command, Patchable):
-    """Reverse signs of Y and Z reference axes."""
-    KEYWORD = 'YMY'
-
-    def __str__(s):
-        return f"""
-        {super().__str__().rstrip()}
-        """
+    """Reverse signs of Y and Z reference axes, equivalent to a 180 degree rotation around the X axis."""
 
     @property
     def entry_patched(self) -> Frame:

@@ -27,6 +27,8 @@ def read_plt_file(filename: str='zgoubi.plt', path: str='.') -> pd.DataFrame:
                        quotechar='\''
                        )
     df['LABEL1'] = df['LABEL1'].map(lambda x: x.strip())
+    df['X'] *= 1e-2
+    df['S'] *= 1e-2
     df['Y-DY'] *= 1e-2
     df['T'] *= 1e-3
     df['Z'] *= 1e-2

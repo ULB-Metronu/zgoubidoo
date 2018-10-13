@@ -73,4 +73,35 @@ class PolarMesh(Command):
 
 class Tosca(Command):
     """2-D and 3-D Cartesian or cylindrical mesh field map."""
-    KEYWORD = 'TOSCA'
+    PARAMETERS = {
+        'IC': (),
+        'IL': (),
+        'BNORM': (),
+        'XN': (),
+        'YN': (),
+        'ZN': (),
+        'TITL': (),
+        'IX': (),
+        'IY': (),
+        'IZ': (),
+        'MOD': (),
+        'MOD2': (),
+        'FNAME': (),
+        'ID': (),
+        'A': (),
+        'B': (),
+        'C': (),
+        'IORDRE': (),
+        'XPAS': (),
+        'KPOS': (),
+        'XCE': (),
+        'YCE': (),
+        'ALE': (),
+        'RE': (),
+        'TE': (),
+        'RS': (),
+        'TS': (),
+    }
+
+    def __str__(self) -> str:
+        pass

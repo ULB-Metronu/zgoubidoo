@@ -1,18 +1,25 @@
-from typing import List, Mapping
+from typing import List, Mapping, Iterable
 import logging
 import shutil
-import multiprocessing
-from multiprocessing.pool import ThreadPool
-import subprocess as sub
 import os
 import sys
 import re
+import multiprocessing
+from multiprocessing.pool import ThreadPool
+import subprocess as sub
 import pandas as pd
 from .input import Input
 from .output import read_plt_file
 
 
-def find_labeled_output(out, label):
+def find_labeled_output(out: Iterable, label: str) -> list:
+    """
+    Process the Zgoubi output and retrieves output data for a particular labeled element.
+
+    :param out: the Zgoubi input
+    :param label: the label of the element to be retrieved
+    :return: the output of the given label
+    """
     data = []
     for l in out:
         if str(label) in l and 'Keyword' in l:
@@ -38,7 +45,7 @@ class ZgoubiRun:
         self._tracks = None
 
     @property
-    def tracks(self):
+    def tracks(self) -> pd.DataFrame:
         """
         Collect all tracks from the different Zgoubi instances in the results and concatenate them
         :return: A concatenated DataFrame with all the tracks in the result.
@@ -60,7 +67,7 @@ class ZgoubiRun:
         pass
 
     @property
-    def results(self):
+    def results(self) -> List[Mapping]:
         return self._results
 
 
@@ -166,4 +173,3 @@ class Zgoubi:
                 return f"{sys.prefix}/bin/{self._executable}"
             else:
                 return shutil.which(self._executable, path=os.path.join(os.environ['PATH'], optional_path))
-

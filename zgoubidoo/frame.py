@@ -371,6 +371,18 @@ class Frame:
 
     z = property(get_z)
 
+    def get_rotation_matrix(self, ref: Optional[Frame]=None) -> _np.ndarray:
+        """
+        Provides the rotation matrix representation of the quaternion with respect to another reference frame.
+
+        >>> f1 = Frame().rotate_x(10 * ureg.degree).get_rotation_matrix()
+        1.0
+
+        :param ref: reference frame with respect to which the rotation matrix is returned
+        :return: the rotation matrix representation of the quaternion
+        """
+        return _quaternion.as_rotation_matrix(self.get_quaternion(ref))
+
     def _get_angles(self, ref: Optional[Frame] = None) -> _np.ndarray:
         """
 
