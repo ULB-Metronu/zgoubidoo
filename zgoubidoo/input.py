@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import Callable, List, Sequence, Optional, NoReturn, Union
+from functools import partial
 import tempfile
 import os
 from functools import reduce
@@ -93,7 +94,7 @@ class Input:
         self._line.append(o)
         return self
 
-    def __getitem__(self, items) -> Union[Command, Input]:
+    def __getitem__(self, items) -> Union[zgoubidoo.commands.Command, Input]:
         # Behave like element access
         if isinstance(items, int):
             return self._line[items]
@@ -150,10 +151,7 @@ class Input:
 
     labels = property(get_labels)
     labels1 = property(get_labels)
-
-    @property
-    def labels2(self) -> List[str]:
-        return [e.LABEL2 for e in self._line]
+    labels2 = property(partial(get_labels, label='LABEL2'))
 
     @property
     def name(self):

@@ -51,11 +51,13 @@ class Command(metaclass=MetaCommand):
         '_exit',
         '_exit_patched',
         '_center',
+        '_instances',
     ]
 
     def __init__(self, label1: str='', label2: str='', *params, **kwargs) -> NoReturn:
         self._output = list()
         self._attributes = {}
+        self._instances = 0
         for p in (Command.PARAMETERS, self.PARAMETERS,) + params + (
                 {
                     'LABEL1': label1 or str(uuid.uuid4().hex)[:ZGOUBI_LABEL_LENGTH],
@@ -65,7 +67,7 @@ class Command(metaclass=MetaCommand):
         for k, v in kwargs.items():
             setattr(self, k, v)
 
-    def __getattr__(self, a):
+    def __getattr__(self, a: str) -> Any:
         if self._attributes.get(a) is None:
             return None
         if not isinstance(self._attributes[a], tuple):
@@ -84,8 +86,8 @@ class Command(metaclass=MetaCommand):
         else:
             return attr
 
-    def __setattr__(self, k, v: Any) -> NoReturn:
-        if k in Command._PROPERTIES:
+    def __setattr__(self, k: str, v: Any) -> NoReturn:
+        if k in Command._PROPERTIES or k.startswith('__'):
             self.__dict__[k] = v
         else:
             if k not in self._attributes.keys():
@@ -107,8 +109,12 @@ class Command(metaclass=MetaCommand):
         return str(self)
 
     def __str__(self) -> str:
+        label1 = self.LABEL1
+        if self._instances > 0:
+            label1 = f"{self.LABEL1}_{self._instances}"
+        self._instances += 1
         return f"""
-        '{self.KEYWORD or self.__class__.__name__.upper()}' {self.LABEL1} {self.LABEL2}
+        '{self.KEYWORD or self.__class__.__name__.upper()}' {label1} {self.LABEL2}
         """
 
     @property

@@ -1,3 +1,4 @@
+from typing import Tuple
 import numpy as np
 import pandas as pd
 from .commands import Patchable
@@ -42,7 +43,7 @@ def compute_beta_from_matrix(m, twiss, plane=1) -> pd.Series:
     BETA = twiss[f"BETA{v}{v}"]
     GAMMA = twiss[f"GAMMA{v}{v}"]
     _ = R11**2 * BETA - 2.0 * R11 * R12 * ALPHA + R12**2 * GAMMA
-    assert (_ > 0).all(), "Not all computed beta are positive."
+    #assert (_ > 0).all(), "Not all computed beta are positive."
     return _
 
 
@@ -112,7 +113,10 @@ def compute_twiss(matrix: pd.DataFrame, twiss_init: pd.DataFrame) -> pd.DataFram
     return matrix
 
 
-def align_tracks(tracks: pd.DataFrame, align_on: str='X', identifier: str='LET', reference_track: str='O'):
+def align_tracks(tracks: pd.DataFrame,
+                 align_on: str='X',
+                 identifier: str='LET',
+                 reference_track: str='O') -> Tuple[np.array, pd.DataFrame]:
     """
     Align the tracks to obtain a homegenous array with all coordinates given at the same location.
 
@@ -127,24 +131,27 @@ def align_tracks(tracks: pd.DataFrame, align_on: str='X', identifier: str='LET',
     """
     coordinates = ['Y-DY', 'T', 'Z', 'P', 'Yo', 'To', 'Zo', 'Po']
     particules = ['O', 'A', 'C', 'E', 'G']
-    ref = tracks.query(f"{identifier} == '{reference_track}'")[coordinates + [align_on, 'LABEL1']]
+    ref: pd.DataFrame = tracks.query(f"{identifier} == '{reference_track}'")[coordinates + [align_on, 'LABEL1']]
     alignment_values = ref[align_on].values
     data = np.zeros((len(particules), alignment_values.shape[0], len(coordinates)))
     data[0, :, :] = ref[coordinates].values
     for i, p in enumerate(particules[1:]):
         particule = tracks.query(f"{identifier} == '{p}'")
         for j, c in enumerate(coordinates):
-            data[i+1, :, j] = np.interp(alignment_values, particule[align_on].values, particule[c].values)
+            try:
+                data[i+1, :, j] = np.interp(alignment_values, particule[align_on].values, particule[c].values)
+            except ValueError:
+                pass
     assert data.ndim == 3, "The aligned tracks do not form a homogenous array."
     return data, ref
 
 
-def compute_transfer_matrix(beamline: Input, tracks: pd.DataFrame, alignment: str='X') -> pd.DataFrame:
+def compute_transfer_matrix(beamline: Input, tracks: pd.DataFrame, align_on: str='X') -> pd.DataFrame:
     """
     Constructs the step-by-step transfer matrix from tracking data (finite differences).
     :param beamline: the Zgoubidoo Input beamline
     :param tracks: tracking data
-    :param alignment: coordinates on which the tracks are aligned (typically 'X' or 'S')
+    :param align_on: coordinates on which the tracks are aligned (typically 'X' or 'S')
     :return: a Panda DataFrame representing the transfer matrix
     """
     elements = tracks.LABEL1.unique()
@@ -156,20 +163,21 @@ def compute_transfer_matrix(beamline: Input, tracks: pd.DataFrame, alignment: st
                 offset += (e.exit.x - e.entry.x).to('cm').magnitude
             continue
         t = tracks[tracks.LABEL1 == e.LABEL1]
-        data, ref = align_tracks(t)
+        data, ref = align_tracks(t, align_on=align_on)
         n = 4
         normalization = [
             data[i + 1, :, i + n] - data[0, :, i + n] for i in range(0, n)
         ]
         m = pd.DataFrame(
             {
-                f"R{i+1}{j+1}": pd.Series(((data[i + 1, :, j]) - data[0, :, j]) / normalization[i])
+                f"R{i+1}{j+1}": pd.Series((data[i + 1, :, j] - data[0, :, j]) / normalization[i])
+                #f"R{i + 1}{j + 1}": pd.Series(data[i + 1, :, j])
                 for i in range(0, n)
                 for j in range(0, n)
             }
         )
-        m[alignment] = ref[alignment].values + offset
+        m[align_on] = ref[align_on].values + offset
         m['LABEL1'] = ref['LABEL1']
         matrix = matrix.append(m)
-        offset += ref[alignment].max() if alignment != 'S' else 0.0
+        offset += ref[align_on].max() if align_on != 'S' else 0.0
     return matrix.reset_index()
