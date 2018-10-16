@@ -4,7 +4,7 @@ from pint import UndefinedUnitError
 from .patchable import Patchable
 from .. import ureg, Q_
 from ..frame import Frame
-from ..units import _degree, _cm
+from ..units import _radian, _degree, _m, _cm
 
 ZGOUBI_LABEL_LENGTH: int = 10  # Used to be 8 on older versions
 
@@ -51,13 +51,11 @@ class Command(metaclass=MetaCommand):
         '_exit',
         '_exit_patched',
         '_center',
-        '_instances',
     ]
 
     def __init__(self, label1: str='', label2: str='', *params, **kwargs) -> NoReturn:
         self._output = list()
         self._attributes = {}
-        self._instances = 0
         for p in (Command.PARAMETERS, self.PARAMETERS,) + params + (
                 {
                     'LABEL1': label1 or str(uuid.uuid4().hex)[:ZGOUBI_LABEL_LENGTH],
@@ -74,7 +72,7 @@ class Command(metaclass=MetaCommand):
             attr = self._attributes[a]
         else:
             attr = self._attributes[a][0]
-        if attr is not '' and not isinstance(attr, Q_):
+        if not isinstance(attr, str) and not isinstance(attr, Q_):
             try:
                 _ = Q_(attr)
                 if _.dimensionless:
@@ -109,12 +107,8 @@ class Command(metaclass=MetaCommand):
         return str(self)
 
     def __str__(self) -> str:
-        label1 = self.LABEL1
-        if self._instances > 0:
-            label1 = f"{self.LABEL1}_{self._instances}"
-        self._instances += 1
         return f"""
-        '{self.KEYWORD or self.__class__.__name__.upper()}' {label1} {self.LABEL2}
+        '{self.KEYWORD or self.__class__.__name__.upper()}' {self.LABEL1} {self.LABEL2}
         """
 
     @property
@@ -140,8 +134,6 @@ class Command(metaclass=MetaCommand):
 
 class AutoRef(Command):
     """Automatic transformation to a new reference frame."""
-    KEYWORD = 'AUTOREF'
-
     PARAMETERS = {
         'I': (1, 'Mode (1, 2 or 3.'),
         'I1': (1, 'Particle number (only used if I = 3'),
@@ -163,12 +155,10 @@ class AutoRef(Command):
 
 class BeamBeam(Command):
     """Beam-beam lens."""
-    KEYWORD = 'BEAMBEAM'
 
 
 class Binary(Command):
     """BINARY/FORMATTED data converter."""
-    KEYWORD = 'BINARY'
 
 
 class Chambre(Command):
@@ -236,6 +226,7 @@ ChangRef = ChangeRef
 class Collimateur(Command):
     """Collimator."""
     KEYWORD = 'COLLIMA'
+
     PARAMETERS = {
         'IA': (2, 'Element active or not (0 - inactive, 1 - active, 2 - active and prints information.'),
         'IFORM': (1, 'Aperture shape.'),
@@ -246,11 +237,11 @@ class Collimateur(Command):
         'C4': (0 * ureg.cm, 'Center of the aperture (Z).'),
     }
 
-    def __str__(s):
+    def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        {s.IA}
-        {s.IFORM}.{s.J} {s.C1} {s.C2} {s.C3} {s.C4}
+        {self.IA}
+        {self.IFORM}.{self.J} {self.C1} {self.C2} {self.C3} {self.C4}
         """
 
 
@@ -260,54 +251,47 @@ Collimator = Collimateur
 
 class Cible(Command):
     """Generate a secondary beam following target interaction."""
-    KEYWORD = 'CIBLE'
 
 
 class End(Command):
     """End of input data list."""
-    KEYWORD = 'END'
 
 
 class ESL(Command):
     """??? Field free drift space."""
-    KEYWORD = 'ESL'
 
 
 class Faisceau(Command):
     """Print particle coordinates."""
-    KEYWORD = 'FAISCEAU'
 
 
 class Faiscnl(Command):
     """Store particle coordinates in file FNAME."""
-    KEYWORD = 'FAISCNL'
     PARAMETERS = {
         'FNAME': 'zgoubi.fai',
         'B_FNAME': 'b_zgoubi.fai',
         'binary': False,
     }
 
-    def __str__(s):
+    def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        {s.B_FNAME if s.binary else s.FNAME}
+        {self.B_FNAME if self.binary else self.FNAME}
         """
 
 
 class FaiStore(Command):
     """Store coordinates every IP other pass at labeled elements."""
-    KEYWORD = 'FAISTORE'
-
     PARAMETERS = {
         'FNAME': 'zgoubi.fai',
         'IP': 1,
     }
 
-    def __str__(s):
+    def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        {s.FNAME}
-        {s.IP}
+        {self.FNAME}
+        {self.IP}
         """
 
 
@@ -344,20 +328,20 @@ class Fit(Command):
         'ITERATIONS': (1000, 'Iterations'),
     }
 
-    def __str__(s):
+    def __str__(self):
         command = list()
         command.append(super().__str__().rstrip())
         command.append(f"""
-        {len(s.PARAMS)}
+        {len(self.PARAMS)}
         """)
-        for p in s.PARAMS:
+        for p in self.PARAMS:
             command.append(f"""
         {p['IR']} {p['IP']} {p['XC']} [-30.0,30.0]
         """)
         command.append(f"""
-        {len(s.CONSTRAINTS)} {s.PENALTY:.12e} {s.ITERATIONS}
+        {len(self.CONSTRAINTS)} {self.PENALTY:.12e} {self.ITERATIONS}
         """)
-        for c in s.CONSTRAINTS:
+        for c in self.CONSTRAINTS:
             command.append(f"""
         {c['IC']} {c['I']} {c['J']} {c['IR']} {c['V']} {c['WV']} {c['NP']}
         """)
@@ -392,10 +376,10 @@ class FocaleZ(Command):
         'XL': (0.0 * ureg.centimeter, 'Distance from the location of the keyword.'),
     }
 
-    def __str__(s):
+    def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        {s.XL.to('cm').magnitude}
+        {_cm(self.XL)}
         """
 
 
@@ -419,8 +403,6 @@ class GasScattering(Command):
 
 class GetFitVal(Command):
     """Get values of variables as saved from former FIT[2] run."""
-    KEYWORD = 'GETFITVAL'
-
     PARAMETERS = {
         'FNAME': 'zgoubi.res',
     }
@@ -562,6 +544,22 @@ class TranslationRotation(Command):
     """Translation-Rotation of the reference frame."""
     KEYWORD = 'TRAROT'
 
+    PARAMETERS = {
+        'TX': (0 * ureg.m, 'X axis translation'),
+        'TY': (0 * ureg.m, 'Y axis translation'),
+        'TZ': (0 * ureg.m, 'Z axis translation'),
+        'RX': (0 * ureg.degree, 'X axis rotation'),
+        'RY': (0 * ureg.degree, 'Y axis rotation'),
+        'RZ': (0 * ureg.degree, 'Z axis rotation'),
+    }
+
+    def __str__(self):
+        s = self
+        return f"""
+        {super().__str__().rstrip()}
+        {_m(s.TX):.12e} {_m(s.TY):.12e} {_m(s.TZ):.12e} {_radian(s.RX):.12e} {_radian(s.RY):.12e} {_radian(s.RZ):.12e}
+        """
+
 
 class Twiss(Command):
     """Calculation of periodic optical parameters."""
@@ -573,10 +571,10 @@ class Twiss(Command):
         'FACA': (0.0, 'Unused'),
     }
 
-    def __str__(s):
+    def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        {s.KTW} {s.FACD:.12e} {s.FACA:.12e}
+        {self.KTW} {self.FACD:.12e} {self.FACA:.12e}
         """
 
 

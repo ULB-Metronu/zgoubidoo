@@ -14,7 +14,7 @@ class Particule(Command):
 
     def __init__(self, label1='', label2='', *params, **kwargs):
         super().__init__(label1, label2, Particule.PARAMETERS, self.PARAMETERS, *params, **kwargs)
-        if issubclass(self.__class__, Particule) and len(self.LABEL1) == 0:
+        if issubclass(self.__class__, Particule) and len(label1) == 0:
             self.LABEL1 = self.__class__.__name__.upper()
 
     def __str__(s) -> str:

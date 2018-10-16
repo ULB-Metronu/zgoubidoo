@@ -3,6 +3,7 @@ from typing import Optional, Union
 import os
 import numpy as np
 import pandas as pd
+from . import Q_
 from .commands import Particule, Proton, Objet, Objet2
 from .physics import Kinematic
 
@@ -22,11 +23,13 @@ class Beam:
     def __init__(self,
                  distribution: Optional[pd.DataFrame]=None,
                  particle: Particule=Proton,
-                 kinematic: Optional[Kinematic]=None,
+                 kinematic: Optional[Union[Kinematic, float, Q_]]=None,
                  slices: int=1,
                  *args,
                  **kwargs):
         self._particle: Particule = particle
+        if not isinstance(kinematic, Kinematic):
+            kinematic = Kinematic(kinematic)
         self._kinematic: Union[Kinematic, float, Q_] = kinematic
         self._objet: Objet = Objet2
         self._slices: int = slices
