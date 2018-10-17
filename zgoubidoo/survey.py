@@ -26,5 +26,6 @@ def survey(beamline: Input=None, reference_frame: Frame=None) -> Input:
     frame: Frame = reference_frame or Frame()
     for e in beamline[Patchable].line:
         e.place(frame)
+        surveyed_line.increase_optical_length(e.length)
         frame = e.exit_patched
     return surveyed_line

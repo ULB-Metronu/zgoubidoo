@@ -4,6 +4,7 @@ from functools import partial
 import tempfile
 import os
 from functools import reduce
+from . import ureg, Q_
 from . import commands
 from . beam import Beam
 import zgoubidoo.commands
@@ -41,6 +42,7 @@ class Input:
         self._line: List[commands.Command] = line
         self._paths = list()
         self._inputs = list()
+        self._optical_length = 0 * ureg.m
 
     def __str__(self) -> str:
         return self.build(self._name, self._line)
@@ -177,6 +179,13 @@ class Input:
     @property
     def line(self) -> Sequence[commands.Command]:
         return self._line
+
+    @property
+    def optical_length(self) -> Optional[Q_]:
+        return self._optical_length
+
+    def increase_optical_length(self, l: Q_) -> NoReturn:
+        self._optical_length += l
 
     @staticmethod
     def write(_: Input,

@@ -215,6 +215,9 @@ class Frame:
             m = _quaternion.as_rotation_matrix(self.get_quaternion(ref))
             return self._p._get_origin(ref) + _np.matmul(m, self._o)
 
+    o_ = property(_get_origin)
+    origin_ = property(_get_origin)
+
     def get_origin(self, ref: Optional[Frame] = None) -> List[ureg.Quantity]:
         """
         Provides the offset representing the translation of the frame with respect to another reference frame.

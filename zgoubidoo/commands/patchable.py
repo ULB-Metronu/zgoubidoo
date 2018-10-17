@@ -1,4 +1,5 @@
 from typing import NoReturn
+from .. import ureg, Q_
 from ..frame import Frame
 
 
@@ -22,6 +23,10 @@ class Patchable:
         self._exit = None
         self._entry_patched = None
         self._center = None
+
+    @property
+    def length(self) -> Q_:
+        return 0.0 * ureg.cm
 
     @property
     def entry(self) -> Frame:

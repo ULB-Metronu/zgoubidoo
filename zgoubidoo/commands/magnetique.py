@@ -33,7 +33,7 @@ class CartesianMagnet(Magnet):
 
     @property
     def length(self) -> Q_:
-        return (self.XL or 0.0 * ureg.cm) + (self.X_E or 0.0 * ureg.cm) + (self.X_S or 0.0 * ureg.cm)
+        return self.XL or 0.0 * ureg.cm
 
     @property
     def x_offset(self) -> Q_:
@@ -57,7 +57,7 @@ class CartesianMagnet(Magnet):
     def exit(self) -> Frame:
         if self._exit is None:
             self._exit = Frame(self.entry_patched)
-            self._exit.translate_x(self.length)
+            self._exit.translate_x(self.length + (self.X_E or 0.0 * ureg.cm) + (self.X_S or 0.0 * ureg.cm))
         return self._exit
 
     @property
@@ -98,6 +98,10 @@ class PolarMagnet(Magnet):
     @property
     def radius(self) -> Q_:
         return self.RM or 0 * ureg.cm
+
+    @property
+    def length(self) -> Q_:
+        return self.angular_opening * self.radius
 
     @property
     def entry_patched(self):

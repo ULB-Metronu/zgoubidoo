@@ -40,7 +40,14 @@ class ZgoubiException(Exception):
 
 
 class ZgoubiRun:
+    """
+
+    """
     def __init__(self, results: List[Mapping]):
+        """
+
+        :param results:
+        """
         self._results = results
         self._tracks = None
 
@@ -77,6 +84,12 @@ class Zgoubi:
 
     def __init__(self, executable='zgoubi', path=None):
         """
+        The created `Zgoubi` object is an interface to the Zgoubi executable. The executable can be found
+        automatically or its name and path can be specified.
+
+        The Zgoubi executable is called on an instance of `Input` specifying a list of paths containing Zgoubi input
+        files. Multiple instances can thus be run in parallell.
+
         :param executable: name of the Zgoubi executable (default; zgoubi)
         :param path: path to the Zgoubi executable (default: lookup using 'which')
         """
@@ -94,10 +107,12 @@ class Zgoubi:
 
     def __call__(self, zgoubi_input: Input, debug: bool=False, n_procs: int=None) -> ZgoubiRun:
         """
+        Starts up to `n_procs` Zgoubi runs.
 
-        :param zgoubi_input:
-        :param debug:
-        :param n_procs:
+        :param zgoubi_input: `Input` object specifying the Zgoubi inputs and input paths.
+        :param debug: verbose output (default: False)
+        :param n_procs: maximum number of Zgoubi simulations to be started in parallel
+        (default: `multiprocessing.cpu_count()`)
         :return: a ZgoubiRun object
         """
         n = n_procs or multiprocessing.cpu_count()
