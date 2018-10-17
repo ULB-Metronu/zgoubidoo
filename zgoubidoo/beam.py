@@ -87,6 +87,14 @@ class Beam:
     def brho(self):
         return self._kinematic.brho
 
+    @property
+    def energy(self):
+        return self._kinematic.energy
+
+    @property
+    def momentum(self):
+        return self._kinematic.momentum
+
     def from_file(self, file: str, n: int=None, path: str='.') -> Beam:
         self._initialize_distribution(Beam.generate_from_file(file, path, n))
         return self

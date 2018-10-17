@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import NoReturn
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import matplotlib.transforms as transforms
@@ -13,7 +14,7 @@ import zgoubidoo.commands
 
 class ZgoubiMpl(ZgoubiPlot):
     """
-
+    A matplotlib implementation of a `ZgoubiPlot` artist.
     """
     def __init__(self,
                  ax=None,
@@ -22,22 +23,44 @@ class ZgoubiMpl(ZgoubiPlot):
                  with_centers: bool=False,
                  tracks_color: str='b',
                  **kwargs):
+        """
+
+        :param ax: the matplotlib ax used for plotting. If None it will be created with `init_plot`
+        (kwargs are forwarded).
+        :param with_boxes: draw the body of each elements
+        :param with_frames: draw the entry and exit frames of each elements
+        :param with_centers: draw the center of each polar coordinate elements
+        :param tracks_color: color for the plotting of tracks
+        :param kwargs: forwarded to `ZgoubiPlot` and to `init_plot`.
+        """
         super().__init__(with_boxes, with_frames, **kwargs)
         self._with_centers = with_centers
         self._tracks_color = tracks_color
         if ax is None:
-            self._init_plot()
+            self.init_plot(**kwargs)
         else:
             self._ax = ax
 
-    def _init_plot(self) -> NoReturn:
-        self._fig = plt.figure()
-        self._ax = self._fig.add_subplot(111)
+    def init_plot(self, subplots=111) -> matplotlib.figure.Figure:
+        fig = plt.figure()
+        self._ax = fig.add_subplot(subplots)
+        return fig
 
     def plot(self, *args, **kwargs) -> NoReturn:
+        """
+        Same as `matplotlib.pyplot.plot`, forwards all arguments.
+        :param args: see `matplotlib.pyplot.plot`
+        :param kwargs: see `matplotlib.pyplot.plot`
+        :return: NoReturn.
+        """
         self._ax.plot(*args, **kwargs)
 
     def polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet) -> NoReturn:
+        """
+
+        :param magnet:
+        :return:
+        """
 
         def do_frame() -> None:
             self.plot(_cm(magnet.entry.x), _cm(magnet.entry.y), 'gv', ms=5)

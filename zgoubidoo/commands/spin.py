@@ -41,3 +41,6 @@ class SpinTracking(Command):
         {self.KSO:d}
         {int(self.IR):d}
         """
+
+
+spntrk = SpinTracking

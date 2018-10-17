@@ -1,3 +1,5 @@
+from typing import NoReturn
+import zgoubidoo.commands
 
 PALETTE = {
     'solarized':  {'base03':  '#002b36',
@@ -41,8 +43,14 @@ class ZgoubiPlot:
     def reference_frame(self, frame):
         self._reference_frame = frame
 
-    def cartesianmagnet(self, **kwargs) -> None:
+    def cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet) -> NoReturn:
         pass
 
-    def polarmagnet(self, **kwargs) -> None:
+    def polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet) -> NoReturn:
+        pass
+
+    def tracks_cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet, tracks) -> NoReturn:
+        pass
+
+    def tracks_polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet, tracks) -> NoReturn:
         pass

@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Callable, List, Sequence, Optional, NoReturn, Union
+from typing import Callable, List, Sequence, Optional, NoReturn, Union, Mapping
 from functools import partial
 import tempfile
 import os
@@ -146,6 +146,11 @@ class Input:
                 pass
         self._paths = list()
 
+    def validate(self, validators: List[Callable]) -> bool:
+        for v in validators:
+            v(self)
+        return True
+
     def get_labels(self, label="LABEL1") -> List[str]:
         return [getattr(e, label, '') for e in self._line]
 
@@ -174,17 +179,24 @@ class Input:
         return self._line
 
     @staticmethod
-    def write(_: Input, filename: str=ZGOUBI_INPUT_FILENAME, path: str='.', mode: str='w') -> NoReturn:
+    def write(_: Input,
+              filename: str=ZGOUBI_INPUT_FILENAME,
+              path: str='.',
+              mode: str='w',
+              validators: Optional[List[Callable]]=None) -> int:
         """
-        Write a Zgoubi Input object to file.
+        Write a Zgoubi Input object to file after performing optional validation.
         :param _: a Zgoubidoo Input object
         :param filename: the file name (default: zgoubi.dat)
         :param path: path for the file (default: .)
         :param mode: the mode for the writer (default: 'w' - overwrite)
+        :param validators: callables used to validate the input
         :return: NoReturn
         """
+        if validators is not None:
+            _.validate(validators)
         with open(os.path.join(path, filename), mode) as f:
-            f.write(str(_))
+            return f.write(str(_))
 
     @staticmethod
     def build(name='beamline', line=None) -> str:
@@ -208,3 +220,34 @@ class Beamline(Input):
     @staticmethod
     def build(name='beamline', line=None) -> str:
         return ''.join(map(str, [name] + (line or [])))
+
+
+class InputValidator:
+    """
+    Validation methods for Zgoubi Input. Follows the rules as defined in the Zgoubi code and manual.
+    """
+
+    @staticmethod
+    def validate_objet_is_first_command(_: Input) -> bool:
+        """
+        Validate that the first input command is a (mc)objet.
+        :param _: the input to validate
+        :return: True if the validation is successful; otherwise a `ZgoubiInputException` is raised.
+        """
+        line = _.line
+        if len(_) > 0 and not isinstance(line[0], (commands.Objet, commands.MCObjet)):
+            raise ZgoubiInputException("The first command in the input is not an Objet. (or MCObjet).")
+        return True
+
+    @staticmethod
+    def validate_objets_do_not_exceed_imax(_: Input) -> bool:
+        """
+        Validate that all objets and mcobjets have their IMAX value below the maximum value.
+        :param _: the input to validate
+        :return: True is the validation is successful; otherwise a `ZgoubiInputException` is raised.
+        """
+        objets = _[commands.Objet, commands.MCObjet]
+        for o in objets:
+            if (o.IMAX or 0.0) > ZGOUBI_IMAX:
+                raise ZgoubiInputException(f"Objet {o.label1} IMAX exceeds maximum value ({ZGOUBI_IMAX}).")
+        return True
