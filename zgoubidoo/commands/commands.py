@@ -336,7 +336,7 @@ class Fit(Command):
         """)
         for p in self.PARAMS:
             command.append(f"""
-        {p['IR']} {p['IP']} {p['XC']} [-30.0,30.0]
+        {p['IR']} {p['IP']} {p['XC']} {p['DV']}
         """)
         command.append(f"""
         {len(self.CONSTRAINTS)} {self.PENALTY:.12e} {self.ITERATIONS}
