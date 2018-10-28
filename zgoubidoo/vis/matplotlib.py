@@ -148,7 +148,7 @@ class ZgoubiMpl(ZgoubiPlot):
         self.plot(tracks_x, tracks_y, '.', markeredgecolor=self._tracks_color, markerfacecolor=self._tracks_color, ms=1)
 
     def tracks_polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet, tracks) -> NoReturn:
-        x = tracks['X'].values  # Polar angle
+        x = 100 * tracks['X'].values  # Polar angle
         y = 100 * tracks['Y-DY'].values
         if np.cos(_radian(magnet.entry.tz)) > 0:
             angle = _radian(90 * ureg.degree - magnet.center.tx) - x
