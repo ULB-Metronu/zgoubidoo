@@ -1,11 +1,11 @@
 from __future__ import annotations
-from typing import Optional, Union
+from typing import Optional, Union, NoReturn
 import os
 import numpy as np
 import pandas as pd
 from . import Q_
-from .commands import Particule, Proton, Objet, Objet2
-from .physics import Kinematic
+from zgoubidoo.commands import Particule
+import zgoubidoo.physics
 
 
 class ZgoubidooBeamException(Exception):
@@ -22,16 +22,16 @@ class Beam:
 
     def __init__(self,
                  distribution: Optional[pd.DataFrame]=None,
-                 particle: Particule=Proton,
-                 kinematic: Optional[Union[Kinematic, float, Q_]]=None,
+                 particle: Particule=zgoubidoo.commands.Proton,
+                 kinematic: Optional[Union[zgoubidoo.physics.Kinematic, float, Q_]]=None,
                  slices: int=1,
                  *args,
                  **kwargs):
-        self._particle: Particule = particle
-        if not isinstance(kinematic, Kinematic):
-            kinematic = Kinematic(kinematic)
-        self._kinematic: Union[Kinematic, float, Q_] = kinematic
-        self._objet: Objet = Objet2
+        self._particle: zgoubidoo.commands.Particule = particle
+        if not isinstance(kinematic, zgoubidoo.physics.Kinematic):
+            kinematic = zgoubidoo.physics.Kinematic(kinematic)
+        self._kinematic: Union[zgoubidoo.physics.Kinematic, float, Q_] = kinematic
+        self._objet: zgoubidoo.commands.Objet = zgoubidoo.commands.Objet2
         self._slices: int = slices
         self._distribution = None
         self._initialize_distribution(distribution, *args, **kwargs)
@@ -56,7 +56,12 @@ class Beam:
     def __str__(self):
         pass
 
-    def get_slices(self, n=None):
+    def get_slices(self, n=None) -> NoReturn:
+        """
+
+        :param n:
+        :return: NoReturn
+        """
         if n is None:
             n = self._slices
         n_tot = len(self._distribution)

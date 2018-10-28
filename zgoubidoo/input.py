@@ -1,12 +1,12 @@
 from __future__ import annotations
-from typing import Callable, List, Sequence, Optional, NoReturn, Union, Mapping
+from typing import Callable, List, Sequence, Optional, NoReturn, Union
 from functools import partial
 import tempfile
 import os
 from functools import reduce
 from . import ureg, Q_
 from . import commands
-from . beam import Beam
+from .beam import Beam
 import zgoubidoo.commands
 
 ZGOUBI_INPUT_FILENAME: str = 'zgoubi.dat'

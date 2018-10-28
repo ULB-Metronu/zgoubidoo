@@ -11,8 +11,8 @@ ureg.define('electronvolt_per_c2 = eV / c**2 = eV_c2')
 ureg.define('[momentum] = [ev] / [c]')
 ureg.define('[energy] = [ev] / [c]**2 ')
 
-from . import physics
 from . import commands
+from . import physics
 from . import vis
 from . import twiss
 from .input import Input, InputValidator, ZgoubiInputException

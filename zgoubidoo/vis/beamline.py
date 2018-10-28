@@ -1,8 +1,10 @@
+from __future__ import annotations
 from .zgoubiplot import ZgoubiPlot
 from .. import commands
+import zgoubidoo
 
 
-def plot(beamline=None, tracks=None, artist: ZgoubiPlot=None, with_elements: bool=True) -> None:
+def plot(beamline: zgoubidoo.Input, tracks=None, artist: ZgoubiPlot=None, with_elements: bool=True) -> None:
     line = beamline[commands.Patchable][commands.Plotable].line
     for e in line:
         if with_elements:
