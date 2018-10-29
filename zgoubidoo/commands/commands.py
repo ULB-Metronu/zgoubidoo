@@ -321,10 +321,10 @@ class Fit(Command):
                     'IR': 1,
                     'V': 1,
                     'WV': 1,
-                    'NP': 1
+                    'NP': 0
                 }
             ], 'Constraints'),
-        'PENALTY': (1.0e-14, 'Penalty'),
+        'PENALTY': (1.0e-8, 'Penalty'),
         'ITERATIONS': (1000, 'Iterations'),
     }
 
