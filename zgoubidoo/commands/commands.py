@@ -321,10 +321,10 @@ class Fit(Command):
                     'IR': 1,
                     'V': 1,
                     'WV': 1,
-                    'NP': 1
+                    'NP': 0
                 }
             ], 'Constraints'),
-        'PENALTY': (1.0e-14, 'Penalty'),
+        'PENALTY': (1.0e-8, 'Penalty'),
         'ITERATIONS': (1000, 'Iterations'),
     }
 
@@ -336,7 +336,7 @@ class Fit(Command):
         """)
         for p in self.PARAMS:
             command.append(f"""
-        {p['IR']} {p['IP']} {p['XC']} [-30.0,30.0]
+        {p['IR']} {p['IP']} {p['XC']} {p['DV']}
         """)
         command.append(f"""
         {len(self.CONSTRAINTS)} {self.PENALTY:.12e} {self.ITERATIONS}
