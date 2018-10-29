@@ -335,8 +335,17 @@ class Fit(Command):
         {len(self.PARAMS)}
         """)
         for p in self.PARAMS:
-            command.append(f"""
-        {p['IR']} {p['IP']} {p['XC']} {p['DV']}
+            if isinstance(p['IP'], (list, tuple)):
+                ip = p['IP'][2]
+            else:
+                ip = p['IP']
+            if isinstance(p['DV'], (list, tuple)):
+                command.append(f"""
+        {p['IR']} {ip} {p['XC']} [{p['DV'][0]}, {p['DV'][1]}]
+        """)
+            else:
+                command.append(f"""
+        {p['IR']} {ip} {p['XC']} {p['DV']}
         """)
         command.append(f"""
         {len(self.CONSTRAINTS)} {self.PENALTY:.12e} {self.ITERATIONS}
