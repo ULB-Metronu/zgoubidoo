@@ -81,11 +81,11 @@ class Beam:
         return self._distribution
 
     @property
-    def particle(self):
+    def particle(self) -> zgoubidoo.commands.Particule:
         return self._particle
 
     @property
-    def objet(self):
+    def objet(self) -> zgoubidoo.commands.Objet:
         return self._objet
 
     @property

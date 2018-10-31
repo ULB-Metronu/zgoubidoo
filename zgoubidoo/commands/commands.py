@@ -33,7 +33,7 @@ class MetaCommand(type):
 
 class Command(metaclass=MetaCommand):
     """
-
+    Test test test
     """
 
     KEYWORD: str = ''
@@ -54,6 +54,13 @@ class Command(metaclass=MetaCommand):
     ]
 
     def __init__(self, label1: str='', label2: str='', *params, **kwargs) -> NoReturn:
+        """
+        Create a bare Zgoubi command with a `KEYWORD`, `LABEL1` and `LABEL2`.
+        :param label1: first label for the keyword in the Zgoubi input.
+        :param label2: second label for the keyword in the Zgoubi input.
+        :param params:
+        :param kwargs: test
+        """
         self._output = list()
         self._attributes = {}
         for p in (Command.PARAMETERS, self.PARAMETERS,) + params + (
@@ -104,9 +111,17 @@ class Command(metaclass=MetaCommand):
             self._attributes[k] = v
 
     def __repr__(self) -> str:
+        """
+
+        :return:
+        """
         return str(self)
 
     def __str__(self) -> str:
+        """
+
+        :return:
+        """
         return f"""
         '{self.KEYWORD or self.__class__.__name__.upper()}' {self.LABEL1} {self.LABEL2}
         """

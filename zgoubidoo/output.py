@@ -1,8 +1,32 @@
+"""Module for handling of affine geometry transformations (rotations and translations).
+
+This module provides support for affine geometry transformations, mainly through the `Frame` class.
+
+Example:
+    example
+
+    >>> 1 + 1
+
+
+"""
 import os
 import pandas as pd
 
 
 def read_fai_file(filename: str='zgoubi.fai', path: str='.') -> pd.DataFrame:
+    """Function to read Zgoubi .fai file.
+
+    Reads the content of a Zgoubi .fai file ('faisceau', 'beam' file) and formats it as a valid Pandas dataframe
+    with headers.
+
+    Args:
+        filename:
+        path:
+
+    Returns:
+        xxxx
+
+    """
     # Header line from the Zgoubi .fai file
     with open(filename) as file:
         headers = list(map(lambda s: s.strip(' '), file.read().split('\n')[2].split(',')))
@@ -16,6 +40,12 @@ def read_fai_file(filename: str='zgoubi.fai', path: str='.') -> pd.DataFrame:
 
 
 def read_plt_file(filename: str='zgoubi.plt', path: str='.') -> pd.DataFrame:
+    """
+
+    :param filename:
+    :param path:
+    :return:
+    """
     # Header line from the Zgoubi .plt file
     with open(filename) as file:
         headers = list(map(lambda s: s.strip(' '), file.read().split('\n')[2].split(',')))
@@ -42,6 +72,12 @@ def read_plt_file(filename: str='zgoubi.plt', path: str='.') -> pd.DataFrame:
 
 
 def read_matrix_file(filename: str='zgoubi.MATRIX.out', path: str='.') -> pd.DataFrame:
+    """
+
+    :param filename:
+    :param path:
+    :return:
+    """
     # Cleaned up header lines
     headers = [
         'R11', 'R12', 'R13', 'R14', 'R15', 'R16',

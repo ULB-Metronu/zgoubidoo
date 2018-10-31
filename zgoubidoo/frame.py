@@ -1,3 +1,12 @@
+"""Module for handling of affine geometry transformations (rotations and translations).
+
+This module provides support for affine geometry transformations, mainly through the `Frame` class.
+
+Example:
+    example
+
+
+"""
 from __future__ import annotations
 import numpy as _np
 import quaternion as _quaternion

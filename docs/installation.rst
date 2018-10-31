@@ -18,6 +18,7 @@ Installation Zgoubidoo using pip
 The first step is to activate your Python 3.7 environment (only needed if you don't use a global
 instalaltion of Python. On Mac OS if you use the Python `brew` installation you should already have Python 3.7 widely
 available). With `Conda` proceed like this::
+
     conda activate py37
 
 where `py37` is the name of the environment created by default if you used the `requirement.txt` file.

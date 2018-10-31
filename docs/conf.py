@@ -14,14 +14,14 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../zgoubidoo'))
+sys.path.insert(0, os.path.abspath('..'))
 
 
 # -- Project information -----------------------------------------------------
 
 project = 'Zgoubidoo'
-copyright = '2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)'
-author = 'Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)'
+copyright = u'2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)'
+author = u'Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)'
 
 # The short X.Y version
 version = '2018.1'
@@ -41,6 +41,7 @@ release = '2018.1-BETA'
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
+    'sphinx.ext.napoleon',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
@@ -136,7 +137,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'Zgoubidoo.tex', 'Zgoubidoo Documentation',
-     'Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)', 'manual'),
+     u'Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)', 'manual'),
 ]
 
 
@@ -186,3 +187,16 @@ epub_exclude_files = ['search.html']
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
+
+# -- Options for napoleon extension ------------------------------------------
+napoleon_google_docstring = True
+napoleon_numpy_docstring = True
+napoleon_include_init_with_doc = False
+napoleon_include_private_with_doc = False
+napoleon_include_special_with_doc = True
+napoleon_use_admonition_for_examples = False
+napoleon_use_admonition_for_notes = False
+napoleon_use_admonition_for_references = False
+napoleon_use_ivar = False
+napoleon_use_param = True
+napoleon_use_rtype = True

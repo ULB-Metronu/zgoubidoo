@@ -214,23 +214,6 @@ class Input:
         return ''.join(map(str, [name] + (line or [])))
 
 
-class Beamline(Input):
-    def __init__(self, name: Optional[str]=None, input_line: Optional[Input]=None):
-        if name is None:
-            n = f"BEAMLINE_{input_line.name if input_line is not None else ''}"
-        else:
-            n = name
-        if input_line is None:
-            line = []
-        else:
-            line = input_line[commands.Magnet].line
-        super().__init__(n, line)
-
-    @staticmethod
-    def build(name='beamline', line=None) -> str:
-        return ''.join(map(str, [name] + (line or [])))
-
-
 class InputValidator:
     """
     Validation methods for Zgoubi Input. Follows the rules as defined in the Zgoubi code and manual.
