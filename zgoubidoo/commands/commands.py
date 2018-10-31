@@ -403,6 +403,8 @@ class GasScattering(Command):
 
 class GetFitVal(Command):
     """Get values of variables as saved from former FIT[2] run."""
+    KEYWORD = 'GETFITVAL'
+
     PARAMETERS = {
         'FNAME': 'zgoubi.res',
     }
