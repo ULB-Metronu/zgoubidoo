@@ -18,7 +18,7 @@ from .commands import Patchable
 from .input import Input
 
 
-def compute_alpha_from_matrix(m: pd.DataFrame, twiss: pd.DataFrame, plane: int=1) -> pd.Series:
+def compute_alpha_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1) -> pd.Series:
     """
     Computes the Twiss alpha values at every steps of the input step-by-step transfer matrix.
     :param m: the step-by-step transfer matrix for which the alpha values should be computed
@@ -38,7 +38,7 @@ def compute_alpha_from_matrix(m: pd.DataFrame, twiss: pd.DataFrame, plane: int=1
     return -r11 * r21 * beta + (r11 * r22 + r12 * r21) * alpha - r12 * r22 * gamma
 
 
-def compute_beta_from_matrix(m: pd.DataFrame, twiss, plane: int=1, strict: bool=False) -> pd.Series:
+def compute_beta_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1, strict: bool=False) -> pd.Series:
     """
     Computes the Twiss beta values at every steps of the input step-by-step transfer matrix.
     :param m: the step-by-step transfer matrix for which the beta values should be computed
@@ -60,7 +60,7 @@ def compute_beta_from_matrix(m: pd.DataFrame, twiss, plane: int=1, strict: bool=
     return _
 
 
-def compute_gamma_from_matrix(m: pd.DataFrame, twiss, plane: int=1) -> pd.Series:
+def compute_gamma_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1) -> pd.Series:
     """
     Computes the Twiss gamma values at every steps of the input step-by-step transfer matrix.
     :param m: the step-by-step transfer matrix for which the beta values should be computed
@@ -78,7 +78,7 @@ def compute_gamma_from_matrix(m: pd.DataFrame, twiss, plane: int=1) -> pd.Series
     return np.square(r21) * beta - 2.0 * r21 * r22 * alpha + np.square(r22) * gamma
 
 
-def compute_mu_from_matrix(m: pd.DataFrame, twiss, beta=None, plane: int=1) -> pd.Series:
+def compute_mu_from_matrix(m: pd.DataFrame, twiss: pd.Series, beta=None, plane: int=1) -> pd.Series:
     """
     Computes the phase advance values at every steps of the input step-by-step transfer matrix.
     :param m: the step-by-step transfer matrix for which the beta values should be computed
@@ -113,12 +113,13 @@ def compute_jacobian_from_matrix(m: pd.DataFrame, plane: int=1) -> pd.Series:
     return r11 * r22 - r12 * r21
 
 
-def compute_dispersion_from_matrix(m: pd.DataFrame, plane: int=1) -> pd.Series:
+def compute_dispersion_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1) -> pd.Series:
     """
     Computes the dispersion function at every steps of the input step-by-step transfer matrix.
 
     Args:
         m: the step-by-step transfer matrix for which the dispersion function should be computed
+        twiss: initial values for the Twiss parameters
         plane: an integer representing the plane (1 or 2)
 
     Returns:
@@ -126,16 +127,25 @@ def compute_dispersion_from_matrix(m: pd.DataFrame, plane: int=1) -> pd.Series:
 
     """
     p = 1 if plane == 1 else 3
+    if p == 1:
+        d0 = twiss['DY']
+        dp0 = twiss['DYP']
+    else:
+        d0 = twiss['DZ']
+        dp0 = twiss['DZP']
+    r11: pd.Series = m[f"R{p}{p}"]
+    r12: pd.Series = m[f"R{p}{p + 1}"]
     r15: pd.Series = m[f"R{p}5"]
-    return r15
+    return d0 * r11 + dp0 * r12 + r15
 
 
-def compute_dispersion_prime_from_matrix(m: pd.DataFrame, plane: int=1) -> pd.Series:
+def compute_dispersion_prime_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1) -> pd.Series:
     """
     Computes the dispersion prime function at every steps of the input step-by-step transfer matrix.
 
     Args:
         m: the step-by-step transfer matrix for which the dispersion prime function should be computed
+        twiss: initial values for the Twiss parameters
         plane: an integer representing the plane (1 or 2)
 
     Returns:
@@ -147,11 +157,19 @@ def compute_dispersion_prime_from_matrix(m: pd.DataFrame, plane: int=1) -> pd.Se
 
     """
     p = 1 if plane == 1 else 3
-    r25: pd.Series = m[f"R{p+1}5"]
-    return r25
+    if p == 1:
+        d0 = twiss['DY']
+        dp0 = twiss['DYP']
+    else:
+        d0 = twiss['DZ']
+        dp0 = twiss['DZP']
+    r21: pd.Series = m[f"R{p + 1}{p}"]
+    r22: pd.Series = m[f"R{p + 1}{p + 1}"]
+    r25: pd.Series = m[f"R{p + 1}5"]
+    return d0 * r21 + dp0 * r22 + r25
 
 
-def compute_twiss(matrix: pd.DataFrame, twiss_init: pd.DataFrame) -> pd.DataFrame:
+def compute_twiss(matrix: pd.DataFrame, twiss_init: pd.Series) -> pd.DataFrame:
     """
     Uses a step-by-step transfer matrix to compute the Twiss parameters (uncoupled). The phase advance and the
     determinants of the jacobians are computed as well.
@@ -169,10 +187,10 @@ def compute_twiss(matrix: pd.DataFrame, twiss_init: pd.DataFrame) -> pd.DataFram
     matrix['MU2'] = compute_mu_from_matrix(matrix, twiss_init, plane=2, beta=matrix['BETA22'])
     matrix['DET1'] = compute_jacobian_from_matrix(matrix, plane=1)
     matrix['DET2'] = compute_jacobian_from_matrix(matrix, plane=2)
-    matrix['DISP1'] = compute_dispersion_from_matrix(matrix, plane=1)
-    matrix['DISP2'] = compute_dispersion_prime_from_matrix(matrix, plane=1)
-    matrix['DISP3'] = compute_dispersion_from_matrix(matrix, plane=2)
-    matrix['DISP4'] = compute_dispersion_prime_from_matrix(matrix, plane=2)
+    matrix['DISP1'] = compute_dispersion_from_matrix(matrix, twiss_init, plane=1)
+    matrix['DISP2'] = compute_dispersion_prime_from_matrix(matrix, twiss_init, plane=1)
+    matrix['DISP3'] = compute_dispersion_from_matrix(matrix, twiss_init, plane=2)
+    matrix['DISP4'] = compute_dispersion_prime_from_matrix(matrix, twiss_init, plane=2)
     return matrix
 
 
@@ -241,14 +259,15 @@ def compute_transfer_matrix(beamline: Input, tracks: pd.DataFrame, align_on: str
             continue
         t = tracks[tracks.LABEL1 == e.LABEL1]
         data, ref = align_tracks(t, align_on=align_on)
-        print(data.shape)
         n_dimensions: int = 5
         normalization = [2 * (data[i + 1, :, i + n_dimensions] - data[0, :, i + n_dimensions])
                          for i in range(0, n_dimensions)
                          ]
         m = pd.DataFrame(
             {
-                f"R{j+1}{i+1}": pd.Series((data[i + 1, :, j] - data[i + 5, :, j] - data[0, :, j]) / normalization[i])
+                f"R{j + 1}{i + 1}": pd.Series(
+                    (data[i + 1, :, j] - data[i + 1 + n_dimensions, :, j]) / normalization[i]
+                )
                 for i in range(0, n_dimensions)
                 for j in range(0, n_dimensions)
             }

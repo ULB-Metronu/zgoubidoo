@@ -1,3 +1,8 @@
+"""Zgoubidoo: a modern Python 3 interface to Zgoubi
+
+
+
+"""
 __version__ = "2018.1"
 
 # Manipulation of physical quantities (with units, etc.)
