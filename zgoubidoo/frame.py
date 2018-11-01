@@ -1,6 +1,17 @@
 """Module for handling of affine geometry transformations (rotations and translations).
 
-This module provides support for affine geometry transformations, mainly through the `Frame` class.
+This module provides support for affine geometry transformations, mainly through the `Frame` class. A typical use case,
+the one that triggered the development of this module for ::py:module Zgoubidoo, is the problem of placing a sequence
+with each object being placed with respect to the one preceeding it, with each object being potentially translate or
+rotated. In such a case, the ::py:module Frame module allows to define a reference frame for each object being placed,
+with the reference frame of the newly created object using the reference frame of the previous object as a reference
+frame for its own positioning. The translations and rotations of the object are thus trivially expressed in its own
+reference frame. The ::py:module Frame module then allows to query the coordinates and rotation information of the
+object with respect to any other reference frame in the chain of transformations. In particular, the coordinates of the
+origin of a frame along with its orientation in space, can be obtained with respect to a global (absolute) reference
+frame.
+
+
 
 Example:
     example
@@ -77,19 +88,23 @@ class Frame:
         """
         Equality comparison with another Frame.
 
-        >>> f1 = Frame()
-        >>> f2 = Frame()
-        >>> f1.rotate_x(10 * ureg.degree) #doctest: +ELLIPSIS
-        <zgoubidoo.frame.Frame object at 0x...>
-        >>> f1 == f2
-        False
-        >>> f2.rotate_x(10 * ureg.degree) #doctest: +ELLIPSIS
-        <zgoubidoo.frame.Frame object at 0x...>
-        >>> f1 == f2
-        True
+        Args:
+            o: other frame to be compared with
 
-        :param o: other frame to be compared with
-        :return: True if the two frames are strictly equal (same parent and equal rotation and origin) else otherwise
+        Returns:
+            True if the two frames are strictly equal (same parent and equal rotation and origin) else otherwise
+
+        Example:
+            >>> f1 = Frame()
+            >>> f2 = Frame()
+            >>> f1.rotate_x(10 * ureg.degree) #doctest: +ELLIPSIS
+            <zgoubidoo.frame.Frame object at 0x...>
+            >>> f1 == f2
+            False
+            >>> f2.rotate_x(10 * ureg.degree) #doctest: +ELLIPSIS
+            <zgoubidoo.frame.Frame object at 0x...>
+            >>> f1 == f2
+            True
         """
         return self._p == o._p and self._q == o._q and _np.all(self._o == o._o)
 
@@ -228,7 +243,8 @@ class Frame:
     origin_ = property(_get_origin)
 
     def get_origin(self, ref: Optional[Frame] = None) -> List[ureg.Quantity]:
-        """
+        """Offset of the frame with respect to a reference frame.
+
         Provides the offset representing the translation of the frame with respect to another reference frame.
         This method supports units and returns `pint` quantities with dimensions of [LENGTH].
 
@@ -241,9 +257,11 @@ class Frame:
         >>> f2.get_origin(f1)
         [<Quantity(0.0, 'meter')>, <Quantity(1.0, 'meter')>, <Quantity(0.0, 'meter')>]
 
-        :param ref: reference frame with respect to which the origin is returned.
-        If None then the translation is provided with respect to the global reference frame.
-        :return: the offset (list of quantities with dimensions of [LENGTH]) representing the translation
+        Args:
+            ref: reference frame with respect to which the origin is returned. If None then the translation is provided
+            with respect to the global reference frame.
+
+        Returns: the offset (list of quantities with dimensions of [LENGTH]) representing the translation
         with respect to a given reference frame.
         """
         return list(map(lambda _: _ * ureg.meter, self._get_origin(ref)))
@@ -252,7 +270,8 @@ class Frame:
     origin = property(get_origin)
 
     def _get_x(self, ref: Optional[Frame] = None) -> float:
-        """
+        """X axis offset with respect to a reference frame (internal units).
+
         Provides the X axis offset representing the translation of the frame with respect to another reference frame.
         This method works in the internal unit representation of the class `Frame`.
 
@@ -265,15 +284,18 @@ class Frame:
         >>> f2._get_x(f1)
         0.0
 
-        :param ref: reference frame with respect to which the origin is returned.
-        If None then the translation is provided with respect to the current reference frame.
-        :return: the X axis offset (float, no units) representing the X axis translation with respect to
-        a given reference frame.
+        Args:
+            ref: reference frame with respect to which the origin is returned.
+            If None then the translation is provided with respect to the current reference frame.
+        Returns:
+            the X axis offset (float, no units) representing the X axis translation with respect to a given reference
+            frame.
         """
         return self._get_origin(ref)[_X]
 
     def get_x(self, ref: Optional[Frame] = None) -> ureg.Quantity:
-        """
+        """X axis offset with respect to a reference frame.
+
         Provides the X axis offset representing the translation of the frame with respect to another reference frame.
         This method works with full support of pint units.
 
@@ -286,10 +308,13 @@ class Frame:
         >>> f2.get_x(f1)
         <Quantity(0.0, 'meter')>
 
-        :param ref: reference frame with respect to which the origin is returned.
+        Args:
+            ref: reference frame with respect to which the origin is returned.
         If None then the translation is provided with respect to the current reference frame.
-        :return: the X axis offset (with units, pint quantity) representing the X axis translation with respect to
-        a given reference frame.
+
+        Returns:
+            the X axis offset (with units, pint quantity) representing the X axis translation with respect to a given
+            reference frame.
         """
         return self.get_origin(ref)[_X]
 
@@ -309,15 +334,19 @@ class Frame:
         >>> f2._get_y(f1)
         0.0
 
-        :param ref: reference frame with respect to which the origin is returned.
-        If None then the translation is provided with respect to the current reference frame.
-        :return: the Y axis offset (float, no units) representing the Y axis translation with respect to
-        a given reference frame.
+        Args:
+            ref: reference frame with respect to which the origin is returned. If None then the translation is provided
+            with respect to the current reference frame.
+
+        Returns:
+            the Y axis offset (float, no units) representing the Y axis translation with respect to a given reference
+            frame.
         """
         return self._get_origin(ref)[_Y]
 
     def get_y(self, ref: Optional[Frame] = None) -> ureg.Quantity:
-        """
+        """Y axis offset with respect to a reference frame.
+
         Provides the Y axis offset representing the translation of the frame with respect to another reference frame.
         This method works with full support of pint units.
 
@@ -330,9 +359,12 @@ class Frame:
         >>> f2.get_y(f1)
         <Quantity(0.0, 'meter')>
 
-        :param ref: reference frame with respect to which the origin is returned.
-        If None then the translation is provided with respect to the current reference frame.
-        :return: the Y axis offset (with units, pint quantity) representing the Y axis translation with respect to
+        Args:
+            ref: reference frame with respect to which the origin is returned. If None then the translation is provided
+            with respect to the current reference frame.
+
+        Returns:
+            the Y axis offset (with units, pint quantity) representing the Y axis translation with respect to
         a given reference frame.
         """
         return self.get_origin(ref)[_Y]

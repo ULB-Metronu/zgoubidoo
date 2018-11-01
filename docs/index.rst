@@ -13,6 +13,7 @@ Zgoubi is a ray-tracing (tracking) code for beam dynamics simulations. Many magn
    installation
    lowlevel
    sequence
+   frame
    examples
 
 

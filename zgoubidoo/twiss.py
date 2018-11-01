@@ -1,3 +1,16 @@
+"""Step-by-step computation of the transfer matrix and Twiss parameters from Zgoubi tracks.
+
+Blabla
+
+Example:
+    import matplotlib.pyplot as plt
+    import pandas as pd
+    import numpy as np
+    import zgoubidoo
+    from zgoubidoo.commands import *
+    _ = zgoubidoo.ureg
+
+"""
 from typing import Tuple
 import numpy as np
 import pandas as pd
@@ -100,6 +113,44 @@ def compute_jacobian_from_matrix(m: pd.DataFrame, plane: int=1) -> pd.Series:
     return r11 * r22 - r12 * r21
 
 
+def compute_dispersion_from_matrix(m: pd.DataFrame, plane: int=1) -> pd.Series:
+    """
+    Computes the dispersion function at every steps of the input step-by-step transfer matrix.
+
+    Args:
+        m: the step-by-step transfer matrix for which the dispersion function should be computed
+        plane: an integer representing the plane (1 or 2)
+
+    Returns:
+        a Pandas Series with the dispersion function computed at all steps of the input step-by-step transfer matrix
+
+    """
+    p = 1 if plane == 1 else 3
+    r15: pd.Series = m[f"R{p}5"]
+    return r15
+
+
+def compute_dispersion_prime_from_matrix(m: pd.DataFrame, plane: int=1) -> pd.Series:
+    """
+    Computes the dispersion prime function at every steps of the input step-by-step transfer matrix.
+
+    Args:
+        m: the step-by-step transfer matrix for which the dispersion prime function should be computed
+        plane: an integer representing the plane (1 or 2)
+
+    Returns:
+        a Pandas Series with the dispersion prime function computed at all steps of the input step-by-step transfer
+        matrix
+
+    Example:
+        >>> 1 + 1 # TODO
+
+    """
+    p = 1 if plane == 1 else 3
+    r25: pd.Series = m[f"R{p+1}5"]
+    return r25
+
+
 def compute_twiss(matrix: pd.DataFrame, twiss_init: pd.DataFrame) -> pd.DataFrame:
     """
     Uses a step-by-step transfer matrix to compute the Twiss parameters (uncoupled). The phase advance and the
@@ -118,6 +169,10 @@ def compute_twiss(matrix: pd.DataFrame, twiss_init: pd.DataFrame) -> pd.DataFram
     matrix['MU2'] = compute_mu_from_matrix(matrix, twiss_init, plane=2, beta=matrix['BETA22'])
     matrix['DET1'] = compute_jacobian_from_matrix(matrix, plane=1)
     matrix['DET2'] = compute_jacobian_from_matrix(matrix, plane=2)
+    matrix['DISP1'] = compute_dispersion_from_matrix(matrix, plane=1)
+    matrix['DISP2'] = compute_dispersion_prime_from_matrix(matrix, plane=1)
+    matrix['DISP3'] = compute_dispersion_from_matrix(matrix, plane=2)
+    matrix['DISP4'] = compute_dispersion_prime_from_matrix(matrix, plane=2)
     return matrix
 
 
@@ -137,8 +192,8 @@ def align_tracks(tracks: pd.DataFrame,
     :param reference_track:
     :return:
     """
-    coordinates: list = ['Y-DY', 'T', 'Z', 'P', 'Yo', 'To', 'Zo', 'Po']  # Keep it in this order
-    particules: list = ['O', 'A', 'C', 'E', 'G', 'B', 'D', 'F', 'H']  # Keep it in this order
+    coordinates: list = ['Y-DY', 'T', 'Z', 'P', 'D-1', 'Yo', 'To', 'Zo', 'Po', 'Do-1']  # Keep it in this order
+    particules: list = ['O', 'A', 'C', 'E', 'G', 'I', 'B', 'D', 'F', 'H', 'J']  # Keep it in this order
     ref: pd.DataFrame = tracks.query(f"{identifier} == '{reference_track}'")[coordinates + [align_on, 'LABEL1']]
     alignment_values = ref[align_on].values
     assert np.all(np.diff(alignment_values) >= 0), "The reference alignment values are not monotonously increasing"
@@ -161,10 +216,20 @@ def compute_transfer_matrix(beamline: Input, tracks: pd.DataFrame, align_on: str
     """
     Constructs the step-by-step transfer matrix from tracking data (finite differences). The approximation
     uses the O(3) formula (not just the O(1) formula) and therefore makes use of all the particles.
-    :param beamline: the Zgoubidoo Input beamline
-    :param tracks: tracking data
-    :param align_on: coordinates on which the tracks are aligned (typically 'X' or 'S')
-    :return: a Panda DataFrame representing the transfer matrix
+
+    Args:
+        beamline: the Zgoubidoo Input beamline
+        tracks: tracking data
+        align_on: coordinates on which the tracks are aligned (typically 'X' or 'S')
+
+    Returns:
+        a Panda DataFrame representing the transfer matrix
+
+    Example:
+        Here is a typical example to call ``compute_transfer_matrix``:
+        >>> tracks = zgoubidoo.read_plt_file()
+        >>> zi = zgoubidoo.Input()
+        >>> matrix = zgoubidoo.twiss.compute_transfer_matrix(zi, tracks, align_on='X')
     """
     elements = tracks.LABEL1.unique()
     offset: float = 0
@@ -176,7 +241,8 @@ def compute_transfer_matrix(beamline: Input, tracks: pd.DataFrame, align_on: str
             continue
         t = tracks[tracks.LABEL1 == e.LABEL1]
         data, ref = align_tracks(t, align_on=align_on)
-        n_dimensions: int = 4
+        print(data.shape)
+        n_dimensions: int = 5
         normalization = [2 * (data[i + 1, :, i + n_dimensions] - data[0, :, i + n_dimensions])
                          for i in range(0, n_dimensions)
                          ]

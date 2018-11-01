@@ -12,3 +12,4 @@ examples/zgoubi.log
 examples/zgoubi.MATRIX.out
 examples/.ipynb_checkpoints
 zgoubidoo.egg-info
+*.pyc
