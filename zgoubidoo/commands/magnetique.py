@@ -22,6 +22,7 @@ class CartesianMagnet(Magnet):
     """Base class for magnetic elements in cartesian coordinates"""
     PARAMETERS = {
         'WIDTH': 50 * ureg.cm,
+        'COLOR': 'gray',
     }
 
     def __init__(self, label1='', label2='', *params, **kwargs):
@@ -381,7 +382,6 @@ class Bend(CartesianMagnet):
         'YCE': 0.0 * ureg.centimeter,
         'ALE': 0.0 * ureg.radian,
     }
-    COLOR = 'green'
 
     def __str__(s):
         return f"""
