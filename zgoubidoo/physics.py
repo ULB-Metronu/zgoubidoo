@@ -16,7 +16,7 @@ class Kinematic:
     """
 
     """
-    def __init__(self, q: Union[float, Q_], particle: Particule=Proton()):
+    def __init__(self, q: Union[float, Q_], particle: Particule=Proton(), kinetic: bool=True):
         """
 
         :param q:
@@ -29,7 +29,10 @@ class Kinematic:
         if Q_(q).dimensionality == ureg.cm.dimensionality:
             self._type = 'range'
         elif Q_(q).dimensionality == ureg.eV.dimensionality:
-            self._type = 'energy'
+            if kinetic:
+                self._type = 'energy'
+            else:
+                self._type = 'etot'
         elif Q_(q).dimensionality == ureg.eV_c.dimensionality:
             self._type = 'momentum'
         elif Q_(q).dimensionality == (ureg.tesla * ureg.m).dimensionality:
@@ -86,6 +89,21 @@ class Kinematic:
 
     energy = property(to_energy)
     energy_ = property(partial(to_energy, magnitude=True))
+
+    def to_etot(self, magnitude: bool=False) -> Union[float, Q_]:
+        """
+
+        :param magnitude:
+        :return:
+        """
+        _ = self.to('etot')
+        if magnitude:
+            return _.to('MeV').magnitude
+        else:
+            return _
+
+    etot = property(to_etot)
+    etot_ = property(partial(to_etot, magnitude=True))
 
     def to_momentum(self, magnitude: bool=False) -> Union[float, Q_]:
         """
