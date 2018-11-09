@@ -1,6 +1,17 @@
-"""Zgoubidoo: a modern Python 3 interface to Zgoubi
+"""*Zgoubidoo: a modern Python 3 interface to the Zgoubi particle tracking code.*
 
+Zgoubidoo is a Python 3 interface for Zgoubi. Zgoubido is intended to follow a modern Python design and aims at being
+easy to use. Interactive use with iPython or Jupyter Notebook is supported and encouraged.
 
+Zgoubi is a ray-tracing (tracking) code for beam dynamics simulations. Many magnetic and electric elements are
+supported. It is maintained by François Méot: `Zgoubi SourceForge repository`_.
+
+.. _Zgoubi SourceForge repository: https://sourceforge.net/projects/zgoubi/
+
+Publications
+------------
+
+- test
 
 """
 __version__ = "2018.1"

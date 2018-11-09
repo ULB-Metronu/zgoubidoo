@@ -1,3 +1,7 @@
+"""Zgoubidoo's interfaces to purefly electric Zgoubi commands.
+
+More details here.
+"""
 from .commands import Command
 
 

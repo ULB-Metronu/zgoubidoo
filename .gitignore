@@ -10,6 +10,7 @@ examples/zgoubi.plt
 examples/zgoubi.dat
 examples/zgoubi.log
 examples/zgoubi.MATRIX.out
+examples/*.dat
 examples/.ipynb_checkpoints
 zgoubidoo.egg-info
 *.pyc

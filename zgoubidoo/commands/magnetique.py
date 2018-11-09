@@ -1,3 +1,8 @@
+"""Zgoubidoo's interfaces to purefly magnetic Zgoubi commands.
+
+More details here.
+"""
+
 from typing import NoReturn
 from .commands import Command, ZgoubidoException
 from .. import ureg, Q_
@@ -9,7 +14,10 @@ from ..units import _cm, _radian, _kilogauss
 
 
 class Magnet(Command, Patchable, Plotable):
-    """Base class for all magnetic elements."""
+    """Base class for all magnetic elements.
+
+
+    """
     PARAMETERS = {
         'HEIGHT': 20 * ureg.cm,
     }

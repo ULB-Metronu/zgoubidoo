@@ -177,7 +177,7 @@ class Input:
         return [e.KEYWORD for e in self._line]
 
     @property
-    def line(self) -> Sequence[commands.Command]:
+    def line(self) -> List[commands.Command]:
         return self._line
 
     @property

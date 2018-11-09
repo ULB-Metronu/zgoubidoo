@@ -1,3 +1,7 @@
+"""Zgoubidoo's interfaces to Zgoubi commands related to particle types.
+
+More details here.
+"""
 from .commands import Command
 from .. import ureg
 

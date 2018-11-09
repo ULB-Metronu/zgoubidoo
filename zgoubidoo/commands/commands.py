@@ -24,6 +24,10 @@ class MetaCommand(type):
     def __new__(mcs, name, bases, dct):
         dct['__doc__'] = ''
         d = []
+        for b in bases:
+            if isinstance(b, MetaCommand) and b.__doc__ is not None:
+                print(b)
+                d.append(b.__doc__)
         if dct.get('PARAMETERS'):
             for k, v in dct.get('PARAMETERS').items():
                 d.append(f"{k}: {v}")
@@ -39,8 +43,8 @@ class Command(metaclass=MetaCommand):
     KEYWORD: str = ''
 
     PARAMETERS = {
-        'LABEL1': '',
-        'LABEL2': '',
+        'LABEL1': ('', 'Primary label for the Zgoubi command.'),
+        'LABEL2': ('', 'Secondary label for the Zgoubi command.'),
     }
 
     _PROPERTIES = [
@@ -65,8 +69,8 @@ class Command(metaclass=MetaCommand):
         self._attributes = {}
         for p in (Command.PARAMETERS, self.PARAMETERS,) + params + (
                 {
-                    'LABEL1': label1 or str(uuid.uuid4().hex)[:ZGOUBI_LABEL_LENGTH],
-                    'LABEL2': label2
+                    'LABEL1': (label1 or str(uuid.uuid4().hex)[:ZGOUBI_LABEL_LENGTH], ''),
+                    'LABEL2': (label2, '')
                 },):
             self._attributes = dict(self._attributes, **p)
         for k, v in kwargs.items():
