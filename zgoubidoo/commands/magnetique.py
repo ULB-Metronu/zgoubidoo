@@ -4,7 +4,7 @@ More details here.
 """
 
 from typing import NoReturn
-from .commands import Command, ZgoubidoException
+from .commands import Command, ZgoubidooException
 from .. import ureg, Q_
 from ..frame import Frame
 from ..vis import ZgoubiPlot
@@ -19,7 +19,7 @@ class Magnet(Command, Patchable, Plotable):
 
     """
     PARAMETERS = {
-        'HEIGHT': 20 * ureg.cm,
+        'HEIGHT': (20 * ureg.cm, ''),
     }
 
     def __init__(self, label1='', label2='', *params, **kwargs):
@@ -29,8 +29,8 @@ class Magnet(Command, Patchable, Plotable):
 class CartesianMagnet(Magnet):
     """Base class for magnetic elements in cartesian coordinates"""
     PARAMETERS = {
-        'WIDTH': 50 * ureg.cm,
-        'COLOR': 'gray',
+        'WIDTH': (50 * ureg.cm, ''),
+        'COLOR': ('gray', ''),
     }
 
     def __init__(self, label1='', label2='', *params, **kwargs):
@@ -254,7 +254,7 @@ class Aimant(Magnet):
     def __str__(s):
         command = []
         if s.NFACE not in (2, 3):
-            raise ZgoubidoException(f"Error : Zgoubido does not support NFACE = {s.NFACE}")
+            raise ZgoubidooException(f"Error : Zgoubido does not support NFACE = {s.NFACE}")
 
         c = f"""
                 {super().__str__().rstrip()}
@@ -327,7 +327,7 @@ class Aimant(Magnet):
                                        {i:.12e} {j:.12e} {k:.12e} {l:.12e}
                                        """)
             else:
-                raise ZgoubidoException('Error : The shim parameters lists must have the same lenghts')
+                raise ZgoubidooException('Error : The shim parameters lists must have the same lenghts')
 
         c = f"""
                 {s.IORDRE}
@@ -336,7 +336,7 @@ class Aimant(Magnet):
         command.append(c)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidoException("KPOS must be equal to 1 or 2.")
+            raise ZgoubidooException("KPOS must be equal to 1 or 2.")
 
         if s.KPOS == 2:
             if s.RE == 0:
@@ -359,8 +359,7 @@ class Aimant(Magnet):
 
 
 class Bend(CartesianMagnet):
-    """Bending magnet, Cartesian frame.
-    """
+    """Bending magnet, Cartesian frame."""
     PARAMETERS = {
         'IL': (2, "Print field and coordinates along trajectories"),
         'XL': (0.0 * ureg.centimeter, "Magnet length (straight reference frame)"),
@@ -530,7 +529,7 @@ class Dipole(PolarMagnet):
         command.append(c)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidoException("KPOS must be equal to 1 or 2.")
+            raise ZgoubidooException("KPOS must be equal to 1 or 2.")
 
         if s.KPOS == 2:
             if s.RE == 0:
@@ -645,7 +644,7 @@ class DipoleM(Magnet):
     def __str__(s):
         command = []
         if s.NFACE not in (2, 3):
-            raise ZgoubidoException(f"Error : Zgoubido does not support NFACE = {s.NFACE}")
+            raise ZgoubidooException(f"Error : Zgoubido does not support NFACE = {s.NFACE}")
 
         c = f"""
             {super().__str__().rstrip()}
@@ -718,7 +717,7 @@ class DipoleM(Magnet):
                                    {i:.12e} {j:.12e} {k:.12e} {l:.12e}
                                    """)
             else:
-                raise ZgoubidoException('Error : The shim parameters lists must have the same lenghts')
+                raise ZgoubidooException('Error : The shim parameters lists must have the same lenghts')
 
         c = f"""
             {s.IORDRE}
@@ -727,7 +726,7 @@ class DipoleM(Magnet):
         command.append(c)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidoException("KPOS must be equal to 1 or 2.")
+            raise ZgoubidooException("KPOS must be equal to 1 or 2.")
 
         if s.KPOS == 2:
             if s.RE == 0:
@@ -853,11 +852,11 @@ class Dipoles(Magnet):
             command.append(c)
 
         if s.KIRD != 0 and s.KIRD != 2 and s.KIRD != 4 and s.KIRD != 25:
-            raise ZgoubidoException("KIRD must be equal to 0,2,4 or 25")
+            raise ZgoubidooException("KIRD must be equal to 0,2,4 or 25")
         if (s.KIRD == 0 and s.n !=2) and (s.KIRD == 0 and s.n !=1):
-            raise ZgoubidoException("n must be equal to 0 or 1 when KIRD = 0")
+            raise ZgoubidooException("n must be equal to 0 or 1 when KIRD = 0")
         if (s.KIRD == 0 and s.Resol !=2) and (s.KIRD == 0 and s.Resol !=4):
-            raise ZgoubidoException("Resol must be equal to 2 or 4 when KIRD = 0")
+            raise ZgoubidooException("Resol must be equal to 2 or 4 when KIRD = 0")
 
         if s.KIRD == 0:
             command.append(f"""
@@ -871,7 +870,7 @@ class Dipoles(Magnet):
         command.append(f"""{s.XPAS:.12e}""")
 
         if int(s.KPOS) not in (1, 2):
-            raise ZgoubidoException("KPOS must be equal to 1 or 2.")
+            raise ZgoubidooException("KPOS must be equal to 1 or 2.")
 
         if s.KPOS == 2:
             if s.RE == 0:
@@ -937,7 +936,7 @@ class Drift(CartesianMagnet):
     """
     Field free drift space.
 
-    >>> Drift()
+    >>> Drift(XL=10 * ureg.cm)
 
     """
     PARAMETERS = {
@@ -1061,9 +1060,9 @@ class FFAG(Command):
             command.append(c)
 
         if s.KIRD != 0 and s.KIRD != 2 and s.KIRD != 4 and s.KIRD != 25:
-            raise ZgoubidoException("KIRD must be equal to 0,2,4 or 25")
+            raise ZgoubidooException("KIRD must be equal to 0,2,4 or 25")
         if (s.KIRD == 0 and s.Resol !=2) and (s.KIRD == 0 and s.Resol !=4):
-            raise ZgoubidoException("Resol must be equal to 2 or 4 when KIRD = 0")
+            raise ZgoubidooException("Resol must be equal to 2 or 4 when KIRD = 0")
 
         command.append(f"""
         {s.KIRD} {s.Resol:.12e} 
@@ -1071,7 +1070,7 @@ class FFAG(Command):
         """)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidoException("KPOS must be equal to 1 or 2.")
+            raise ZgoubidooException("KPOS must be equal to 1 or 2.")
 
         if s.KPOS == 2:
             if s.RE == 0:
@@ -1192,9 +1191,9 @@ class FFAGSpirale(Magnet):
             command.append(c)
 
         if s.KIRD != 0 and s.KIRD != 2 and s.KIRD != 4 and s.KIRD != 25:
-            raise ZgoubidoException("KIRD must be equal to 0,2,4 or 25")
+            raise ZgoubidooException("KIRD must be equal to 0,2,4 or 25")
         if (s.KIRD == 0 and s.Resol != 2) and (s.KIRD == 0 and s.Resol != 4):
-            raise ZgoubidoException("Resol must be equal to 2 or 4 when KIRD = 0")
+            raise ZgoubidooException("Resol must be equal to 2 or 4 when KIRD = 0")
 
         command.append(f"""
             {s.KIRD} {s.Resol:.12e} 
@@ -1202,7 +1201,7 @@ class FFAGSpirale(Magnet):
             """)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidoException("KPOS must be equal to 1 or 2.")
+            raise ZgoubidooException("KPOS must be equal to 1 or 2.")
 
         if s.KPOS == 2:
             if s.RE == 0:
@@ -1311,7 +1310,7 @@ class Multipole(Magnet):
         command.append(c)
 
         if s.KPOS not in (1, 3):
-            raise ZgoubidoException("KPOS must be equal to 1,2 or 3.")
+            raise ZgoubidooException("KPOS must be equal to 1,2 or 3.")
 
         if s.KPOS == 1:
             c = f"""
@@ -1325,7 +1324,7 @@ class Multipole(Magnet):
             command.append(c)
         elif s.KPOS == 3:
             if s.B1 == 0:
-                raise ZgoubidoException("B1 must be non-zero")
+                raise ZgoubidooException("B1 must be non-zero")
             c = f"""
             {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
             """
@@ -1383,7 +1382,7 @@ class Octupole(Magnet):
         command.append(c)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidoException("KPOS must be equal to 1 or 2")
+            raise ZgoubidooException("KPOS must be equal to 1 or 2")
 
         if s.KPOS == 1:
             c = f"""
@@ -1421,7 +1420,7 @@ class PS170(Magnet):
 
     def __str__(s) -> str:
         if s.KPOS not in (0, 1, 2):
-            raise ZgoubidoException("KPOS must be in (0, 1, 2)")
+            raise ZgoubidooException("KPOS must be in (0, 1, 2)")
         return f"""
         {super().__str__().rstrip()}
         {int(s.IL):d}
@@ -1462,7 +1461,7 @@ class Quadisex(Magnet):
         command.append(c)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidoException("KPOS must be equal to 1 or 2")
+            raise ZgoubidooException("KPOS must be equal to 1 or 2")
 
         if s.KPOS == 1:
             c = f"""
@@ -1572,7 +1571,7 @@ class SexQuad(Magnet):
         command.append(c)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidoException("KPOS must be equal to 1 or 2")
+            raise ZgoubidooException("KPOS must be equal to 1 or 2")
 
         if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
             c = f"""
@@ -1637,7 +1636,7 @@ class Sextupole(Magnet):
         command.append(c)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidoException("KPOS must be equal to 1 or 2")
+            raise ZgoubidooException("KPOS must be equal to 1 or 2")
 
         if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
             c = f"""
@@ -1681,7 +1680,7 @@ class Solenoid(Magnet):
         command.append(c)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidoException("KPOS must be equal to 1 or 2")
+            raise ZgoubidooException("KPOS must be equal to 1 or 2")
 
         if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
             c = f"""
@@ -1717,7 +1716,7 @@ class Venus(Command):
 
     def __str__(self) -> str:
         if self.KPOS not in (0, 1, 2):
-            raise ZgoubidoException("KPOS must be in (0, 1, 2)")
+            raise ZgoubidooException("KPOS must be in (0, 1, 2)")
         return f"""
         {super().__str__().rstrip()}
         {int(self.IL):d}

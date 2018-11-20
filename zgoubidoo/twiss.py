@@ -21,10 +21,14 @@ from .input import Input
 def compute_alpha_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1) -> pd.Series:
     """
     Computes the Twiss alpha values at every steps of the input step-by-step transfer matrix.
-    :param m: the step-by-step transfer matrix for which the alpha values should be computed
-    :param twiss: the initial Twiss values
-    :param plane: an integer representing the plane (1 or 2)
-    :return: a Pandas Series with the alpha values computed at all steps of the input step-by-step transfer matrix
+
+    Args:
+        m: the step-by-step transfer matrix for which the alpha values should be computed
+        twiss: the initial Twiss values
+        plane: an integer representing the plane (1 or 2)
+
+    Returns:
+        a Pandas Series with the alpha values computed at all steps of the input step-by-step transfer matrix
     """
     p = 1 if plane == 1 else 3
     v = 1 if plane == 1 else 2
@@ -41,11 +45,15 @@ def compute_alpha_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1) -
 def compute_beta_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1, strict: bool=False) -> pd.Series:
     """
     Computes the Twiss beta values at every steps of the input step-by-step transfer matrix.
-    :param m: the step-by-step transfer matrix for which the beta values should be computed
-    :param twiss: the initial Twiss values
-    :param plane: an integer representing the plane (1 or 2)
-    :param strict: flag to activate the strict mode: checks and ensures that all computed beta are positive
-    :return: a Pandas Series with the beta values computed at all steps of the input step-by-step transfer matrix
+
+    Args:
+        m: the step-by-step transfer matrix for which the beta values should be computed
+        twiss: the initial Twiss values
+        plane: an integer representing the plane (1 or 2)
+        strict: flag to activate the strict mode: checks and ensures that all computed beta are positive
+
+    Returns:
+        a Pandas Series with the beta values computed at all steps of the input step-by-step transfer matrix
     """
     p = 1 if plane == 1 else 3
     v = 1 if plane == 1 else 2
@@ -63,10 +71,14 @@ def compute_beta_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1, st
 def compute_gamma_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1) -> pd.Series:
     """
     Computes the Twiss gamma values at every steps of the input step-by-step transfer matrix.
-    :param m: the step-by-step transfer matrix for which the beta values should be computed
-    :param twiss: the initial Twiss values
-    :param plane: an integer representing the plane (1 or 2)
-    :return: a Pandas Series with the gamma values computed at all steps of the input step-by-step transfer matrix
+
+    Args:
+        m: the step-by-step transfer matrix for which the beta values should be computed
+        twiss: the initial Twiss values
+        plane: an integer representing the plane (1 or 2)
+
+    Returns:
+        a Pandas Series with the gamma values computed at all steps of the input step-by-step transfer matrix
     """
     p = 1 if plane == 1 else 3
     v = 1 if plane == 1 else 2
@@ -81,11 +93,15 @@ def compute_gamma_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1) -
 def compute_mu_from_matrix(m: pd.DataFrame, twiss: pd.Series, beta=None, plane: int=1) -> pd.Series:
     """
     Computes the phase advance values at every steps of the input step-by-step transfer matrix.
-    :param m: the step-by-step transfer matrix for which the beta values should be computed
-    :param twiss: the initial Twiss values
-    :param beta: pre-computed step-by-step beta values (to improve effiency if already compyted)
-    :param plane: an integer representing the plane (1 or 2)
-    :return: a Pandas Series with the phase advance computed at all steps of the input step-by-step transfer matrix
+
+    Args:
+        m: the step-by-step transfer matrix for which the beta values should be computed
+        twiss: the initial Twiss values
+        beta: pre-computed step-by-step beta values (to improve effiency if already compyted)
+        plane: an integer representing the plane (1 or 2)
+
+    Returns:
+        a Pandas Series with the phase advance computed at all steps of the input step-by-step transfer matrix
     """
     p = 1 if plane == 1 else 3
     v = 1 if plane == 1 else 2
@@ -101,9 +117,13 @@ def compute_mu_from_matrix(m: pd.DataFrame, twiss: pd.Series, beta=None, plane: 
 def compute_jacobian_from_matrix(m: pd.DataFrame, plane: int=1) -> pd.Series:
     """
     Computes the jacobian of the 2x2 transfer matrix (useful to verify the simplecticity).
-    :param m: the step-by-step transfer matrix for which the jacobians should be computed
-    :param plane: an integer representing the plane (1 or 2)
-    :return: a Pandas Series with the jacobian computed at all steps of the input step-by-step transfer matrix
+
+    Args:
+        m: the step-by-step transfer matrix for which the jacobians should be computed
+        plane: an integer representing the plane (1 or 2)
+
+    Returns:
+        a Pandas Series with the jacobian computed at all steps of the input step-by-step transfer matrix
     """
     p = 1 if plane == 1 else 3
     r11: pd.Series = m[f"R{p}{p}"]
@@ -173,9 +193,13 @@ def compute_twiss(matrix: pd.DataFrame, twiss_init: pd.Series) -> pd.DataFrame:
     """
     Uses a step-by-step transfer matrix to compute the Twiss parameters (uncoupled). The phase advance and the
     determinants of the jacobians are computed as well.
-    :param matrix: the input step-by-step transfer matrix
-    :param twiss_init: the initial values for the Twiss computation
-    :return: the same DataFrame as the input, but with added columns for the computed quantities.
+
+    Args:
+        matrix: the input step-by-step transfer matrix
+        twiss_init: the initial values for the Twiss computation
+
+    Returns:
+        the same DataFrame as the input, but with added columns for the computed quantities.
     """
     matrix['BETA11'] = compute_beta_from_matrix(matrix, twiss_init, plane=1)
     matrix['BETA22'] = compute_beta_from_matrix(matrix, twiss_init, plane=2)
@@ -204,11 +228,14 @@ def align_tracks(tracks: pd.DataFrame,
     Required for example to compute the transfer matrix (not all particules would have integration step at the
     same coordinate and must be aligned. Uses a linear interpolation.
 
-    :param tracks: tracking data
-    :param align_on: coordinates on which the tracks are aligned (typically 'X' or 'S')
-    :param identifier: identifier of the column used for the particles indexing
-    :param reference_track:
-    :return:
+    Args:
+        tracks: tracking data
+        align_on: coordinates on which the tracks are aligned (typically 'X' or 'S')
+        identifier: identifier of the column used for the particles indexing
+        reference_track:
+
+    Returns:
+        aligned data and reference data
     """
     coordinates: list = ['Y-DY', 'T', 'Z', 'P', 'D-1', 'Yo', 'To', 'Zo', 'Po', 'Do-1']  # Keep it in this order
     particules: list = ['O', 'A', 'C', 'E', 'G', 'I', 'B', 'D', 'F', 'H', 'J']  # Keep it in this order
@@ -245,6 +272,7 @@ def compute_transfer_matrix(beamline: Input, tracks: pd.DataFrame, align_on: str
 
     Example:
         Here is a typical example to call ``compute_transfer_matrix``:
+
         >>> tracks = zgoubidoo.read_plt_file()
         >>> zi = zgoubidoo.Input()
         >>> matrix = zgoubidoo.twiss.compute_transfer_matrix(zi, tracks, align_on='X')

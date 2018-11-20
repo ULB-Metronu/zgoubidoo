@@ -1,4 +1,4 @@
-from .commands import Command, ZgoubidoException
+from .commands import Command, ZgoubidooException
 
 
 class SpinRotation(Command):
@@ -26,7 +26,7 @@ spnprt = SpinPrint
 
 class SpinTracking(Command):
     """Spin tracking."""
-    KEYWORD = 'SPNTRK'
+    KEYWORD = 'SPNTRK' # Keyword for the Zgoubi command
 
     PARAMETERS = {
         'KSO': (1, ''),
@@ -35,7 +35,7 @@ class SpinTracking(Command):
 
     def __str__(self) -> str:
         if self.KSO not in (1, 2, 3, 4, 4.1, 5):
-            raise ZgoubidoException("KPOS must be in (0, 1, 2, 3, 4, 4.1, 5).")
+            raise ZgoubidooException("KPOS must be in (0, 1, 2, 3, 4, 4.1, 5).")
         return f"""
         {super().__str__().rstrip()}
         {self.KSO:d}

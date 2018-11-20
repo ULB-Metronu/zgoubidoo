@@ -1,14 +1,30 @@
+"""Zgoubi commands for the generation of Objet's.
+
+The description of the object, i.e., initial coordinates of the ensemble of particles, must be the first procedure
+in the zgoubi input data file, zgoubi.dat.
+
+Several types of automatically generated objects are available, they are described in the following pages and
+include:
+    - non-random object, with various distributions : individual particles, grids, object for MATRIX, etc.
+    - Monte Carlo distribution (see MCObjet), with various distributions as well : 6-D window, ellipsoids, etc.
+
+A recurrent quantity appearing in these procedures is IMAX, the number of particles to be ray-traced.
+The maximum value allowed for IMAX can be changed at leisure in the include file `MAXTRA.H` where it is defined
+(that requires re-compiling zgoubi).
+"""
+
 import numpy as np
-from .commands import Command, ZgoubidoException
+from .commands import Command, ZgoubidooException
 from .. import ureg
 
 
 class Objet(Command):
-    """Generation of an object."""
-    KEYWORD = 'OBJET'
+    """Generation of an object.
 
+
+    """
     PARAMETERS = {
-        'BORO': 1.0 * ureg.kilogauss * ureg.cm,
+        'BORO': (1.0 * ureg.kilogauss * ureg.cm, 'Reference magnetic rigidity.'),
     }
 
     def __str__(s):
@@ -57,11 +73,21 @@ class Objet1(Objet):
 
 
 class Objet2(Objet):
-    """Objet with all initial coordinates entered explicitely."""
+    """Objet with all initial coordinates entered explicitely.
+
+    Examples:
+        >>> zi = Input()
+        >>> objet = Objet2()
+        >>> objet.add()
+        >>> zi += objet
+        >>> zi
+        >>> objet.clear()
+        >>> objet
+    """
     PARAMETERS = {
-        'KOBJ': 2,
-        'K2': 0,
-        'IDMAX': 1,
+        'KOBJ': (2, ''),
+        'K2': (0, ''),
+        'IDMAX': (1, ''),
         '_PARTICULES': None,
     }
 
@@ -118,7 +144,12 @@ class Objet2(Objet):
 
 
 class Objet3(Objet):
-    """NN=00 (default) : [b_]zgoubi.fai like data file FORMAT"""
+    """NN=00 (default) : [b_]zgoubi.fai like data file FORMAT
+
+    Examples:
+        Test
+    """
+
     PARAMETERS = {
         'KOBJ': 3,
         'NN': 1,  # 00 to store the file as '[b_]zgoubi.fai'
@@ -157,7 +188,7 @@ class Objet3(Objet):
             {s.FNAME}
            """
         else:
-            raise ZgoubidoException("NN != 1 not supported")
+            raise ZgoubidooException("NN != 1 not supported")
 
 
 class Objet4(Objet):
@@ -203,11 +234,15 @@ class Objet4(Objet):
             {s.FNAME}
            """
         else:
-            raise ZgoubidoException("NN != 1 not supported")
+            raise ZgoubidooException("NN != 1 not supported")
 
 
 class Objet5(Objet):
-    """Generation of 11 particles, or 11*NN if I ≥ 2 (for use with MATRIX, IORD = 1)"""
+    """Generation of 11 particles, or 11*NN if I ≥ 2 (for use with MATRIX, IORD = 1).
+
+    Examples:
+        test
+    """
 
     PARAMETERS = {
         'KOBJ': 5,
@@ -273,5 +308,8 @@ class Objet8(Objet):
 
 
 class ObjetA(Command):
-    """Object from Monte-Carlo simulation of decay reaction."""
-    KEYWORD = 'OBJETA'
+    """Object from Monte-Carlo simulation of decay reaction.
+
+    Examples:
+        Test
+    """

@@ -40,6 +40,8 @@ release = '2018.1-BETA'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'sphinx_automodapi.automodapi',
     'sphinx.ext.doctest',
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',

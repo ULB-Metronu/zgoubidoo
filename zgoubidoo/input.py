@@ -28,11 +28,12 @@ class Input:
     The `Input` supports a `str` representation allowing to generate the Zgoubi input. Additionnally, calling the object
     will write the string representation to a Zgoubi input file.
 
-    >>> zi = Input(name='test_beamline')
-    >>> len(zi) == 0
-    True
-    >>> zi.name
-    'test_beamline'
+    Examples:
+        >>> zi = Input(name='test_beamline')
+        >>> len(zi) == 0
+        True
+        >>> zi.name
+        'test_beamline'
     """
 
     def __init__(self, name: str='beamline', line: Sequence[commands.Command]=None) -> NoReturn:

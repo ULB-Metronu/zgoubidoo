@@ -1,7 +1,17 @@
+from typing import Union, Callable
 from . import ureg, Q_
 
 
-def _m(q: Q_) -> float:
+def parse_quantity(f: Callable):
+    def parse_arg(q: Union[str, Q_]):
+        if isinstance(q, str):
+            q = Q_(q)
+        return f(q)
+    return parse_arg
+
+
+@parse_quantity
+def _m(q: Union[str, Q_]) -> float:
     """
     Convert a quantity of dimension [LENGTH] to meters.
 
@@ -11,10 +21,13 @@ def _m(q: Q_) -> float:
     :param q: the quantity of dimension [LENGTH]
     :return: the magnitude in meters.
     """
+    if isinstance(q, str):
+        q = Q_(q)
     return float(q.to('m').magnitude)
 
 
-def _cm(q: Q_) -> float:
+@parse_quantity
+def _cm(q: Union[str, Q_]) -> float:
     """
     Convert a quantity of dimension [LENGTH] to centimeters.
 
@@ -27,7 +40,8 @@ def _cm(q: Q_) -> float:
     return float(q.to('cm').magnitude)
 
 
-def _mm(q: Q_) -> float:
+@parse_quantity
+def _mm(q: Union[str, Q_]) -> float:
     """
     Convert a quantity of dimension [LENGTH] to millimeters.
 
@@ -40,7 +54,8 @@ def _mm(q: Q_) -> float:
     return float(q.to('mm').magnitude)
 
 
-def _degree(q: Q_) -> float:
+@parse_quantity
+def _degree(q: Union[str, Q_]) -> float:
     """
     Convert a quantity to degrees.
 
@@ -55,7 +70,8 @@ def _degree(q: Q_) -> float:
     return float(q.to('degree').magnitude)
 
 
-def _radian(q: Q_) -> float:
+@parse_quantity
+def _radian(q: Union[str, Q_]) -> float:
     """
     Convert a quantity to radians.
 
@@ -68,7 +84,8 @@ def _radian(q: Q_) -> float:
     return float(q.to('radian').magnitude)
 
 
-def _tesla(q: Q_) -> float:
+@parse_quantity
+def _tesla(q: Union[str, Q_]) -> float:
     """
     Convert a quantity of dimension [LENGTH] to meters.
 
@@ -81,7 +98,8 @@ def _tesla(q: Q_) -> float:
     return float(q.to('tesla').magnitude)
 
 
-def _gauss(q: Q_) -> float:
+@parse_quantity
+def _gauss(q: Union[str, Q_]) -> float:
     """
     Convert a quantity of dimension [LENGTH] to meters.
 
@@ -94,7 +112,8 @@ def _gauss(q: Q_) -> float:
     return float(q.to('gauss').magnitude)
 
 
-def _kilogauss(q: Q_) -> float:
+@parse_quantity
+def _kilogauss(q: Union[str, Q_]) -> float:
     """
     Convert a quantity of dimension [LENGTH] to meters.
 
@@ -107,7 +126,8 @@ def _kilogauss(q: Q_) -> float:
     return float(q.to('kilogauss').magnitude)
 
 
-def _mev(q: Q_) -> float:
+@parse_quantity
+def _mev(q: Union[str, Q_]) -> float:
     """
     Convert a quantity of dimension [length]**2 * [mass] * [time]**-2.0 to meters.
 
@@ -120,6 +140,7 @@ def _mev(q: Q_) -> float:
     return float(q.to('MeV').magnitude)
 
 
+@parse_quantity
 def _mev_c(q: Q_) -> float:
     """
     Convert a quantity of dimension [LENGTH] to meters.

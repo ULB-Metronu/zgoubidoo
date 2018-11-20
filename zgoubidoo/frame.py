@@ -11,11 +11,8 @@ object with respect to any other reference frame in the chain of transformations
 origin of a frame along with its orientation in space, can be obtained with respect to a global (absolute) reference
 frame.
 
-
-
 Example:
     example
-
 
 """
 from __future__ import annotations
@@ -406,10 +403,13 @@ class Frame:
         >>> f2.get_z(f1)
         <Quantity(0.0, 'meter')>
 
-        :param ref: reference frame with respect to which the origin is returned.
-        If None then the translation is provided with respect to the current reference frame.
-        :return: the Z axis offset (with units, pint quantity) representing the Z axis translation with respect to
-        a given reference frame.
+        Args:
+            ref: reference frame with respect to which the origin is returned. If None then the translation is provided
+            with respect to the current reference frame.
+
+        Returns:
+            the Z axis offset (with units, pint quantity) representing the Z axis translation with respect to a given
+            reference frame.
         """
         return self.get_origin(ref)[_Z]
 
@@ -419,11 +419,15 @@ class Frame:
         """
         Provides the rotation matrix representation of the quaternion with respect to another reference frame.
 
-        >>> f1 = Frame().rotate_x(10 * ureg.degree).get_rotation_matrix()
-        1.0
+        Example:
+            >>> f1 = Frame().rotate_x(10 * ureg.degree).get_rotation_matrix()
+            1.0
 
-        :param ref: reference frame with respect to which the rotation matrix is returned
-        :return: the rotation matrix representation of the quaternion
+        Args:
+            ref: reference frame with respect to which the rotation matrix is returned
+
+        Returns:
+            the rotation matrix representation of the quaternion
         """
         return _quaternion.as_rotation_matrix(self.get_quaternion(ref))
 
@@ -739,21 +743,29 @@ class Frame:
     def translate_z(self, offset: ureg.Quantity) -> Frame:
         """
 
-        >>> f1 = Frame() # TODO
+        Example:
+            >>> f1 = Frame() # TODO
 
-        :param offset:
-        :return:
+        Args:
+            offset:
+
+        Returns:
+            the translated frame (in place)
         """
         return self._translate_z(_m(offset))
 
     def _translate_axis(self, axis: str, offset: float) -> Frame:
         """
 
-        >>> f1 = Frame() # TODO
+        Example:
+            >>> f1 = Frame() # TODO
 
-        :param axis:
-        :param offset:
-        :return:
+        Args:
+            axis:
+            offset:
+
+        Returns:
+            the translated frame (in place)
         """
         if axis.lower() not in "xyz" or len(axis) > 1:
             raise ZgoubidooFrameException("Invalid rotation axis for 'translate_axis'")
@@ -762,11 +774,15 @@ class Frame:
     def translate_axis(self, axis: str, offset: ureg.Quantity) -> Frame:
         """
 
-        >>> f1 = Frame() # TODO
+        Example:
+            >>> f1 = Frame() # TODO
 
-        :param axis:
-        :param offset:
-        :return:
+        Args:
+            axis:
+            offset:
+
+        Returns:
+            the translated frame (in place)
         """
         return self._translate_axis(axis, _m(offset))
 
@@ -774,13 +790,15 @@ class Frame:
         """
         Reset the frame (rotation and translation) with respect to the parent.
 
-        >>> f1 = Frame().rotate_x(1 * ureg.radian)
-        >>> f1.get_angles() #doctest: +ELLIPSIS
-        [<Quantity(0.0, 'radian')>, <Quantity(0.999..., 'radian')>, <Quantity(0.999..., 'radian')>]
-        >>> f1.reset().get_angles()
-        [<Quantity(0.0, 'radian')>, <Quantity(0.0, 'radian')>, <Quantity(0.0, 'radian')>]
+        Example:
+            >>> f1 = Frame().rotate_x(1 * ureg.radian)
+            >>> f1.get_angles() #doctest: +ELLIPSIS
+            [<Quantity(0.0, 'radian')>, <Quantity(0.999..., 'radian')>, <Quantity(0.999..., 'radian')>]
+            >>> f1.reset().get_angles()
+            [<Quantity(0.0, 'radian')>, <Quantity(0.0, 'radian')>, <Quantity(0.0, 'radian')>]
 
-        :return: the frame itself (to allow method chaining)
+        Returns:
+            the frame itself (to allow method chaining)
         """
         self._q: _np.quaternion = _np.quaternion(1, 0, 0, 0)
         self._o: _np.ndarray = _np.zeros(3)

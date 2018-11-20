@@ -1,4 +1,8 @@
-from typing import NoReturn, Optional, Any
+"""
+Commands controlling Zgoubi's control flow, geometry, tracking options, etc.
+
+"""
+from typing import NoReturn, Optional, Any, Tuple, Dict
 import uuid
 from pint import UndefinedUnitError
 from .patchable import Patchable
@@ -9,8 +13,8 @@ from ..units import _radian, _degree, _m, _cm
 ZGOUBI_LABEL_LENGTH: int = 10  # Used to be 8 on older versions
 
 
-class ZgoubidoException(Exception):
-    """Exception raised for errors in the Madx module."""
+class ZgoubidooException(Exception):
+    """Exception raised for errors in the Zgoubidoo commands module."""
 
     def __init__(self, m):
         self.message = m
@@ -21,30 +25,41 @@ class MetaCommand(type):
     Dark magic.
     Be careful.
     """
-    def __new__(mcs, name, bases, dct):
-        dct['__doc__'] = ''
-        d = []
+    PARAMETERS = dict()
+    __pdoc__ = dict()
+
+    def __new__(mcs, name: str, bases: Tuple[type, ...], dct: Dict[str, Any]):
+        if not dct.get('__pdoc__'):
+            dct['__pdoc__'] = dict()
         for b in bases:
-            if isinstance(b, MetaCommand) and b.__doc__ is not None:
-                print(b)
-                d.append(b.__doc__)
+            if isinstance(b, MetaCommand):
+                dct['__pdoc__'] = {**dct['__pdoc__'], **getattr(b, '__pdoc__', dict())}
         if dct.get('PARAMETERS'):
-            for k, v in dct.get('PARAMETERS').items():
-                d.append(f"{k}: {v}")
-            dct['__doc__'] = '\n'.join(d)
+            dct['__pdoc__'] = {**dct['__pdoc__'], **dct.get('PARAMETERS')}
         return super().__new__(mcs, name, bases, dct)
+
+    def __init__(cls, name: str, bases: Tuple[type, ...], dct: Dict[str, Any]):
+        super().__init__(name, bases, dct)
+        if cls.__doc__ is not None and cls.PARAMETERS is not None:
+            cls.__doc__ = cls.__doc__.rstrip()
+            cls.__doc__ += """
+            
+    Attributes:
+            """
+            for k, v in cls.__pdoc__.items():
+                if isinstance(v, tuple) and len(v) >= 2:
+                    cls.__doc__ += f"""
+        {k}='{v[0]}' ({type(v[0]).__name__}): {v[1]}
+            """
 
 
 class Command(metaclass=MetaCommand):
-    """
-    Test test test
-    """
-
+    """Test test test"""
     KEYWORD: str = ''
 
     PARAMETERS = {
-        'LABEL1': ('', 'Primary label for the Zgoubi command.'),
-        'LABEL2': ('', 'Secondary label for the Zgoubi command.'),
+        'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash)'),
+        'LABEL2': ('', 'Secondary label for the Zgoubi command'),
     }
 
     _PROPERTIES = [
@@ -58,13 +73,6 @@ class Command(metaclass=MetaCommand):
     ]
 
     def __init__(self, label1: str='', label2: str='', *params, **kwargs) -> NoReturn:
-        """
-        Create a bare Zgoubi command with a `KEYWORD`, `LABEL1` and `LABEL2`.
-        :param label1: first label for the keyword in the Zgoubi input.
-        :param label2: second label for the keyword in the Zgoubi input.
-        :param params:
-        :param kwargs: test
-        """
         self._output = list()
         self._attributes = {}
         for p in (Command.PARAMETERS, self.PARAMETERS,) + params + (
@@ -100,7 +108,7 @@ class Command(metaclass=MetaCommand):
             self.__dict__[k] = v
         else:
             if k not in self._attributes.keys():
-                raise ZgoubidoException(f"The parameter {k} is not part of the {self.__class__.__name__} definition.")
+                raise ZgoubidooException(f"The parameter {k} is not part of the {self.__class__.__name__} definition.")
             else:
                 try:
                     default = self._attributes[k][0]
@@ -108,23 +116,25 @@ class Command(metaclass=MetaCommand):
                     default = self._attributes[k]
             try:
                 if default is not None and ureg.Quantity(v).dimensionality != ureg.Quantity(default).dimensionality:
-                    raise ZgoubidoException(f"Invalid dimension ({ureg.Quantity(v).dimensionality}"
+                    raise ZgoubidooException(f"Invalid dimension ({ureg.Quantity(v).dimensionality}"
                                             f" instead of {ureg.Quantity(default).dimensionality}) for parameter {k}.")
             except (ValueError, TypeError, UndefinedUnitError):
                 pass
             self._attributes[k] = v
 
     def __repr__(self) -> str:
-        """
-
-        :return:
-        """
         return str(self)
 
     def __str__(self) -> str:
         """
+        Provides the string representation of the command following the Zgoubi input file format.
 
-        :return:
+        Returns:
+            The string representation.
+
+        Examples:
+            >>> c = Command('my_label_1', 'my_label_2')
+            >>> print(c)
         """
         return f"""
         '{self.KEYWORD or self.__class__.__name__.upper()}' {self.LABEL1} {self.LABEL2}
@@ -134,15 +144,18 @@ class Command(metaclass=MetaCommand):
     def output(self):
         """
         Provides the outputs associated with a command after each successive Zgoubi run.
-        :return: the output, None if no output has been attached.
+
+        Returns:
+            the output, None if no output has been previously attached.
         """
         return self._output
 
     def attach_output(self, output: str) -> NoReturn:
         """
-        Attach the ouput that an element generated during a Zgoubi run.
-        :param output: the ouput from a Zgoubi run for the present element.
-        :return: NoReturn
+        Attach the ouput that an command has generated during a Zgoubi run.
+
+        Args:
+            output: the output from a Zgoubi run to be attached to the command.
         """
         self._output.append(output)
         self.process_output(output)
@@ -154,10 +167,10 @@ class Command(metaclass=MetaCommand):
 class AutoRef(Command):
     """Automatic transformation to a new reference frame."""
     PARAMETERS = {
-        'I': (1, 'Mode (1, 2 or 3.'),
-        'I1': (1, 'Particle number (only used if I = 3'),
-        'I2': (1, 'Particle number (only used if I = 3'),
-        'I3': (1, 'Particle number (only used if I = 3'),
+        'I': (1, 'Mode (1, 2 or 3).'),
+        'I1': (1, 'Particle number (only used if I = 3)'),
+        'I2': (1, 'Particle number (only used if I = 3)'),
+        'I3': (1, 'Particle number (only used if I = 3)'),
     }
 
     def __str__(self) -> str:
@@ -201,12 +214,11 @@ Chamber = Chambre
 Chambr = Chambre
 
 
-class ChangeRef(Command, Patchable):
+class ChangRef(Command, Patchable):
     """Transformation to a new reference frame.
 
     Supports only Zgoubi "new style" ChangeRef. To recover the "old style", do XS, YS, ZR.
     """
-    KEYWORD = 'CHANGREF'
     PARAMETERS = {
         'TRANSFORMATIONS': []
     }
@@ -221,7 +233,7 @@ class ChangeRef(Command, Patchable):
             elif t[1].dimensionality == ureg.radian.dimensionality:
                 c += f"{t[0]} {_degree(t[1])} "
             else:
-                raise ZgoubidoException("Incorrect dimensionality in CHANGEREF.")
+                raise ZgoubidooException("Incorrect dimensionality in CHANGEREF.")
         return c
 
     @property
@@ -239,7 +251,7 @@ class ChangeRef(Command, Patchable):
 
 
 # Alias
-ChangRef = ChangeRef
+ChangeRef = ChangRef
 
 
 class Collimateur(Command):
@@ -273,7 +285,16 @@ class Cible(Command):
 
 
 class End(Command):
-    """End of input data list."""
+    """End of input data list.
+
+    The end of a problem, or of a set of several problems stacked in the data file, should be stated by means of the
+    keywords FIN or END.
+
+    Any information following these keywords will be ignored.
+
+    In some cases, these keywords may cause some information to be printed in zgoubi.res, for instance when the keyword
+    PICKUPS is used.
+    """
 
 
 class ESL(Command):
@@ -315,8 +336,16 @@ class FaiStore(Command):
 
 
 class Fin(Command):
-    """End of input data list."""
-    KEYWORD = 'FIN'
+    """End of input data list.
+
+    The end of a problem, or of a set of several problems stacked in the data file, should be stated by means of the
+    keywords FIN or END.
+
+    Any information following these keywords will be ignored.
+
+    In some cases, these keywords may cause some information to be printed in zgoubi.res, for instance when the keyword
+    PICKUPS is used.
+    """
 
 
 class Fit(Command):
@@ -378,7 +407,6 @@ class Fit(Command):
 
 class Fit2(Fit):
     """Fitting procedure."""
-    KEYWORD = 'FIT2'
 
 
 class Focale(Command):
@@ -430,7 +458,32 @@ class GasScattering(Command):
 
 
 class GetFitVal(Command):
-    """Get values of variables as saved from former FIT[2] run."""
+    """Get values of variables as saved from former FIT[2] run.
+
+    This keyword allows reading, from a file whose name needs be specified, parameter values to be assigned to optical
+    elements in zgoubi.dat.
+    That file is expected to contain a copy-paste of the data under the FIT[2] procedure as displayed in zgoubi.res,
+    normally under the form.
+
+    # STATUS OF CONSTRAINTS
+    # TYPE  I   J  LMNT#     DESIRED       WEIGHT         REACHED         KI2     *  Parameter(s)
+    #   3   1   2   127   0.0000000E+00  1.0000E+00    1.0068088E-08   6.0335E-01 *  0 :
+    #   3   1   3   127   0.0000000E+00  1.0000E+00    7.0101405E-09   2.9250E-01 *  0 :
+    #   3   1   4   127   0.0000000E+00  1.0000E+00    2.9184383E-10   5.0696E-04 *  0 :
+    #   3   1   5   127   0.0000000E+00  1.0000E+00    3.1142381E-10   5.7727E-04 *  0 :
+    #   3   1   2   436   0.0000000E+00  1.0000E+00    3.8438378E-09   8.7944E-02 *  0 :
+    #   3   1   3   436   0.0000000E+00  1.0000E+00    1.5773011E-09   1.4808E-02 *  0 :
+    #   3   1   4   436   0.0000000E+00  1.0000E+00    2.2081272E-10   2.9022E-04 *  0 :
+    #   3   1   5   436   0.0000000E+00  1.0000E+00    5.7930552E-11   1.9975E-05 *  0 :
+    #   Function  called   1859 times
+    # Xi2 =    1.68006E-16   Busy...
+
+    A ’#’ at the beginning of a line means it is commented, thus it will not be taken into account. However a copy-paste
+    from zgoubi.res (which is the case in the present example) would not not need any commenting.
+    Since some of the FIT[2] variables may belong in [MC]OBJET, GETFITVAL may appear right before [MC]OBJET in zgoubi.dat,
+    to allow for its updating.
+
+    """
     PARAMETERS = {
         'FNAME': 'zgoubi.res',
     }
@@ -496,7 +549,18 @@ class MCDesintegration(Command):
 
 
 class Optics(Command):
-    """Write out optical functions."""
+    """Write out optical functions.
+
+    OPTICS normally appears next to object definition, it normally works in conjunction with element label(s). OPTICS causes the transport and write out, in zgoubi.res, of the 6×6 beam matrix, following options KOPT and ’label ’, below.
+    IF KOPT=0 : Off
+    IF KOPT=1 : Will transport the optical functions with initial values as specified in OBJET, option KOBJ=5.01.
+    Note : The initial values in OBJET[KOBJ=5.01] may be the periodic ones, as obtained, for instance, from a first run using MATRIX[IFOC=11].
+    A second argument, ’label ’, allows
+    - if label = all : printing out, into zgoubi.res, after all keywords of the zgoubi.dat structure,
+    - otherwise, printing out at all keyword featuring LABEL ≡ label as a first label (see section 4.6.5,
+    page 162, regarding the labelling of keywords).
+    A third argument, IMP=1, will cause saving of the transported beta functions into file zgoubi.OPTICS.out.
+    """
 
 
 class Ordre(Command):
