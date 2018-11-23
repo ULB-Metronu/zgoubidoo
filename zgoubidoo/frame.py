@@ -19,7 +19,7 @@ from __future__ import annotations
 import numpy as _np
 import quaternion as _quaternion
 from typing import Optional, List, NoReturn
-from . import ureg
+from . import ureg as _ureg
 from .units import _m, _radian
 
 _X = 0
@@ -53,12 +53,12 @@ class Frame:
     Frame handles quaternion rotations via `quaternion-numpy`: https://github.com/moble/quaternion .
 
     >>> f1 = Frame()
-    >>> f1.translate_y(10 * ureg.cm) #doctest: +ELLIPSIS
+    >>> f1.translate_y(10 * _ureg.cm) #doctest: +ELLIPSIS
     <zgoubidoo.frame.Frame object at 0x...>
     >>> f2 = Frame(parent=f1)
     >>> f2.parent == f1
     True
-    >>> f2.translate_x(1 * ureg.cm) #doctest: +ELLIPSIS
+    >>> f2.translate_x(1 * _ureg.cm) #doctest: +ELLIPSIS
     <zgoubidoo.frame.Frame object at 0x...>
     >>> f2.get_origin(f1)
     [<Quantity(0.01, 'meter')>, <Quantity(0.0, 'meter')>, <Quantity(0.0, 'meter')>]
@@ -94,11 +94,11 @@ class Frame:
         Example:
             >>> f1 = Frame()
             >>> f2 = Frame()
-            >>> f1.rotate_x(10 * ureg.degree) #doctest: +ELLIPSIS
+            >>> f1.rotate_x(10 * _ureg.degree) #doctest: +ELLIPSIS
             <zgoubidoo.frame.Frame object at 0x...>
             >>> f1 == f2
             False
-            >>> f2.rotate_x(10 * ureg.degree) #doctest: +ELLIPSIS
+            >>> f2.rotate_x(10 * _ureg.degree) #doctest: +ELLIPSIS
             <zgoubidoo.frame.Frame object at 0x...>
             >>> f1 == f2
             True
@@ -110,31 +110,33 @@ class Frame:
         """
         Provides the parent frame.
 
-        >>> f1 = Frame()
-        >>> f1.parent is None
-        True
-        >>> f2 = Frame(parent=f1)
-        >>> f2.parent == f1
-        True
+        Returns:
+            parent frame, None in case the frame is a global reference frame.
 
-        The 'parent' property can also be set:
+        Examples:
+            >>> f1 = Frame()
+            >>> f1.parent is None
+            True
+            >>> f2 = Frame(parent=f1)
+            >>> f2.parent == f1
+            True
 
-        >>> f1 = Frame()
-        >>> f1.parent is None
-        True
-        >>> f2 = Frame()
-        >>> f2.parent is None
-        True
-        >>> f2.parent = f1
-        >>> f2.parent is f1
-        True
-        >>> f2.parent == f1
-        True
-        >>> f2.parent = None
-        >>> f2.parent is None
-        True
+            The 'parent' property can also be set:
 
-        :return: parent frame, None in case the frame is a global reference frame.
+            >>> f1 = Frame()
+            >>> f1.parent is None
+            True
+            >>> f2 = Frame()
+            >>> f2.parent is None
+            True
+            >>> f2.parent = f1
+            >>> f2.parent is f1
+            True
+            >>> f2.parent == f1
+            True
+            >>> f2.parent = None
+            >>> f2.parent is None
+            True
         """
         return self._p
 
@@ -143,8 +145,11 @@ class Frame:
         """
         Modifies the parent frame on the fly.
 
-        :param p: the new parent frame
-        :return: NoReturn
+        Args:
+            p: the new parent frame
+
+        Returns:
+            NoReturn
         """
         self._p = p
 
@@ -153,19 +158,21 @@ class Frame:
         """
         Provides the reference frame with respect to which the quantities will be provided. None if not set.
 
-        >>> f1 = Frame(parent=None, reference=None)
-        >>> f1.reference is None
-        True
-        >>> f2 = Frame(parent=f1, reference=f1)
-        >>> f2.reference is f1
-        True
-        >>> f2.reference == f1
-        True
-        >>> f2.reference = None
-        >>> f2.reference is None
-        True
+        Returns:
+            a frame serving as reference frame for the current frame (None if not set)
 
-        :return: a frame serving as reference frame for the current frame (None if not set)
+        Examples:
+            >>> f1 = Frame(parent=None, reference=None)
+            >>> f1.reference is None
+            True
+            >>> f2 = Frame(parent=f1, reference=f1)
+            >>> f2.reference is f1
+            True
+            >>> f2.reference == f1
+            True
+            >>> f2.reference = None
+            >>> f2.reference is None
+            True
         """
         return self._r
 
@@ -174,8 +181,11 @@ class Frame:
         """
         Modifies the reference frame with respect to which the quantities are provided by default.
 
-        :param r: the new reference frame.
-        :return: NoReturn.
+        Args:
+            r: the new reference frame
+
+        Returns:
+            NoReturn
         """
         self._r = r
 
@@ -183,18 +193,22 @@ class Frame:
         """
         Provides the quaternion representation of the rotation of the frame with respect to another reference frame.
 
-        >>> f1 = Frame().rotate_z(20 * ureg.degree)
-        >>> f1.get_quaternion()
-        quaternion(0.984807753012208, 0, 0, 0.17364817766693)
-        >>> f2 = Frame(f1)
-        >>> f2.rotate_x(10 * ureg.degree).get_quaternion() #doctest: +ELLIPSIS
-        quaternion(0.981060..., 0.085831..., 0.015134..., 0.172987...)
-        >>> f2.get_quaternion(f1) #doctest: +ELLIPSIS
-        quaternion(0.996194..., 0.087155..., 0, 0)
+        Args:
+            ref: reference frame with respect to which the rotation quaternion is returned. If None then the rotation
+                is provided with respect to the current reference frame.
 
-        :param ref: reference frame with respect to which the rotation quaternion is returned.
-        If None then the rotation is provided with respect to the current reference frame.
-        :return: the quaternion representing the rotation with respect to a given reference frame.
+        Returns:
+            the quaternion representing the rotation with respect to a given reference frame.
+
+        Examples:
+            >>> f1 = Frame().rotate_z(20 * _ureg.degree)
+            >>> f1.get_quaternion()
+            quaternion(0.984807753012208, 0, 0, 0.17364817766693)
+            >>> f2 = Frame(f1)
+            >>> f2.rotate_x(10 * _ureg.degree).get_quaternion() #doctest: +ELLIPSIS
+            quaternion(0.981060..., 0.085831..., 0.015134..., 0.172987...)
+            >>> f2.get_quaternion(f1) #doctest: +ELLIPSIS
+            quaternion(0.996194..., 0.087155..., 0, 0)
         """
         ref = ref or self._r
         if self._p is ref:
@@ -213,19 +227,22 @@ class Frame:
         Provides the offset representing the translation of the frame with respect to another reference frame.
         This method works in the internal unit representation of the class `Frame`.
 
-        >>> f1 = Frame().translate_x(10 * ureg.cm)
-        >>> f1._get_origin()
-        array([0.1, 0. , 0. ])
-        >>> f2 = Frame(f1).translate_y(100 * ureg.cm)
-        >>> f2._get_origin()
-        array([0.1, 1. , 0. ])
-        >>> f2._get_origin(f1)
-        array([0., 1., 0.])
+        Args:
+            ref: reference frame with respect to which the origin is returned.
+                If None then the translation is provided with respect to the current reference frame.
 
-        :param ref: reference frame with respect to which the origin is returned.
-        If None then the translation is provided with respect to the current reference frame.
-        :return: the offset (numpy array, no units) representing the translation with respect to
-        a given reference frame.
+        Retunrs:
+            the offset (numpy array, no units) representing the translation with respect to a given reference frame.
+
+        Examples:
+            >>> f1 = Frame().translate_x(10 * _ureg.cm)
+            >>> f1._get_origin()
+            array([0.1, 0. , 0. ])
+            >>> f2 = Frame(f1).translate_y(100 * _ureg.cm)
+            >>> f2._get_origin()
+            array([0.1, 1. , 0. ])
+            >>> f2._get_origin(f1)
+            array([0., 1., 0.])
         """
         ref = ref or self._r
         if self._p is ref:
@@ -239,29 +256,31 @@ class Frame:
     o_ = property(_get_origin)
     origin_ = property(_get_origin)
 
-    def get_origin(self, ref: Optional[Frame] = None) -> List[ureg.Quantity]:
+    def get_origin(self, ref: Optional[Frame] = None) -> List[_ureg.Quantity]:
         """Offset of the frame with respect to a reference frame.
 
         Provides the offset representing the translation of the frame with respect to another reference frame.
         This method supports units and returns `pint` quantities with dimensions of [LENGTH].
 
-        >>> f1 = Frame().translate_x(10 * ureg.cm)
-        >>> f1.get_origin()
-        [<Quantity(0.1, 'meter')>, <Quantity(0.0, 'meter')>, <Quantity(0.0, 'meter')>]
-        >>> f2 = Frame(f1).translate_y(100 * ureg.cm)
-        >>> f2.get_origin()
-        [<Quantity(0.1, 'meter')>, <Quantity(1.0, 'meter')>, <Quantity(0.0, 'meter')>]
-        >>> f2.get_origin(f1)
-        [<Quantity(0.0, 'meter')>, <Quantity(1.0, 'meter')>, <Quantity(0.0, 'meter')>]
-
         Args:
             ref: reference frame with respect to which the origin is returned. If None then the translation is provided
-            with respect to the global reference frame.
+                with respect to the global reference frame.
 
-        Returns: the offset (list of quantities with dimensions of [LENGTH]) representing the translation
-        with respect to a given reference frame.
+        Returns:
+            the offset (list of quantities with dimensions of [LENGTH]) representing the translation with respect to a
+            given reference frame.
+
+        Examples:
+            >>> f1 = Frame().translate_x(10 * _ureg.cm)
+            >>> f1.get_origin()
+            [<Quantity(0.1, 'meter')>, <Quantity(0.0, 'meter')>, <Quantity(0.0, 'meter')>]
+            >>> f2 = Frame(f1).translate_y(100 * _ureg.cm)
+            >>> f2.get_origin()
+            [<Quantity(0.1, 'meter')>, <Quantity(1.0, 'meter')>, <Quantity(0.0, 'meter')>]
+            >>> f2.get_origin(f1)
+            [<Quantity(0.0, 'meter')>, <Quantity(1.0, 'meter')>, <Quantity(0.0, 'meter')>]
         """
-        return list(map(lambda _: _ * ureg.meter, self._get_origin(ref)))
+        return list(map(lambda _: _ * _ureg.meter, self._get_origin(ref)))
 
     o = property(get_origin)
     origin = property(get_origin)
@@ -272,34 +291,36 @@ class Frame:
         Provides the X axis offset representing the translation of the frame with respect to another reference frame.
         This method works in the internal unit representation of the class `Frame`.
 
-        >>> f1 = Frame().translate_x(10 * ureg.cm)
-        >>> f1._get_x()
-        0.1
-        >>> f2 = Frame(f1).translate_y(100 * ureg.cm)
-        >>> f2._get_x()
-        0.1
-        >>> f2._get_x(f1)
-        0.0
-
         Args:
             ref: reference frame with respect to which the origin is returned.
             If None then the translation is provided with respect to the current reference frame.
+
         Returns:
             the X axis offset (float, no units) representing the X axis translation with respect to a given reference
             frame.
+
+        Examples:
+            >>> f1 = Frame().translate_x(10 * _ureg.cm)
+            >>> f1._get_x()
+            0.1
+            >>> f2 = Frame(f1).translate_y(100 * _ureg.cm)
+            >>> f2._get_x()
+            0.1
+            >>> f2._get_x(f1)
+            0.0
         """
         return self._get_origin(ref)[_X]
 
-    def get_x(self, ref: Optional[Frame] = None) -> ureg.Quantity:
+    def get_x(self, ref: Optional[Frame] = None) -> _ureg.Quantity:
         """X axis offset with respect to a reference frame.
 
         Provides the X axis offset representing the translation of the frame with respect to another reference frame.
         This method works with full support of pint units.
 
-        >>> f1 = Frame().translate_x(10 * ureg.cm)
+        >>> f1 = Frame().translate_x(10 * _ureg.cm)
         >>> f1.get_x()
         <Quantity(0.1, 'meter')>
-        >>> f2 = Frame(f1).translate_y(100 * ureg.cm)
+        >>> f2 = Frame(f1).translate_y(100 * _ureg.cm)
         >>> f2.get_x()
         <Quantity(0.1, 'meter')>
         >>> f2.get_x(f1)
@@ -322,10 +343,10 @@ class Frame:
         Provides the Y axis offset representing the translation of the frame with respect to another reference frame.
         This method works in the internal unit representation of the class `Frame`.
 
-        >>> f1 = Frame().translate_y(10 * ureg.cm)
+        >>> f1 = Frame().translate_y(10 * _ureg.cm)
         >>> f1._get_y()
         0.1
-        >>> f2 = Frame(f1).translate_x(100 * ureg.cm)
+        >>> f2 = Frame(f1).translate_x(100 * _ureg.cm)
         >>> f2._get_y()
         0.1
         >>> f2._get_y(f1)
@@ -341,16 +362,16 @@ class Frame:
         """
         return self._get_origin(ref)[_Y]
 
-    def get_y(self, ref: Optional[Frame] = None) -> ureg.Quantity:
+    def get_y(self, ref: Optional[Frame] = None) -> _ureg.Quantity:
         """Y axis offset with respect to a reference frame.
 
         Provides the Y axis offset representing the translation of the frame with respect to another reference frame.
         This method works with full support of pint units.
 
-        >>> f1 = Frame().translate_y(10 * ureg.cm)
+        >>> f1 = Frame().translate_y(10 * _ureg.cm)
         >>> f1.get_y()
         <Quantity(0.1, 'meter')>
-        >>> f2 = Frame(f1).translate_x(100 * ureg.cm)
+        >>> f2 = Frame(f1).translate_x(100 * _ureg.cm)
         >>> f2.get_y()
         <Quantity(0.1, 'meter')>
         >>> f2.get_y(f1)
@@ -373,10 +394,10 @@ class Frame:
         Provides the Z axis offset representing the translation of the frame with respect to another reference frame.
         This method works in the internal unit representation of the class `Frame`.
 
-        >>> f1 = Frame().translate_z(10 * ureg.cm)
+        >>> f1 = Frame().translate_z(10 * _ureg.cm)
         >>> f1._get_z()
         0.1
-        >>> f2 = Frame(f1).translate_x(100 * ureg.cm)
+        >>> f2 = Frame(f1).translate_x(100 * _ureg.cm)
         >>> f2._get_z()
         0.1
         >>> f2._get_z(f1)
@@ -389,15 +410,15 @@ class Frame:
         """
         return self._get_origin(ref)[_Z]
 
-    def get_z(self, ref: Optional[Frame] = None) -> ureg.Quantity:
+    def get_z(self, ref: Optional[Frame] = None) -> _ureg.Quantity:
         """
         Provides the Z axis offset representing the translation of the frame with respect to another reference frame.
         This method works with full support of pint units.
 
-        >>> f1 = Frame().translate_z(10 * ureg.cm)
+        >>> f1 = Frame().translate_z(10 * _ureg.cm)
         >>> f1.get_z()
         <Quantity(0.1, 'meter')>
-        >>> f2 = Frame(f1).translate_x(100 * ureg.cm)
+        >>> f2 = Frame(f1).translate_x(100 * _ureg.cm)
         >>> f2.get_z()
         <Quantity(0.1, 'meter')>
         >>> f2.get_z(f1)
@@ -420,7 +441,7 @@ class Frame:
         Provides the rotation matrix representation of the quaternion with respect to another reference frame.
 
         Example:
-            >>> f1 = Frame().rotate_x(10 * ureg.degree).get_rotation_matrix()
+            >>> f1 = Frame().rotate_x(10 * _ureg.degree).get_rotation_matrix()
             1.0
 
         Args:
@@ -446,7 +467,7 @@ class Frame:
             _np.arccos(m[2, 2]),
         ])
 
-    def get_angles(self, ref: Optional[Frame] = None, units: ureg.Unit = ureg.radian) -> List[ureg.Quantity]:
+    def get_angles(self, ref: Optional[Frame] = None, units: _ureg.Unit = _ureg.radian) -> List[_ureg.Quantity]:
         """
 
         >>> f1 = Frame() # TODO
@@ -455,7 +476,7 @@ class Frame:
         :param units:
         :return:
         """
-        return list(map(lambda _: (_ * ureg.radian).to(units), self._get_angles(ref)))
+        return list(map(lambda _: (_ * _ureg.radian).to(units), self._get_angles(ref)))
 
     angles = property(get_angles)
 
@@ -469,7 +490,7 @@ class Frame:
         """
         return self._get_angles(ref)[_X]
 
-    def get_tx(self, ref: Optional[Frame] = None) -> ureg.Quantity:
+    def get_tx(self, ref: Optional[Frame] = None) -> _ureg.Quantity:
         """
 
         >>> f1 = Frame() # TODO
@@ -477,7 +498,7 @@ class Frame:
         :param ref:
         :return:
         """
-        return self._get_tx(ref) * ureg.radian
+        return self._get_tx(ref) * _ureg.radian
 
     tx = property(get_tx)
 
@@ -491,7 +512,7 @@ class Frame:
         """
         return self._get_angles(ref)[_Y]
 
-    def get_ty(self, ref: Optional[Frame] = None) -> ureg.Quantity:
+    def get_ty(self, ref: Optional[Frame] = None) -> _ureg.Quantity:
         """
 
         >>> f1 = Frame() # TODO
@@ -499,7 +520,7 @@ class Frame:
         :param ref:
         :return:
         """
-        return self._get_ty(ref) * ureg.radian
+        return self._get_ty(ref) * _ureg.radian
 
     ty = property(get_ty)
 
@@ -513,7 +534,7 @@ class Frame:
         """
         return self._get_angles(ref)[_Z]
 
-    def get_tz(self, ref: Optional[Frame] = None) -> ureg.Quantity:
+    def get_tz(self, ref: Optional[Frame] = None) -> _ureg.Quantity:
         """
 
         >>> f1 = Frame() # TODO
@@ -521,7 +542,7 @@ class Frame:
         :param ref:
         :return:
         """
-        return self._get_tz(ref) * ureg.radian
+        return self._get_tz(ref) * _ureg.radian
 
     tz = property(get_tz)
 
@@ -548,7 +569,7 @@ class Frame:
         """
         return self * _quaternion.from_rotation_vector(angles)
 
-    def rotate(self, angles: List[ureg.Quantity]) -> Frame:
+    def rotate(self, angles: List[_ureg.Quantity]) -> Frame:
         """
 
         >>> f1 = Frame() # TODO
@@ -568,7 +589,7 @@ class Frame:
         """
         return self._rotate([angle, 0, 0])
 
-    def rotate_x(self, angle: ureg.Quantity) -> Frame:
+    def rotate_x(self, angle: _ureg.Quantity) -> Frame:
         """
 
         >>> f1 = Frame() # TODO
@@ -588,7 +609,7 @@ class Frame:
         """
         return self._rotate([0, angle, 0])
 
-    def rotate_y(self, angle: ureg.Quantity) -> Frame:
+    def rotate_y(self, angle: _ureg.Quantity) -> Frame:
         """
 
         >>> f1 = Frame() # TODO
@@ -608,7 +629,7 @@ class Frame:
         """
         return self._rotate([0, 0, angle])
 
-    def rotate_z(self, angle: ureg.Quantity) -> Frame:
+    def rotate_z(self, angle: _ureg.Quantity) -> Frame:
         """
 
         >>> f1 = Frame() # TODO
@@ -631,13 +652,13 @@ class Frame:
             raise ZgoubidooFrameException("Invalid rotation axis for 'translate_axis'")
         return getattr(self, f"rotate_{axis.lower()}")(angle)
 
-    def __add__(self, offset: List[ureg.Quantity]) -> Frame:
+    def __add__(self, offset: List[_ureg.Quantity]) -> Frame:
         """
         Provide a simple way to translate the Frame in a generic way, by adding an offset directly.
         This method is unit-aware and the offset must be provided as a list of pint Quantities.
 
         >>> f = Frame()
-        >>> offset = [1.0 * ureg.cm, 2.0 * ureg.cm, 3.0 * ureg.cm]
+        >>> offset = [1.0 * _ureg.cm, 2.0 * _ureg.cm, 3.0 * _ureg.cm]
         >>> (f + offset).x
         <Quantity(0.01, 'meter')>
         >>> (f + offset).y
@@ -661,20 +682,20 @@ class Frame:
         self._o += offset
         return self
 
-    def translate(self, offset: List[ureg.Quantity]) -> Frame:
+    def translate(self, offset: List[_ureg.Quantity]) -> Frame:
         """
         Translates the origin of the Frame with respect to the parent reference frame.
         The translations are extrinsic (done with respect to the axes of the parent frame).
 
         >>> f1 = Frame()
-        >>> f1.translate([1.0 * ureg.meter, 2.0 * ureg.meter, 3.0 * ureg.meter]).o
+        >>> f1.translate([1.0 * _ureg.meter, 2.0 * _ureg.meter, 3.0 * _ureg.meter]).o
         [<Quantity(1.0, 'meter')>, <Quantity(2.0, 'meter')>, <Quantity(3.0, 'meter')>]
         >>> f2 = Frame(parent=f1)
-        >>> f2.translate([-1.0 * ureg.meter, -2.0 * ureg.meter, -3.0 * ureg.meter]).o
+        >>> f2.translate([-1.0 * _ureg.meter, -2.0 * _ureg.meter, -3.0 * _ureg.meter]).o
         [<Quantity(0.0, 'meter')>, <Quantity(0.0, 'meter')>, <Quantity(0.0, 'meter')>]
         >>> f2.get_origin(f1)
         [<Quantity(-1.0, 'meter')>, <Quantity(-2.0, 'meter')>, <Quantity(-3.0, 'meter')>]
-        >>> f2.rotate_x(180 * ureg.degree).o
+        >>> f2.rotate_x(180 * _ureg.degree).o
         [<Quantity(0.0, 'meter')>, <Quantity(4.0, 'meter')>, <Quantity(6.0, 'meter')>]
         >>> f2.get_origin(f1)
         [<Quantity(-1.0, 'meter')>, <Quantity(-2.0, 'meter')>, <Quantity(-3.0, 'meter')>]
@@ -697,7 +718,7 @@ class Frame:
         self._o[_X] += offset
         return self
 
-    def translate_x(self, offset: ureg.Quantity) -> Frame:
+    def translate_x(self, offset: _ureg.Quantity) -> Frame:
         """
 
         >>> f1 = Frame() # TODO
@@ -718,7 +739,7 @@ class Frame:
         self._o[_Y] += offset
         return self
 
-    def translate_y(self, offset: ureg.Quantity) -> Frame:
+    def translate_y(self, offset: _ureg.Quantity) -> Frame:
         """
 
         >>> f1 = Frame() # TODO
@@ -740,7 +761,7 @@ class Frame:
         self._o[_Z] += offset
         return self
 
-    def translate_z(self, offset: ureg.Quantity) -> Frame:
+    def translate_z(self, offset: _ureg.Quantity) -> Frame:
         """
 
         Example:
@@ -771,7 +792,7 @@ class Frame:
             raise ZgoubidooFrameException("Invalid rotation axis for 'translate_axis'")
         return getattr(self, f"_translate_{axis.lower()}")(offset)
 
-    def translate_axis(self, axis: str, offset: ureg.Quantity) -> Frame:
+    def translate_axis(self, axis: str, offset: _ureg.Quantity) -> Frame:
         """
 
         Example:
@@ -791,7 +812,7 @@ class Frame:
         Reset the frame (rotation and translation) with respect to the parent.
 
         Example:
-            >>> f1 = Frame().rotate_x(1 * ureg.radian)
+            >>> f1 = Frame().rotate_x(1 * _ureg.radian)
             >>> f1.get_angles() #doctest: +ELLIPSIS
             [<Quantity(0.0, 'radian')>, <Quantity(0.999..., 'radian')>, <Quantity(0.999..., 'radian')>]
             >>> f1.reset().get_angles()

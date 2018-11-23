@@ -5,6 +5,7 @@ in the zgoubi input data file, zgoubi.dat.
 
 Several types of automatically generated objects are available, they are described in the following pages and
 include:
+
     - non-random object, with various distributions : individual particles, grids, object for MATRIX, etc.
     - Monte Carlo distribution (see MCObjet), with various distributions as well : 6-D window, ellipsoids, etc.
 
@@ -13,18 +14,21 @@ The maximum value allowed for IMAX can be changed at leisure in the include file
 (that requires re-compiling zgoubi).
 """
 
-import numpy as np
-from .commands import Command, ZgoubidooException
-from .. import ureg
+import numpy as _np
+from .commands import Command as _Command
+from .commands import ZgoubidooException as _ZgoubidooException
+from .. import ureg as _ureg
 
 
-class Objet(Command):
+class Objet(_Command):
     """Generation of an object.
 
 
     """
+    KEYWORD = 'OBJET'
+
     PARAMETERS = {
-        'BORO': (1.0 * ureg.kilogauss * ureg.cm, 'Reference magnetic rigidity.'),
+        'BORO': (1.0 * _ureg.kilogauss * _ureg.cm, 'Reference magnetic rigidity.'),
     }
 
     def __str__(s):
@@ -48,17 +52,17 @@ class Objet1(Objet):
         'IP': (1, 'Total number of points in +- P (or +P only if K2=01)'),
         'IX': (1, 'Total number of points in +- X'),
         'ID': (1, 'Total number of points in +- D'),
-        'PY': (0.1 * ureg.centimeter, 'Step size in Y'),
-        'PT': (0.1 * ureg.milliradian, 'Step size in T'),
-        'PZ': (0.1 * ureg.centimeter, 'Step size in Z'),
-        'PP': (0.1 * ureg.milliradian, 'Step size in P'),
-        'PX': (0.1 * ureg.centimeter, 'Step size in X'),
+        'PY': (0.1 * _ureg.centimeter, 'Step size in Y'),
+        'PT': (0.1 * _ureg.milliradian, 'Step size in T'),
+        'PZ': (0.1 * _ureg.centimeter, 'Step size in Z'),
+        'PP': (0.1 * _ureg.milliradian, 'Step size in P'),
+        'PX': (0.1 * _ureg.centimeter, 'Step size in X'),
         'PD': (0.1, 'Step size in Delta(BRHO)/BORO'),
-        'YR': (0.0 * ureg.centimeter, 'Reference Y'),
-        'TR': (0.0 * ureg.milliradian, 'Reference T'),
-        'ZR': (0.0 * ureg.centimeter, 'Reference Z'),
-        'PR': (0.0 * ureg.milliradian, 'Reference P'),
-        'XR': (0.0 * ureg.centimeter, 'Reference X'),
+        'YR': (0.0 * _ureg.centimeter, 'Reference Y'),
+        'TR': (0.0 * _ureg.milliradian, 'Reference T'),
+        'ZR': (0.0 * _ureg.centimeter, 'Reference Z'),
+        'PR': (0.0 * _ureg.milliradian, 'Reference P'),
+        'XR': (0.0 * _ureg.centimeter, 'Reference X'),
         'DR': (1.0, 'Reference D'),
     }
 
@@ -102,7 +106,7 @@ class Objet2(Objet):
     @property
     def PARTICULES(self):
         if self._PARTICULES is None:
-            self._PARTICULES = np.zeros((1, 7))
+            self._PARTICULES = _np.zeros((1, 7))
             self._PARTICULES[:, 5] = 1.0  # D = 1
             self._PARTICULES[:, 6] = 1.0  # IEX
         return self._PARTICULES
@@ -126,7 +130,7 @@ class Objet2(Objet):
                 p['D'] += 1.0
                 self._PARTICULES = p[['Y', 'T', 'Z', 'P', 'X', 'D', 'IEX']].values
         else:
-            self._PARTICULES = np.append(self._PARTICULES, p, axis=0)
+            self._PARTICULES = _np.append(self._PARTICULES, p, axis=0)
         return self
 
     def __str__(s) -> str:
@@ -144,7 +148,7 @@ class Objet2(Objet):
 
 
 class Objet3(Objet):
-    """NN=00 (default) : [b_]zgoubi.fai like data file FORMAT
+    """
 
     Examples:
         Test
@@ -188,7 +192,7 @@ class Objet3(Objet):
             {s.FNAME}
            """
         else:
-            raise ZgoubidooException("NN != 1 not supported")
+            raise _ZgoubidooException("NN != 1 not supported")
 
 
 class Objet4(Objet):
@@ -234,7 +238,7 @@ class Objet4(Objet):
             {s.FNAME}
            """
         else:
-            raise ZgoubidooException("NN != 1 not supported")
+            raise _ZgoubidooException("NN != 1 not supported")
 
 
 class Objet5(Objet):
@@ -307,7 +311,7 @@ class Objet8(Objet):
     pass
 
 
-class ObjetA(Command):
+class ObjetA(_Command):
     """Object from Monte-Carlo simulation of decay reaction.
 
     Examples:

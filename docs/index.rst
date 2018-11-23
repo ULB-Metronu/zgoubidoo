@@ -9,7 +9,6 @@ Zgoubidoo's documentation
 
    zgoubi
    installation
-   units
    commands
    lowlevel
    sequence

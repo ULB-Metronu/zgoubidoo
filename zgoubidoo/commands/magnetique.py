@@ -4,22 +4,24 @@ More details here.
 """
 
 from typing import NoReturn
-from .commands import Command, ZgoubidooException
-from .. import ureg, Q_
-from ..frame import Frame
-from ..vis import ZgoubiPlot
-from .patchable import Patchable
-from .plotable import Plotable
+from .commands import Command as _Command
+from .commands import ZgoubidooException as _ZgoubidooException
+from .. import ureg as _ureg
+from .. import _Q
+from ..frame import Frame as _Frame
+from ..vis import ZgoubiPlot as _ZgoubiPlot
+from .patchable import Patchable as _Patchable
+from .plotable import Plotable as _Plotable
 from ..units import _cm, _radian, _kilogauss
 
 
-class Magnet(Command, Patchable, Plotable):
+class Magnet(_Command, _Patchable, _Plotable):
     """Base class for all magnetic elements.
 
 
     """
     PARAMETERS = {
-        'HEIGHT': (20 * ureg.cm, ''),
+        'HEIGHT': (20 * _ureg.cm, ''),
     }
 
     def __init__(self, label1='', label2='', *params, **kwargs):
@@ -29,7 +31,7 @@ class Magnet(Command, Patchable, Plotable):
 class CartesianMagnet(Magnet):
     """Base class for magnetic elements in cartesian coordinates"""
     PARAMETERS = {
-        'WIDTH': (50 * ureg.cm, ''),
+        'WIDTH': (50 * _ureg.cm, ''),
         'COLOR': ('gray', ''),
     }
 
@@ -37,47 +39,47 @@ class CartesianMagnet(Magnet):
         super().__init__(label1, label2, CartesianMagnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
     @property
-    def rotation(self) -> Q_:
-        return self.ALE or 0.0 * ureg.degree
+    def rotation(self) -> _Q:
+        return self.ALE or 0.0 * _ureg.degree
 
     @property
-    def length(self) -> Q_:
-        return self.XL or 0.0 * ureg.cm
+    def length(self) -> _Q:
+        return self.XL or 0.0 * _ureg.cm
 
     @property
-    def x_offset(self) -> Q_:
-        return self.XCE or 0.0 * ureg.cm
+    def x_offset(self) -> _Q:
+        return self.XCE or 0.0 * _ureg.cm
 
     @property
-    def y_offset(self) -> Q_:
-        return self.YCE or 0.0 * ureg.cm
+    def y_offset(self) -> _Q:
+        return self.YCE or 0.0 * _ureg.cm
 
     @property
-    def entry_patched(self) -> Frame:
+    def entry_patched(self) -> _Frame:
         if self._entry_patched is None:
-            self._entry_patched = Frame(self.entry)
-            self._entry_patched.translate_x(-(self.X_E or 0.0 * ureg.cm))
+            self._entry_patched = _Frame(self.entry)
+            self._entry_patched.translate_x(-(self.X_E or 0.0 * _ureg.cm))
             self._entry_patched.translate_x(self.x_offset)
             self._entry_patched.translate_y(self.y_offset)
             self._entry_patched.rotate_z(-self.rotation)
         return self._entry_patched
 
     @property
-    def exit(self) -> Frame:
+    def exit(self) -> _Frame:
         if self._exit is None:
-            self._exit = Frame(self.entry_patched)
-            self._exit.translate_x(self.length + (self.X_E or 0.0 * ureg.cm) + (self.X_S or 0.0 * ureg.cm))
+            self._exit = _Frame(self.entry_patched)
+            self._exit.translate_x(self.length + (self.X_E or 0.0 * _ureg.cm) + (self.X_S or 0.0 * _ureg.cm))
         return self._exit
 
     @property
-    def exit_patched(self) -> Frame:
+    def exit_patched(self) -> _Frame:
         if self._exit_patched is None:
             if self.KPOS is None or self.KPOS == 1:
-                self._exit_patched = Frame(self.exit)
-                self._exit_patched.translate_x(-(self.X_S or 0.0 * ureg.cm))
+                self._exit_patched = _Frame(self.exit)
+                self._exit_patched.translate_x(-(self.X_S or 0.0 * _ureg.cm))
             elif self.KPOS == 0 or self.KPOS == 2:
-                self._exit_patched = Frame(self.entry)
-                self._exit_patched.translate_x(self.XL or 0.0 * ureg.cm)
+                self._exit_patched = _Frame(self.entry)
+                self._exit_patched.translate_x(self.XL or 0.0 * _ureg.cm)
         return self._exit_patched
 
     def plot(self, artist=None) -> NoReturn:
@@ -94,7 +96,7 @@ class CartesianMagnet(Magnet):
 class PolarMagnet(Magnet):
     """Base class for magnetic elements in polar coordinates"""
     PARAMETERS = {
-        'WIDTH': 50 * ureg.cm,
+        'WIDTH': 50 * _ureg.cm,
     }
 
     def __init__(self, label1: str='', label2: str='', *params, **kwargs):
@@ -102,44 +104,44 @@ class PolarMagnet(Magnet):
 
     @property
     def angular_opening(self):
-        return self.AT or 0 * ureg.degree
+        return self.AT or 0 * _ureg.degree
 
     @property
-    def radius(self) -> Q_:
-        return self.RM or 0 * ureg.cm
+    def radius(self) -> _Q:
+        return self.RM or 0 * _ureg.cm
 
     @property
-    def length(self) -> Q_:
+    def length(self) -> _Q:
         return self.angular_opening * self.radius
 
     @property
     def entry_patched(self):
         if self._entry_patched is None:
-            self._entry_patched = Frame(self.entry)
+            self._entry_patched = _Frame(self.entry)
         return self._entry_patched
 
     @property
     def center(self):
         if self._center is None:
-            self._center = Frame(self.entry_patched)
+            self._center = _Frame(self.entry_patched)
             self._center.translate_y(-self.radius)
         return self._center
 
     @property
-    def exit(self) -> Frame:
+    def exit(self) -> _Frame:
         if self._exit is None:
-            self._exit = Frame(self.center)
+            self._exit = _Frame(self.center)
             self._exit.translate_y(self.radius)
             self._exit.rotate_z(-self.angular_opening)
         return self._exit
 
     @property
-    def exit_patched(self) -> Frame:
+    def exit_patched(self) -> _Frame:
         if self._exit_patched is None:
-            self._exit_patched = Frame(self.exit)
+            self._exit_patched = _Frame(self.exit)
         return self._exit_patched
 
-    def plot(self, artist: ZgoubiPlot):
+    def plot(self, artist: _ZgoubiPlot):
         getattr(artist, PolarMagnet.__name__.lower())(self)
 
     def plot_tracks(self, artist=None, tracks=None):
@@ -154,7 +156,16 @@ class AGSMainMagnet(Magnet):
 
 
 class AGSQuadrupole(Magnet):
-    """AGS quadrupole."""
+    """AGS quadrupole.
+
+    The AGS quadrupoles are regular quadrupoles. The simulation of AGSQUAD uses the same field mod- elling as MULTIPOL,
+    section 1.3.7, page 25. However amperes are provided as input to AGSQUAD rather than fields, the reason being that
+    some of the AGS quadrupoles have two superimposed coil circuits, with separate power supplies. It has been dealt
+    with this particularity by allowing for an additional set of multi- pole data in AGSQUAD, compared to MULTIPOL.
+
+    The field in AGSQUAD is computed using transfer functions from the ampere-turns in the coils to magnetic field that
+    account for the non-linearity of the magnetic permeability [33].
+    """
     KEYWORD = 'AGSQUAD'
 
     PARAMETERS = {
@@ -254,7 +265,7 @@ class Aimant(Magnet):
     def __str__(s):
         command = []
         if s.NFACE not in (2, 3):
-            raise ZgoubidooException(f"Error : Zgoubido does not support NFACE = {s.NFACE}")
+            raise _ZgoubidooException(f"Error : Zgoubido does not support NFACE = {s.NFACE}")
 
         c = f"""
                 {super().__str__().rstrip()}
@@ -327,7 +338,7 @@ class Aimant(Magnet):
                                        {i:.12e} {j:.12e} {k:.12e} {l:.12e}
                                        """)
             else:
-                raise ZgoubidooException('Error : The shim parameters lists must have the same lenghts')
+                raise _ZgoubidooException('Error : The shim parameters lists must have the same lenghts')
 
         c = f"""
                 {s.IORDRE}
@@ -336,7 +347,7 @@ class Aimant(Magnet):
         command.append(c)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidooException("KPOS must be equal to 1 or 2.")
+            raise _ZgoubidooException("KPOS must be equal to 1 or 2.")
 
         if s.KPOS == 2:
             if s.RE == 0:
@@ -362,32 +373,32 @@ class Bend(CartesianMagnet):
     """Bending magnet, Cartesian frame."""
     PARAMETERS = {
         'IL': (2, "Print field and coordinates along trajectories"),
-        'XL': (0.0 * ureg.centimeter, "Magnet length (straight reference frame)"),
-        'SK': (0.0 * ureg.radian, "Skew angle"),
-        'B1': (0.0 * ureg.kilogauss, "Dipole field"),
-        'X_E': (0.0 * ureg.centimeter, "Integration zone extension (entrance face)"),
-        'LAM_E': (0.0 * ureg.centimeter, "Fringe field extension (entrance face)"),
-        'W_E': (0.0 * ureg.radian, "Wedge angle (entrance face)"),
+        'XL': (0.0 * _ureg.centimeter, "Magnet length (straight reference frame)"),
+        'SK': (0.0 * _ureg.radian, "Skew angle"),
+        'B1': (0.0 * _ureg.kilogauss, "Dipole field"),
+        'X_E': (0.0 * _ureg.centimeter, "Integration zone extension (entrance face)"),
+        'LAM_E': (0.0 * _ureg.centimeter, "Fringe field extension (entrance face)"),
+        'W_E': (0.0 * _ureg.radian, "Wedge angle (entrance face)"),
         'C0_E': 0.0,
         'C1_E': 1.0,
         'C2_E': 0.0,
         'C3_E': 0.0,
         'C4_E': 0.0,
         'C5_E': 0.0,
-        'X_S': (0.0 * ureg.centimeter, "Integration zone extension (exit face)"),
-        'LAM_S': (0.0 * ureg.centimeter, "Fringe field extension (exit face)"),
-        'W_S': (0.0 * ureg.radian, "Wedge angle (exit face)"),
+        'X_S': (0.0 * _ureg.centimeter, "Integration zone extension (exit face)"),
+        'LAM_S': (0.0 * _ureg.centimeter, "Fringe field extension (exit face)"),
+        'W_S': (0.0 * _ureg.radian, "Wedge angle (exit face)"),
         'C0_S': 0.0,
         'C1_S': 1.0,
         'C2_S': 0.0,
         'C3_S': 0.0,
         'C4_S': 0.0,
         'C5_S': 0.0,
-        'XPAS': (1.0 * ureg.millimeter, "Integration step"),
+        'XPAS': (1.0 * _ureg.millimeter, "Integration step"),
         'KPOS': (2, "Alignment parameter"),
-        'XCE': 0.0 * ureg.centimeter,
-        'YCE': 0.0 * ureg.centimeter,
-        'ALE': 0.0 * ureg.radian,
+        'XCE': 0.0 * _ureg.centimeter,
+        'YCE': 0.0 * _ureg.centimeter,
+        'ALE': 0.0 * _ureg.radian,
     }
 
     def __str__(s):
@@ -408,24 +419,24 @@ class Decapole(CartesianMagnet):
     """Decapole magnet."""
     PARAMETERS = {
         'IL': 2,
-        'XL': 0 * ureg.centimeter,
-        'R0': 1.0 * ureg.centimeter,
-        'B0': 0 * ureg.kilogauss,
-        'XE': 0 * ureg.centimeter,
-        'LAM_E': 0 * ureg.centimeter,
+        'XL': 0 * _ureg.centimeter,
+        'R0': 1.0 * _ureg.centimeter,
+        'B0': 0 * _ureg.kilogauss,
+        'XE': 0 * _ureg.centimeter,
+        'LAM_E': 0 * _ureg.centimeter,
         'C0': 0,
         'C1': 1,
         'C2': 0,
         'C3': 0,
         'C4': 0,
         'C5': 0,
-        'XS': 0 * ureg.centimeter,
-        'LAM_S': 0 * ureg.centimeter,
-        'XPAS': 0.1 * ureg.centimeter,
+        'XS': 0 * _ureg.centimeter,
+        'LAM_S': 0 * _ureg.centimeter,
+        'XPAS': 0.1 * _ureg.centimeter,
         'KPOS': 1,
-        'XCE': 0 * ureg.centimeter,
-        'YCE': 0 * ureg.centimeter,
-        'ALE': 0 * ureg.radian,
+        'XCE': 0 * _ureg.centimeter,
+        'YCE': 0 * _ureg.centimeter,
+        'ALE': 0 * _ureg.radian,
     }
 
     def __str__(s):
@@ -446,66 +457,66 @@ class Dipole(PolarMagnet):
     """Dipole magnet, polar frame."""
     PARAMETERS = {
         'IL': (2, 'Print field and coordinates along trajectories', 1),
-        'AT': (0 * ureg.degree, 'Total angular extent of the dipole', 2),
-        'RM': (0 * ureg.centimeter, 'Reference radius', 3),
-        'ACENT': (0 * ureg.degree, 'Azimuth for positioning of EFBs', 4),
-        'B0': (0 * ureg.kilogauss, 'Reference field', 5),
+        'AT': (0 * _ureg.degree, 'Total angular extent of the dipole', 2),
+        'RM': (0 * _ureg.centimeter, 'Reference radius', 3),
+        'ACENT': (0 * _ureg.degree, 'Azimuth for positioning of EFBs', 4),
+        'B0': (0 * _ureg.kilogauss, 'Reference field', 5),
         'N': (0, 'Field index (radial quadrupolar)', 6),
         'B': (0, 'Field index (radial sextupolar)', 7),
         'G': (0, 'Field index (radial octupolar)', 8),
-        'LAM_E': (0 * ureg.centimeter, 'Entrance fringe field extent (normally ≃ gap size)', 9),
+        'LAM_E': (0 * _ureg.centimeter, 'Entrance fringe field extent (normally ≃ gap size)', 9),
         'C0_E': (0, 'Fringe field coefficient C0', 12),
         'C1_E': (1, 'Fringe field coefficient C1', 13),
         'C2_E': (0, 'Fringe field coefficient C2', 14),
         'C3_E': (0, 'Fringe field coefficient C3', 15),
         'C4_E': (0, 'Fringe field coefficient C4', 16),
         'C5_E': (0, 'Fringe field coefficient C5', 17),
-        'SHIFT_E': (0 * ureg.centimeter, 'Shift of the EFB'),
-        'OMEGA_E': (0 * ureg.degree, ''),
-        'THETA_E': 0,
-        'R1_E': (1e9 * ureg.centimeter, 'Entrance EFB radius'),
-        'U1_E': (1e9 * ureg.centimeter, 'Entrance EFB linear extent'),
-        'U2_E': (1e9 * ureg.centimeter, 'Entrance EFB linear extent'),
-        'R2_E': (1e9 * ureg.centimeter, 'Entrance EFB radius'),
-        'LAM_S': (0 * ureg.centimeter, 'Exit fringe field extent (normally ≃ gap size)'),
-        'C0_S': (0, 'Fringe field coefficient C0'),
-        'C1_S': (1, 'Fringe field coefficient C1'),
-        'C2_S': (0, 'Fringe field coefficient C2'),
-        'C3_S': (0, 'Fringe field coefficient C3'),
-        'C4_S': (0, 'Fringe field coefficient C4'),
-        'C5_S': (0, 'Fringe field coefficient C5'),
-        'SHIFT_S': (0 * ureg.centimeter, 'Shift of the EFB'),
-        'OMEGA_S': (0 * ureg.degree, ''),
-        'THETA_S': 0,
-        'R1_S': (1e9 * ureg.centimeter, 'Exit EFB radius'),
-        'U1_S': (1e9 * ureg.centimeter, 'Exit EFB linear extent'),
-        'U2_S': (1e9 * ureg.centimeter, 'Exit EFB linear extent'),
-        'R2_S': (1e9 * ureg.centimeter, 'Exit EFB radius'),
-        'LAM_L': (0 * ureg.centimeter, 'Lateral fringe field extent (normally ≃ gap size)'),
-        'XI_L': (0.0, 'Flag to activate/deactivate the lateral EFB (0 to deactivate)'),
-        'C0_L': (0, 'Fringe field coefficient C0'),
-        'C1_L': (1, 'Fringe field coefficient C1'),
-        'C2_L': (0, 'Fringe field coefficient C2'),
-        'C3_L': (0, 'Fringe field coefficient C3'),
-        'C4_L': (0, 'Fringe field coefficient C4'),
-        'C5_L': (0, 'Fringe field coefficient C5'),
-        'SHIFT_L': (0 * ureg.centimeter, 'Shift of the EFB'),
-        'OMEGA_L': (0 * ureg.degree, ''),
-        'THETA_L': 0,
-        'R1_L': (1e9 * ureg.centimeter, 'Lateral EFB radius'),
-        'U1_L': (1e9 * ureg.centimeter, 'Lateral EFB linear extent'),
-        'U2_L': (1e9 * ureg.centimeter, 'Lateral EFB linear extent'),
-        'R2_L': (1e9 * ureg.centimeter, 'Lateral EFB radius'),
-        'RM3': (1e9 * ureg.centimeter, 'Reference radius of the lateral EFB'),
-        'IORDRE': 2,
-        'RESOL': 10,
-        'XPAS': (1 * ureg.millimeter, 'Integration step'),
-        'KPOS': 1,
-        'RE': 0 * ureg.millimeter,
-        'TE': 0 * ureg.radian,
-        'RS': 0 * ureg.millimeter,
-        'TS': 0 * ureg.radian,
-        'DP': 1.0,
+        'SHIFT_E': (0 * _ureg.centimeter, 'Shift of the EFB', 18),
+        'OMEGA_E': (0 * _ureg.degree, '', 19),
+        'THETA_E': (0, '', 20),
+        'R1_E': (1e9 * _ureg.centimeter, 'Entrance EFB radius', 21),
+        'U1_E': (1e9 * _ureg.centimeter, 'Entrance EFB linear extent', 22),
+        'U2_E': (1e9 * _ureg.centimeter, 'Entrance EFB linear extent', 23),
+        'R2_E': (1e9 * _ureg.centimeter, 'Entrance EFB radius', 24),
+        'LAM_S': (0 * _ureg.centimeter, 'Exit fringe field extent (normally ≃ gap size)', 25),
+        'C0_S': (0, 'Fringe field coefficient C0', 26),
+        'C1_S': (1, 'Fringe field coefficient C1', 27),
+        'C2_S': (0, 'Fringe field coefficient C2', 28),
+        'C3_S': (0, 'Fringe field coefficient C3', 29),
+        'C4_S': (0, 'Fringe field coefficient C4', 30),
+        'C5_S': (0, 'Fringe field coefficient C5', 31),
+        'SHIFT_S': (0 * _ureg.centimeter, 'Shift of the EFB', 32),
+        'OMEGA_S': (0 * _ureg.degree, '', 33),
+        'THETA_S': (0, '', 34),
+        'R1_S': (1e9 * _ureg.centimeter, 'Exit EFB radius', 35),
+        'U1_S': (1e9 * _ureg.centimeter, 'Exit EFB linear extent', 36),
+        'U2_S': (1e9 * _ureg.centimeter, 'Exit EFB linear extent', 37),
+        'R2_S': (1e9 * _ureg.centimeter, 'Exit EFB radius', 38),
+        'LAM_L': (0 * _ureg.centimeter, 'Lateral fringe field extent (normally ≃ gap size)', 39),
+        'XI_L': (0.0, 'Flag to activate/deactivate the lateral EFB (0 to deactivate)', 40),
+        'C0_L': (0, 'Fringe field coefficient C0', 41),
+        'C1_L': (1, 'Fringe field coefficient C1', 42),
+        'C2_L': (0, 'Fringe field coefficient C2', 43),
+        'C3_L': (0, 'Fringe field coefficient C3', 44),
+        'C4_L': (0, 'Fringe field coefficient C4', 45),
+        'C5_L': (0, 'Fringe field coefficient C5', 46),
+        'SHIFT_L': (0 * _ureg.centimeter, 'Shift of the EFB', 47),
+        'OMEGA_L': (0 * _ureg.degree, '', 48),
+        'THETA_L': (0, '', 49),
+        'R1_L': (1e9 * _ureg.centimeter, 'Lateral EFB radius', 50),
+        'U1_L': (1e9 * _ureg.centimeter, 'Lateral EFB linear extent', 51),
+        'U2_L': (1e9 * _ureg.centimeter, 'Lateral EFB linear extent', 52),
+        'R2_L': (1e9 * _ureg.centimeter, 'Lateral EFB radius', 53),
+        'RM3': (1e9 * _ureg.centimeter, 'Reference radius of the lateral EFB', 54),
+        'IORDRE': (2, '', 55),
+        'RESOL': (10, '', 56),
+        'XPAS': (1 * _ureg.millimeter, 'Integration step', 57),
+        'KPOS': (1, '', 58),
+        'RE': (0 * _ureg.centimeter, '', 59),
+        'TE': (0 * _ureg.radian, '', 60),
+        'RS': (0 * _ureg.centimeter, '', 61),
+        'TS': (0 * _ureg.radian, '', 62),
+        'DP': (1.0, '', 63),
     }
 
     def __str__(s):
@@ -529,7 +540,7 @@ class Dipole(PolarMagnet):
         command.append(c)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidooException("KPOS must be equal to 1 or 2.")
+            raise _ZgoubidooException("KPOS must be equal to 1 or 2.")
 
         if s.KPOS == 2:
             if s.RE == 0:
@@ -551,7 +562,7 @@ class Dipole(PolarMagnet):
         return ''.join(map(lambda _: _.rstrip(), command))
 
 
-class DipoleM(Magnet):
+class DipoleM(PolarMagnet):
     KEYWORD = 'DIPOLE-M'
 
     PARAMETERS = {
@@ -560,7 +571,7 @@ class DipoleM(Magnet):
         'IL': 0,  # 1, 2: print field and coordinates on trajectores
         'IAMAX': 0,
         'IRMAX': 0,
-        'B0': 0 * ureg.kilogauss,
+        'B0': 0 * _ureg.kilogauss,
         'N': 0,
         'B': 0,
         'G': 0,
@@ -644,7 +655,7 @@ class DipoleM(Magnet):
     def __str__(s):
         command = []
         if s.NFACE not in (2, 3):
-            raise ZgoubidooException(f"Error : Zgoubido does not support NFACE = {s.NFACE}")
+            raise _ZgoubidooException(f"Error : Zgoubido does not support NFACE = {s.NFACE}")
 
         c = f"""
             {super().__str__().rstrip()}
@@ -717,7 +728,7 @@ class DipoleM(Magnet):
                                    {i:.12e} {j:.12e} {k:.12e} {l:.12e}
                                    """)
             else:
-                raise ZgoubidooException('Error : The shim parameters lists must have the same lenghts')
+                raise _ZgoubidooException('Error : The shim parameters lists must have the same lenghts')
 
         c = f"""
             {s.IORDRE}
@@ -726,7 +737,7 @@ class DipoleM(Magnet):
         command.append(c)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidooException("KPOS must be equal to 1 or 2.")
+            raise _ZgoubidooException("KPOS must be equal to 1 or 2.")
 
         if s.KPOS == 2:
             if s.RE == 0:
@@ -748,7 +759,7 @@ class DipoleM(Magnet):
         return ''.join(map(lambda _: _.rstrip(), command))
 
 
-class Dipoles(Magnet):
+class Dipoles(PolarMagnet):
     """Dipole magnet N-tuple, polar frame."""
     PARAMETERS = {
         'IL': 2,
@@ -852,11 +863,11 @@ class Dipoles(Magnet):
             command.append(c)
 
         if s.KIRD != 0 and s.KIRD != 2 and s.KIRD != 4 and s.KIRD != 25:
-            raise ZgoubidooException("KIRD must be equal to 0,2,4 or 25")
+            raise _ZgoubidooException("KIRD must be equal to 0,2,4 or 25")
         if (s.KIRD == 0 and s.n !=2) and (s.KIRD == 0 and s.n !=1):
-            raise ZgoubidooException("n must be equal to 0 or 1 when KIRD = 0")
+            raise _ZgoubidooException("n must be equal to 0 or 1 when KIRD = 0")
         if (s.KIRD == 0 and s.Resol !=2) and (s.KIRD == 0 and s.Resol !=4):
-            raise ZgoubidooException("Resol must be equal to 2 or 4 when KIRD = 0")
+            raise _ZgoubidooException("Resol must be equal to 2 or 4 when KIRD = 0")
 
         if s.KIRD == 0:
             command.append(f"""
@@ -870,7 +881,7 @@ class Dipoles(Magnet):
         command.append(f"""{s.XPAS:.12e}""")
 
         if int(s.KPOS) not in (1, 2):
-            raise ZgoubidooException("KPOS must be equal to 1 or 2.")
+            raise _ZgoubidooException("KPOS must be equal to 1 or 2.")
 
         if s.KPOS == 2:
             if s.RE == 0:
@@ -892,30 +903,30 @@ class Dipoles(Magnet):
         return ''.join(map(lambda _: _.rstrip(), command))
 
 
-class Dodecapole(Command):
+class Dodecapole(CartesianMagnet):
     """Dodecapole magnet."""
     KEYWORD = 'DODECAPO'
 
     PARAMETERS = {
         'IL': 2,
-        'XL': 0 * ureg.centimeter,
-        'R0': 1.0 * ureg.centimeter,
-        'B0': 0 * ureg.kilogauss,
-        'XE': 0 * ureg.centimeter,
-        'LAM_E': 0 * ureg.centimeter,
+        'XL': 0 * _ureg.centimeter,
+        'R0': 1.0 * _ureg.centimeter,
+        'B0': 0 * _ureg.kilogauss,
+        'XE': 0 * _ureg.centimeter,
+        'LAM_E': 0 * _ureg.centimeter,
         'C0': 0,
         'C1': 1,
         'C2': 0,
         'C3': 0,
         'C4': 0,
         'C5': 0,
-        'XS': 0 * ureg.centimeter,
-        'LAM_S': 0 * ureg.centimeter,
-        'XPAS': 0.1 * ureg.centimeter,
+        'XS': 0 * _ureg.centimeter,
+        'LAM_S': 0 * _ureg.centimeter,
+        'XPAS': 0.1 * _ureg.centimeter,
         'KPOS': 1,
-        'XCE': 0 * ureg.centimeter,
-        'YCE': 0 * ureg.centimeter,
-        'ALE': 0 * ureg.radian,
+        'XCE': 0 * _ureg.centimeter,
+        'YCE': 0 * _ureg.centimeter,
+        'ALE': 0 * _ureg.radian,
     }
 
     def __str__(s):
@@ -936,11 +947,11 @@ class Drift(CartesianMagnet):
     """
     Field free drift space.
 
-    >>> Drift(XL=10 * ureg.cm)
+    >>> Drift(XL=10 * _ureg.cm)
 
     """
     PARAMETERS = {
-        'XL': 0 * ureg.centimeter,
+        'XL': 0 * _ureg.centimeter,
     }
     COLOR = 'yellow'
 
@@ -956,12 +967,12 @@ class Drift(CartesianMagnet):
         super().plot(artist)
 
 
-class Emma(Command):
+class Emma(CartesianMagnet):
     """2-D Cartesian or cylindrical mesh field map for EMMA FFAG."""
     KEYWORD = 'EMMA'
 
 
-class FFAG(Command):
+class FFAG(PolarMagnet):
     """FFAG magnet, N-tuple."""
     KEYWORD = 'FFAG'
 
@@ -1060,9 +1071,9 @@ class FFAG(Command):
             command.append(c)
 
         if s.KIRD != 0 and s.KIRD != 2 and s.KIRD != 4 and s.KIRD != 25:
-            raise ZgoubidooException("KIRD must be equal to 0,2,4 or 25")
+            raise _ZgoubidooException("KIRD must be equal to 0,2,4 or 25")
         if (s.KIRD == 0 and s.Resol !=2) and (s.KIRD == 0 and s.Resol !=4):
-            raise ZgoubidooException("Resol must be equal to 2 or 4 when KIRD = 0")
+            raise _ZgoubidooException("Resol must be equal to 2 or 4 when KIRD = 0")
 
         command.append(f"""
         {s.KIRD} {s.Resol:.12e} 
@@ -1070,7 +1081,7 @@ class FFAG(Command):
         """)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidooException("KPOS must be equal to 1 or 2.")
+            raise _ZgoubidooException("KPOS must be equal to 1 or 2.")
 
         if s.KPOS == 2:
             if s.RE == 0:
@@ -1092,7 +1103,7 @@ class FFAG(Command):
         return ''.join(map(lambda _: _.rstrip(), command))
 
 
-class FFAGSpirale(Magnet):
+class FFAGSpirale(PolarMagnet):
     """Spiral FFAG magnet, N-tuple."""
     KEYWORD = 'FFAG-SPI'
 
@@ -1191,9 +1202,9 @@ class FFAGSpirale(Magnet):
             command.append(c)
 
         if s.KIRD != 0 and s.KIRD != 2 and s.KIRD != 4 and s.KIRD != 25:
-            raise ZgoubidooException("KIRD must be equal to 0,2,4 or 25")
+            raise _ZgoubidooException("KIRD must be equal to 0,2,4 or 25")
         if (s.KIRD == 0 and s.Resol != 2) and (s.KIRD == 0 and s.Resol != 4):
-            raise ZgoubidooException("Resol must be equal to 2 or 4 when KIRD = 0")
+            raise _ZgoubidooException("Resol must be equal to 2 or 4 when KIRD = 0")
 
         command.append(f"""
             {s.KIRD} {s.Resol:.12e} 
@@ -1201,7 +1212,7 @@ class FFAGSpirale(Magnet):
             """)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidooException("KPOS must be equal to 1 or 2.")
+            raise _ZgoubidooException("KPOS must be equal to 1 or 2.")
 
         if s.KPOS == 2:
             if s.RE == 0:
@@ -1223,7 +1234,7 @@ class FFAGSpirale(Magnet):
         return ''.join(map(lambda _: _.rstrip(), command))
 
 
-class Multipole(Magnet):
+class Multipole(CartesianMagnet):
     """Magnetic multipole."""
     KEYWORD = 'MULTIPOL'
 
@@ -1310,7 +1321,7 @@ class Multipole(Magnet):
         command.append(c)
 
         if s.KPOS not in (1, 3):
-            raise ZgoubidooException("KPOS must be equal to 1,2 or 3.")
+            raise _ZgoubidooException("KPOS must be equal to 1,2 or 3.")
 
         if s.KPOS == 1:
             c = f"""
@@ -1324,7 +1335,7 @@ class Multipole(Magnet):
             command.append(c)
         elif s.KPOS == 3:
             if s.B1 == 0:
-                raise ZgoubidooException("B1 must be non-zero")
+                raise _ZgoubidooException("B1 must be non-zero")
             c = f"""
             {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
             """
@@ -1333,7 +1344,7 @@ class Multipole(Magnet):
         return ''.join(map(lambda _: _.rstrip(), command))
 
 
-class Octupole(Magnet):
+class Octupole(CartesianMagnet):
     """Octupole magnet."""
     KEYWORD = 'OCTUPOLE'
 
@@ -1382,7 +1393,7 @@ class Octupole(Magnet):
         command.append(c)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidooException("KPOS must be equal to 1 or 2")
+            raise _ZgoubidooException("KPOS must be equal to 1 or 2")
 
         if s.KPOS == 1:
             c = f"""
@@ -1402,25 +1413,26 @@ class PS170(Magnet):
     """
     Simulation of a round shape dipole magnet.
 
-    >>> PS170('PS170', IL=2, XL=2 * ureg.m, R0 = 1.5 * ureg.m, B0 = 1 * ureg.tesla)
+    >>> PS170('PS170', IL=2, XL=2 * _ureg.m, R0 = 1.5 * _ureg.m, B0 = 1 * _ureg.tesla)
     """
 
     PARAMETERS = {
         'IL': (2, 'print field and coordinates along trajectories'),
-        'XL': (1 * ureg.m, 'Length of the element'),
-        'R0': (1 * ureg.m, ', radius of the circular dipole'),
-        'B0': (0 * ureg.tesla, 'field'),
-        'XPAS': (1.0 * ureg.mm, 'Integration step'),
+        'XL': (1 * _ureg.m, 'Length of the element'),
+        'R0': (1 * _ureg.m, ', radius of the circular dipole'),
+        'B0': (0 * _ureg.tesla, 'field'),
+        'XPAS': (1.0 * _ureg.mm, 'Integration step'),
         'KPOS': (0, ),
-        'XCE': (0 * ureg.cm, ''),
-        'YCE': (0 * ureg.cm, ''),
-        'ALE': (0 * ureg.degree, ''),
+        'XCE': (0 * _ureg.cm, ''),
+        'YCE': (0 * _ureg.cm, ''),
+        'ALE': (0 * _ureg.degree, ''),
     }
     COLOR = 'red'
+    """Color used by the visualization tools."""
 
     def __str__(s) -> str:
         if s.KPOS not in (0, 1, 2):
-            raise ZgoubidooException("KPOS must be in (0, 1, 2)")
+            raise _ZgoubidooException("KPOS must be in (0, 1, 2)")
         return f"""
         {super().__str__().rstrip()}
         {int(s.IL):d}
@@ -1430,7 +1442,7 @@ class PS170(Magnet):
         """
 
 
-class Quadisex(Magnet):
+class Quadisex(CartesianMagnet):
     """Sharp edge magnetic multipoles."""
     PARAMETERS = {
         'IL': 2,
@@ -1461,7 +1473,7 @@ class Quadisex(Magnet):
         command.append(c)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidooException("KPOS must be equal to 1 or 2")
+            raise _ZgoubidooException("KPOS must be equal to 1 or 2")
 
         if s.KPOS == 1:
             c = f"""
@@ -1482,30 +1494,30 @@ class Quadrupole(CartesianMagnet):
     KEYWORD = 'QUADRUPO'
     PARAMETERS = {
         'IL': (2, 'Print field and coordinates along trajectories'),
-        'XL': (0 * ureg.centimeter, 'Magnet length'),
-        'R0': (1.0 * ureg.centimeter, 'Radius of the pole tips'),
-        'B0': (0 * ureg.kilogauss, 'Field at pole tips'),
-        'XE': (0 * ureg.centimeter, 'Entrance face integration zone for the fringe field'),
-        'LAM_E': (0 * ureg.centimeter, 'Entrance face fringe field extent'),
+        'XL': (0 * _ureg.centimeter, 'Magnet length'),
+        'R0': (1.0 * _ureg.centimeter, 'Radius of the pole tips'),
+        'B0': (0 * _ureg.kilogauss, 'Field at pole tips'),
+        'XE': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field'),
+        'LAM_E': (0 * _ureg.centimeter, 'Entrance face fringe field extent'),
         'C0_E': 0,
         'C1_E': 1,
         'C2_E': 0,
         'C3_E': 0,
         'C4_E': 0,
         'C5_E': 0,
-        'XS': (0 * ureg.centimeter, 'Exit face integration zone for the fringe field'),
-        'LAM_S': (0 * ureg.centimeter, 'Exit face fringe field extent'),
+        'XS': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field'),
+        'LAM_S': (0 * _ureg.centimeter, 'Exit face fringe field extent'),
         'C0_S': 0,
         'C1_S': 1,
         'C2_S': 0,
         'C3_S': 0,
         'C4_S': 0,
         'C5_S': 0,
-        'XPAS': (0.1 * ureg.centimeter, 'Integration step'),
+        'XPAS': (0.1 * _ureg.centimeter, 'Integration step'),
         'KPOS': 1,
-        'XCE': 0 * ureg.centimeter,
-        'YCE': 0 * ureg.centimeter,
-        'ALE': 0 * ureg.radian,
+        'XCE': 0 * _ureg.centimeter,
+        'YCE': 0 * _ureg.centimeter,
+        'ALE': 0 * _ureg.radian,
     }
     COLOR = 'blue'
 
@@ -1532,13 +1544,13 @@ class Quadrupole(CartesianMagnet):
 
     def align(self, mode=''):
         self.KPOS = 1
-        self.XCE = 0.0 * ureg.centimeter
-        self.YCE = 0.0 * ureg.centimeter
-        self.ALE = 0.0 * ureg.radians
+        self.XCE = 0.0 * _ureg.centimeter
+        self.YCE = 0.0 * _ureg.centimeter
+        self.ALE = 0.0 * _ureg.radians
         return self
 
 
-class SexQuad(Magnet):
+class SexQuad(CartesianMagnet):
     """Sharp edge magnetic multipole."""
     PARAMETERS = {
         'IL': 2,
@@ -1571,7 +1583,7 @@ class SexQuad(Magnet):
         command.append(c)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidooException("KPOS must be equal to 1 or 2")
+            raise _ZgoubidooException("KPOS must be equal to 1 or 2")
 
         if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
             c = f"""
@@ -1587,7 +1599,7 @@ class SexQuad(Magnet):
         return ''.join(map(lambda _: _.rstrip(), command))
 
 
-class Sextupole(Magnet):
+class Sextupole(CartesianMagnet):
     """Sextupole magnet."""
     KEYWORD = 'SEXTUPOL'
 
@@ -1636,7 +1648,7 @@ class Sextupole(Magnet):
         command.append(c)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidooException("KPOS must be equal to 1 or 2")
+            raise _ZgoubidooException("KPOS must be equal to 1 or 2")
 
         if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
             c = f"""
@@ -1680,7 +1692,7 @@ class Solenoid(Magnet):
         command.append(c)
 
         if s.KPOS not in (1, 2):
-            raise ZgoubidooException("KPOS must be equal to 1 or 2")
+            raise _ZgoubidooException("KPOS must be equal to 1 or 2")
 
         if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
             c = f"""
@@ -1700,23 +1712,23 @@ class Undulator(Magnet):
     """Undulator magnet."""
 
 
-class Venus(Command):
+class Venus(Magnet):
     """Simulation of a rectangular shape dipole magnet."""
     PARAMETERS = {
         'IL': (2, ),
-        'XL': (100 * ureg.centimeter, ),
-        'YL': (100 * ureg.centimeter, ),
-        'B0': (10 * ureg.kilogauss, ),
-        'XPAS': (0.1 * ureg.centimeter, ),
+        'XL': (100 * _ureg.centimeter,),
+        'YL': (100 * _ureg.centimeter,),
+        'B0': (10 * _ureg.kilogauss,),
+        'XPAS': (0.1 * _ureg.centimeter,),
         'KPOS': 1,
-        'XCE': (0 * ureg.centimeter, ),
-        'YCE': (0 * ureg.centimeter, ),
-        'ALE': (0 * ureg.radian, ),
+        'XCE': (0 * _ureg.centimeter,),
+        'YCE': (0 * _ureg.centimeter,),
+        'ALE': (0 * _ureg.radian,),
     }
 
     def __str__(self) -> str:
         if self.KPOS not in (0, 1, 2):
-            raise ZgoubidooException("KPOS must be in (0, 1, 2)")
+            raise _ZgoubidooException("KPOS must be in (0, 1, 2)")
         return f"""
         {super().__str__().rstrip()}
         {int(self.IL):d}

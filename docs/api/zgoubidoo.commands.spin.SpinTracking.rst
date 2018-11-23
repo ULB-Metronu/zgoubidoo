@@ -10,10 +10,8 @@ SpinTracking
 
    .. autosummary::
 
-      ~SpinTracking.KEYWORD
       ~SpinTracking.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
-   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

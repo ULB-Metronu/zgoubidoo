@@ -5,7 +5,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import matplotlib.transforms as transforms
-from .. import ureg
+from .. import ureg as _ureg
 from .zgoubiplot import ZgoubiPlot
 from ..units import _cm, _degree, _radian
 from ..frame import Frame
@@ -151,9 +151,9 @@ class ZgoubiMpl(ZgoubiPlot):
         x = 100 * tracks['X'].values  # Polar angle
         y = 100 * tracks['Y-DY'].values
         if np.cos(_radian(magnet.entry.tz)) > 0:
-            angle = _radian(90 * ureg.degree - magnet.center.tx) - x
+            angle = _radian(90 * _ureg.degree - magnet.center.tx) - x
         else:
-            angle = _radian(-90 * ureg.degree - magnet.center.tx) + x
+            angle = _radian(-90 * _ureg.degree - magnet.center.tx) + x
         tracks_x = _cm(magnet.center.x) + y * np.cos(angle)
         tracks_y = _cm(magnet.center.y) + y * np.sin(angle)
         self.plot(tracks_x, tracks_y, '.c', markeredgecolor=self._tracks_color, markerfacecolor=self._tracks_color, ms=1)

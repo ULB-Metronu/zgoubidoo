@@ -6,6 +6,7 @@ Example:
     example
 
     >>> 1 + 1
+    2
 
 
 """
@@ -42,9 +43,12 @@ def read_fai_file(filename: str='zgoubi.fai', path: str='.') -> pd.DataFrame:
 def read_plt_file(filename: str='zgoubi.plt', path: str='.') -> pd.DataFrame:
     """
 
-    :param filename:
-    :param path:
-    :return:
+    Args:
+        filename:
+        path:
+
+    Returns:
+
     """
     # Header line from the Zgoubi .plt file
     with open(filename) as file:
@@ -74,9 +78,12 @@ def read_plt_file(filename: str='zgoubi.plt', path: str='.') -> pd.DataFrame:
 def read_matrix_file(filename: str='zgoubi.MATRIX.out', path: str='.') -> pd.DataFrame:
     """
 
-    :param filename:
-    :param path:
-    :return:
+    Args:
+        filename:
+        path:
+
+    Returns:
+
     """
     # Cleaned up header lines
     headers = [

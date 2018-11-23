@@ -1,14 +1,13 @@
-from .commands import Command
-from .. import ureg
+from .commands import Command as _Command
+from .. import ureg as _ureg
 from ..units import _cm, _radian
 
 
-class Brevol(Command):
+class Brevol(_Command):
     """1-D uniform mesh magnetic field map."""
-    KEYWORD = 'BREVOL'
 
 
-class CartesianMesh(Command):
+class CartesianMesh(_Command):
     """"2-D Cartesian uniform mesh magnetic field map."""
     KEYWORD = 'CARTEMES'
     PARAMETERS = {
@@ -29,11 +28,11 @@ class CartesianMesh(Command):
         'BP': ([0.0]),
         'CP': ([0.0]),
         'IORDRE': (25, 'Degree of interpolation polynomial'),
-        'XPAS': (1 * ureg.cm, 'Integration step'),
+        'XPAS': (1 * _ureg.cm, 'Integration step'),
         'KPOS': (1, 'Alignment'),
-        'XCE': (0 * ureg.cm, 'Misalignment X shift'),
-        'YCE': (0 * ureg.cm, 'Misalignment Y shift'),
-        'ALE': (0 * ureg.radian, 'Misalignment tilt'),
+        'XCE': (0 * _ureg.cm, 'Misalignment X shift'),
+        'YCE': (0 * _ureg.cm, 'Misalignment Y shift'),
+        'ALE': (0 * _ureg.radian, 'Misalignment tilt'),
     }
 
     def __str__(s) -> str:
@@ -51,27 +50,25 @@ class CartesianMesh(Command):
         """
 
 
-class Map2D(Command):
+class Map2D(_Command):
     """2-D Cartesian uniform mesh field map - arbitrary magnetic field."""
-    KEYWORD = 'MAP2D'
 
 
-class Map2DElectric(Command):
+class Map2DElectric(_Command):
     """2-D Cartesian uniform mesh field map - arbitrary electric field."""
     KEYWORD = 'MAP2D-E'
 
 
-class Poisson(Command):
+class Poisson(_Command):
     """Read magnetic field data from POISSON output."""
-    KEYWORD = 'POISSON'
 
 
-class PolarMesh(Command):
+class PolarMesh(_Command):
     """2-D polar mesh magnetic field map."""
     KEYWORD = 'POLARMES'
 
 
-class Tosca(Command):
+class Tosca(_Command):
     """2-D and 3-D Cartesian or cylindrical mesh field map."""
     PARAMETERS = {
         'IC': (),

@@ -1,7 +1,8 @@
 from typing import Union, Optional
 from functools import partial
 import numpy as _np
-from . import ureg, Q_
+from . import ureg as _ureg
+from . import _Q
 from .commands import Particule, Proton
 
 
@@ -16,28 +17,30 @@ class Kinematic:
     """
 
     """
-    def __init__(self, q: Union[float, Q_], particle: Particule=Proton(), kinetic: bool=True):
+    def __init__(self, q: Union[float, _Q], particle: Particule=Proton(), kinetic: bool=True):
         """
 
-        :param q:
-        :param particle:
+        Args:
+            q:
+            particle:
+            kinetic:
         """
-        self._q: Union[float, Q_] = q
+        self._q: Union[float, _Q] = q
         self._p: Particule = particle
         self._type: Optional[str] = None
 
-        if Q_(q).dimensionality == ureg.cm.dimensionality:
+        if _Q(q).dimensionality == _ureg.cm.dimensionality:
             self._type = 'range'
-        elif Q_(q).dimensionality == ureg.eV.dimensionality:
+        elif _Q(q).dimensionality == _ureg.eV.dimensionality:
             if kinetic:
                 self._type = 'energy'
             else:
                 self._type = 'etot'
-        elif Q_(q).dimensionality == ureg.eV_c.dimensionality:
+        elif _Q(q).dimensionality == _ureg.eV_c.dimensionality:
             self._type = 'momentum'
-        elif Q_(q).dimensionality == (ureg.tesla * ureg.m).dimensionality:
+        elif _Q(q).dimensionality == (_ureg.tesla * _ureg.m).dimensionality:
             self._type = 'brho'
-        elif Q_(q).dimensionless:
+        elif _Q(q).dimensionless:
             if q < 1:
                 self._type = 'beta'
             else:
@@ -45,11 +48,14 @@ class Kinematic:
         else:
             raise ZgoubiPhysicsException("Invalid kinematic quantity.")
 
-    def to(self, quantity: str) -> Union[float, Q_]:
+    def to(self, quantity: str) -> Union[float, _Q]:
         """
 
-        :param quantity:
-        :return:
+        Args:
+            quantity:
+
+        Returns:
+
         """
         if self._type == quantity:
             return self._q
@@ -63,8 +69,11 @@ class Kinematic:
     def to_range(self, magnitude: bool=False):
         """
 
-        :param magnitude:
-        :return:
+        Args:
+            magnitude:
+
+        Returns:
+
         """
         _ = self.to('range')
         if magnitude:
@@ -75,11 +84,14 @@ class Kinematic:
     range = property(to_range)
     range_ = property(partial(to_range, magnitude=True))
 
-    def to_energy(self, magnitude: bool=False) -> Union[float, Q_]:
+    def to_energy(self, magnitude: bool=False) -> Union[float, _Q]:
         """
 
-        :param magnitude:
-        :return:
+        Args:
+            magnitude:
+
+        Returns:
+
         """
         _ = self.to('energy')
         if magnitude:
@@ -90,11 +102,14 @@ class Kinematic:
     energy = property(to_energy)
     energy_ = property(partial(to_energy, magnitude=True))
 
-    def to_etot(self, magnitude: bool=False) -> Union[float, Q_]:
+    def to_etot(self, magnitude: bool=False) -> Union[float, _Q]:
         """
 
-        :param magnitude:
-        :return:
+        Args:
+            magnitude:
+
+        Returns:
+
         """
         _ = self.to('etot')
         if magnitude:
@@ -105,11 +120,14 @@ class Kinematic:
     etot = property(to_etot)
     etot_ = property(partial(to_etot, magnitude=True))
 
-    def to_momentum(self, magnitude: bool=False) -> Union[float, Q_]:
+    def to_momentum(self, magnitude: bool=False) -> Union[float, _Q]:
         """
 
-        :param magnitude:
-        :return:
+        Args:
+            magnitude:
+
+        Returns:
+
         """
         _ = self.to('momentum')
         if magnitude:
@@ -118,13 +136,19 @@ class Kinematic:
             return _
 
     momentum = property(to_momentum)
-    momentum_ = property(partial(to_momentum, magnitude=True))
+    """Provides the *momentum*."""
 
-    def to_brho(self, magnitude: bool=False) -> Union[float, Q_]:
+    momentum_ = property(partial(to_momentum, magnitude=True))
+    """Provides the *momentum* (magnitude only)."""
+
+    def to_brho(self, magnitude: bool=False) -> Union[float, _Q]:
         """
 
-        :param magnitude:
-        :return:
+        Args:
+            magnitude:
+
+        Returns:
+
         """
         _ = self.to('brho')
         if magnitude:
@@ -133,50 +157,57 @@ class Kinematic:
             return _
 
     brho = property(to_brho)
-    brho_ = property(partial(to_brho, magnitude=True))
+    """Provides *brho*."""
 
-    def to_beta(self) -> Union[float, Q_]:
+    brho_ = property(partial(to_brho, magnitude=True))
+    """Provides *brho* (magnitude only)."""
+
+    def to_beta(self) -> Union[float, _Q]:
         """
 
-        :return:
+        Returns:
+
         """
         return self.to('beta')
 
     beta = property(to_beta)
+    """Provides *beta*."""
 
-    def to_gamma(self) -> Union[float, Q_]:
+    def to_gamma(self) -> Union[float, _Q]:
         """
 
-        :return:
+        Returns:
+
         """
         return self.to('gamma')
 
     gamma = property(to_gamma)
+    """Provides *gamma*."""
 
 
-def energy_to_momentum(e: Q_, particle: Particule=Proton()) -> Q_:
+def energy_to_momentum(e: _Q, particle: Particule=Proton()) -> _Q:
     """
     Converts momentum to kinetic energy.
 
-    >>> energy_to_momentum(100 * ureg.MeV).to('MeV_c')
+    >>> energy_to_momentum(100 * _ureg.MeV).to('MeV_c')
     <Quantity(444.58340724772927, 'megaelectronvolt_per_c')>
-    >>> energy_to_momentum(230 * ureg.MeV).to('MeV_c')
+    >>> energy_to_momentum(230 * _ureg.MeV).to('MeV_c')
     <Quantity(696.064029957015, 'megaelectronvolt_per_c')>
 
     :param e: kinetic energy
     :param particle: the particle type (default: proton)
     :return: relativistic momentum
     """
-    return _np.sqrt((particle.mass * ureg.c**2 + e) ** 2 - particle.mass ** 2 * ureg.c ** 4) / ureg.c
+    return _np.sqrt((particle.mass * _ureg.c ** 2 + e) ** 2 - particle.mass ** 2 * _ureg.c ** 4) / _ureg.c
 
 
-def energy_to_brho(e: Q_, particle: Particule=Proton()) -> Q_:
+def energy_to_brho(e: _Q, particle: Particule=Proton()) -> _Q:
     """
     Converts kinetic energy to magnetic rigidity (brho).
 
-    >>> energy_to_momentum(100 * ureg.MeV).to('MeV_c')
+    >>> energy_to_momentum(100 * _ureg.MeV).to('MeV_c')
     <Quantity(444.58340724772927, 'megaelectronvolt_per_c')>
-    >>> energy_to_momentum(230 * ureg.MeV).to('MeV_c')
+    >>> energy_to_momentum(230 * _ureg.MeV).to('MeV_c')
     <Quantity(696.064029957015, 'megaelectronvolt_per_c')>
 
     :param e: kinetic energy
@@ -186,13 +217,13 @@ def energy_to_brho(e: Q_, particle: Particule=Proton()) -> Q_:
     return momentum_to_brho(energy_to_momentum(e, particle), particle)
 
 
-def energy_to_range(e: Q_, particle: Particule=Proton()) -> Q_:
+def energy_to_range(e: _Q, particle: Particule=Proton()) -> _Q:
     """
     Converts kinetic energy to proton range in water; following IEC60601.
 
-    >>> energy_to_range(100 * ureg.MeV).to('cm')
+    >>> energy_to_range(100 * _ureg.MeV).to('cm')
     <Quantity(7.7269636143698905, 'centimeter')>
-    >>> energy_to_range(230 * ureg.MeV).to('cm')
+    >>> energy_to_range(230 * _ureg.MeV).to('cm')
     <Quantity(32.9424672323197, 'centimeter')>
 
     :param e: kinetic energy
@@ -206,24 +237,24 @@ def energy_to_range(e: Q_, particle: Particule=Proton()) -> Q_:
     c = 0.5271
     d = 3.4917
     e = e.to('MeV').magnitude
-    return _np.exp((-c + _np.sqrt(c ** 2 - 4 * b * (d - _np.log(e)))) / (2 * b)) * ureg.cm
+    return _np.exp((-c + _np.sqrt(c ** 2 - 4 * b * (d - _np.log(e)))) / (2 * b)) * _ureg.cm
 
 
-def energy_to_pv(e: Q_, particle: Particule=Proton()) -> Q_:
+def energy_to_pv(e: _Q, particle: Particule=Proton()) -> _Q:
     """
     Converts kinetic energy to relativistic pv.
 
-    >>> energy_to_pv(230 * ureg.MeV)
+    >>> energy_to_pv(230 * _ureg.MeV)
     <Quantity(414.71945005821937, 'megaelectronvolt')>
 
     :param e: kinetic energy
     :param particle: the particle type (default: proton)
     :return: relativistic pv
     """
-    return ((e + particle.mass * ureg.c**2)**2 - (particle.mass * ureg.c**2)**2) / (e + particle.mass * ureg.c**2)
+    return ((e + particle.mass * _ureg.c ** 2) ** 2 - (particle.mass * _ureg.c ** 2) ** 2) / (e + particle.mass * _ureg.c ** 2)
 
 
-def energy_to_beta(e: Q_, particle: Particule=Proton()) -> float:
+def energy_to_beta(e: _Q, particle: Particule=Proton()) -> float:
     """
     Converts the kinetic energy to relativistic beta.
 
@@ -234,11 +265,11 @@ def energy_to_beta(e: Q_, particle: Particule=Proton()) -> float:
     :param particle: the particle type (default: proton)
     :return: relativistic beta
     """
-    gamma = (particle.mass * ureg.c**2 + e) / (particle.mass * ureg.c**2)
+    gamma = (particle.mass * _ureg.c ** 2 + e) / (particle.mass * _ureg.c ** 2)
     return (_np.sqrt((gamma ** 2 - 1) / gamma ** 2)).magnitude
 
 
-def energy_to_gamma(e: Q_, particle: Particule=Proton()) -> float:
+def energy_to_gamma(e: _Q, particle: Particule=Proton()) -> float:
     """
     Converts the kinetic energy to relativistic gamma.
 
@@ -249,28 +280,28 @@ def energy_to_gamma(e: Q_, particle: Particule=Proton()) -> float:
     :param particle: the particle type (default: proton)
     :return: relativistic gamma
     """
-    return ((particle.mass * ureg.c**2 + e) / (particle.mass * ureg.c**2)).magnitude
+    return ((particle.mass * _ureg.c ** 2 + e) / (particle.mass * _ureg.c ** 2)).magnitude
 
 
-def momentum_to_energy(p: Q_, particle: Particule=Proton()) -> Q_:
+def momentum_to_energy(p: _Q, particle: Particule=Proton()) -> _Q:
     """
     Converts momentum to kinetic energy.
 
-    >>> momentum_to_energy(100 * ureg.MeV_c).to('MeV')
+    >>> momentum_to_energy(100 * _ureg.MeV_c).to('MeV')
     <Quantity(5.313897343302641, 'megaelectronvolt')>
 
     :param p: relativistic momentum
     :param particle: the particle type (default: proton)
     :return:
     """
-    return _np.sqrt((p ** 2 * ureg.c ** 2) + ((particle.mass * ureg.c ** 2) ** 2)) - particle.mass * ureg.c ** 2
+    return _np.sqrt((p ** 2 * _ureg.c ** 2) + ((particle.mass * _ureg.c ** 2) ** 2)) - particle.mass * _ureg.c ** 2
 
 
-def momentum_to_brho(p: Q_, particle: Particule=Proton()) -> Q_:
+def momentum_to_brho(p: _Q, particle: Particule=Proton()) -> _Q:
     """
     Converts momentum to magnetic rigidity (brho).
 
-    >>> momentum_to_brho(100 * ureg.MeV_c).to('tesla * meter')
+    >>> momentum_to_brho(100 * _ureg.MeV_c).to('tesla * meter')
     <Quantity(0.33356409519815206, 'meter * tesla')>
 
     :param p: relativistic momentum
@@ -280,11 +311,11 @@ def momentum_to_brho(p: Q_, particle: Particule=Proton()) -> Q_:
     return p / particle.charge
 
 
-def momentum_to_range(p: Q_, particle: Particule=Proton()) -> Q_:
+def momentum_to_range(p: _Q, particle: Particule=Proton()) -> _Q:
     """
     Converts momentum to proton range in water; following IEC60601.
 
-    >>> momentum_to_range(696 * ureg.MeV_c).to('cm')
+    >>> momentum_to_range(696 * _ureg.MeV_c).to('cm')
     <Quantity(32.93315610400117, 'centimeter')>
 
     :param p: relativistic momentum
@@ -294,11 +325,11 @@ def momentum_to_range(p: Q_, particle: Particule=Proton()) -> Q_:
     return energy_to_range(momentum_to_energy(p, particle), particle)
 
 
-def momentum_to_pv(p: Q_, particle: Particule=Proton()) -> Q_:
+def momentum_to_pv(p: _Q, particle: Particule=Proton()) -> _Q:
     """
     Converts momentum to proton range in water; following IEC60601.
 
-    >>> momentum_to_range(696 * ureg.MeV_c).to('cm')
+    >>> momentum_to_range(696 * _ureg.MeV_c).to('cm')
     <Quantity(32.93315610400117, 'centimeter')>
 
     :param p: relativistic momentum
@@ -308,11 +339,11 @@ def momentum_to_pv(p: Q_, particle: Particule=Proton()) -> Q_:
     return energy_to_range(momentum_to_energy(p, particle), particle)
 
 
-def momentum_to_beta(p: Q_, particle: Particule=Proton()) -> float:
+def momentum_to_beta(p: _Q, particle: Particule=Proton()) -> float:
     """
     Converts momentum to proton range in water; following IEC60601.
 
-    >>> momentum_to_range(696 * ureg.MeV_c).to('cm')
+    >>> momentum_to_range(696 * _ureg.MeV_c).to('cm')
     <Quantity(32.93315610400117, 'centimeter')>
 
     :param p: relativistic momentum
@@ -322,11 +353,11 @@ def momentum_to_beta(p: Q_, particle: Particule=Proton()) -> float:
     return energy_to_range(momentum_to_energy(p, particle), particle)
 
 
-def momentum_to_gamma(p: Q_, particle: Particule=Proton()) -> float:
+def momentum_to_gamma(p: _Q, particle: Particule=Proton()) -> float:
     """
     Converts momentum to proton range in water; following IEC60601.
 
-    >>> momentum_to_range(696 * ureg.MeV_c).to('cm')
+    >>> momentum_to_range(696 * _ureg.MeV_c).to('cm')
     <Quantity(32.93315610400117, 'centimeter')>
 
     :param p: relativistic momentum
@@ -336,11 +367,11 @@ def momentum_to_gamma(p: Q_, particle: Particule=Proton()) -> float:
     return energy_to_range(momentum_to_energy(p, particle), particle)
 
 
-def brho_to_energy(brho: Q_, particle: Particule=Proton()) -> Q_:
+def brho_to_energy(brho: _Q, particle: Particule=Proton()) -> _Q:
     """
     Converts magnetic rigidity (brho) to momentum.
 
-    >>> momentum_to_brho(100 * ureg.MeV_c).to('tesla * meter')
+    >>> momentum_to_brho(100 * _ureg.MeV_c).to('tesla * meter')
     <Quantity(0.33356409519815206, 'meter * tesla')>
 
     :param brho: magnetic rigidity
@@ -350,11 +381,11 @@ def brho_to_energy(brho: Q_, particle: Particule=Proton()) -> Q_:
     return brho * particle.charge
 
 
-def brho_to_momentum(brho: Q_, particle: Particule=Proton()) -> Q_:
+def brho_to_momentum(brho: _Q, particle: Particule=Proton()) -> _Q:
     """
     Converts magnetic rigidity (brho) to momentum.
 
-    >>> momentum_to_brho(100 * ureg.MeV_c).to('tesla * meter')
+    >>> momentum_to_brho(100 * _ureg.MeV_c).to('tesla * meter')
     <Quantity(0.33356409519815206, 'meter * tesla')>
 
     :param brho: magnetic rigidity
@@ -364,11 +395,11 @@ def brho_to_momentum(brho: Q_, particle: Particule=Proton()) -> Q_:
     return brho * particle.charge
 
 
-def brho_to_range(brho: Q_, particle: Particule=Proton()) -> Q_:
+def brho_to_range(brho: _Q, particle: Particule=Proton()) -> _Q:
     """
     Converts magnetic rigidity (brho) to momentum.
 
-    >>> momentum_to_brho(100 * ureg.MeV_c).to('tesla * meter')
+    >>> momentum_to_brho(100 * _ureg.MeV_c).to('tesla * meter')
     <Quantity(0.33356409519815206, 'meter * tesla')>
 
     :param brho: magnetic rigidity
@@ -378,11 +409,11 @@ def brho_to_range(brho: Q_, particle: Particule=Proton()) -> Q_:
     return brho * particle.charge
 
 
-def brho_to_pv(brho: Q_, particle: Particule=Proton()) -> Q_:
+def brho_to_pv(brho: _Q, particle: Particule=Proton()) -> _Q:
     """
     Converts magnetic rigidity (brho) to momentum.
 
-    >>> momentum_to_brho(100 * ureg.MeV_c).to('tesla * meter')
+    >>> momentum_to_brho(100 * _ureg.MeV_c).to('tesla * meter')
     <Quantity(0.33356409519815206, 'meter * tesla')>
 
     :param brho: magnetic rigidity
@@ -392,11 +423,11 @@ def brho_to_pv(brho: Q_, particle: Particule=Proton()) -> Q_:
     return brho * particle.charge
 
 
-def brho_to_beta(brho: Q_, particle: Particule=Proton()) -> float:
+def brho_to_beta(brho: _Q, particle: Particule=Proton()) -> float:
     """
     Converts magnetic rigidity (brho) to momentum.
 
-    >>> momentum_to_brho(100 * ureg.MeV_c).to('tesla * meter')
+    >>> momentum_to_brho(100 * _ureg.MeV_c).to('tesla * meter')
     <Quantity(0.33356409519815206, 'meter * tesla')>
 
     :param brho: magnetic rigidity
@@ -406,11 +437,11 @@ def brho_to_beta(brho: Q_, particle: Particule=Proton()) -> float:
     return brho * particle.charge
 
 
-def brho_to_gamma(brho: Q_, particle: Particule=Proton()) -> float:
+def brho_to_gamma(brho: _Q, particle: Particule=Proton()) -> float:
     """
     Converts magnetic rigidity (brho) to momentum.
 
-    >>> momentum_to_brho(100 * ureg.MeV_c).to('tesla * meter')
+    >>> momentum_to_brho(100 * _ureg.MeV_c).to('tesla * meter')
     <Quantity(0.33356409519815206, 'meter * tesla')>
 
     :param brho: magnetic rigidity
@@ -420,11 +451,11 @@ def brho_to_gamma(brho: Q_, particle: Particule=Proton()) -> float:
     return brho * particle.charge
 
 
-def range_to_energy(r: Q_, particle: Particule=Proton()) -> Q_:
+def range_to_energy(r: _Q, particle: Particule=Proton()) -> _Q:
     """
     Converts proton range in water to kinetic energy following IEC60601.
 
-    >>> range_to_energy(32 * ureg.cm).to('MeV')
+    >>> range_to_energy(32 * _ureg.cm).to('MeV')
     <Quantity(226.12911179644985, 'megaelectronvolt')>
 
     :param r: proton range in water
@@ -441,14 +472,14 @@ def range_to_energy(r: Q_, particle: Particule=Proton()) -> Q_:
     r = r.to('cm').magnitude
     return _np.exp(
         a * _np.log(r) ** 3 + b * _np.log(r) ** 2 + c * _np.log(r) + d
-    ) * ureg.MeV
+    ) * _ureg.MeV
 
 
-def range_to_momentum(r: Q_, particle: Particule=Proton()) -> Q_:
+def range_to_momentum(r: _Q, particle: Particule=Proton()) -> _Q:
     """
     Converts proton range in water to kinetic energy following IEC60601.
 
-    >>> range_to_energy(32 * ureg.cm).to('MeV')
+    >>> range_to_energy(32 * _ureg.cm).to('MeV')
     <Quantity(226.12911179644985, 'megaelectronvolt')>
 
     :param r: proton range in water
@@ -465,14 +496,14 @@ def range_to_momentum(r: Q_, particle: Particule=Proton()) -> Q_:
     r = r.to('cm').magnitude
     return _np.exp(
         a * _np.log(r) ** 3 + b * _np.log(r) ** 2 + c * _np.log(r) + d
-    ) * ureg.MeV
+    ) * _ureg.MeV
 
 
-def range_to_brho(r: Q_, particle: Particule=Proton()) -> Q_:
+def range_to_brho(r: _Q, particle: Particule=Proton()) -> _Q:
     """
     Converts proton range in water to kinetic energy following IEC60601.
 
-    >>> range_to_energy(32 * ureg.cm).to('MeV')
+    >>> range_to_energy(32 * _ureg.cm).to('MeV')
     <Quantity(226.12911179644985, 'megaelectronvolt')>
 
     :param r: proton range in water
@@ -489,14 +520,14 @@ def range_to_brho(r: Q_, particle: Particule=Proton()) -> Q_:
     r = r.to('cm').magnitude
     return _np.exp(
         a * _np.log(r) ** 3 + b * _np.log(r) ** 2 + c * _np.log(r) + d
-    ) * ureg.MeV
+    ) * _ureg.MeV
 
 
-def range_to_pv(r: Q_, particle: Particule=Proton()) -> Q_:
+def range_to_pv(r: _Q, particle: Particule=Proton()) -> _Q:
     """
     Converts proton range in water to kinetic energy following IEC60601.
 
-    >>> range_to_energy(32 * ureg.cm).to('MeV')
+    >>> range_to_energy(32 * _ureg.cm).to('MeV')
     <Quantity(226.12911179644985, 'megaelectronvolt')>
 
     :param r: proton range in water
@@ -513,14 +544,14 @@ def range_to_pv(r: Q_, particle: Particule=Proton()) -> Q_:
     r = r.to('cm').magnitude
     return _np.exp(
         a * _np.log(r) ** 3 + b * _np.log(r) ** 2 + c * _np.log(r) + d
-    ) * ureg.MeV
+    ) * _ureg.MeV
 
 
-def range_to_beta(r: Q_, particle: Particule=Proton()) -> Q_:
+def range_to_beta(r: _Q, particle: Particule=Proton()) -> _Q:
     """
     Converts proton range in water to kinetic energy following IEC60601.
 
-    >>> range_to_energy(32 * ureg.cm).to('MeV')
+    >>> range_to_energy(32 * _ureg.cm).to('MeV')
     <Quantity(226.12911179644985, 'megaelectronvolt')>
 
     :param r: proton range in water
@@ -537,14 +568,14 @@ def range_to_beta(r: Q_, particle: Particule=Proton()) -> Q_:
     r = r.to('cm').magnitude
     return _np.exp(
         a * _np.log(r) ** 3 + b * _np.log(r) ** 2 + c * _np.log(r) + d
-    ) * ureg.MeV
+    ) * _ureg.MeV
 
 
-def range_to_gamma(r: Q_, particle: Particule=Proton()) -> Q_:
+def range_to_gamma(r: _Q, particle: Particule=Proton()) -> _Q:
     """
     Converts proton range in water to kinetic energy following IEC60601.
 
-    >>> range_to_energy(32 * ureg.cm).to('MeV')
+    >>> range_to_energy(32 * _ureg.cm).to('MeV')
     <Quantity(226.12911179644985, 'megaelectronvolt')>
 
     :param r: proton range in water
@@ -561,10 +592,10 @@ def range_to_gamma(r: Q_, particle: Particule=Proton()) -> Q_:
     r = r.to('cm').magnitude
     return _np.exp(
         a * _np.log(r) ** 3 + b * _np.log(r) ** 2 + c * _np.log(r) + d
-    ) * ureg.MeV
+    ) * _ureg.MeV
 
 
-def beta_to_energy(beta: float, particle: Particule=Proton()) -> Q_:
+def beta_to_energy(beta: float, particle: Particule=Proton()) -> _Q:
     """
     Converts relativistic beta to kinetic energy.
 
@@ -575,10 +606,10 @@ def beta_to_energy(beta: float, particle: Particule=Proton()) -> Q_:
     :param particle: the particle type (default: proton)
     :return: kinetic energy
     """
-    return beta_to_gamma(beta) * (particle.mass * ureg.c**2) - (particle.mass * ureg.c**2)
+    return beta_to_gamma(beta) * (particle.mass * _ureg.c ** 2) - (particle.mass * _ureg.c ** 2)
 
 
-def beta_to_momentum(beta: float, particle: Particule=Proton()) -> Q_:
+def beta_to_momentum(beta: float, particle: Particule=Proton()) -> _Q:
     """
     Converts relativistic beta to kinetic energy.
 
@@ -589,10 +620,10 @@ def beta_to_momentum(beta: float, particle: Particule=Proton()) -> Q_:
     :param particle: the particle type (default: proton)
     :return: kinetic energy
     """
-    return beta_to_gamma(beta) * (particle.mass * ureg.c**2) - (particle.mass * ureg.c**2)
+    return beta_to_gamma(beta) * (particle.mass * _ureg.c ** 2) - (particle.mass * _ureg.c ** 2)
 
 
-def beta_to_brho(beta: float, particle: Particule=Proton()) -> Q_:
+def beta_to_brho(beta: float, particle: Particule=Proton()) -> _Q:
     """
     Converts relativistic beta to kinetic energy.
 
@@ -603,10 +634,10 @@ def beta_to_brho(beta: float, particle: Particule=Proton()) -> Q_:
     :param particle: the particle type (default: proton)
     :return: kinetic energy
     """
-    return beta_to_gamma(beta) * (particle.mass * ureg.c**2) - (particle.mass * ureg.c**2)
+    return beta_to_gamma(beta) * (particle.mass * _ureg.c ** 2) - (particle.mass * _ureg.c ** 2)
 
 
-def beta_to_range(beta: float, particle: Particule=Proton()) -> Q_:
+def beta_to_range(beta: float, particle: Particule=Proton()) -> _Q:
     """
     Converts relativistic beta to kinetic energy.
 
@@ -617,10 +648,10 @@ def beta_to_range(beta: float, particle: Particule=Proton()) -> Q_:
     :param particle: the particle type (default: proton)
     :return: kinetic energy
     """
-    return beta_to_gamma(beta) * (particle.mass * ureg.c**2) - (particle.mass * ureg.c**2)
+    return beta_to_gamma(beta) * (particle.mass * _ureg.c ** 2) - (particle.mass * _ureg.c ** 2)
 
 
-def beta_to_pv(beta: float, particle: Particule=Proton()) -> Q_:
+def beta_to_pv(beta: float, particle: Particule=Proton()) -> _Q:
     """
     Converts relativistic beta to kinetic energy.
 
@@ -631,7 +662,7 @@ def beta_to_pv(beta: float, particle: Particule=Proton()) -> Q_:
     :param particle: the particle type (default: proton)
     :return: kinetic energy
     """
-    return beta_to_gamma(beta) * (particle.mass * ureg.c**2) - (particle.mass * ureg.c**2)
+    return beta_to_gamma(beta) * (particle.mass * _ureg.c ** 2) - (particle.mass * _ureg.c ** 2)
 
 
 def beta_to_gamma(beta: float) -> float:
@@ -647,7 +678,7 @@ def beta_to_gamma(beta: float) -> float:
     return 1/(_np.sqrt(1 - beta ** 2))
 
 
-def gamma_to_energy(gamma: float, particle: Particule=Proton()) -> Q_:
+def gamma_to_energy(gamma: float, particle: Particule=Proton()) -> _Q:
     """
     Converts relativistic gamma to kinetic energy.
 
@@ -658,10 +689,10 @@ def gamma_to_energy(gamma: float, particle: Particule=Proton()) -> Q_:
     :param particle: the particle type (default: proton)
     :return: kinetic energy
     """
-    return gamma * (particle.mass * ureg.c**2) - (particle.mass * ureg.c**2)
+    return gamma * (particle.mass * _ureg.c ** 2) - (particle.mass * _ureg.c ** 2)
 
 
-def gamma_to_momentum(gamma: float, particle: Particule=Proton()) -> Q_:
+def gamma_to_momentum(gamma: float, particle: Particule=Proton()) -> _Q:
     """
     Converts relativistic gamma to kinetic energy.
 
@@ -672,10 +703,10 @@ def gamma_to_momentum(gamma: float, particle: Particule=Proton()) -> Q_:
     :param particle: the particle type (default: proton)
     :return: kinetic energy
     """
-    return gamma * (particle.mass * ureg.c**2) - (particle.mass * ureg.c**2)
+    return gamma * (particle.mass * _ureg.c ** 2) - (particle.mass * _ureg.c ** 2)
 
 
-def gamma_to_brho(gamma: float, particle: Particule=Proton()) -> Q_:
+def gamma_to_brho(gamma: float, particle: Particule=Proton()) -> _Q:
     """
     Converts relativistic gamma to kinetic energy.
 
@@ -686,10 +717,10 @@ def gamma_to_brho(gamma: float, particle: Particule=Proton()) -> Q_:
     :param particle: the particle type (default: proton)
     :return: kinetic energy
     """
-    return gamma * (particle.mass * ureg.c**2) - (particle.mass * ureg.c**2)
+    return gamma * (particle.mass * _ureg.c ** 2) - (particle.mass * _ureg.c ** 2)
 
 
-def gamma_to_range(gamma: float, particle: Particule=Proton()) -> Q_:
+def gamma_to_range(gamma: float, particle: Particule=Proton()) -> _Q:
     """
     Converts relativistic gamma to kinetic energy.
 
@@ -700,10 +731,10 @@ def gamma_to_range(gamma: float, particle: Particule=Proton()) -> Q_:
     :param particle: the particle type (default: proton)
     :return: kinetic energy
     """
-    return gamma * (particle.mass * ureg.c**2) - (particle.mass * ureg.c**2)
+    return gamma * (particle.mass * _ureg.c ** 2) - (particle.mass * _ureg.c ** 2)
 
 
-def gamma_to_pv(gamma: float, particle: Particule=Proton()) -> Q_:
+def gamma_to_pv(gamma: float, particle: Particule=Proton()) -> _Q:
     """
     Converts relativistic gamma to kinetic energy.
 
@@ -714,7 +745,7 @@ def gamma_to_pv(gamma: float, particle: Particule=Proton()) -> Q_:
     :param particle: the particle type (default: proton)
     :return: kinetic energy
     """
-    return gamma * (particle.mass * ureg.c**2) - (particle.mass * ureg.c**2)
+    return gamma * (particle.mass * _ureg.c ** 2) - (particle.mass * _ureg.c ** 2)
 
 
 def gamma_to_beta(gamma: float, particle: Particule=Proton()) -> float:
@@ -728,4 +759,4 @@ def gamma_to_beta(gamma: float, particle: Particule=Proton()) -> float:
     :param particle: the particle type (default: proton)
     :return: kinetic energy
     """
-    return gamma * (particle.mass * ureg.c**2) - (particle.mass * ureg.c**2)
+    return gamma * (particle.mass * _ureg.c ** 2) - (particle.mass * _ureg.c ** 2)

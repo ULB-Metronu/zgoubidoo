@@ -1,32 +1,35 @@
-from .commands import Command, ZgoubidooException
+"""Zgoubidoo's interfaces to spin tracking commands.
+
+More details here.
+"""
+from .commands import Command as _Command
+from .commands import ZgoubidooException as _ZgoubidooException
 
 
-class SpinRotation(Command):
+class SpinRotation(_Command):
     """Spin rotation."""
     KEYWORD = 'SPINR'
 
 
-class Spnprnl(Command):
+class Spnprnl(_Command):
     """Store spin coordinates into file FNAME."""
     KEYWORD = 'SPNPRNL'
 
 
-class SpinStore(Command):
+class SpinStore(_Command):
     """Store spin coordinates every IP other pass at labeled elements."""
     KEYWORD = 'SPNSTORE'
 
 
-class SpinPrint(Command):
+class SpnPrt(_Command):
     """Print spin coordinates."""
-    KEYWORD = 'SPNPRT'
 
 
-spnprt = SpinPrint
+SpinPrint = SpnPrt
 
 
-class SpinTracking(Command):
+class SpnTrk(_Command):
     """Spin tracking."""
-    KEYWORD = 'SPNTRK' # Keyword for the Zgoubi command
 
     PARAMETERS = {
         'KSO': (1, ''),
@@ -35,7 +38,7 @@ class SpinTracking(Command):
 
     def __str__(self) -> str:
         if self.KSO not in (1, 2, 3, 4, 4.1, 5):
-            raise ZgoubidooException("KPOS must be in (0, 1, 2, 3, 4, 4.1, 5).")
+            raise _ZgoubidooException("KPOS must be in (0, 1, 2, 3, 4, 4.1, 5).")
         return f"""
         {super().__str__().rstrip()}
         {self.KSO:d}
@@ -43,4 +46,4 @@ class SpinTracking(Command):
         """
 
 
-spntrk = SpinTracking
+SpinTracking = SpnTrk

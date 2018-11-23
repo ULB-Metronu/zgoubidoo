@@ -2,19 +2,18 @@
 
 More details here.
 """
-from .commands import Command
+from .commands import Command as _Command
 
 
-class Cavite(Command):
+class Cavite(_Command):
     """Accelerating cavity."""
-    KEYWORD = 'CAVITE'
 
 
 # Alias
 Cavity = Cavite
 
 
-class EBMult(Command):
+class EBMult(_Command):
     """Electro-magnetic multipole."""
     KEYWORD = 'EBMULT'
 
@@ -23,31 +22,29 @@ class EBMult(Command):
 EBMultipole = EBMult
 
 
-class EL2Tub(Command):
+class EL2Tub(_Command):
     """Two-tube electrostatic lens."""
     KEYWORD = 'EL2TUB'
 
 
-class ELMir(Command):
+class ELMir(_Command):
     """Electrostatic N-electrode mirror/lens,straight slits."""
     KEYWORD = 'ELMIR'
 
 
-class ELMirCircular(Command):
+class ELMirCircular(_Command):
     """Electrostatic N-electrode mirror/lens, circular slits."""
     KEYWORD = 'ELMIRC'
 
 
-class ELMulti(Command):
+class ELMulti(_Command):
     """Electric multipole."""
     KEYWORD = 'ELMULT'
 
 
-class ELRevol(Command):
+class ELRevol(_Command):
     """1-D uniform mesh electric field map."""
-    KEYWORD = 'ELREVOL'
 
 
-class Unipot(Command):
+class Unipot(_Command):
     """Unipotential cylindrical electrostatic lens."""
-    KEYWORD = 'UNIPOT'

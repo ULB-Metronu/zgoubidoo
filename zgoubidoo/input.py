@@ -4,7 +4,9 @@ from functools import partial
 import tempfile
 import os
 from functools import reduce
-from . import ureg, Q_
+import pandas as _pd
+from . import ureg as _ureg
+from . import _Q
 from . import commands
 from .beam import Beam
 import zgoubidoo.commands
@@ -43,7 +45,7 @@ class Input:
         self._line: List[commands.Command] = line
         self._paths = list()
         self._inputs = list()
-        self._optical_length = 0 * ureg.m
+        self._optical_length = 0 * _ureg.m
 
     def __str__(self) -> str:
         return self.build(self._name, self._line)
@@ -57,6 +59,7 @@ class Input:
         :param filename: the Zgoubi input file name (default: zgoubi.dat)
         :return: NoReturn
         """
+        self._paths = list()
         if beam is None:
             self._paths.append(path)
             self.write(self, filename, path)
@@ -95,6 +98,10 @@ class Input:
 
     def __iadd__(self, o) -> Input:
         self._line.append(o)
+        return self
+
+    def __isub__(self, other) -> Input:
+        self._line = [c for c in self._line if c != other]
         return self
 
     def __getitem__(self, items) -> Union[zgoubidoo.commands.Command, Input]:
@@ -154,6 +161,11 @@ class Input:
             v(self)
         return True
 
+    def update(self, parameters: _pd.DataFrame) -> Input:
+        for i, r in parameters.iterrows():
+            setattr(self[r['element_id'] - 1], r['parameter'], r['final'])
+        return self
+
     def get_labels(self, label="LABEL1") -> List[str]:
         return [getattr(e, label, '') for e in self._line]
 
@@ -182,10 +194,10 @@ class Input:
         return self._line
 
     @property
-    def optical_length(self) -> Optional[Q_]:
+    def optical_length(self) -> Optional[_Q]:
         return self._optical_length
 
-    def increase_optical_length(self, l: Q_) -> NoReturn:
+    def increase_optical_length(self, l: _Q) -> NoReturn:
         self._optical_length += l
 
     @staticmethod

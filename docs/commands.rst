@@ -4,6 +4,7 @@ Zgoubi commands
 .. automodule:: zgoubidoo.commands
 
 .. contents:: :local:
+    :depth: 1
 
 Zgoubidoo's class hierarchy and bases classes for new commands
 --------------------------------------------------------------
@@ -14,46 +15,48 @@ Say something here
 Control-flow, calculation and miscellanous commands
 ---------------------------------------------------
 
-.. automodule:: zgoubidoo.commands.commands
-    :members:
+.. automodapi:: zgoubidoo.commands.commands
+    :no-heading:
 
 Particule definition commands
 -----------------------------
 
-.. automodule:: zgoubidoo.commands.particules
-    :members:
+.. automodapi:: zgoubidoo.commands.particules
+    :no-heading:
 
 Objet (bunch) definition commands
 ---------------------------------
 
-.. automodule:: zgoubidoo.commands.objet
-    :members:
+.. automodapi:: zgoubidoo.commands.objet
+    :no-heading:
 
-.. automodule:: zgoubidoo.commands.mcobjet
-    :members:
+Monte-Carlo Objet (bunch) definition commands
+---------------------------------------------
+.. automodapi:: zgoubidoo.commands.mcobjet
+    :no-heading:
 
 
 Magnetic elements
 -----------------
 
-.. automodule:: zgoubidoo.commands.magnetique
-    :members:
+.. automodapi:: zgoubidoo.commands.magnetique
+    :no-heading:
 
 Electric elements
 -----------------
 
-.. automodule:: zgoubidoo.commands.electrique
-    :members:
+.. automodapi:: zgoubidoo.commands.electrique
+    :no-heading:
 
 
 Field-map elements
 ------------------
 
-
+.. automodapi:: zgoubidoo.commands.fieldmaps
+    :no-heading:
 
 Spin tracking commands
 ----------------------
 
 .. automodapi:: zgoubidoo.commands.spin
     :no-heading:
-    :skip: KEYWORD

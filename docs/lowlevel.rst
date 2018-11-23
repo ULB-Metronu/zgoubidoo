@@ -3,11 +3,8 @@ Using the Zgoubidoo low-level interface
 
 Test
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-   twiss
+.. contents:: :local:
+    :depth: 1
 
 Reading Zgoubi output files
 ---------------------------

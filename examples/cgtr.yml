@@ -1,0 +1,5 @@
+--- A quadrupole magnet
+- quadrupole:
+  - q1
+  -
+    XL: 666.333 * cm

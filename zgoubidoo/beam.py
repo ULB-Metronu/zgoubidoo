@@ -3,7 +3,7 @@ from typing import Optional, Union, NoReturn
 import os
 import numpy as np
 import pandas as pd
-from . import Q_
+from . import _Q
 from zgoubidoo.commands import Particule
 import zgoubidoo.physics
 
@@ -23,14 +23,14 @@ class Beam:
     def __init__(self,
                  distribution: Optional[pd.DataFrame]=None,
                  particle: Particule=zgoubidoo.commands.Proton,
-                 kinematic: Optional[Union[zgoubidoo.physics.Kinematic, float, Q_]]=None,
+                 kinematic: Optional[Union[zgoubidoo.physics.Kinematic, float, _Q]]=None,
                  slices: int=1,
                  *args,
                  **kwargs):
         self._particle: zgoubidoo.commands.Particule = particle
         if not isinstance(kinematic, zgoubidoo.physics.Kinematic):
             kinematic = zgoubidoo.physics.Kinematic(kinematic)
-        self._kinematic: Union[zgoubidoo.physics.Kinematic, float, Q_] = kinematic
+        self._kinematic: Union[zgoubidoo.physics.Kinematic, float, _Q] = kinematic
         self._objet: zgoubidoo.commands.Objet = zgoubidoo.commands.Objet2
         self._slices: int = slices
         self._distribution = None

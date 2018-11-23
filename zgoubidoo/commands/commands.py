@@ -2,13 +2,17 @@
 Commands controlling Zgoubi's control flow, geometry, tracking options, etc.
 
 """
+from __future__ import annotations
 from typing import NoReturn, Optional, Any, Tuple, Dict
 import uuid
-from pint import UndefinedUnitError
-from .patchable import Patchable
-from .. import ureg, Q_
-from ..frame import Frame
+import pandas as _pd
+from pint import UndefinedUnitError as _UndefinedUnitError
+from .patchable import Patchable as _Patchable
+from .. import ureg as _ureg
+from .. import _Q
+from ..frame import Frame as _Frame
 from ..units import _radian, _degree, _m, _cm
+import zgoubidoo
 
 ZGOUBI_LABEL_LENGTH: int = 10  # Used to be 8 on older versions
 
@@ -26,7 +30,6 @@ class MetaCommand(type):
     Be careful.
     """
     PARAMETERS = dict()
-    __pdoc__ = dict()
 
     def __new__(mcs, name: str, bases: Tuple[type, ...], dct: Dict[str, Any]):
         if not dct.get('__pdoc__'):
@@ -65,6 +68,7 @@ class Command(metaclass=MetaCommand):
     _PROPERTIES = [
         '_attributes',
         '_output',
+        '_results',
         '_entry',
         '_entry_patched',
         '_exit',
@@ -74,6 +78,7 @@ class Command(metaclass=MetaCommand):
 
     def __init__(self, label1: str='', label2: str='', *params, **kwargs) -> NoReturn:
         self._output = list()
+        self._results = None
         self._attributes = {}
         for p in (Command.PARAMETERS, self.PARAMETERS,) + params + (
                 {
@@ -91,14 +96,14 @@ class Command(metaclass=MetaCommand):
             attr = self._attributes[a]
         else:
             attr = self._attributes[a][0]
-        if not isinstance(attr, str) and not isinstance(attr, Q_):
+        if not isinstance(attr, str) and not isinstance(attr, _Q):
             try:
-                _ = Q_(attr)
+                _ = _Q(attr)
                 if _.dimensionless:
                     return _.magnitude
                 else:
                     return _
-            except (TypeError, ValueError, UndefinedUnitError):
+            except (TypeError, ValueError, _UndefinedUnitError):
                 return attr
         else:
             return attr
@@ -115,10 +120,10 @@ class Command(metaclass=MetaCommand):
                 except (TypeError, IndexError):
                     default = self._attributes[k]
             try:
-                if default is not None and ureg.Quantity(v).dimensionality != ureg.Quantity(default).dimensionality:
-                    raise ZgoubidooException(f"Invalid dimension ({ureg.Quantity(v).dimensionality}"
-                                            f" instead of {ureg.Quantity(default).dimensionality}) for parameter {k}.")
-            except (ValueError, TypeError, UndefinedUnitError):
+                if default is not None and _ureg.Quantity(v).dimensionality != _ureg.Quantity(default).dimensionality:
+                    raise ZgoubidooException(f"Invalid dimension ({_ureg.Quantity(v).dimensionality}"
+                                            f" instead of {_ureg.Quantity(default).dimensionality}) for parameter {k}.")
+            except (ValueError, TypeError, _UndefinedUnitError):
                 pass
             self._attributes[k] = v
 
@@ -150,17 +155,37 @@ class Command(metaclass=MetaCommand):
         """
         return self._output
 
-    def attach_output(self, output: str) -> NoReturn:
+    @property
+    def results(self):
+        """
+        Provides the outputs associated with a command after each successive Zgoubi run.
+
+        Returns:
+            the output, None if no output has been previously attached.
+        """
+        return self._results
+
+    def attach_output(self, output: str, zgoubi_input: zgoubidoo.Input) -> NoReturn:
         """
         Attach the ouput that an command has generated during a Zgoubi run.
 
         Args:
             output: the output from a Zgoubi run to be attached to the command.
+            zgoubi_input: xxxx.
         """
         self._output.append(output)
-        self.process_output(output)
+        self.process_output(output, zgoubi_input)
 
-    def process_output(self, output: str) -> Optional[bool]:
+    def process_output(self, output: str, zgoubi_input: zgoubidoo.Input) -> Optional[bool]:
+        """
+        
+        Args:
+            output:
+            zgoubi_input:
+
+        Returns:
+
+        """
         pass
 
 
@@ -202,10 +227,10 @@ class Chambre(Command):
                   'print information on stopped particles'),
         'IFORM': (1, '1 (rectangular aperture), 2 (elliptical aperture)'),
         'J': (0, '0 (default) or 1'),
-        'C1': (100 * ureg.cm, 'If J=0, Y opening, if J=1, inner Y opening'),
-        'C2': (100 * ureg.cm, 'If J=0, Z opening, if J=1, outer Y opening'),
-        'C3': (0 * ureg.cm, 'If J=0, Y center, if J=1, inner Z opening'),
-        'C4': (0 * ureg.cm, 'If J=0, Z center, if J=1, outer Z opening'),
+        'C1': (100 * _ureg.cm, 'If J=0, Y opening, if J=1, inner Y opening'),
+        'C2': (100 * _ureg.cm, 'If J=0, Z opening, if J=1, outer Y opening'),
+        'C3': (0 * _ureg.cm, 'If J=0, Y center, if J=1, inner Z opening'),
+        'C4': (0 * _ureg.cm, 'If J=0, Z center, if J=1, outer Z opening'),
     }
 
 
@@ -214,7 +239,7 @@ Chamber = Chambre
 Chambr = Chambre
 
 
-class ChangRef(Command, Patchable):
+class ChangRef(Command, _Patchable):
     """Transformation to a new reference frame.
 
     Supports only Zgoubi "new style" ChangeRef. To recover the "old style", do XS, YS, ZR.
@@ -228,18 +253,18 @@ class ChangRef(Command, Patchable):
         {super().__str__().rstrip()}
         """
         for t in s.TRANSFORMATIONS:
-            if t[1].dimensionality == ureg.cm.dimensionality:
+            if t[1].dimensionality == _ureg.cm.dimensionality:
                 c += f"{t[0]} {_cm(t[1])} "
-            elif t[1].dimensionality == ureg.radian.dimensionality:
+            elif t[1].dimensionality == _ureg.radian.dimensionality:
                 c += f"{t[0]} {_degree(t[1])} "
             else:
                 raise ZgoubidooException("Incorrect dimensionality in CHANGEREF.")
         return c
 
     @property
-    def entry_patched(self) -> Frame:
+    def entry_patched(self) -> _Frame:
         if self._entry_patched is None:
-            self._entry_patched = Frame(self.entry)
+            self._entry_patched = _Frame(self.entry)
             for t in self.TRANSFORMATIONS:
                 if len(t) > 2:
                     raise Exception("Invalid transformation.")
@@ -262,10 +287,10 @@ class Collimateur(Command):
         'IA': (2, 'Element active or not (0 - inactive, 1 - active, 2 - active and prints information.'),
         'IFORM': (1, 'Aperture shape.'),
         'J': (0, 'Description of the aperture coordinates system.'),
-        'C1': (0 * ureg.cm, 'Half opening (Y).'),
-        'C2': (0 * ureg.cm, 'Half opening (Z).'),
-        'C3': (0 * ureg.cm, 'Center of the aperture (Y).'),
-        'C4': (0 * ureg.cm, 'Center of the aperture (Z).'),
+        'C1': (0 * _ureg.cm, 'Half opening (Y).'),
+        'C2': (0 * _ureg.cm, 'Half opening (Z).'),
+        'C3': (0 * _ureg.cm, 'Center of the aperture (Y).'),
+        'C4': (0 * _ureg.cm, 'Center of the aperture (Z).'),
     }
 
     def __str__(self):
@@ -404,6 +429,48 @@ class Fit(Command):
         """)
         return ''.join(map(lambda x: x.rstrip(), command))
 
+    def process_output(self, output: str, zgoubi_input: zgoubidoo.Input) -> Optional[bool]:
+        def find_parameter_by_id(command: int, parameter: int) -> str:
+            print(zgoubi_input[command].__class__)
+            for k, v in zgoubi_input[command - 1].__class__.PARAMETERS.items():
+                if v[2] == parameter:
+                    break
+            return k
+
+        def find_dimension_by_id(command: int, parameter: int):
+            for k, v in zgoubi_input[command - 1].__class__.PARAMETERS.items():
+                if v[2] == parameter:
+                    break
+            return zgoubidoo._Q(v[0]).units
+
+        grab: bool = False
+        data: list = []
+        for l in self.output:
+            if l.strip().startswith('LMNT'):
+                grab = True
+                continue
+            if l.strip().startswith('STATUS OF'):
+                grab = False
+            if grab:
+                values = l.split()
+                d = {
+                        'element_id': int(values[0]),
+                        'variable_id': int(values[1]),
+                        'parameter_id': int(values[2]),
+                        'parameter': find_parameter_by_id(int(values[0]), int(values[2])),
+                        'min': float(values[3]),
+                        'initial': float(values[4]),
+                        'final': float(values[5]) * find_dimension_by_id(int(values[0]), int(values[2])),
+                        'max': float(values[6]),
+                        'stepsize': float(values[7]),
+                }
+                if len(values) >= 9:
+                    d['name'] = values[8]
+                    d['label1'] = values[9]
+                    d['label2'] = values[10]
+                data.append(d)
+        self._results = _pd.DataFrame(data)
+
 
 class Fit2(Fit):
     """Fitting procedure."""
@@ -414,7 +481,7 @@ class Focale(Command):
     KEYWORD = 'FOCALE'
 
     PARAMETERS = {
-        'XL': (0.0 * ureg.centimeter, 'Distance from the location of the keyword.'),
+        'XL': (0.0 * _ureg.centimeter, 'Distance from the location of the keyword.'),
     }
 
     def __str__(self):
@@ -429,7 +496,7 @@ class FocaleZ(Command):
     KEYWORD = 'FOCALEZ'
 
     PARAMETERS = {
-        'XL': (0.0 * ureg.centimeter, 'Distance from the location of the keyword.'),
+        'XL': (0.0 * _ureg.centimeter, 'Distance from the location of the keyword.'),
     }
 
     def __str__(self):
@@ -440,7 +507,12 @@ class FocaleZ(Command):
 
 
 class GasScattering(Command):
-    """Gas scattering."""
+    """Gas scattering.
+
+    Modification of particle momentum and velocity vector, performed at each integration step, under the effect of
+    scattering by residual gas.
+    **Implementation is to be completed in Zgoubi**.
+    """
     KEYWORD = 'GASCAT'
 
     PARAMETERS = {
@@ -551,14 +623,22 @@ class MCDesintegration(Command):
 class Optics(Command):
     """Write out optical functions.
 
-    OPTICS normally appears next to object definition, it normally works in conjunction with element label(s). OPTICS causes the transport and write out, in zgoubi.res, of the 6×6 beam matrix, following options KOPT and ’label ’, below.
+    OPTICS normally appears next to object definition, it normally works in conjunction with element label(s).
+    OPTICS causes the transport and write out, in zgoubi.res, of the 6×6 beam matrix, following options KOPT and
+    ’label ’, below.
+
     IF KOPT=0 : Off
     IF KOPT=1 : Will transport the optical functions with initial values as specified in OBJET, option KOBJ=5.01.
-    Note : The initial values in OBJET[KOBJ=5.01] may be the periodic ones, as obtained, for instance, from a first run using MATRIX[IFOC=11].
+
+    *Note*: The initial values in OBJET[KOBJ=5.01] may be the periodic ones, as obtained, for instance, from a first
+    run using MATRIX[IFOC=11].
+
     A second argument, ’label ’, allows
-    - if label = all : printing out, into zgoubi.res, after all keywords of the zgoubi.dat structure,
-    - otherwise, printing out at all keyword featuring LABEL ≡ label as a first label (see section 4.6.5,
-    page 162, regarding the labelling of keywords).
+
+        - if label = all : printing out, into zgoubi.res, after all keywords of the zgoubi.dat structure,
+        - otherwise, printing out at all keyword featuring LABEL ≡ label as a first label (see section 4.6.5,
+          page 162, regarding the labelling of keywords).
+
     A third argument, IMP=1, will cause saving of the transported beta functions into file zgoubi.OPTICS.out.
     """
 
@@ -596,7 +676,31 @@ class Rebelote(Command):
 
 
 class Reset(Command):
-    """Reset counters and flags."""
+    """Reset counters and flags.
+
+    .. rubric:: Zgoubi manual description
+
+    Piling up problems in zgoubi input data file is allowed, with normally no particular precaution, except that each
+    new problem must begin with a new object definition (using MCOBJET, OBJET). Nevertheless, when calling upon certain
+    keywords, then, flags, counters or other integrating procedures may be involved. It may therefore be necessary to
+    reset them. This is the purpose of RESET which normally appears right before the object definition and causes each
+    problem to be treated as a new and independent one.
+
+    The keywords or procedures of concern and the effect of RESET are the following:
+
+        - **CHAMBR**: number of stopped particles reset to 0 ; CHAMBR option switched off
+        - **COLLIMA**: number of stopped particles reset to 0
+        - **HISTO**: histograms are emptied
+        - **INTEG**: number of particles out of field map boundaries reset to 0
+        - **MCDESINT**: decay in flight option switched off, counter reset
+        - **PICKUPS**: pick-up signal calculation switched off
+        - **SCALING**: scaling functions disabled
+        - **SPNTRK**: spin tracking option switched off
+
+    .. rubric:: Zgoubidoo usage and example
+
+    >>> Reset()
+    """
 
 
 class Scaling(Command):
@@ -609,7 +713,20 @@ class Separa(Command):
 
 
 class SynchrotronRadiationLosses(Command):
-    """Synchrotron radiation loss."""
+    """Synchrotron radiation loss.
+
+    The keyword SRLOSS allows activating or stopping (option KSR = 1, 0 respectively) stepwise tracking of energy loss
+    by stochastic emission of photons in magnetic fields, following the method described in section 3.1.
+
+    It can be chosen to allow radiation in the sole dipole fields, or in all types of fields regardless of their
+    multipole composition. It can also be chosen to allow for the radiation induced transverse kick.
+
+    SRLOSS must be preceded by PARTICUL for defining mass and charge values as they enter in the defini- tion of SR
+    parameters.
+
+    Statistics on SR parameters are computed and updated while tracking, the results of which can be obtained by means
+    of the keyword SRPRNT.
+    """
     KEYWORD = 'SRLOSS'
 
 
@@ -637,12 +754,12 @@ class TranslationRotation(Command):
     KEYWORD = 'TRAROT'
 
     PARAMETERS = {
-        'TX': (0 * ureg.m, 'X axis translation'),
-        'TY': (0 * ureg.m, 'Y axis translation'),
-        'TZ': (0 * ureg.m, 'Z axis translation'),
-        'RX': (0 * ureg.degree, 'X axis rotation'),
-        'RY': (0 * ureg.degree, 'Y axis rotation'),
-        'RZ': (0 * ureg.degree, 'Z axis rotation'),
+        'TX': (0 * _ureg.m, 'X axis translation'),
+        'TY': (0 * _ureg.m, 'Y axis translation'),
+        'TZ': (0 * _ureg.m, 'Z axis translation'),
+        'RX': (0 * _ureg.degree, 'X axis rotation'),
+        'RY': (0 * _ureg.degree, 'Y axis rotation'),
+        'RZ': (0 * _ureg.degree, 'Z axis rotation'),
     }
 
     def __str__(self):
@@ -675,12 +792,12 @@ class WienFilter(Command):
     KEYWORD = 'WIENFILT'
 
 
-class Ymy(Command, Patchable):
+class Ymy(Command, _Patchable):
     """Reverse signs of Y and Z reference axes, equivalent to a 180 degree rotation around the X axis."""
 
     @property
-    def entry_patched(self) -> Frame:
+    def entry_patched(self) -> _Frame:
         if self._entry_patched is None:
-            self._entry_patched = Frame(self.entry)
-            self._entry_patched.rotate_x(180 * ureg.degree)
+            self._entry_patched = _Frame(self.entry)
+            self._entry_patched.rotate_x(180 * _ureg.degree)
         return self._entry_patched

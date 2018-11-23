@@ -1,19 +1,17 @@
-spntrk
+SpnTrk
 ======
 
 .. currentmodule:: zgoubidoo.commands.spin
 
-.. autoclass:: spntrk
+.. autoclass:: SpnTrk
    :show-inheritance:
 
    .. rubric:: Attributes Summary
 
    .. autosummary::
 
-      ~spntrk.KEYWORD
-      ~spntrk.PARAMETERS
+      ~SpnTrk.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
-   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

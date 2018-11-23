@@ -2,6 +2,7 @@
 
 """
 from typing import List, Mapping, Iterable
+from functools import partial as _partial
 import logging
 import shutil
 import os
@@ -122,7 +123,7 @@ class Zgoubi:
         self._results = list()
         pool = ThreadPool(n)
         if len(zgoubi_input.paths) == 0:
-            zgoubi_input()
+            raise ZgoubiException("The input must be written before calling Zgoubi.")
         for p in zgoubi_input.paths:
             try:
                 path = p.name
@@ -160,7 +161,7 @@ class Zgoubi:
         # Extract element by element output
         result = open(os.path.join(path, Zgoubi.ZGOUBI_RES_FILE), 'r').read().split('\n')
         for e in zgoubi_input.line:
-            list(map(e.attach_output, find_labeled_output(result, e.LABEL1)))
+            list(map(_partial(e.attach_output, zgoubi_input=zgoubi_input), find_labeled_output(result, e.LABEL1)))
 
         # Extract CPU time
         cputime = -1.0

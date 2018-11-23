@@ -7,3 +7,4 @@ pint
 plotly
 scipy
 numpy-stl
+pyyaml

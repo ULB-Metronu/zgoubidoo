@@ -2,16 +2,16 @@
 
 More details here.
 """
-from .commands import Command
-from .. import ureg
+from .commands import Command as _Command
+from .. import ureg as _ureg
 
 
-class Particule(Command):
+class Particule(_Command):
     """Particle characteristics."""
     KEYWORD = 'PARTICUL'
     PARAMETERS = {
-        'M': (0 * ureg.MeV_c2, 'Mass of the particle.'),
-        'Q': (0 * ureg.coulomb, 'Charge of the particle.'),
+        'M': (0 * _ureg.MeV_c2, 'Mass of the particle.'),
+        'Q': (0 * _ureg.coulomb, 'Charge of the particle.'),
         'G': (0, 'Factor'),
         'tau': (0, 'Lifetime of the particle.'),
     }
@@ -43,8 +43,8 @@ class Particule(Command):
 class Electron(Particule):
     """An electron particle."""
     PARAMETERS = {
-        'M': (0.51099892 * ureg.MeV_c2, 'Mass of the particle.'),
-        'Q': (-1.60217653e-19 * ureg.coulomb, 'Charge of the particle.'),
+        'M': (0.51099892 * _ureg.MeV_c2, 'Mass of the particle.'),
+        'Q': (-1.60217653e-19 * _ureg.coulomb, 'Charge of the particle.'),
         'G': (-2.0023193043622 - 2) / 2,
     }
 
@@ -52,8 +52,8 @@ class Electron(Particule):
 class Positron(Particule):
     """A positron particle."""
     PARAMETERS = {
-        'M': (0.51099892 * ureg.MeV_c2, 'Mass of the particle.'),
-        'Q': (1.60217653e-19 * ureg.coulomb, 'Charge of the particle.'),
+        'M': (0.51099892 * _ureg.MeV_c2, 'Mass of the particle.'),
+        'Q': (1.60217653e-19 * _ureg.coulomb, 'Charge of the particle.'),
         'G': (-2.0023193043622 - 2) / 2,
     }
 
@@ -61,8 +61,8 @@ class Positron(Particule):
 class Muon(Particule):
     """A muon particle."""
     PARAMETERS = {
-        'M': (105.6583745 * ureg.MeV_c2, 'Mass of the particle.'),
-        'Q': (-1.60217653e-1 * ureg.coulomb, 'Charge of the particle.'),
+        'M': (105.6583745 * _ureg.MeV_c2, 'Mass of the particle.'),
+        'Q': (-1.60217653e-1 * _ureg.coulomb, 'Charge of the particle.'),
         'G': (-2.0023318418 - 2) / 2,
         'tau': 2.197029e-6,
     }
@@ -71,8 +71,8 @@ class Muon(Particule):
 class AntiMuon(Particule):
     """An anti-muon particle."""
     PARAMETERS = {
-        'M': (105.6583745 * ureg.MeV_c2, 'Mass of the particle.'),
-        'Q': (1.60217653e-19 * ureg.coulomb, 'Charge of the particle.'),
+        'M': (105.6583745 * _ureg.MeV_c2, 'Mass of the particle.'),
+        'Q': (1.60217653e-19 * _ureg.coulomb, 'Charge of the particle.'),
         'G': (-2.0023318418 - 2) / 2,
         'tau': 2.197029e-6,
     }
@@ -95,8 +95,8 @@ class ImmortalAntiMuon(Muon):
 class Pion(Particule):
     """A pion particle."""
     PARAMETERS = {
-        'M': (139.57018 * ureg.MeV_c2, 'Mass of the particle.'),
-        'Q': (1.60217653e-19 * ureg.coulomb, 'Charge of the particle.'),
+        'M': (139.57018 * _ureg.MeV_c2, 'Mass of the particle.'),
+        'Q': (1.60217653e-19 * _ureg.coulomb, 'Charge of the particle.'),
         'G': 0,
         'tau': (2.6033e-8, 'Half-life of the particle.'),
     }
@@ -105,8 +105,8 @@ class Pion(Particule):
 class Proton(Particule):
     """A proton particle."""
     PARAMETERS = {
-        'M': (938.27203 * ureg.MeV_c2, 'Mass of the particle.'),
-        'Q': (1.602176487e-19 * ureg.coulomb, 'Charge of the particle.'),
+        'M': (938.27203 * _ureg.MeV_c2, 'Mass of the particle.'),
+        'Q': (1.602176487e-19 * _ureg.coulomb, 'Charge of the particle.'),
         'G': (5.585694701 - 2) / 2,
     }
 
@@ -114,8 +114,8 @@ class Proton(Particule):
 class AntiProton(Particule):
     """An anti-proton particle."""
     PARAMETERS = {
-        'M': (938.27203 * ureg.MeV_c2, 'Mass of the particle.'),
-        'Q': (-1.602176487e-19 * ureg.coulomb, 'Charge of the particle.'),
+        'M': (938.27203 * _ureg.MeV_c2, 'Mass of the particle.'),
+        'Q': (-1.602176487e-19 * _ureg.coulomb, 'Charge of the particle.'),
         'G': (5.585694701 - 2) / 2,
     }
 

@@ -1,37 +1,38 @@
 from typing import Union, Callable
-from . import ureg, Q_
+from . import ureg as _ureg
+from . import _Q
 
 
 def parse_quantity(f: Callable):
-    def parse_arg(q: Union[str, Q_]):
+    def parse_arg(q: Union[str, _Q]):
         if isinstance(q, str):
-            q = Q_(q)
+            q = _Q(q)
         return f(q)
     return parse_arg
 
 
 @parse_quantity
-def _m(q: Union[str, Q_]) -> float:
+def _m(q: Union[str, _Q]) -> float:
     """
     Convert a quantity of dimension [LENGTH] to meters.
 
-    >>> _m(1 * ureg.km)
+    >>> _m(1 * _ureg.km)
     1000.0
 
     :param q: the quantity of dimension [LENGTH]
     :return: the magnitude in meters.
     """
     if isinstance(q, str):
-        q = Q_(q)
+        q = _Q(q)
     return float(q.to('m').magnitude)
 
 
 @parse_quantity
-def _cm(q: Union[str, Q_]) -> float:
+def _cm(q: Union[str, _Q]) -> float:
     """
     Convert a quantity of dimension [LENGTH] to centimeters.
 
-    >>> _cm(1 * ureg.km)
+    >>> _cm(1 * _ureg.km)
     100000.0
 
     :param q: the quantity of dimension [LENGTH]
@@ -41,11 +42,11 @@ def _cm(q: Union[str, Q_]) -> float:
 
 
 @parse_quantity
-def _mm(q: Union[str, Q_]) -> float:
+def _mm(q: Union[str, _Q]) -> float:
     """
     Convert a quantity of dimension [LENGTH] to millimeters.
 
-    >>> _mm(1 * ureg.km)
+    >>> _mm(1 * _ureg.km)
     1000000.0
 
     :param q: the quantity of dimension [LENGTH]
@@ -55,13 +56,13 @@ def _mm(q: Union[str, Q_]) -> float:
 
 
 @parse_quantity
-def _degree(q: Union[str, Q_]) -> float:
+def _degree(q: Union[str, _Q]) -> float:
     """
     Convert a quantity to degrees.
 
-    >>> _degree(1 * ureg.degree)
+    >>> _degree(1 * _ureg.degree)
     1.0
-    >>> _degree(10.0 * ureg.degree)
+    >>> _degree(10.0 * _ureg.degree)
     10.0
 
     :param q: the quantity
@@ -71,11 +72,11 @@ def _degree(q: Union[str, Q_]) -> float:
 
 
 @parse_quantity
-def _radian(q: Union[str, Q_]) -> float:
+def _radian(q: Union[str, _Q]) -> float:
     """
     Convert a quantity to radians.
 
-    >>> _radian(180 * ureg.degree) #doctest: +ELLIPSIS
+    >>> _radian(180 * _ureg.degree) #doctest: +ELLIPSIS
     3.14159...
 
     :param q: the quantity
@@ -85,11 +86,11 @@ def _radian(q: Union[str, Q_]) -> float:
 
 
 @parse_quantity
-def _tesla(q: Union[str, Q_]) -> float:
+def _tesla(q: Union[str, _Q]) -> float:
     """
     Convert a quantity of dimension [LENGTH] to meters.
 
-    >>> _m(1 * ureg.km)
+    >>> _m(1 * _ureg.km)
     1000.0
 
     :param q: the quantity of dimension [LENGTH]
@@ -99,11 +100,11 @@ def _tesla(q: Union[str, Q_]) -> float:
 
 
 @parse_quantity
-def _gauss(q: Union[str, Q_]) -> float:
+def _gauss(q: Union[str, _Q]) -> float:
     """
     Convert a quantity of dimension [LENGTH] to meters.
 
-    >>> _m(1 * ureg.km)
+    >>> _m(1 * _ureg.km)
     1000.0
 
     :param q: the quantity of dimension [LENGTH]
@@ -113,11 +114,11 @@ def _gauss(q: Union[str, Q_]) -> float:
 
 
 @parse_quantity
-def _kilogauss(q: Union[str, Q_]) -> float:
+def _kilogauss(q: Union[str, _Q]) -> float:
     """
     Convert a quantity of dimension [LENGTH] to meters.
 
-    >>> _m(1 * ureg.km)
+    >>> _m(1 * _ureg.km)
     1000.0
 
     :param q: the quantity of dimension [LENGTH]
@@ -127,11 +128,11 @@ def _kilogauss(q: Union[str, Q_]) -> float:
 
 
 @parse_quantity
-def _mev(q: Union[str, Q_]) -> float:
+def _mev(q: Union[str, _Q]) -> float:
     """
     Convert a quantity of dimension [length]**2 * [mass] * [time]**-2.0 to meters.
 
-    >>> _mev(1 * ureg.MeV)
+    >>> _mev(1 * _ureg.MeV)
     1.0
 
     :param q: the quantity of dimension [length]**2 * [mass] * [time]**-2.0
@@ -141,11 +142,11 @@ def _mev(q: Union[str, Q_]) -> float:
 
 
 @parse_quantity
-def _mev_c(q: Q_) -> float:
+def _mev_c(q: _Q) -> float:
     """
     Convert a quantity of dimension [LENGTH] to meters.
 
-    >>> _m(1 * ureg.km)
+    >>> _m(1 * _ureg.km)
     1000.0
 
     :param q: the quantity of dimension [LENGTH]
