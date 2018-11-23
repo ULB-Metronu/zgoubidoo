@@ -163,7 +163,7 @@ class Command(metaclass=MetaCommand):
         Returns:
             the output, None if no output has been previously attached.
         """
-        return self._results
+        return self._results.set_index('variable_id')
 
     def attach_output(self, output: str, zgoubi_input: zgoubidoo.Input) -> NoReturn:
         """
@@ -398,7 +398,7 @@ class Fit(Command):
                 }
             ], 'Constraints'),
         'PENALTY': (1.0e-8, 'Penalty'),
-        'ITERATIONS': (1000, 'Iterations'),
+        'ITERATIONS': (10000, 'Iterations'),
     }
 
     def __str__(self):
@@ -431,7 +431,6 @@ class Fit(Command):
 
     def process_output(self, output: str, zgoubi_input: zgoubidoo.Input) -> Optional[bool]:
         def find_parameter_by_id(command: int, parameter: int) -> str:
-            print(zgoubi_input[command].__class__)
             for k, v in zgoubi_input[command - 1].__class__.PARAMETERS.items():
                 if v[2] == parameter:
                     break

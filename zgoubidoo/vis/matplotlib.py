@@ -64,18 +64,20 @@ class ZgoubiMpl(ZgoubiPlot):
 
         def do_frame() -> None:
             self.plot(_cm(magnet.entry.x), _cm(magnet.entry.y), 'gv', ms=5)
-            self.plot(_cm(magnet.entry_patched.x), _cm(magnet.entry_patched.y), 'bs', ms=2)
+            self.plot(_cm(magnet.entry_patched.x), _cm(magnet.entry_patched.y), 'bs', ms=5)
             self.plot(_cm(magnet.exit.x), _cm(magnet.exit.y), 'k^', ms=5)
+            self.plot(_cm(magnet.exit_patched.x), _cm(magnet.exit_patched.y), 'rv', ms=10)
             if self._with_centers:
                 self.plot(_cm(magnet.center.x), _cm(magnet.center.y), 'r.', ms=5)
 
         def do_box() -> None:
-            if np.cos(_radian(magnet.entry.tz)) > 0:
-                theta1 = 90 - _degree(magnet.entry.tx + magnet.angular_opening)
-                theta2 = 90 - _degree(magnet.entry.tx)
+            print("hello")
+            if np.cos(_radian(magnet.entry_patched.tz)) > 0:
+                theta1 = 90 - _degree(magnet.entry_patched.tx + magnet.angular_opening)
+                theta2 = 90 - _degree(magnet.entry_patched.tx)
             else:
-                theta1 = -90 - _degree(magnet.entry.tx)
-                theta2 = -90 - _degree(magnet.entry.tx - magnet.angular_opening)
+                theta1 = -90 - _degree(magnet.entry_patched.tx)
+                theta2 = -90 - _degree(magnet.entry_patched.tx - magnet.angular_opening)
             self._ax.add_patch(
                 patches.Wedge(
                     (
@@ -102,7 +104,7 @@ class ZgoubiMpl(ZgoubiPlot):
 
         def do_frame():
             self.plot(_cm(magnet.entry.x), _cm(magnet.entry.y), 'gv', ms=5)
-            self.plot(_cm(magnet.entry_patched.x), _cm(magnet.entry_patched.y), 'bs', ms=2)
+            self.plot(_cm(magnet.entry_patched.x), _cm(magnet.entry_patched.y), 'bs', ms=5)
             self.plot(_cm(magnet.exit.x), _cm(magnet.exit.y), 'k^', ms=5)
             self.plot(_cm(magnet.exit_patched.x), _cm(magnet.exit_patched.y), 'r>', ms=5)
 
@@ -150,6 +152,7 @@ class ZgoubiMpl(ZgoubiPlot):
     def tracks_polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet, tracks) -> NoReturn:
         x = 100 * tracks['X'].values  # Polar angle
         y = 100 * tracks['Y-DY'].values
+        print(y[0])
         if np.cos(_radian(magnet.entry.tz)) > 0:
             angle = _radian(90 * _ureg.degree - magnet.center.tx) - x
         else:

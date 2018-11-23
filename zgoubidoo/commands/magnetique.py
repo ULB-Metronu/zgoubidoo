@@ -118,6 +118,7 @@ class PolarMagnet(Magnet):
     def entry_patched(self):
         if self._entry_patched is None:
             self._entry_patched = _Frame(self.entry)
+            self._entry_patched.translate_y(self.radius - (self.RE or 0 * _ureg.cm))
         return self._entry_patched
 
     @property
@@ -131,7 +132,7 @@ class PolarMagnet(Magnet):
     def exit(self) -> _Frame:
         if self._exit is None:
             self._exit = _Frame(self.center)
-            self._exit.translate_y(self.radius)
+            self._exit.translate_y(self.radius or 0 * _ureg.cm)
             self._exit.rotate_z(-self.angular_opening)
         return self._exit
 
@@ -139,6 +140,7 @@ class PolarMagnet(Magnet):
     def exit_patched(self) -> _Frame:
         if self._exit_patched is None:
             self._exit_patched = _Frame(self.exit)
+            self._exit_patched.translate_y((self.RS or 0 * _ureg.cm) - self.radius)
         return self._exit_patched
 
     def plot(self, artist: _ZgoubiPlot):
