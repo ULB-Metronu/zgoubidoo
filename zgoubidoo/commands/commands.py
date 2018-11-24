@@ -64,6 +64,8 @@ class Command(metaclass=MetaCommand):
         'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash)'),
         'LABEL2': ('', 'Secondary label for the Zgoubi command'),
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     _PROPERTIES = [
         '_attributes',
@@ -76,7 +78,7 @@ class Command(metaclass=MetaCommand):
         '_center',
     ]
 
-    def __init__(self, label1: str='', label2: str='', *params, **kwargs) -> NoReturn:
+    def __init__(self, label1: str='', label2: str='', *params, **kwargs):
         self._output = list()
         self._results = None
         self._attributes = {}
@@ -132,7 +134,7 @@ class Command(metaclass=MetaCommand):
 
     def __str__(self) -> str:
         """
-        Provides the string representation of the command following the Zgoubi input file format.
+        Provides the string representation of the command in the Zgoubi input file format.
 
         Returns:
             The string representation.
@@ -430,13 +432,40 @@ class Fit(Command):
         return ''.join(map(lambda x: x.rstrip(), command))
 
     def process_output(self, output: str, zgoubi_input: zgoubidoo.Input) -> Optional[bool]:
+        """
+
+        Args:
+            output:
+            zgoubi_input:
+
+        Returns:
+
+        """
         def find_parameter_by_id(command: int, parameter: int) -> str:
+            """
+
+            Args:
+                command:
+                parameter:
+
+            Returns:
+
+            """
             for k, v in zgoubi_input[command - 1].__class__.PARAMETERS.items():
                 if v[2] == parameter:
                     break
             return k
 
         def find_dimension_by_id(command: int, parameter: int):
+            """
+
+            Args:
+                command:
+                parameter:
+
+            Returns:
+
+            """
             for k, v in zgoubi_input[command - 1].__class__.PARAMETERS.items():
                 if v[2] == parameter:
                     break
@@ -469,6 +498,7 @@ class Fit(Command):
                     d['label2'] = values[10]
                 data.append(d)
         self._results = _pd.DataFrame(data)
+        return True
 
 
 class Fit2(Fit):

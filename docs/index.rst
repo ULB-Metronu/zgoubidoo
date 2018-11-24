@@ -10,6 +10,7 @@ Zgoubidoo's documentation
    zgoubi
    installation
    commands
+   input
    lowlevel
    sequence
    utilities

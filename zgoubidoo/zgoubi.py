@@ -9,9 +9,9 @@ import os
 import sys
 import re
 import multiprocessing
-from multiprocessing.pool import ThreadPool
+from multiprocessing.pool import ThreadPool as _ThreadPool
 import subprocess as sub
-import pandas as pd
+import pandas as _pd
 from .input import Input
 from .output import read_plt_file
 
@@ -50,23 +50,26 @@ class ZgoubiRun:
     def __init__(self, results: List[Mapping]):
         """
 
-        :param results:
+        Args:
+            results:
         """
         self._results = results
         self._tracks = None
 
     @property
-    def tracks(self) -> pd.DataFrame:
+    def tracks(self) -> _pd.DataFrame:
         """
         Collect all tracks from the different Zgoubi instances in the results and concatenate them
-        :return: A concatenated DataFrame with all the tracks in the result.
+
+        Returns:
+            A concatenated DataFrame with all the tracks in the result.
         """
         if self._tracks is None:
             try:
                 tracks = list()
                 for r in self._results:
                     tracks.append(read_plt_file(path=r['path']))
-                self._tracks = pd.concat(tracks)
+                self._tracks = _pd.concat(tracks)
             except FileNotFoundError:
                 logging.getLogger(__name__).warning(
                     "Unable to read and load the Zgoubi .plt files required to collect the tracks.")
@@ -121,7 +124,7 @@ class Zgoubi:
         """
         n = n_procs or multiprocessing.cpu_count()
         self._results = list()
-        pool = ThreadPool(n)
+        pool = _ThreadPool(n)
         if len(zgoubi_input.paths) == 0:
             raise ZgoubiException("The input must be written before calling Zgoubi.")
         for p in zgoubi_input.paths:
@@ -137,10 +140,13 @@ class Zgoubi:
     def _execute_zgoubi(self, zgoubi_input: Input, path: str= '.', debug=False) -> dict:
         """
 
-        :param zgoubi_input:
-        :param path:
-        :param debug:
-        :return: a dictionary holding the results of the run
+        Args:
+            zgoubi_input:
+            path:
+            debug:
+
+        Returns:
+            a dictionary holding the results of the run.
         """
         stderr = None
         p = sub.Popen([self._get_exec()],

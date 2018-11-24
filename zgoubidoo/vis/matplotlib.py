@@ -71,13 +71,18 @@ class ZgoubiMpl(ZgoubiPlot):
                 self.plot(_cm(magnet.center.x), _cm(magnet.center.y), 'r.', ms=5)
 
         def do_box() -> None:
-            print("hello")
             if np.cos(_radian(magnet.entry_patched.tz)) > 0:
                 theta1 = 90 - _degree(magnet.entry_patched.tx + magnet.angular_opening)
                 theta2 = 90 - _degree(magnet.entry_patched.tx)
+                theta3 = 90 - _degree(magnet.entry_patched.tx + magnet.reference_angle)
+                theta4 = 90 - _degree(magnet.entry_patched.tx + magnet.reference_angle - magnet.entrance_efb)
+                theta5 = 90 - _degree(magnet.entry_patched.tx + magnet.reference_angle - magnet.exit_efb)
             else:
                 theta1 = -90 - _degree(magnet.entry_patched.tx)
                 theta2 = -90 - _degree(magnet.entry_patched.tx - magnet.angular_opening)
+                theta3 = -90 - _degree(magnet.entry_patched.tx - magnet.reference_angle)
+                theta4 = -90 - _degree(magnet.entry_patched.tx - magnet.reference_angle + magnet.entrance_efb)
+                theta5 = -90 - _degree(magnet.entry_patched.tx - magnet.reference_angle + magnet.exit_efb)
             self._ax.add_patch(
                 patches.Wedge(
                     (
@@ -94,7 +99,54 @@ class ZgoubiMpl(ZgoubiPlot):
                     linewidth=2,
                 )
             )
-
+            self._ax.add_patch(
+                patches.Wedge(
+                    (
+                        _cm(magnet.center.x),
+                        _cm(magnet.center.y),
+                    ),
+                    _cm(magnet.radius + magnet.WIDTH / 2.0),
+                    theta1,
+                    theta2,
+                    width=_cm(magnet.WIDTH / 2.0),
+                    alpha=0.2,
+                    facecolor=self._palette.get(magnet.COLOR, 'gray'),
+                    edgecolor=self._palette.get(magnet.COLOR, 'gray'),
+                    linewidth=2,
+                )
+            )
+            self._ax.add_patch(
+                patches.Wedge(
+                    (
+                        _cm(magnet.center.x),
+                        _cm(magnet.center.y),
+                    ),
+                    _cm(magnet.radius + magnet.WIDTH / 2.0),
+                    theta5,
+                    theta4,
+                    width=_cm(magnet.WIDTH),
+                    alpha=0.2,
+                    facecolor=self._palette.get(magnet.COLOR, 'gray'),
+                    edgecolor=self._palette.get(magnet.COLOR, 'gray'),
+                    linewidth=2,
+                )
+            )
+            self._ax.add_patch(
+                patches.Wedge(
+                    (
+                        _cm(magnet.center.x),
+                        _cm(magnet.center.y),
+                    ),
+                    _cm(magnet.radius + magnet.WIDTH / 2.0),
+                    theta3,
+                    theta3,
+                    width=_cm(magnet.WIDTH),
+                    alpha=0.2,
+                    facecolor='k',
+                    edgecolor='k',
+                    linewidth=4,
+                )
+            )
         if self._with_boxes:
             do_box()
         if self._with_frames:
@@ -147,16 +199,27 @@ class ZgoubiMpl(ZgoubiPlot):
         tmp = np.dot(v, m)
         tracks_x = _cm(magnet.entry_patched.x) + tmp[:, 0]
         tracks_y = _cm(magnet.entry_patched.y) + tmp[:, 1]
-        self.plot(tracks_x, tracks_y, '.', markeredgecolor=self._tracks_color, markerfacecolor=self._tracks_color, ms=1)
+        self.plot(tracks_x,
+                  tracks_y,
+                  '.',
+                  markeredgecolor=self._tracks_color,
+                  markerfacecolor=self._tracks_color,
+                  ms=1
+                  )
 
     def tracks_polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet, tracks) -> NoReturn:
         x = 100 * tracks['X'].values  # Polar angle
         y = 100 * tracks['Y-DY'].values
-        print(y[0])
         if np.cos(_radian(magnet.entry.tz)) > 0:
             angle = _radian(90 * _ureg.degree - magnet.center.tx) - x
         else:
             angle = _radian(-90 * _ureg.degree - magnet.center.tx) + x
         tracks_x = _cm(magnet.center.x) + y * np.cos(angle)
         tracks_y = _cm(magnet.center.y) + y * np.sin(angle)
-        self.plot(tracks_x, tracks_y, '.c', markeredgecolor=self._tracks_color, markerfacecolor=self._tracks_color, ms=1)
+        self.plot(tracks_x,
+                  tracks_y,
+                  '.c',
+                  markeredgecolor=self._tracks_color,
+                  markerfacecolor=self._tracks_color,
+                  ms=1
+                  )

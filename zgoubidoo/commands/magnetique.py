@@ -94,24 +94,69 @@ class CartesianMagnet(Magnet):
 
 
 class PolarMagnet(Magnet):
-    """Base class for magnetic elements in polar coordinates"""
+    """Base class for magnetic elements in polar coordinates.
+
+    """
     PARAMETERS = {
         'WIDTH': 50 * _ureg.cm,
     }
+    """"""
 
     def __init__(self, label1: str='', label2: str='', *params, **kwargs):
         super().__init__(label1, label2, PolarMagnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
     @property
-    def angular_opening(self):
+    def angular_opening(self) -> _Q:
+        """
+
+        Returns:
+
+        """
         return self.AT or 0 * _ureg.degree
 
     @property
+    def reference_angle(self) -> _Q:
+        """
+
+        Returns:
+
+        """
+        return self.ACENT or 0 * _ureg.degree
+
+    @property
+    def entrance_efb(self) -> _Q:
+        """
+
+        Returns:
+
+        """
+        return self.OMEGA_E or 0 * _ureg.degree
+
+    @property
+    def exit_efb(self) -> _Q:
+        """
+
+        Returns:
+
+        """
+        return self.OMEGA_S or 0 * _ureg.degree
+
+    @property
     def radius(self) -> _Q:
+        """
+
+        Returns:
+
+        """
         return self.RM or 0 * _ureg.cm
 
     @property
     def length(self) -> _Q:
+        """
+
+        Returns:
+
+        """
         return self.angular_opening * self.radius
 
     @property
@@ -119,6 +164,7 @@ class PolarMagnet(Magnet):
         if self._entry_patched is None:
             self._entry_patched = _Frame(self.entry)
             self._entry_patched.translate_y(self.radius - (self.RE or 0 * _ureg.cm))
+            self._entry_patched.rotate_z(-self.TE or 0 * _ureg.degree)
         return self._entry_patched
 
     @property
@@ -456,7 +502,71 @@ class Decapole(CartesianMagnet):
 
 
 class Dipole(PolarMagnet):
-    """Dipole magnet, polar frame."""
+    """Dipole magnet, polar frame.
+
+    .. rubric:: Zgoubi manual description
+
+    DIPOLE provides a model of a dipole field, possibly with transverse field indices. The field along a particle
+    trajectory is computed as the particle motion proceeds, straightforwardly from the dipole geometrical boundaries.
+    Field simulation in DIPOLE is the same as used in DIPOLE-M and AIMANT for computing a field map; the essential
+    difference in DIPOLE is in its skipping that intermediate stage of field map generation found in DIPOLE-M and
+    AIMANT.
+
+    DIPOLE has a version, DIPOLES, that allows overlapping of fringe fields in a configuration of neighboring magnets.
+
+    The dimensioning of the magnet is defined by (Fig. 11, p. 82):
+
+    - AT : total angular aperture
+    - RM : mean radius used for the positioning of field boundaries
+
+    The 2 or 3 effective field boundaries (EFB), from which the dipole field is drawn, are defined from geometric
+    boundaries, the shape and position of which are determined by the following parameters:
+
+    - ACENT: arbitrary inner angle, used for EFB’s positioning;
+    - ω: azimuth of an EFB with respect to ACENT;
+    - θ: angle of an EFB with respect to its azimuth (wedge angle) : radius of curvature of an EFB;
+    - R1, R2 U1, U2: extent of the linear part of an EFB.
+
+    The magnetic field is calculated in polar coordinates. At any position (R, θ) along the particle trajectory the
+    value of the vertical component of the mid-plane field is calculated using
+
+    R−RM􏰖 􏰕R−RM􏰖2 􏰕R−RM􏰖3􏰛 BZ(R,θ)=F(R,θ)∗B0∗ 1+N∗ RM +B∗ RM +G∗ RM (4.4.8)
+
+    where N, B and G are respectively the first, second and third order field indices and F(R,θ) is the fringe field
+    coefficient (it determines the “flutter” in periodic structures).
+
+    Calculation of the Fringe Field Coefficient
+
+    With each EFB a realistic extent of the fringe field, λ (normally equal to the gap size), is associated and a
+    fringe field coefficient F is calculated. In the following λ stands for either λE (Entrance), λS (Exit)
+    or λL (Lateral EFB).
+
+   F is an exponential type fringe field (Fig. 12, p. 84) given by [34] F=1
+ 1+expP(s) wherein s is the distance to the EFB and depends on (R, θ), and
+P(s)=C0 +C1􏰓s􏰔+C2􏰓s􏰔2 +C3􏰓s􏰔3 +C4􏰓s􏰔4 +C5􏰓s􏰔5 λλλλλ
+It is also possible to simulate a shift of the EFB, by giving a non zero value to the parameter shift. s is then changed to s−shift in the previous equation. This allows small variations of the magnetic length.
+Let FE (respectively FS , FL) be the fringe field coefficient attached to the entrance (respectively exit, lateral) EFB. At any position on a trajectory the resulting value of the fringe field coefficient (eq. 4.4.8) is
+
+102 4 DESCRIPTION OF THE AVAILABLE PROCEDURES
+F(R,θ)=FE ∗FS ∗FL In particular, FL ≡ 1 if no lateral EFB is requested.
+Calculation of the Mid-plane Field and Derivatives
+BZ (R, θ) in Eq. 4.4.8 is computed at the n × n nodes (n = 3 or 5 in practice) of a “flying” interpolation grid in the median plane centered on the projection m0 of the actual particle position M0 as schemed in Fig. 20. A polynomial interpolation is involved, of the form
+BZ(R,θ)=A00 +A10θ+A01R+A20θ2 +A11θR+A02R2 that yields the requested derivatives, using
+Akl = 1 ∂k+lBZ k!l! ∂θk∂rl
+Note that, the source code contains the explicit analytical expressions of the coefficients Akl solutions of the normal equations, so that the operation is not CPU time consuming.
+B2
+interpolation
+grid δ s particle
+trajectory B1mm1 B3
+0
+Figure 20: Interpolation method. m0 and m1 are the projections in the median plane of particle positions M0 and M1 and separated by δs, projection of the integration step.
+Extrapolation Off Median Plane
+From the vertical field B⃗ and derivatives in the median plane, first a transformation from polar to Cartesian coordinates is performed, following eqs (1.4.9 or 1.4.10), then, extrapolation off median plane is performed by means of Taylor expansions, following the procedure described in section 1.3.3.
+
+    .. rubric:: Zgoubidoo usage and example
+
+    >>> Dipole()
+    """
     PARAMETERS = {
         'IL': (2, 'Print field and coordinates along trajectories', 1),
         'AT': (0 * _ureg.degree, 'Total angular extent of the dipole', 2),
@@ -518,8 +628,10 @@ class Dipole(PolarMagnet):
         'TE': (0 * _ureg.radian, '', 60),
         'RS': (0 * _ureg.centimeter, '', 61),
         'TS': (0 * _ureg.radian, '', 62),
-        'DP': (1.0, '', 63),
+        'DP': (0.0, '', 63),
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(s):
         command = []
@@ -557,7 +669,7 @@ class Dipole(PolarMagnet):
         elif s.KPOS == 1:
             c = f"""
         {s.KPOS}
-        {s.DP:.12e}
+        {s.DP:.12e} 0.0 0.0 0.0
                 """
             command.append(c)
 
@@ -653,6 +765,8 @@ class DipoleM(PolarMagnet):
         'SHIM_BETA': [],
         'SHIM_MU': [],
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(s):
         command = []
@@ -835,6 +949,8 @@ class Dipoles(PolarMagnet):
         'TS': 0,
         'DP': 0,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(s):
         command = []
@@ -930,6 +1046,8 @@ class Dodecapole(CartesianMagnet):
         'YCE': 0 * _ureg.centimeter,
         'ALE': 0 * _ureg.radian,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(s):
         return f"""
@@ -955,6 +1073,9 @@ class Drift(CartesianMagnet):
     PARAMETERS = {
         'XL': 0 * _ureg.centimeter,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
+
     COLOR = 'yellow'
 
     def __str__(s):
@@ -1047,6 +1168,8 @@ class FFAG(PolarMagnet):
             'TS': 0,
             'DP': 0,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(s):
         command = []
@@ -1715,7 +1838,7 @@ class Undulator(Magnet):
 
 
 class Venus(Magnet):
-    """Simulation of a rectangular shape dipole magnet."""
+    """Simulation of a rectangular shaped dipole magnet."""
     PARAMETERS = {
         'IL': (2, ),
         'XL': (100 * _ureg.centimeter,),
