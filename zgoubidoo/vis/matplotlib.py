@@ -218,7 +218,7 @@ class ZgoubiMpl(ZgoubiPlot):
         tracks_y = _cm(magnet.center.y) + y * np.sin(angle)
         self.plot(tracks_x,
                   tracks_y,
-                  '.c',
+                  '.',
                   markeredgecolor=self._tracks_color,
                   markerfacecolor=self._tracks_color,
                   ms=1

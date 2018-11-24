@@ -376,9 +376,10 @@ class Input:
         Returns:
 
         """
+        extra_end = None
         if len(line) == 0 or not isinstance(line[-1], commands.End):
-            line.append(commands.End())
-        return ''.join(map(str, [name] + (line or [])))
+            extra_end = [commands.End()]
+        return ''.join(map(str, [name] + (line or []) + (extra_end or [])))
 
 
 class InputValidator:

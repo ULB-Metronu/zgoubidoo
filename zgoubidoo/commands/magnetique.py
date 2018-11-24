@@ -178,7 +178,7 @@ class PolarMagnet(Magnet):
     def exit(self) -> _Frame:
         if self._exit is None:
             self._exit = _Frame(self.center)
-            self._exit.translate_y(self.radius or 0 * _ureg.cm)
+            self._exit.translate_y(self.radius)
             self._exit.rotate_z(-self.angular_opening)
         return self._exit
 
@@ -187,6 +187,7 @@ class PolarMagnet(Magnet):
         if self._exit_patched is None:
             self._exit_patched = _Frame(self.exit)
             self._exit_patched.translate_y((self.RS or 0 * _ureg.cm) - self.radius)
+            self._exit_patched.rotate_z(self.TS or 0 * _ureg.degree)
         return self._exit_patched
 
     def plot(self, artist: _ZgoubiPlot):
@@ -420,10 +421,10 @@ class Aimant(Magnet):
 class Bend(CartesianMagnet):
     """Bending magnet, Cartesian frame."""
     PARAMETERS = {
-        'IL': (2, "Print field and coordinates along trajectories"),
-        'XL': (0.0 * _ureg.centimeter, "Magnet length (straight reference frame)"),
-        'SK': (0.0 * _ureg.radian, "Skew angle"),
-        'B1': (0.0 * _ureg.kilogauss, "Dipole field"),
+        'IL': (2, "Print field and coordinates along trajectories", 1),
+        'XL': (0.0 * _ureg.centimeter, "Magnet length (straight reference frame)", 10),
+        'SK': (0.0 * _ureg.radian, "Skew angle", 11),
+        'B1': (0.0 * _ureg.kilogauss, "Dipole field", 12),
         'X_E': (0.0 * _ureg.centimeter, "Integration zone extension (entrance face)"),
         'LAM_E': (0.0 * _ureg.centimeter, "Fringe field extension (entrance face)"),
         'W_E': (0.0 * _ureg.radian, "Wedge angle (entrance face)"),

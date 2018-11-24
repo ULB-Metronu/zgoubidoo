@@ -3,6 +3,9 @@ Zgoubidoo's utility modules
 
 Blabla
 
+.. contents:: :local:
+    :depth: 1
+
 Affine geometry using the frame module
 --------------------------------------
 
