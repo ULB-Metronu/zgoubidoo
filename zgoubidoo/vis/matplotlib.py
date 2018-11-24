@@ -1,3 +1,6 @@
+"""
+
+"""
 from __future__ import annotations
 from typing import NoReturn
 import numpy as np
@@ -42,6 +45,14 @@ class ZgoubiMpl(ZgoubiPlot):
             self._ax = ax
 
     def init_plot(self, subplots=111) -> matplotlib.figure.Figure:
+        """
+
+        Args:
+            subplots:
+
+        Returns:
+
+        """
         fig = plt.figure()
         self._ax = fig.add_subplot(subplots)
         return fig
@@ -153,6 +164,14 @@ class ZgoubiMpl(ZgoubiPlot):
             do_frame()
 
     def cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet) -> NoReturn:
+        """
+
+        Args:
+            magnet:
+
+        Returns:
+
+        """
 
         def do_frame():
             self.plot(_cm(magnet.entry.x), _cm(magnet.entry.y), 'gv', ms=5)
@@ -194,6 +213,15 @@ class ZgoubiMpl(ZgoubiPlot):
             do_frame()
 
     def tracks_cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet, tracks) -> NoReturn:
+        """
+
+        Args:
+            magnet:
+            tracks:
+
+        Returns:
+
+        """
         v = 100 * tracks[['X', 'Y-DY', 'Z']].values
         m = Frame(magnet.entry_patched).rotate_z(2 * magnet.entry_patched.tx).get_rotation_matrix()
         tmp = np.dot(v, m)
@@ -208,6 +236,15 @@ class ZgoubiMpl(ZgoubiPlot):
                   )
 
     def tracks_polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet, tracks) -> NoReturn:
+        """
+
+        Args:
+            magnet:
+            tracks:
+
+        Returns:
+
+        """
         x = 100 * tracks['X'].values  # Polar angle
         y = 100 * tracks['Y-DY'].values
         if np.cos(_radian(magnet.entry.tz)) > 0:

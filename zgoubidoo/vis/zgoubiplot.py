@@ -21,10 +21,15 @@ PALETTE = {
                    'green':   '#859900'
                    }
 }
+"""Default color palette."""
+
 PALETTE['solarized']['gray'] = PALETTE['solarized']['base03']
 
 
 class ZgoubiPlot:
+    """
+
+    """
     def __init__(self, with_boxes=True, with_frames=True, with_drifts=True, **kwargs):
         self._reference_frame = None
         self._with_boxes = with_boxes
@@ -45,13 +50,47 @@ class ZgoubiPlot:
         self._reference_frame = frame
 
     def cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet) -> NoReturn:
+        """
+
+        Args:
+            magnet:
+
+        Returns:
+
+        """
         pass
 
     def polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet) -> NoReturn:
+        """
+
+        Args:
+            magnet:
+
+        Returns:
+
+        """
         pass
 
     def tracks_cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet, tracks) -> NoReturn:
+        """
+
+        Args:
+            magnet:
+            tracks:
+
+        Returns:
+
+        """
         pass
 
     def tracks_polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet, tracks) -> NoReturn:
+        """
+
+        Args:
+            magnet:
+            tracks:
+
+        Returns:
+
+        """
         pass
