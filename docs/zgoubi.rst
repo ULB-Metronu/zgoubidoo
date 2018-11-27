@@ -1,3 +1,5 @@
-Zgoubi documentation and references
-===================================
+Zgoubi
+======
 
+.. automodule:: zgoubidoo.zgoubi
+    :members:

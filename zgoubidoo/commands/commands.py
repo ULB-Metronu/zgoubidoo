@@ -32,6 +32,38 @@ class MetaCommand(type):
     PARAMETERS = dict()
 
     def __new__(mcs, name: str, bases: Tuple[type, ...], dct: Dict[str, Any]):
+        # Insert a custom initializer (constructor) in case one is not present
+        if '__init__' not in dct:
+            def custom_init(self, label1: str = '', label2: str = '', *params, **kwargs):
+                bases[0].__init__(self, label1, label2, bases[0].PARAMETERS, self.PARAMETERS, *params, **kwargs)
+            dct['__init__'] = custom_init
+
+        # Add a custom keyword
+        if 'KEYWORD' not in dct:
+            for b in bases:
+                if getattr(b, 'KEYWORD', None):
+                    dct['KEYWORD'] = b.KEYWORD
+                    break
+
+        # Add comment to all PARAMETERS entry
+        for k, v in dct.get('PARAMETERS', {}).items():
+            if not isinstance(v, (tuple, list)):
+                dct['PARAMETERS'][k] = (v, )
+                if isinstance(getattr(bases[0], 'PARAMETERS', {}).get(k), (tuple, list)):
+                    if len(getattr(bases[0], 'PARAMETERS', {}).get(k)) > 1:
+                        dct['PARAMETERS'][k] = (*dct['PARAMETERS'][k], getattr(bases[0], 'PARAMETERS', {}).get(k)[1])
+                    if len(getattr(bases[0], 'PARAMETERS', {}).get(k)) > 2:
+                        dct['PARAMETERS'][k] = (*dct['PARAMETERS'][k], getattr(bases[0], 'PARAMETERS', {}).get(k)[2])
+
+        # Add PARAMETERS of the base class
+
+        try:
+            # In case you're wondering, this is a dictionary concatenation...
+            dct['PARAMETERS'] = {**getattr(bases[0], 'PARAMETERS', {}), **dct.get('PARAMETERS', {})}
+        except IndexError:
+            pass
+
+        # Documentation
         if not dct.get('__pdoc__'):
             dct['__pdoc__'] = dict()
         for b in bases:
@@ -57,7 +89,10 @@ class MetaCommand(type):
 
 
 class Command(metaclass=MetaCommand):
-    """Test test test"""
+    """Test test test.
+
+    More info on this wonderful class.
+    """
     KEYWORD: str = ''
 
     PARAMETERS = {
@@ -77,8 +112,17 @@ class Command(metaclass=MetaCommand):
         '_exit_patched',
         '_center',
     ]
+    """"""
 
     def __init__(self, label1: str='', label2: str='', *params, **kwargs):
+        """
+
+        Args:
+            label1:
+            label2:
+            *params:
+            **kwargs:
+        """
         self._output = list()
         self._results = None
         self._attributes = {}
@@ -90,6 +134,18 @@ class Command(metaclass=MetaCommand):
             self._attributes = dict(self._attributes, **p)
         for k, v in kwargs.items():
             setattr(self, k, v)
+        self.post_init(**kwargs)
+
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        pass
 
     def __getattr__(self, a: str) -> Any:
         if self._attributes.get(a) is None:
@@ -124,7 +180,8 @@ class Command(metaclass=MetaCommand):
             try:
                 if default is not None and _ureg.Quantity(v).dimensionality != _ureg.Quantity(default).dimensionality:
                     raise ZgoubidooException(f"Invalid dimension ({_ureg.Quantity(v).dimensionality}"
-                                            f" instead of {_ureg.Quantity(default).dimensionality}) for parameter {k}.")
+                                             f" instead of {_ureg.Quantity(default).dimensionality}) for parameter {k}."
+                                             )
             except (ValueError, TypeError, _UndefinedUnitError):
                 pass
             self._attributes[k] = v
@@ -144,7 +201,7 @@ class Command(metaclass=MetaCommand):
             >>> print(c)
         """
         return f"""
-        '{self.KEYWORD or self.__class__.__name__.upper()}' {self.LABEL1} {self.LABEL2}
+        '{self.KEYWORD}' {self.LABEL1} {self.LABEL2}
         """
 
     @property
@@ -377,6 +434,9 @@ class Fin(Command):
 
 class Fit(Command):
     """Fitting procedure."""
+    KEYWORD = 'FIT'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'PARAMS': (
             [
@@ -451,9 +511,15 @@ class Fit(Command):
             Returns:
 
             """
+            k = None
             for k, v in zgoubi_input[command - 1].__class__.PARAMETERS.items():
-                if v[2] == parameter:
-                    break
+                if v is None:
+                    continue
+                try:
+                    if v[2] == parameter:
+                        break
+                except (TypeError, IndexError):
+                    continue
             return k
 
         def find_dimension_by_id(command: int, parameter: int):
@@ -467,8 +533,13 @@ class Fit(Command):
 
             """
             for k, v in zgoubi_input[command - 1].__class__.PARAMETERS.items():
-                if v[2] == parameter:
-                    break
+                if v is None:
+                    continue
+                try:
+                    if v[2] == parameter:
+                        break
+                except (TypeError, IndexError):
+                    continue
             return zgoubidoo._Q(v[0]).units
 
         grab: bool = False
@@ -502,12 +573,17 @@ class Fit(Command):
 
 
 class Fit2(Fit):
-    """Fitting procedure."""
+    """Fitting procedure.
+
+    """
+    KEYWORD = 'FIT2'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class Focale(Command):
     """Particle coordinates and horizontal beam size at distance XL."""
     KEYWORD = 'FOCALE'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'XL': (0.0 * _ureg.centimeter, 'Distance from the location of the keyword.'),
@@ -609,20 +685,26 @@ class Image(Command):
 class Images(Command):
     """Localization and size of horizontal waists."""
     KEYWORD = 'IMAGES'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class ImageZ(Command):
     """Localization and size of vertical waist."""
     KEYWORD = 'IMAGEZ'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class ImagesZ(Command):
     """Localization and size of vertical waists."""
     KEYWORD = 'IMAGESZ'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class Marker(Command):
     """Marker."""
+
+    KEYWORD = 'MARKER'
+    """Keyword of the command used for the Zgoubi input data."""
 
     def __init__(self, label1='', label2='', *params, with_plt=True, **kwargs):
         super().__init__(label1, label2, self.PARAMETERS, *params, **kwargs)
@@ -631,6 +713,8 @@ class Marker(Command):
 
 class Matrix(Command):
     """Calculation of transfer coefficients, periodic parameters."""
+    KEYWORD = 'MATRIX'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'IORD': 1,

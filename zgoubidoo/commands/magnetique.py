@@ -4,6 +4,7 @@ More details here.
 """
 
 from typing import NoReturn
+import numpy as _np
 from .commands import Command as _Command
 from .commands import ZgoubidooException as _ZgoubidooException
 from .. import ureg as _ureg
@@ -197,6 +198,18 @@ class PolarMagnet(Magnet):
         if artist is None or tracks is None:
             return
         getattr(artist, f"tracks_{PolarMagnet.__name__.lower()}")(self, tracks)
+
+    @staticmethod
+    def drift_length_from_polar(radius: _Q, magnet_angle: _Q, poles_angle: _Q) -> _Q:
+        return radius * _np.tan((magnet_angle - poles_angle) / 2).to('radian').magnitude
+
+    @staticmethod
+    def efb_offset_from_polar(radius: _Q, magnet_angle: _Q, poles_angle: _Q) -> _Q:
+        return radius / _np.cos(((magnet_angle - poles_angle) / 2).to('radian').magnitude)
+
+    @staticmethod
+    def efb_angle_from_polar(magnet_angle: _Q, poles_angle: _Q) -> _Q:
+        return -(magnet_angle - poles_angle) / 2
 
 
 class AGSMainMagnet(Magnet):
@@ -419,7 +432,12 @@ class Aimant(Magnet):
 
 
 class Bend(CartesianMagnet):
-    """Bending magnet, Cartesian frame."""
+    """Bending magnet, Cartesian frame.
+
+    """
+    KEYWORD = 'BEND'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'IL': (2, "Print field and coordinates along trajectories", 1),
         'XL': (0.0 * _ureg.centimeter, "Magnet length (straight reference frame)", 10),
@@ -568,6 +586,9 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
 
     >>> Dipole()
     """
+    KEYWORD = 'DIPOLE'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'IL': (2, 'Print field and coordinates along trajectories', 1),
         'AT': (0 * _ureg.degree, 'Total angular extent of the dipole', 2),
@@ -624,7 +645,7 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
         'IORDRE': (2, '', 55),
         'RESOL': (10, '', 56),
         'XPAS': (1 * _ureg.millimeter, 'Integration step', 57),
-        'KPOS': (1, '', 58),
+        'KPOS': (2, '', 58),
         'RE': (0 * _ureg.centimeter, '', 59),
         'TE': (0 * _ureg.radian, '', 60),
         'RS': (0 * _ureg.centimeter, '', 61),

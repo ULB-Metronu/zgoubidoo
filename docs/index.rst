@@ -7,8 +7,8 @@ Zgoubidoo's documentation
    :maxdepth: 2
    :caption: Contents:
 
-   zgoubi
    installation
+   zgoubi
    commands
    input
    lowlevel

@@ -1,5 +1,12 @@
 """
 
+
+`Zgoubi Users' Guide`_
+
+
+.. _Zgoubi Users' Guide: https://sourceforge.net/projects/zgoubi/
+
+
 """
 from typing import List, Mapping, Iterable
 from functools import partial as _partial
