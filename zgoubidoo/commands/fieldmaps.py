@@ -10,6 +10,8 @@ class Brevol(_Command):
 class CartesianMesh(_Command):
     """"2-D Cartesian uniform mesh magnetic field map."""
     KEYWORD = 'CARTEMES'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'IC': (2, 'Print the map'),
         'IL': (2, 'Print field and coordinates along trajectories'),
@@ -52,24 +54,33 @@ class CartesianMesh(_Command):
 
 class Map2D(_Command):
     """2-D Cartesian uniform mesh field map - arbitrary magnetic field."""
+    KEYWORD = 'MAP2D'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class Map2DElectric(_Command):
     """2-D Cartesian uniform mesh field map - arbitrary electric field."""
     KEYWORD = 'MAP2D-E'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class Poisson(_Command):
     """Read magnetic field data from POISSON output."""
+    KEYWORD = 'POISSON'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class PolarMesh(_Command):
     """2-D polar mesh magnetic field map."""
     KEYWORD = 'POLARMES'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class Tosca(_Command):
     """2-D and 3-D Cartesian or cylindrical mesh field map."""
+    KEYWORD = 'TOSCA'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'IC': (),
         'IL': (),

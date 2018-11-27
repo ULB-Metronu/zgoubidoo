@@ -94,6 +94,7 @@ class Command(metaclass=MetaCommand):
     More info on this wonderful class.
     """
     KEYWORD: str = ''
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash)'),
@@ -112,7 +113,7 @@ class Command(metaclass=MetaCommand):
         '_exit_patched',
         '_center',
     ]
-    """"""
+    """xxxx"""
 
     def __init__(self, label1: str='', label2: str='', *params, **kwargs):
         """
@@ -136,7 +137,7 @@ class Command(metaclass=MetaCommand):
             setattr(self, k, v)
         self.post_init(**kwargs)
 
-    def post_init(self, **kwargs):
+    def post_init(self, **kwargs) -> NoReturn:
         """
 
         Args:
@@ -144,10 +145,21 @@ class Command(metaclass=MetaCommand):
 
         Returns:
 
+        Examples:
+            >>> xxx
+
         """
         pass
 
     def __getattr__(self, a: str) -> Any:
+        """
+
+        Args:
+            a:
+
+        Returns:
+
+        """
         if self._attributes.get(a) is None:
             return None
         if not isinstance(self._attributes[a], tuple):
@@ -167,6 +179,15 @@ class Command(metaclass=MetaCommand):
             return attr
 
     def __setattr__(self, k: str, v: Any) -> NoReturn:
+        """
+
+        Args:
+            k:
+            v:
+
+        Returns:
+
+        """
         if k in Command._PROPERTIES or k.startswith('__'):
             self.__dict__[k] = v
         else:
@@ -250,6 +271,9 @@ class Command(metaclass=MetaCommand):
 
 class AutoRef(Command):
     """Automatic transformation to a new reference frame."""
+    KEYWORD = 'AUTOREF'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'I': (1, 'Mode (1, 2 or 3).'),
         'I1': (1, 'Particle number (only used if I = 3)'),
@@ -271,15 +295,20 @@ class AutoRef(Command):
 
 class BeamBeam(Command):
     """Beam-beam lens."""
+    KEYWORD = 'BEAMBEAM'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class Binary(Command):
     """BINARY/FORMATTED data converter."""
+    KEYWORD = 'BINARY'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class Chambre(Command):
     """Long transverse aperture limitation."""
     KEYWORD = 'CHAMBR'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'IA': (0, '0 (element inactive), 1 ((re)definition of the aperture), 2 (stop testing and reset counters,'
@@ -303,6 +332,9 @@ class ChangRef(Command, _Patchable):
 
     Supports only Zgoubi "new style" ChangeRef. To recover the "old style", do XS, YS, ZR.
     """
+    KEYWORD = 'CHANGREF'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'TRANSFORMATIONS': []
     }
@@ -341,6 +373,7 @@ ChangeRef = ChangRef
 class Collimateur(Command):
     """Collimator."""
     KEYWORD = 'COLLIMA'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'IA': (2, 'Element active or not (0 - inactive, 1 - active, 2 - active and prints information.'),
@@ -366,6 +399,8 @@ Collimator = Collimateur
 
 class Cible(Command):
     """Generate a secondary beam following target interaction."""
+    KEYWORD = 'CIBLE'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class End(Command):
@@ -379,6 +414,8 @@ class End(Command):
     In some cases, these keywords may cause some information to be printed in zgoubi.res, for instance when the keyword
     PICKUPS is used.
     """
+    KEYWORD = 'END'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class ESL(Command):
@@ -430,6 +467,8 @@ class Fin(Command):
     In some cases, these keywords may cause some information to be printed in zgoubi.res, for instance when the keyword
     PICKUPS is used.
     """
+    KEYWORD = 'FIN'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class Fit(Command):
@@ -599,6 +638,7 @@ class Focale(Command):
 class FocaleZ(Command):
     """Particle coordinates and vertical beam size at distance XL."""
     KEYWORD = 'FOCALEZ'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'XL': (0.0 * _ureg.centimeter, 'Distance from the location of the keyword.'),
@@ -619,6 +659,7 @@ class GasScattering(Command):
     **Implementation is to be completed in Zgoubi**.
     """
     KEYWORD = 'GASCAT'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'KGA': 0,
@@ -661,6 +702,9 @@ class GetFitVal(Command):
     to allow for its updating.
 
     """
+    KEYWORD = 'GETFITVAL'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'FNAME': 'zgoubi.res',
     }
@@ -674,12 +718,16 @@ class GetFitVal(Command):
 
 class Histo(Command):
     """1-Dhistogram"""
+
     KEYWORD = 'HISTO'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class Image(Command):
     """Localization and size of horizontal waist."""
+
     KEYWORD = 'IMAGE'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class Images(Command):
@@ -731,6 +779,7 @@ class Matrix(Command):
 class MCDesintegration(Command):
     """Monte-Carlo simulation of in-flight decay."""
     KEYWORD = 'MCDESINT'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class Optics(Command):
@@ -754,22 +803,34 @@ class Optics(Command):
 
     A third argument, IMP=1, will cause saving of the transported beta functions into file zgoubi.OPTICS.out.
     """
+    KEYWORD = 'OPTICS'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class Ordre(Command):
     """Taylor expansions order."""
 
+    KEYWORD = 'ORDRE'
+    """Keyword of the command used for the Zgoubi input data."""
+
 
 class Pickups(Command):
     """Beam centroid path; closed orbit."""
+    KEYWORD = 'PICKUPS'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class PlotData(Command):
     """Intermediate output for the PLOTDATA graphic software."""
+    KEYWORD = 'PLOTDATA'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class Rebelote(Command):
     """’Do it again’."""
+
+    KEYWORD = 'REBELOTE'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'NPASS': 1,
@@ -815,14 +876,22 @@ class Reset(Command):
     >>> Reset()
     """
 
+    KEYWORD = 'RESET'
+    """Keyword of the command used for the Zgoubi input data."""
+
 
 class Scaling(Command):
     """Power supplies and R.F. function generator."""
 
+    KEYWORD = 'SCALING'
+    """Keyword of the command used for the Zgoubi input data."""
+
 
 class Separa(Command):
     """Wien Filter - analytical simulation."""
+
     KEYWORD = 'SEPARA'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class SynchrotronRadiationLosses(Command):
@@ -841,30 +910,37 @@ class SynchrotronRadiationLosses(Command):
     of the keyword SRPRNT.
     """
     KEYWORD = 'SRLOSS'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class SynchrotronRadiationPrint(Command):
     """Print SR loss statistics."""
     KEYWORD = 'SRPRNT'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class SynchrotronRadiation(Command):
     """Synchrotron radiation spectral-angular densities."""
     KEYWORD = 'SYNRAD'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class Target(Command):
     """Generate a secondary beam following target interaction."""
+    KEYWORD = 'TARGET'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class TransferMatrix(Command):
     """Transfer matrix."""
     KEYWORD = 'TRANSMAT'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class TranslationRotation(Command):
     """Translation-Rotation of the reference frame."""
     KEYWORD = 'TRAROT'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'TX': (0 * _ureg.m, 'X axis translation'),
@@ -886,6 +962,7 @@ class TranslationRotation(Command):
 class Twiss(Command):
     """Calculation of periodic optical parameters."""
     KEYWORD = 'TWISS'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'KTW': 1,
@@ -903,10 +980,14 @@ class Twiss(Command):
 class WienFilter(Command):
     """Wien filter."""
     KEYWORD = 'WIENFILT'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class Ymy(Command, _Patchable):
     """Reverse signs of Y and Z reference axes, equivalent to a 180 degree rotation around the X axis."""
+
+    KEYWORD = 'YMY'
+    """Keyword of the command used for the Zgoubi input data."""
 
     @property
     def entry_patched(self) -> _Frame:
