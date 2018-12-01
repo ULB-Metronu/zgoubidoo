@@ -10,8 +10,10 @@ SulfurIon
 
    .. autosummary::
 
+      ~SulfurIon.KEYWORD
       ~SulfurIon.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

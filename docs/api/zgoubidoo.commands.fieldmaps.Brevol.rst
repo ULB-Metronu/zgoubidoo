@@ -11,7 +11,9 @@ Brevol
    .. autosummary::
 
       ~Brevol.KEYWORD
+      ~Brevol.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

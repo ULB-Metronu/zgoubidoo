@@ -10,8 +10,10 @@ AutoRef
 
    .. autosummary::
 
+      ~AutoRef.KEYWORD
       ~AutoRef.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

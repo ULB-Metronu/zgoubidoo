@@ -11,7 +11,9 @@ WienFilter
    .. autosummary::
 
       ~WienFilter.KEYWORD
+      ~WienFilter.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

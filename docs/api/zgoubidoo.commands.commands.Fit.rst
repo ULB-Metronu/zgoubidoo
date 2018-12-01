@@ -10,8 +10,20 @@ Fit
 
    .. autosummary::
 
+      ~Fit.KEYWORD
       ~Fit.PARAMETERS
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Fit.process_output
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: process_output

@@ -11,7 +11,9 @@ ImagesZ
    .. autosummary::
 
       ~ImagesZ.KEYWORD
+      ~ImagesZ.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

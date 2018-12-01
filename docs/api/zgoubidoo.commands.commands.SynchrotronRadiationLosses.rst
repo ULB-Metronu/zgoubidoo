@@ -11,7 +11,9 @@ SynchrotronRadiationLosses
    .. autosummary::
 
       ~SynchrotronRadiationLosses.KEYWORD
+      ~SynchrotronRadiationLosses.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

@@ -11,7 +11,9 @@ Images
    .. autosummary::
 
       ~Images.KEYWORD
+      ~Images.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

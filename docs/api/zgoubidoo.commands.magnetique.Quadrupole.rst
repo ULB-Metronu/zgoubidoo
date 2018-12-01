@@ -10,7 +10,6 @@ Quadrupole
 
    .. autosummary::
 
-      ~Quadrupole.COLOR
       ~Quadrupole.KEYWORD
       ~Quadrupole.PARAMETERS
       ~Quadrupole.gradient
@@ -23,7 +22,6 @@ Quadrupole
 
    .. rubric:: Attributes Documentation
 
-   .. autoattribute:: COLOR
    .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS
    .. autoattribute:: gradient

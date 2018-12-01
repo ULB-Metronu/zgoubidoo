@@ -11,7 +11,9 @@ EBMultipole
    .. autosummary::
 
       ~EBMultipole.KEYWORD
+      ~EBMultipole.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

@@ -10,8 +10,10 @@ AntiMuon
 
    .. autosummary::
 
+      ~AntiMuon.KEYWORD
       ~AntiMuon.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

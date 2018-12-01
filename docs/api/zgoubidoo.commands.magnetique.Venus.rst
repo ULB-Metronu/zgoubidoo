@@ -10,8 +10,10 @@ Venus
 
    .. autosummary::
 
+      ~Venus.KEYWORD
       ~Venus.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

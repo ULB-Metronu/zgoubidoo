@@ -11,7 +11,9 @@ EBMult
    .. autosummary::
 
       ~EBMult.KEYWORD
+      ~EBMult.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

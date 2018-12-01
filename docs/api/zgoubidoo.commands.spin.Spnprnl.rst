@@ -11,7 +11,9 @@ Spnprnl
    .. autosummary::
 
       ~Spnprnl.KEYWORD
+      ~Spnprnl.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

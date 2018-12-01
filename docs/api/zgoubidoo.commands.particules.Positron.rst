@@ -10,8 +10,10 @@ Positron
 
    .. autosummary::
 
+      ~Positron.KEYWORD
       ~Positron.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

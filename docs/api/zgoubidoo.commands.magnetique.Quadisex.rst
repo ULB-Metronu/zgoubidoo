@@ -10,8 +10,10 @@ Quadisex
 
    .. autosummary::
 
+      ~Quadisex.KEYWORD
       ~Quadisex.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

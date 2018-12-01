@@ -11,7 +11,9 @@ ELRevol
    .. autosummary::
 
       ~ELRevol.KEYWORD
+      ~ELRevol.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

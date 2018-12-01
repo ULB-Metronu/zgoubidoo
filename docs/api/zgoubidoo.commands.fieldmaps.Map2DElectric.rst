@@ -11,7 +11,9 @@ Map2DElectric
    .. autosummary::
 
       ~Map2DElectric.KEYWORD
+      ~Map2DElectric.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

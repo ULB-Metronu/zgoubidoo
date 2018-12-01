@@ -11,7 +11,9 @@ Unipot
    .. autosummary::
 
       ~Unipot.KEYWORD
+      ~Unipot.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

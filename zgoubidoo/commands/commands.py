@@ -1,9 +1,10 @@
 """
 Commands controlling Zgoubi's control flow, geometry, tracking options, etc.
 
+TODO
 """
 from __future__ import annotations
-from typing import NoReturn, Optional, Any, Tuple, Dict
+from typing import NoReturn, Optional, Any, Tuple, Dict, List
 import uuid
 import pandas as _pd
 from pint import UndefinedUnitError as _UndefinedUnitError
@@ -14,7 +15,8 @@ from ..frame import Frame as _Frame
 from ..units import _radian, _degree, _m, _cm
 import zgoubidoo
 
-ZGOUBI_LABEL_LENGTH: int = 10  # Used to be 8 on older versions
+ZGOUBI_LABEL_LENGTH: int = 10
+"""Maximum length for the Zgoubi command labels. Used to be 8 on older versions."""
 
 
 class ZgoubidooException(Exception):
@@ -28,6 +30,8 @@ class MetaCommand(type):
     """
     Dark magic.
     Be careful.
+
+    TODO
     """
     PARAMETERS = dict()
 
@@ -56,7 +60,6 @@ class MetaCommand(type):
                         dct['PARAMETERS'][k] = (*dct['PARAMETERS'][k], getattr(bases[0], 'PARAMETERS', {}).get(k)[2])
 
         # Add PARAMETERS of the base class
-
         try:
             # In case you're wondering, this is a dictionary concatenation...
             dct['PARAMETERS'] = {**getattr(bases[0], 'PARAMETERS', {}), **dct.get('PARAMETERS', {})}
@@ -79,6 +82,8 @@ class MetaCommand(type):
             cls.__doc__ = cls.__doc__.rstrip()
             cls.__doc__ += """
             
+    .. rubric:: Command attributes
+    
     Attributes:
             """
             for k, v in cls.__pdoc__.items():
@@ -92,6 +97,7 @@ class Command(metaclass=MetaCommand):
     """Test test test.
 
     More info on this wonderful class.
+    TODO
     """
     KEYWORD: str = ''
     """Keyword of the command used for the Zgoubi input data."""
@@ -113,11 +119,11 @@ class Command(metaclass=MetaCommand):
         '_exit_patched',
         '_center',
     ]
-    """xxxx"""
+    """TODO"""
 
     def __init__(self, label1: str='', label2: str='', *params, **kwargs):
         """
-
+        TODO
         Args:
             label1:
             label2:
@@ -139,7 +145,7 @@ class Command(metaclass=MetaCommand):
 
     def post_init(self, **kwargs) -> NoReturn:
         """
-
+        TODO
         Args:
             **kwargs:
 
@@ -153,7 +159,7 @@ class Command(metaclass=MetaCommand):
 
     def __getattr__(self, a: str) -> Any:
         """
-
+        TODO
         Args:
             a:
 
@@ -180,7 +186,7 @@ class Command(metaclass=MetaCommand):
 
     def __setattr__(self, k: str, v: Any) -> NoReturn:
         """
-
+        TODO
         Args:
             k:
             v:
@@ -226,7 +232,7 @@ class Command(metaclass=MetaCommand):
         """
 
     @property
-    def output(self):
+    def output(self) -> List[str]:
         """
         Provides the outputs associated with a command after each successive Zgoubi run.
 
@@ -270,7 +276,10 @@ class Command(metaclass=MetaCommand):
 
 
 class AutoRef(Command):
-    """Automatic transformation to a new reference frame."""
+    """Automatic transformation to a new reference frame.
+
+    TODO
+    """
     KEYWORD = 'AUTOREF'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -280,6 +289,8 @@ class AutoRef(Command):
         'I2': (1, 'Particle number (only used if I = 3)'),
         'I3': (1, 'Particle number (only used if I = 3)'),
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(self) -> str:
         c = f"""
@@ -294,13 +305,19 @@ class AutoRef(Command):
 
 
 class BeamBeam(Command):
-    """Beam-beam lens."""
+    """Beam-beam lens.
+
+    TODO
+    """
     KEYWORD = 'BEAMBEAM'
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class Binary(Command):
-    """BINARY/FORMATTED data converter."""
+    """BINARY/FORMATTED data converter.
+
+    TODO
+    """
     KEYWORD = 'BINARY'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -320,7 +337,8 @@ class Chambre(Command):
         'C3': (0 * _ureg.cm, 'If J=0, Y center, if J=1, inner Z opening'),
         'C4': (0 * _ureg.cm, 'If J=0, Z center, if J=1, outer Z opening'),
     }
-
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
 # Aliases
 Chamber = Chambre
@@ -331,6 +349,7 @@ class ChangRef(Command, _Patchable):
     """Transformation to a new reference frame.
 
     Supports only Zgoubi "new style" ChangeRef. To recover the "old style", do XS, YS, ZR.
+    TODO
     """
     KEYWORD = 'CHANGREF'
     """Keyword of the command used for the Zgoubi input data."""
@@ -338,6 +357,8 @@ class ChangRef(Command, _Patchable):
     PARAMETERS = {
         'TRANSFORMATIONS': []
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(s):
         c =  f"""
@@ -354,6 +375,11 @@ class ChangRef(Command, _Patchable):
 
     @property
     def entry_patched(self) -> _Frame:
+        """
+
+        Returns:
+
+        """
         if self._entry_patched is None:
             self._entry_patched = _Frame(self.entry)
             for t in self.TRANSFORMATIONS:
@@ -371,7 +397,10 @@ ChangeRef = ChangRef
 
 
 class Collimateur(Command):
-    """Collimator."""
+    """Collimator.
+
+    TODO
+    """
     KEYWORD = 'COLLIMA'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -384,6 +413,8 @@ class Collimateur(Command):
         'C3': (0 * _ureg.cm, 'Center of the aperture (Y).'),
         'C4': (0 * _ureg.cm, 'Center of the aperture (Z).'),
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(self):
         return f"""
@@ -398,7 +429,10 @@ Collimator = Collimateur
 
 
 class Cible(Command):
-    """Generate a secondary beam following target interaction."""
+    """Generate a secondary beam following target interaction.
+
+    TODO
+    """
     KEYWORD = 'CIBLE'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -423,16 +457,29 @@ class ESL(Command):
 
 
 class Faisceau(Command):
-    """Print particle coordinates."""
+    """Print particle coordinates.
+
+    TODO
+    """
+    KEYWORD = 'FAISCEAU'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class Faiscnl(Command):
-    """Store particle coordinates in file FNAME."""
+    """Store particle coordinates in file FNAME.
+
+    TODO
+    """
+    KEYWORD = 'FAISCNL'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'FNAME': 'zgoubi.fai',
         'B_FNAME': 'b_zgoubi.fai',
         'binary': False,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(self):
         return f"""
@@ -442,11 +489,19 @@ class Faiscnl(Command):
 
 
 class FaiStore(Command):
-    """Store coordinates every IP other pass at labeled elements."""
+    """Store coordinates every IP other pass at labeled elements.
+
+    TODO
+    """
+    KEYWORD = 'FAISTORE'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'FNAME': 'zgoubi.fai',
         'IP': 1,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(self):
         return f"""
@@ -472,7 +527,10 @@ class Fin(Command):
 
 
 class Fit(Command):
-    """Fitting procedure."""
+    """Fitting procedure.
+
+    TODO
+    """
     KEYWORD = 'FIT'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -501,6 +559,8 @@ class Fit(Command):
         'PENALTY': (1.0e-8, 'Penalty'),
         'ITERATIONS': (10000, 'Iterations'),
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(self):
         command = list()
@@ -614,19 +674,25 @@ class Fit(Command):
 class Fit2(Fit):
     """Fitting procedure.
 
+    TODO
     """
     KEYWORD = 'FIT2'
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class Focale(Command):
-    """Particle coordinates and horizontal beam size at distance XL."""
+    """Particle coordinates and horizontal beam size at distance XL.
+
+    TODO
+    """
     KEYWORD = 'FOCALE'
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'XL': (0.0 * _ureg.centimeter, 'Distance from the location of the keyword.'),
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(self):
         return f"""
@@ -636,13 +702,18 @@ class Focale(Command):
 
 
 class FocaleZ(Command):
-    """Particle coordinates and vertical beam size at distance XL."""
+    """Particle coordinates and vertical beam size at distance XL.
+
+    TODO
+    """
     KEYWORD = 'FOCALEZ'
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'XL': (0.0 * _ureg.centimeter, 'Distance from the location of the keyword.'),
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(self):
         return f"""
@@ -666,6 +737,8 @@ class GasScattering(Command):
         'AI': 0.0,
         'DEN': 0.0,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(self):
         return f"""
@@ -708,6 +781,8 @@ class GetFitVal(Command):
     PARAMETERS = {
         'FNAME': 'zgoubi.res',
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(self):
         return f"""
@@ -718,14 +793,12 @@ class GetFitVal(Command):
 
 class Histo(Command):
     """1-Dhistogram"""
-
     KEYWORD = 'HISTO'
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class Image(Command):
     """Localization and size of horizontal waist."""
-
     KEYWORD = 'IMAGE'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -750,7 +823,6 @@ class ImagesZ(Command):
 
 class Marker(Command):
     """Marker."""
-
     KEYWORD = 'MARKER'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -768,6 +840,8 @@ class Matrix(Command):
         'IORD': 1,
         'IFOC': (11, 'If IFOC=11, periodic parameters (single pass)'),
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(self):
         return f"""
@@ -809,7 +883,6 @@ class Optics(Command):
 
 class Ordre(Command):
     """Taylor expansions order."""
-
     KEYWORD = 'ORDRE'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -841,6 +914,8 @@ class Rebelote(Command):
         'LABL2': None,
         'NPRM': 1,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(self):
         return f"""
@@ -875,21 +950,18 @@ class Reset(Command):
 
     >>> Reset()
     """
-
     KEYWORD = 'RESET'
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class Scaling(Command):
     """Power supplies and R.F. function generator."""
-
     KEYWORD = 'SCALING'
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class Separa(Command):
     """Wien Filter - analytical simulation."""
-
     KEYWORD = 'SEPARA'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -950,6 +1022,8 @@ class TranslationRotation(Command):
         'RY': (0 * _ureg.degree, 'Y axis rotation'),
         'RZ': (0 * _ureg.degree, 'Z axis rotation'),
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(self):
         s = self
@@ -969,6 +1043,8 @@ class Twiss(Command):
         'FACD': 1.0,
         'FACA': (0.0, 'Unused'),
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(self):
         return f"""
@@ -978,19 +1054,29 @@ class Twiss(Command):
 
 
 class WienFilter(Command):
-    """Wien filter."""
+    """Wien filter.
+
+    TODO
+    """
     KEYWORD = 'WIENFILT'
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class Ymy(Command, _Patchable):
-    """Reverse signs of Y and Z reference axes, equivalent to a 180 degree rotation around the X axis."""
+    """Reverse signs of Y and Z reference axes, equivalent to a 180 degree rotation around the X axis.
 
+    TODO
+    """
     KEYWORD = 'YMY'
     """Keyword of the command used for the Zgoubi input data."""
 
     @property
     def entry_patched(self) -> _Frame:
+        """
+
+        Returns:
+
+        """
         if self._entry_patched is None:
             self._entry_patched = _Frame(self.entry)
             self._entry_patched.rotate_x(180 * _ureg.degree)

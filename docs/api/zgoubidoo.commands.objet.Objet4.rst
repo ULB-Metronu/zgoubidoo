@@ -10,8 +10,10 @@ Objet4
 
    .. autosummary::
 
+      ~Objet4.KEYWORD
       ~Objet4.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

@@ -11,6 +11,7 @@ Drift
    .. autosummary::
 
       ~Drift.COLOR
+      ~Drift.KEYWORD
       ~Drift.PARAMETERS
 
    .. rubric:: Methods Summary
@@ -22,6 +23,7 @@ Drift
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: COLOR
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS
 
    .. rubric:: Methods Documentation

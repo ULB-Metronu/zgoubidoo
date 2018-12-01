@@ -12,6 +12,7 @@ Objet2
 
       ~Objet2.IEX
       ~Objet2.IMAX
+      ~Objet2.KEYWORD
       ~Objet2.PARAMETERS
       ~Objet2.PARTICULES
 
@@ -26,6 +27,7 @@ Objet2
 
    .. autoattribute:: IEX
    .. autoattribute:: IMAX
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS
    .. autoattribute:: PARTICULES
 

@@ -11,7 +11,9 @@ ELMirCircular
    .. autosummary::
 
       ~ELMirCircular.KEYWORD
+      ~ELMirCircular.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

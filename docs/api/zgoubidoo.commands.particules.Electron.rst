@@ -10,8 +10,10 @@ Electron
 
    .. autosummary::
 
+      ~Electron.KEYWORD
       ~Electron.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

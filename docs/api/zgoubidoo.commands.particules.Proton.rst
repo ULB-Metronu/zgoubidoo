@@ -10,8 +10,10 @@ Proton
 
    .. autosummary::
 
+      ~Proton.KEYWORD
       ~Proton.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

@@ -11,7 +11,9 @@ Cavite
    .. autosummary::
 
       ~Cavite.KEYWORD
+      ~Cavite.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

@@ -13,16 +13,22 @@ PolarMagnet
       ~PolarMagnet.PARAMETERS
       ~PolarMagnet.angular_opening
       ~PolarMagnet.center
+      ~PolarMagnet.entrance_efb
       ~PolarMagnet.entry_patched
       ~PolarMagnet.exit
+      ~PolarMagnet.exit_efb
       ~PolarMagnet.exit_patched
       ~PolarMagnet.length
       ~PolarMagnet.radius
+      ~PolarMagnet.reference_angle
 
    .. rubric:: Methods Summary
 
    .. autosummary::
 
+      ~PolarMagnet.drift_length_from_polar
+      ~PolarMagnet.efb_angle_from_polar
+      ~PolarMagnet.efb_offset_from_polar
       ~PolarMagnet.plot
       ~PolarMagnet.plot_tracks
 
@@ -31,13 +37,19 @@ PolarMagnet
    .. autoattribute:: PARAMETERS
    .. autoattribute:: angular_opening
    .. autoattribute:: center
+   .. autoattribute:: entrance_efb
    .. autoattribute:: entry_patched
    .. autoattribute:: exit
+   .. autoattribute:: exit_efb
    .. autoattribute:: exit_patched
    .. autoattribute:: length
    .. autoattribute:: radius
+   .. autoattribute:: reference_angle
 
    .. rubric:: Methods Documentation
 
+   .. automethod:: drift_length_from_polar
+   .. automethod:: efb_angle_from_polar
+   .. automethod:: efb_offset_from_polar
    .. automethod:: plot
    .. automethod:: plot_tracks

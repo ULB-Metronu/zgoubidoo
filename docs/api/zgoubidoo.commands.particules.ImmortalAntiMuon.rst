@@ -10,8 +10,10 @@ ImmortalAntiMuon
 
    .. autosummary::
 
+      ~ImmortalAntiMuon.KEYWORD
       ~ImmortalAntiMuon.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

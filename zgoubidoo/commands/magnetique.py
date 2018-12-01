@@ -1,6 +1,7 @@
 """Zgoubidoo's interfaces to purefly magnetic Zgoubi commands.
 
 More details here.
+TODO
 """
 
 from typing import NoReturn
@@ -19,22 +20,29 @@ from ..units import _cm, _radian, _kilogauss
 class Magnet(_Command, _Patchable, _Plotable):
     """Base class for all magnetic elements.
 
-
+    TODO
     """
     PARAMETERS = {
         'HEIGHT': (20 * _ureg.cm, ''),
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+        commands (e.g. fit)."""
 
     def __init__(self, label1='', label2='', *params, **kwargs):
         super().__init__(label1, label2, Magnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
 
 class CartesianMagnet(Magnet):
-    """Base class for magnetic elements in cartesian coordinates"""
+    """Base class for magnetic elements in cartesian coordinates.
+
+    TODO
+    """
     PARAMETERS = {
         'WIDTH': (50 * _ureg.cm, ''),
         'COLOR': ('gray', ''),
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+        commands (e.g. fit)."""
 
     def __init__(self, label1='', label2='', *params, **kwargs):
         super().__init__(label1, label2, CartesianMagnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
@@ -97,11 +105,13 @@ class CartesianMagnet(Magnet):
 class PolarMagnet(Magnet):
     """Base class for magnetic elements in polar coordinates.
 
+    TODO
     """
     PARAMETERS = {
         'WIDTH': 50 * _ureg.cm,
     }
-    """"""
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+        commands (e.g. fit)."""
 
     def __init__(self, label1: str='', label2: str='', *params, **kwargs):
         super().__init__(label1, label2, PolarMagnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
@@ -185,6 +195,11 @@ class PolarMagnet(Magnet):
 
     @property
     def exit_patched(self) -> _Frame:
+        """
+
+        Returns:
+
+        """
         if self._exit_patched is None:
             self._exit_patched = _Frame(self.exit)
             self._exit_patched.translate_y((self.RS or 0 * _ureg.cm) - self.radius)
@@ -213,8 +228,12 @@ class PolarMagnet(Magnet):
 
 
 class AGSMainMagnet(Magnet):
-    """AGS main magnet."""
+    """AGS main magnet.
+
+    TODO
+    """
     KEYWORD = 'AGSMM'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class AGSQuadrupole(Magnet):
@@ -227,16 +246,27 @@ class AGSQuadrupole(Magnet):
 
     The field in AGSQUAD is computed using transfer functions from the ampere-turns in the coils to magnetic field that
     account for the non-linearity of the magnetic permeability [33].
+
+    TODO
     """
     KEYWORD = 'AGSQUAD'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
 
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+        commands (e.g. fit)."""
 
 
 class Aimant(Magnet):
-    """Generation of dipole mid-plane 2-D map, polar frame."""
+    """Generation of dipole mid-plane 2-D map, polar frame.
+
+    TODO
+    """
+    KEYWORD = 'AIMANT'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'NFACE': 2,
         'IC': 0,  # 1, 2: print field map
@@ -323,6 +353,8 @@ class Aimant(Magnet):
         'SHIM_BETA': [],
         'SHIM_MU': [],
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+        commands (e.g. fit)."""
 
     def __str__(s):
         command = []
@@ -434,6 +466,7 @@ class Aimant(Magnet):
 class Bend(CartesianMagnet):
     """Bending magnet, Cartesian frame.
 
+    TODO
     """
     KEYWORD = 'BEND'
     """Keyword of the command used for the Zgoubi input data."""
@@ -467,6 +500,8 @@ class Bend(CartesianMagnet):
         'YCE': 0.0 * _ureg.centimeter,
         'ALE': 0.0 * _ureg.radian,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+        commands (e.g. fit)."""
 
     def __str__(s):
         return f"""
@@ -483,7 +518,13 @@ class Bend(CartesianMagnet):
 
 
 class Decapole(CartesianMagnet):
-    """Decapole magnet."""
+    """Decapole magnet.
+
+    TODO
+    """
+    KEYWORD = 'DECAPOLE'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'IL': 2,
         'XL': 0 * _ureg.centimeter,
@@ -505,6 +546,8 @@ class Decapole(CartesianMagnet):
         'YCE': 0 * _ureg.centimeter,
         'ALE': 0 * _ureg.radian,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+        commands (e.g. fit)."""
 
     def __str__(s):
         return f"""
@@ -525,26 +568,27 @@ class Dipole(PolarMagnet):
 
     .. rubric:: Zgoubi manual description
 
-    DIPOLE provides a model of a dipole field, possibly with transverse field indices. The field along a particle
+    ``DIPOLE`` provides a model of a dipole field, possibly with transverse field indices. The field along a particle
     trajectory is computed as the particle motion proceeds, straightforwardly from the dipole geometrical boundaries.
-    Field simulation in DIPOLE is the same as used in DIPOLE-M and AIMANT for computing a field map; the essential
-    difference in DIPOLE is in its skipping that intermediate stage of field map generation found in DIPOLE-M and
-    AIMANT.
+    Field simulation in ``DIPOLE`` is the same as used in ``DIPOLE-M`` and ``AIMANT`` for computing a field map;
+    the essential difference in ``DIPOLE`` is in its skipping that intermediate stage of field map generation found in
+    ``DIPOLE-M`` and ``AIMANT``.
 
-    DIPOLE has a version, DIPOLES, that allows overlapping of fringe fields in a configuration of neighboring magnets.
+    ``DIPOLE`` has a version, ``DIPOLES``, that allows overlapping of fringe fields in a configuration of neighboring
+    magnets.
 
     The dimensioning of the magnet is defined by (Fig. 11, p. 82):
 
-    - AT : total angular aperture
-    - RM : mean radius used for the positioning of field boundaries
+        - AT : total angular aperture
+        - RM : mean radius used for the positioning of field boundaries
 
     The 2 or 3 effective field boundaries (EFB), from which the dipole field is drawn, are defined from geometric
     boundaries, the shape and position of which are determined by the following parameters:
 
-    - ACENT: arbitrary inner angle, used for EFB’s positioning;
-    - ω: azimuth of an EFB with respect to ACENT;
-    - θ: angle of an EFB with respect to its azimuth (wedge angle) : radius of curvature of an EFB;
-    - R1, R2 U1, U2: extent of the linear part of an EFB.
+        - ACENT: arbitrary inner angle, used for EFB’s positioning;
+        - ω: azimuth of an EFB with respect to ACENT;
+        - θ: angle of an EFB with respect to its azimuth (wedge angle) : radius of curvature of an EFB;
+        - R1, R2 U1, U2: extent of the linear part of an EFB.
 
     The magnetic field is calculated in polar coordinates. At any position (R, θ) along the particle trajectory the
     value of the vertical component of the mid-plane field is calculated using
@@ -699,7 +743,13 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
 
 
 class DipoleM(PolarMagnet):
+    """TODO.
+
+    .. rubric:: Zgoubi manual description
+
+    """
     KEYWORD = 'DIPOLE-M'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'NFACE': 2,
@@ -898,7 +948,15 @@ class DipoleM(PolarMagnet):
 
 
 class Dipoles(PolarMagnet):
-    """Dipole magnet N-tuple, polar frame."""
+    """Dipole magnet N-tuple, polar frame.
+
+    .. rubric:: Zgoubi manual description
+
+        TODO
+    """
+    KEYWORD = 'DIPOLES'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'IL': 2,
         'N': 1,
@@ -1044,8 +1102,12 @@ class Dipoles(PolarMagnet):
 
 
 class Dodecapole(CartesianMagnet):
-    """Dodecapole magnet."""
+    """Dodecapole magnet.
+
+    TODO
+    """
     KEYWORD = 'DODECAPO'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'IL': 2,
@@ -1089,9 +1151,14 @@ class Drift(CartesianMagnet):
     """
     Field free drift space.
 
+    TODO
+
     >>> Drift(XL=10 * _ureg.cm)
 
     """
+    KEYWORD = 'DRIFT'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'XL': 0 * _ureg.centimeter,
     }
@@ -1107,19 +1174,35 @@ class Drift(CartesianMagnet):
         """
 
     def plot(self, artist=None):
+        """
+
+        Args:
+            artist:
+
+        Returns:
+
+        """
         if artist is None or not artist.with_drifts:
             return
         super().plot(artist)
 
 
 class Emma(CartesianMagnet):
-    """2-D Cartesian or cylindrical mesh field map for EMMA FFAG."""
+    """2-D Cartesian or cylindrical mesh field map for EMMA FFAG.
+
+    TODO
+    """
     KEYWORD = 'EMMA'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class FFAG(PolarMagnet):
-    """FFAG magnet, N-tuple."""
+    """FFAG magnet, N-tuple.
+
+    TODO
+    """
     KEYWORD = 'FFAG'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
             'IL': 2,
@@ -1251,8 +1334,12 @@ class FFAG(PolarMagnet):
 
 
 class FFAGSpirale(PolarMagnet):
-    """Spiral FFAG magnet, N-tuple."""
+    """Spiral FFAG magnet, N-tuple.
+
+    TODO
+    """
     KEYWORD = 'FFAG-SPI'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'IL': 2,
@@ -1323,6 +1410,8 @@ class FFAGSpirale(PolarMagnet):
         'TS': 0,
         'DP': 0,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(s):
         command = []
@@ -1382,8 +1471,12 @@ class FFAGSpirale(PolarMagnet):
 
 
 class Multipole(CartesianMagnet):
-    """Magnetic multipole."""
+    """Magnetic multipole.
+
+    TODO
+    """
     KEYWORD = 'MULTIPOL'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
             'IL': 2,
@@ -1451,6 +1544,8 @@ class Multipole(CartesianMagnet):
             'YCE': 0,
             'ALE': 0,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(s):
         command = []
@@ -1492,8 +1587,12 @@ class Multipole(CartesianMagnet):
 
 
 class Octupole(CartesianMagnet):
-    """Octupole magnet."""
+    """Octupole magnet.
+
+    TODO
+    """
     KEYWORD = 'OCTUPOLE'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
             'IL': 2,
@@ -1524,6 +1623,8 @@ class Octupole(CartesianMagnet):
             'YCE': 0,
             'ALE': 0,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(s):
         command = []
@@ -1557,11 +1658,13 @@ class Octupole(CartesianMagnet):
 
 
 class PS170(Magnet):
-    """
-    Simulation of a round shape dipole magnet.
+    """Simulation of a round shape dipole magnet.
 
+    TODO
     >>> PS170('PS170', IL=2, XL=2 * _ureg.m, R0 = 1.5 * _ureg.m, B0 = 1 * _ureg.tesla)
     """
+    KEYWORD = 'PS170'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'IL': (2, 'print field and coordinates along trajectories'),
@@ -1574,8 +1677,8 @@ class PS170(Magnet):
         'YCE': (0 * _ureg.cm, ''),
         'ALE': (0 * _ureg.degree, ''),
     }
-    COLOR = 'red'
-    """Color used by the visualization tools."""
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(s) -> str:
         if s.KPOS not in (0, 1, 2):
@@ -1590,7 +1693,13 @@ class PS170(Magnet):
 
 
 class Quadisex(CartesianMagnet):
-    """Sharp edge magnetic multipoles."""
+    """Sharp edge magnetic multipoles.
+
+    TODO
+    """
+    KEYWORD = 'QUADISEX'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'IL': 2,
         'XL': 0,
@@ -1607,6 +1716,8 @@ class Quadisex(CartesianMagnet):
         'YCE': 0,
         'ALE': 0,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(s):
         command = []
@@ -1637,8 +1748,13 @@ class Quadisex(CartesianMagnet):
 
 
 class Quadrupole(CartesianMagnet):
-    """Quadrupole magnet."""
+    """Quadrupole magnet.
+
+    TODO
+    """
     KEYWORD = 'QUADRUPO'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'IL': (2, 'Print field and coordinates along trajectories'),
         'XL': (0 * _ureg.centimeter, 'Magnet length'),
@@ -1666,7 +1782,8 @@ class Quadrupole(CartesianMagnet):
         'YCE': 0 * _ureg.centimeter,
         'ALE': 0 * _ureg.radian,
     }
-    COLOR = 'blue'
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(s):
         return f"""
@@ -1698,7 +1815,13 @@ class Quadrupole(CartesianMagnet):
 
 
 class SexQuad(CartesianMagnet):
-    """Sharp edge magnetic multipole."""
+    """Sharp edge magnetic multipole.
+
+    TODO
+    """
+    KEYWORD = 'SEXQUAD'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'IL': 2,
         'XL': 0,
@@ -1714,6 +1837,8 @@ class SexQuad(CartesianMagnet):
         'YCE': 0,
         'ALE': 0,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(s):
         command = []
@@ -1747,8 +1872,12 @@ class SexQuad(CartesianMagnet):
 
 
 class Sextupole(CartesianMagnet):
-    """Sextupole magnet."""
+    """Sextupole magnet.
+
+    TODO
+    """
     KEYWORD = 'SEXTUPOL'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'IL': 2,
@@ -1779,6 +1908,8 @@ class Sextupole(CartesianMagnet):
         'YCE': 0,
         'ALE': 0,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(s):
         command = []
@@ -1812,7 +1943,13 @@ class Sextupole(CartesianMagnet):
 
 
 class Solenoid(Magnet):
-    """Solenoid."""
+    """Solenoid.
+
+    TODO
+    """
+    KEYWORD = 'SOLENOID'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'IL': 2,
         'XL': 0,
@@ -1826,6 +1963,8 @@ class Solenoid(Magnet):
         'YCE': 0,
         'ALE': 0,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(s):
         command = []
@@ -1856,11 +1995,22 @@ class Solenoid(Magnet):
 
 
 class Undulator(Magnet):
-    """Undulator magnet."""
+    """Undulator magnet.
+
+    TODO
+    """
+    KEYWORD = 'UNDULATOR'
+    """Keyword of the command used for the Zgoubi input data."""
 
 
 class Venus(Magnet):
-    """Simulation of a rectangular shaped dipole magnet."""
+    """Simulation of a rectangular shaped dipole magnet.
+
+    TODO
+    """
+    KEYWORD = 'VENUS'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'IL': (2, ),
         'XL': (100 * _ureg.centimeter,),
@@ -1872,6 +2022,8 @@ class Venus(Magnet):
         'YCE': (0 * _ureg.centimeter,),
         'ALE': (0 * _ureg.radian,),
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(self) -> str:
         if self.KPOS not in (0, 1, 2):

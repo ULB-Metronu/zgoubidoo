@@ -10,8 +10,10 @@ Tosca
 
    .. autosummary::
 
+      ~Tosca.KEYWORD
       ~Tosca.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

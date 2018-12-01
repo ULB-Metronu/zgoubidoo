@@ -10,8 +10,10 @@ GetFitVal
 
    .. autosummary::
 
+      ~GetFitVal.KEYWORD
       ~GetFitVal.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

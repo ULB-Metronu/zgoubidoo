@@ -11,7 +11,9 @@ SpinStore
    .. autosummary::
 
       ~SpinStore.KEYWORD
+      ~SpinStore.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

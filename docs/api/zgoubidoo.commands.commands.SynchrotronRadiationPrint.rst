@@ -11,7 +11,9 @@ SynchrotronRadiationPrint
    .. autosummary::
 
       ~SynchrotronRadiationPrint.KEYWORD
+      ~SynchrotronRadiationPrint.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

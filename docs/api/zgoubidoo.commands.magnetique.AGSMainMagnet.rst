@@ -11,7 +11,9 @@ AGSMainMagnet
    .. autosummary::
 
       ~AGSMainMagnet.KEYWORD
+      ~AGSMainMagnet.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

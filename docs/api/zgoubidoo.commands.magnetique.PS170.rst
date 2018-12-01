@@ -10,8 +10,10 @@ PS170
 
    .. autosummary::
 
-      ~PS170.COLOR
+      ~PS170.KEYWORD
+      ~PS170.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
-   .. autoattribute:: COLOR
+   .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

@@ -10,8 +10,10 @@ LeadIon
 
    .. autosummary::
 
+      ~LeadIon.KEYWORD
       ~LeadIon.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

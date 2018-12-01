@@ -10,8 +10,10 @@ Pion
 
    .. autosummary::
 
+      ~Pion.KEYWORD
       ~Pion.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

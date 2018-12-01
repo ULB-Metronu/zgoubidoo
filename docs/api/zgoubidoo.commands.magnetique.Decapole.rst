@@ -10,8 +10,10 @@ Decapole
 
    .. autosummary::
 
+      ~Decapole.KEYWORD
       ~Decapole.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

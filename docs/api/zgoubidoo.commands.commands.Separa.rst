@@ -11,7 +11,9 @@ Separa
    .. autosummary::
 
       ~Separa.KEYWORD
+      ~Separa.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

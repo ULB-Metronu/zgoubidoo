@@ -5,3 +5,13 @@ SpnPrt
 
 .. autoclass:: SpnPrt
    :show-inheritance:
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~SpnPrt.PARAMETERS
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: PARAMETERS

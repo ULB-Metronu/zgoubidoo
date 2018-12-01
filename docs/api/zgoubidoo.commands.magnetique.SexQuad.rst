@@ -10,8 +10,10 @@ SexQuad
 
    .. autosummary::
 
+      ~SexQuad.KEYWORD
       ~SexQuad.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

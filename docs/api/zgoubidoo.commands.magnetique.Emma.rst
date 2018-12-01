@@ -11,7 +11,9 @@ Emma
    .. autosummary::
 
       ~Emma.KEYWORD
+      ~Emma.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

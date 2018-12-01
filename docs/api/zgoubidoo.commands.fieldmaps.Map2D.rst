@@ -11,7 +11,9 @@ Map2D
    .. autosummary::
 
       ~Map2D.KEYWORD
+      ~Map2D.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

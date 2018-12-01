@@ -11,7 +11,9 @@ Cavity
    .. autosummary::
 
       ~Cavity.KEYWORD
+      ~Cavity.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

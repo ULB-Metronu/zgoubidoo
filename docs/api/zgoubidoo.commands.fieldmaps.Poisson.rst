@@ -11,7 +11,9 @@ Poisson
    .. autosummary::
 
       ~Poisson.KEYWORD
+      ~Poisson.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

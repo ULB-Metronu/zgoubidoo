@@ -10,10 +10,12 @@ ChangeRef
 
    .. autosummary::
 
+      ~ChangeRef.KEYWORD
       ~ChangeRef.PARAMETERS
       ~ChangeRef.entry_patched
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS
    .. autoattribute:: entry_patched

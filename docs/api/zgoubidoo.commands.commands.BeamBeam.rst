@@ -5,3 +5,15 @@ BeamBeam
 
 .. autoclass:: BeamBeam
    :show-inheritance:
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~BeamBeam.KEYWORD
+      ~BeamBeam.PARAMETERS
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: KEYWORD
+   .. autoattribute:: PARAMETERS

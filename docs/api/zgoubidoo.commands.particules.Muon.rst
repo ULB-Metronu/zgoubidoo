@@ -10,8 +10,10 @@ Muon
 
    .. autosummary::
 
+      ~Muon.KEYWORD
       ~Muon.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

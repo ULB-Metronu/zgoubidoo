@@ -10,8 +10,10 @@ Dipole
 
    .. autosummary::
 
+      ~Dipole.KEYWORD
       ~Dipole.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

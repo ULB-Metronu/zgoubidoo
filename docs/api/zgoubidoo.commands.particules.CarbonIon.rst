@@ -10,8 +10,10 @@ CarbonIon
 
    .. autosummary::
 
+      ~CarbonIon.KEYWORD
       ~CarbonIon.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS
