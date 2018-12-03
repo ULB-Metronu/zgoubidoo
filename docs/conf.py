@@ -50,6 +50,7 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
 ]
+numpydoc_show_class_members = False  # https://sphinx-automodapi.readthedocs.io/en/latest/
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -190,7 +191,7 @@ epub_exclude_files = ['search.html']
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
 
-# -- Options for napoleon extension ------------------------------------------
+# -- Options for the napoleon extension ------------------------------------------
 napoleon_google_docstring = True
 napoleon_numpy_docstring = True
 napoleon_include_init_with_doc = False
@@ -202,3 +203,13 @@ napoleon_use_admonition_for_references = False
 napoleon_use_ivar = False
 napoleon_use_param = True
 napoleon_use_rtype = True
+
+# -- Options for the autodoc extension ------------------------------------------
+autodoc_default_options = {
+    #'members': None,
+    'member-order': 'bysource',
+    'private_members': None,
+    'special_members': None,
+    #'undoc-members': None,
+    #'exclude-members': 'KEYWORD, PARAMETERS',
+}

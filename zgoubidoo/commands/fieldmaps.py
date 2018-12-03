@@ -136,9 +136,9 @@ class Tosca(_Command):
     At each step of the trajectory of a particle inside the map, the field and its derivatives are calculated
 
         - in the case of 2-D map, by means of a second or fourth order polynomial interpolation, depending
-        on IORDRE (IORDRE = 2, 25 or 4), as for CARTEMES,
+            on IORDRE (IORDRE = 2, 25 or 4), as for CARTEMES,
         - in the case of 3-D map, by means of a second order polynomial interpolation with a 3 × 3 × 3-point
-        parallelepipedic grid, as described in section 1.4.4.
+            parallelepipedic grid, as described in section 1.4.4.
 
     Entrance and/or exit integration boundaries between which the trajectories are integrated in the field may be
     defined, in the same way as in CARTEMES.
@@ -150,25 +150,25 @@ class Tosca(_Command):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IC': (),
-        'IL': (),
-        'BNORM': (),
-        'XN': (),
-        'YN': (),
-        'ZN': (),
-        'TITL': (),
-        'IX': (),
-        'IY': (),
-        'IZ': (),
-        'MOD': (),
-        'MOD2': (),
-        'FNAME': (),
-        'ID': (),
+        'IC': (2, 'Print the map.'),
+        'IL': (2, 'Print field and coordinates along trajectories.'),
+        'BNORM': (1.0, 'Field normalization coefficient.'),
+        'XN': (1.0, 'X coordinate normalization coefficient.'),
+        'YN': (1.0, 'Y coordinate normalization coefficient.'),
+        'ZN': (1.0, 'Z coordinate normalization coefficient.'),
+        'TITL': ('FIELDMAP', 'Title.'),
+        'IX': (1, 'Number of nodes of the mesh in the X direction.'),
+        'IY': (1, 'Number of nodes of the mesh in the Y direction.'),
+        'IZ': (1, 'Number of nodes of the mesh in the Z direction.'),
+        'MOD': (0, 'Format reading mode.'),
+        'MOD2': (0, 'Format reading sub-mode.'),
+        'FNAME': ('TOSCA', 'File names.'),
+        'ID': (0, 'Integration boundary.'),
         'A': (),
         'B': (),
         'C': (),
-        'IORDRE': (),
-        'XPAS': (),
+        'IORDRE': (25, 'Degree of interpolation polynomial.'),
+        'XPAS': (1 * _ureg.mm, 'Integration step.'),
         'KPOS': (),
         'XCE': (),
         'YCE': (),
@@ -183,5 +183,65 @@ class Tosca(_Command):
     The tuples contain their default value, their description and optinally an index used by other commands (e.g. fit).
     """
 
-    def __str__(self) -> str:
-        pass
+    def test(self):
+        """
+        Hello
+        Returns:
+
+        """
+
+    def __str__(s) -> str:
+        """Provides the Zgoubi input format representation of the command.
+
+        Returns:
+            a string to be used as Zgoubi input format.
+        """
+        command = []
+        c = f"""
+                {super().__str__().rstrip()}
+                {s.IL}
+                {s.AT.to('degree').magnitude:.12e} {s.RM.to('centimeter').magnitude:.12e}
+                {s.ACENT.to('degree').magnitude:.12e} {s.B0.to(
+            'kilogauss').magnitude:.12e} {s.N:.12e} {s.B:.12e} {s.G:.12e}
+                {s.LAM_E.to('centimeter').magnitude:.12e} 0.0
+                6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e} {s.SHIFT_E.to(
+            'centimeter').magnitude:.12e}
+                {s.OMEGA_E.to('degree').magnitude:.12e} {s.THETA_E:.12e} {s.R1_E.to(
+            'centimeter').magnitude:.12e} {s.U1_E.to('centimeter').magnitude:.12e} {s.U2_E.to(
+            'centimeter').magnitude:.12e} {s.R2_E.to('centimeter').magnitude:.12e}
+                {s.LAM_S.to('centimeter').magnitude:.12e} 0.0
+                6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e} {_s.SHIFT_S.to(
+            'centimeter').magnitude:.12e}
+                {s.OMEGA_S.to('degree').magnitude:.12e} {s.THETA_S:.12e} {s.R1_S.to(
+            'centimeter').magnitude:.12e} {s.U1_S.to('centimeter').magnitude:.12e} {s.U2_S.to(
+            'centimeter').magnitude:.12e} {s.R2_S.to('centimeter').magnitude:.12e}
+                {s.LAM_L.to('centimeter').magnitude:.12e} {s.XI_L}
+                6 {s.C0_L:.12e} {s.C1_L:.12e} {s.C2_L:.12e} {s.C3_L:.12e} {s.C4_L:.12e} {s.C5_L:.12e} {s.SHIFT_L.to(
+            'centimeter').magnitude:.12e}
+                {s.OMEGA_L.to('degree').magnitude:.12e} {s.THETA_L:.12e} {s.R1_L.to(
+            'centimeter').magnitude:.12e} {s.U1_L.to('centimeter').magnitude:.12e} {s.U2_L.to(
+            'centimeter').magnitude:.12e} {s.R2_L.to('centimeter').magnitude:.12e} {s.RM3.to(
+            'centimeter').magnitude:.12e}
+                {s.IORDRE} {s.RESOL:.12e}
+                {s.XPAS.to('centimeter').magnitude}"""
+        command.append(c)
+
+        if s.KPOS == 2:
+            if s.RE == 0:
+                s.RE = s.RM
+            if s.RS == 0:
+                s.RS = s.RM
+            c = f"""
+                {s.KPOS}
+                {s.RE.to('centimeter').magnitude:.12e} {s.TE.to('radian').magnitude:.12e} {s.RS.to(
+                'centimeter').magnitude:.12e} {s.TS.to('radian').magnitude:.12e}
+                        """
+            command.append(c)
+        elif s.KPOS == 1:
+            c = f"""
+                {s.KPOS}
+                {s.DP:.12e} 0.0 0.0 0.0
+                        """
+            command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))

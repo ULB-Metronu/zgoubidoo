@@ -14,7 +14,7 @@ from ..frame import Frame as _Frame
 from ..vis import ZgoubiPlot as _ZgoubiPlot
 from .patchable import Patchable as _Patchable
 from .plotable import Plotable as _Plotable
-from ..units import _cm, _radian, _kilogauss
+from ..units import _cm, _radian, _kilogauss, _degree
 
 
 class Magnet(_Command, _Patchable, _Plotable):
@@ -704,19 +704,19 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
         c = f"""
         {super().__str__().rstrip()}
         {s.IL}
-        {s.AT.to('degree').magnitude:.12e} {s.RM.to('centimeter').magnitude:.12e}
-        {s.ACENT.to('degree').magnitude:.12e} {s.B0.to('kilogauss').magnitude:.12e} {s.N:.12e} {s.B:.12e} {s.G:.12e}
-        {s.LAM_E.to('centimeter').magnitude:.12e} 0.0
-        6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e} {s.SHIFT_E.to('centimeter').magnitude:.12e}
-        {s.OMEGA_E.to('degree').magnitude:.12e} {s.THETA_E:.12e} {s.R1_E.to('centimeter').magnitude:.12e} {s.U1_E.to('centimeter').magnitude:.12e} {s.U2_E.to('centimeter').magnitude:.12e} {s.R2_E.to('centimeter').magnitude:.12e}
-        {s.LAM_S.to('centimeter').magnitude:.12e} 0.0
-        6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e} {s.SHIFT_S.to('centimeter').magnitude:.12e}
-        {s.OMEGA_S.to('degree').magnitude:.12e} {s.THETA_S:.12e} {s.R1_S.to('centimeter').magnitude:.12e} {s.U1_S.to('centimeter').magnitude:.12e} {s.U2_S.to('centimeter').magnitude:.12e} {s.R2_S.to('centimeter').magnitude:.12e}
-        {s.LAM_L.to('centimeter').magnitude:.12e} {s.XI_L}
-        6 {s.C0_L:.12e} {s.C1_L:.12e} {s.C2_L:.12e} {s.C3_L:.12e} {s.C4_L:.12e} {s.C5_L:.12e} {s.SHIFT_L.to('centimeter').magnitude:.12e}
-        {s.OMEGA_L.to('degree').magnitude:.12e} {s.THETA_L:.12e} {s.R1_L.to('centimeter').magnitude:.12e} {s.U1_L.to('centimeter').magnitude:.12e} {s.U2_L.to('centimeter').magnitude:.12e} {s.R2_L.to('centimeter').magnitude:.12e} {s.RM3.to('centimeter').magnitude:.12e}
+        {_degree(s.AT):.12e} {_cm(s.RM):.12e}
+        {_degree(s.ACENT):.12e} {_kilogauss(s.B0):.12e} {s.N:.12e} {s.B:.12e} {s.G:.12e}
+        {_cm(s.LAM_E):.12e} 0.0
+        6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e} {_cm(s.SHIFT_E):.12e}
+        {_degree(s.OMEGA_E):.12e} {s.THETA_E:.12e} {_cm(s.R1_E):.12e} {_cm(s.U1_E):.12e} {_cm(s.U2_E):.12e} {_cm(s.R2_E):.12e}
+        {_cm(s.LAM_S):.12e} 0.0
+        6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e} {_cm(s.SHIFT_S):.12e}
+        {_degree(s.OMEGA_S):.12e} {s.THETA_S:.12e} {_cm(s.R1_S):.12e} {_cm(s.U1_S):.12e} {_cm(s.U2_S):.12e} {_cm(s.R2_S):.12e}
+        {_cm(s.LAM_L):.12e} {s.XI_L}
+        6 {s.C0_L:.12e} {s.C1_L:.12e} {s.C2_L:.12e} {s.C3_L:.12e} {s.C4_L:.12e} {s.C5_L:.12e} {_cm(s.SHIFT_L):.12e}
+        {_degree(s.OMEGA_L):.12e} {s.THETA_L:.12e} {_cm(s.R1_L):.12e} {_cm(s.U1_L):.12e} {_cm(s.U2_L):.12e} {_cm(s.R2_L):.12e} {_cm(s.RM3):.12e}
         {s.IORDRE} {s.RESOL:.12e}
-        {s.XPAS.to('centimeter').magnitude}"""
+        {_cm(s.XPAS)}"""
         command.append(c)
 
         if s.KPOS not in (1, 2):
@@ -729,7 +729,7 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
                 s.RS = s.RM
             c = f"""
         {s.KPOS}
-        {s.RE.to('centimeter').magnitude:.12e} {s.TE.to('radian').magnitude:.12e} {s.RS.to('centimeter').magnitude:.12e} {s.TS.to('radian').magnitude:.12e}
+        {_cm(s.RE):.12e} {_radian(s.TE):.12e} {_cm(s.RS):.12e} {_radian(s.TS):.12e}
                 """
             command.append(c)
         elif s.KPOS == 1:

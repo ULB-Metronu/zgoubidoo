@@ -3,11 +3,9 @@ A Python 3 interface for Zgoubi. Zgoubido is intended to follow a modern Python 
 
 Zgoubi is a ray-tracing (tracking) code for beam dynamics simulations. Many magnetic and electric elements are supported. It is maintained by François Méot on SourceForge: https://sourceforge.net/projects/zgoubi/.
 
-[![Readthedocs Documentation Status](https://readthedocs.org/projects/zgoubidoo/badge/?version=latest)](https://zgoubidoo.readthedocs.io/en/latest/?badge=latest)
-
 ## Documentation
 
-[![Readthedocs documentation](https://zgoubidoo.readthedocs.io)]
+[![Zgoubidoo documentation](https://chernals.github.io/zgoubidoo/)]
 
 ## Design goals
 

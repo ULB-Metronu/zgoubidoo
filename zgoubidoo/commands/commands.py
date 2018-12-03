@@ -103,8 +103,8 @@ class Command(metaclass=MetaCommand):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash)'),
-        'LABEL2': ('', 'Secondary label for the Zgoubi command'),
+        'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'),
+        'LABEL2': ('', 'Secondary label for the Zgoubi command.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
