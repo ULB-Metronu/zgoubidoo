@@ -10,7 +10,14 @@ dependencies, except of course for ``Zgoubi`` itself.
 
 Compiling and installing Zgoubi
 -------------------------------
+Zgoubi can be obtained from SourceForge (download or ``svn checkout``). A Fortran compiler is required: both `ifort`
+and `gfortran` are supported (`Makefile`s are provided).
 
+After the compilation the ``zgoubi`` executable will be available in the `zgoubi` directory. Depending on the Makefile
+you use, `zpop` will also be built. It is not used by Zgoubidoo.
+
+Zgoubidoo needs to be able to locate the ``zgoubi`` executable. The easiest way is to have it somewhere in your `$PATH`
+so that ``which`` (via `shutil.which`) is able to find it. Alternatively, it is possible to provide the path at runtime.
 
 Obtaining Zgoubidoo
 -------------------
@@ -28,7 +35,8 @@ To stay on a released (tagged) revision::
 
 The releases `CHANGELOG` follows.
 
-.. include:: ../CHANGELOG
+.. note::
+    .. include:: ../CHANGELOG
 
 Creating a Python 3.7 environment with Conda
 --------------------------------------------
@@ -37,6 +45,10 @@ environment suitable for Zgoubidoo::
 
     cd path_to_zgoubidoo
     conda env create --file environment.yml
+
+or you can give a custom name to the environment with::
+
+    conda env create --file environment.yml --name your_custom_name
 
 Installation Zgoubidoo using ``pip``
 ------------------------------------
@@ -63,7 +75,8 @@ Alternatively if you intend to develop `Zgoubidoo` you can install it in editabl
     pip install -e .
 
 The second method allows any change to be reflected directly to your Zgoubidoo package (only a symlink is created in
-site-packages).
+site-packages). This is the recommended way if you want to stay on the latest version of Zgoubidoo (development branch
+`develop`).
 
 Using Zgoubidoo with Jupyter Notebook
 -------------------------------------

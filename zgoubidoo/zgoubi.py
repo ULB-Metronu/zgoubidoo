@@ -1,14 +1,16 @@
+"""Provides an interface to run Zgoubi from Python; supports multiprocessing.
+
+
+
+
+.. seealso::
+
+    The full `Zgoubi User Guide`_ can also be consulted for reference.
+    .. _Zgoubi User Guide: https://sourceforge.net/projects/zgoubi/
+
+
 """
-
-
-`Zgoubi Users' Guide`_
-
-
-.. _Zgoubi Users' Guide: https://sourceforge.net/projects/zgoubi/
-
-
-"""
-from typing import List, Mapping, Iterable
+from typing import List, Mapping, Iterable, Optional
 from functools import partial as _partial
 import logging
 import shutil
@@ -21,26 +23,6 @@ import subprocess as sub
 import pandas as _pd
 from .input import Input
 from .output import read_plt_file
-
-
-def find_labeled_output(out: Iterable, label: str) -> list:
-    """
-    Process the Zgoubi output and retrieves output data for a particular labeled element.
-
-    :param out: the Zgoubi input
-    :param label: the label of the element to be retrieved
-    :return: the output of the given label
-    """
-    data = []
-    for l in out:
-        if str(label) in l and 'Keyword' in l:
-            data.append(l)
-            continue
-        if len(data) > 0:
-            if '****' in l:
-                break
-            data.append(l)
-    return list(filter(lambda _: len(_), data))
 
 
 class ZgoubiException(Exception):
@@ -64,9 +46,9 @@ class ZgoubiRun:
         self._tracks = None
 
     @property
-    def tracks(self) -> _pd.DataFrame:
+    def tracks(self) -> Optional[_pd.DataFrame]:
         """
-        Collect all tracks from the different Zgoubi instances in the results and concatenate them
+        Collect all tracks from the different Zgoubi instances in the results and concatenate them.
 
         Returns:
             A concatenated DataFrame with all the tracks in the result.
@@ -85,18 +67,33 @@ class ZgoubiRun:
 
     @property
     def matrix(self):
+        """
+
+        Returns:
+
+        """
         pass
 
     @property
     def results(self) -> List[Mapping]:
+        """
+
+        Returns:
+
+        """
         return self._results
 
 
 class Zgoubi:
     """High level interface to run Zgoubi from Python."""
-    ZGOUBI_RES_FILE = 'zgoubi.res'
 
-    def __init__(self, executable='zgoubi', path=None):
+    ZGOUBI_EXECUTABLE_NAME = 'zgoubi'
+    """Default name of the Zgoubi executable."""
+
+    ZGOUBI_RES_FILE = 'zgoubi.res'
+    """Default name of the Zgoubi result '.res' file."""
+
+    def __init__(self, executable: str=ZGOUBI_EXECUTABLE_NAME, path: str=None):
         """
         The created `Zgoubi` object is an interface to the Zgoubi executable. The executable can be found
         automatically or its name and path can be specified.
@@ -104,8 +101,9 @@ class Zgoubi:
         The Zgoubi executable is called on an instance of `Input` specifying a list of paths containing Zgoubi input
         files. Multiple instances can thus be run in parallell.
 
-        :param executable: name of the Zgoubi executable (default; zgoubi)
-        :param path: path to the Zgoubi executable (default: lookup using 'which')
+        Args:
+            - executable: name of the Zgoubi executable
+            - path: path to the Zgoubi executable
         """
         self._executable: str = executable
         self._path: str = path
@@ -113,9 +111,10 @@ class Zgoubi:
 
     @property
     def executable(self) -> str:
-        """
-        Provides the full path to the Zgoubi executable
-        :return: full path to the Zgoubi executable
+        """Provides the full path to the Zgoubi executable.
+
+        Returns:
+            full path to the Zgoubi executable.
         """
         return self._get_exec()
 
@@ -123,11 +122,13 @@ class Zgoubi:
         """
         Starts up to `n_procs` Zgoubi runs.
 
-        :param zgoubi_input: `Input` object specifying the Zgoubi inputs and input paths.
-        :param debug: verbose output (default: False)
-        :param n_procs: maximum number of Zgoubi simulations to be started in parallel
-        (default: `multiprocessing.cpu_count()`)
-        :return: a ZgoubiRun object
+        Args:
+            zgoubi_input: `Input` object specifying the Zgoubi inputs and input paths.
+            debug: verbose output
+            n_procs: maximum number of Zgoubi simulations to be started in parallel
+
+        Returns:
+            a ZgoubiRun object holding the simulation results.
         """
         n = n_procs or multiprocessing.cpu_count()
         self._results = list()
@@ -161,7 +162,6 @@ class Zgoubi:
                       stdout=sub.PIPE,
                       stderr=sub.STDOUT,
                       cwd=path,
-                      shell=False,
                       )
 
         # Run
@@ -172,9 +172,11 @@ class Zgoubi:
             stderr = output[1].decode()
 
         # Extract element by element output
-        result = open(os.path.join(path, Zgoubi.ZGOUBI_RES_FILE), 'r').read().split('\n')
+        result = open(os.path.join(path, Zgoubi.ZGOUBI_RES_FILE)).read().split('\n')
         for e in zgoubi_input.line:
-            list(map(_partial(e.attach_output, zgoubi_input=zgoubi_input), find_labeled_output(result, e.LABEL1)))
+            list(
+                map(_partial(e.attach_output, zgoubi_input=zgoubi_input), Zgoubi.find_labeled_output(result, e.LABEL1))
+            )
 
         # Extract CPU time
         cputime = -1.0
@@ -195,7 +197,13 @@ class Zgoubi:
         }
 
     def _get_exec(self, optional_path: str='/usr/local/bin') -> str:
-        """Retrive the path to the Zgoubi executable."""
+        """Retrive the path to the Zgoubi executable.
+
+
+
+        Returns:
+
+        """
         if self._path is not None:
             return os.path.join(self._path, self._executable)
         elif sys.platform in ('win32', 'win64'):
@@ -205,3 +213,26 @@ class Zgoubi:
                 return f"{sys.prefix}/bin/{self._executable}"
             else:
                 return shutil.which(self._executable, path=os.path.join(os.environ['PATH'], optional_path))
+
+    @staticmethod
+    def find_labeled_output(out: Iterable[str], label: str) -> list:
+        """
+        Process the Zgoubi output and retrieves output data for a particular labeled element.
+
+        Args:
+            - out: the Zgoubi output
+            - label: the label of the element to be retrieved
+
+        Returns:
+            the output of the given label
+        """
+        data = []
+        for l in out:
+            if str(label) in l and 'Keyword' in l:
+                data.append(l)
+                continue
+            if len(data) > 0:
+                if '****' in l:
+                    break
+                data.append(l)
+        return list(filter(lambda _: len(_), data))
