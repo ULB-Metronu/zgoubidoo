@@ -9,6 +9,8 @@ from .. import ureg as _ureg
 class Particule(_Command):
     """Particle characteristics."""
     KEYWORD = 'PARTICUL'
+    """Keyword of the command used for the Zgoubi input data."""
+
     PARAMETERS = {
         'M': (0 * _ureg.MeV_c2, 'Mass of the particle.'),
         'Q': (0 * _ureg.coulomb, 'Charge of the particle.'),

@@ -26,6 +26,7 @@ class Objet(_Command):
 
     """
     KEYWORD = 'OBJET'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'BORO': (1.0 * _ureg.kilogauss * _ureg.cm, 'Reference magnetic rigidity.'),
@@ -300,14 +301,22 @@ class Objet5(Objet):
 
 
 class Objet6(Objet):
+    """
+
+    """
     pass
 
 
 class Objet7(Objet):
+    """
+
+    """
     pass
 
 
 class Objet8(Objet):
+    """"""
+
     pass
 
 
@@ -317,3 +326,6 @@ class ObjetA(_Command):
     Examples:
         Test
     """
+    KEYWORD = 'OBJETA'
+    """Keyword of the command used for the Zgoubi input data."""
+

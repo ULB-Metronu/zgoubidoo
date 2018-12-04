@@ -3,25 +3,36 @@ from .commands import Command as _Command
 
 class MCObjet(_Command):
     """Monte-Carlo generation of a 6-D object."""
+    KEYWORD = 'MCOBJET'
+    """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'BORO': 1.0,
         'IMAX': 1,
         'KY': 1,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+        commands (e.g. fit)."""
 
 
 class MCObjet1(MCObjet):
+    """
+
+    """
     pass
 
 
 class MCObjet2(MCObjet):
+    """
+
+    """
     pass
 
 
 class MCObjet3(MCObjet):
-    KEYWORD = 'MCOBJET3'
+    """
 
+    """
     PARAMETERS = {
         'KY': 2,
         'KT': 1,
@@ -54,6 +65,8 @@ class MCObjet3(MCObjet):
         'I2': 2,
         'I3': 3,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+        commands (e.g. fit)."""
 
     def __str__(s) -> str:
         return f"""
