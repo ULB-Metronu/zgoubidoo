@@ -4,7 +4,7 @@ More details here.
 TODO
 """
 
-from typing import NoReturn
+from typing import NoReturn, List
 import numpy as _np
 from .commands import Command as _Command
 from .commands import ZgoubidooException as _ZgoubidooException
@@ -15,6 +15,7 @@ from ..vis import ZgoubiPlot as _ZgoubiPlot
 from .patchable import Patchable as _Patchable
 from .plotable import Plotable as _Plotable
 from ..units import _cm, _radian, _kilogauss, _degree
+import zgoubidoo
 
 
 class Magnet(_Command, _Patchable, _Plotable):
@@ -740,6 +741,54 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
             command.append(c)
 
         return ''.join(map(lambda _: _.rstrip(), command))
+
+    def fit(self,
+            boro: _Q,
+            particle: zgoubidoo.commands.MetaCommand=zgoubidoo.commands.Proton,
+            entry_coordinates: List=None,
+            exit_coordinates: float=0.0):
+        """
+
+        Returns:
+
+        """
+        if entry_coordinates is None:
+            entry_coordinates = [0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]
+
+        z = zgoubidoo.Zgoubi()
+        di = zgoubidoo.Input(f"FIT_{self.LABEL1}_MAGNET")
+        di += zgoubidoo.commands.Objet2('BUNCH', BORO=boro).add(
+            [entry_coordinates])
+        di += particle()
+        di += zgoubidoo.commands.Marker('START')
+        di += self
+        di += zgoubidoo.commands.Marker('END')
+        fit = zgoubidoo.commands.Fit2('FIT_B3G',
+                                      PENALTY=1e-12,
+                                      PARAMS=[
+                                          {
+                                              'IR': 4,  # B1
+                                              'IP': 5,
+                                              'XC': 0,
+                                              'DV': 1,
+                                          },
+                                      ],
+                                      CONSTRAINTS=[
+                                          {
+                                              'IC': 3,
+                                              'I': 1,
+                                              'J': 2,
+                                              'IR': 5,
+                                              'V': exit_coordinates,
+                                              'WV': 1.0,
+                                              'NP': 0,
+                                          },
+                                      ]
+                                      )
+        di += fit
+        out = z(di())
+        print('\n'.join(out.results[0]['result']))
+        print(fit.output)
 
 
 class DipoleM(PolarMagnet):
