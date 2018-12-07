@@ -584,6 +584,15 @@ class Bend(CartesianMagnet):
         """
 
 
+class FakeDrift(Bend):
+    """A fake drift (bend with almost vanishing field) to allow plotting trajectories through drift spaces."""
+    PARAMETERS = {
+        'B1': 1e-6 * _ureg.gauss,
+    }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+        commands (e.g. fit)."""
+
+
 class Decapole(CartesianMagnet):
     """Decapole magnet.
 
@@ -780,6 +789,8 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
             self.OMEGA_E = self.AT / 2
         if _degree(self.OMEGA_S) == 0:
             self.OMEGA_S -= self.AT / 2
+        if _degree(self.ACENT) == 0:
+            self._ACENT = self.AT / 2
 
     def __str__(s):
         command = []
@@ -876,7 +887,8 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
         di += fit
         z(di())  # Run Zgoubi
         self.B0 = fit.results.at[1, 'final']
-        return fit
+        self._fit = fit
+        return self
 
 
 class DipoleM(PolarMagnet):
