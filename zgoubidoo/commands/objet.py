@@ -93,19 +93,33 @@ class Objet2(Objet):
         'KOBJ': (2, ''),
         'K2': (0, ''),
         'IDMAX': (1, ''),
-        '_PARTICULES': None,
     }
+
+    def post_init(self, **kwargs):
+        self._PARTICULES = None
 
     @property
     def IMAX(self):
+        """
+
+        Returns:
+
+        """
         return self.PARTICULES.shape[0]
 
     @property
     def IEX(self):
+        """
+
+        Returns:
+
+        """
         return self.PARTICULES[:, 6]
 
     @property
     def PARTICULES(self):
+        if isinstance(self._PARTICULES, list):
+            self._PARTICULES = _np.array(self._PARTICULES)
         if self._PARTICULES is None:
             self._PARTICULES = _np.zeros((1, 7))
             self._PARTICULES[:, 5] = 1.0  # D = 1

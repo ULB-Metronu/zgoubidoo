@@ -59,7 +59,7 @@ class MetaCommand(type):
                     if len(getattr(bases[0], 'PARAMETERS', {}).get(k)) > 2:
                         dct['PARAMETERS'][k] = (*dct['PARAMETERS'][k], getattr(bases[0], 'PARAMETERS', {}).get(k)[2])
 
-        # Add PARAMETERS of the base class
+        # Add PARAMETERS from the base class
         try:
             # In case you're wondering, this is a dictionary concatenation...
             dct['PARAMETERS'] = {**getattr(bases[0], 'PARAMETERS', {}), **dct.get('PARAMETERS', {})}
@@ -102,24 +102,12 @@ class Command(metaclass=MetaCommand):
     KEYWORD: str = ''
     """Keyword of the command used for the Zgoubi input data."""
 
-    PARAMETERS = {
+    PARAMETERS: dict = {
         'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'),
         'LABEL2': ('', 'Secondary label for the Zgoubi command.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
-
-    _PROPERTIES = [
-        '_attributes',
-        '_output',
-        '_results',
-        '_entry',
-        '_entry_patched',
-        '_exit',
-        '_exit_patched',
-        '_center',
-    ]
-    """TODO"""
 
     def __init__(self, label1: str='', label2: str='', *params, **kwargs):
         """
@@ -147,9 +135,7 @@ class Command(metaclass=MetaCommand):
         """
         TODO
         Args:
-            **kwargs:
-
-        Returns:
+            **kwargs: all arguments from the initializer (constructor) are passed to ``post_init`` as keyword arguments.
 
         Examples:
             >>> xxx
@@ -194,8 +180,8 @@ class Command(metaclass=MetaCommand):
         Returns:
 
         """
-        if k in Command._PROPERTIES or k.startswith('__'):
-            self.__dict__[k] = v
+        if k.startswith('_'):
+            super().__setattr__(k, v)
         else:
             if k not in self._attributes.keys():
                 raise ZgoubidooException(f"The parameter {k} is not part of the {self.__class__.__name__} definition.")
@@ -205,9 +191,14 @@ class Command(metaclass=MetaCommand):
                 except (TypeError, IndexError):
                     default = self._attributes[k]
             try:
-                if default is not None and _ureg.Quantity(v).dimensionality != _ureg.Quantity(default).dimensionality:
-                    raise ZgoubidooException(f"Invalid dimension ({_ureg.Quantity(v).dimensionality}"
-                                             f" instead of {_ureg.Quantity(default).dimensionality}) for parameter {k}."
+                dimension = v.dimensionality
+            except AttributeError:
+                dimension = _ureg.Quantity(1).dimensionality
+            try:
+                if default is not None and dimension != _ureg.Quantity(default).dimensionality:
+                    raise ZgoubidooException(f"Invalid dimension ({dimension} "
+                                             f"instead of {_ureg.Quantity(default).dimensionality}) "
+                                             f"for parameter {k}={v}."
                                              )
             except (ValueError, TypeError, _UndefinedUnitError):
                 pass

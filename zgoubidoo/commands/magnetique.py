@@ -6,8 +6,13 @@ TODO
 
 from typing import NoReturn, List
 import numpy as _np
+from .commands import MetaCommand as _MetaCommand
 from .commands import Command as _Command
+from .commands import Marker as _Marker
 from .commands import ZgoubidooException as _ZgoubidooException
+from .commands import Fit2 as _Fit2
+from .objet import Objet2 as _Objet2
+from .particules import Proton as _Proton
 from .. import ureg as _ureg
 from .. import _Q
 from ..frame import Frame as _Frame
@@ -173,6 +178,11 @@ class PolarMagnet(Magnet):
 
     @property
     def entry_patched(self):
+        """
+
+        Returns:
+
+        """
         if self._entry_patched is None:
             self._entry_patched = _Frame(self.entry)
             self._entry_patched.translate_y(self.radius - (self.RE or 0 * _ureg.cm))
@@ -181,6 +191,11 @@ class PolarMagnet(Magnet):
 
     @property
     def center(self):
+        """
+
+        Returns:
+
+        """
         if self._center is None:
             self._center = _Frame(self.entry_patched)
             self._center.translate_y(-self.radius)
@@ -188,6 +203,11 @@ class PolarMagnet(Magnet):
 
     @property
     def exit(self) -> _Frame:
+        """
+
+        Returns:
+
+        """
         if self._exit is None:
             self._exit = _Frame(self.center)
             self._exit.translate_y(self.radius)
@@ -208,27 +228,73 @@ class PolarMagnet(Magnet):
         return self._exit_patched
 
     def plot(self, artist: _ZgoubiPlot):
+        """
+
+        Args:
+            artist:
+
+        Returns:
+
+        """
         getattr(artist, PolarMagnet.__name__.lower())(self)
 
     def plot_tracks(self, artist=None, tracks=None):
+        """
+
+        Args:
+            artist:
+            tracks:
+
+        Returns:
+
+        """
         if artist is None or tracks is None:
             return
         getattr(artist, f"tracks_{PolarMagnet.__name__.lower()}")(self, tracks)
 
     @staticmethod
     def drift_length_from_polar(radius: _Q, magnet_angle: _Q, poles_angle: _Q) -> _Q:
+        """
+
+        Args:
+            radius:
+            magnet_angle:
+            poles_angle:
+
+        Returns:
+
+        """
         return radius * _np.tan((magnet_angle - poles_angle) / 2).to('radian').magnitude
 
     @staticmethod
     def efb_offset_from_polar(radius: _Q, magnet_angle: _Q, poles_angle: _Q) -> _Q:
+        """
+
+        Args:
+            radius:
+            magnet_angle:
+            poles_angle:
+
+        Returns:
+
+        """
         return radius / _np.cos(((magnet_angle - poles_angle) / 2).to('radian').magnitude)
 
     @staticmethod
     def efb_angle_from_polar(magnet_angle: _Q, poles_angle: _Q) -> _Q:
+        """
+
+        Args:
+            magnet_angle:
+            poles_angle:
+
+        Returns:
+
+        """
         return -(magnet_angle - poles_angle) / 2
 
 
-class AGSMainMagnet(Magnet):
+class AGSMainMagnet(CartesianMagnet):
     """AGS main magnet.
 
     TODO
@@ -237,7 +303,7 @@ class AGSMainMagnet(Magnet):
     """Keyword of the command used for the Zgoubi input data."""
 
 
-class AGSQuadrupole(Magnet):
+class AGSQuadrupole(CartesianMagnet):
     """AGS quadrupole.
 
     The AGS quadrupoles are regular quadrupoles. The simulation of AGSQUAD uses the same field mod- elling as MULTIPOL,
@@ -260,7 +326,7 @@ class AGSQuadrupole(Magnet):
         commands (e.g. fit)."""
 
 
-class Aimant(Magnet):
+class Aimant(PolarMagnet):
     """Generation of dipole mid-plane 2-D map, polar frame.
 
     TODO
@@ -629,7 +695,8 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
 
     .. rubric:: Zgoubidoo usage and example
 
-    >>> Dipole()
+    >>> m = Dipole()
+    >>> m.fit()
     """
     KEYWORD = 'DIPOLE'
     """Keyword of the command used for the Zgoubi input data."""
@@ -700,6 +767,20 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        if _degree(self.OMEGA_E) == 0:
+            self.OMEGA_E = self.AT / 2
+        if _degree(self.OMEGA_S) == 0:
+            self.OMEGA_S -= self.AT / 2
+
     def __str__(s):
         command = []
         c = f"""
@@ -744,10 +825,18 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
 
     def fit(self,
             boro: _Q,
-            particle: zgoubidoo.commands.MetaCommand=zgoubidoo.commands.Proton,
+            particle: _MetaCommand=_Proton,
             entry_coordinates: List=None,
-            exit_coordinates: float=0.0):
+            exit_coordinates: float=0.0,
+            method: _MetaCommand=_Fit2):
         """
+
+        Args:
+            boro:
+            particle:
+            entry_coordinates:
+            exit_coordinates:
+            method:
 
         Returns:
 
@@ -757,38 +846,37 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
 
         z = zgoubidoo.Zgoubi()
         di = zgoubidoo.Input(f"FIT_{self.LABEL1}_MAGNET")
-        di += zgoubidoo.commands.Objet2('BUNCH', BORO=boro).add(
-            [entry_coordinates])
+        di += _Objet2('BUNCH', BORO=boro).add([entry_coordinates])
         di += particle()
-        di += zgoubidoo.commands.Marker('START')
+        di += _Marker('START')
         di += self
-        di += zgoubidoo.commands.Marker('END')
-        fit = zgoubidoo.commands.Fit2('FIT_B3G',
-                                      PENALTY=1e-12,
-                                      PARAMS=[
-                                          {
-                                              'IR': 4,  # B1
-                                              'IP': 5,
-                                              'XC': 0,
-                                              'DV': 1,
-                                          },
-                                      ],
-                                      CONSTRAINTS=[
-                                          {
-                                              'IC': 3,
-                                              'I': 1,
-                                              'J': 2,
-                                              'IR': 5,
-                                              'V': exit_coordinates,
-                                              'WV': 1.0,
-                                              'NP': 0,
-                                          },
-                                      ]
-                                      )
+        di += _Marker('END')
+        fit = method('FIT',
+                     PENALTY=1e-12,
+                     PARAMS=[
+                         {
+                             'IR': 4,  # B1
+                             'IP': 5,
+                             'XC': 0,
+                             'DV': 10,
+                         },
+                     ],
+                     CONSTRAINTS=[
+                         {
+                             'IC': 3,  # Constraint type
+                             'I': 1,  # Particle #1
+                             'J': 2,  # Y
+                             'IR': 5,  # END
+                             'V': exit_coordinates,
+                             'WV': 1.0,
+                             'NP': 0,
+                         },
+                     ]
+                     )
         di += fit
-        out = z(di())
-        print('\n'.join(out.results[0]['result']))
-        print(fit.output)
+        z(di())  # Run Zgoubi
+        self.B0 = fit.results.at[1, 'final']
+        return fit
 
 
 class DipoleM(PolarMagnet):
