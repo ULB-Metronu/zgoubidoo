@@ -11,6 +11,7 @@ from .commands import Command as _Command
 from .commands import Marker as _Marker
 from .commands import ZgoubidooException as _ZgoubidooException
 from .commands import Fit2 as _Fit2
+from .commands import ZgoubidooException as _ZgoubidooException
 from .objet import Objet2 as _Objet2
 from .particules import Proton as _Proton
 from .. import ureg as _ureg
@@ -839,7 +840,8 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
             particle: _MetaCommand=_Proton,
             entry_coordinates: List=None,
             exit_coordinates: float=0.0,
-            method: _MetaCommand=_Fit2):
+            method: _MetaCommand=_Fit2,
+            debug=False):
         """
 
         Args:
@@ -885,7 +887,11 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
                      ]
                      )
         di += fit
-        z(di())  # Run Zgoubi
+        out = z(di())  # Run Zgoubi
+        if debug:
+            print('\n'.join(out.results[0]['result']))
+        if fit.results is None:
+            raise _ZgoubidooException(f"Unable to fit {self.__class__.__name__}.")
         self.B0 = fit.results.at[1, 'final']
         self._fit = fit
         return self

@@ -36,11 +36,12 @@ class MetaCommand(type):
     PARAMETERS = dict()
 
     def __new__(mcs, name: str, bases: Tuple[type, ...], dct: Dict[str, Any]):
-        # Insert a custom initializer (constructor) in case one is not present
+        # Insert a default initializer (constructor) in case one is not present
         if '__init__' not in dct:
-            def custom_init(self, label1: str = '', label2: str = '', *params, **kwargs):
+            def default_init(self, label1: str = '', label2: str = '', *params, **kwargs):
+                """Default initializer for all Commands."""
                 bases[0].__init__(self, label1, label2, bases[0].PARAMETERS, self.PARAMETERS, *params, **kwargs)
-            dct['__init__'] = custom_init
+            dct['__init__'] = default_init
 
         # Add a custom keyword
         if 'KEYWORD' not in dct:
@@ -128,7 +129,8 @@ class Command(metaclass=MetaCommand):
                 },):
             self._attributes = dict(self._attributes, **p)
         for k, v in kwargs.items():
-            setattr(self, k, v)
+            if k not in self.post_init.__code__.co_varnames:
+                setattr(self, k, v)
         self.post_init(**kwargs)
 
     def post_init(self, **kwargs) -> NoReturn:
