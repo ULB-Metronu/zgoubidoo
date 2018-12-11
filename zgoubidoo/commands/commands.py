@@ -130,7 +130,7 @@ class Command(metaclass=MetaCommand):
                 setattr(self, k, v)
         Command.post_init(self, **kwargs)
 
-    def post_init(self, **kwargs) -> NoReturn:
+    def post_init(self, **kwargs):  # -> NoReturn:
         """
         TODO
         Args:
@@ -269,7 +269,7 @@ class Command(metaclass=MetaCommand):
         """
         return self._results.set_index('variable_id')
 
-    def attach_output(self, output: str, zgoubi_input: zgoubidoo.Input) -> NoReturn:
+    def attach_output(self, output: str, zgoubi_input: zgoubidoo.Input):  # -> NoReturn:
         """
         Attach the ouput that an command has generated during a Zgoubi run.
 

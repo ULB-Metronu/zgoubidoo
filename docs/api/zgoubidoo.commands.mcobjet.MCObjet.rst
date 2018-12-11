@@ -10,8 +10,10 @@ MCObjet
 
    .. autosummary::
 
+      ~MCObjet.KEYWORD
       ~MCObjet.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

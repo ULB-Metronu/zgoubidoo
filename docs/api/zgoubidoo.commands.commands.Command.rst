@@ -12,6 +12,9 @@ Command
 
       ~Command.KEYWORD
       ~Command.PARAMETERS
+      ~Command.attributes
+      ~Command.defaults
+      ~Command.nondefaults
       ~Command.output
       ~Command.results
 
@@ -27,6 +30,9 @@ Command
 
    .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS
+   .. autoattribute:: attributes
+   .. autoattribute:: defaults
+   .. autoattribute:: nondefaults
    .. autoattribute:: output
    .. autoattribute:: results
 

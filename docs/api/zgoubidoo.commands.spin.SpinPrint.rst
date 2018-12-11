@@ -10,8 +10,10 @@ SpinPrint
 
    .. autosummary::
 
+      ~SpinPrint.KEYWORD
       ~SpinPrint.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

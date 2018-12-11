@@ -10,8 +10,10 @@ SpnTrk
 
    .. autosummary::
 
+      ~SpnTrk.KEYWORD
       ~SpnTrk.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

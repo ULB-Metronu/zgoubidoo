@@ -1,3 +1,14 @@
+"""Zgoubidoo relativistic physics module.
+
+This module provides a collection of functions and classes to deal with relativistic physics computations. This mainly
+concerns conversions between kinematic quantities. Full support for units (via ``pint``) is provided. Additionnally, a
+helper class (``Kinematics``) provides automatic construction and conversion of kinematics quantities.
+
+Examples:
+    >>> 1 + 1
+    TODO
+
+"""
 from typing import Union, Optional
 from functools import partial
 import numpy as _np
@@ -13,7 +24,7 @@ class ZgoubiPhysicsException(Exception):
         self.message = m
 
 
-class Kinematic:
+class Kinematics:
     """
 
     """
@@ -82,7 +93,10 @@ class Kinematic:
             return _
 
     range = property(to_range)
+    """TODO"""
+
     range_ = property(partial(to_range, magnitude=True))
+    """TODO"""
 
     def to_energy(self, magnitude: bool=False) -> Union[float, _Q]:
         """
@@ -100,7 +114,10 @@ class Kinematic:
             return _
 
     energy = property(to_energy)
+    """TODO"""
+
     energy_ = property(partial(to_energy, magnitude=True))
+    """TODO"""
 
     def to_etot(self, magnitude: bool=False) -> Union[float, _Q]:
         """
@@ -118,7 +135,10 @@ class Kinematic:
             return _
 
     etot = property(to_etot)
+    """TODO"""
+
     etot_ = property(partial(to_etot, magnitude=True))
+    """TODO"""
 
     def to_momentum(self, magnitude: bool=False) -> Union[float, _Q]:
         """

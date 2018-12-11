@@ -671,27 +671,27 @@ class Dipole(PolarMagnet):
     fringe field coefficient F is calculated. In the following λ stands for either λE (Entrance), λS (Exit)
     or λL (Lateral EFB).
 
-   F is an exponential type fringe field (Fig. 12, p. 84) given by [34] F=1
- 1+expP(s) wherein s is the distance to the EFB and depends on (R, θ), and
-P(s)=C0 +C1􏰓s􏰔+C2􏰓s􏰔2 +C3􏰓s􏰔3 +C4􏰓s􏰔4 +C5􏰓s􏰔5 λλλλλ
-It is also possible to simulate a shift of the EFB, by giving a non zero value to the parameter shift. s is then changed to s−shift in the previous equation. This allows small variations of the magnetic length.
-Let FE (respectively FS , FL) be the fringe field coefficient attached to the entrance (respectively exit, lateral) EFB. At any position on a trajectory the resulting value of the fringe field coefficient (eq. 4.4.8) is
+    F is an exponential type fringe field (Fig. 12, p. 84) given by [34] F=1
+    1+expP(s) wherein s is the distance to the EFB and depends on (R, θ), and
+    P(s)=C0 +C1􏰓s􏰔+C2􏰓s􏰔2 +C3􏰓s􏰔3 +C4􏰓s􏰔4 +C5􏰓s􏰔5 λλλλλ
+    It is also possible to simulate a shift of the EFB, by giving a non zero value to the parameter shift. s is then changed to s−shift in the previous equation. This allows small variations of the magnetic length.
+    Let FE (respectively FS , FL) be the fringe field coefficient attached to the entrance (respectively exit, lateral) EFB. At any position on a trajectory the resulting value of the fringe field coefficient (eq. 4.4.8) is
 
-102 4 DESCRIPTION OF THE AVAILABLE PROCEDURES
-F(R,θ)=FE ∗FS ∗FL In particular, FL ≡ 1 if no lateral EFB is requested.
-Calculation of the Mid-plane Field and Derivatives
-BZ (R, θ) in Eq. 4.4.8 is computed at the n × n nodes (n = 3 or 5 in practice) of a “flying” interpolation grid in the median plane centered on the projection m0 of the actual particle position M0 as schemed in Fig. 20. A polynomial interpolation is involved, of the form
-BZ(R,θ)=A00 +A10θ+A01R+A20θ2 +A11θR+A02R2 that yields the requested derivatives, using
-Akl = 1 ∂k+lBZ k!l! ∂θk∂rl
-Note that, the source code contains the explicit analytical expressions of the coefficients Akl solutions of the normal equations, so that the operation is not CPU time consuming.
-B2
-interpolation
-grid δ s particle
-trajectory B1mm1 B3
-0
-Figure 20: Interpolation method. m0 and m1 are the projections in the median plane of particle positions M0 and M1 and separated by δs, projection of the integration step.
-Extrapolation Off Median Plane
-From the vertical field B⃗ and derivatives in the median plane, first a transformation from polar to Cartesian coordinates is performed, following eqs (1.4.9 or 1.4.10), then, extrapolation off median plane is performed by means of Taylor expansions, following the procedure described in section 1.3.3.
+    102 4 DESCRIPTION OF THE AVAILABLE PROCEDURES
+    F(R,θ)=FE ∗FS ∗FL In particular, FL ≡ 1 if no lateral EFB is requested.
+    Calculation of the Mid-plane Field and Derivatives
+    BZ (R, θ) in Eq. 4.4.8 is computed at the n × n nodes (n = 3 or 5 in practice) of a “flying” interpolation grid in the median plane centered on the projection m0 of the actual particle position M0 as schemed in Fig. 20. A polynomial interpolation is involved, of the form
+    BZ(R,θ)=A00 +A10θ+A01R+A20θ2 +A11θR+A02R2 that yields the requested derivatives, using
+    Akl = 1 ∂k+lBZ k!l! ∂θk∂rl
+    Note that, the source code contains the explicit analytical expressions of the coefficients Akl solutions of the normal equations, so that the operation is not CPU time consuming.
+    B2
+    interpolation
+    grid δ s particle
+    trajectory B1mm1 B3
+    0
+    Figure 20: Interpolation method. m0 and m1 are the projections in the median plane of particle positions M0 and M1 and separated by δs, projection of the integration step.
+    Extrapolation Off Median Plane
+    From the vertical field B⃗ and derivatives in the median plane, first a transformation from polar to Cartesian coordinates is performed, following eqs (1.4.9 or 1.4.10), then, extrapolation off median plane is performed by means of Taylor expansions, following the procedure described in section 1.3.3.
 
     .. rubric:: Zgoubidoo usage and example
 
@@ -1101,7 +1101,7 @@ class Dipoles(PolarMagnet):
 
     .. rubric:: Zgoubi manual description
 
-        TODO
+    TODO
     """
     KEYWORD = 'DIPOLES'
     """Keyword of the command used for the Zgoubi input data."""

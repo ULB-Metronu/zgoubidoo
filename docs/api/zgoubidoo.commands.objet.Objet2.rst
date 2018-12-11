@@ -22,6 +22,7 @@ Objet2
 
       ~Objet2.add
       ~Objet2.clear
+      ~Objet2.post_init
 
    .. rubric:: Attributes Documentation
 
@@ -35,3 +36,4 @@ Objet2
 
    .. automethod:: add
    .. automethod:: clear
+   .. automethod:: post_init
