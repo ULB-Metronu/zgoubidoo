@@ -9,7 +9,6 @@ import numpy as _np
 from .commands import MetaCommand as _MetaCommand
 from .commands import Command as _Command
 from .commands import Marker as _Marker
-from .commands import ZgoubidooException as _ZgoubidooException
 from .commands import Fit2 as _Fit2
 from .commands import ZgoubidooException as _ZgoubidooException
 from .objet import Objet2 as _Objet2
@@ -35,9 +34,6 @@ class Magnet(_Command, _Patchable, _Plotable):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
 
-    def __init__(self, label1='', label2='', *params, **kwargs):
-        super().__init__(label1, label2, Magnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
-
 
 class CartesianMagnet(Magnet):
     """Base class for magnetic elements in cartesian coordinates.
@@ -50,9 +46,6 @@ class CartesianMagnet(Magnet):
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
-
-    def __init__(self, label1='', label2='', *params, **kwargs):
-        super().__init__(label1, label2, CartesianMagnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
     @property
     def rotation(self) -> _Q:
@@ -119,9 +112,6 @@ class PolarMagnet(Magnet):
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
-
-    def __init__(self, label1: str='', label2: str='', *params, **kwargs):
-        super().__init__(label1, label2, PolarMagnet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
     @property
     def angular_opening(self) -> _Q:
@@ -777,7 +767,7 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
-    def post_init(self, **kwargs):
+    def post_init(self, **kwargs) -> NoReturn:
         """
 
         Args:
@@ -791,7 +781,11 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
         if _degree(self.OMEGA_S) == 0:
             self.OMEGA_S -= self.AT / 2
         if _degree(self.ACENT) == 0:
-            self._ACENT = self.AT / 2
+            self.ACENT = self.AT / 2
+        if _cm(self.RE) == 0:
+            self.RE = self.RM
+        if _cm(self.RS) == 0:
+            self.RS = self.RM
 
     def __str__(s):
         command = []

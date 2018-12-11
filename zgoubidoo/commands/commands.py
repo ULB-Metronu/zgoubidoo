@@ -33,17 +33,23 @@ class MetaCommand(type):
 
     TODO
     """
-    PARAMETERS = dict()
-
     def __new__(mcs, name: str, bases: Tuple[type, ...], dct: Dict[str, Any]):
         # Insert a default initializer (constructor) in case one is not present
         if '__init__' not in dct:
             def default_init(self, label1: str = '', label2: str = '', *params, **kwargs):
                 """Default initializer for all Commands."""
-                bases[0].__init__(self, label1, label2, bases[0].PARAMETERS, self.PARAMETERS, *params, **kwargs)
+                bases[0].__init__(self, label1, label2, dct.get('PARAMETERS', {}), *params, **kwargs)
+                if 'post_init' in dct:
+                    dct['post_init'](self, **kwargs)
             dct['__init__'] = default_init
 
-        # Add a custom keyword
+        # Collect all post_init arguments
+        if '_POST_INIT' not in dct:
+            dct['_POST_INIT'] = {}
+        if 'post_init' in dct and len(bases) > 0:
+            dct['_POST_INIT'] = [*getattr(bases[0], '_POST_INIT', {}), *dct['post_init'].__code__.co_varnames]
+
+        # Add a default keyword
         if 'KEYWORD' not in dct:
             for b in bases:
                 if getattr(b, 'KEYWORD', None):
@@ -62,24 +68,15 @@ class MetaCommand(type):
 
         # Add PARAMETERS from the base class
         try:
-            # In case you're wondering, this is a dictionary concatenation...
             dct['PARAMETERS'] = {**getattr(bases[0], 'PARAMETERS', {}), **dct.get('PARAMETERS', {})}
         except IndexError:
             pass
 
-        # Documentation
-        if not dct.get('__pdoc__'):
-            dct['__pdoc__'] = dict()
-        for b in bases:
-            if isinstance(b, MetaCommand):
-                dct['__pdoc__'] = {**dct['__pdoc__'], **getattr(b, '__pdoc__', dict())}
-        if dct.get('PARAMETERS'):
-            dct['__pdoc__'] = {**dct['__pdoc__'], **dct.get('PARAMETERS')}
         return super().__new__(mcs, name, bases, dct)
 
     def __init__(cls, name: str, bases: Tuple[type, ...], dct: Dict[str, Any]):
         super().__init__(name, bases, dct)
-        if cls.__doc__ is not None and cls.PARAMETERS is not None:
+        if cls.__doc__ is not None:
             cls.__doc__ = cls.__doc__.rstrip()
             cls.__doc__ += """
             
@@ -87,7 +84,7 @@ class MetaCommand(type):
     
     Attributes:
             """
-            for k, v in cls.__pdoc__.items():
+            for k, v in cls.PARAMETERS.items():
                 if isinstance(v, tuple) and len(v) >= 2:
                     cls.__doc__ += f"""
         {k}='{v[0]}' ({type(v[0]).__name__}): {v[1]}
@@ -122,16 +119,16 @@ class Command(metaclass=MetaCommand):
         self._output = list()
         self._results = None
         self._attributes = {}
-        for p in (Command.PARAMETERS, self.PARAMETERS,) + params + (
+        for d in (Command.PARAMETERS, ) + params + (
                 {
                     'LABEL1': (label1 or str(uuid.uuid4().hex)[:ZGOUBI_LABEL_LENGTH], ''),
-                    'LABEL2': (label2, '')
+                    'LABEL2': (label2, )
                 },):
-            self._attributes = dict(self._attributes, **p)
+            self._attributes = dict(self._attributes, **{k: v[0] for k, v in d.items()})
         for k, v in kwargs.items():
-            if k not in self.post_init.__code__.co_varnames:
+            if k not in self._POST_INIT:
                 setattr(self, k, v)
-        self.post_init(**kwargs)
+        Command.post_init(self, **kwargs)
 
     def post_init(self, **kwargs) -> NoReturn:
         """
@@ -156,10 +153,7 @@ class Command(metaclass=MetaCommand):
         """
         if self._attributes.get(a) is None:
             return None
-        if not isinstance(self._attributes[a], tuple):
-            attr = self._attributes[a]
-        else:
-            attr = self._attributes[a][0]
+        attr = self._attributes[a]
         if not isinstance(attr, str) and not isinstance(attr, _Q):
             try:
                 _ = _Q(attr)
@@ -189,9 +183,9 @@ class Command(metaclass=MetaCommand):
                 raise ZgoubidooException(f"The parameter {k} is not part of the {self.__class__.__name__} definition.")
             else:
                 try:
-                    default = self._attributes[k][0]
+                    default = self.PARAMETERS[k][0]
                 except (TypeError, IndexError):
-                    default = self._attributes[k]
+                    default = self.PARAMETERS[k]
             try:
                 dimension = v.dimensionality
             except AttributeError:
@@ -223,6 +217,37 @@ class Command(metaclass=MetaCommand):
         return f"""
         '{self.KEYWORD}' {self.LABEL1} {self.LABEL2}
         """
+
+    @property
+    def attributes(self) -> Dict[str, _ureg.Quantity]:
+        """All attributes.
+
+        Provides a dictionary with all attributes for the command.
+
+        Returns: dictionnary with all attributes.
+
+        """
+        return self._attributes
+
+    @property
+    def defaults(self) -> Dict[str, _ureg.Quantity]:
+        """Default attributes.
+
+        Provides a dictionary with all attributes that have been assigned a default value.
+
+        Returns: dictionary with all default attributes.
+        """
+        return {k: v for k, v in self._attributes.items() if v == self.PARAMETERS.get(k)[0]}
+
+    @property
+    def nondefaults(self) -> Dict[str, _ureg.Quantity]:
+        """Non default attributes.
+
+        Provides a dictionary with all attributes that have been assigned a non default value.
+
+        Returns: dictionary with all non default attributes.
+        """
+        return {k: v for k, v in self._attributes.items() if v != self.PARAMETERS.get(k)[0]}
 
     @property
     def output(self) -> List[str]:
@@ -333,6 +358,7 @@ class Chambre(Command):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
+
 # Aliases
 Chamber = Chambre
 Chambr = Chambre
@@ -353,11 +379,11 @@ class ChangRef(Command, _Patchable):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
-    def __str__(s):
-        c =  f"""
+    def __str__(self):
+        c = f"""
         {super().__str__().rstrip()}
         """
-        for t in s.TRANSFORMATIONS:
+        for t in self.TRANSFORMATIONS:
             if t[1].dimensionality == _ureg.cm.dimensionality:
                 c += f"{t[0]} {_cm(t[1])} "
             elif t[1].dimensionality == _ureg.radian.dimensionality:

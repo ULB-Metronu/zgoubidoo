@@ -21,7 +21,7 @@ class B1G(_Dipole):
         'B0': 1.4 * _ureg.tesla,
         'AT': 50 * _ureg.degree,
         'ACENT': 25 * _ureg.degree,
-        'RM': 1600 * _ureg.degree,
+        'RM': 1600 * _ureg.mm,
     }
 
     def post_init(self, **kwargs):
@@ -83,6 +83,7 @@ class B3G(_Dipole):
                   entrance_fringe_lambda=7 * _ureg.cm,
                   exit_fringe_lambda=7 * _ureg.cm,
                   exit_pole_curvature=1e9 * _ureg.cm,
+                  **kwargs,
                   ) -> NoReturn:
         """
         TODO
@@ -99,9 +100,11 @@ class B3G(_Dipole):
             >>> B3G()
 
         """
+        self.LABEL1 = self.__class__.__name__
         self.AT = magnet_opening
         self.ACENT = self.AT / 2
-        self.OMEGA_E = self.ACENT - poles_opening / 2
+        self.OMEGA_E = poles_opening / 2
+        self.OMEGA_S = -poles_opening / 2
 
 
 class SMX(_Bend):
