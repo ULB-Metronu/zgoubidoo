@@ -6,6 +6,9 @@ from .zgoubiplot import ZgoubiPlot
 
 
 class ZgoubiPlotly(ZgoubiPlot):
+    """
+    TODO
+    """
     def __init__(self, with_boxes=True, with_frames=True, **kwargs):
         super().__init__(with_boxes, with_frames, **kwargs)
         self._data = []
@@ -17,6 +20,11 @@ class ZgoubiPlotly(ZgoubiPlot):
 
     @property
     def fig(self):
+        """TODO
+
+        Returns:
+
+        """
         return {
             'data': self.data,
             'layout': self.layout,

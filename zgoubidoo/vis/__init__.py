@@ -1,7 +1,8 @@
-"""
+"""Visualization and plotting module.
 
+TODO
 """
 from .zgoubiplot import ZgoubiPlot
 from .matplotlib import ZgoubiMpl
 from .mesh import ZgoubiMesh
-from .beamline import plot
+from .beamline import beamline

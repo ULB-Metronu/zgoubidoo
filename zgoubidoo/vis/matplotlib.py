@@ -1,5 +1,6 @@
-"""
+"""Matplotlib plotting module for Zgoubidoo.
 
+TODO
 """
 from __future__ import annotations
 from typing import NoReturn
@@ -74,6 +75,11 @@ class ZgoubiMpl(ZgoubiPlot):
         """
 
         def do_frame() -> None:
+            """
+
+            Returns:
+
+            """
             self.plot(_cm(magnet.entry.x), _cm(magnet.entry.y), 'gv', ms=5)
             self.plot(_cm(magnet.entry_patched.x), _cm(magnet.entry_patched.y), 'bs', ms=5)
             self.plot(_cm(magnet.exit.x), _cm(magnet.exit.y), 'k^', ms=5)
@@ -82,6 +88,11 @@ class ZgoubiMpl(ZgoubiPlot):
                 self.plot(_cm(magnet.center.x), _cm(magnet.center.y), 'r.', ms=5)
 
         def do_box() -> None:
+            """
+
+            Returns:
+
+            """
             if np.cos(_radian(magnet.entry_patched.tz)) > 0:
                 theta1 = 90 - _degree(magnet.entry_patched.tx + magnet.angular_opening)
                 theta2 = 90 - _degree(magnet.entry_patched.tx)

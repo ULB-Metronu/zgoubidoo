@@ -1,3 +1,6 @@
+"""Plotting module.
+
+"""
 from __future__ import annotations
 from typing import NoReturn
 import zgoubidoo.commands
@@ -28,7 +31,7 @@ PALETTE['solarized']['gray'] = PALETTE['solarized']['base03']
 
 class ZgoubiPlot:
     """
-
+    TODO
     """
     def __init__(self, with_boxes=True, with_frames=True, with_drifts=True, **kwargs):
         self._reference_frame = None

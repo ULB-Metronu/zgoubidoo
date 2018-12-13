@@ -33,7 +33,7 @@ class B1G(_Dipole):
         Returns:
 
         """
-        pass
+        self.LABEL1 = self.__class__.__name__
 
 
 class B2G(_Dipole):
@@ -58,7 +58,7 @@ class B2G(_Dipole):
         Returns:
 
         """
-        pass
+        self.LABEL1 = self.__class__.__name__
 
 
 class B3G(_Dipole):
@@ -69,7 +69,7 @@ class B3G(_Dipole):
 
     """
     PARAMETERS = {
-        'B0': 1.4 * _ureg.tesla,
+        'B0': 14 * _ureg.kilogauss,
         'AT': 70 * _ureg.degree,
         'ACENT': 35 * _ureg.degree,
         'RM': 1600 * _ureg.mm,
@@ -115,6 +115,17 @@ class SMX(_Bend):
         'XL': 159 * _ureg.mm,
     }
 
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        self.LABEL1 = self.__class__.__name__
+
 
 class SMY(_Bend):
     """Proteus One crossline scanning magnet.
@@ -123,6 +134,17 @@ class SMY(_Bend):
     PARAMETERS = {
         'XL': 109 * _ureg.mm,
     }
+
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        self.LABEL1 = self.__class__.__name__
 
 
 class QuadrupoleLong(_Quadrupole):

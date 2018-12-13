@@ -13,6 +13,7 @@ Zgoubidoo's documentation
    input
    lowlevel
    sequence
+   vis
    utilities
    examples
 

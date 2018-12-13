@@ -108,7 +108,8 @@ class PolarMagnet(Magnet):
     TODO
     """
     PARAMETERS = {
-        'WIDTH': 50 * _ureg.cm,
+        'WIDTH': 150 * _ureg.cm,
+        'COLOR': 'r',
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
