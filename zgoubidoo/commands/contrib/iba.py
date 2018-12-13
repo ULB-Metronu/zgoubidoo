@@ -72,6 +72,19 @@ class B3G(_Dipole):
     PARAMETERS = {
         'B0': 14 * _ureg.kilogauss,
         'RM': 1600 * _ureg.mm,
+        'LAM_E': 9 * _ureg.cm,
+        'C0_E': 21.080,
+        'C1_E': 67.107,
+        'C2_E': 84.139,
+        'C3_E': 40.43,
+        'SHIFT_E': 0 * _ureg.cm,
+        'LAM_S': 9 * _ureg.cm,
+        'C0_S': -6.305,
+        'C1_S': 26.054,
+        'C2_S': -30.401,
+        'C3_S': 15.611,
+        'SHIFT_S': 0 * _ureg.cm,
+        'XPAS': 0.1 * _ureg.mm,
     }
 
     def post_init(self,
@@ -79,8 +92,8 @@ class B3G(_Dipole):
                   poles_opening=60 * _ureg.degree,
                   entrance_pole_trim=1.125 * _ureg.degree,
                   exit_pole_trim=1.125 * _ureg.degree,
-                  entrance_fringe_lambda=7 * _ureg.cm,
-                  exit_fringe_lambda=7 * _ureg.cm,
+                  entrance_fringe_lambda=9 * _ureg.cm,
+                  exit_fringe_lambda=9 * _ureg.cm,
                   entrance_pole_curvature=1e9 * _ureg.cm,
                   exit_pole_curvature=1e9 * _ureg.cm,
                   **kwargs,
@@ -104,8 +117,10 @@ class B3G(_Dipole):
         self.LABEL1 = self.__class__.__name__
         self.AT = magnet_opening
         self.ACENT = self.AT / 2
-        self.OMEGA_E = poles_opening / 2
-        self.OMEGA_S = -poles_opening / 2
+        self.OMEGA_E = poles_opening / 2 - entrance_pole_trim
+        self.OMEGA_S = -poles_opening / 2 + entrance_pole_trim
+        self.LAM_E = entrance_fringe_lambda
+        self.LAM_S = exit_fringe_lambda
         self.RE = _PolarMagnet.efb_offset_from_polar(radius=self.RM,
                                                      magnet_angle=magnet_opening,
                                                      poles_angle=poles_opening
@@ -117,9 +132,9 @@ class B3G(_Dipole):
         self.TE = _PolarMagnet.efb_angle_from_polar(magnet_angle=magnet_opening,
                                                     poles_angle=poles_opening
                                                     )
-        self.TS = _PolarMagnet.efb_angle_from_polar(magnet_angle=magnet_opening,
-                                                    poles_angle=poles_opening
-                                                    )
+        self.TS = -_PolarMagnet.efb_angle_from_polar(magnet_angle=magnet_opening,
+                                                     poles_angle=poles_opening
+                                                     )
 
 
 class SMX(_Bend):
