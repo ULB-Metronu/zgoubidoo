@@ -109,7 +109,7 @@ class PolarMagnet(Magnet):
     """
     PARAMETERS = {
         'WIDTH': 150 * _ureg.cm,
-        'COLOR': 'r',
+        'COLOR': 'red',
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
@@ -249,23 +249,23 @@ class PolarMagnet(Magnet):
         """
 
         Args:
-            radius:
-            magnet_angle:
-            poles_angle:
+            radius: the reference radius of the magnet
+            magnet_angle: total angular opening of the magnet (i.e. of the field-map)
+            poles_angle: angular opening of the poles
 
         Returns:
 
         """
-        return radius * _np.tan((magnet_angle - poles_angle) / 2).to('radian').magnitude
+        return radius * _np.tan(((magnet_angle - poles_angle) / 2).to('radian').magnitude)
 
     @staticmethod
     def efb_offset_from_polar(radius: _Q, magnet_angle: _Q, poles_angle: _Q) -> _Q:
         """
 
         Args:
-            radius:
-            magnet_angle:
-            poles_angle:
+            radius: the reference radius of the magnet
+            magnet_angle: total angular opening of the magnet (i.e. of the field-map)
+            poles_angle: angular opening of the poles
 
         Returns:
 
@@ -277,8 +277,8 @@ class PolarMagnet(Magnet):
         """
 
         Args:
-            magnet_angle:
-            poles_angle:
+            magnet_angle: total angular opening of the magnet (i.e. of the field-map)
+            poles_angle: angular opening of the poles
 
         Returns:
 

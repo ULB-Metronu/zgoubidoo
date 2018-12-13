@@ -4,6 +4,7 @@ More details here.
 TODO
 """
 from typing import NoReturn
+from ..magnetique import PolarMagnet as _PolarMagnet
 from ..magnetique import Dipole as _Dipole
 from ..magnetique import Bend as _Bend
 from ..magnetique import Quadrupole as _Quadrupole
@@ -70,8 +71,6 @@ class B3G(_Dipole):
     """
     PARAMETERS = {
         'B0': 14 * _ureg.kilogauss,
-        'AT': 70 * _ureg.degree,
-        'ACENT': 35 * _ureg.degree,
         'RM': 1600 * _ureg.mm,
     }
 
@@ -82,22 +81,24 @@ class B3G(_Dipole):
                   exit_pole_trim=1.125 * _ureg.degree,
                   entrance_fringe_lambda=7 * _ureg.cm,
                   exit_fringe_lambda=7 * _ureg.cm,
+                  entrance_pole_curvature=1e9 * _ureg.cm,
                   exit_pole_curvature=1e9 * _ureg.cm,
                   **kwargs,
                   ) -> NoReturn:
         """
         TODO
         Args:
-            magnet_opening:
-            poles_opening:
-            entrance_pole_trim:
-            exit_pole_trim:
-            entrance_fringe_lambda:
-            exit_fringe_lambda:
-            exit_pole_curvature:
-
+            magnet_opening: total angular opening of the magnet (i.e. of the field map)
+            poles_opening: angular opening of the poles
+            entrance_pole_trim: angular shift of the entrance pole
+            exit_pole_trim: angular shift of the exit pole
+            entrance_fringe_lambda: effective length of the entrance fringe field
+            exit_fringe_lambda: effective length of the exit fringe field
+            entrance_pole_curvature: curvature of the  pole at the entrance of the magnet
+            exit_pole_curvature: curvature of the pole at the exit of the magnet
         Example:
-            >>> B3G()
+            >>> b3g = B3G()
+            >>> b3g.fit()
 
         """
         self.LABEL1 = self.__class__.__name__
@@ -105,10 +106,24 @@ class B3G(_Dipole):
         self.ACENT = self.AT / 2
         self.OMEGA_E = poles_opening / 2
         self.OMEGA_S = -poles_opening / 2
+        self.RE = _PolarMagnet.efb_offset_from_polar(radius=self.RM,
+                                                     magnet_angle=magnet_opening,
+                                                     poles_angle=poles_opening
+                                                     )
+        self.RS = _PolarMagnet.efb_offset_from_polar(radius=self.RM,
+                                                     magnet_angle=magnet_opening,
+                                                     poles_angle=poles_opening
+                                                     )
+        self.TE = _PolarMagnet.efb_angle_from_polar(magnet_angle=magnet_opening,
+                                                    poles_angle=poles_opening
+                                                    )
+        self.TS = _PolarMagnet.efb_angle_from_polar(magnet_angle=magnet_opening,
+                                                    poles_angle=poles_opening
+                                                    )
 
 
 class SMX(_Bend):
-    """Proteus One inline scanning magnet.
+    """Proteus One inline (horizontal) scanning magnet.
 
     """
     PARAMETERS = {
@@ -128,7 +143,7 @@ class SMX(_Bend):
 
 
 class SMY(_Bend):
-    """Proteus One crossline scanning magnet.
+    """Proteus One crossline (vertical) scanning magnet.
 
     """
     PARAMETERS = {
