@@ -795,10 +795,10 @@ class Dipole(PolarMagnet):
         {s.IL}
         {_degree(s.AT):.12e} {_cm(s.RM):.12e}
         {_degree(s.ACENT):.12e} {_kilogauss(s.B0):.12e} {s.N:.12e} {s.B:.12e} {s.G:.12e}
-        {_cm(s.LAM_E):.12e} 0.0
+        {_cm(s.LAM_E):.12e} -1.0
         6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e} {_cm(s.SHIFT_E):.12e}
         {_degree(s.OMEGA_E):.12e} {s.THETA_E:.12e} {_cm(s.R1_E):.12e} {_cm(s.U1_E):.12e} {_cm(s.U2_E):.12e} {_cm(s.R2_E):.12e}
-        {_cm(s.LAM_S):.12e} 0.0
+        {_cm(s.LAM_S):.12e} -1.0
         6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e} {_cm(s.SHIFT_S):.12e}
         {_degree(s.OMEGA_S):.12e} {s.THETA_S:.12e} {_cm(s.R1_S):.12e} {_cm(s.U1_S):.12e} {_cm(s.U2_S):.12e} {_cm(s.R2_S):.12e}
         {_cm(s.LAM_L):.12e} {s.XI_L}

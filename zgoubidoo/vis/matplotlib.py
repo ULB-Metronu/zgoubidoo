@@ -103,8 +103,9 @@ class ZgoubiMpl(ZgoubiPlot):
                 theta1 = -90 - _degree(magnet.entry_patched.tx)
                 theta2 = -90 - _degree(magnet.entry_patched.tx - magnet.angular_opening)
                 theta3 = -90 - _degree(magnet.entry_patched.tx - magnet.reference_angle)
-                theta4 = -90 - _degree(magnet.entry_patched.tx - magnet.reference_angle + magnet.entrance_efb)
-                theta5 = -90 - _degree(magnet.entry_patched.tx - magnet.reference_angle + magnet.exit_efb)
+                theta4 = -90 - _degree(magnet.entry_patched.tx - magnet.reference_angle + magnet.exit_efb)
+                theta5 = -90 - _degree(magnet.entry_patched.tx - magnet.reference_angle + magnet.entrance_efb)
+
             self._ax.add_patch(
                 patches.Wedge(
                     (

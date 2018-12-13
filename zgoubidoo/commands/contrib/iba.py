@@ -19,22 +19,56 @@ class B1G(_Dipole):
         >>> B1G()
     """
     PARAMETERS = {
-        'B0': 1.4 * _ureg.tesla,
+        'B0': 14 * _ureg.kilogauss,
         'AT': 50 * _ureg.degree,
         'ACENT': 25 * _ureg.degree,
         'RM': 1600 * _ureg.mm,
     }
 
-    def post_init(self, **kwargs):
+    def post_init(self,
+                  magnet_opening=50 * _ureg.degree,
+                  poles_opening=40 * _ureg.degree,
+                  entrance_pole_trim=0 * _ureg.degree,
+                  exit_pole_trim=0 * _ureg.degree,
+                  entrance_fringe_lambda=9 * _ureg.cm,
+                  exit_fringe_lambda=9 * _ureg.cm,
+                  **kwargs,
+                  ) -> NoReturn:
         """
-
+        TODO
         Args:
-            **kwargs:
-
-        Returns:
+            magnet_opening: total angular opening of the magnet (i.e. of the field map)
+            poles_opening: angular opening of the poles
+            entrance_pole_trim: angular shift of the entrance pole
+            exit_pole_trim: angular shift of the exit pole
+            entrance_fringe_lambda: effective length of the entrance fringe field
+            exit_fringe_lambda: effective length of the exit fringe field
+        Example:
+            >>> b1g = B1G()
+            >>> b1g.fit()
 
         """
         self.LABEL1 = self.__class__.__name__
+        self.AT = magnet_opening
+        self.ACENT = self.AT / 2
+        self.OMEGA_E = poles_opening / 2 - entrance_pole_trim
+        self.OMEGA_S = -poles_opening / 2 + entrance_pole_trim
+        self.LAM_E = entrance_fringe_lambda
+        self.LAM_S = exit_fringe_lambda
+        self.RE = _PolarMagnet.efb_offset_from_polar(radius=self.RM,
+                                                     magnet_angle=magnet_opening,
+                                                     poles_angle=poles_opening
+                                                     )
+        self.RS = _PolarMagnet.efb_offset_from_polar(radius=self.RM,
+                                                     magnet_angle=magnet_opening,
+                                                     poles_angle=poles_opening
+                                                     )
+        self.TE = _PolarMagnet.efb_angle_from_polar(magnet_angle=magnet_opening,
+                                                    poles_angle=poles_opening
+                                                    )
+        self.TS = -_PolarMagnet.efb_angle_from_polar(magnet_angle=magnet_opening,
+                                                     poles_angle=poles_opening
+                                                     )
 
 
 class B2G(_Dipole):
@@ -44,22 +78,54 @@ class B2G(_Dipole):
         >>> B2G()
     """
     PARAMETERS = {
-        'B0': 1.4 * _ureg.tesla,
-        'AT': 80 * _ureg.degree,
-        'ACENT': 40 * _ureg.degree,
+        'B0': 14 * _ureg.kilogauss,
         'RM': 1500 * _ureg.mm,
     }
 
-    def post_init(self, **kwargs):
+    def post_init(self,
+                  magnet_opening=80 * _ureg.degree,
+                  poles_opening=70 * _ureg.degree,
+                  entrance_pole_trim=0 * _ureg.degree,
+                  exit_pole_trim=0 * _ureg.degree,
+                  entrance_fringe_lambda=9 * _ureg.cm,
+                  exit_fringe_lambda=9 * _ureg.cm,
+                  **kwargs,
+                  ) -> NoReturn:
         """
-
+        TODO
         Args:
-            **kwargs:
-
-        Returns:
+            magnet_opening: total angular opening of the magnet (i.e. of the field map)
+            poles_opening: angular opening of the poles
+            entrance_pole_trim: angular shift of the entrance pole
+            exit_pole_trim: angular shift of the exit pole
+            entrance_fringe_lambda: effective length of the entrance fringe field
+            exit_fringe_lambda: effective length of the exit fringe field
+        Example:
+            >>> b2g = B2G()
+            >>> b2g.fit()
 
         """
         self.LABEL1 = self.__class__.__name__
+        self.AT = magnet_opening
+        self.ACENT = self.AT / 2
+        self.OMEGA_E = poles_opening / 2 - entrance_pole_trim
+        self.OMEGA_S = -poles_opening / 2 + entrance_pole_trim
+        self.LAM_E = entrance_fringe_lambda
+        self.LAM_S = exit_fringe_lambda
+        self.RE = _PolarMagnet.efb_offset_from_polar(radius=self.RM,
+                                                     magnet_angle=magnet_opening,
+                                                     poles_angle=poles_opening
+                                                     )
+        self.RS = _PolarMagnet.efb_offset_from_polar(radius=self.RM,
+                                                     magnet_angle=magnet_opening,
+                                                     poles_angle=poles_opening
+                                                     )
+        self.TE = _PolarMagnet.efb_angle_from_polar(magnet_angle=magnet_opening,
+                                                    poles_angle=poles_opening
+                                                    )
+        self.TS = -_PolarMagnet.efb_angle_from_polar(magnet_angle=magnet_opening,
+                                                     poles_angle=poles_opening
+                                                     )
 
 
 class B3G(_Dipole):
@@ -177,7 +243,7 @@ class SMY(_Bend):
         self.LABEL1 = self.__class__.__name__
 
 
-class QuadrupoleLong(_Quadrupole):
+class QLong(_Quadrupole):
     """Proteus One long quadrupole.
 
     """
@@ -186,7 +252,7 @@ class QuadrupoleLong(_Quadrupole):
     }
 
 
-class QuadrupoleShort(_Quadrupole):
+class QShort(_Quadrupole):
     """Proteus One short quadrupole.
 
     """
@@ -195,7 +261,7 @@ class QuadrupoleShort(_Quadrupole):
     }
 
 
-class QuadrupoleWall(_Quadrupole):
+class QWall(_Quadrupole):
     """Proteus One 'wall' quadrupole.
 
     """
