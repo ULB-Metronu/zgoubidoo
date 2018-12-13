@@ -19,7 +19,7 @@ class B1G(_Dipole):
         >>> B1G()
     """
     PARAMETERS = {
-        'B0': 14 * _ureg.kilogauss,
+        'B0': 14 * _ureg.kilogauss,  # It is important to keep it expressed in kilogauss here
         'AT': 50 * _ureg.degree,
         'ACENT': 25 * _ureg.degree,
         'RM': 1600 * _ureg.mm,
@@ -78,7 +78,7 @@ class B2G(_Dipole):
         >>> B2G()
     """
     PARAMETERS = {
-        'B0': 14 * _ureg.kilogauss,
+        'B0': 14 * _ureg.kilogauss,  # It is important to keep it expressed in kilogauss here
         'RM': 1500 * _ureg.mm,
     }
 
@@ -136,19 +136,19 @@ class B3G(_Dipole):
 
     """
     PARAMETERS = {
-        'B0': 14 * _ureg.kilogauss,
+        'B0': 14 * _ureg.kilogauss,  # It is important to keep it expressed in kilogauss here
         'RM': 1600 * _ureg.mm,
         'LAM_E': 9 * _ureg.cm,
-        'C0_E': 21.080,
-        'C1_E': 67.107,
-        'C2_E': 84.139,
-        'C3_E': 40.43,
+        'C0_E': 0.67634054,  # Obtained from field map fit
+        'C1_E': 1.15776841,  # Obtained from field map fit
+        'C2_E': -0.16937986,  # Obtained from field map fit
+        'C3_E': 0.07696388,  # Obtained from field map fit
         'SHIFT_E': 0 * _ureg.cm,
         'LAM_S': 9 * _ureg.cm,
-        'C0_S': -6.305,
-        'C1_S': 26.054,
-        'C2_S': -30.401,
-        'C3_S': 15.611,
+        'C0_S': 0.77890820,  # Obtained from field map fit
+        'C1_S': 0.94490545,  # Obtained from field map fit
+        'C2_S': -0.13034787,  # Obtained from field map fit
+        'C3_S': 0.02948957,  # Obtained from field map fit
         'SHIFT_S': 0 * _ureg.cm,
         'XPAS': 0.1 * _ureg.mm,
     }
