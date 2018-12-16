@@ -1,4 +1,5 @@
 .idea/
+*.pyc
 tests/__pycache__/
 zgoubidoo/__pycache__/
 zgoubidoo/commands/__pycache__/
@@ -7,10 +8,8 @@ zgoubidoo/vis/__pycache__/
 docs/_build
 examples/zgoubi.res
 examples/zgoubi.plt
-examples/zgoubi.dat
+examples/*.dat
 examples/zgoubi.log
 examples/zgoubi.MATRIX.out
-examples/*.dat
 examples/.ipynb_checkpoints
 zgoubidoo.egg-info
-*.pyc
