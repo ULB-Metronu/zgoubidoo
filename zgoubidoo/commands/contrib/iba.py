@@ -3,7 +3,8 @@
 More details here.
 TODO
 """
-from typing import NoReturn
+from typing import NoReturn, Optional
+import numpy as _np
 from ..magnetique import PolarMagnet as _PolarMagnet
 from ..magnetique import Dipole as _Dipole
 from ..magnetique import Bend as _Bend
@@ -243,7 +244,136 @@ class SMY(_Bend):
         self.LABEL1 = self.__class__.__name__
 
 
-class QLong(_Quadrupole):
+class QIBA(_Quadrupole):
+    """IBA generic quadrupole.
+
+    Support for gradient/current conversion and for polarity.
+    """
+    def post_init(self, polarity=None, p=None, l_eff=None, gradient=0.0, **kwargs):
+        """
+
+        Args:
+            polarity:
+            p:
+            l_eff:
+            gradient:
+            **kwargs:
+
+        Returns:
+
+        """
+        self._current = 0.0
+        self._gradient = gradient
+        self._polarity = polarity
+        self.__P = p
+        self.__L_EFF = l_eff
+
+    @property
+    def polarity(self):
+        """
+
+        Returns:
+
+        """
+        if self._polarity == 1.:
+            return 'HORIZONTAL'
+        elif self._polarity == -1.:
+            return 'VERTICAL'
+
+    @polarity.setter
+    def polarity(self, value):
+        if value is None:
+            self._polarity = 0.
+        elif value.upper() == 'HORIZONTAL':
+            self._polarity = 1.
+        elif value.upper() == 'VERTICAL':
+            self._polarity = -1.
+        else:
+            raise Exception('Polarity of quadrupole should be None, HORIZONTAL or VERTICAL')
+
+    @property
+    def current(self):
+        """
+
+        Returns:
+
+        """
+        try:
+            return self._current
+        except AttributeError:
+            raise Exception("Hello")
+
+    @current.setter
+    def current(self, current):
+        if current < 0.0:
+            raise Exception("Trying to set a quadrupole with a negative current. Adjust the polarity instead.")
+        self._current = current
+        self._gradient = _np.poly1d(self.p)(current) / self.l_eff
+
+    @property
+    def gradient(self):
+        """
+
+        Returns:
+
+        """
+        return self._polarity * self._gradient
+
+    @gradient.setter
+    def gradient(self, gradient):
+        if gradient < 0.0:
+            raise Exception("Trying to set a quadrupole with a negative gradient. Adjust the polarity instead.")
+        self._gradient = gradient
+        self._current = _np.roots([self.p[0], self.p[1], self.p[2] - _np.abs(gradient * self.l_eff)])[1]
+
+    def set_value(self, value):
+        self.current = value
+
+    @property
+    def k1(self):
+        """
+
+        Returns:
+
+        """
+        return self.gradient
+
+    @k1.setter
+    def k1(self, value):
+        self._gradient = _np.abs(value)
+        self._polarity = _np.sign(value)
+        self._current = _np.roots([self.p[0], self.p[1], self.p[2] - _np.abs(self._gradient * self.l_eff)])[1]
+
+    @property
+    def p(self):
+        """
+
+        Returns:
+
+        """
+        return self.__P
+
+    @p.setter
+    def p(self, value):
+        self.__P = value
+        self.current = self._current
+
+    @property
+    def l_eff(self):
+        """
+
+        Returns:
+
+        """
+        return self.__L_EFF
+
+    @l_eff.setter
+    def l_eff(self, value):
+        self.__L_EFF = value
+        self.current = self._current
+
+
+class QLong(QIBA):
     """Proteus One long quadrupole.
 
     """
@@ -251,8 +381,22 @@ class QLong(_Quadrupole):
         'XL': 490 * _ureg.mm,
     }
 
+    def post_init(self, polarity: Optional[str]=None, **kwargs):
+        """
 
-class QShort(_Quadrupole):
+        Args:
+            polarity:
+            **kwargs:
+
+        Returns:
+
+        """
+        super().post_init(polarity=polarity,
+                          p=[-2.45367E-05, 8.09526E-02, -6.91149E-03],
+                          l_eff=0.490)
+
+
+class QShort(QIBA):
     """Proteus One short quadrupole.
 
     """
@@ -260,14 +404,65 @@ class QShort(_Quadrupole):
         'XL': 290 * _ureg.mm,
     }
 
+    def post_init(self, polarity: Optional[str]=None, **kwargs):
+        """
 
-class QWall(_Quadrupole):
+        Args:
+            polarity:
+            **kwargs:
+
+        Returns:
+
+        """
+
+        super().post_init(polarity=polarity,
+                          p=[-2.27972E-05, 4.98563E-02, -1.58432E-02],
+                          l_eff=0.290)
+
+
+class QWall(QIBA):
     """Proteus One 'wall' quadrupole.
 
     """
     PARAMETERS = {
         'XL': 297 * _ureg.mm,
     }
+
+    def post_init(self, polarity: Optional[str]=None, **kwargs):
+        """
+
+        Args:
+            polarity:
+            **kwargs:
+
+        Returns:
+
+        """
+        super().post_init(polarity=polarity,
+                          p=[-2.23625E-06, 2.46011E-02, 8.21584E-04],
+                          l_eff=0.297)
+
+
+class QPMQ(QIBA):
+    """Proteus One 'PMQ' quadrupole.
+
+    """
+    PARAMETERS = {
+        'XL': 297 * _ureg.mm,
+    }
+
+    def post_init(self, polarity: Optional[str] = None, **kwargs):
+        """
+
+        Args:
+            polarity:
+            **kwargs:
+
+        Returns:
+
+        """
+        super().post_init(polarity=polarity,
+                          gradient=17.5)
 
 
 class HorizontalSlits(_Collimator):

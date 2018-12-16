@@ -176,7 +176,7 @@ class Command(metaclass=MetaCommand):
         Returns:
 
         """
-        if k.startswith('_'):
+        if k.startswith('_') or not k.isupper():
             super().__setattr__(k, v)
         else:
             if k not in self._attributes.keys():
