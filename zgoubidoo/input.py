@@ -105,26 +105,28 @@ class Input:
         return self
 
     def __len__(self) -> int:
-        """
+        """Length of the input sequence.
 
         Returns:
+            the number of elements in the sequence.
 
         """
         return len(self._line)
 
-    def __iadd__(self, o) -> Input:
-        """
+    def __iadd__(self, command: commands.Command) -> Input:
+        """Append a command at the end of the input sequence.
 
         Args:
-            o:
+            command: the command to be appended.
 
         Returns:
+            the input sequence (in-place operation).
 
         """
-        self._line.append(o)
+        self._line.append(command)
         return self
 
-    def __isub__(self, other) -> Input:
+    def __isub__(self, other: commands.Command) -> Input:
         """
 
         Args:
