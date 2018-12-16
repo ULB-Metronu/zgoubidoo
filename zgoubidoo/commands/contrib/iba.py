@@ -10,6 +10,7 @@ from ..magnetique import Dipole as _Dipole
 from ..magnetique import Bend as _Bend
 from ..magnetique import Quadrupole as _Quadrupole
 from ..commands import Collimator as _Collimator
+from ..commands import ZgoubidooException as _ZgoubidooException
 from ... import ureg as _ureg
 
 
@@ -264,7 +265,10 @@ class QIBA(_Quadrupole):
         """
         self._current = 0.0
         self._gradient = gradient
-        self._polarity = polarity
+        if self.PARAMETERS.get('POLARITY'):
+            self.polarity = self.POLARITY
+        else:
+            self.polarity = polarity
         self.__P = p
         self.__L_EFF = l_eff
 
@@ -275,21 +279,27 @@ class QIBA(_Quadrupole):
         Returns:
 
         """
-        if self._polarity == 1.:
+        if self._polarity is None:
+            raise _ZgoubidooException("Polarity must be explicitely set.")
+        elif self._polarity == 1.:
             return 'HORIZONTAL'
         elif self._polarity == -1.:
             return 'VERTICAL'
 
     @polarity.setter
     def polarity(self, value):
-        if value is None:
-            self._polarity = 0.
-        elif value.upper() == 'HORIZONTAL':
-            self._polarity = 1.
-        elif value.upper() == 'VERTICAL':
-            self._polarity = -1.
-        else:
-            raise Exception('Polarity of quadrupole should be None, HORIZONTAL or VERTICAL')
+        err = 'Polarity of quadrupole should be HORIZONTAL or VERTICAL'
+        try:
+            if value is None:
+                raise _ZgoubidooException(err)
+            elif value.upper() == 'HORIZONTAL':
+                self._polarity = 1.
+            elif value.upper() == 'VERTICAL':
+                self._polarity = -1.
+            else:
+                raise _ZgoubidooException(err)
+        except AttributeError:
+            raise _ZgoubidooException(err)
 
     @property
     def current(self):
@@ -463,6 +473,69 @@ class QPMQ(QIBA):
         """
         super().post_init(polarity=polarity,
                           gradient=17.5)
+
+
+class Q1G(QWall):
+    """Proteus One 'Q1G' gantry quadrupole.
+
+    """
+    PARAMETERS = {
+        'POLARITY': 'VERTICAL',
+    }
+
+
+class Q2G(QWall):
+    """Proteus One 'Q2G' gantry quadrupole.
+
+    """
+    PARAMETERS = {
+        'POLARITY': 'HORIZONTAL',
+    }
+
+
+class Q3G(QShort):
+    """Proteus One 'Q3G' gantry quadrupole.
+
+    """
+    PARAMETERS = {
+        'POLARITY': 'HORIZONTAL',
+    }
+
+
+class Q4G(QShort):
+    """Proteus One 'Q4G' gantry quadrupole.
+
+    """
+    PARAMETERS = {
+        'POLARITY': 'VERTICAL',
+    }
+
+
+class Q5G(QLong):
+    """Proteus One 'Q5G' gantry quadrupole.
+
+    """
+    PARAMETERS = {
+        'POLARITY': 'HORIZONTAL',
+    }
+
+
+class Q6G(QShort):
+    """Proteus One 'Q6G' gantry quadrupole.
+
+    """
+    PARAMETERS = {
+        'POLARITY': 'VERTICAL',
+    }
+
+
+class Q7G(QShort):
+    """Proteus One 'Q7G' gantry quadrupole.
+
+    """
+    PARAMETERS = {
+        'POLARITY': 'HORIZONTAL',
+    }
 
 
 class HorizontalSlits(_Collimator):
