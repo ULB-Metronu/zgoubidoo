@@ -12,6 +12,7 @@ Zgoubidoo's documentation
    commands
    input
    lowlevel
+   beam
    sequence
    vis
    utilities

@@ -1,3 +1,6 @@
+"""Zgoubidoo beam.
+
+"""
 from __future__ import annotations
 from typing import Optional, Union, NoReturn
 import os
@@ -17,7 +20,7 @@ class ZgoubidooBeamException(Exception):
 
 class Beam:
     """
-
+    Beam
     """
 
     def __init__(self,
@@ -101,6 +104,16 @@ class Beam:
         return self._kinematic.momentum
 
     def from_file(self, file: str, n: int=None, path: str='.') -> Beam:
+        """
+
+        Args:
+            file:
+            n:
+            path:
+
+        Returns:
+
+        """
         self._initialize_distribution(Beam.generate_from_file(file, path, n))
         return self
 
@@ -167,6 +180,35 @@ class Beam:
                                       dpprms: float = 0,
                                       matrix=None,
                                       ):
+        """
+
+        Args:
+            n:
+            x:
+            px:
+            y:
+            py:
+            dpp:
+            s11:
+            s12:
+            s13:
+            s14:
+            s15:
+            s22:
+            s23:
+            s24:
+            s25:
+            s33:
+            s34:
+            s35:
+            s44:
+            s45:
+            dpprms:
+            matrix:
+
+        Returns:
+
+        """
         # For performance considerations, see
         # https://software.intel.com/en-us/blogs/2016/06/15/faster-random-number-generation-in-intel-distribution-for-python
         try:

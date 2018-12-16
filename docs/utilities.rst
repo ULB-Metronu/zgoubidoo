@@ -21,4 +21,5 @@ Accelerator physics and relativity calculations using the physics module
 Units
 -----
 
-Blabla
+.. automodule:: zgoubidoo.units
+    :members:
