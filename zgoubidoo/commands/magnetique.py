@@ -42,7 +42,7 @@ class CartesianMagnet(Magnet):
     """
     PARAMETERS = {
         'WIDTH': (50 * _ureg.cm, ''),
-        'COLOR': ('gray', ''),
+        'COLOR': ('blue', ''),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
@@ -558,6 +558,7 @@ class Bend(CartesianMagnet):
         'XCE': 0.0 * _ureg.centimeter,
         'YCE': 0.0 * _ureg.centimeter,
         'ALE': 0.0 * _ureg.radian,
+        'COLOR': 'yellow',
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
@@ -580,6 +581,7 @@ class FakeDrift(Bend):
     """A fake drift (bend with almost vanishing field) to allow plotting trajectories through drift spaces."""
     PARAMETERS = {
         'B1': 1e-6 * _ureg.gauss,
+        'COLOR': 'gray',
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""

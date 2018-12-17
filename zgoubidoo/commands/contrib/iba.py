@@ -248,6 +248,7 @@ class SMY(_Bend):
     """
     PARAMETERS = {
         'XL': 109 * _ureg.mm,
+        'SK': 90 * _ureg.degree,
     }
 
     def post_init(self, **kwargs):

@@ -90,6 +90,12 @@ class MetaCommand(type):
         {k}='{v[0]}' ({type(v[0]).__name__}): {v[1]}
             """
 
+    def __getattr__(cls, key):
+        try:
+            return cls.PARAMETERS[key]
+        except KeyError:
+            raise AttributeError(key)
+
 
 class Command(metaclass=MetaCommand):
     """Test test test.
@@ -582,6 +588,56 @@ class Fit(Command):
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
+
+    class Coordinates:
+        Y = 2
+        Z = 4
+
+    class Parameter:
+        """
+        TODO
+        """
+        def __init__(self, line, place, parameter):
+            """
+
+            """
+            self.IR = line.index(place)
+            self.IP = parameter
+            self.XC = 0
+            self.DV = [-30, 30]
+
+        def __getitem__(self, item):
+            return getattr(self, item)
+
+    class Constraint:
+        """
+        TODO
+        """
+
+        def __getitem__(self, item):
+            return getattr(self, item)
+
+    class EqualityConstraint(Constraint):
+        """
+        Equality constraint
+        """
+        def __init__(self, line, place, variable, value, weight=1.0):
+            """
+
+            Args:
+                line:
+                place:
+                variable:
+                value:
+                weight:
+            """
+            self.IC = 3
+            self.I = 1
+            self.J = variable
+            self.IR = line.index(place)
+            self.V = value
+            self.WV = weight
+            self.NP = 0
 
     def __str__(self):
         command = list()
