@@ -5,8 +5,8 @@ TODO
 """
 from typing import NoReturn, Optional
 import numpy as _np
-from ..magnetique import PolarMagnet as _PolarMagnet
 from ..magnetique import Dipole as _Dipole
+from ..magnetique import PolarMagnet as _PolarMagnet
 from ..magnetique import Bend as _Bend
 from ..magnetique import Quadrupole as _Quadrupole
 from ..commands import Collimator as _Collimator
@@ -14,7 +14,24 @@ from ..commands import ZgoubidooException as _ZgoubidooException
 from ... import ureg as _ureg
 
 
-class B1G(_Dipole):
+class DipoleIBA(_Dipole):
+    """IBA generic dipole.
+
+    """
+
+    @property
+    def extra_drift(self) -> _ureg.Quantity:
+        """
+
+        Returns:
+
+        """
+        return _PolarMagnet.drift_length_from_polar(radius=self.radius,
+                                                    magnet_angle=self.AT,
+                                                    poles_angle=self.OMEGA_E - self.OMEGA_S)
+
+
+class B1G(DipoleIBA):
     """Proteus One 40 degree dipole.
 
     Examples:
@@ -73,7 +90,7 @@ class B1G(_Dipole):
                                                      )
 
 
-class B2G(_Dipole):
+class B2G(DipoleIBA):
     """Proteus One 70 degree dipole.
 
     Examples:
@@ -130,7 +147,7 @@ class B2G(_Dipole):
                                                      )
 
 
-class B3G(_Dipole):
+class B3G(DipoleIBA):
     """Proteus One 60 degree dipole.
 
     Examples:
@@ -245,7 +262,7 @@ class SMY(_Bend):
         self.LABEL1 = self.__class__.__name__
 
 
-class QIBA(_Quadrupole):
+class QuadrupoleIBA(_Quadrupole):
     """IBA generic quadrupole.
 
     Support for gradient/current conversion and for polarity.
@@ -383,7 +400,7 @@ class QIBA(_Quadrupole):
         self.current = self._current
 
 
-class QLong(QIBA):
+class QLong(QuadrupoleIBA):
     """Proteus One long quadrupole.
 
     """
@@ -406,7 +423,7 @@ class QLong(QIBA):
                           l_eff=0.490)
 
 
-class QShort(QIBA):
+class QShort(QuadrupoleIBA):
     """Proteus One short quadrupole.
 
     """
@@ -430,7 +447,7 @@ class QShort(QIBA):
                           l_eff=0.290)
 
 
-class QWall(QIBA):
+class QWall(QuadrupoleIBA):
     """Proteus One 'wall' quadrupole.
 
     """
@@ -453,7 +470,7 @@ class QWall(QIBA):
                           l_eff=0.297)
 
 
-class QPMQ(QIBA):
+class QPMQ(QuadrupoleIBA):
     """Proteus One 'PMQ' quadrupole.
 
     """
