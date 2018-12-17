@@ -119,15 +119,17 @@ class Command(metaclass=MetaCommand):
         self._output = list()
         self._results = None
         self._attributes = {}
-        for d in (Command.PARAMETERS, ) + params + (
-                {
-                    'LABEL1': (label1 or str(uuid.uuid4().hex)[:ZGOUBI_LABEL_LENGTH], ''),
-                    'LABEL2': (label2, )
-                },):
+        for d in (Command.PARAMETERS, ) + params:
             self._attributes = dict(self._attributes, **{k: v[0] for k, v in d.items()})
         for k, v in kwargs.items():
             if k not in self._POST_INIT:
                 setattr(self, k, v)
+        if label1:
+            self._attributes['LABEL1'] = label1
+        if label2:
+            self._attributes['LABEL2'] = label2
+        if not self._attributes['LABEL1']:
+            self._attributes['LABEL1'] = str(uuid.uuid4().hex)[:ZGOUBI_LABEL_LENGTH]
         Command.post_init(self, **kwargs)
 
     def post_init(self, **kwargs):  # -> NoReturn:

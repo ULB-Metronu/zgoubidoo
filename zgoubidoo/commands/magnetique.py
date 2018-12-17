@@ -845,6 +845,7 @@ class Dipole(PolarMagnet):
             entry_coordinates:
             exit_coordinates:
             method:
+            debug:
 
         Returns:
 

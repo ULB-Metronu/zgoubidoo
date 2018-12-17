@@ -21,6 +21,7 @@ class B1G(_Dipole):
         >>> B1G()
     """
     PARAMETERS = {
+        'LABEL1': 'B1G',
         'B0': 14 * _ureg.kilogauss,  # It is important to keep it expressed in kilogauss here
         'AT': 50 * _ureg.degree,
         'ACENT': 25 * _ureg.degree,
@@ -50,7 +51,6 @@ class B1G(_Dipole):
             >>> b1g.fit()
 
         """
-        self.LABEL1 = self.__class__.__name__
         self.AT = magnet_opening
         self.ACENT = self.AT / 2
         self.OMEGA_E = poles_opening / 2 - entrance_pole_trim
@@ -80,6 +80,7 @@ class B2G(_Dipole):
         >>> B2G()
     """
     PARAMETERS = {
+        'LABEL1': 'B2G',
         'B0': 14 * _ureg.kilogauss,  # It is important to keep it expressed in kilogauss here
         'RM': 1500 * _ureg.mm,
     }
@@ -107,7 +108,6 @@ class B2G(_Dipole):
             >>> b2g.fit()
 
         """
-        self.LABEL1 = self.__class__.__name__
         self.AT = magnet_opening
         self.ACENT = self.AT / 2
         self.OMEGA_E = poles_opening / 2 - entrance_pole_trim
@@ -138,6 +138,7 @@ class B3G(_Dipole):
 
     """
     PARAMETERS = {
+        'LABEL1': 'B3G',
         'B0': 14 * _ureg.kilogauss,  # It is important to keep it expressed in kilogauss here
         'RM': 1600 * _ureg.mm,
         'LAM_E': 9 * _ureg.cm,
@@ -182,7 +183,6 @@ class B3G(_Dipole):
             >>> b3g.fit()
 
         """
-        self.LABEL1 = self.__class__.__name__
         self.AT = magnet_opening
         self.ACENT = self.AT / 2
         self.OMEGA_E = poles_opening / 2 - entrance_pole_trim
@@ -480,6 +480,7 @@ class Q1G(QWall):
 
     """
     PARAMETERS = {
+        'LABEL1': 'Q1G',
         'POLARITY': 'VERTICAL',
     }
 
@@ -489,6 +490,7 @@ class Q2G(QWall):
 
     """
     PARAMETERS = {
+        'LABEL1': 'Q2G',
         'POLARITY': 'HORIZONTAL',
     }
 
@@ -498,6 +500,7 @@ class Q3G(QShort):
 
     """
     PARAMETERS = {
+        'LABEL1': 'Q3G',
         'POLARITY': 'HORIZONTAL',
     }
 
@@ -507,6 +510,7 @@ class Q4G(QShort):
 
     """
     PARAMETERS = {
+        'LABEL1': 'Q4G',
         'POLARITY': 'VERTICAL',
     }
 
@@ -516,6 +520,7 @@ class Q5G(QLong):
 
     """
     PARAMETERS = {
+        'LABEL1': 'Q5G',
         'POLARITY': 'HORIZONTAL',
     }
 
@@ -525,6 +530,7 @@ class Q6G(QShort):
 
     """
     PARAMETERS = {
+        'LABEL1': 'Q6G',
         'POLARITY': 'VERTICAL',
     }
 
@@ -534,6 +540,7 @@ class Q7G(QShort):
 
     """
     PARAMETERS = {
+        'LABEL1': 'Q7G',
         'POLARITY': 'HORIZONTAL',
     }
 

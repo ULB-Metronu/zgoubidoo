@@ -148,8 +148,9 @@ class Input:
 
         """
         # Behave like element access
-        if isinstance(items, int):
-            return self._line[items]
+
+        if isinstance(items, (int, float)):
+            return self._line[int(items)]
 
         # Behave like a filtering
         if not isinstance(items, (tuple, list)):
@@ -262,6 +263,29 @@ class Input:
             setattr(self[r['element_id'] - 1], r['parameter'], r['final'])
         return self
 
+    def index(self, obj: Union[str, commands.Command]) -> int:
+        """Index of an object in the sequence.
+
+        Provides an index for a given object within a sequence. This index is a valid Zgoubi command numbering index
+        and can be used as such, for example, as a parameter to the Fit command.
+
+        Args:
+            obj: the object: can be an instance of a Zgoubidoo Command or a string representing the element's LABEL1.
+
+        Returns:
+            the index of the object in the input sequence.
+
+        Raises:
+            ValueError if the object is not present in the input sequence.
+        """
+        if isinstance(obj, commands.Command):
+            return self.line.index(obj) + 1
+        elif isinstance(obj, str):
+            for i, e in enumerate(self.line):
+                if e.LABEL1 == obj:
+                    return i + 1
+        raise ValueError("Element not found.")
+
     def get_labels(self, label="LABEL1") -> List[str]:
         """
 
@@ -274,13 +298,13 @@ class Input:
         return [getattr(e, label, '') for e in self._line]
 
     labels = property(get_labels)
-    """"""
+    """List of the LABEL1 property of each element of the input sequence."""
 
     labels1 = property(get_labels)
-    """"""
+    """Same as ``labels``."""
 
     labels2 = property(partial(get_labels, label='LABEL2'))
-    """"""
+    """List of the LABEL2 property of each element of the input sequence."""
 
     @property
     def name(self):
