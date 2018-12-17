@@ -52,7 +52,7 @@ class ZgoubiPlot:
     def reference_frame(self, frame):
         self._reference_frame = frame
 
-    def cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet) -> NoReturn:
+    def cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet):
         """
 
         Args:
@@ -63,7 +63,7 @@ class ZgoubiPlot:
         """
         pass
 
-    def polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet) -> NoReturn:
+    def polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet):
         """
 
         Args:
@@ -74,7 +74,7 @@ class ZgoubiPlot:
         """
         pass
 
-    def tracks_cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet, tracks) -> NoReturn:
+    def tracks_cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet, tracks):
         """
 
         Args:
@@ -86,7 +86,7 @@ class ZgoubiPlot:
         """
         pass
 
-    def tracks_polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet, tracks) -> NoReturn:
+    def tracks_polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet, tracks):
         """
 
         Args:

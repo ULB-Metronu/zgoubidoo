@@ -60,3 +60,14 @@ Spin tracking commands
 
 .. automodapi:: zgoubidoo.commands.spin
     :no-heading:
+
+Contributed commands and specialized elements
+---------------------------------------------
+
+.. automodule:: zgoubidoo.commands.contrib
+
+.. automodapi:: zgoubidoo.commands.contrib.iba
+
+.. automodapi:: zgoubidoo.commands.contrib.cern
+
+.. automodapi:: zgoubidoo.commands.contrib.emma

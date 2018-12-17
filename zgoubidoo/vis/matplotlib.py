@@ -58,7 +58,7 @@ class ZgoubiMpl(ZgoubiPlot):
         self._ax = fig.add_subplot(subplots)
         return fig
 
-    def plot(self, *args, **kwargs) -> NoReturn:
+    def plot(self, *args, **kwargs):
         """
         Same as `matplotlib.pyplot.plot`, forwards all arguments.
         :param args: see `matplotlib.pyplot.plot`
@@ -67,7 +67,7 @@ class ZgoubiMpl(ZgoubiPlot):
         """
         self._ax.plot(*args, **kwargs)
 
-    def polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet) -> NoReturn:
+    def polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet):
         """
 
         :param magnet:
@@ -175,7 +175,7 @@ class ZgoubiMpl(ZgoubiPlot):
         if self._with_frames:
             do_frame()
 
-    def cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet) -> NoReturn:
+    def cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet):
         """
 
         Args:
@@ -224,7 +224,7 @@ class ZgoubiMpl(ZgoubiPlot):
         if self._with_frames:
             do_frame()
 
-    def tracks_cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet, tracks) -> NoReturn:
+    def tracks_cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet, tracks):
         """
 
         Args:
@@ -247,7 +247,7 @@ class ZgoubiMpl(ZgoubiPlot):
                   ms=1
                   )
 
-    def tracks_polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet, tracks) -> NoReturn:
+    def tracks_polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet, tracks):
         """
 
         Args:
