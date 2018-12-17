@@ -3,7 +3,6 @@
 TODO
 """
 from __future__ import annotations
-from typing import NoReturn
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
@@ -17,8 +16,7 @@ import zgoubidoo.commands
 
 
 class ZgoubiMpl(ZgoubiPlot):
-    """
-    A matplotlib implementation of a `ZgoubiPlot` artist.
+    """A matplotlib implementation of a `ZgoubiPlot` artist.
     """
     def __init__(self,
                  ax=None,
@@ -68,10 +66,12 @@ class ZgoubiMpl(ZgoubiPlot):
         self._ax.plot(*args, **kwargs)
 
     def polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet):
-        """
+        """Rendering of magnets in polar coordinates.
 
-        :param magnet:
-        :return:
+        Plot magnets in polar coordinates using wedges.
+
+        Args:
+            magnet: the magnet to be rendered.
         """
 
         def do_frame() -> None:

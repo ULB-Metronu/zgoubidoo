@@ -66,8 +66,23 @@ Contributed commands and specialized elements
 
 .. automodule:: zgoubidoo.commands.contrib
 
+IBA elements
+^^^^^^^^^^^^
+
 .. automodapi:: zgoubidoo.commands.contrib.iba
+    :no-heading:
+    :headings: ""
+
+CERN elements
+^^^^^^^^^^^^^
 
 .. automodapi:: zgoubidoo.commands.contrib.cern
+    :no-heading:
+    :headings: ""
+
+Emma elements
+^^^^^^^^^^^^^
 
 .. automodapi:: zgoubidoo.commands.contrib.emma
+    :no-heading:
+    :headings: ""
