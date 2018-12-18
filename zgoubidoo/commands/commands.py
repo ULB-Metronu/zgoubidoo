@@ -621,7 +621,7 @@ class Fit(Command):
         """
         Equality constraint
         """
-        def __init__(self, line, place, variable, value, weight=1.0):
+        def __init__(self, line, place, variable, value, weight=1.0, particle=1):
             """
 
             Args:
@@ -632,7 +632,7 @@ class Fit(Command):
                 weight:
             """
             self.IC = 3
-            self.I = 1
+            self.I = particle
             self.J = variable
             self.IR = line.index(place)
             self.V = value

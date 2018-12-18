@@ -9,9 +9,18 @@ from ..magnetique import Dipole as _Dipole
 from ..magnetique import PolarMagnet as _PolarMagnet
 from ..magnetique import Bend as _Bend
 from ..magnetique import Quadrupole as _Quadrupole
+from ..magnetique import FakeDrift as _FakeDrift
 from ..commands import Collimator as _Collimator
+from ..commands import Marker as _Marker
+from ..commands import Ymy as _Ymy
 from ..commands import ZgoubidooException as _ZgoubidooException
+from ..particules import Proton as _Proton
+from ..objet import Objet2 as _Objet2
 from ... import ureg as _ureg
+from ...input import Input as _Input
+from ...physics import Kinematics as _Kinematics
+from ...zgoubi import Zgoubi as _Zgoubi
+import zgoubidoo
 
 
 class DipoleIBA(_Dipole):
@@ -42,7 +51,7 @@ class B1G(DipoleIBA):
         'B0': 14 * _ureg.kilogauss,  # It is important to keep it expressed in kilogauss here
         'AT': 50 * _ureg.degree,
         'ACENT': 25 * _ureg.degree,
-        'RM': 1600 * _ureg.mm,
+        'RM': 1500 * _ureg.mm,
     }
 
     def post_init(self,
@@ -575,3 +584,115 @@ class VerticalSlits(_Collimator):
 
     """
     pass
+
+
+class CGTR:
+    """Proteus One compact gantry (CGTR) input sequence.
+
+    """
+    def __init__(self,
+                 kinematics=_Kinematics(230 * _ureg.MeV),
+                 b1g=B1G(),
+                 b2g=B2G(),
+                 b3g=B3G(),
+                 q1g=Q1G(),
+                 q2g=Q2G(),
+                 q3g=Q3G(),
+                 q4g=Q4G(),
+                 q5g=Q5G(),
+                 q6g=Q6G(),
+                 q7g=Q7G(),
+                 smx=SMX(),
+                 smy=SMY(),
+                 ):
+        """
+
+        Args:
+            kinematics:
+            b1g:
+            b2g:
+            b3g:
+            q1g:
+            q2g:
+            q3g:
+            q4g:
+            q5g:
+            q6g:
+            q7g:
+            smx:
+            smy:
+        """
+        self.b1g = b1g
+        self.b2g = b2g
+        self.b3g = b3g
+        self.q1g = q1g
+        self.q2g = q2g
+        self.q3g = q3g
+        self.q4g = q4g
+        self.q5g = q5g
+        self.q6g = q6g
+        self.q7g = q7g
+        self.smx = smx
+        self.smy = smy
+
+        b1g.fit(boro=kinematics.brho)
+        b2g.fit(boro=kinematics.brho)
+        b3g.fit(boro=kinematics.brho)
+
+        self.zi = _Input('CGTR', line=[
+            _Objet2('BUNCH', BORO=kinematics.brho).add([[0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]]),
+            _Proton(),
+            _Marker('START'),
+            _Ymy(),
+            self.q1g,
+            _FakeDrift(XL=30.3 * _ureg.cm),
+            self.q2g,
+            _FakeDrift(XL=72.42 * _ureg.cm - b1g.extra_drift),
+            self.b1g,
+            _Ymy(),
+            _FakeDrift(XL=26.4 * _ureg.cm - b1g.extra_drift),
+            self.q3g,
+            _FakeDrift(XL=32.6 * _ureg.cm),
+            self.q4g,
+            _FakeDrift(XL=33.3 * _ureg.cm),
+            self.q5g,
+            _FakeDrift(XL=33.6 * _ureg.cm),
+            self.q6g,
+            _FakeDrift(XL=36.0 * _ureg.cm),
+            self.q7g,
+            _FakeDrift(XL=60 * _ureg.cm - b2g.extra_drift),
+            self.b2g,
+            _FakeDrift(XL=26 * _ureg.cm - b2g.extra_drift),
+            self.smx,
+            _FakeDrift(XL=12 * _ureg.cm),
+            self.smy,
+            _FakeDrift(XL=19 * _ureg.cm - b3g.extra_drift),
+            self.b3g,
+            _FakeDrift(XL=1101.071 * _ureg.mm - b3g.extra_drift),
+            _Marker('ISO'),
+        ],
+                         )
+
+    def run(self, fit=None):
+        """
+
+        Args:
+            self:
+            fit:
+
+        Returns:
+
+        """
+        z = _Zgoubi()
+        if fit is not None:
+            self.zi += fit
+            z(self.zi())
+            self.zi.update(fit.results)
+            self.zi -= fit
+            out = z(self.zi())
+        else:
+            out = z(self.zi())
+        if out is not None:
+            zgoubidoo.survey(beamline=self.zi)
+        self.tracks = out.tracks
+        return out
