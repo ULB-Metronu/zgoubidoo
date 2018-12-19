@@ -461,10 +461,20 @@ class Frame:
         :return:
         """
         m = _quaternion.as_rotation_matrix(self.get_quaternion(ref))
+        m11 = m[1, 1]
+        m22 = m[2, 2]
+        if m11 > 1.0:
+            m11 = 1.0
+        elif m11 < -1.0:
+            m11 = -1.0
+        if m22 > 1.0:
+            m22 = 1.0
+        elif m22 < -1.0:
+            m22 = -1.0
         return _np.array([
             -_np.pi / 2 + _np.arctan2(m[0, 0], m[1, 0]),
-            _np.arccos(m[1, 1]),
-            _np.arccos(m[2, 2]),
+            _np.arccos(m11),
+            _np.arccos(m22),
         ])
 
     def get_angles(self, ref: Optional[Frame] = None, units: _ureg.Unit = _ureg.radian) -> List[_ureg.Quantity]:
