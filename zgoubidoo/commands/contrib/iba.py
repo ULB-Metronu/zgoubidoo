@@ -673,13 +673,17 @@ class CGTR:
             _Marker('ISO'),
         ],
                          )
+        self.tracks = None
+        zgoubidoo.survey(beamline=self.line)
 
     @property
     def line(self):
-        return self.zi
+        """
 
-    def truncate(self):
-        pass
+        Returns:
+
+        """
+        return self.zi
 
     def run(self, fit=None):
         """
@@ -701,7 +705,7 @@ class CGTR:
         else:
             out = z(self.zi())
         if out is not None:
-            zgoubidoo.survey(beamline=self.zi)
+            zgoubidoo.survey(beamline=self.line)
         self.tracks = out.tracks
         return out
 
