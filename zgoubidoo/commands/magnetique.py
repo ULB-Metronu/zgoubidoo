@@ -6,6 +6,7 @@ TODO
 
 from typing import NoReturn, List
 import numpy as _np
+import parse as _parse
 from .commands import MetaCommand as _MetaCommand
 from .commands import Command as _Command
 from .commands import Marker as _Marker
@@ -1338,6 +1339,15 @@ class Drift(CartesianMagnet):
         if artist is None or not artist.with_drifts:
             return
         super().plot(artist)
+
+    @classmethod
+    def parse(cls, stream: str):
+        """TODO"""
+        template = """
+        '{}' {label1:w}
+        {XL_:.12e}
+        """
+        return _parse.parse(' '.join(template.split()), ' '.join(stream.split()))
 
 
 class Emma(CartesianMagnet):

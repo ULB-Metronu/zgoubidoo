@@ -4,9 +4,10 @@ Commands controlling Zgoubi's control flow, geometry, tracking options, etc.
 TODO
 """
 from __future__ import annotations
-from typing import NoReturn, Optional, Any, Tuple, Dict, List
+from typing import Optional, Any, Tuple, Dict, List
 import uuid
 import pandas as _pd
+import parse as _parse
 from pint import UndefinedUnitError as _UndefinedUnitError
 from .patchable import Patchable as _Patchable
 from .. import ureg as _ureg
@@ -33,7 +34,7 @@ class MetaCommand(type):
 
     TODO
     """
-    def __new__(mcs, name: str, bases: Tuple[type, ...], dct: Dict[str, Any]):
+    def __new__(mcs, name: str, bases: Tuple[MetaCommand, ...], dct: Dict[str, Any]):
         # Insert a default initializer (constructor) in case one is not present
         if '__init__' not in dct:
             def default_init(self, label1: str = '', label2: str = '', *params, **kwargs):
@@ -113,7 +114,7 @@ class Command(metaclass=MetaCommand):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
-    def __init__(self, label1: str='', label2: str='', *params, **kwargs):
+    def __init__(self, label1: str = '', label2: str = '', *params, **kwargs):
         """
         TODO
         Args:
@@ -144,9 +145,6 @@ class Command(metaclass=MetaCommand):
         Args:
             **kwargs: all arguments from the initializer (constructor) are passed to ``post_init`` as keyword arguments.
 
-        Examples:
-            >>> xxx
-
         """
         pass
 
@@ -174,39 +172,67 @@ class Command(metaclass=MetaCommand):
         else:
             return attr
 
-    def __setattr__(self, k: str, v: Any) -> NoReturn:
+    def __setattr__(self, k: str, v: Any):
         """
-        TODO
+        Custom attribute setter; all non-protected (starting with a '_') attributes in upper-case are considered
+        parameters of the `Command`. As such, the method will verify that they are indeed part of the command
+        definition, if not an exception is raised. For valid attributes, their dimensionality is verified against the
+        command definition (the dimension of the parameter's default value).
+
+        It is also possible to use unit inference by appending an underscore to the attributes' name. In that
+        case the unit of the default value is implicitely used. This is useful in case it is known that the parameter's
+        numerical value is expressed in Zgoubi's default units set.
+
+        Examples:
+            >>> c = Command()
+            >>> c.LABEL1 = 'FOOBAR'
+
         Args:
-            k:
-            v:
+            k: a string representing the attribute
+            v: the attribute's value to be set
 
-        Returns:
-
+        Raises:
+            A ZgoubidooException is raised in case the parameter is not part of the class definition or if it has
+            invalid dimension.
         """
         if k.startswith('_') or not k.isupper():
             super().__setattr__(k, v)
         else:
-            if k not in self._attributes.keys():
-                raise ZgoubidooException(f"The parameter {k} is not part of the {self.__class__.__name__} definition.")
-            else:
-                try:
-                    default = self.PARAMETERS[k][0]
-                except (TypeError, IndexError):
-                    default = self.PARAMETERS[k]
+            k_ = k.rstrip('_')
+            if k_ not in self._attributes.keys():
+                raise ZgoubidooException(f"The parameter {k_} is not part of the {self.__class__.__name__} definition.")
+
+            default = self._retrieve_default_parameter_value(k_)
+            if isinstance(v, float) and k.endswith('_'):
+                v = _ureg.Quantity(v, _ureg.Quantity(default).units)
             try:
                 dimension = v.dimensionality
             except AttributeError:
-                dimension = _ureg.Quantity(1).dimensionality
+                dimension = _ureg.Quantity(1).dimensionality  # No dimension
             try:
                 if default is not None and dimension != _ureg.Quantity(default).dimensionality:
                     raise ZgoubidooException(f"Invalid dimension ({dimension} "
                                              f"instead of {_ureg.Quantity(default).dimensionality}) "
-                                             f"for parameter {k}={v}."
+                                             f"for parameter {k_}={v}."
                                              )
             except (ValueError, TypeError, _UndefinedUnitError):
                 pass
-            self._attributes[k] = v
+            self._attributes[k_] = v
+
+    def _retrieve_default_parameter_value(self, k: str) -> Any:
+        """
+        Retrieve the default value of a given parameter as defined in the Command definition (class hierarchy).
+
+        Args:
+            k: the parameter for which the default value is requested.
+
+        Returns:
+            the default value of the Command's parameter 'k'.
+        """
+        try:
+            return self.PARAMETERS[k][0]
+        except (TypeError, IndexError):
+            return self.PARAMETERS[k]
 
     def __repr__(self) -> str:
         return str(self)
@@ -220,7 +246,7 @@ class Command(metaclass=MetaCommand):
 
         Examples:
             >>> c = Command('my_label_1', 'my_label_2')
-            >>> print(c)
+            >>> str(c)
         """
         return f"""
         '{self.KEYWORD}' {self.LABEL1} {self.LABEL2}
@@ -299,6 +325,35 @@ class Command(metaclass=MetaCommand):
 
         """
         pass
+
+    @classmethod
+    def build(cls, stream: str, debug: bool = False) -> Command:
+        """
+
+        Args:
+            stream:
+            debug:
+
+        Returns:
+
+        """
+        if debug:
+            print("-----------------")
+            print(stream)
+            print(f"----------------- {cls.__name__} detected")
+        return cls(**cls.parse(stream).named)
+
+    @classmethod
+    def parse(cls, stream: str):
+        """
+
+        Args:
+            stream:
+
+        Returns:
+
+        """
+        return _parse.search("'{}' {label1:w}", ' '.join(stream.split()))
 
 
 class AutoRef(Command):
@@ -590,8 +645,12 @@ class Fit(Command):
     commands (e.g. fit)."""
 
     class Coordinates:
+        """Zgoubi coordinates."""
+        DP = 1
         Y = 2
+        T = 3
         Z = 4
+        P = 5
 
     class Parameter:
         """
@@ -617,10 +676,24 @@ class Fit(Command):
         def __getitem__(self, item):
             return getattr(self, item)
 
+    class SigmaMatrixConstraint(Constraint):
+        """Constraint on the coefficients of the sigma matrix."""
+        pass
+
+    class FirstOrderTransportCoefficientsConstraint(Constraint):
+        """Constraint on the coefficients of the transfer matrix."""
+        pass
+
+    class SecondOrderTransportCoefficientsConstraint(Constraint):
+        """Constraint on the coefficients of the second-order transport tensor."""
+        pass
+
+    class EllipseParametersConstraint(Constraint):
+        """Constraint on the beam ellipse."""
+        pass
+
     class EqualityConstraint(Constraint):
-        """
-        Equality constraint
-        """
+        """Equality constraint on the trajectories."""
         def __init__(self, line, place, variable, value, weight=1.0, particle=1):
             """
 

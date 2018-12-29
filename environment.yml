@@ -18,3 +18,4 @@ dependencies:
   - pint
   - quaternion
   - numpy-stl
+  - parse

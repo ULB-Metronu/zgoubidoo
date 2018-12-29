@@ -13,6 +13,7 @@ from ..magnetique import FakeDrift as _FakeDrift
 from ..commands import Collimator as _Collimator
 from ..commands import Marker as _Marker
 from ..commands import Ymy as _Ymy
+from ..commands import Fit as _Fit
 from ..commands import ZgoubidooException as _ZgoubidooException
 from ..particules import Proton as _Proton
 from ..objet import Objet2 as _Objet2
@@ -673,6 +674,13 @@ class CGTR:
         ],
                          )
 
+    @property
+    def line(self):
+        return self.zi
+
+    def truncate(self):
+        pass
+
     def run(self, fit=None):
         """
 
@@ -696,3 +704,26 @@ class CGTR:
             zgoubidoo.survey(beamline=self.zi)
         self.tracks = out.tracks
         return out
+
+    def shoot(self, x=0.0, y=0.0):
+        """
+
+        Args:
+            x:
+            y:
+
+        Returns:
+
+        """
+        self.scanning = zgoubidoo.commands.Fit(
+            PENALTY=1e-8,
+            PARAMS=[
+                _Fit.Parameter(line=self.zi, place='SMX', parameter=SMX.B1),
+                _Fit.Parameter(line=self.zi, place='SMY', parameter=SMY.B1),
+            ],
+            CONSTRAINTS=[
+                _Fit.EqualityConstraint(line=self.zi, place='ISO', variable=_Fit.Coordinates.Y, value=x),
+                _Fit.EqualityConstraint(line=self.zi, place='ISO', variable=_Fit.Coordinates.Z, value=y),
+            ]
+        )
+        return self.run(fit=self.scanning)

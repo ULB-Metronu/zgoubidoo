@@ -1,16 +1,19 @@
-"""
+"""Zgoubidoo's input module: interface for Zgoubi input file.
 
+This module interfaces Zgoubi input files to the other components of Zgoubidoo. Its main feature is the `Input` class,
+which allows to represent a set of Zgoubi input commands and serialize it into a valid input file. The input can also
+be validated using a set of validators, following the Zgoubi input constraints.
 """
 from __future__ import annotations
-from typing import Callable, List, Sequence, Optional, NoReturn, Union
-from functools import partial
+from typing import Callable, Sequence, Union, Optional
+from functools import partial, reduce
 import tempfile
 import os
-from functools import reduce
 import pandas as _pd
+import parse as _parse
 from . import ureg as _ureg
 from . import _Q
-from . import commands
+from .commands import *
 from .beam import Beam
 import zgoubidoo.commands
 
@@ -29,12 +32,17 @@ class ZgoubiInputException(Exception):
 
 
 class Input:
-    """
+    """Main class interfacing Zgoubi input files data structure.
+
     A Zgoubidoo `Input` object represents the Zgoubi input file data structure. It is thus essentially a list of
     Zgoubidoo objects representing commands and elements for the generation of Zgoubi input files.
 
     The `Input` supports a `str` representation allowing to generate the Zgoubi input. Additionnally, calling the object
     will write the string representation to a Zgoubi input file.
+
+    Args:
+        name: name of the input to be created.
+        line: if not `None` the new input will contain that `Command` sequence.
 
     Examples:
         >>> zi = Input(name='test_beamline')
@@ -42,9 +50,10 @@ class Input:
         True
         >>> zi.name
         'test_beamline'
+        >>> zi()
     """
 
-    def __init__(self, name: str='beamline', line: Sequence[commands.Command]=None) -> NoReturn:
+    def __init__(self, name: str = 'beamline', line: Sequence[commands.Command] = None):
         self._name: str = name
         if line is None:
             line = []
@@ -54,21 +63,26 @@ class Input:
         self._optical_length = 0 * _ureg.m
 
     def __str__(self) -> str:
-        """
+        """Provides the string representation, a valid Zgoubi input stream.
+
+        Constructs the Zgoubi input sequence with the serialization of each command. An implicit `End` command is added
+        in case it is not present. The `Input` name is used as a header.
 
         Returns:
-
+            a valid Zgoubi input stream as a string.
         """
-        return self.build(self._name, self._line)
+        return Input.build(self._name, self._line)
 
     def __repr__(self) -> str:
         return str(self)
 
-    def __call__(self, beam: Optional[Beam]=None, filename: str=ZGOUBI_INPUT_FILENAME, path: str='.') -> NoReturn:
-        """
-        Write the string representation of the object onto a file (Zgoubi input file).
-        :param filename: the Zgoubi input file name (default: zgoubi.dat)
-        :return: NoReturn
+    def __call__(self, beam: Optional[Beam] = None, filename: str = ZGOUBI_INPUT_FILENAME, path: str = '.'):
+        """Writes the string representation of the object onto a file (Zgoubi input file).
+
+        Args:
+            beam:
+            filename: the Zgoubi input file name (default: zgoubi.dat)
+            path:
         """
         self._paths = list()
         if beam is None:
@@ -126,48 +140,82 @@ class Input:
         self._line.append(command)
         return self
 
-    def __isub__(self, other: commands.Command) -> Input:
-        """
+    def __isub__(self, other: Union[str, commands.Command]) -> Input:
+        """Remove a command from the input sequence.
 
         Args:
-            other:
+            other: the `Command` to be removed or its label as a string.
 
         Returns:
-
+            the `Input` itself (in-place operation).
         """
-        self._line = [c for c in self._line if c != other]
+        if isinstance(other, str):
+            self._line = [c for c in self._line if c.LABEL1 != other]
+        else:
+            self._line = [c for c in self._line if c != other]
         return self
 
-    def __getitem__(self, items) -> Union[zgoubidoo.commands.Command, Input]:
-        """
+    def __getitem__(self,
+                    items: Union[slice, int, float, Command, str, Tuple[Union[Command, str]], List[Union[Command, str]]]
+                    ) -> Union[zgoubidoo.commands.Command, Input]:
+        """Multi-purpose dictionnary-like elements access and filtering.
+
+        A triple interafce is provided:
+
+            - **numerical index**: provides the element from its numeric index (starting at 0, looked-up in the `line`
+              property of the input (the returned object is a `Command`);
+
+            - **slicing**: provides a powerful slicing feature, using either object slice or string slice (or a mix of
+              both); see example below (the returned object is a copy of the sliced input);
+
+            - **element access**: returns a filtered input containing only the given elements. The elements are given
+              either in the form of a list of strings (or a single string), representing the class name of the element or
+              in the form of a list of classes (or a single class).
 
         Args:
-            items:
+            items: index based accessor, slice or elements types for filtering access (see above).
 
         Returns:
+
+                - with numerical index returns the object located at that position (an instance of a `Command`);
+                - with slicing returns a copy of the input, with the slicing applied (an instance of a `Input`);
+                - with element access returns a filtering copy of the input (an instance of a `Input`).
 
         """
         # Behave like element access
-
         if isinstance(items, (int, float)):
             return self._line[int(items)]
 
-        # Behave like a filtering
-        if not isinstance(items, (tuple, list)):
-            items = (items,)
-        l, i = self._filter(items)
-        items = tuple(map(lambda x: x.__name__ if isinstance(x, type) else x, items))
-        return Input(name=f"{self._name}_filtered_by_{items}"
-                     .replace(',', '_')
-                     .replace(' ', '')
-                     .replace("'", '')
-                     .replace("(", '')
-                     .replace(")", '')
-                     .rstrip('_'),
-                     line=l
-                     )
+        # Behave like slicing
+        if isinstance(items, slice):
+            start = items.start
+            end = items.stop
+            if isinstance(items.start, (Command, str)):
+                start = self.index(items.start) - 1
+            if isinstance(items.stop, (Command, str)):
+                end = self.index(items.stop)
+            slicing = slice(start, end, items.step)
+            return Input(name=f"{self._name}_sliced_from_{items.start}_to_{items.stop}",
+                         line=self._line[slicing]
+                         )
 
-    def __setattr__(self, key: str, value) -> NoReturn:
+        else:
+            # Behave like a filtering
+            if not isinstance(items, (tuple, list)):
+                items = (items,)
+            l, i = self._filter(items)
+            items = tuple(map(lambda x: x.__name__ if isinstance(x, type) else x, items))
+            return Input(name=f"{self._name}_filtered_by_{items}"
+                         .replace(',', '_')
+                         .replace(' ', '')
+                         .replace("'", '')
+                         .replace("(", '')
+                         .replace(")", '')
+                         .rstrip('_'),
+                         line=l
+                         )
+
+    def __setattr__(self, key: str, value):
         """
 
         Args:
@@ -184,7 +232,7 @@ class Input:
                 if getattr(e, key) is not None:
                     setattr(e, key, value)
 
-    def __contains__(self, items) -> int:
+    def __contains__(self, items: Union[str, Command, Tuple[Union[str, Command]]]) -> int:
         """
 
         Args:
@@ -237,7 +285,7 @@ class Input:
                 pass
         self._paths = list()
 
-    def validate(self, validators: List[Callable]) -> bool:
+    def validate(self, validators: Optional[List[Callable]]) -> bool:
         """
 
         Args:
@@ -246,8 +294,9 @@ class Input:
         Returns:
 
         """
-        for v in validators:
-            v(self)
+        if validators is not None:
+            for v in validators:
+                v(self)
         return True
 
     def update(self, parameters: _pd.DataFrame) -> Input:
@@ -360,7 +409,7 @@ class Input:
         """
         return self._optical_length
 
-    def increase_optical_length(self, l: _Q) -> NoReturn:
+    def increase_optical_length(self, l: _Q):
         """
 
         Args:
@@ -373,21 +422,21 @@ class Input:
 
     @staticmethod
     def write(_: Input,
-              filename: str=ZGOUBI_INPUT_FILENAME,
-              path: str='.',
-              mode: str='w',
-              validators: Optional[List[Callable]]=None) -> int:
-        """
+              filename: str = ZGOUBI_INPUT_FILENAME,
+              path: str = '.',
+              mode: str = 'w',
+              validators: Optional[List[Callable]] = None) -> int:
+        f"""
         Write a Zgoubi Input object to file after performing optional validation.
-        :param _: a Zgoubidoo Input object
-        :param filename: the file name (default: zgoubi.dat)
-        :param path: path for the file (default: .)
-        :param mode: the mode for the writer (default: 'w' - overwrite)
-        :param validators: callables used to validate the input
-        :return: NoReturn
+
+        Args:
+            _: a Zgoubidoo Input object
+            filename: the file name (default: {ZGOUBI_INPUT_FILENAME})
+            path: path for the file (default: .)
+            mode: the mode for the writer (default: 'w' - overwrite)
+            validators: callables used to validate the input
         """
-        if validators is not None:
-            _.validate(validators)
+        _.validate(validators)
         with open(os.path.join(path, filename), mode) as f:
             return f.write(str(_))
 
@@ -406,6 +455,22 @@ class Input:
         if len(line) == 0 or not isinstance(line[-1], commands.End):
             extra_end = [commands.End()]
         return ''.join(map(str, [name] + (line or []) + (extra_end or [])))
+
+    @classmethod
+    def parse(cls, stream: str, debug: bool = False) -> Input:
+        """
+
+        Args:
+            stream:
+            debug:
+
+        Returns:
+
+        """
+        return cls(
+            line=[getattr(zgoubidoo.commands, _parse.search("'{KEYWORD}'", c)['KEYWORD'].capitalize()).build(c, debug)
+                  for c in "\n".join([_.strip() for _ in stream.split('\n')]).strip('\n').split('\n\n')]
+        )
 
 
 class InputValidator:
