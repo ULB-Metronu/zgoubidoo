@@ -195,7 +195,8 @@ class Input:
             if isinstance(items.stop, (Command, str)):
                 end = self.index(items.stop)
             slicing = slice(start, end, items.step)
-            return Input(name=f"{self._name}_sliced_from_{items.start}_to_{items.stop}",
+            return Input(name=f"{self._name}_sliced_from_{getattr(items.start, 'LABEL1', items.start)}"
+                              f"_to_{getattr(items.stop, 'LABEL1', items.stop)}",
                          line=self._line[slicing]
                          )
 
@@ -327,7 +328,7 @@ class Input:
         Raises:
             ValueError if the object is not present in the input sequence.
         """
-        if isinstance(obj, commands.Command):
+        if isinstance(obj, Command):
             return self.line.index(obj) + 1
         elif isinstance(obj, str):
             for i, e in enumerate(self.line):
