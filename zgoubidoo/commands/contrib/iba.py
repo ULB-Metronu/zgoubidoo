@@ -5,7 +5,6 @@ TODO
 """
 from typing import NoReturn, Optional
 import numpy as _np
-import matplotlib.pyplot as _plt
 from ..magnetique import Dipole as _Dipole
 from ..magnetique import PolarMagnet as _PolarMagnet
 from ..magnetique import Bend as _Bend
@@ -732,6 +731,17 @@ class CGTR:
         )
         return self.run(fit=self.scanning)
 
+    def spots(self, spots):
+        """
+
+        Args:
+            spots:
+
+        Returns:
+
+        """
+        return [self.shoot(x=_[0], y=_[1]) for _ in spots]
+
     def plot(self, ax=None, artist: zgoubidoo.vis.ZgoubiPlot = None):
         """
 
@@ -742,16 +752,13 @@ class CGTR:
         Returns:
 
         """
-        if ax is None:
-            fig = _plt.figure(figsize=(12, 8))
-            ax = fig.add_subplot(111)
-
         if artist is None:
-            artist = zgoubidoo.vis.ZgoubiMpl(ax)
+            artist = zgoubidoo.vis.ZgoubiMpl(ax=ax)
 
         zgoubidoo.vis.beamline(beamline=self.line,
                                artist=artist,
                                tracks=self.tracks,
                                )
-        ax.set_aspect('equal', 'datalim')
-        ax.hlines(0.0, -10, 1000)
+
+        artist.ax.set_aspect('equal', 'datalim')
+        artist.ax.hlines(0.0, -10, 1000)

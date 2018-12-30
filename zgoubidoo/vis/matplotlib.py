@@ -4,7 +4,6 @@ TODO
 """
 from __future__ import annotations
 import numpy as np
-import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import matplotlib.transforms as transforms
@@ -20,10 +19,10 @@ class ZgoubiMpl(ZgoubiPlot):
     """
     def __init__(self,
                  ax=None,
-                 with_boxes: bool=True,
-                 with_frames: bool=True,
-                 with_centers: bool=False,
-                 tracks_color: str='b',
+                 with_boxes: bool = True,
+                 with_frames: bool = True,
+                 with_centers: bool = False,
+                 tracks_color: str = 'b',
                  **kwargs):
         """
 
@@ -43,25 +42,30 @@ class ZgoubiMpl(ZgoubiPlot):
         else:
             self._ax = ax
 
-    def init_plot(self, subplots=111) -> matplotlib.figure.Figure:
-        """
-
-        Args:
-            subplots:
+    @property
+    def ax(self):
+        """Current Matplotlib ax.
 
         Returns:
-
+            the Matplotlib ax.
         """
-        fig = plt.figure()
-        self._ax = fig.add_subplot(subplots)
-        return fig
+        return self._ax
+
+    def init_plot(self, figsize=(12, 8), subplots=111):
+        """
+        Initialize the Matplotlib figure and ax.
+
+        Args:
+            subplots: number of subplots
+            figsize: figure size
+        """
+        self._fig = plt.figure(figsize=figsize)
+        self._ax = self._fig.add_subplot(subplots)
 
     def plot(self, *args, **kwargs):
-        """
+        """Proxy for matplotlib.pyplot.plot
+
         Same as `matplotlib.pyplot.plot`, forwards all arguments.
-        :param args: see `matplotlib.pyplot.plot`
-        :param kwargs: see `matplotlib.pyplot.plot`
-        :return: NoReturn.
         """
         self._ax.plot(*args, **kwargs)
 
