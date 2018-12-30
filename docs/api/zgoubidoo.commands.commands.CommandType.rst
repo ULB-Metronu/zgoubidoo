@@ -1,7 +1,7 @@
-MetaCommand
+CommandType
 ===========
 
 .. currentmodule:: zgoubidoo.commands.commands
 
-.. autoclass:: MetaCommand
+.. autoclass:: CommandType
    :show-inheritance:

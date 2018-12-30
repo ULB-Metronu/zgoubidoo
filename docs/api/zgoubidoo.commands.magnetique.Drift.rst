@@ -18,6 +18,7 @@ Drift
 
    .. autosummary::
 
+      ~Drift.parse
       ~Drift.plot
 
    .. rubric:: Attributes Documentation
@@ -28,4 +29,5 @@ Drift
 
    .. rubric:: Methods Documentation
 
+   .. automethod:: parse
    .. automethod:: plot

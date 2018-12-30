@@ -16,9 +16,10 @@ CGTR
 
    .. autosummary::
 
+      ~CGTR.plot
       ~CGTR.run
       ~CGTR.shoot
-      ~CGTR.truncate
+      ~CGTR.spots
 
    .. rubric:: Attributes Documentation
 
@@ -26,6 +27,7 @@ CGTR
 
    .. rubric:: Methods Documentation
 
+   .. automethod:: plot
    .. automethod:: run
    .. automethod:: shoot
-   .. automethod:: truncate
+   .. automethod:: spots

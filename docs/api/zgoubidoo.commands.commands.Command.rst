@@ -23,6 +23,8 @@ Command
    .. autosummary::
 
       ~Command.attach_output
+      ~Command.build
+      ~Command.parse
       ~Command.post_init
       ~Command.process_output
 
@@ -39,5 +41,7 @@ Command
    .. rubric:: Methods Documentation
 
    .. automethod:: attach_output
+   .. automethod:: build
+   .. automethod:: parse
    .. automethod:: post_init
    .. automethod:: process_output

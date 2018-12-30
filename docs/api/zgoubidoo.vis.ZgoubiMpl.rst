@@ -6,6 +6,12 @@ ZgoubiMpl
 .. autoclass:: ZgoubiMpl
    :show-inheritance:
 
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~ZgoubiMpl.ax
+
    .. rubric:: Methods Summary
 
    .. autosummary::
@@ -16,6 +22,10 @@ ZgoubiMpl
       ~ZgoubiMpl.polarmagnet
       ~ZgoubiMpl.tracks_cartesianmagnet
       ~ZgoubiMpl.tracks_polarmagnet
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: ax
 
    .. rubric:: Methods Documentation
 

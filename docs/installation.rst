@@ -10,8 +10,8 @@ dependencies, except of course for ``Zgoubi`` itself.
 
 Compiling and installing Zgoubi
 -------------------------------
-Zgoubi can be obtained from SourceForge (download or ``svn checkout``). A Fortran compiler is required: both `ifort`
-and `gfortran` are supported (`Makefile`s are provided).
+Zgoubi can be obtained from SourceForge (download or ``svn checkout``). A Fortran compiler is required: both ``ifort``
+and ``gfortran`` are supported ('Makefile's are provided).
 
 After the compilation the ``zgoubi`` executable will be available in the `zgoubi` directory. Depending on the Makefile
 you use, `zpop` will also be built. It is not used by Zgoubidoo.

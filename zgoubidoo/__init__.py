@@ -19,8 +19,8 @@ Design goals
 - Written in high-quality Python 3 with type-hints;
 - The library interface and use-n-feel must be Jupyter notebook friendly;
 - Decoupling between a low-level use (simple Python interface to generate Zgoubi input files and run the executable);
-- Strong support and enforcement of physical units: no units conversion nightmare, you can freely use whatever units set
- you like, the conversion into Zgoubi's default units is automatically handled.
+- Strong support and enforcement of physical units: no units conversion nightmare, you can freely use whatever units
+  set you like, the conversion into Zgoubi's default units is automatically handled.
 
 Publications
 ------------
