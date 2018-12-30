@@ -1,8 +1,5 @@
 """Provides an interface to run Zgoubi from Python; supports multiprocessing.
 
-
-
-
 .. seealso::
 
     The full `Zgoubi User Guide`_ can also be consulted for reference.
@@ -93,7 +90,7 @@ class Zgoubi:
     ZGOUBI_RES_FILE = 'zgoubi.res'
     """Default name of the Zgoubi result '.res' file."""
 
-    def __init__(self, executable: str=ZGOUBI_EXECUTABLE_NAME, path: str=None):
+    def __init__(self, executable: str = ZGOUBI_EXECUTABLE_NAME, path: str = None):
         """
         The created `Zgoubi` object is an interface to the Zgoubi executable. The executable can be found
         automatically or its name and path can be specified.
@@ -118,7 +115,7 @@ class Zgoubi:
         """
         return self._get_exec()
 
-    def __call__(self, zgoubi_input: Input, debug: bool=False, n_procs: int=None) -> ZgoubiRun:
+    def __call__(self, zgoubi_input: Input, debug: bool = False, n_procs: int = None) -> ZgoubiRun:
         """
         Starts up to `n_procs` Zgoubi runs.
 
@@ -145,7 +142,7 @@ class Zgoubi:
         pool.join()
         return ZgoubiRun(list(map(lambda _: getattr(_, 'get', None)(), self._results)))
 
-    def _execute_zgoubi(self, zgoubi_input: Input, path: str= '.', debug=False) -> dict:
+    def _execute_zgoubi(self, zgoubi_input: Input, path: str = '.', debug=False) -> dict:
         """
 
         Args:
@@ -184,7 +181,7 @@ class Zgoubi:
             lines = [line.strip() for line in output[0].decode().split('\n') if
                      re.search('CPU time', line)]
             if len(lines):
-                cputime = float(re.search("\d+\.\d+[E|e]?[+|-]?\d+", lines[0]).group())
+                cputime = float(re.search(r"\d+\.\d+[E|e]?[+|-]?\d+", lines[0]).group())
         if debug:
             print(output[0].decode())
         return {
@@ -196,10 +193,8 @@ class Zgoubi:
             'path': path,
         }
 
-    def _get_exec(self, optional_path: str='/usr/local/bin') -> str:
+    def _get_exec(self, optional_path: str = '/usr/local/bin') -> str:
         """Retrive the path to the Zgoubi executable.
-
-
 
         Returns:
 
