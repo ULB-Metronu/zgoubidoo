@@ -18,7 +18,7 @@ from .commands import Patchable
 from .input import Input
 
 
-def compute_alpha_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1) -> pd.Series:
+def compute_alpha_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1) -> pd.Series:
     """
     Computes the Twiss alpha values at every steps of the input step-by-step transfer matrix.
 
@@ -42,7 +42,7 @@ def compute_alpha_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1) -
     return -r11 * r21 * beta + (r11 * r22 + r12 * r21) * alpha - r12 * r22 * gamma
 
 
-def compute_beta_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1, strict: bool=False) -> pd.Series:
+def compute_beta_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1, strict: bool = False) -> pd.Series:
     """
     Computes the Twiss beta values at every steps of the input step-by-step transfer matrix.
 
@@ -68,7 +68,7 @@ def compute_beta_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1, st
     return _
 
 
-def compute_gamma_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1) -> pd.Series:
+def compute_gamma_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1) -> pd.Series:
     """
     Computes the Twiss gamma values at every steps of the input step-by-step transfer matrix.
 
@@ -90,7 +90,7 @@ def compute_gamma_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1) -
     return np.square(r21) * beta - 2.0 * r21 * r22 * alpha + np.square(r22) * gamma
 
 
-def compute_mu_from_matrix(m: pd.DataFrame, twiss: pd.Series, beta=None, plane: int=1) -> pd.Series:
+def compute_mu_from_matrix(m: pd.DataFrame, twiss: pd.Series, beta=None, plane: int = 1) -> pd.Series:
     """
     Computes the phase advance values at every steps of the input step-by-step transfer matrix.
 
@@ -114,7 +114,7 @@ def compute_mu_from_matrix(m: pd.DataFrame, twiss: pd.Series, beta=None, plane: 
     return np.power(beta0 / beta, 0.5) * r11 - alpha0 * r12 / np.power(beta * beta0, 0.5)
 
 
-def compute_jacobian_from_matrix(m: pd.DataFrame, plane: int=1) -> pd.Series:
+def compute_jacobian_from_matrix(m: pd.DataFrame, plane: int = 1) -> pd.Series:
     """
     Computes the jacobian of the 2x2 transfer matrix (useful to verify the simplecticity).
 
@@ -133,7 +133,7 @@ def compute_jacobian_from_matrix(m: pd.DataFrame, plane: int=1) -> pd.Series:
     return r11 * r22 - r12 * r21
 
 
-def compute_dispersion_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1) -> pd.Series:
+def compute_dispersion_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1) -> pd.Series:
     """
     Computes the dispersion function at every steps of the input step-by-step transfer matrix.
 
@@ -159,7 +159,7 @@ def compute_dispersion_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int
     return d0 * r11 + dp0 * r12 + r15
 
 
-def compute_dispersion_prime_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int=1) -> pd.Series:
+def compute_dispersion_prime_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1) -> pd.Series:
     """
     Computes the dispersion prime function at every steps of the input step-by-step transfer matrix.
 
@@ -219,9 +219,9 @@ def compute_twiss(matrix: pd.DataFrame, twiss_init: pd.Series) -> pd.DataFrame:
 
 
 def align_tracks(tracks: pd.DataFrame,
-                 align_on: str='X',
-                 identifier: str='LET',
-                 reference_track: str='O') -> Tuple[np.array, pd.DataFrame]:
+                 align_on: str = 'X',
+                 identifier: str = 'LET',
+                 reference_track: str = 'O') -> Tuple[np.array, pd.DataFrame]:
     """
     Align the tracks to obtain a homegenous array with all coordinates given at the same location.
 
@@ -257,7 +257,7 @@ def align_tracks(tracks: pd.DataFrame,
     return data, ref
 
 
-def compute_transfer_matrix(beamline: Input, tracks: pd.DataFrame, align_on: str='X') -> pd.DataFrame:
+def compute_transfer_matrix(beamline: Input, tracks: pd.DataFrame, align_on: str = 'X') -> pd.DataFrame:
     """
     Constructs the step-by-step transfer matrix from tracking data (finite differences). The approximation
     uses the O(3) formula (not just the O(1) formula) and therefore makes use of all the particles.

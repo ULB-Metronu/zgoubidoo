@@ -14,7 +14,7 @@ import os
 import pandas as pd
 
 
-def read_fai_file(filename: str='zgoubi.fai', path: str='.') -> pd.DataFrame:
+def read_fai_file(filename: str = 'zgoubi.fai', path: str = '.') -> pd.DataFrame:
     """Function to read Zgoubi .fai file.
 
     Reads the content of a Zgoubi .fai file ('faisceau', 'beam' file) and formats it as a valid Pandas dataframe
@@ -34,13 +34,13 @@ def read_fai_file(filename: str='zgoubi.fai', path: str='.') -> pd.DataFrame:
     return pd.read_table(os.path.join(path, filename),
                          skiprows=4,
                          names=headers,
-                         sep='\s+',
+                         sep=r'\s+',
                          skipinitialspace=True,
                          quotechar='\''
                          )
 
 
-def read_plt_file(filename: str='zgoubi.plt', path: str='.') -> pd.DataFrame:
+def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> pd.DataFrame:
     """
 
     Args:
@@ -56,7 +56,7 @@ def read_plt_file(filename: str='zgoubi.plt', path: str='.') -> pd.DataFrame:
     df = pd.read_table(os.path.join(path, filename),
                        skiprows=4,
                        names=headers,
-                       sep='\s+',
+                       sep=r'\s+',
                        skipinitialspace=True,
                        quotechar='\''
                        )
@@ -75,7 +75,7 @@ def read_plt_file(filename: str='zgoubi.plt', path: str='.') -> pd.DataFrame:
     return df
 
 
-def read_matrix_file(filename: str='zgoubi.MATRIX.out', path: str='.') -> pd.DataFrame:
+def read_matrix_file(filename: str = 'zgoubi.MATRIX.out', path: str = '.') -> pd.DataFrame:
     """
 
     Args:
@@ -111,7 +111,7 @@ def read_matrix_file(filename: str='zgoubi.MATRIX.out', path: str='.') -> pd.Dat
     df = pd.read_table(os.path.join(path, filename),
                        skiprows=2,
                        names=headers,
-                       sep='\s+',
+                       sep=r'\s+',
                        skipinitialspace=True,
                        quotechar='\''
                        )

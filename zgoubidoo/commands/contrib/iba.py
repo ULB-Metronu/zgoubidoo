@@ -3,7 +3,6 @@
 More details here.
 TODO
 """
-from typing import NoReturn, Optional
 import numpy as _np
 from ..magnetique import Dipole as _Dipole
 from ..magnetique import PolarMagnet as _PolarMagnet
@@ -21,6 +20,7 @@ from ... import ureg as _ureg
 from ...input import Input as _Input
 from ...physics import Kinematics as _Kinematics
 from ...zgoubi import Zgoubi as _Zgoubi
+from ...polarity import PolarityType, Polarity, HorizontalPolarity, VerticalPolarity
 import zgoubidoo
 
 
@@ -63,7 +63,7 @@ class B1G(DipoleIBA):
                   entrance_fringe_lambda=9 * _ureg.cm,
                   exit_fringe_lambda=9 * _ureg.cm,
                   **kwargs,
-                  ) -> NoReturn:
+                  ):
         """
         TODO
         Args:
@@ -120,7 +120,7 @@ class B2G(DipoleIBA):
                   entrance_fringe_lambda=9 * _ureg.cm,
                   exit_fringe_lambda=9 * _ureg.cm,
                   **kwargs,
-                  ) -> NoReturn:
+                  ):
         """
         TODO
         Args:
@@ -193,7 +193,7 @@ class B3G(DipoleIBA):
                   entrance_pole_curvature=1e9 * _ureg.cm,
                   exit_pole_curvature=1e9 * _ureg.cm,
                   **kwargs,
-                  ) -> NoReturn:
+                  ):
         """
         TODO
         Args:
@@ -278,7 +278,13 @@ class QuadrupoleIBA(_Quadrupole):
 
     Support for gradient/current conversion and for polarity.
     """
-    def post_init(self, polarity=None, p=None, l_eff=None, gradient=0.0, **kwargs):
+    def post_init(self,
+                  polarity: PolarityType = HorizontalPolarity,
+                  p=None,
+                  l_eff: float = None,
+                  gradient: float = 0.0,
+                  **kwargs
+                  ):
         """
 
         Args:
@@ -309,25 +315,11 @@ class QuadrupoleIBA(_Quadrupole):
         """
         if self._polarity is None:
             raise _ZgoubidooException("Polarity must be explicitely set.")
-        elif self._polarity == 1.:
-            return 'HORIZONTAL'
-        elif self._polarity == -1.:
-            return 'VERTICAL'
+        return str(self._polarity)
 
     @polarity.setter
-    def polarity(self, value):
-        err = 'Polarity of quadrupole should be HORIZONTAL or VERTICAL'
-        try:
-            if value is None:
-                raise _ZgoubidooException(err)
-            elif value.upper() == 'HORIZONTAL':
-                self._polarity = 1.
-            elif value.upper() == 'VERTICAL':
-                self._polarity = -1.
-            else:
-                raise _ZgoubidooException(err)
-        except AttributeError:
-            raise _ZgoubidooException(err)
+    def polarity(self, value: PolarityType):
+        self._polarity = value
 
     @property
     def current(self):
@@ -355,7 +347,7 @@ class QuadrupoleIBA(_Quadrupole):
         Returns:
 
         """
-        return self._polarity * self._gradient
+        return int(self._polarity) * self._gradient
 
     @gradient.setter
     def gradient(self, gradient):
@@ -380,7 +372,12 @@ class QuadrupoleIBA(_Quadrupole):
     @k1.setter
     def k1(self, value):
         self._gradient = _np.abs(value)
-        self._polarity = _np.sign(value)
+        if value > 0:
+            self._polarity = HorizontalPolarity
+        elif value == 0 :
+            self._polarity = Polarity
+        else:
+            self._polarity = VerticalPolarity
         self._current = _np.roots([self.p[0], self.p[1], self.p[2] - _np.abs(self._gradient * self.l_eff)])[1]
 
     @property
@@ -420,7 +417,7 @@ class QLong(QuadrupoleIBA):
         'XL': 490 * _ureg.mm,
     }
 
-    def post_init(self, polarity: Optional[str] = None, **kwargs):
+    def post_init(self, polarity: PolarityType = HorizontalPolarity, **kwargs):
         """
 
         Args:
@@ -443,7 +440,7 @@ class QShort(QuadrupoleIBA):
         'XL': 290 * _ureg.mm,
     }
 
-    def post_init(self, polarity: Optional[str]=None, **kwargs):
+    def post_init(self, polarity: PolarityType = HorizontalPolarity, **kwargs):
         """
 
         Args:
@@ -466,7 +463,7 @@ class QWall(QuadrupoleIBA):
         'XL': 297 * _ureg.mm,
     }
 
-    def post_init(self, polarity: Optional[str]=None, **kwargs):
+    def post_init(self, polarity: PolarityType = HorizontalPolarity, **kwargs):
         """
 
         Args:
@@ -489,7 +486,7 @@ class QPMQ(QuadrupoleIBA):
         'XL': 297 * _ureg.mm,
     }
 
-    def post_init(self, polarity: Optional[str] = None, **kwargs):
+    def post_init(self, polarity: PolarityType = HorizontalPolarity, **kwargs):
         """
 
         Args:
@@ -509,7 +506,7 @@ class Q1G(QWall):
     """
     PARAMETERS = {
         'LABEL1': 'Q1G',
-        'POLARITY': 'VERTICAL',
+        'POLARITY': VerticalPolarity,
     }
 
 
@@ -519,7 +516,7 @@ class Q2G(QWall):
     """
     PARAMETERS = {
         'LABEL1': 'Q2G',
-        'POLARITY': 'HORIZONTAL',
+        'POLARITY': HorizontalPolarity,
     }
 
 
@@ -529,7 +526,7 @@ class Q3G(QShort):
     """
     PARAMETERS = {
         'LABEL1': 'Q3G',
-        'POLARITY': 'HORIZONTAL',
+        'POLARITY': HorizontalPolarity,
     }
 
 
@@ -539,7 +536,7 @@ class Q4G(QShort):
     """
     PARAMETERS = {
         'LABEL1': 'Q4G',
-        'POLARITY': 'VERTICAL',
+        'POLARITY': VerticalPolarity,
     }
 
 
@@ -549,7 +546,7 @@ class Q5G(QLong):
     """
     PARAMETERS = {
         'LABEL1': 'Q5G',
-        'POLARITY': 'HORIZONTAL',
+        'POLARITY': HorizontalPolarity,
     }
 
 
@@ -559,7 +556,7 @@ class Q6G(QShort):
     """
     PARAMETERS = {
         'LABEL1': 'Q6G',
-        'POLARITY': 'VERTICAL',
+        'POLARITY': VerticalPolarity,
     }
 
 
@@ -569,7 +566,7 @@ class Q7G(QShort):
     """
     PARAMETERS = {
         'LABEL1': 'Q7G',
-        'POLARITY': 'HORIZONTAL',
+        'POLARITY': HorizontalPolarity,
     }
 
 

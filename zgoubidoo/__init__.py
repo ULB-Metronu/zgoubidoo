@@ -2,10 +2,11 @@
 
 Zgoubidoo is a Python 3 interface for Zgoubi, a ray-tracing code for beam dynamics simulations. Zgoubido is intended to
 follow a modern Python design and aims at being easy to use. Interactive use with iPython or Jupyter Notebook is
-supported and encouraged.
+supported and encouraged. As such Zgoubidoo can be viewed as a 'Zgoubi for the mere mortal' interface.
 
 Zgoubi is a ray-tracing (tracking) code for beam dynamics simulations. Many magnetic and electric elements are
-supported. It is maintained by François Méot on SourceForge (`Zgoubi SourceForge repository`_).
+supported, as well as multiple other features, such as spin tracking. It is maintained by François Méot on SourceForge
+(`Zgoubi SourceForge repository`_).
 
 .. _Zgoubi: https://sourceforge.net/projects/zgoubi/
 .. _Zgoubi SourceForge repository: https://sourceforge.net/projects/zgoubi/
@@ -13,10 +14,13 @@ supported. It is maintained by François Méot on SourceForge (`Zgoubi SourceFor
 Design goals
 ------------
 
-- Fully featured interface to Zgoubi
-- Written in high-quality Python 3 with type-hints
-- The library interface and use-n-feel must be Jupyter notebook friendly
-- Decoupling between a low-level use (simple Python interface to generate Zgoubi input files and run the executable)
+- Fully featured interface to Zgoubi: all functionalities of Zgoubi are supported through the Python interface;
+- Ease of use: a simple tracking study and its visualization can be set up in just a few lines of code;
+- Written in high-quality Python 3 with type-hints;
+- The library interface and use-n-feel must be Jupyter notebook friendly;
+- Decoupling between a low-level use (simple Python interface to generate Zgoubi input files and run the executable);
+- Strong support and enforcement of physical units: no units conversion nightmare, you can freely use whatever units set
+ you like, the conversion into Zgoubi's default units is automatically handled.
 
 Publications
 ------------
@@ -47,3 +51,4 @@ from .zgoubi import Zgoubi, ZgoubiRun, ZgoubiException
 from .survey import survey
 from .frame import Frame, ZgoubidooFrameException
 from .beam import Beam, ZgoubidooBeamException
+from .polarity import HorizontalPolarity, VerticalPolarity
