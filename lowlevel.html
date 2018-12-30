@@ -1,0 +1,555 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Using the Zgoubidoo low-level interface &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Working with Zgoubidoo beams" href="beam.html" />
+    <link rel="prev" title="Working with Zgoubi Input" href="input.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2018.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using the Zgoubidoo low-level interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.output">Reading Zgoubi output files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.twiss">Computing Twiss parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Using the Zgoubidoo low-level interface</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/lowlevel.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="using-the-zgoubidoo-low-level-interface">
+<h1>Using the Zgoubidoo low-level interface<a class="headerlink" href="#using-the-zgoubidoo-low-level-interface" title="Permalink to this headline">¶</a></h1>
+<p>Test</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#module-zgoubidoo.output" id="id1">Reading Zgoubi output files</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.twiss" id="id2">Computing Twiss parameters</a></li>
+</ul>
+</div>
+<div class="section" id="module-zgoubidoo.output">
+<span id="reading-zgoubi-output-files"></span><h2><a class="toc-backref" href="#id1">Reading Zgoubi output files</a><a class="headerlink" href="#module-zgoubidoo.output" title="Permalink to this headline">¶</a></h2>
+<p>Module for handling of affine geometry transformations (rotations and translations).</p>
+<p>This module provides support for affine geometry transformations, mainly through the <cite>Frame</cite> class.</p>
+<p class="rubric">Example</p>
+<p>example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<dl class="function">
+<dt id="zgoubidoo.output.read_fai_file">
+<code class="descclassname">zgoubidoo.output.</code><code class="descname">read_fai_file</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.fai'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/output.html#read_fai_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.output.read_fai_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to read Zgoubi .fai file.</p>
+<p>Reads the content of a Zgoubi .fai file (‘faisceau’, ‘beam’ file) and formats it as a valid Pandas dataframe
+with headers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> – </li>
+<li><strong>path</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">xxxx</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="zgoubidoo.output.read_matrix_file">
+<code class="descclassname">zgoubidoo.output.</code><code class="descname">read_matrix_file</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.MATRIX.out'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/output.html#read_matrix_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.output.read_matrix_file" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> – </li>
+<li><strong>path</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="zgoubidoo.output.read_plt_file">
+<code class="descclassname">zgoubidoo.output.</code><code class="descname">read_plt_file</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.plt'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/output.html#read_plt_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.output.read_plt_file" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> – </li>
+<li><strong>path</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-zgoubidoo.twiss">
+<span id="computing-twiss-parameters"></span><h2><a class="toc-backref" href="#id2">Computing Twiss parameters</a><a class="headerlink" href="#module-zgoubidoo.twiss" title="Permalink to this headline">¶</a></h2>
+<p>Step-by-step computation of the transfer matrix and Twiss parameters from Zgoubi tracks.</p>
+<p>Blabla</p>
+<p class="rubric">Example</p>
+<p>import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+import zgoubidoo
+from zgoubidoo.commands import *
+_ = zgoubidoo.ureg</p>
+<dl class="function">
+<dt id="zgoubidoo.twiss.align_tracks">
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">align_tracks</code><span class="sig-paren">(</span><em>tracks: pandas.core.frame.DataFrame</em>, <em>align_on: str = 'X'</em>, <em>identifier: str = 'LET'</em>, <em>reference_track: str = 'O'</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.core.multiarray.array, pandas.core.frame.DataFrame]<a class="reference internal" href="_modules/zgoubidoo/twiss.html#align_tracks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.align_tracks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Align the tracks to obtain a homegenous array with all coordinates given at the same location.</p>
+<p>Required for example to compute the transfer matrix (not all particules would have integration step at the
+same coordinate and must be aligned. Uses a linear interpolation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tracks</strong> – tracking data</li>
+<li><strong>align_on</strong> – coordinates on which the tracks are aligned (typically ‘X’ or ‘S’)</li>
+<li><strong>identifier</strong> – identifier of the column used for the particles indexing</li>
+<li><strong>reference_track</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">aligned data and reference data</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="zgoubidoo.twiss.compute_alpha_from_matrix">
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_alpha_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: pandas.core.series.Series</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_alpha_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_alpha_from_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the Twiss alpha values at every steps of the input step-by-step transfer matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> – the step-by-step transfer matrix for which the alpha values should be computed</li>
+<li><strong>twiss</strong> – the initial Twiss values</li>
+<li><strong>plane</strong> – an integer representing the plane (1 or 2)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Pandas Series with the alpha values computed at all steps of the input step-by-step transfer matrix</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="zgoubidoo.twiss.compute_beta_from_matrix">
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_beta_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: pandas.core.series.Series</em>, <em>plane: int = 1</em>, <em>strict: bool = False</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_beta_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_beta_from_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the Twiss beta values at every steps of the input step-by-step transfer matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> – the step-by-step transfer matrix for which the beta values should be computed</li>
+<li><strong>twiss</strong> – the initial Twiss values</li>
+<li><strong>plane</strong> – an integer representing the plane (1 or 2)</li>
+<li><strong>strict</strong> – flag to activate the strict mode: checks and ensures that all computed beta are positive</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Pandas Series with the beta values computed at all steps of the input step-by-step transfer matrix</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="zgoubidoo.twiss.compute_dispersion_from_matrix">
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_dispersion_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: pandas.core.series.Series</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_dispersion_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_dispersion_from_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the dispersion function at every steps of the input step-by-step transfer matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> – the step-by-step transfer matrix for which the dispersion function should be computed</li>
+<li><strong>twiss</strong> – initial values for the Twiss parameters</li>
+<li><strong>plane</strong> – an integer representing the plane (1 or 2)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Pandas Series with the dispersion function computed at all steps of the input step-by-step transfer matrix</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="zgoubidoo.twiss.compute_dispersion_prime_from_matrix">
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_dispersion_prime_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: pandas.core.series.Series</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_dispersion_prime_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_dispersion_prime_from_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the dispersion prime function at every steps of the input step-by-step transfer matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> – the step-by-step transfer matrix for which the dispersion prime function should be computed</li>
+<li><strong>twiss</strong> – initial values for the Twiss parameters</li>
+<li><strong>plane</strong> – an integer representing the plane (1 or 2)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Pandas Series with the dispersion prime function computed at all steps of the input step-by-step transfer
+matrix</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="zgoubidoo.twiss.compute_gamma_from_matrix">
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_gamma_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: pandas.core.series.Series</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_gamma_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_gamma_from_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the Twiss gamma values at every steps of the input step-by-step transfer matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> – the step-by-step transfer matrix for which the beta values should be computed</li>
+<li><strong>twiss</strong> – the initial Twiss values</li>
+<li><strong>plane</strong> – an integer representing the plane (1 or 2)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Pandas Series with the gamma values computed at all steps of the input step-by-step transfer matrix</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="zgoubidoo.twiss.compute_jacobian_from_matrix">
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_jacobian_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_jacobian_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_jacobian_from_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the jacobian of the 2x2 transfer matrix (useful to verify the simplecticity).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> – the step-by-step transfer matrix for which the jacobians should be computed</li>
+<li><strong>plane</strong> – an integer representing the plane (1 or 2)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Pandas Series with the jacobian computed at all steps of the input step-by-step transfer matrix</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="zgoubidoo.twiss.compute_mu_from_matrix">
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_mu_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: pandas.core.series.Series</em>, <em>beta=None</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_mu_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_mu_from_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the phase advance values at every steps of the input step-by-step transfer matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> – the step-by-step transfer matrix for which the beta values should be computed</li>
+<li><strong>twiss</strong> – the initial Twiss values</li>
+<li><strong>beta</strong> – pre-computed step-by-step beta values (to improve effiency if already compyted)</li>
+<li><strong>plane</strong> – an integer representing the plane (1 or 2)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Pandas Series with the phase advance computed at all steps of the input step-by-step transfer matrix</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="zgoubidoo.twiss.compute_transfer_matrix">
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_transfer_matrix</code><span class="sig-paren">(</span><em>beamline: zgoubidoo.input.Input</em>, <em>tracks: pandas.core.frame.DataFrame</em>, <em>align_on: str = 'X'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_transfer_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_transfer_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs the step-by-step transfer matrix from tracking data (finite differences). The approximation
+uses the O(3) formula (not just the O(1) formula) and therefore makes use of all the particles.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>beamline</strong> – the Zgoubidoo Input beamline</li>
+<li><strong>tracks</strong> – tracking data</li>
+<li><strong>align_on</strong> – coordinates on which the tracks are aligned (typically ‘X’ or ‘S’)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Panda DataFrame representing the transfer matrix</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>Here is a typical example to call <code class="docutils literal notranslate"><span class="pre">compute_transfer_matrix</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tracks</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">read_plt_file</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zi</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Input</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">matrix</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">twiss</span><span class="o">.</span><span class="n">compute_transfer_matrix</span><span class="p">(</span><span class="n">zi</span><span class="p">,</span> <span class="n">tracks</span><span class="p">,</span> <span class="n">align_on</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="zgoubidoo.twiss.compute_twiss">
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_twiss</code><span class="sig-paren">(</span><em>matrix: pandas.core.frame.DataFrame</em>, <em>twiss_init: pandas.core.series.Series</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_twiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_twiss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses a step-by-step transfer matrix to compute the Twiss parameters (uncoupled). The phase advance and the
+determinants of the jacobians are computed as well.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>matrix</strong> – the input step-by-step transfer matrix</li>
+<li><strong>twiss_init</strong> – the initial values for the Twiss computation</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the same DataFrame as the input, but with added columns for the computed quantities.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="beam.html" class="btn btn-neutral float-right" title="Working with Zgoubidoo beams" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="input.html" class="btn btn-neutral" title="Working with Zgoubi Input" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

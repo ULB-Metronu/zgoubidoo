@@ -1,0 +1,306 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Zgoubidoo’s documentation &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2018.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Zgoubidoo’s documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-zgoubidoo">
+<span id="zgoubidoo-s-documentation"></span><h1>Zgoubidoo’s documentation<a class="headerlink" href="#module-zgoubidoo" title="Permalink to this headline">¶</a></h1>
+<p><em>Zgoubidoo: a modern Python 3 interface to the `Zgoubi`_ particle tracking code.</em></p>
+<p>Zgoubidoo is a Python 3 interface for Zgoubi, a ray-tracing code for beam dynamics simulations. Zgoubido is intended to
+follow a modern Python design and aims at being easy to use. Interactive use with iPython or Jupyter Notebook is
+supported and encouraged. As such Zgoubidoo can be viewed as a ‘Zgoubi for the mere mortal’ interface.</p>
+<p>Zgoubi is a ray-tracing (tracking) code for beam dynamics simulations. Many magnetic and electric elements are
+supported, as well as multiple other features, such as spin tracking. It is maintained by François Méot on SourceForge
+(<a class="reference external" href="https://sourceforge.net/projects/zgoubi/">Zgoubi SourceForge repository</a>).</p>
+<div class="section" id="design-goals">
+<h2>Design goals<a class="headerlink" href="#design-goals" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fully featured interface to Zgoubi: all functionalities of Zgoubi are supported through the Python interface;</li>
+<li>Ease of use: a simple tracking study and its visualization can be set up in just a few lines of code;</li>
+<li>Written in high-quality Python 3 with type-hints;</li>
+<li>The library interface and use-n-feel must be Jupyter notebook friendly;</li>
+<li>Decoupling between a low-level use (simple Python interface to generate Zgoubi input files and run the executable);</li>
+<li>Strong support and enforcement of physical units: no units conversion nightmare, you can freely use whatever units
+set you like, the conversion into Zgoubi’s default units is automatically handled.</li>
+</ul>
+</div>
+<div class="section" id="publications">
+<h2>Publications<a class="headerlink" href="#publications" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Coming soon.</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#compiling-and-installing-zgoubi">Compiling and installing Zgoubi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#obtaining-zgoubidoo">Obtaining Zgoubidoo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#creating-a-python-3-7-environment-with-conda">Creating a Python 3.7 environment with Conda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installation-zgoubidoo-using-pip">Installation Zgoubidoo using <code class="docutils literal notranslate"><span class="pre">pip</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#using-zgoubidoo-with-jupyter-notebook">Using Zgoubidoo with Jupyter Notebook</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="zgoubi.html">Zgoubi</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="zgoubi.html#module-zgoubidoo.zgoubi">Running Zgoubi with Zgoubidoo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Zgoubi commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands">Zgoubidoo’s class hierarchy and bases classes for new commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#module-zgoubidoo.commands.commands">Control-flow, calculation and miscellanous commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#module-zgoubidoo.commands.particules">Particule definition commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#module-zgoubidoo.commands.objet">Objet (bunch) definition commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#module-zgoubidoo.commands.mcobjet">Monte-Carlo Objet (bunch) definition commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#module-zgoubidoo.commands.magnetique">Magnetic elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#module-zgoubidoo.commands.electrique">Electric elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#module-zgoubidoo.commands.fieldmaps">Field-map elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#module-zgoubidoo.commands.spin">Spin tracking commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#module-zgoubidoo.commands.contrib">Contributed commands and specialized elements</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lowlevel.html">Using the Zgoubidoo low-level interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lowlevel.html#module-zgoubidoo.output">Reading Zgoubi output files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lowlevel.html#module-zgoubidoo.twiss">Computing Twiss parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vis.html">Zgoubidoo’s visualization and plotting module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vis.html#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vis.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vis.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Zgoubidoo’s utility modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html#module-zgoubidoo.frame">Affine geometry using the frame module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html#module-zgoubidoo.physics">Accelerator physics and relativity calculations using the physics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html#module-zgoubidoo.units">Units</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

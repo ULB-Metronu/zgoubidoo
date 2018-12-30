@@ -1,0 +1,602 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tosca &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="SpinPrint" href="zgoubidoo.commands.spin.SpinPrint.html" />
+    <link rel="prev" title="PolarMesh" href="zgoubidoo.commands.fieldmaps.PolarMesh.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2018.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../commands.html">Zgoubi commands</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands">Zgoubidoo’s class hierarchy and bases classes for new commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.commands">Control-flow, calculation and miscellanous commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.particules">Particule definition commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.objet">Objet (bunch) definition commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.mcobjet">Monte-Carlo Objet (bunch) definition commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.magnetique">Magnetic elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.electrique">Electric elements</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.fieldmaps">Field-map elements</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../commands.html#id11">Classes</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.fieldmaps.Brevol.html">Brevol</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.fieldmaps.CartesianMesh.html">CartesianMesh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.fieldmaps.Map2D.html">Map2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.fieldmaps.Map2DElectric.html">Map2DElectric</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.fieldmaps.Poisson.html">Poisson</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.fieldmaps.PolarMesh.html">PolarMesh</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Tosca</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#id12">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.spin">Spin tracking commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.contrib">Contributed commands and specialized elements</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../commands.html">Zgoubi commands</a> &raquo;</li>
+        
+      <li>Tosca</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/zgoubidoo.commands.fieldmaps.Tosca.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tosca">
+<h1>Tosca<a class="headerlink" href="#tosca" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="zgoubidoo.commands.fieldmaps.Tosca">
+<em class="property">class </em><code class="descclassname">zgoubidoo.commands.fieldmaps.</code><code class="descname">Tosca</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/fieldmaps.html#Tosca"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.fieldmaps.Tosca" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" title="zgoubidoo.commands.commands.Command"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.commands.Command</span></code></a></p>
+<p>2-D and 3-D Cartesian or cylindrical mesh field map.</p>
+<p class="rubric">Zgoubi manual description</p>
+<p>TOSCA is dedicated to the reading and treatment of 2-D or 3-D Cartesian or cylindrical mesh field maps as delivered
+by the TOSCA magnet computer code standard output.</p>
+<p>A pair of flags, MOD, MOD2, determine whether Cartesian or Z-axis cylindrical mesh is used, and the nature of the
+field map data set.</p>
+<p>The total number of field data files to be read is determined by the MOD flag (see below) and by the parameter IZ
+that appears in the data list following the keyword. Each of these files contains the field components
+BX,BY,BZonan(X,Y)mesh.IZ=1fora2-Dmap,andinthiscaseBXandBY are assumed zero all over the map7.</p>
+<p>For a 3-D map with mid-plane symmetry, described with a set of 2-D maps at various Z, then MOD=0 and IZ ≥ 2, and
+thus, the first data file whose name follows in the data list is supposed to contain the median plane field
+(assuming Z = 0 and BX = BY = 0), while the remaining IZ − 1 file(s) contain the IZ − 1 additional planes in
+increasing Z order.</p>
+<p>For arbitrary 3-D maps, no symmetry assumed, then MOD=1 and the total number of maps (whose names follow in the
+data list) is IZ, such that map number [IZ/2] + 1 is the Z = 0 elevation one.</p>
+<p>The field map data file has to be be filled with a format that fits the FORTRAN reading sequence.</p>
+<p>IX (JY , KZ) is the number of longitudinal (transverse horizontal, vertical) nodes of the 3-D uniform mesh.
+For letting zgoubi know that these are binary files, FNAME must begin with ‘B ’ or ‘b ’. In addition to the
+MOD=1, 2 cases above, one can have MOD=12 and in that case a single file contains the all 3-D field map.
+See table below and the FORTRAN subroutine fmapw.f and its entries FMAPR, FMAPR2, for more details, in particular
+the formatting of the field map data file(s).</p>
+<p>The field B = (BX , BY , BZ ) is normalized by means of BNORM in a similar way as in CARTEMES.
+As well the coordinates X and Y (and Z in the case of a 3-D field map) are normalized by the X-[, Y-, Z-]NORM
+coefficient (useful to convert to centimeters, the working units in zgoubi).</p>
+<p>At each step of the trajectory of a particle inside the map, the field and its derivatives are calculated</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="first docutils">
+<dt>in the case of 2-D map, by means of a second or fourth order polynomial interpolation, depending</dt>
+<dd>on IORDRE (IORDRE = 2, 25 or 4), as for CARTEMES,</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>in the case of 3-D map, by means of a second order polynomial interpolation with a 3 × 3 × 3-point</dt>
+<dd>parallelepipedic grid, as described in section 1.4.4.</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>Entrance and/or exit integration boundaries between which the trajectories are integrated in the field may be
+defined, in the same way as in CARTEMES.</p>
+<p class="rubric">Zgoubidoo usage and example</p>
+<p class="rubric">Command attributes</p>
+<dl class="attribute">
+<dt>
+<code class="descname">LABEL1=''</code></dt>
+<dd><p>Primary label for the Zgoubi command (default: auto-generated hash).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">LABEL2=''</code></dt>
+<dd><p>Secondary label for the Zgoubi command.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">IC='2'</code></dt>
+<dd><p>Print the map.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">IL='2'</code></dt>
+<dd><p>Print field and coordinates along trajectories.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">BNORM='1.0'</code></dt>
+<dd><p>Field normalization coefficient.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">XN='1.0'</code></dt>
+<dd><p>X coordinate normalization coefficient.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">YN='1.0'</code></dt>
+<dd><p>Y coordinate normalization coefficient.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">ZN='1.0'</code></dt>
+<dd><p>Z coordinate normalization coefficient.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">TITL='FIELDMAP'</code></dt>
+<dd><p>Title.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">IX='1'</code></dt>
+<dd><p>Number of nodes of the mesh in the X direction.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">IY='1'</code></dt>
+<dd><p>Number of nodes of the mesh in the Y direction.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">IZ='1'</code></dt>
+<dd><p>Number of nodes of the mesh in the Z direction.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">MOD='0'</code></dt>
+<dd><p>Format reading mode.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">MOD2='0'</code></dt>
+<dd><p>Format reading sub-mode.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">FNAME='TOSCA'</code></dt>
+<dd><p>File names.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">ID='0'</code></dt>
+<dd><p>Integration boundary.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">IORDRE='25'</code></dt>
+<dd><p>Degree of interpolation polynomial.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">XPAS='1 millimeter'</code></dt>
+<dd><p>Integration step.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.fieldmaps.Tosca.KEYWORD" title="zgoubidoo.commands.fieldmaps.Tosca.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></td>
+<td>Keyword of the command used for the Zgoubi input data.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.fieldmaps.Tosca.PARAMETERS" title="zgoubidoo.commands.fieldmaps.Tosca.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></td>
+<td>Parameters of the command.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.fieldmaps.Tosca.test" title="zgoubidoo.commands.fieldmaps.Tosca.test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test</span></code></a>()</td>
+<td>Hello Returns:</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="zgoubidoo.commands.fieldmaps.Tosca.KEYWORD">
+<code class="descname">KEYWORD</code><em class="property"> = 'TOSCA'</em><a class="headerlink" href="#zgoubidoo.commands.fieldmaps.Tosca.KEYWORD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Keyword of the command used for the Zgoubi input data.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.commands.fieldmaps.Tosca.PARAMETERS">
+<code class="descname">PARAMETERS</code><em class="property"> = {'A': (), 'ALE': (), 'B': (), 'BNORM': (1.0, 'Field normalization coefficient.'), 'C': (), 'FNAME': ('TOSCA', 'File names.'), 'IC': (2, 'Print the map.'), 'ID': (0, 'Integration boundary.'), 'IL': (2, 'Print field and coordinates along trajectories.'), 'IORDRE': (25, 'Degree of interpolation polynomial.'), 'IX': (1, 'Number of nodes of the mesh in the X direction.'), 'IY': (1, 'Number of nodes of the mesh in the Y direction.'), 'IZ': (1, 'Number of nodes of the mesh in the Z direction.'), 'KPOS': (), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'MOD': (0, 'Format reading mode.'), 'MOD2': (0, 'Format reading sub-mode.'), 'RE': (), 'RS': (), 'TE': (), 'TITL': ('FIELDMAP', 'Title.'), 'TS': (), 'XCE': (), 'XN': (1.0, 'X coordinate normalization coefficient.'), 'XPAS': (&lt;Quantity(1, 'millimeter')&gt;, 'Integration step.'), 'YCE': (), 'YN': (1.0, 'Y coordinate normalization coefficient.'), 'ZN': (1.0, 'Z coordinate normalization coefficient.')}</em><a class="headerlink" href="#zgoubidoo.commands.fieldmaps.Tosca.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameters of the command.</p>
+<p>The tuples contain their default value, their description and optinally an index used by other commands (e.g. fit).</p>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="zgoubidoo.commands.fieldmaps.Tosca.test">
+<code class="descname">test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/fieldmaps.html#Tosca.test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.fieldmaps.Tosca.test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hello
+Returns:</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="zgoubidoo.commands.spin.SpinPrint.html" class="btn btn-neutral float-right" title="SpinPrint" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="zgoubidoo.commands.fieldmaps.PolarMesh.html" class="btn btn-neutral" title="PolarMesh" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

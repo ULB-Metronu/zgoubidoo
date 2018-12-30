@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Installation &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Zgoubi" href="zgoubi.html" />
+    <link rel="prev" title="Zgoubidoo’s documentation" href="index.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2018.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#compiling-and-installing-zgoubi">Compiling and installing Zgoubi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#obtaining-zgoubidoo">Obtaining Zgoubidoo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-python-3-7-environment-with-conda">Creating a Python 3.7 environment with Conda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation-zgoubidoo-using-pip">Installation Zgoubidoo using <code class="docutils literal notranslate"><span class="pre">pip</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-zgoubidoo-with-jupyter-notebook">Using Zgoubidoo with Jupyter Notebook</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Installation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>Installing and using the <code class="docutils literal notranslate"><span class="pre">Zgoubidoo</span></code> Python library requires a working Python 3.7 environment.</p>
+<p>The easiest way is to
+proceed with <code class="docutils literal notranslate"><span class="pre">conda</span></code> to set it up. In case you already have a Python 3.7 environment available, you can simply install
+<code class="docutils literal notranslate"><span class="pre">Zgoubidoo</span></code> with <code class="docutils literal notranslate"><span class="pre">pip</span></code> directly. <code class="docutils literal notranslate"><span class="pre">Zgoubidoo</span></code> has a relatively small number of dependencies, and no non-Python
+dependencies, except of course for <code class="docutils literal notranslate"><span class="pre">Zgoubi</span></code> itself.</p>
+<div class="section" id="compiling-and-installing-zgoubi">
+<h2>Compiling and installing Zgoubi<a class="headerlink" href="#compiling-and-installing-zgoubi" title="Permalink to this headline">¶</a></h2>
+<p>Zgoubi can be obtained from SourceForge (download or <code class="docutils literal notranslate"><span class="pre">svn</span> <span class="pre">checkout</span></code>). A Fortran compiler is required: both <code class="docutils literal notranslate"><span class="pre">ifort</span></code>
+and <code class="docutils literal notranslate"><span class="pre">gfortran</span></code> are supported (‘Makefile’s are provided).</p>
+<p>After the compilation the <code class="docutils literal notranslate"><span class="pre">zgoubi</span></code> executable will be available in the <cite>zgoubi</cite> directory. Depending on the Makefile
+you use, <cite>zpop</cite> will also be built. It is not used by Zgoubidoo.</p>
+<p>Zgoubidoo needs to be able to locate the <code class="docutils literal notranslate"><span class="pre">zgoubi</span></code> executable. The easiest way is to have it somewhere in your <cite>$PATH</cite>
+so that <code class="docutils literal notranslate"><span class="pre">which</span></code> (via <cite>shutil.which</cite>) is able to find it. Alternatively, it is possible to provide the path at runtime.</p>
+</div>
+<div class="section" id="obtaining-zgoubidoo">
+<h2>Obtaining Zgoubidoo<a class="headerlink" href="#obtaining-zgoubidoo" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Zgoubidoo</span></code> is hosted on github (see Zgoubidoo’s Github repository). To obtain the code using <code class="docutils literal notranslate"><span class="pre">git</span></code> do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">chernals</span><span class="o">/</span><span class="n">zgoubidoo</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>The default branch (<cite>master</cite>) should be clean at all time, with all the development happening in the <cite>develop</cite> branch.
+It should thus be safe to <cite>pull</cite> from the master branch to get the latest version. Only the released and tagged
+versions are merged onto the master branch.</p>
+<p>To stay on a released (tagged) revision:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="o">--</span><span class="n">branch</span> <span class="s1">&#39;tag_name&#39;</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">chernals</span><span class="o">/</span><span class="n">zgoubidoo</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>The releases <cite>CHANGELOG</cite> follows.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="docutils">
+<dt>2018.1 - First release!</dt>
+<dd><ul class="first last simple">
+<li>Support all Zgoubi elements, altough some commands (in particular related to electric elements or spin tracking) have never been tested</li>
+<li>Step-by-step computation of Twiss parameters (in a similar fashion to what pyzgoubi does) using 11 particules</li>
+</ul>
+</dd>
+</dl>
+<p class="last">2019.1 - See you next year.</p>
+</div>
+</div>
+<div class="section" id="creating-a-python-3-7-environment-with-conda">
+<h2>Creating a Python 3.7 environment with Conda<a class="headerlink" href="#creating-a-python-3-7-environment-with-conda" title="Permalink to this headline">¶</a></h2>
+<p>The Zgoubidoo repository contains a <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment file that can be used to create a complete Python 3.7
+environment suitable for Zgoubidoo:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">path_to_zgoubidoo</span>
+<span class="n">conda</span> <span class="n">env</span> <span class="n">create</span> <span class="o">--</span><span class="n">file</span> <span class="n">environment</span><span class="o">.</span><span class="n">yml</span>
+</pre></div>
+</div>
+<p>or you can give a custom name to the environment with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">env</span> <span class="n">create</span> <span class="o">--</span><span class="n">file</span> <span class="n">environment</span><span class="o">.</span><span class="n">yml</span> <span class="o">--</span><span class="n">name</span> <span class="n">your_custom_name</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="installation-zgoubidoo-using-pip">
+<h2>Installation Zgoubidoo using <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#installation-zgoubidoo-using-pip" title="Permalink to this headline">¶</a></h2>
+<p>The first step is to activate your Python 3.7 environment (only needed if you do not use a global
+instalaltion of Python. On Mac OS if you use the Python <code class="docutils literal notranslate"><span class="pre">brew</span></code> installation you should already have Python 3.7
+available from your path). With <code class="docutils literal notranslate"><span class="pre">conda</span></code> proceed like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">activate</span> <span class="n">py37</span>
+</pre></div>
+</div>
+<p>where <cite>py37</cite> is the name of the environment created by default if you used the <cite>requirement.txt</cite> file as described
+above.</p>
+<p>Zgoubidoo can then be installed using <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">path_to_zgoubidoo</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>Upgrading Zgoubidoo:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">.</span> <span class="o">--</span><span class="n">upgrade</span>
+</pre></div>
+</div>
+<p>Alternatively if you intend to develop <cite>Zgoubidoo</cite> you can install it in editable mode:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>The second method allows any change to be reflected directly to your Zgoubidoo package (only a symlink is created in
+site-packages). This is the recommended way if you want to stay on the latest version of Zgoubidoo (development branch
+<cite>develop</cite>).</p>
+</div>
+<div class="section" id="using-zgoubidoo-with-jupyter-notebook">
+<h2>Using Zgoubidoo with Jupyter Notebook<a class="headerlink" href="#using-zgoubidoo-with-jupyter-notebook" title="Permalink to this headline">¶</a></h2>
+<p>Any installation of Jupyter would work as long as the Python 3.7 kernel from the <code class="docutils literal notranslate"><span class="pre">conda</span></code> installation can be selected.
+For that it is best to install the extension <code class="docutils literal notranslate"><span class="pre">nb_conda_kernels</span></code>. The <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment already contains a working
+installation of <code class="docutils literal notranslate"><span class="pre">jupyter</span></code> with the <code class="docutils literal notranslate"><span class="pre">conda</span></code> extensions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">activate</span> <span class="n">py37</span>
+<span class="n">jupyter</span> <span class="n">notebook</span>
+</pre></div>
+</div>
+<p>From there you can create a new notebook and simply import Zgoubidoo:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">zgoubidoo</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="zgoubi.html" class="btn btn-neutral float-right" title="Zgoubi" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Zgoubidoo’s documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,444 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>zgoubidoo.zgoubi &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2018.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>zgoubidoo.zgoubi</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for zgoubidoo.zgoubi</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Provides an interface to run Zgoubi from Python; supports multiprocessing.</span>
+
+<span class="sd">.. seealso::</span>
+
+<span class="sd">    The full `Zgoubi User Guide`_ can also be consulted for reference.</span>
+
+<span class="sd">    .. _Zgoubi User Guide: https://sourceforge.net/projects/zgoubi/</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span> <span class="k">as</span> <span class="n">_partial</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">from</span> <span class="nn">multiprocessing.pool</span> <span class="k">import</span> <span class="n">ThreadPool</span> <span class="k">as</span> <span class="n">_ThreadPool</span>
+<span class="kn">import</span> <span class="nn">subprocess</span> <span class="k">as</span> <span class="nn">sub</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
+<span class="kn">from</span> <span class="nn">.input</span> <span class="k">import</span> <span class="n">Input</span>
+<span class="kn">from</span> <span class="nn">.output</span> <span class="k">import</span> <span class="n">read_plt_file</span>
+
+
+<div class="viewcode-block" id="ZgoubiException"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.ZgoubiException">[docs]</a><span class="k">class</span> <span class="nc">ZgoubiException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exception raised for errors when running Zgoubi.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">m</span></div>
+
+
+<div class="viewcode-block" id="ZgoubiRun"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.ZgoubiRun">[docs]</a><span class="k">class</span> <span class="nc">ZgoubiRun</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            results:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span> <span class="o">=</span> <span class="n">results</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tracks</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Collect all tracks from the different Zgoubi instances in the results and concatenate them.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A concatenated DataFrame with all the tracks in the result.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracks</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">tracks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">:</span>
+                    <span class="n">tracks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">read_plt_file</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_tracks</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">tracks</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">&quot;Unable to read and load the Zgoubi .plt files required to collect the tracks.&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracks</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span></div>
+
+
+<div class="viewcode-block" id="Zgoubi"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.Zgoubi">[docs]</a><span class="k">class</span> <span class="nc">Zgoubi</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;High level interface to run Zgoubi from Python.&quot;&quot;&quot;</span>
+
+    <span class="n">ZGOUBI_EXECUTABLE_NAME</span> <span class="o">=</span> <span class="s1">&#39;zgoubi&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Default name of the Zgoubi executable.&quot;&quot;&quot;</span>
+
+    <span class="n">ZGOUBI_RES_FILE</span> <span class="o">=</span> <span class="s1">&#39;zgoubi.res&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Default name of the Zgoubi result &#39;.res&#39; file.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executable</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ZGOUBI_EXECUTABLE_NAME</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The created `Zgoubi` object is an interface to the Zgoubi executable. The executable can be found</span>
+<span class="sd">        automatically or its name and path can be specified.</span>
+
+<span class="sd">        The Zgoubi executable is called on an instance of `Input` specifying a list of paths containing Zgoubi input</span>
+<span class="sd">        files. Multiple instances can thus be run in parallell.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            - executable: name of the Zgoubi executable</span>
+<span class="sd">            - path: path to the Zgoubi executable</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_executable</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">executable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">ApplyResult</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">executable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Provides the full path to the Zgoubi executable.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            full path to the Zgoubi executable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_exec</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Zgoubi.__call__"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.Zgoubi.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zgoubi_input</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">n_procs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ZgoubiRun</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Starts up to `n_procs` Zgoubi runs.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            zgoubi_input: `Input` object specifying the Zgoubi inputs and input paths.</span>
+<span class="sd">            debug: verbose output</span>
+<span class="sd">            n_procs: maximum number of Zgoubi simulations to be started in parallel</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a ZgoubiRun object holding the simulation results.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">n_procs</span> <span class="ow">or</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">_ThreadPool</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">zgoubi_input</span><span class="o">.</span><span class="n">paths</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ZgoubiException</span><span class="p">(</span><span class="s2">&quot;The input must be written before calling Zgoubi.&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">zgoubi_input</span><span class="o">.</span><span class="n">paths</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="n">p</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_execute_zgoubi</span><span class="p">,</span> <span class="p">(</span><span class="n">zgoubi_input</span><span class="p">,</span> <span class="n">path</span><span class="p">)))</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">ZgoubiRun</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">)))</span></div>
+
+    <span class="k">def</span> <span class="nf">_execute_zgoubi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zgoubi_input</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            zgoubi_input:</span>
+<span class="sd">            path:</span>
+<span class="sd">            debug:</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a dictionary holding the results of the run.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">stderr</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">sub</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_exec</span><span class="p">()],</span>
+                      <span class="n">stdin</span><span class="o">=</span><span class="n">sub</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                      <span class="n">stdout</span><span class="o">=</span><span class="n">sub</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                      <span class="n">stderr</span><span class="o">=</span><span class="n">sub</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span>
+                      <span class="n">cwd</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
+                      <span class="p">)</span>
+
+        <span class="c1"># Run</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+
+        <span class="c1"># Collect STDERR</span>
+        <span class="k">if</span> <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">stderr</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+        <span class="c1"># Extract element by element output</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">Zgoubi</span><span class="o">.</span><span class="n">ZGOUBI_RES_FILE</span><span class="p">))</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">zgoubi_input</span><span class="o">.</span><span class="n">line</span><span class="p">:</span>
+            <span class="nb">list</span><span class="p">(</span>
+                <span class="nb">map</span><span class="p">(</span><span class="n">_partial</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">attach_output</span><span class="p">,</span> <span class="n">zgoubi_input</span><span class="o">=</span><span class="n">zgoubi_input</span><span class="p">),</span> <span class="n">Zgoubi</span><span class="o">.</span><span class="n">find_labeled_output</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">))</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Extract CPU time</span>
+        <span class="n">cputime</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+        <span class="k">if</span> <span class="n">stderr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">if</span>
+                     <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;CPU time&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+                <span class="n">cputime</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\d+\.\d+[E|e]?[+|-]?\d+&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">group</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;stdout&#39;</span><span class="p">:</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;stderr&#39;</span><span class="p">:</span> <span class="n">stderr</span><span class="p">,</span>
+            <span class="s1">&#39;cputime&#39;</span><span class="p">:</span> <span class="n">cputime</span><span class="p">,</span>
+            <span class="s1">&#39;result&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">,</span>
+            <span class="s1">&#39;input&#39;</span><span class="p">:</span> <span class="n">zgoubi_input</span><span class="p">,</span>
+            <span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="n">path</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">_get_exec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optional_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;/usr/local/bin&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Retrive the path to the Zgoubi executable.</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_executable</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;win32&#39;</span><span class="p">,</span> <span class="s1">&#39;win64&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_executable</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{sys.prefix}</span><span class="s2">/bin/</span><span class="si">{self._executable}</span><span class="s2">&quot;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{sys.prefix}</span><span class="s2">/bin/</span><span class="si">{self._executable}</span><span class="s2">&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_executable</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH&#39;</span><span class="p">],</span> <span class="n">optional_path</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Zgoubi.find_labeled_output"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.Zgoubi.find_labeled_output">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">find_labeled_output</span><span class="p">(</span><span class="n">out</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Process the Zgoubi output and retrieves output data for a particular labeled element.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            - out: the Zgoubi output</span>
+<span class="sd">            - label: the label of the element to be retrieved</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the output of the given label</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="ow">in</span> <span class="n">l</span> <span class="ow">and</span> <span class="s1">&#39;Keyword&#39;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s1">&#39;****&#39;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">_</span><span class="p">),</span> <span class="n">data</span><span class="p">))</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

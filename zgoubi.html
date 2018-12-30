@@ -1,0 +1,348 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Zgoubi &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Zgoubi commands" href="commands.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2018.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Zgoubi</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.zgoubi">Running Zgoubi with Zgoubidoo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Zgoubi</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/zgoubi.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="zgoubi">
+<h1>Zgoubi<a class="headerlink" href="#zgoubi" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-zgoubidoo.zgoubi">
+<span id="running-zgoubi-with-zgoubidoo"></span><h2>Running Zgoubi with Zgoubidoo<a class="headerlink" href="#module-zgoubidoo.zgoubi" title="Permalink to this headline">¶</a></h2>
+<p>Provides an interface to run Zgoubi from Python; supports multiprocessing.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">The full <a class="reference external" href="https://sourceforge.net/projects/zgoubi/">Zgoubi User Guide</a> can also be consulted for reference.</p>
+</div>
+<dl class="class">
+<dt id="zgoubidoo.zgoubi.Zgoubi">
+<em class="property">class </em><code class="descclassname">zgoubidoo.zgoubi.</code><code class="descname">Zgoubi</code><span class="sig-paren">(</span><em>executable: str = 'zgoubi'</em>, <em>path: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#Zgoubi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.Zgoubi" title="Permalink to this definition">¶</a></dt>
+<dd><p>High level interface to run Zgoubi from Python.</p>
+<dl class="attribute">
+<dt id="zgoubidoo.zgoubi.Zgoubi.ZGOUBI_EXECUTABLE_NAME">
+<code class="descname">ZGOUBI_EXECUTABLE_NAME</code><em class="property"> = 'zgoubi'</em><a class="headerlink" href="#zgoubidoo.zgoubi.Zgoubi.ZGOUBI_EXECUTABLE_NAME" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default name of the Zgoubi executable.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.zgoubi.Zgoubi.ZGOUBI_RES_FILE">
+<code class="descname">ZGOUBI_RES_FILE</code><em class="property"> = 'zgoubi.res'</em><a class="headerlink" href="#zgoubidoo.zgoubi.Zgoubi.ZGOUBI_RES_FILE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default name of the Zgoubi result ‘.res’ file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.zgoubi.Zgoubi.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>zgoubi_input: zgoubidoo.input.Input</em>, <em>debug: bool = False</em>, <em>n_procs: int = None</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.zgoubi.ZgoubiRun<a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#Zgoubi.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.Zgoubi.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts up to <cite>n_procs</cite> Zgoubi runs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>zgoubi_input</strong> – <cite>Input</cite> object specifying the Zgoubi inputs and input paths.</li>
+<li><strong>debug</strong> – verbose output</li>
+<li><strong>n_procs</strong> – maximum number of Zgoubi simulations to be started in parallel</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a ZgoubiRun object holding the simulation results.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.zgoubi.Zgoubi.executable">
+<code class="descname">executable</code><a class="headerlink" href="#zgoubidoo.zgoubi.Zgoubi.executable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides the full path to the Zgoubi executable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">full path to the Zgoubi executable.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="zgoubidoo.zgoubi.Zgoubi.find_labeled_output">
+<em class="property">static </em><code class="descname">find_labeled_output</code><span class="sig-paren">(</span><em>out: Iterable[str], label: str</em><span class="sig-paren">)</span> &#x2192; list<a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#Zgoubi.find_labeled_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.Zgoubi.find_labeled_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process the Zgoubi output and retrieves output data for a particular labeled element.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>out</strong> (<em>-</em>) – the Zgoubi output</li>
+<li><strong>label</strong> (<em>-</em>) – the label of the element to be retrieved</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the output of the given label</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="zgoubidoo.zgoubi.ZgoubiException">
+<em class="property">exception </em><code class="descclassname">zgoubidoo.zgoubi.</code><code class="descname">ZgoubiException</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#ZgoubiException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception raised for errors when running Zgoubi.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="zgoubidoo.zgoubi.ZgoubiRun">
+<em class="property">class </em><code class="descclassname">zgoubidoo.zgoubi.</code><code class="descname">ZgoubiRun</code><span class="sig-paren">(</span><em>results: List[Mapping[KT, VT_co]]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#ZgoubiRun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiRun" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="zgoubidoo.zgoubi.ZgoubiRun.matrix">
+<code class="descname">matrix</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiRun.matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>type: Returns</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.zgoubi.ZgoubiRun.results">
+<code class="descname">results</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiRun.results" title="Permalink to this definition">¶</a></dt>
+<dd><p>type: Returns</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.zgoubi.ZgoubiRun.tracks">
+<code class="descname">tracks</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiRun.tracks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect all tracks from the different Zgoubi instances in the results and concatenate them.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A concatenated DataFrame with all the tracks in the result.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="commands.html" class="btn btn-neutral float-right" title="Zgoubi commands" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installation.html" class="btn btn-neutral" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,396 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CGTR &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="DipoleIBA" href="zgoubidoo.commands.contrib.iba.DipoleIBA.html" />
+    <link rel="prev" title="B3G" href="zgoubidoo.commands.contrib.iba.B3G.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2018.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../commands.html">Zgoubi commands</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands">Zgoubidoo’s class hierarchy and bases classes for new commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.commands">Control-flow, calculation and miscellanous commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.particules">Particule definition commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.objet">Objet (bunch) definition commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.mcobjet">Monte-Carlo Objet (bunch) definition commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.magnetique">Magnetic elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.electrique">Electric elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.fieldmaps">Field-map elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.spin">Spin tracking commands</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.contrib">Contributed commands and specialized elements</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.contrib.iba">IBA elements</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../commands.html#id15">Classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../commands.html#id16">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.contrib.cern">CERN elements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.contrib.emma">Emma elements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../commands.html">Zgoubi commands</a> &raquo;</li>
+        
+      <li>CGTR</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/zgoubidoo.commands.contrib.iba.CGTR.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="cgtr">
+<h1>CGTR<a class="headerlink" href="#cgtr" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="zgoubidoo.commands.contrib.iba.CGTR">
+<em class="property">class </em><code class="descclassname">zgoubidoo.commands.contrib.iba.</code><code class="descname">CGTR</code><span class="sig-paren">(</span><em>kinematics=&lt;zgoubidoo.physics.Kinematics object&gt;</em>, <em>b1g=                  'DIPOLE' B1G         2         5.000000000000e+01 1.500000000000e+02         2.500000000000e+01 1.400000000000e+01 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         9.000000000000e+00 -1.0         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         2.000000000000e+01 0.000000000000e+00 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09         9.000000000000e+00 -1.0         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         -2.000000000000e+01 0.000000000000e+00 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09         0.000000000000e+00 0.0         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09         2 1.000000000000e+01         0.1         2         1.505729756315e+02 -8.726646259972e-02 1.505729756315e+02 8.726646259972e-02</em>, <em>b2g=                  'DIPOLE' B2G         2         8.000000000000e+01 1.500000000000e+02         4.000000000000e+01 1.400000000000e+01 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         9.000000000000e+00 -1.0         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         3.500000000000e+01 0.000000000000e+00 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09         9.000000000000e+00 -1.0         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         -3.500000000000e+01 0.000000000000e+00 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09         0.000000000000e+00 0.0         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09         2 1.000000000000e+01         0.1         2         1.505729756315e+02 -8.726646259972e-02 1.505729756315e+02 8.726646259972e-02</em>, <em>b3g=                  'DIPOLE' B3G         2         7.000000000000e+01 1.600000000000e+02         3.500000000000e+01 1.400000000000e+01 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         9.000000000000e+00 -1.0         6 6.763405400000e-01 1.157768410000e+00 -1.693798600000e-01 7.696388000000e-02 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         2.887500000000e+01 0.000000000000e+00 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09         9.000000000000e+00 -1.0         6 7.789082000000e-01 9.449054500000e-01 -1.303478700000e-01 2.948957000000e-02 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         -2.887500000000e+01 0.000000000000e+00 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09         0.000000000000e+00 0.0         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09 1.000000000000e+09         2 1.000000000000e+01         0.010000000000000002         2         1.606111740069e+02 -8.726646259972e-02 1.606111740069e+02 8.726646259972e-02</em>, <em>q1g=                  'QUADRUPO' Q1G         2         2.970000000000e+01 1.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.1         1 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00</em>, <em>q2g=                  'QUADRUPO' Q2G         2         2.970000000000e+01 1.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.1         1 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00</em>, <em>q3g=                  'QUADRUPO' Q3G         2         2.900000000000e+01 1.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.1         1 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00</em>, <em>q4g=                  'QUADRUPO' Q4G         2         2.900000000000e+01 1.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.1         1 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00</em>, <em>q5g=                  'QUADRUPO' Q5G         2         4.900000000000e+01 1.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.1         1 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00</em>, <em>q6g=                  'QUADRUPO' Q6G         2         2.900000000000e+01 1.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.1         1 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00</em>, <em>q7g=                  'QUADRUPO' Q7G         2         2.900000000000e+01 1.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.1         1 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00</em>, <em>smx=                  'BEND' SMX         2         1.590000000000e+01 0.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         1.000000000000e-01         2 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00</em>, <em>smy=                  'BEND' SMY         2         1.090000000000e+01 1.570796326795e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         6 0.000000000000e+00 1.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00         1.000000000000e-01         2 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Proteus One compact gantry (CGTR) input sequence.</p>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.line" title="zgoubidoo.commands.contrib.iba.CGTR.line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">line</span></code></a></td>
+<td>type: Returns</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.plot" title="zgoubidoo.commands.contrib.iba.CGTR.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>([ax])</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param ax:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.run" title="zgoubidoo.commands.contrib.iba.CGTR.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>([fit])</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param self:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.shoot" title="zgoubidoo.commands.contrib.iba.CGTR.shoot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shoot</span></code></a>([x,&nbsp;y])</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param x:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.spots" title="zgoubidoo.commands.contrib.iba.CGTR.spots"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spots</span></code></a>(spots)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param spots:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="zgoubidoo.commands.contrib.iba.CGTR.line">
+<code class="descname">line</code><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.line" title="Permalink to this definition">¶</a></dt>
+<dd><p>type: Returns</p>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="zgoubidoo.commands.contrib.iba.CGTR.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>ax=None</em>, <em>artist: zgoubidoo.vis.zgoubiplot.ZgoubiPlot = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.plot" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ax</strong> – </li>
+<li><strong>artist</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.commands.contrib.iba.CGTR.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>fit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.run" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>self</strong> – </li>
+<li><strong>fit</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.commands.contrib.iba.CGTR.shoot">
+<code class="descname">shoot</code><span class="sig-paren">(</span><em>x=0.0</em>, <em>y=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.shoot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.shoot" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> – </li>
+<li><strong>y</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.commands.contrib.iba.CGTR.spots">
+<code class="descname">spots</code><span class="sig-paren">(</span><em>spots</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.spots"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.spots" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>spots</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="zgoubidoo.commands.contrib.iba.DipoleIBA.html" class="btn btn-neutral float-right" title="DipoleIBA" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="zgoubidoo.commands.contrib.iba.B3G.html" class="btn btn-neutral" title="B3G" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

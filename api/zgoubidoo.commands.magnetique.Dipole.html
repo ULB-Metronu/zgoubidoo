@@ -1,0 +1,1317 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Dipole &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="DipoleM" href="zgoubidoo.commands.magnetique.DipoleM.html" />
+    <link rel="prev" title="Decapole" href="zgoubidoo.commands.magnetique.Decapole.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2018.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../commands.html">Zgoubi commands</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands">Zgoubidoo’s class hierarchy and bases classes for new commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.commands">Control-flow, calculation and miscellanous commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.particules">Particule definition commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.objet">Objet (bunch) definition commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.mcobjet">Monte-Carlo Objet (bunch) definition commands</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.magnetique">Magnetic elements</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../commands.html#id7">Classes</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.AGSMainMagnet.html">AGSMainMagnet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.AGSQuadrupole.html">AGSQuadrupole</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Aimant.html">Aimant</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Bend.html">Bend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.CartesianMagnet.html">CartesianMagnet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Decapole.html">Decapole</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Dipole</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.DipoleM.html">DipoleM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Dipoles.html">Dipoles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Dodecapole.html">Dodecapole</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Drift.html">Drift</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Emma.html">Emma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.FFAG.html">FFAG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.FFAGSpirale.html">FFAGSpirale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.FakeDrift.html">FakeDrift</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Magnet.html">Magnet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Multipole.html">Multipole</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Octupole.html">Octupole</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.PS170.html">PS170</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.PolarMagnet.html">PolarMagnet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Quadisex.html">Quadisex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Quadrupole.html">Quadrupole</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.SexQuad.html">SexQuad</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Sextupole.html">Sextupole</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Solenoid.html">Solenoid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Undulator.html">Undulator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Venus.html">Venus</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#id8">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.electrique">Electric elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.fieldmaps">Field-map elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.spin">Spin tracking commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.contrib">Contributed commands and specialized elements</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../commands.html">Zgoubi commands</a> &raquo;</li>
+        
+      <li>Dipole</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/zgoubidoo.commands.magnetique.Dipole.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="dipole">
+<h1>Dipole<a class="headerlink" href="#dipole" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="zgoubidoo.commands.magnetique.Dipole">
+<em class="property">class </em><code class="descclassname">zgoubidoo.commands.magnetique.</code><code class="descname">Dipole</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#Dipole"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.Dipole" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.magnetique.PolarMagnet.html#zgoubidoo.commands.magnetique.PolarMagnet" title="zgoubidoo.commands.magnetique.PolarMagnet"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.magnetique.PolarMagnet</span></code></a></p>
+<p>Dipole magnet, polar frame.</p>
+<p class="rubric">Zgoubi manual description</p>
+<p><code class="docutils literal notranslate"><span class="pre">DIPOLE</span></code> provides a model of a dipole field, possibly with transverse field indices. The field along a particle
+trajectory is computed as the particle motion proceeds, straightforwardly from the dipole geometrical boundaries.
+Field simulation in <code class="docutils literal notranslate"><span class="pre">DIPOLE</span></code> is the same as used in <code class="docutils literal notranslate"><span class="pre">DIPOLE-M</span></code> and <code class="docutils literal notranslate"><span class="pre">AIMANT</span></code> for computing a field map;
+the essential difference in <code class="docutils literal notranslate"><span class="pre">DIPOLE</span></code> is in its skipping that intermediate stage of field map generation found in
+<code class="docutils literal notranslate"><span class="pre">DIPOLE-M</span></code> and <code class="docutils literal notranslate"><span class="pre">AIMANT</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">DIPOLE</span></code> has a version, <code class="docutils literal notranslate"><span class="pre">DIPOLES</span></code>, that allows overlapping of fringe fields in a configuration of neighboring
+magnets.</p>
+<p>The dimensioning of the magnet is defined by (Fig. 11, p. 82):</p>
+<blockquote>
+<div><ul class="simple">
+<li>AT : total angular aperture</li>
+<li>RM : mean radius used for the positioning of field boundaries</li>
+</ul>
+</div></blockquote>
+<p>The 2 or 3 effective field boundaries (EFB), from which the dipole field is drawn, are defined from geometric
+boundaries, the shape and position of which are determined by the following parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li>ACENT: arbitrary inner angle, used for EFB’s positioning;</li>
+<li>ω: azimuth of an EFB with respect to ACENT;</li>
+<li>θ: angle of an EFB with respect to its azimuth (wedge angle) : radius of curvature of an EFB;</li>
+<li>R1, R2 U1, U2: extent of the linear part of an EFB.</li>
+</ul>
+</div></blockquote>
+<p>The magnetic field is calculated in polar coordinates. At any position (R, θ) along the particle trajectory the
+value of the vertical component of the mid-plane field is calculated using</p>
+<p>R−RM􏰖 􏰕R−RM􏰖2 􏰕R−RM􏰖3􏰛 BZ(R,θ)=F(R,θ)∗B0∗ 1+N∗ RM +B∗ RM +G∗ RM (4.4.8)</p>
+<p>where N, B and G are respectively the first, second and third order field indices and F(R,θ) is the fringe field
+coefficient (it determines the “flutter” in periodic structures).</p>
+<p>Calculation of the Fringe Field Coefficient</p>
+<p>With each EFB a realistic extent of the fringe field, λ (normally equal to the gap size), is associated and a
+fringe field coefficient F is calculated. In the following λ stands for either λE (Entrance), λS (Exit)
+or λL (Lateral EFB).</p>
+<p>F is an exponential type fringe field (Fig. 12, p. 84) given by [34] F=1
+1+expP(s) wherein s is the distance to the EFB and depends on (R, θ), and
+P(s)=C0 +C1􏰓s􏰔+C2􏰓s􏰔2 +C3􏰓s􏰔3 +C4􏰓s􏰔4 +C5􏰓s􏰔5 λλλλλ
+It is also possible to simulate a shift of the EFB, by giving a non zero value to the parameter shift. s is then changed to s−shift in the previous equation. This allows small variations of the magnetic length.
+Let FE (respectively FS , FL) be the fringe field coefficient attached to the entrance (respectively exit, lateral) EFB. At any position on a trajectory the resulting value of the fringe field coefficient (eq. 4.4.8) is</p>
+<p>102 4 DESCRIPTION OF THE AVAILABLE PROCEDURES
+F(R,θ)=FE ∗FS ∗FL In particular, FL ≡ 1 if no lateral EFB is requested.
+Calculation of the Mid-plane Field and Derivatives
+BZ (R, θ) in Eq. 4.4.8 is computed at the n × n nodes (n = 3 or 5 in practice) of a “flying” interpolation grid in the median plane centered on the projection m0 of the actual particle position M0 as schemed in Fig. 20. A polynomial interpolation is involved, of the form
+BZ(R,θ)=A00 +A10θ+A01R+A20θ2 +A11θR+A02R2 that yields the requested derivatives, using
+Akl = 1 ∂k+lBZ k!l! ∂θk∂rl
+Note that, the source code contains the explicit analytical expressions of the coefficients Akl solutions of the normal equations, so that the operation is not CPU time consuming.
+B2
+interpolation
+grid δ s particle
+trajectory B1mm1 B3
+0
+Figure 20: Interpolation method. m0 and m1 are the projections in the median plane of particle positions M0 and M1 and separated by δs, projection of the integration step.
+Extrapolation Off Median Plane
+From the vertical field B⃗ and derivatives in the median plane, first a transformation from polar to Cartesian coordinates is performed, following eqs (1.4.9 or 1.4.10), then, extrapolation off median plane is performed by means of Taylor expansions, following the procedure described in section 1.3.3.</p>
+<p class="rubric">Zgoubidoo usage and example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">Dipole</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="rubric">Command attributes</p>
+<dl class="attribute">
+<dt>
+<code class="descname">LABEL1=''</code></dt>
+<dd><p>Primary label for the Zgoubi command (default: auto-generated hash).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">LABEL2=''</code></dt>
+<dd><p>Secondary label for the Zgoubi command.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">HEIGHT='20 centimeter'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">IL='2'</code></dt>
+<dd><p>Print field and coordinates along trajectories</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">AT='0 degree'</code></dt>
+<dd><p>Total angular extent of the dipole</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">RM='0 centimeter'</code></dt>
+<dd><p>Reference radius</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">ACENT='0 degree'</code></dt>
+<dd><p>Azimuth for positioning of EFBs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">B0='0 kilogauss'</code></dt>
+<dd><p>Reference field</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">N='0'</code></dt>
+<dd><p>Field index (radial quadrupolar)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">B='0'</code></dt>
+<dd><p>Field index (radial sextupolar)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">G='0'</code></dt>
+<dd><p>Field index (radial octupolar)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">LAM_E='0 centimeter'</code></dt>
+<dd><p>Entrance fringe field extent (normally ≃ gap size)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C0_E='0'</code></dt>
+<dd><p>Fringe field coefficient C0</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C1_E='1'</code></dt>
+<dd><p>Fringe field coefficient C1</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C2_E='0'</code></dt>
+<dd><p>Fringe field coefficient C2</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C3_E='0'</code></dt>
+<dd><p>Fringe field coefficient C3</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C4_E='0'</code></dt>
+<dd><p>Fringe field coefficient C4</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C5_E='0'</code></dt>
+<dd><p>Fringe field coefficient C5</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">SHIFT_E='0 centimeter'</code></dt>
+<dd><p>Shift of the EFB</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">OMEGA_E='0 degree'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">THETA_E='0'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">R1_E='1000000000.0 centimeter'</code></dt>
+<dd><p>Entrance EFB radius</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">U1_E='1000000000.0 centimeter'</code></dt>
+<dd><p>Entrance EFB linear extent</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">U2_E='1000000000.0 centimeter'</code></dt>
+<dd><p>Entrance EFB linear extent</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">R2_E='1000000000.0 centimeter'</code></dt>
+<dd><p>Entrance EFB radius</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">LAM_S='0 centimeter'</code></dt>
+<dd><p>Exit fringe field extent (normally ≃ gap size)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C0_S='0'</code></dt>
+<dd><p>Fringe field coefficient C0</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C1_S='1'</code></dt>
+<dd><p>Fringe field coefficient C1</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C2_S='0'</code></dt>
+<dd><p>Fringe field coefficient C2</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C3_S='0'</code></dt>
+<dd><p>Fringe field coefficient C3</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C4_S='0'</code></dt>
+<dd><p>Fringe field coefficient C4</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C5_S='0'</code></dt>
+<dd><p>Fringe field coefficient C5</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">SHIFT_S='0 centimeter'</code></dt>
+<dd><p>Shift of the EFB</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">OMEGA_S='0 degree'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">THETA_S='0'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">R1_S='1000000000.0 centimeter'</code></dt>
+<dd><p>Exit EFB radius</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">U1_S='1000000000.0 centimeter'</code></dt>
+<dd><p>Exit EFB linear extent</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">U2_S='1000000000.0 centimeter'</code></dt>
+<dd><p>Exit EFB linear extent</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">R2_S='1000000000.0 centimeter'</code></dt>
+<dd><p>Exit EFB radius</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">LAM_L='0 centimeter'</code></dt>
+<dd><p>Lateral fringe field extent (normally ≃ gap size)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">XI_L='0.0'</code></dt>
+<dd><p>Flag to activate/deactivate the lateral EFB (0 to deactivate)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C0_L='0'</code></dt>
+<dd><p>Fringe field coefficient C0</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C1_L='1'</code></dt>
+<dd><p>Fringe field coefficient C1</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C2_L='0'</code></dt>
+<dd><p>Fringe field coefficient C2</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C3_L='0'</code></dt>
+<dd><p>Fringe field coefficient C3</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C4_L='0'</code></dt>
+<dd><p>Fringe field coefficient C4</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C5_L='0'</code></dt>
+<dd><p>Fringe field coefficient C5</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">SHIFT_L='0 centimeter'</code></dt>
+<dd><p>Shift of the EFB</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">OMEGA_L='0 degree'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">THETA_L='0'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">R1_L='1000000000.0 centimeter'</code></dt>
+<dd><p>Lateral EFB radius</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">U1_L='1000000000.0 centimeter'</code></dt>
+<dd><p>Lateral EFB linear extent</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">U2_L='1000000000.0 centimeter'</code></dt>
+<dd><p>Lateral EFB linear extent</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">R2_L='1000000000.0 centimeter'</code></dt>
+<dd><p>Lateral EFB radius</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">RM3='1000000000.0 centimeter'</code></dt>
+<dd><p>Reference radius of the lateral EFB</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">IORDRE='2'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">RESOL='10'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">XPAS='1 millimeter'</code></dt>
+<dd><p>Integration step</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">KPOS='2'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">RE='0 centimeter'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">TE='0 radian'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">RS='0 centimeter'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">TS='0 radian'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">DP='0.0'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.Dipole.KEYWORD" title="zgoubidoo.commands.magnetique.Dipole.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></td>
+<td>Keyword of the command used for the Zgoubi input data.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.Dipole.PARAMETERS" title="zgoubidoo.commands.magnetique.Dipole.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></td>
+<td>Parameters of the command, with their default value, their description and optinally an index used by other commands (e.g.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.Dipole.fit" title="zgoubidoo.commands.magnetique.Dipole.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(boro,&nbsp;particle,&nbsp;entry_coordinates,&nbsp;…)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param boro:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.Dipole.post_init" title="zgoubidoo.commands.magnetique.Dipole.post_init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">post_init</span></code></a>(**kwargs)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param **kwargs:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="zgoubidoo.commands.magnetique.Dipole.KEYWORD">
+<code class="descname">KEYWORD</code><em class="property"> = 'DIPOLE'</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.Dipole.KEYWORD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Keyword of the command used for the Zgoubi input data.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.commands.magnetique.Dipole.PARAMETERS">
+<code class="descname">PARAMETERS</code><em class="property"> = {'ACENT': (&lt;Quantity(0, 'degree')&gt;, 'Azimuth for positioning of EFBs', 4), 'AT': (&lt;Quantity(0, 'degree')&gt;, 'Total angular extent of the dipole', 2), 'B': (0, 'Field index (radial sextupolar)', 7), 'B0': (&lt;Quantity(0, 'kilogauss')&gt;, 'Reference field', 5), 'C0_E': (0, 'Fringe field coefficient C0', 12), 'C0_L': (0, 'Fringe field coefficient C0', 41), 'C0_S': (0, 'Fringe field coefficient C0', 26), 'C1_E': (1, 'Fringe field coefficient C1', 13), 'C1_L': (1, 'Fringe field coefficient C1', 42), 'C1_S': (1, 'Fringe field coefficient C1', 27), 'C2_E': (0, 'Fringe field coefficient C2', 14), 'C2_L': (0, 'Fringe field coefficient C2', 43), 'C2_S': (0, 'Fringe field coefficient C2', 28), 'C3_E': (0, 'Fringe field coefficient C3', 15), 'C3_L': (0, 'Fringe field coefficient C3', 44), 'C3_S': (0, 'Fringe field coefficient C3', 29), 'C4_E': (0, 'Fringe field coefficient C4', 16), 'C4_L': (0, 'Fringe field coefficient C4', 45), 'C4_S': (0, 'Fringe field coefficient C4', 30), 'C5_E': (0, 'Fringe field coefficient C5', 17), 'C5_L': (0, 'Fringe field coefficient C5', 46), 'C5_S': (0, 'Fringe field coefficient C5', 31), 'COLOR': ('red',), 'DP': (0.0, '', 63), 'G': (0, 'Field index (radial octupolar)', 8), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, ''), 'IL': (2, 'Print field and coordinates along trajectories', 1), 'IORDRE': (2, '', 55), 'KPOS': (2, '', 58), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'LAM_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance fringe field extent (normally ≃ gap size)', 9), 'LAM_L': (&lt;Quantity(0, 'centimeter')&gt;, 'Lateral fringe field extent (normally ≃ gap size)', 39), 'LAM_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit fringe field extent (normally ≃ gap size)', 25), 'N': (0, 'Field index (radial quadrupolar)', 6), 'OMEGA_E': (&lt;Quantity(0, 'degree')&gt;, '', 19), 'OMEGA_L': (&lt;Quantity(0, 'degree')&gt;, '', 48), 'OMEGA_S': (&lt;Quantity(0, 'degree')&gt;, '', 33), 'R1_E': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Entrance EFB radius', 21), 'R1_L': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Lateral EFB radius', 50), 'R1_S': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Exit EFB radius', 35), 'R2_E': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Entrance EFB radius', 24), 'R2_L': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Lateral EFB radius', 53), 'R2_S': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Exit EFB radius', 38), 'RE': (&lt;Quantity(0, 'centimeter')&gt;, '', 59), 'RESOL': (10, '', 56), 'RM': (&lt;Quantity(0, 'centimeter')&gt;, 'Reference radius', 3), 'RM3': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Reference radius of the lateral EFB', 54), 'RS': (&lt;Quantity(0, 'centimeter')&gt;, '', 61), 'SHIFT_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Shift of the EFB', 18), 'SHIFT_L': (&lt;Quantity(0, 'centimeter')&gt;, 'Shift of the EFB', 47), 'SHIFT_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Shift of the EFB', 32), 'TE': (&lt;Quantity(0, 'radian')&gt;, '', 60), 'THETA_E': (0, '', 20), 'THETA_L': (0, '', 49), 'THETA_S': (0, '', 34), 'TS': (&lt;Quantity(0, 'radian')&gt;, '', 62), 'U1_E': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Entrance EFB linear extent', 22), 'U1_L': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Lateral EFB linear extent', 51), 'U1_S': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Exit EFB linear extent', 36), 'U2_E': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Entrance EFB linear extent', 23), 'U2_L': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Lateral EFB linear extent', 52), 'U2_S': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Exit EFB linear extent', 37), 'WIDTH': (&lt;Quantity(150, 'centimeter')&gt;,), 'XI_L': (0.0, 'Flag to activate/deactivate the lateral EFB (0 to deactivate)', 40), 'XPAS': (&lt;Quantity(1, 'millimeter')&gt;, 'Integration step', 57)}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.Dipole.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameters of the command, with their default value, their description and optinally an index used by other
+commands (e.g. fit).</p>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="zgoubidoo.commands.magnetique.Dipole.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>boro: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.commands.CommandType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em>, <em>entry_coordinates: List[T] = None</em>, <em>exit_coordinates: float = 0.0</em>, <em>method: zgoubidoo.commands.commands.CommandType = &lt;class 'zgoubidoo.commands.commands.Fit2'&gt;</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#Dipole.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.Dipole.fit" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>boro</strong> – </li>
+<li><strong>particle</strong> – </li>
+<li><strong>entry_coordinates</strong> – </li>
+<li><strong>exit_coordinates</strong> – </li>
+<li><strong>method</strong> – </li>
+<li><strong>debug</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.commands.magnetique.Dipole.post_init">
+<code class="descname">post_init</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span> &#x2192; NoReturn<a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#Dipole.post_init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.Dipole.post_init" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>**kwargs</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="zgoubidoo.commands.magnetique.DipoleM.html" class="btn btn-neutral float-right" title="DipoleM" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="zgoubidoo.commands.magnetique.Decapole.html" class="btn btn-neutral" title="Decapole" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

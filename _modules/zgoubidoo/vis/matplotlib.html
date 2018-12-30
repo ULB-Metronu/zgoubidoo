@@ -1,0 +1,488 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>zgoubidoo.vis.matplotlib &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2018.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>zgoubidoo.vis.matplotlib</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for zgoubidoo.vis.matplotlib</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Matplotlib plotting module for Zgoubidoo.</span>
+
+<span class="sd">TODO</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">patches</span>
+<span class="kn">import</span> <span class="nn">matplotlib.transforms</span> <span class="k">as</span> <span class="nn">transforms</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
+<span class="kn">from</span> <span class="nn">.zgoubiplot</span> <span class="k">import</span> <span class="n">ZgoubiPlot</span>
+<span class="kn">from</span> <span class="nn">..units</span> <span class="k">import</span> <span class="n">_cm</span><span class="p">,</span> <span class="n">_degree</span><span class="p">,</span> <span class="n">_radian</span>
+<span class="kn">from</span> <span class="nn">..frame</span> <span class="k">import</span> <span class="n">Frame</span>
+<span class="kn">import</span> <span class="nn">zgoubidoo.commands</span>
+
+
+<div class="viewcode-block" id="ZgoubiMpl"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubiMpl.html#zgoubidoo.vis.ZgoubiMpl">[docs]</a><span class="k">class</span> <span class="nc">ZgoubiMpl</span><span class="p">(</span><span class="n">ZgoubiPlot</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A matplotlib implementation of a `ZgoubiPlot` artist.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">with_boxes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                 <span class="n">with_frames</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                 <span class="n">with_centers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">tracks_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param ax: the matplotlib ax used for plotting. If None it will be created with `init_plot`</span>
+<span class="sd">        (kwargs are forwarded).</span>
+<span class="sd">        :param with_boxes: draw the body of each elements</span>
+<span class="sd">        :param with_frames: draw the entry and exit frames of each elements</span>
+<span class="sd">        :param with_centers: draw the center of each polar coordinate elements</span>
+<span class="sd">        :param tracks_color: color for the plotting of tracks</span>
+<span class="sd">        :param kwargs: forwarded to `ZgoubiPlot` and to `init_plot`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">with_boxes</span><span class="p">,</span> <span class="n">with_frames</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_with_centers</span> <span class="o">=</span> <span class="n">with_centers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tracks_color</span> <span class="o">=</span> <span class="n">tracks_color</span>
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">init_plot</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span> <span class="o">=</span> <span class="n">ax</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ax</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Current Matplotlib ax.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the Matplotlib ax.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span>
+
+<div class="viewcode-block" id="ZgoubiMpl.init_plot"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubiMpl.html#zgoubidoo.vis.ZgoubiMpl.init_plot">[docs]</a>    <span class="k">def</span> <span class="nf">init_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">subplots</span><span class="o">=</span><span class="mi">111</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the Matplotlib figure and ax.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            subplots: number of subplots</span>
+<span class="sd">            figsize: figure size</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">subplots</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ZgoubiMpl.plot"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubiMpl.html#zgoubidoo.vis.ZgoubiMpl.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Proxy for matplotlib.pyplot.plot</span>
+
+<span class="sd">        Same as `matplotlib.pyplot.plot`, forwards all arguments.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ZgoubiMpl.polarmagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubiMpl.html#zgoubidoo.vis.ZgoubiMpl.polarmagnet">[docs]</a>    <span class="k">def</span> <span class="nf">polarmagnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">PolarMagnet</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Rendering of magnets in polar coordinates.</span>
+
+<span class="sd">        Plot magnets in polar coordinates using wedges.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            magnet: the magnet to be rendered.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">do_frame</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">            Returns:</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="s1">&#39;gv&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="s1">&#39;bs&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">exit</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">exit</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="s1">&#39;k^&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">exit_patched</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">exit_patched</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="s1">&#39;rv&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_centers</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="s1">&#39;r.&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">do_box</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">            Returns:</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">_radian</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tz</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">theta1</span> <span class="o">=</span> <span class="mi">90</span> <span class="o">-</span> <span class="n">_degree</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tx</span> <span class="o">+</span> <span class="n">magnet</span><span class="o">.</span><span class="n">angular_opening</span><span class="p">)</span>
+                <span class="n">theta2</span> <span class="o">=</span> <span class="mi">90</span> <span class="o">-</span> <span class="n">_degree</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tx</span><span class="p">)</span>
+                <span class="n">theta3</span> <span class="o">=</span> <span class="mi">90</span> <span class="o">-</span> <span class="n">_degree</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tx</span> <span class="o">+</span> <span class="n">magnet</span><span class="o">.</span><span class="n">reference_angle</span><span class="p">)</span>
+                <span class="n">theta4</span> <span class="o">=</span> <span class="mi">90</span> <span class="o">-</span> <span class="n">_degree</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tx</span> <span class="o">+</span> <span class="n">magnet</span><span class="o">.</span><span class="n">reference_angle</span> <span class="o">-</span> <span class="n">magnet</span><span class="o">.</span><span class="n">entrance_efb</span><span class="p">)</span>
+                <span class="n">theta5</span> <span class="o">=</span> <span class="mi">90</span> <span class="o">-</span> <span class="n">_degree</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tx</span> <span class="o">+</span> <span class="n">magnet</span><span class="o">.</span><span class="n">reference_angle</span> <span class="o">-</span> <span class="n">magnet</span><span class="o">.</span><span class="n">exit_efb</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">theta1</span> <span class="o">=</span> <span class="o">-</span><span class="mi">90</span> <span class="o">-</span> <span class="n">_degree</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tx</span><span class="p">)</span>
+                <span class="n">theta2</span> <span class="o">=</span> <span class="o">-</span><span class="mi">90</span> <span class="o">-</span> <span class="n">_degree</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tx</span> <span class="o">-</span> <span class="n">magnet</span><span class="o">.</span><span class="n">angular_opening</span><span class="p">)</span>
+                <span class="n">theta3</span> <span class="o">=</span> <span class="o">-</span><span class="mi">90</span> <span class="o">-</span> <span class="n">_degree</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tx</span> <span class="o">-</span> <span class="n">magnet</span><span class="o">.</span><span class="n">reference_angle</span><span class="p">)</span>
+                <span class="n">theta4</span> <span class="o">=</span> <span class="o">-</span><span class="mi">90</span> <span class="o">-</span> <span class="n">_degree</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tx</span> <span class="o">-</span> <span class="n">magnet</span><span class="o">.</span><span class="n">reference_angle</span> <span class="o">+</span> <span class="n">magnet</span><span class="o">.</span><span class="n">exit_efb</span><span class="p">)</span>
+                <span class="n">theta5</span> <span class="o">=</span> <span class="o">-</span><span class="mi">90</span> <span class="o">-</span> <span class="n">_degree</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tx</span> <span class="o">-</span> <span class="n">magnet</span><span class="o">.</span><span class="n">reference_angle</span> <span class="o">+</span> <span class="n">magnet</span><span class="o">.</span><span class="n">entrance_efb</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span>
+                <span class="n">patches</span><span class="o">.</span><span class="n">Wedge</span><span class="p">(</span>
+                    <span class="p">(</span>
+                        <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">x</span><span class="p">),</span>
+                        <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">y</span><span class="p">),</span>
+                    <span class="p">),</span>
+                    <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">radius</span> <span class="o">+</span> <span class="n">magnet</span><span class="o">.</span><span class="n">WIDTH</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+                    <span class="n">theta1</span><span class="p">,</span>
+                    <span class="n">theta2</span><span class="p">,</span>
+                    <span class="n">width</span><span class="o">=</span><span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">WIDTH</span><span class="p">),</span>
+                    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                    <span class="n">facecolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_palette</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">COLOR</span><span class="p">,</span> <span class="s1">&#39;gray&#39;</span><span class="p">),</span>
+                    <span class="n">edgecolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_palette</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">COLOR</span><span class="p">,</span> <span class="s1">&#39;gray&#39;</span><span class="p">),</span>
+                    <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span>
+                <span class="n">patches</span><span class="o">.</span><span class="n">Wedge</span><span class="p">(</span>
+                    <span class="p">(</span>
+                        <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">x</span><span class="p">),</span>
+                        <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">y</span><span class="p">),</span>
+                    <span class="p">),</span>
+                    <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">radius</span> <span class="o">+</span> <span class="n">magnet</span><span class="o">.</span><span class="n">WIDTH</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+                    <span class="n">theta1</span><span class="p">,</span>
+                    <span class="n">theta2</span><span class="p">,</span>
+                    <span class="n">width</span><span class="o">=</span><span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">WIDTH</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+                    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                    <span class="n">facecolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_palette</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">COLOR</span><span class="p">,</span> <span class="s1">&#39;gray&#39;</span><span class="p">),</span>
+                    <span class="n">edgecolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_palette</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">COLOR</span><span class="p">,</span> <span class="s1">&#39;gray&#39;</span><span class="p">),</span>
+                    <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span>
+                <span class="n">patches</span><span class="o">.</span><span class="n">Wedge</span><span class="p">(</span>
+                    <span class="p">(</span>
+                        <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">x</span><span class="p">),</span>
+                        <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">y</span><span class="p">),</span>
+                    <span class="p">),</span>
+                    <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">radius</span> <span class="o">+</span> <span class="n">magnet</span><span class="o">.</span><span class="n">WIDTH</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+                    <span class="n">theta5</span><span class="p">,</span>
+                    <span class="n">theta4</span><span class="p">,</span>
+                    <span class="n">width</span><span class="o">=</span><span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">WIDTH</span><span class="p">),</span>
+                    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                    <span class="n">facecolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_palette</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">COLOR</span><span class="p">,</span> <span class="s1">&#39;gray&#39;</span><span class="p">),</span>
+                    <span class="n">edgecolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_palette</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">COLOR</span><span class="p">,</span> <span class="s1">&#39;gray&#39;</span><span class="p">),</span>
+                    <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span>
+                <span class="n">patches</span><span class="o">.</span><span class="n">Wedge</span><span class="p">(</span>
+                    <span class="p">(</span>
+                        <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">x</span><span class="p">),</span>
+                        <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">y</span><span class="p">),</span>
+                    <span class="p">),</span>
+                    <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">radius</span> <span class="o">+</span> <span class="n">magnet</span><span class="o">.</span><span class="n">WIDTH</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span>
+                    <span class="n">theta3</span><span class="p">,</span>
+                    <span class="n">theta3</span><span class="p">,</span>
+                    <span class="n">width</span><span class="o">=</span><span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">WIDTH</span><span class="p">),</span>
+                    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                    <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span>
+                    <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span>
+                    <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_boxes</span><span class="p">:</span>
+            <span class="n">do_box</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_frames</span><span class="p">:</span>
+            <span class="n">do_frame</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ZgoubiMpl.cartesianmagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubiMpl.html#zgoubidoo.vis.ZgoubiMpl.cartesianmagnet">[docs]</a>    <span class="k">def</span> <span class="nf">cartesianmagnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">CartesianMagnet</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            magnet:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">do_frame</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="s1">&#39;gv&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="s1">&#39;bs&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">exit</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">exit</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="s1">&#39;k^&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">exit_patched</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">exit_patched</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="s1">&#39;r&gt;&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">do_box</span><span class="p">():</span>
+            <span class="n">angle</span> <span class="o">=</span> <span class="o">-</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tx</span>
+            <span class="n">tr</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Affine2D</span><span class="p">()</span><span class="o">.</span><span class="n">rotate_deg_around</span><span class="p">(</span>
+                <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">x</span><span class="p">),</span>
+                <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">y</span><span class="p">),</span>
+                <span class="n">_degree</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+            <span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">transData</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span>
+                <span class="n">patches</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">(</span>
+                    <span class="p">(</span>
+                        <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">x</span><span class="p">),</span>
+                        <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">magnet</span><span class="o">.</span><span class="n">WIDTH</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+                    <span class="p">),</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+                            <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">exit</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">x</span><span class="p">),</span>
+                            <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">exit</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+                        <span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+                    <span class="p">),</span>
+                    <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">WIDTH</span><span class="p">),</span>
+                    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                    <span class="n">facecolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_palette</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">COLOR</span><span class="p">,</span> <span class="s1">&#39;gray&#39;</span><span class="p">),</span>
+                    <span class="n">edgecolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_palette</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">COLOR</span><span class="p">,</span> <span class="s1">&#39;gray&#39;</span><span class="p">),</span>
+                    <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">transform</span><span class="o">=</span><span class="n">tr</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_boxes</span><span class="p">:</span>
+            <span class="n">do_box</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_frames</span><span class="p">:</span>
+            <span class="n">do_frame</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ZgoubiMpl.tracks_cartesianmagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubiMpl.html#zgoubidoo.vis.ZgoubiMpl.tracks_cartesianmagnet">[docs]</a>    <span class="k">def</span> <span class="nf">tracks_cartesianmagnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">CartesianMagnet</span><span class="p">,</span> <span class="n">tracks</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            magnet:</span>
+<span class="sd">            tracks:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">tracks</span><span class="p">[[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y-DY&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="p">)</span><span class="o">.</span><span class="n">rotate_z</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tx</span><span class="p">)</span><span class="o">.</span><span class="n">get_rotation_matrix</span><span class="p">()</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+        <span class="n">tracks_x</span> <span class="o">=</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">tmp</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">tracks_y</span> <span class="o">=</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="n">tmp</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tracks_x</span><span class="p">,</span>
+                  <span class="n">tracks_y</span><span class="p">,</span>
+                  <span class="s1">&#39;.&#39;</span><span class="p">,</span>
+                  <span class="n">markeredgecolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_tracks_color</span><span class="p">,</span>
+                  <span class="n">markerfacecolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_tracks_color</span><span class="p">,</span>
+                  <span class="n">ms</span><span class="o">=</span><span class="mi">1</span>
+                  <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ZgoubiMpl.tracks_polarmagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubiMpl.html#zgoubidoo.vis.ZgoubiMpl.tracks_polarmagnet">[docs]</a>    <span class="k">def</span> <span class="nf">tracks_polarmagnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">PolarMagnet</span><span class="p">,</span> <span class="n">tracks</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            magnet:</span>
+<span class="sd">            tracks:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">tracks</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>  <span class="c1"># Polar angle</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">tracks</span><span class="p">[</span><span class="s1">&#39;Y-DY&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">_radian</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry</span><span class="o">.</span><span class="n">tz</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">angle</span> <span class="o">=</span> <span class="n">_radian</span><span class="p">(</span><span class="mi">90</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span> <span class="o">-</span> <span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">tx</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">angle</span> <span class="o">=</span> <span class="n">_radian</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span> <span class="o">-</span> <span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">tx</span><span class="p">)</span> <span class="o">+</span> <span class="n">x</span>
+        <span class="n">tracks_x</span> <span class="o">=</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">tracks_y</span> <span class="o">=</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tracks_x</span><span class="p">,</span>
+                  <span class="n">tracks_y</span><span class="p">,</span>
+                  <span class="s1">&#39;.&#39;</span><span class="p">,</span>
+                  <span class="n">markeredgecolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_tracks_color</span><span class="p">,</span>
+                  <span class="n">markerfacecolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_tracks_color</span><span class="p">,</span>
+                  <span class="n">ms</span><span class="o">=</span><span class="mi">1</span>
+                  <span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

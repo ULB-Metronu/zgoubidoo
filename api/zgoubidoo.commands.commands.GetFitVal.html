@@ -1,0 +1,381 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>GetFitVal &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Histo" href="zgoubidoo.commands.commands.Histo.html" />
+    <link rel="prev" title="GasScattering" href="zgoubidoo.commands.commands.GasScattering.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2018.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../commands.html">Zgoubi commands</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands">Zgoubidoo’s class hierarchy and bases classes for new commands</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.commands">Control-flow, calculation and miscellanous commands</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../commands.html#classes">Classes</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.AutoRef.html">AutoRef</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.BeamBeam.html">BeamBeam</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Binary.html">Binary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Chamber.html">Chamber</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Chambr.html">Chambr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Chambre.html">Chambre</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.ChangRef.html">ChangRef</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.ChangeRef.html">ChangeRef</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Cible.html">Cible</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Collimateur.html">Collimateur</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Collimator.html">Collimator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Command.html">Command</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.CommandType.html">CommandType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.ESL.html">ESL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.End.html">End</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.FaiStore.html">FaiStore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Faisceau.html">Faisceau</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Faiscnl.html">Faiscnl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Fin.html">Fin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Fit.html">Fit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Fit2.html">Fit2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Focale.html">Focale</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.FocaleZ.html">FocaleZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.GasScattering.html">GasScattering</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">GetFitVal</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Histo.html">Histo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Image.html">Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.ImageZ.html">ImageZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Images.html">Images</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.ImagesZ.html">ImagesZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.MCDesintegration.html">MCDesintegration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Marker.html">Marker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Matrix.html">Matrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Optics.html">Optics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Ordre.html">Ordre</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Pickups.html">Pickups</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.PlotData.html">PlotData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Rebelote.html">Rebelote</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Reset.html">Reset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Scaling.html">Scaling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Separa.html">Separa</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.SynchrotronRadiation.html">SynchrotronRadiation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.SynchrotronRadiationLosses.html">SynchrotronRadiationLosses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.SynchrotronRadiationPrint.html">SynchrotronRadiationPrint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.TransferMatrix.html">TransferMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.TranslationRotation.html">TranslationRotation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Twiss.html">Twiss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.WienFilter.html">WienFilter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Ymy.html">Ymy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.ZgoubidooException.html">ZgoubidooException</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.particules">Particule definition commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.objet">Objet (bunch) definition commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.mcobjet">Monte-Carlo Objet (bunch) definition commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.magnetique">Magnetic elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.electrique">Electric elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.fieldmaps">Field-map elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.spin">Spin tracking commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.contrib">Contributed commands and specialized elements</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../commands.html">Zgoubi commands</a> &raquo;</li>
+        
+      <li>GetFitVal</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/zgoubidoo.commands.commands.GetFitVal.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="getfitval">
+<h1>GetFitVal<a class="headerlink" href="#getfitval" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="zgoubidoo.commands.commands.GetFitVal">
+<em class="property">class </em><code class="descclassname">zgoubidoo.commands.commands.</code><code class="descname">GetFitVal</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/commands.html#GetFitVal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.commands.GetFitVal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" title="zgoubidoo.commands.commands.Command"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.commands.Command</span></code></a></p>
+<p>Get values of variables as saved from former FIT[2] run.</p>
+<p>This keyword allows reading, from a file whose name needs be specified, parameter values to be assigned to optical
+elements in zgoubi.dat.
+That file is expected to contain a copy-paste of the data under the FIT[2] procedure as displayed in zgoubi.res,
+normally under the form.</p>
+<p># STATUS OF CONSTRAINTS
+# TYPE  I   J  LMNT#     DESIRED       WEIGHT         REACHED         KI2     *  Parameter(s)
+#   3   1   2   127   0.0000000E+00  1.0000E+00    1.0068088E-08   6.0335E-01 *  0 :
+#   3   1   3   127   0.0000000E+00  1.0000E+00    7.0101405E-09   2.9250E-01 *  0 :
+#   3   1   4   127   0.0000000E+00  1.0000E+00    2.9184383E-10   5.0696E-04 *  0 :
+#   3   1   5   127   0.0000000E+00  1.0000E+00    3.1142381E-10   5.7727E-04 *  0 :
+#   3   1   2   436   0.0000000E+00  1.0000E+00    3.8438378E-09   8.7944E-02 *  0 :
+#   3   1   3   436   0.0000000E+00  1.0000E+00    1.5773011E-09   1.4808E-02 *  0 :
+#   3   1   4   436   0.0000000E+00  1.0000E+00    2.2081272E-10   2.9022E-04 *  0 :
+#   3   1   5   436   0.0000000E+00  1.0000E+00    5.7930552E-11   1.9975E-05 *  0 :
+#   Function  called   1859 times
+# Xi2 =    1.68006E-16   Busy…</p>
+<p>A ’#’ at the beginning of a line means it is commented, thus it will not be taken into account. However a copy-paste
+from zgoubi.res (which is the case in the present example) would not not need any commenting.
+Since some of the FIT[2] variables may belong in [MC]OBJET, GETFITVAL may appear right before [MC]OBJET in zgoubi.dat,
+to allow for its updating.</p>
+<p class="rubric">Command attributes</p>
+<dl class="attribute">
+<dt>
+<code class="descname">LABEL1=''</code></dt>
+<dd><p>Primary label for the Zgoubi command (default: auto-generated hash).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">LABEL2=''</code></dt>
+<dd><p>Secondary label for the Zgoubi command.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.commands.GetFitVal.KEYWORD" title="zgoubidoo.commands.commands.GetFitVal.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></td>
+<td>Keyword of the command used for the Zgoubi input data.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.commands.GetFitVal.PARAMETERS" title="zgoubidoo.commands.commands.GetFitVal.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></td>
+<td>Parameters of the command, with their default value, their description and optinally an index used by other commands (e.g.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="zgoubidoo.commands.commands.GetFitVal.KEYWORD">
+<code class="descname">KEYWORD</code><em class="property"> = 'GETFITVAL'</em><a class="headerlink" href="#zgoubidoo.commands.commands.GetFitVal.KEYWORD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Keyword of the command used for the Zgoubi input data.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.commands.commands.GetFitVal.PARAMETERS">
+<code class="descname">PARAMETERS</code><em class="property"> = {'FNAME': ('zgoubi.res',), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.')}</em><a class="headerlink" href="#zgoubidoo.commands.commands.GetFitVal.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameters of the command, with their default value, their description and optinally an index used by other
+commands (e.g. fit).</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="zgoubidoo.commands.commands.Histo.html" class="btn btn-neutral float-right" title="Histo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="zgoubidoo.commands.commands.GasScattering.html" class="btn btn-neutral" title="GasScattering" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

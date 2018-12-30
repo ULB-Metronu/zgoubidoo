@@ -1,0 +1,649 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Working with Zgoubi Input &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Using the Zgoubidoo low-level interface" href="lowlevel.html" />
+    <link rel="prev" title="VerticalSlits" href="api/zgoubidoo.commands.contrib.iba.VerticalSlits.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2018.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Working with Zgoubi Input</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/input.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-zgoubidoo.input">
+<span id="working-with-zgoubi-input"></span><h1>Working with Zgoubi Input<a class="headerlink" href="#module-zgoubidoo.input" title="Permalink to this headline">¶</a></h1>
+<p>Zgoubidoo’s input module: interface for Zgoubi input file.</p>
+<p>This module interfaces Zgoubi input files to the other components of Zgoubidoo. Its main feature is the <cite>Input</cite> class,
+which allows to represent a set of Zgoubi input commands and serialize it into a valid input file. The input can also
+be validated using a set of validators, following the Zgoubi input constraints.</p>
+<dl class="class">
+<dt id="zgoubidoo.input.Input">
+<em class="property">class </em><code class="descclassname">zgoubidoo.input.</code><code class="descname">Input</code><span class="sig-paren">(</span><em>name: str = 'beamline'</em>, <em>line: Optional[Sequence[zgoubidoo.commands.commands.Command]] = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#Input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main class interfacing Zgoubi input files data structure.</p>
+<p>A Zgoubidoo <cite>Input</cite> object represents the Zgoubi input file data structure. It is thus essentially a list of
+Zgoubidoo objects representing commands and elements for the generation of Zgoubi input files.</p>
+<p>The <cite>Input</cite> supports a <cite>str</cite> representation allowing to generate the Zgoubi input. Additionnally, calling the object
+will write the string representation to a Zgoubi input file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> – name of the input to be created.</li>
+<li><strong>line</strong> – if not <cite>None</cite> the new input will contain that <cite>Command</cite> sequence.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">zi</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;test_beamline&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">zi</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zi</span><span class="o">.</span><span class="n">name</span>
+<span class="go">&#39;test_beamline&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zi</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="zgoubidoo.input.Input.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>beam: Optional[zgoubidoo.beam.Beam] = None</em>, <em>filename: str = 'zgoubi.dat'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#Input.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes the string representation of the object onto a file (Zgoubi input file).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>beam</strong> – </li>
+<li><strong>filename</strong> – the Zgoubi input file name (default: zgoubi.dat)</li>
+<li><strong>path</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.input.Input.__contains__">
+<code class="descname">__contains__</code><span class="sig-paren">(</span><em>items: Union[str, zgoubidoo.commands.commands.Command, Tuple[Union[str, zgoubidoo.commands.commands.Command]]]</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.__contains__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.__contains__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>items</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.input.Input.__getitem__">
+<code class="descname">__getitem__</code><span class="sig-paren">(</span><em>items: Union[slice, int, float, zgoubidoo.commands.commands.Command, str, Tuple[Union[str, zgoubidoo.commands.commands.Command]], List[Union[zgoubidoo.commands.commands.Command, str]]]</em><span class="sig-paren">)</span> &#x2192; Union[zgoubidoo.commands.commands.Command, zgoubidoo.input.Input]<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.__getitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multi-purpose dictionnary-like elements access and filtering.</p>
+<p>A triple interafce is provided:</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>numerical index</strong>: provides the element from its numeric index (starting at 0, looked-up in the <cite>line</cite>
+property of the input (the returned object is a <cite>Command</cite>);</li>
+<li><strong>slicing</strong>: provides a powerful slicing feature, using either object slice or string slice (or a mix of
+both); see example below (the returned object is a copy of the sliced input);</li>
+<li><strong>element access</strong>: returns a filtered input containing only the given elements. The elements are given
+either in the form of a list of strings (or a single string), representing the class name of the element or
+in the form of a list of classes (or a single class).</li>
+</ul>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>items</strong> – index based accessor, slice or elements types for filtering access (see above).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><ul class="simple">
+<li>with numerical index returns the object located at that position (an instance of a <cite>Command</cite>);</li>
+<li>with slicing returns a copy of the input, with the slicing applied (an instance of a <cite>Input</cite>);</li>
+<li>with element access returns a filtering copy of the input (an instance of a <cite>Input</cite>).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.input.Input.__iadd__">
+<code class="descname">__iadd__</code><span class="sig-paren">(</span><em>command: zgoubidoo.commands.commands.Command</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.input.Input<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.__iadd__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.__iadd__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append a command at the end of the input sequence.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>command</strong> – the command to be appended.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the input sequence (in-place operation).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.input.Input.__isub__">
+<code class="descname">__isub__</code><span class="sig-paren">(</span><em>other: Union[str, zgoubidoo.commands.commands.Command]</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.input.Input<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.__isub__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.__isub__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a command from the input sequence.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> – the <cite>Command</cite> to be removed or its label as a string.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the <cite>Input</cite> itself (in-place operation).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.input.Input.__len__">
+<code class="descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.__len__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.__len__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Length of the input sequence.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the number of elements in the sequence.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.input.Input.__setattr__">
+<code class="descname">__setattr__</code><span class="sig-paren">(</span><em>key: str</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#Input.__setattr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.__setattr__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>key</strong> – </li>
+<li><strong>value</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.input.Input.__str__">
+<code class="descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides the string representation, a valid Zgoubi input stream.</p>
+<p>Constructs the Zgoubi input sequence with the serialization of each command. An implicit <cite>End</cite> command is added
+in case it is not present. The <cite>Input</cite> name is used as a header.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a valid Zgoubi input stream as a string.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.input.Input.apply">
+<code class="descname">apply</code><span class="sig-paren">(</span><em>f: Callable[[zgoubidoo.commands.commands.Command], zgoubidoo.commands.commands.Command]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.apply" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>f</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="zgoubidoo.input.Input.build">
+<em class="property">static </em><code class="descname">build</code><span class="sig-paren">(</span><em>name='beamline'</em>, <em>line=None</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.build" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> – </li>
+<li><strong>line</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.input.Input.cleanup">
+<code class="descname">cleanup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#Input.cleanup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.cleanup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.input.Input.get_labels">
+<code class="descname">get_labels</code><span class="sig-paren">(</span><em>label='LABEL1'</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.get_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.get_labels" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>label</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.input.Input.increase_optical_length">
+<code class="descname">increase_optical_length</code><span class="sig-paren">(</span><em>l: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#Input.increase_optical_length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.increase_optical_length" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>l</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.input.Input.index">
+<code class="descname">index</code><span class="sig-paren">(</span><em>obj: Union[str, zgoubidoo.commands.commands.Command]</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Index of an object in the sequence.</p>
+<p>Provides an index for a given object within a sequence. This index is a valid Zgoubi command numbering index
+and can be used as such, for example, as a parameter to the Fit command.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>obj</strong> – the object: can be an instance of a Zgoubidoo Command or a string representing the element’s LABEL1.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the index of the object in the input sequence.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body">ValueError if the object is not present in the input sequence.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.input.Input.inputs">
+<code class="descname">inputs</code><a class="headerlink" href="#zgoubidoo.input.Input.inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>type: Returns</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.input.Input.keywords">
+<code class="descname">keywords</code><a class="headerlink" href="#zgoubidoo.input.Input.keywords" title="Permalink to this definition">¶</a></dt>
+<dd><p>type: Returns</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.input.Input.labels">
+<code class="descname">labels</code><a class="headerlink" href="#zgoubidoo.input.Input.labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of the LABEL1 property of each element of the input sequence.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.input.Input.labels1">
+<code class="descname">labels1</code><a class="headerlink" href="#zgoubidoo.input.Input.labels1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Same as <code class="docutils literal notranslate"><span class="pre">labels</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.input.Input.labels2">
+<code class="descname">labels2</code><a class="headerlink" href="#zgoubidoo.input.Input.labels2" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of the LABEL2 property of each element of the input sequence.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.input.Input.line">
+<code class="descname">line</code><a class="headerlink" href="#zgoubidoo.input.Input.line" title="Permalink to this definition">¶</a></dt>
+<dd><p>type: Returns</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.input.Input.name">
+<code class="descname">name</code><a class="headerlink" href="#zgoubidoo.input.Input.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>type: Returns</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.input.Input.optical_length">
+<code class="descname">optical_length</code><a class="headerlink" href="#zgoubidoo.input.Input.optical_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>type: Returns</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="zgoubidoo.input.Input.parse">
+<em class="property">classmethod </em><code class="descname">parse</code><span class="sig-paren">(</span><em>stream: str</em>, <em>debug: bool = False</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.input.Input<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.parse" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>stream</strong> – </li>
+<li><strong>debug</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.input.Input.paths">
+<code class="descname">paths</code><a class="headerlink" href="#zgoubidoo.input.Input.paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>type: Returns</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.input.Input.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>parameters: pandas.core.frame.DataFrame</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.input.Input<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.update" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>parameters</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.input.Input.validate">
+<code class="descname">validate</code><span class="sig-paren">(</span><em>validators: Optional[List[Callable]]</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.validate" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>validators</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="zgoubidoo.input.InputValidator">
+<em class="property">class </em><code class="descclassname">zgoubidoo.input.</code><code class="descname">InputValidator</code><a class="reference internal" href="_modules/zgoubidoo/input.html#InputValidator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.InputValidator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validation methods for Zgoubi Input.</p>
+<p>Follows the rules as defined in the Zgoubi code and manual.</p>
+<dl class="staticmethod">
+<dt id="zgoubidoo.input.InputValidator.validate_objet_is_first_command">
+<em class="property">static </em><code class="descname">validate_objet_is_first_command</code><span class="sig-paren">(</span><em>_: zgoubidoo.input.Input</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/zgoubidoo/input.html#InputValidator.validate_objet_is_first_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.InputValidator.validate_objet_is_first_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate that the first input command is a (mc)objet.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>_</strong> – the input to validate</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the validation is successful; otherwise a <cite>ZgoubiInputException</cite> is raised.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="zgoubidoo.input.InputValidator.validate_objets_do_not_exceed_imax">
+<em class="property">static </em><code class="descname">validate_objets_do_not_exceed_imax</code><span class="sig-paren">(</span><em>_: zgoubidoo.input.Input</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/zgoubidoo/input.html#InputValidator.validate_objets_do_not_exceed_imax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.InputValidator.validate_objets_do_not_exceed_imax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate that all objets and mcobjets have their IMAX value below the maximum value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>_</strong> – the input to validate</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True is the validation is successful; otherwise a <cite>ZgoubiInputException</cite> is raised.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="data">
+<dt id="zgoubidoo.input.ZGOUBI_IMAX">
+<code class="descclassname">zgoubidoo.input.</code><code class="descname">ZGOUBI_IMAX</code><em class="property"> = 10000</em><a class="headerlink" href="#zgoubidoo.input.ZGOUBI_IMAX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum number of particles that a Zgoubi objet can contain.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="zgoubidoo.input.ZGOUBI_INPUT_FILENAME">
+<code class="descclassname">zgoubidoo.input.</code><code class="descname">ZGOUBI_INPUT_FILENAME</code><em class="property"> = 'zgoubi.dat'</em><a class="headerlink" href="#zgoubidoo.input.ZGOUBI_INPUT_FILENAME" title="Permalink to this definition">¶</a></dt>
+<dd><p>File name for Zgoubi input data.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="zgoubidoo.input.ZgoubiInputException">
+<em class="property">exception </em><code class="descclassname">zgoubidoo.input.</code><code class="descname">ZgoubiInputException</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#ZgoubiInputException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.ZgoubiInputException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception raised for errors within Zgoubi Input.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="lowlevel.html" class="btn btn-neutral float-right" title="Using the Zgoubidoo low-level interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="api/zgoubidoo.commands.contrib.iba.VerticalSlits.html" class="btn btn-neutral" title="VerticalSlits" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

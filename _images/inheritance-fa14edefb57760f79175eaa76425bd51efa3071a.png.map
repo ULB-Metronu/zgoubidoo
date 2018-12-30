@@ -1,0 +1,11 @@
+<map id="inheritance470ccb1476" name="inheritance470ccb1476">
+<area shape="rect" id="node1" href="api/zgoubidoo.commands.electrique.Cavite.html#zgoubidoo.commands.electrique.Cavite" target="_top" title="Accelerating cavity." alt="" coords="151,5,223,29"/>
+<area shape="rect" id="node2" href="api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" target="_top" title="Test test test." alt="" coords="5,173,88,197"/>
+<area shape="rect" id="node3" href="api/zgoubidoo.commands.electrique.EBMult.html#zgoubidoo.commands.electrique.EBMult" target="_top" title="Electro&#45;magnetic multipole." alt="" coords="151,53,223,77"/>
+<area shape="rect" id="node4" href="api/zgoubidoo.commands.electrique.EL2Tub.html#zgoubidoo.commands.electrique.EL2Tub" target="_top" title="Two&#45;tube electrostatic lens." alt="" coords="151,101,223,125"/>
+<area shape="rect" id="node5" href="api/zgoubidoo.commands.electrique.ELMir.html#zgoubidoo.commands.electrique.ELMir" target="_top" title="Electrostatic N&#45;electrode mirror/lens,straight slits." alt="" coords="151,149,223,173"/>
+<area shape="rect" id="node6" href="api/zgoubidoo.commands.electrique.ELMirCircular.html#zgoubidoo.commands.electrique.ELMirCircular" target="_top" title="Electrostatic N&#45;electrode mirror/lens, circular slits." alt="" coords="136,197,238,221"/>
+<area shape="rect" id="node7" href="api/zgoubidoo.commands.electrique.ELMulti.html#zgoubidoo.commands.electrique.ELMulti" target="_top" title="Electric multipole." alt="" coords="151,245,223,269"/>
+<area shape="rect" id="node8" href="api/zgoubidoo.commands.electrique.ELRevol.html#zgoubidoo.commands.electrique.ELRevol" target="_top" title="1&#45;D uniform mesh electric field map." alt="" coords="151,293,223,317"/>
+<area shape="rect" id="node9" href="api/zgoubidoo.commands.electrique.Unipot.html#zgoubidoo.commands.electrique.Unipot" target="_top" title="Unipotential cylindrical electrostatic lens." alt="" coords="151,341,223,365"/>
+</map>

@@ -1,0 +1,555 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>zgoubidoo.commands.objet &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2018.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>zgoubidoo.commands.objet</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for zgoubidoo.commands.objet</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Zgoubi commands for the generation of Objet&#39;s.</span>
+
+<span class="sd">The description of the object, i.e., initial coordinates of the ensemble of particles, must be the first procedure</span>
+<span class="sd">in the zgoubi input data file, zgoubi.dat.</span>
+
+<span class="sd">Several types of automatically generated objects are available, they are described in the following pages and</span>
+<span class="sd">include:</span>
+
+<span class="sd">    - non-random object, with various distributions : individual particles, grids, object for MATRIX, etc.</span>
+<span class="sd">    - Monte Carlo distribution (see MCObjet), with various distributions as well : 6-D window, ellipsoids, etc.</span>
+
+<span class="sd">A recurrent quantity appearing in these procedures is IMAX, the number of particles to be ray-traced.</span>
+<span class="sd">The maximum value allowed for IMAX can be changed at leisure in the include file `MAXTRA.H` where it is defined</span>
+<span class="sd">(that requires re-compiling zgoubi).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+<span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">_Command</span>
+<span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">ZgoubidooException</span> <span class="k">as</span> <span class="n">_ZgoubidooException</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
+
+
+<div class="viewcode-block" id="Objet"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet.html#zgoubidoo.commands.objet.Objet">[docs]</a><span class="k">class</span> <span class="nc">Objet</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generation of an object.</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;OBJET&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span>
+
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;BORO&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">kilogauss</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="s1">&#39;Reference magnetic rigidity.&#39;</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        {super().__str__().rstrip()}</span>
+<span class="s2">        {s.BORO.to(&quot;kilogauss * cm&quot;).magnitude:.12e}</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">label2</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">label1</span><span class="p">,</span> <span class="n">label2</span><span class="p">,</span> <span class="n">Objet</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Objet1"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet1.html#zgoubidoo.commands.objet.Objet1">[docs]</a><span class="k">class</span> <span class="nc">Objet1</span><span class="p">(</span><span class="n">Objet</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Objet with initial coordinates drawn from a regular grid&quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;KOBJ&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;K2&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;IY&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Total number of points in +- Y&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;IT&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Total number of points in +- T&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;IZ&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Total number of points in +- Z (or +Z only if K2=01)&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;IP&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Total number of points in +- P (or +P only if K2=01)&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;IX&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Total number of points in +- X&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Total number of points in +- D&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PY&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">centimeter</span><span class="p">,</span> <span class="s1">&#39;Step size in Y&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PT&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">milliradian</span><span class="p">,</span> <span class="s1">&#39;Step size in T&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PZ&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">centimeter</span><span class="p">,</span> <span class="s1">&#39;Step size in Z&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PP&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">milliradian</span><span class="p">,</span> <span class="s1">&#39;Step size in P&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PX&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">centimeter</span><span class="p">,</span> <span class="s1">&#39;Step size in X&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PD&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;Step size in Delta(BRHO)/BORO&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;YR&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">centimeter</span><span class="p">,</span> <span class="s1">&#39;Reference Y&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;TR&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">milliradian</span><span class="p">,</span> <span class="s1">&#39;Reference T&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;ZR&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">centimeter</span><span class="p">,</span> <span class="s1">&#39;Reference Z&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PR&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">milliradian</span><span class="p">,</span> <span class="s1">&#39;Reference P&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;XR&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">centimeter</span><span class="p">,</span> <span class="s1">&#39;Reference X&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;DR&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;Reference D&#39;</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        {super().__str__().rstrip()}</span>
+<span class="s2">        </span><span class="si">{s.KOBJ}</span><span class="s2">.0</span><span class="si">{s.K2}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{s.IY}</span><span class="s2"> </span><span class="si">{s.IT}</span><span class="s2"> </span><span class="si">{s.IZ}</span><span class="s2"> </span><span class="si">{s.IP}</span><span class="s2"> </span><span class="si">{s.IX}</span><span class="s2"> </span><span class="si">{s.ID}</span><span class="s2"></span>
+<span class="s2">        {s.PY.to(&#39;centimeter&#39;).magnitude:.12e} {s.PT.to(&#39;milliradian&#39;).magnitude:.12e} {s.PZ.to(&#39;centimeter&#39;).magnitude:.12e} {s.PP.to(&#39;milliradian&#39;).magnitude:.12e} {s.PX.to(&#39;centimeter&#39;).magnitude:.12e} </span><span class="si">{s.PD:.12e}</span><span class="s2"></span>
+<span class="s2">        {s.YR.to(&#39;centimeter&#39;).magnitude:.12e} {s.TR.to(&#39;milliradian&#39;).magnitude:.12e} {s.ZR.to(&#39;centimeter&#39;).magnitude:.12e} {s.PR.to(&#39;milliradian&#39;).magnitude:.12e} {s.XR.to(&#39;centimeter&#39;).magnitude:.12e} </span><span class="si">{s.DR:.12e}</span><span class="s2"></span>
+<span class="s2">        &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Objet2"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet2.html#zgoubidoo.commands.objet.Objet2">[docs]</a><span class="k">class</span> <span class="nc">Objet2</span><span class="p">(</span><span class="n">Objet</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Objet with all initial coordinates entered explicitely.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; zi = Input()</span>
+<span class="sd">        &gt;&gt;&gt; objet = Objet2()</span>
+<span class="sd">        &gt;&gt;&gt; objet.add()</span>
+<span class="sd">        &gt;&gt;&gt; zi += objet</span>
+<span class="sd">        &gt;&gt;&gt; zi</span>
+<span class="sd">        &gt;&gt;&gt; objet.clear()</span>
+<span class="sd">        &gt;&gt;&gt; objet</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;KOBJ&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;K2&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;IDMAX&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="Objet2.post_init"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet2.html#zgoubidoo.commands.objet.Objet2.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">IMAX</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">PARTICULES</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">IEX</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">PARTICULES</span><span class="p">[:,</span> <span class="mi">6</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">PARTICULES</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span><span class="p">[:,</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># D = 1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span><span class="p">[:,</span> <span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># IEX</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span>
+
+<div class="viewcode-block" id="Objet2.clear"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet2.html#zgoubidoo.commands.objet.Objet2.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="k">def</span> <span class="nf">__iadd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+<div class="viewcode-block" id="Objet2.add"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet2.html#zgoubidoo.commands.objet.Objet2.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s1">&#39;columns&#39;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="o">=</span> <span class="n">p</span>
+            <span class="k">elif</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">]:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="n">p</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+                <span class="n">p</span><span class="p">[</span><span class="s1">&#39;IEX&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+                <span class="n">p</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">1.0</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="o">=</span> <span class="n">p</span><span class="p">[[</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;IEX&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        {super().__str__().rstrip()}</span>
+<span class="s2">        </span><span class="si">{s.KOBJ}</span><span class="s2">.0</span><span class="si">{s.K2}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{s.IMAX}</span><span class="s2"> </span><span class="si">{s.IDMAX}</span><span class="s2"></span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">PARTICULES</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">]:</span>
+            <span class="n">c</span> <span class="o">+=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{p[0]}</span><span class="s2"> </span><span class="si">{p[1]}</span><span class="s2"> </span><span class="si">{p[2]}</span><span class="s2"> </span><span class="si">{p[3]}</span><span class="s2"> </span><span class="si">{p[4]}</span><span class="s2"> </span><span class="si">{p[5]}</span><span class="s2"> A</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span>
+        <span class="n">c</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">f</span><span class="s2">&quot;{int(x):d}&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">IEX</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">c</span></div>
+
+
+<div class="viewcode-block" id="Objet3"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet3.html#zgoubidoo.commands.objet.Objet3">[docs]</a><span class="k">class</span> <span class="nc">Objet3</span><span class="p">(</span><span class="n">Objet</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        Test</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;KOBJ&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s1">&#39;NN&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># 00 to store the file as &#39;[b_]zgoubi.fai&#39;</span>
+        <span class="s1">&#39;IT1&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;IT2&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;ITSTEP&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;IP1&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;IP2&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;IPSTEP&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;YF&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;TF&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;ZF&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;PF&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;XF&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;DF&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;TAG&#39;</span><span class="p">:</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span>  <span class="c1"># No effect if &#39;*&#39;</span>
+        <span class="s1">&#39;YR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;ZR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;PR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;XR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;DR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;InitC&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;FNAME&#39;</span><span class="p">:</span> <span class="s1">&#39;zgoubi.fai&#39;</span><span class="p">,</span>  <span class="c1"># (NN in KOBJ=3.NN determines storage FORMAT)</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">NN</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            {super().__str__().rstrip()}</span>
+<span class="s2">            </span><span class="si">{s.KOBJ}</span><span class="s2">.</span><span class="si">{s.NN}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{s.IT1}</span><span class="s2"> </span><span class="si">{s.IT2}</span><span class="s2"> </span><span class="si">{s.ITSTEP}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{s.IP1}</span><span class="s2"> </span><span class="si">{s.IP2}</span><span class="s2"> </span><span class="si">{s.IPSTEP}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{s.YF:.12e}</span><span class="s2"> </span><span class="si">{s.TF:.12e}</span><span class="s2"> </span><span class="si">{s.ZF:.12e}</span><span class="s2"> </span><span class="si">{s.PF:.12e}</span><span class="s2"> </span><span class="si">{s.XF:.12e}</span><span class="s2"> </span><span class="si">{s.DF:.12e}</span><span class="s2"> </span><span class="si">{s.TF:.12e}</span><span class="s2"> </span><span class="si">{s.TAG:.12e}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{s.YR:.12e}</span><span class="s2"> </span><span class="si">{s.TR:.12e}</span><span class="s2"> </span><span class="si">{s.ZR:.12e}</span><span class="s2"> </span><span class="si">{s.PR:.12e}</span><span class="s2"> </span><span class="si">{s.XR:.12e}</span><span class="s2"> </span><span class="si">{s.DR:.12e}</span><span class="s2"> </span><span class="si">{s.TR:.12e}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{s.InitC}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{s.FNAME}</span><span class="s2"></span>
+<span class="s2">           &quot;&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">_ZgoubidooException</span><span class="p">(</span><span class="s2">&quot;NN != 1 not supported&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Objet4"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet4.html#zgoubidoo.commands.objet.Objet4">[docs]</a><span class="k">class</span> <span class="nc">Objet4</span><span class="p">(</span><span class="n">Objet</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;KOBJ&#39;</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s1">&#39;NN&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># 00 to store the file as &#39;[b_]zgoubi.fai&#39;</span>
+        <span class="s1">&#39;IT1&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;IT2&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;ITSTEP&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;IP1&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;IP2&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;IPSTEP&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;YF&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;TF&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;ZF&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;PF&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;XF&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;DF&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;TF&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;TAG&#39;</span><span class="p">:</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="c1"># No effect if &#39;*&#39;</span>
+        <span class="s1">&#39;YR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;TR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;ZR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;PR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;XR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;DR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;TR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;InitC&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;FNAME&#39;</span><span class="p">:</span> <span class="s1">&#39;zgoubi.fai&#39;</span><span class="p">,</span> <span class="c1">#(NN in KOBJ=3.NN determines storage FORMAT)</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">NN</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            {super().__str__().rstrip()}</span>
+<span class="s2">            </span><span class="si">{s.IT1}</span><span class="s2"> </span><span class="si">{s.IT2}</span><span class="s2"> </span><span class="si">{s.ITSTEP}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{s.IP1}</span><span class="s2"> </span><span class="si">{s.IP2}</span><span class="s2"> </span><span class="si">{s.IPSTEP}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{s.YF:.12e}</span><span class="s2"> </span><span class="si">{s.TF:.12e}</span><span class="s2"> </span><span class="si">{s.ZF:.12e}</span><span class="s2"> </span><span class="si">{s.PF:.12e}</span><span class="s2"> </span><span class="si">{s.XF:.12e}</span><span class="s2"> </span><span class="si">{s.DF:.12e}</span><span class="s2"> </span><span class="si">{s.TF:.12e}</span><span class="s2"> </span><span class="si">{s.TAG:.12e}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{s.YR:.12e}</span><span class="s2"> </span><span class="si">{s.TR:.12e}</span><span class="s2"> </span><span class="si">{s.ZR:.12e}</span><span class="s2"> </span><span class="si">{s.PR:.12e}</span><span class="s2"> </span><span class="si">{s.XR:.12e}</span><span class="s2"> </span><span class="si">{s.DR:.12e}</span><span class="s2"> </span><span class="si">{s.TR:.12e}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{s.InitC}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{s.FNAME}</span><span class="s2"></span>
+<span class="s2">           &quot;&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">_ZgoubidooException</span><span class="p">(</span><span class="s2">&quot;NN != 1 not supported&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Objet5"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet5.html#zgoubidoo.commands.objet.Objet5">[docs]</a><span class="k">class</span> <span class="nc">Objet5</span><span class="p">(</span><span class="n">Objet</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generation of 11 particles, or 11*NN if I ≥ 2 (for use with MATRIX, IORD = 1).</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        test</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;KOBJ&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="s1">&#39;NN&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;PY&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+        <span class="s1">&#39;PT&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+        <span class="s1">&#39;PZ&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+        <span class="s1">&#39;PP&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+        <span class="s1">&#39;PX&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+        <span class="s1">&#39;PD&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+        <span class="s1">&#39;YR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;TR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;ZR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;PR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;XR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;DR&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;ALPHA_Y&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;BETA_Y&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;ALPHA_Z&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;BETA_Z&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;ALPHA_X&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;BETA_X&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;D_Y&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;D_YP&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;D_Z&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;D_ZP&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        {super().__str__().rstrip()}</span>
+<span class="s2">        </span><span class="si">{s.KOBJ}</span><span class="s2">.0</span><span class="si">{s.NN}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{s.PY:.12e}</span><span class="s2"> </span><span class="si">{s.PT:.12e}</span><span class="s2"> </span><span class="si">{s.PZ:.12e}</span><span class="s2"> </span><span class="si">{s.PP:.12e}</span><span class="s2"> </span><span class="si">{s.PX:.12e}</span><span class="s2"> </span><span class="si">{s.PD:.12e}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{s.YR:.12e}</span><span class="s2"> </span><span class="si">{s.TR:.12e}</span><span class="s2"> </span><span class="si">{s.ZR:.12e}</span><span class="s2"> </span><span class="si">{s.PR:.12e}</span><span class="s2"> </span><span class="si">{s.XR:.12e}</span><span class="s2"> </span><span class="si">{s.DR:.12e}</span><span class="s2"></span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">NN</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            </span><span class="si">{s.ALPHA_Y:.12e}</span><span class="s2"> </span><span class="si">{s.BETA_Y:.12e}</span><span class="s2"> </span><span class="si">{s.ALPHA_Z:.12e}</span><span class="s2"> </span><span class="si">{s.BETA_Z:.12e}</span><span class="s2"> </span><span class="si">{s.ALPHA_X:.12e}</span><span class="s2"> </span><span class="si">{s.BETA_X:.12e}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{s.D_Y:.12e}</span><span class="s2"> </span><span class="si">{s.D_YP:.12e}</span><span class="s2"> </span><span class="si">{s.D_Z:.12e}</span><span class="s2"> </span><span class="si">{s.D_ZP:.12e}</span><span class="s2"></span>
+<span class="s2">            &quot;&quot;&quot;</span>
+            <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">s</span><span class="o">.</span><span class="n">NN</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">99</span><span class="p">):</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            </span><span class="si">{s.YR:.12e}</span><span class="s2"> </span><span class="si">{s.TR:.12e}</span><span class="s2"> </span><span class="si">{s.ZR:.12e}</span><span class="s2"> </span><span class="si">{s.PR:.12e}</span><span class="s2"> </span><span class="si">{s.XR:.12e}</span><span class="s2"> </span><span class="si">{s.DR:.12e}</span><span class="s2"></span>
+<span class="s2">            &quot;&quot;&quot;</span>
+            <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="n">_</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(),</span> <span class="n">command</span><span class="p">))</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span></div>
+
+
+<div class="viewcode-block" id="Objet6"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet6.html#zgoubidoo.commands.objet.Objet6">[docs]</a><span class="k">class</span> <span class="nc">Objet6</span><span class="p">(</span><span class="n">Objet</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Objet7"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet7.html#zgoubidoo.commands.objet.Objet7">[docs]</a><span class="k">class</span> <span class="nc">Objet7</span><span class="p">(</span><span class="n">Objet</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Objet8"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet8.html#zgoubidoo.commands.objet.Objet8">[docs]</a><span class="k">class</span> <span class="nc">Objet8</span><span class="p">(</span><span class="n">Objet</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;&quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="ObjetA"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.ObjetA.html#zgoubidoo.commands.objet.ObjetA">[docs]</a><span class="k">class</span> <span class="nc">ObjetA</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Object from Monte-Carlo simulation of decay reaction.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        Test</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;OBJETA&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

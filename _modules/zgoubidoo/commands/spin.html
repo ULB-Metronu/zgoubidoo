@@ -1,0 +1,268 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>zgoubidoo.commands.spin &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2018.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>zgoubidoo.commands.spin</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for zgoubidoo.commands.spin</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Zgoubidoo&#39;s interfaces to spin tracking commands.</span>
+
+<span class="sd">More details here.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">_Command</span>
+<span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">ZgoubidooException</span> <span class="k">as</span> <span class="n">_ZgoubidooException</span>
+
+
+<div class="viewcode-block" id="SpinRotation"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.spin.SpinRotation.html#zgoubidoo.commands.spin.SpinRotation">[docs]</a><span class="k">class</span> <span class="nc">SpinRotation</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Spin rotation.&quot;&quot;&quot;</span>
+    <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;SPINR&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Spnprnl"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.spin.Spnprnl.html#zgoubidoo.commands.spin.Spnprnl">[docs]</a><span class="k">class</span> <span class="nc">Spnprnl</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Store spin coordinates into file FNAME.&quot;&quot;&quot;</span>
+    <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;SPNPRNL&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="SpinStore"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.spin.SpinStore.html#zgoubidoo.commands.spin.SpinStore">[docs]</a><span class="k">class</span> <span class="nc">SpinStore</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Store spin coordinates every IP other pass at labeled elements.&quot;&quot;&quot;</span>
+    <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;SPNSTORE&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="SpnPrt"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.spin.SpnPrt.html#zgoubidoo.commands.spin.SpnPrt">[docs]</a><span class="k">class</span> <span class="nc">SpnPrt</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Print spin coordinates.&quot;&quot;&quot;</span>
+    <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;SPNPRT&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span></div>
+
+
+<span class="n">SpinPrint</span> <span class="o">=</span> <span class="n">SpnPrt</span>
+
+
+<div class="viewcode-block" id="SpnTrk"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.spin.SpnTrk.html#zgoubidoo.commands.spin.SpnTrk">[docs]</a><span class="k">class</span> <span class="nc">SpnTrk</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Spin tracking.&quot;&quot;&quot;</span>
+    <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;SPNTRK&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span>
+
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;KSO&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;IR&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Random sequence seed.&#39;</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
+<span class="sd">        commands (e.g. fit).&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSO</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">4.1</span><span class="p">,</span> <span class="mi">5</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">_ZgoubidooException</span><span class="p">(</span><span class="s2">&quot;KPOS must be in (0, 1, 2, 3, 4, 4.1, 5).&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        {super().__str__().rstrip()}</span>
+<span class="s2">        </span><span class="si">{self.KSO:d}</span><span class="s2"></span>
+<span class="s2">        {int(self.IR):d}</span>
+<span class="s2">        &quot;&quot;&quot;</span></div>
+
+
+<span class="n">SpinTracking</span> <span class="o">=</span> <span class="n">SpnTrk</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

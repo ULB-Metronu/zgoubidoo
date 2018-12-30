@@ -1,0 +1,972 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>zgoubidoo.commands.contrib.iba &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2018.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>zgoubidoo.commands.contrib.iba</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for zgoubidoo.commands.contrib.iba</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Zgoubidoo&#39;s interfaces to purefly magnetic Zgoubi commands.</span>
+
+<span class="sd">More details here.</span>
+<span class="sd">TODO</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+<span class="kn">from</span> <span class="nn">..magnetique</span> <span class="k">import</span> <span class="n">Dipole</span> <span class="k">as</span> <span class="n">_Dipole</span>
+<span class="kn">from</span> <span class="nn">..magnetique</span> <span class="k">import</span> <span class="n">PolarMagnet</span> <span class="k">as</span> <span class="n">_PolarMagnet</span>
+<span class="kn">from</span> <span class="nn">..magnetique</span> <span class="k">import</span> <span class="n">Bend</span> <span class="k">as</span> <span class="n">_Bend</span>
+<span class="kn">from</span> <span class="nn">..magnetique</span> <span class="k">import</span> <span class="n">Quadrupole</span> <span class="k">as</span> <span class="n">_Quadrupole</span>
+<span class="kn">from</span> <span class="nn">..magnetique</span> <span class="k">import</span> <span class="n">FakeDrift</span> <span class="k">as</span> <span class="n">_FakeDrift</span>
+<span class="kn">from</span> <span class="nn">..commands</span> <span class="k">import</span> <span class="n">Collimator</span> <span class="k">as</span> <span class="n">_Collimator</span>
+<span class="kn">from</span> <span class="nn">..commands</span> <span class="k">import</span> <span class="n">Marker</span> <span class="k">as</span> <span class="n">_Marker</span>
+<span class="kn">from</span> <span class="nn">..commands</span> <span class="k">import</span> <span class="n">Ymy</span> <span class="k">as</span> <span class="n">_Ymy</span>
+<span class="kn">from</span> <span class="nn">..commands</span> <span class="k">import</span> <span class="n">Fit</span> <span class="k">as</span> <span class="n">_Fit</span>
+<span class="kn">from</span> <span class="nn">..particules</span> <span class="k">import</span> <span class="n">Proton</span> <span class="k">as</span> <span class="n">_Proton</span>
+<span class="kn">from</span> <span class="nn">..objet</span> <span class="k">import</span> <span class="n">Objet2</span> <span class="k">as</span> <span class="n">_Objet2</span>
+<span class="kn">from</span> <span class="nn">...</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
+<span class="kn">from</span> <span class="nn">...input</span> <span class="k">import</span> <span class="n">Input</span> <span class="k">as</span> <span class="n">_Input</span>
+<span class="kn">from</span> <span class="nn">...physics</span> <span class="k">import</span> <span class="n">Kinematics</span> <span class="k">as</span> <span class="n">_Kinematics</span>
+<span class="kn">from</span> <span class="nn">...zgoubi</span> <span class="k">import</span> <span class="n">Zgoubi</span> <span class="k">as</span> <span class="n">_Zgoubi</span>
+<span class="kn">from</span> <span class="nn">...polarity</span> <span class="k">import</span> <span class="n">PolarityType</span> <span class="k">as</span> <span class="n">_PolarityType</span>
+<span class="kn">from</span> <span class="nn">...polarity</span> <span class="k">import</span> <span class="n">Polarity</span> <span class="k">as</span> <span class="n">_Polarity</span>
+<span class="kn">from</span> <span class="nn">...polarity</span> <span class="k">import</span> <span class="n">HorizontalPolarity</span> <span class="k">as</span> <span class="n">_HorizontalPolarity</span>
+<span class="kn">from</span> <span class="nn">...polarity</span> <span class="k">import</span> <span class="n">VerticalPolarity</span> <span class="k">as</span> <span class="n">_VerticalPolarity</span>
+<span class="kn">import</span> <span class="nn">zgoubidoo</span>
+
+
+<div class="viewcode-block" id="DipoleIBA"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.DipoleIBA.html#zgoubidoo.commands.contrib.iba.DipoleIBA">[docs]</a><span class="k">class</span> <span class="nc">DipoleIBA</span><span class="p">(</span><span class="n">_Dipole</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;IBA generic dipole.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">extra_drift</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_PolarMagnet</span><span class="o">.</span><span class="n">drift_length_from_polar</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span>
+                                                    <span class="n">magnet_angle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">AT</span><span class="p">,</span>
+                                                    <span class="n">poles_angle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">OMEGA_E</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">OMEGA_S</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="B1G"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.B1G.html#zgoubidoo.commands.contrib.iba.B1G">[docs]</a><span class="k">class</span> <span class="nc">B1G</span><span class="p">(</span><span class="n">DipoleIBA</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One 40 degree dipole.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; B1G()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;LABEL1&#39;</span><span class="p">:</span> <span class="s1">&#39;B1G&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;B0&#39;</span><span class="p">:</span> <span class="mi">14</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">kilogauss</span><span class="p">,</span>  <span class="c1"># It is important to keep it expressed in kilogauss here</span>
+        <span class="s1">&#39;AT&#39;</span><span class="p">:</span> <span class="mi">50</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+        <span class="s1">&#39;ACENT&#39;</span><span class="p">:</span> <span class="mi">25</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+        <span class="s1">&#39;RM&#39;</span><span class="p">:</span> <span class="mi">1500</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="B1G.post_init"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.B1G.html#zgoubidoo.commands.contrib.iba.B1G.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                  <span class="n">magnet_opening</span><span class="o">=</span><span class="mi">50</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+                  <span class="n">poles_opening</span><span class="o">=</span><span class="mi">40</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+                  <span class="n">entrance_pole_trim</span><span class="o">=</span><span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+                  <span class="n">exit_pole_trim</span><span class="o">=</span><span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+                  <span class="n">entrance_fringe_lambda</span><span class="o">=</span><span class="mi">9</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span>
+                  <span class="n">exit_fringe_lambda</span><span class="o">=</span><span class="mi">9</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span>
+                  <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+                  <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        TODO</span>
+<span class="sd">        Args:</span>
+<span class="sd">            magnet_opening: total angular opening of the magnet (i.e. of the field map)</span>
+<span class="sd">            poles_opening: angular opening of the poles</span>
+<span class="sd">            entrance_pole_trim: angular shift of the entrance pole</span>
+<span class="sd">            exit_pole_trim: angular shift of the exit pole</span>
+<span class="sd">            entrance_fringe_lambda: effective length of the entrance fringe field</span>
+<span class="sd">            exit_fringe_lambda: effective length of the exit fringe field</span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; b1g = B1G()</span>
+<span class="sd">            &gt;&gt;&gt; b1g.fit()</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">AT</span> <span class="o">=</span> <span class="n">magnet_opening</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ACENT</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AT</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">OMEGA_E</span> <span class="o">=</span> <span class="n">poles_opening</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">entrance_pole_trim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">OMEGA_S</span> <span class="o">=</span> <span class="o">-</span><span class="n">poles_opening</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">entrance_pole_trim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LAM_E</span> <span class="o">=</span> <span class="n">entrance_fringe_lambda</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LAM_S</span> <span class="o">=</span> <span class="n">exit_fringe_lambda</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RE</span> <span class="o">=</span> <span class="n">_PolarMagnet</span><span class="o">.</span><span class="n">efb_offset_from_polar</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">RM</span><span class="p">,</span>
+                                                     <span class="n">magnet_angle</span><span class="o">=</span><span class="n">magnet_opening</span><span class="p">,</span>
+                                                     <span class="n">poles_angle</span><span class="o">=</span><span class="n">poles_opening</span>
+                                                     <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RS</span> <span class="o">=</span> <span class="n">_PolarMagnet</span><span class="o">.</span><span class="n">efb_offset_from_polar</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">RM</span><span class="p">,</span>
+                                                     <span class="n">magnet_angle</span><span class="o">=</span><span class="n">magnet_opening</span><span class="p">,</span>
+                                                     <span class="n">poles_angle</span><span class="o">=</span><span class="n">poles_opening</span>
+                                                     <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TE</span> <span class="o">=</span> <span class="n">_PolarMagnet</span><span class="o">.</span><span class="n">efb_angle_from_polar</span><span class="p">(</span><span class="n">magnet_angle</span><span class="o">=</span><span class="n">magnet_opening</span><span class="p">,</span>
+                                                    <span class="n">poles_angle</span><span class="o">=</span><span class="n">poles_opening</span>
+                                                    <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TS</span> <span class="o">=</span> <span class="o">-</span><span class="n">_PolarMagnet</span><span class="o">.</span><span class="n">efb_angle_from_polar</span><span class="p">(</span><span class="n">magnet_angle</span><span class="o">=</span><span class="n">magnet_opening</span><span class="p">,</span>
+                                                     <span class="n">poles_angle</span><span class="o">=</span><span class="n">poles_opening</span>
+                                                     <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="B2G"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.B2G.html#zgoubidoo.commands.contrib.iba.B2G">[docs]</a><span class="k">class</span> <span class="nc">B2G</span><span class="p">(</span><span class="n">DipoleIBA</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One 70 degree dipole.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; B2G()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;LABEL1&#39;</span><span class="p">:</span> <span class="s1">&#39;B2G&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;B0&#39;</span><span class="p">:</span> <span class="mi">14</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">kilogauss</span><span class="p">,</span>  <span class="c1"># It is important to keep it expressed in kilogauss here</span>
+        <span class="s1">&#39;RM&#39;</span><span class="p">:</span> <span class="mi">1500</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="B2G.post_init"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.B2G.html#zgoubidoo.commands.contrib.iba.B2G.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                  <span class="n">magnet_opening</span><span class="o">=</span><span class="mi">80</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+                  <span class="n">poles_opening</span><span class="o">=</span><span class="mi">70</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+                  <span class="n">entrance_pole_trim</span><span class="o">=</span><span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+                  <span class="n">exit_pole_trim</span><span class="o">=</span><span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+                  <span class="n">entrance_fringe_lambda</span><span class="o">=</span><span class="mi">9</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span>
+                  <span class="n">exit_fringe_lambda</span><span class="o">=</span><span class="mi">9</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span>
+                  <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+                  <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        TODO</span>
+<span class="sd">        Args:</span>
+<span class="sd">            magnet_opening: total angular opening of the magnet (i.e. of the field map)</span>
+<span class="sd">            poles_opening: angular opening of the poles</span>
+<span class="sd">            entrance_pole_trim: angular shift of the entrance pole</span>
+<span class="sd">            exit_pole_trim: angular shift of the exit pole</span>
+<span class="sd">            entrance_fringe_lambda: effective length of the entrance fringe field</span>
+<span class="sd">            exit_fringe_lambda: effective length of the exit fringe field</span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; b2g = B2G()</span>
+<span class="sd">            &gt;&gt;&gt; b2g.fit()</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">AT</span> <span class="o">=</span> <span class="n">magnet_opening</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ACENT</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AT</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">OMEGA_E</span> <span class="o">=</span> <span class="n">poles_opening</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">entrance_pole_trim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">OMEGA_S</span> <span class="o">=</span> <span class="o">-</span><span class="n">poles_opening</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">entrance_pole_trim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LAM_E</span> <span class="o">=</span> <span class="n">entrance_fringe_lambda</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LAM_S</span> <span class="o">=</span> <span class="n">exit_fringe_lambda</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RE</span> <span class="o">=</span> <span class="n">_PolarMagnet</span><span class="o">.</span><span class="n">efb_offset_from_polar</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">RM</span><span class="p">,</span>
+                                                     <span class="n">magnet_angle</span><span class="o">=</span><span class="n">magnet_opening</span><span class="p">,</span>
+                                                     <span class="n">poles_angle</span><span class="o">=</span><span class="n">poles_opening</span>
+                                                     <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RS</span> <span class="o">=</span> <span class="n">_PolarMagnet</span><span class="o">.</span><span class="n">efb_offset_from_polar</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">RM</span><span class="p">,</span>
+                                                     <span class="n">magnet_angle</span><span class="o">=</span><span class="n">magnet_opening</span><span class="p">,</span>
+                                                     <span class="n">poles_angle</span><span class="o">=</span><span class="n">poles_opening</span>
+                                                     <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TE</span> <span class="o">=</span> <span class="n">_PolarMagnet</span><span class="o">.</span><span class="n">efb_angle_from_polar</span><span class="p">(</span><span class="n">magnet_angle</span><span class="o">=</span><span class="n">magnet_opening</span><span class="p">,</span>
+                                                    <span class="n">poles_angle</span><span class="o">=</span><span class="n">poles_opening</span>
+                                                    <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TS</span> <span class="o">=</span> <span class="o">-</span><span class="n">_PolarMagnet</span><span class="o">.</span><span class="n">efb_angle_from_polar</span><span class="p">(</span><span class="n">magnet_angle</span><span class="o">=</span><span class="n">magnet_opening</span><span class="p">,</span>
+                                                     <span class="n">poles_angle</span><span class="o">=</span><span class="n">poles_opening</span>
+                                                     <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="B3G"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.B3G.html#zgoubidoo.commands.contrib.iba.B3G">[docs]</a><span class="k">class</span> <span class="nc">B3G</span><span class="p">(</span><span class="n">DipoleIBA</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One 60 degree dipole.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; B3G()</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;LABEL1&#39;</span><span class="p">:</span> <span class="s1">&#39;B3G&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;B0&#39;</span><span class="p">:</span> <span class="mi">14</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">kilogauss</span><span class="p">,</span>  <span class="c1"># It is important to keep it expressed in kilogauss here</span>
+        <span class="s1">&#39;RM&#39;</span><span class="p">:</span> <span class="mi">1600</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span>
+        <span class="s1">&#39;LAM_E&#39;</span><span class="p">:</span> <span class="mi">9</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span>
+        <span class="s1">&#39;C0_E&#39;</span><span class="p">:</span> <span class="mf">0.67634054</span><span class="p">,</span>  <span class="c1"># Obtained from field map fit</span>
+        <span class="s1">&#39;C1_E&#39;</span><span class="p">:</span> <span class="mf">1.15776841</span><span class="p">,</span>  <span class="c1"># Obtained from field map fit</span>
+        <span class="s1">&#39;C2_E&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.16937986</span><span class="p">,</span>  <span class="c1"># Obtained from field map fit</span>
+        <span class="s1">&#39;C3_E&#39;</span><span class="p">:</span> <span class="mf">0.07696388</span><span class="p">,</span>  <span class="c1"># Obtained from field map fit</span>
+        <span class="s1">&#39;SHIFT_E&#39;</span><span class="p">:</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span>
+        <span class="s1">&#39;LAM_S&#39;</span><span class="p">:</span> <span class="mi">9</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span>
+        <span class="s1">&#39;C0_S&#39;</span><span class="p">:</span> <span class="mf">0.77890820</span><span class="p">,</span>  <span class="c1"># Obtained from field map fit</span>
+        <span class="s1">&#39;C1_S&#39;</span><span class="p">:</span> <span class="mf">0.94490545</span><span class="p">,</span>  <span class="c1"># Obtained from field map fit</span>
+        <span class="s1">&#39;C2_S&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.13034787</span><span class="p">,</span>  <span class="c1"># Obtained from field map fit</span>
+        <span class="s1">&#39;C3_S&#39;</span><span class="p">:</span> <span class="mf">0.02948957</span><span class="p">,</span>  <span class="c1"># Obtained from field map fit</span>
+        <span class="s1">&#39;SHIFT_S&#39;</span><span class="p">:</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span>
+        <span class="s1">&#39;XPAS&#39;</span><span class="p">:</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="B3G.post_init"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.B3G.html#zgoubidoo.commands.contrib.iba.B3G.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                  <span class="n">magnet_opening</span><span class="o">=</span><span class="mi">70</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+                  <span class="n">poles_opening</span><span class="o">=</span><span class="mi">60</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+                  <span class="n">entrance_pole_trim</span><span class="o">=</span><span class="mf">1.125</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+                  <span class="n">exit_pole_trim</span><span class="o">=</span><span class="mf">1.125</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+                  <span class="n">entrance_fringe_lambda</span><span class="o">=</span><span class="mi">9</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span>
+                  <span class="n">exit_fringe_lambda</span><span class="o">=</span><span class="mi">9</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span>
+                  <span class="n">entrance_pole_curvature</span><span class="o">=</span><span class="mf">1e9</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span>
+                  <span class="n">exit_pole_curvature</span><span class="o">=</span><span class="mf">1e9</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span>
+                  <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+                  <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        TODO</span>
+<span class="sd">        Args:</span>
+<span class="sd">            magnet_opening: total angular opening of the magnet (i.e. of the field map)</span>
+<span class="sd">            poles_opening: angular opening of the poles</span>
+<span class="sd">            entrance_pole_trim: angular shift of the entrance pole</span>
+<span class="sd">            exit_pole_trim: angular shift of the exit pole</span>
+<span class="sd">            entrance_fringe_lambda: effective length of the entrance fringe field</span>
+<span class="sd">            exit_fringe_lambda: effective length of the exit fringe field</span>
+<span class="sd">            entrance_pole_curvature: curvature of the  pole at the entrance of the magnet</span>
+<span class="sd">            exit_pole_curvature: curvature of the pole at the exit of the magnet</span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; b3g = B3G()</span>
+<span class="sd">            &gt;&gt;&gt; b3g.fit()</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">AT</span> <span class="o">=</span> <span class="n">magnet_opening</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ACENT</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AT</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">OMEGA_E</span> <span class="o">=</span> <span class="n">poles_opening</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">entrance_pole_trim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">OMEGA_S</span> <span class="o">=</span> <span class="o">-</span><span class="n">poles_opening</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">entrance_pole_trim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LAM_E</span> <span class="o">=</span> <span class="n">entrance_fringe_lambda</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LAM_S</span> <span class="o">=</span> <span class="n">exit_fringe_lambda</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RE</span> <span class="o">=</span> <span class="n">_PolarMagnet</span><span class="o">.</span><span class="n">efb_offset_from_polar</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">RM</span><span class="p">,</span>
+                                                     <span class="n">magnet_angle</span><span class="o">=</span><span class="n">magnet_opening</span><span class="p">,</span>
+                                                     <span class="n">poles_angle</span><span class="o">=</span><span class="n">poles_opening</span>
+                                                     <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RS</span> <span class="o">=</span> <span class="n">_PolarMagnet</span><span class="o">.</span><span class="n">efb_offset_from_polar</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">RM</span><span class="p">,</span>
+                                                     <span class="n">magnet_angle</span><span class="o">=</span><span class="n">magnet_opening</span><span class="p">,</span>
+                                                     <span class="n">poles_angle</span><span class="o">=</span><span class="n">poles_opening</span>
+                                                     <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TE</span> <span class="o">=</span> <span class="n">_PolarMagnet</span><span class="o">.</span><span class="n">efb_angle_from_polar</span><span class="p">(</span><span class="n">magnet_angle</span><span class="o">=</span><span class="n">magnet_opening</span><span class="p">,</span>
+                                                    <span class="n">poles_angle</span><span class="o">=</span><span class="n">poles_opening</span>
+                                                    <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TS</span> <span class="o">=</span> <span class="o">-</span><span class="n">_PolarMagnet</span><span class="o">.</span><span class="n">efb_angle_from_polar</span><span class="p">(</span><span class="n">magnet_angle</span><span class="o">=</span><span class="n">magnet_opening</span><span class="p">,</span>
+                                                     <span class="n">poles_angle</span><span class="o">=</span><span class="n">poles_opening</span>
+                                                     <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="SMX"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.SMX.html#zgoubidoo.commands.contrib.iba.SMX">[docs]</a><span class="k">class</span> <span class="nc">SMX</span><span class="p">(</span><span class="n">_Bend</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One inline (horizontal) scanning magnet.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;XL&#39;</span><span class="p">:</span> <span class="mi">159</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="SMX.post_init"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.SMX.html#zgoubidoo.commands.contrib.iba.SMX.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            **kwargs:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span></div></div>
+
+
+<div class="viewcode-block" id="SMY"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.SMY.html#zgoubidoo.commands.contrib.iba.SMY">[docs]</a><span class="k">class</span> <span class="nc">SMY</span><span class="p">(</span><span class="n">_Bend</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One crossline (vertical) scanning magnet.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;XL&#39;</span><span class="p">:</span> <span class="mi">109</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span>
+        <span class="s1">&#39;SK&#39;</span><span class="p">:</span> <span class="mi">90</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="SMY.post_init"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.SMY.html#zgoubidoo.commands.contrib.iba.SMY.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            **kwargs:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span></div></div>
+
+
+<div class="viewcode-block" id="QuadrupoleIBA"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.QuadrupoleIBA.html#zgoubidoo.commands.contrib.iba.QuadrupoleIBA">[docs]</a><span class="k">class</span> <span class="nc">QuadrupoleIBA</span><span class="p">(</span><span class="n">_Quadrupole</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;IBA generic quadrupole.</span>
+
+<span class="sd">    Support for gradient/current conversion and for polarity.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="QuadrupoleIBA.post_init"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.QuadrupoleIBA.html#zgoubidoo.commands.contrib.iba.QuadrupoleIBA.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                  <span class="n">polarity</span><span class="p">:</span> <span class="n">_PolarityType</span> <span class="o">=</span> <span class="n">_HorizontalPolarity</span><span class="p">,</span>
+                  <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">l_eff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">gradient</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+                  <span class="o">**</span><span class="n">kwargs</span>
+                  <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            polarity:</span>
+<span class="sd">            p:</span>
+<span class="sd">            l_eff:</span>
+<span class="sd">            gradient:</span>
+<span class="sd">            **kwargs:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gradient</span> <span class="o">=</span> <span class="n">gradient</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;POLARITY&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">polarity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">POLARITY</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">polarity</span> <span class="o">=</span> <span class="n">polarity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__P</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__L_EFF</span> <span class="o">=</span> <span class="n">l_eff</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">polarity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_polarity</span><span class="p">)</span>
+
+    <span class="nd">@polarity</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">polarity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">_PolarityType</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_polarity</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">current</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Hello&quot;</span><span class="p">)</span>
+
+    <span class="nd">@current</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">current</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">current</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Trying to set a quadrupole with a negative current. Change the polarity instead.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current</span> <span class="o">=</span> <span class="n">current</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gradient</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)(</span><span class="n">current</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">l_eff</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_polarity</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gradient</span>
+
+    <span class="nd">@gradient</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gradient</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">gradient</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Trying to set a quadrupole with a negative gradient. Change the polarity instead.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gradient</span> <span class="o">=</span> <span class="n">gradient</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">roots</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gradient</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">l_eff</span><span class="p">)])[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">gradient</span> <span class="o">=</span> <span class="n">gradient</span>
+
+<div class="viewcode-block" id="QuadrupoleIBA.set_value"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.QuadrupoleIBA.html#zgoubidoo.commands.contrib.iba.QuadrupoleIBA.set_value">[docs]</a>    <span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current</span> <span class="o">=</span> <span class="n">value</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">k1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gradient</span>
+
+    <span class="nd">@k1</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">k1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gradient</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_polarity</span> <span class="o">=</span> <span class="n">_HorizontalPolarity</span>
+        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_polarity</span> <span class="o">=</span> <span class="n">_Polarity</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_polarity</span> <span class="o">=</span> <span class="n">_VerticalPolarity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">roots</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_gradient</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">l_eff</span><span class="p">)])[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">p</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__P</span>
+
+    <span class="nd">@p</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">p</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__P</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">l_eff</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__L_EFF</span>
+
+    <span class="nd">@l_eff</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">l_eff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__L_EFF</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current</span></div>
+
+
+<div class="viewcode-block" id="QLong"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.QLong.html#zgoubidoo.commands.contrib.iba.QLong">[docs]</a><span class="k">class</span> <span class="nc">QLong</span><span class="p">(</span><span class="n">QuadrupoleIBA</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One long quadrupole.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;XL&#39;</span><span class="p">:</span> <span class="mi">490</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="QLong.post_init"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.QLong.html#zgoubidoo.commands.contrib.iba.QLong.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polarity</span><span class="p">:</span> <span class="n">_PolarityType</span> <span class="o">=</span> <span class="n">_HorizontalPolarity</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            polarity:</span>
+<span class="sd">            **kwargs:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">post_init</span><span class="p">(</span><span class="n">polarity</span><span class="o">=</span><span class="n">polarity</span><span class="p">,</span>
+                          <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">2.45367E-05</span><span class="p">,</span> <span class="mf">8.09526E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.91149E-03</span><span class="p">],</span>
+                          <span class="n">l_eff</span><span class="o">=</span><span class="mf">0.490</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="QShort"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.QShort.html#zgoubidoo.commands.contrib.iba.QShort">[docs]</a><span class="k">class</span> <span class="nc">QShort</span><span class="p">(</span><span class="n">QuadrupoleIBA</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One short quadrupole.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;XL&#39;</span><span class="p">:</span> <span class="mi">290</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="QShort.post_init"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.QShort.html#zgoubidoo.commands.contrib.iba.QShort.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polarity</span><span class="p">:</span> <span class="n">_PolarityType</span> <span class="o">=</span> <span class="n">_HorizontalPolarity</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            polarity:</span>
+<span class="sd">            **kwargs:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">post_init</span><span class="p">(</span><span class="n">polarity</span><span class="o">=</span><span class="n">polarity</span><span class="p">,</span>
+                          <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">2.27972E-05</span><span class="p">,</span> <span class="mf">4.98563E-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.58432E-02</span><span class="p">],</span>
+                          <span class="n">l_eff</span><span class="o">=</span><span class="mf">0.290</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="QWall"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.QWall.html#zgoubidoo.commands.contrib.iba.QWall">[docs]</a><span class="k">class</span> <span class="nc">QWall</span><span class="p">(</span><span class="n">QuadrupoleIBA</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One &#39;wall&#39; quadrupole.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;XL&#39;</span><span class="p">:</span> <span class="mi">297</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="QWall.post_init"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.QWall.html#zgoubidoo.commands.contrib.iba.QWall.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polarity</span><span class="p">:</span> <span class="n">_PolarityType</span> <span class="o">=</span> <span class="n">_HorizontalPolarity</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            polarity:</span>
+<span class="sd">            **kwargs:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">post_init</span><span class="p">(</span><span class="n">polarity</span><span class="o">=</span><span class="n">polarity</span><span class="p">,</span>
+                          <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">2.23625E-06</span><span class="p">,</span> <span class="mf">2.46011E-02</span><span class="p">,</span> <span class="mf">8.21584E-04</span><span class="p">],</span>
+                          <span class="n">l_eff</span><span class="o">=</span><span class="mf">0.297</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="QPMQ"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.QPMQ.html#zgoubidoo.commands.contrib.iba.QPMQ">[docs]</a><span class="k">class</span> <span class="nc">QPMQ</span><span class="p">(</span><span class="n">QuadrupoleIBA</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One &#39;PMQ&#39; quadrupole.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;XL&#39;</span><span class="p">:</span> <span class="mi">297</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="QPMQ.post_init"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.QPMQ.html#zgoubidoo.commands.contrib.iba.QPMQ.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polarity</span><span class="p">:</span> <span class="n">_PolarityType</span> <span class="o">=</span> <span class="n">_HorizontalPolarity</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            polarity:</span>
+<span class="sd">            **kwargs:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">post_init</span><span class="p">(</span><span class="n">polarity</span><span class="o">=</span><span class="n">polarity</span><span class="p">,</span>
+                          <span class="n">gradient</span><span class="o">=</span><span class="mf">17.5</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Q1G"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.Q1G.html#zgoubidoo.commands.contrib.iba.Q1G">[docs]</a><span class="k">class</span> <span class="nc">Q1G</span><span class="p">(</span><span class="n">QWall</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One &#39;Q1G&#39; gantry quadrupole.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;LABEL1&#39;</span><span class="p">:</span> <span class="s1">&#39;Q1G&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;POLARITY&#39;</span><span class="p">:</span> <span class="n">_VerticalPolarity</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="Q2G"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.Q2G.html#zgoubidoo.commands.contrib.iba.Q2G">[docs]</a><span class="k">class</span> <span class="nc">Q2G</span><span class="p">(</span><span class="n">QWall</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One &#39;Q2G&#39; gantry quadrupole.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;LABEL1&#39;</span><span class="p">:</span> <span class="s1">&#39;Q2G&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;POLARITY&#39;</span><span class="p">:</span> <span class="n">_HorizontalPolarity</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="Q3G"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.Q3G.html#zgoubidoo.commands.contrib.iba.Q3G">[docs]</a><span class="k">class</span> <span class="nc">Q3G</span><span class="p">(</span><span class="n">QShort</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One &#39;Q3G&#39; gantry quadrupole.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;LABEL1&#39;</span><span class="p">:</span> <span class="s1">&#39;Q3G&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;POLARITY&#39;</span><span class="p">:</span> <span class="n">_HorizontalPolarity</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="Q4G"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.Q4G.html#zgoubidoo.commands.contrib.iba.Q4G">[docs]</a><span class="k">class</span> <span class="nc">Q4G</span><span class="p">(</span><span class="n">QShort</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One &#39;Q4G&#39; gantry quadrupole.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;LABEL1&#39;</span><span class="p">:</span> <span class="s1">&#39;Q4G&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;POLARITY&#39;</span><span class="p">:</span> <span class="n">_VerticalPolarity</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="Q5G"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.Q5G.html#zgoubidoo.commands.contrib.iba.Q5G">[docs]</a><span class="k">class</span> <span class="nc">Q5G</span><span class="p">(</span><span class="n">QLong</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One &#39;Q5G&#39; gantry quadrupole.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;LABEL1&#39;</span><span class="p">:</span> <span class="s1">&#39;Q5G&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;POLARITY&#39;</span><span class="p">:</span> <span class="n">_HorizontalPolarity</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="Q6G"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.Q6G.html#zgoubidoo.commands.contrib.iba.Q6G">[docs]</a><span class="k">class</span> <span class="nc">Q6G</span><span class="p">(</span><span class="n">QShort</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One &#39;Q6G&#39; gantry quadrupole.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;LABEL1&#39;</span><span class="p">:</span> <span class="s1">&#39;Q6G&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;POLARITY&#39;</span><span class="p">:</span> <span class="n">_VerticalPolarity</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="Q7G"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.Q7G.html#zgoubidoo.commands.contrib.iba.Q7G">[docs]</a><span class="k">class</span> <span class="nc">Q7G</span><span class="p">(</span><span class="n">QShort</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One &#39;Q7G&#39; gantry quadrupole.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;LABEL1&#39;</span><span class="p">:</span> <span class="s1">&#39;Q7G&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;POLARITY&#39;</span><span class="p">:</span> <span class="n">_HorizontalPolarity</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="HorizontalSlits"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.HorizontalSlits.html#zgoubidoo.commands.contrib.iba.HorizontalSlits">[docs]</a><span class="k">class</span> <span class="nc">HorizontalSlits</span><span class="p">(</span><span class="n">_Collimator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One horizontal slits.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="VerticalSlits"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.VerticalSlits.html#zgoubidoo.commands.contrib.iba.VerticalSlits">[docs]</a><span class="k">class</span> <span class="nc">VerticalSlits</span><span class="p">(</span><span class="n">_Collimator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One vertical slits.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="CGTR"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.CGTR.html#zgoubidoo.commands.contrib.iba.CGTR">[docs]</a><span class="k">class</span> <span class="nc">CGTR</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One compact gantry (CGTR) input sequence.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">kinematics</span><span class="o">=</span><span class="n">_Kinematics</span><span class="p">(</span><span class="mi">230</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV</span><span class="p">),</span>
+                 <span class="n">b1g</span><span class="o">=</span><span class="n">B1G</span><span class="p">(),</span>
+                 <span class="n">b2g</span><span class="o">=</span><span class="n">B2G</span><span class="p">(),</span>
+                 <span class="n">b3g</span><span class="o">=</span><span class="n">B3G</span><span class="p">(),</span>
+                 <span class="n">q1g</span><span class="o">=</span><span class="n">Q1G</span><span class="p">(),</span>
+                 <span class="n">q2g</span><span class="o">=</span><span class="n">Q2G</span><span class="p">(),</span>
+                 <span class="n">q3g</span><span class="o">=</span><span class="n">Q3G</span><span class="p">(),</span>
+                 <span class="n">q4g</span><span class="o">=</span><span class="n">Q4G</span><span class="p">(),</span>
+                 <span class="n">q5g</span><span class="o">=</span><span class="n">Q5G</span><span class="p">(),</span>
+                 <span class="n">q6g</span><span class="o">=</span><span class="n">Q6G</span><span class="p">(),</span>
+                 <span class="n">q7g</span><span class="o">=</span><span class="n">Q7G</span><span class="p">(),</span>
+                 <span class="n">smx</span><span class="o">=</span><span class="n">SMX</span><span class="p">(),</span>
+                 <span class="n">smy</span><span class="o">=</span><span class="n">SMY</span><span class="p">(),</span>
+                 <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            kinematics:</span>
+<span class="sd">            b1g:</span>
+<span class="sd">            b2g:</span>
+<span class="sd">            b3g:</span>
+<span class="sd">            q1g:</span>
+<span class="sd">            q2g:</span>
+<span class="sd">            q3g:</span>
+<span class="sd">            q4g:</span>
+<span class="sd">            q5g:</span>
+<span class="sd">            q6g:</span>
+<span class="sd">            q7g:</span>
+<span class="sd">            smx:</span>
+<span class="sd">            smy:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b1g</span> <span class="o">=</span> <span class="n">b1g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b2g</span> <span class="o">=</span> <span class="n">b2g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b3g</span> <span class="o">=</span> <span class="n">b3g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q1g</span> <span class="o">=</span> <span class="n">q1g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q2g</span> <span class="o">=</span> <span class="n">q2g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q3g</span> <span class="o">=</span> <span class="n">q3g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q4g</span> <span class="o">=</span> <span class="n">q4g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q5g</span> <span class="o">=</span> <span class="n">q5g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q6g</span> <span class="o">=</span> <span class="n">q6g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q7g</span> <span class="o">=</span> <span class="n">q7g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">smx</span> <span class="o">=</span> <span class="n">smx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">smy</span> <span class="o">=</span> <span class="n">smy</span>
+
+        <span class="n">b1g</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">boro</span><span class="o">=</span><span class="n">kinematics</span><span class="o">.</span><span class="n">brho</span><span class="p">)</span>
+        <span class="n">b2g</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">boro</span><span class="o">=</span><span class="n">kinematics</span><span class="o">.</span><span class="n">brho</span><span class="p">)</span>
+        <span class="n">b3g</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">boro</span><span class="o">=</span><span class="n">kinematics</span><span class="o">.</span><span class="n">brho</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">zi</span> <span class="o">=</span> <span class="n">_Input</span><span class="p">(</span><span class="s1">&#39;CGTR&#39;</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">_Objet2</span><span class="p">(</span><span class="s1">&#39;BUNCH&#39;</span><span class="p">,</span> <span class="n">BORO</span><span class="o">=</span><span class="n">kinematics</span><span class="o">.</span><span class="n">brho</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]),</span>
+            <span class="n">_Proton</span><span class="p">(),</span>
+            <span class="n">_Marker</span><span class="p">(</span><span class="s1">&#39;START&#39;</span><span class="p">),</span>
+            <span class="n">_Ymy</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">q1g</span><span class="p">,</span>
+            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">30.3</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">q2g</span><span class="p">,</span>
+            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">72.42</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span> <span class="o">-</span> <span class="n">b1g</span><span class="o">.</span><span class="n">extra_drift</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">b1g</span><span class="p">,</span>
+            <span class="n">_Ymy</span><span class="p">(),</span>
+            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">26.4</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span> <span class="o">-</span> <span class="n">b1g</span><span class="o">.</span><span class="n">extra_drift</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">q3g</span><span class="p">,</span>
+            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">32.6</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">q4g</span><span class="p">,</span>
+            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">33.3</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">q5g</span><span class="p">,</span>
+            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">33.6</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">q6g</span><span class="p">,</span>
+            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">36.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">q7g</span><span class="p">,</span>
+            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mi">60</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span> <span class="o">-</span> <span class="n">b2g</span><span class="o">.</span><span class="n">extra_drift</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">b2g</span><span class="p">,</span>
+            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mi">26</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span> <span class="o">-</span> <span class="n">b2g</span><span class="o">.</span><span class="n">extra_drift</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">smx</span><span class="p">,</span>
+            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mi">12</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">smy</span><span class="p">,</span>
+            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mi">19</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span> <span class="o">-</span> <span class="n">b3g</span><span class="o">.</span><span class="n">extra_drift</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">b3g</span><span class="p">,</span>
+            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">1101.071</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span> <span class="o">-</span> <span class="n">b3g</span><span class="o">.</span><span class="n">extra_drift</span><span class="p">),</span>
+            <span class="n">_Marker</span><span class="p">(</span><span class="s1">&#39;ISO&#39;</span><span class="p">),</span>
+        <span class="p">],</span>
+                         <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">survey</span><span class="p">(</span><span class="n">beamline</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">zi</span>
+
+<div class="viewcode-block" id="CGTR.run"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.CGTR.html#zgoubidoo.commands.contrib.iba.CGTR.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            self:</span>
+<span class="sd">            fit:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">_Zgoubi</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">fit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">zi</span> <span class="o">+=</span> <span class="n">fit</span>
+            <span class="n">z</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zi</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">zi</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">fit</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">zi</span> <span class="o">-=</span> <span class="n">fit</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">z</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zi</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">z</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zi</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">survey</span><span class="p">(</span><span class="n">beamline</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">tracks</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="CGTR.shoot"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.CGTR.html#zgoubidoo.commands.contrib.iba.CGTR.shoot">[docs]</a>    <span class="k">def</span> <span class="nf">shoot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x:</span>
+<span class="sd">            y:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scanning</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Fit</span><span class="p">(</span>
+            <span class="n">PENALTY</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
+            <span class="n">PARAMS</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">_Fit</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">zi</span><span class="p">,</span> <span class="n">place</span><span class="o">=</span><span class="s1">&#39;SMX&#39;</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="n">SMX</span><span class="o">.</span><span class="n">B1</span><span class="p">),</span>
+                <span class="n">_Fit</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">zi</span><span class="p">,</span> <span class="n">place</span><span class="o">=</span><span class="s1">&#39;SMY&#39;</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="n">SMY</span><span class="o">.</span><span class="n">B1</span><span class="p">),</span>
+            <span class="p">],</span>
+            <span class="n">CONSTRAINTS</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">_Fit</span><span class="o">.</span><span class="n">EqualityConstraint</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">zi</span><span class="p">,</span> <span class="n">place</span><span class="o">=</span><span class="s1">&#39;ISO&#39;</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">_Fit</span><span class="o">.</span><span class="n">Coordinates</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">x</span><span class="p">),</span>
+                <span class="n">_Fit</span><span class="o">.</span><span class="n">EqualityConstraint</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">zi</span><span class="p">,</span> <span class="n">place</span><span class="o">=</span><span class="s1">&#39;ISO&#39;</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">_Fit</span><span class="o">.</span><span class="n">Coordinates</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">y</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scanning</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CGTR.spots"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.CGTR.html#zgoubidoo.commands.contrib.iba.CGTR.spots">[docs]</a>    <span class="k">def</span> <span class="nf">spots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spots</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            spots:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">shoot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">_</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">spots</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="CGTR.plot"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.CGTR.html#zgoubidoo.commands.contrib.iba.CGTR.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">artist</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">ZgoubiPlot</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ax:</span>
+<span class="sd">            artist:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">artist</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">artist</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">ZgoubiMpl</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+        <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">beamline</span><span class="p">(</span><span class="n">beamline</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">,</span>
+                               <span class="n">artist</span><span class="o">=</span><span class="n">artist</span><span class="p">,</span>
+                               <span class="n">tracks</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="p">,</span>
+                               <span class="p">)</span>
+
+        <span class="n">artist</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="s1">&#39;datalim&#39;</span><span class="p">)</span>
+        <span class="n">artist</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

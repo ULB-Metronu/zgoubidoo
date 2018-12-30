@@ -1,0 +1,413 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ZgoubiMpl &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ZgoubiPlot" href="zgoubidoo.vis.ZgoubiPlot.html" />
+    <link rel="prev" title="ZgoubiMesh" href="zgoubidoo.vis.ZgoubiMesh.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2018.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../vis.html#functions">Functions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../vis.html#classes">Classes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="zgoubidoo.vis.ZgoubiMesh.html">ZgoubiMesh</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ZgoubiMpl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="zgoubidoo.vis.ZgoubiPlot.html">ZgoubiPlot</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vis.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../vis.html">Zgoubidoo’s visualization and plotting module</a> &raquo;</li>
+        
+      <li>ZgoubiMpl</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/zgoubidoo.vis.ZgoubiMpl.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="zgoubimpl">
+<h1>ZgoubiMpl<a class="headerlink" href="#zgoubimpl" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="zgoubidoo.vis.ZgoubiMpl">
+<em class="property">class </em><code class="descclassname">zgoubidoo.vis.</code><code class="descname">ZgoubiMpl</code><span class="sig-paren">(</span><em>ax=None</em>, <em>with_boxes: bool = True</em>, <em>with_frames: bool = True</em>, <em>with_centers: bool = False</em>, <em>tracks_color: str = 'b'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#ZgoubiMpl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubiMpl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.vis.zgoubiplot.ZgoubiPlot</span></code></p>
+<p>A matplotlib implementation of a <cite>ZgoubiPlot</cite> artist.</p>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.vis.ZgoubiMpl.ax" title="zgoubidoo.vis.ZgoubiMpl.ax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ax</span></code></a></td>
+<td>Current Matplotlib ax.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.vis.ZgoubiMpl.cartesianmagnet" title="zgoubidoo.vis.ZgoubiMpl.cartesianmagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cartesianmagnet</span></code></a>(magnet)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param magnet:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.vis.ZgoubiMpl.init_plot" title="zgoubidoo.vis.ZgoubiMpl.init_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_plot</span></code></a>([figsize,&nbsp;subplots])</td>
+<td>Initialize the Matplotlib figure and ax.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.vis.ZgoubiMpl.plot" title="zgoubidoo.vis.ZgoubiMpl.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(*args,&nbsp;**kwargs)</td>
+<td>Proxy for matplotlib.pyplot.plot</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.vis.ZgoubiMpl.polarmagnet" title="zgoubidoo.vis.ZgoubiMpl.polarmagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">polarmagnet</span></code></a>(magnet)</td>
+<td>Rendering of magnets in polar coordinates.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.vis.ZgoubiMpl.tracks_cartesianmagnet" title="zgoubidoo.vis.ZgoubiMpl.tracks_cartesianmagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tracks_cartesianmagnet</span></code></a>(magnet,&nbsp;tracks)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param magnet:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.vis.ZgoubiMpl.tracks_polarmagnet" title="zgoubidoo.vis.ZgoubiMpl.tracks_polarmagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tracks_polarmagnet</span></code></a>(magnet,&nbsp;tracks)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param magnet:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="zgoubidoo.vis.ZgoubiMpl.ax">
+<code class="descname">ax</code><a class="headerlink" href="#zgoubidoo.vis.ZgoubiMpl.ax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current Matplotlib ax.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the Matplotlib ax.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="zgoubidoo.vis.ZgoubiMpl.cartesianmagnet">
+<code class="descname">cartesianmagnet</code><span class="sig-paren">(</span><em>magnet: zgoubidoo.commands.magnetique.CartesianMagnet</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#ZgoubiMpl.cartesianmagnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubiMpl.cartesianmagnet" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>magnet</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.vis.ZgoubiMpl.init_plot">
+<code class="descname">init_plot</code><span class="sig-paren">(</span><em>figsize=(12</em>, <em>8)</em>, <em>subplots=111</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#ZgoubiMpl.init_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubiMpl.init_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the Matplotlib figure and ax.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>subplots</strong> – number of subplots</li>
+<li><strong>figsize</strong> – figure size</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.vis.ZgoubiMpl.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#ZgoubiMpl.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubiMpl.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Proxy for matplotlib.pyplot.plot</p>
+<p>Same as <cite>matplotlib.pyplot.plot</cite>, forwards all arguments.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.vis.ZgoubiMpl.polarmagnet">
+<code class="descname">polarmagnet</code><span class="sig-paren">(</span><em>magnet: zgoubidoo.commands.magnetique.PolarMagnet</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#ZgoubiMpl.polarmagnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubiMpl.polarmagnet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rendering of magnets in polar coordinates.</p>
+<p>Plot magnets in polar coordinates using wedges.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>magnet</strong> – the magnet to be rendered.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.vis.ZgoubiMpl.tracks_cartesianmagnet">
+<code class="descname">tracks_cartesianmagnet</code><span class="sig-paren">(</span><em>magnet: zgoubidoo.commands.magnetique.CartesianMagnet</em>, <em>tracks</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#ZgoubiMpl.tracks_cartesianmagnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubiMpl.tracks_cartesianmagnet" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>magnet</strong> – </li>
+<li><strong>tracks</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.vis.ZgoubiMpl.tracks_polarmagnet">
+<code class="descname">tracks_polarmagnet</code><span class="sig-paren">(</span><em>magnet: zgoubidoo.commands.magnetique.PolarMagnet</em>, <em>tracks</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#ZgoubiMpl.tracks_polarmagnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubiMpl.tracks_polarmagnet" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>magnet</strong> – </li>
+<li><strong>tracks</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="zgoubidoo.vis.ZgoubiPlot.html" class="btn btn-neutral float-right" title="ZgoubiPlot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="zgoubidoo.vis.ZgoubiMesh.html" class="btn btn-neutral" title="ZgoubiMesh" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

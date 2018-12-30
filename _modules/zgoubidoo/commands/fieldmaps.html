@@ -1,0 +1,457 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>zgoubidoo.commands.fieldmaps &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2018.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>zgoubidoo.commands.fieldmaps</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for zgoubidoo.commands.fieldmaps</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">_Command</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
+<span class="kn">from</span> <span class="nn">..units</span> <span class="k">import</span> <span class="n">_cm</span><span class="p">,</span> <span class="n">_radian</span>
+
+
+<div class="viewcode-block" id="Brevol"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.Brevol.html#zgoubidoo.commands.fieldmaps.Brevol">[docs]</a><span class="k">class</span> <span class="nc">Brevol</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;1-D uniform mesh magnetic field map.</span>
+
+<span class="sd">    TODO</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;BREVOL&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="CartesianMesh"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.CartesianMesh.html#zgoubidoo.commands.fieldmaps.CartesianMesh">[docs]</a><span class="k">class</span> <span class="nc">CartesianMesh</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;2-D Cartesian uniform mesh magnetic field map.</span>
+
+<span class="sd">    TODO</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;CARTEMES&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span>
+
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;IC&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Print the map&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;IL&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Print field and coordinates along trajectories&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;BNORM&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;Field normalization coefficient&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;XN&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;X coordinate normalization coefficient&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;YN&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;Y coordinate normalization coefficient&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;TITL&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;CARTEMES_FIELD_MAP&quot;</span><span class="p">,</span> <span class="s2">&quot;Title. Start with &#39;FLIP&#39; to get field map X-flipped&quot;</span><span class="p">),</span>
+        <span class="s1">&#39;IX&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Number of longitudinal nodes of the map&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;JY&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Number of transverse nodes of the map&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;FNAME&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;field_map.map&quot;</span><span class="p">,</span> <span class="s1">&#39;File name&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Integration boundary&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,),</span>
+        <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,),</span>
+        <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,),</span>
+        <span class="s1">&#39;AP&#39;</span><span class="p">:</span> <span class="p">([</span><span class="mf">0.0</span><span class="p">]),</span>
+        <span class="s1">&#39;BP&#39;</span><span class="p">:</span> <span class="p">([</span><span class="mf">0.0</span><span class="p">]),</span>
+        <span class="s1">&#39;CP&#39;</span><span class="p">:</span> <span class="p">([</span><span class="mf">0.0</span><span class="p">]),</span>
+        <span class="s1">&#39;IORDRE&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;Degree of interpolation polynomial&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;XPAS&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="s1">&#39;Integration step&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;KPOS&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Alignment&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;XCE&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="s1">&#39;Misalignment X shift&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;YCE&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="s1">&#39;Misalignment Y shift&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;ALE&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span><span class="p">,</span> <span class="s1">&#39;Misalignment tilt&#39;</span><span class="p">),</span>
+    <span class="p">}</span>
+    <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
+<span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        {super().__str__().rstrip()}</span>
+<span class="s2">        </span><span class="si">{s.IC}</span><span class="s2"> </span><span class="si">{s.IL}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{s.BNORM}</span><span class="s2"> </span><span class="si">{s.XN}</span><span class="s2"> </span><span class="si">{s.YN}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{s.TITL}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{s.IX}</span><span class="s2"> </span><span class="si">{s.JY}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{s.FNAME}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{s.ID}</span><span class="s2"> </span><span class="si">{s.A}</span><span class="s2"> </span><span class="si">{s.B}</span><span class="s2"> </span><span class="si">{s.C}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{s.IORDRE}</span><span class="s2"></span>
+<span class="s2">        {_cm(s.XPAS)}</span>
+<span class="s2">        </span><span class="si">{s.KPOS}</span><span class="s2"> {_cm(s.XCE)} {_cm(s.YCE)} {_radian(s.ALE)}</span>
+<span class="s2">        &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Map2D"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.Map2D.html#zgoubidoo.commands.fieldmaps.Map2D">[docs]</a><span class="k">class</span> <span class="nc">Map2D</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;2-D Cartesian uniform mesh field map - arbitrary magnetic field.</span>
+
+<span class="sd">    TODO</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;MAP2D&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Map2DElectric"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.Map2DElectric.html#zgoubidoo.commands.fieldmaps.Map2DElectric">[docs]</a><span class="k">class</span> <span class="nc">Map2DElectric</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;2-D Cartesian uniform mesh field map - arbitrary electric field.</span>
+
+<span class="sd">    TODO</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;MAP2D-E&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Poisson"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.Poisson.html#zgoubidoo.commands.fieldmaps.Poisson">[docs]</a><span class="k">class</span> <span class="nc">Poisson</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read magnetic field data from POISSON output.</span>
+
+<span class="sd">    TODO</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;POISSON&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="PolarMesh"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.PolarMesh.html#zgoubidoo.commands.fieldmaps.PolarMesh">[docs]</a><span class="k">class</span> <span class="nc">PolarMesh</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;2-D polar mesh magnetic field map.</span>
+
+<span class="sd">    TODO</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;POLARMES&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Tosca"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.Tosca.html#zgoubidoo.commands.fieldmaps.Tosca">[docs]</a><span class="k">class</span> <span class="nc">Tosca</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;2-D and 3-D Cartesian or cylindrical mesh field map.</span>
+
+<span class="sd">    .. rubric:: Zgoubi manual description</span>
+
+<span class="sd">    TOSCA is dedicated to the reading and treatment of 2-D or 3-D Cartesian or cylindrical mesh field maps as delivered</span>
+<span class="sd">    by the TOSCA magnet computer code standard output.</span>
+
+<span class="sd">    A pair of flags, MOD, MOD2, determine whether Cartesian or Z-axis cylindrical mesh is used, and the nature of the</span>
+<span class="sd">    field map data set.</span>
+
+<span class="sd">    The total number of field data files to be read is determined by the MOD flag (see below) and by the parameter IZ</span>
+<span class="sd">    that appears in the data list following the keyword. Each of these files contains the field components</span>
+<span class="sd">    BX,BY,BZonan(X,Y)mesh.IZ=1fora2-Dmap,andinthiscaseBXandBY are assumed zero all over the map7.</span>
+
+<span class="sd">    For a 3-D map with mid-plane symmetry, described with a set of 2-D maps at various Z, then MOD=0 and IZ ≥ 2, and</span>
+<span class="sd">    thus, the first data file whose name follows in the data list is supposed to contain the median plane field</span>
+<span class="sd">    (assuming Z = 0 and BX = BY = 0), while the remaining IZ − 1 file(s) contain the IZ − 1 additional planes in</span>
+<span class="sd">    increasing Z order.</span>
+
+<span class="sd">    For arbitrary 3-D maps, no symmetry assumed, then MOD=1 and the total number of maps (whose names follow in the</span>
+<span class="sd">    data list) is IZ, such that map number [IZ/2] + 1 is the Z = 0 elevation one.</span>
+
+<span class="sd">    The field map data file has to be be filled with a format that fits the FORTRAN reading sequence.</span>
+
+<span class="sd">    IX (JY , KZ) is the number of longitudinal (transverse horizontal, vertical) nodes of the 3-D uniform mesh.</span>
+<span class="sd">    For letting zgoubi know that these are binary files, FNAME must begin with ‘B ’ or ‘b ’. In addition to the</span>
+<span class="sd">    MOD=1, 2 cases above, one can have MOD=12 and in that case a single file contains the all 3-D field map.</span>
+<span class="sd">    See table below and the FORTRAN subroutine fmapw.f and its entries FMAPR, FMAPR2, for more details, in particular</span>
+<span class="sd">    the formatting of the field map data file(s).</span>
+
+<span class="sd">    The field B = (BX , BY , BZ ) is normalized by means of BNORM in a similar way as in CARTEMES.</span>
+<span class="sd">    As well the coordinates X and Y (and Z in the case of a 3-D field map) are normalized by the X-[, Y-, Z-]NORM</span>
+<span class="sd">    coefficient (useful to convert to centimeters, the working units in zgoubi).</span>
+
+<span class="sd">    At each step of the trajectory of a particle inside the map, the field and its derivatives are calculated</span>
+
+<span class="sd">        - in the case of 2-D map, by means of a second or fourth order polynomial interpolation, depending</span>
+<span class="sd">            on IORDRE (IORDRE = 2, 25 or 4), as for CARTEMES,</span>
+<span class="sd">        - in the case of 3-D map, by means of a second order polynomial interpolation with a 3 × 3 × 3-point</span>
+<span class="sd">            parallelepipedic grid, as described in section 1.4.4.</span>
+
+<span class="sd">    Entrance and/or exit integration boundaries between which the trajectories are integrated in the field may be</span>
+<span class="sd">    defined, in the same way as in CARTEMES.</span>
+
+<span class="sd">    .. rubric:: Zgoubidoo usage and example</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;TOSCA&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span>
+
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;IC&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Print the map.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;IL&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Print field and coordinates along trajectories.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;BNORM&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;Field normalization coefficient.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;XN&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;X coordinate normalization coefficient.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;YN&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;Y coordinate normalization coefficient.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;ZN&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;Z coordinate normalization coefficient.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;TITL&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;FIELDMAP&#39;</span><span class="p">,</span> <span class="s1">&#39;Title.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;IX&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Number of nodes of the mesh in the X direction.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;IY&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Number of nodes of the mesh in the Y direction.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;IZ&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Number of nodes of the mesh in the Z direction.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;MOD&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Format reading mode.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;MOD2&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Format reading sub-mode.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;FNAME&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;TOSCA&#39;</span><span class="p">,</span> <span class="s1">&#39;File names.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Integration boundary.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">(),</span>
+        <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">(),</span>
+        <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">(),</span>
+        <span class="s1">&#39;IORDRE&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;Degree of interpolation polynomial.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;XPAS&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span> <span class="s1">&#39;Integration step.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;KPOS&#39;</span><span class="p">:</span> <span class="p">(),</span>
+        <span class="s1">&#39;XCE&#39;</span><span class="p">:</span> <span class="p">(),</span>
+        <span class="s1">&#39;YCE&#39;</span><span class="p">:</span> <span class="p">(),</span>
+        <span class="s1">&#39;ALE&#39;</span><span class="p">:</span> <span class="p">(),</span>
+        <span class="s1">&#39;RE&#39;</span><span class="p">:</span> <span class="p">(),</span>
+        <span class="s1">&#39;TE&#39;</span><span class="p">:</span> <span class="p">(),</span>
+        <span class="s1">&#39;RS&#39;</span><span class="p">:</span> <span class="p">(),</span>
+        <span class="s1">&#39;TS&#39;</span><span class="p">:</span> <span class="p">(),</span>
+    <span class="p">}</span>
+    <span class="sd">&quot;&quot;&quot;Parameters of the command.</span>
+<span class="sd">    </span>
+<span class="sd">    The tuples contain their default value, their description and optinally an index used by other commands (e.g. fit).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Tosca.test"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.Tosca.html#zgoubidoo.commands.fieldmaps.Tosca.test">[docs]</a>    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Hello</span>
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Provides the Zgoubi input format representation of the command.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a string to be used as Zgoubi input format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                {super().__str__().rstrip()}</span>
+<span class="s2">                </span><span class="si">{s.IL}</span><span class="s2"></span>
+<span class="s2">                {s.AT.to(&#39;degree&#39;).magnitude:.12e} {s.RM.to(&#39;centimeter&#39;).magnitude:.12e}</span>
+<span class="s2">                {s.ACENT.to(&#39;degree&#39;).magnitude:.12e} {s.B0.to(</span>
+<span class="s2">            &#39;kilogauss&#39;).magnitude:.12e} </span><span class="si">{s.N:.12e}</span><span class="s2"> </span><span class="si">{s.B:.12e}</span><span class="s2"> </span><span class="si">{s.G:.12e}</span><span class="s2"></span>
+<span class="s2">                {s.LAM_E.to(&#39;centimeter&#39;).magnitude:.12e} 0.0</span>
+<span class="s2">                6 </span><span class="si">{s.C0_E:.12e}</span><span class="s2"> </span><span class="si">{s.C1_E:.12e}</span><span class="s2"> </span><span class="si">{s.C2_E:.12e}</span><span class="s2"> </span><span class="si">{s.C3_E:.12e}</span><span class="s2"> </span><span class="si">{s.C4_E:.12e}</span><span class="s2"> </span><span class="si">{s.C5_E:.12e}</span><span class="s2"> {s.SHIFT_E.to(</span>
+<span class="s2">            &#39;centimeter&#39;).magnitude:.12e}</span>
+<span class="s2">                {s.OMEGA_E.to(&#39;degree&#39;).magnitude:.12e} </span><span class="si">{s.THETA_E:.12e}</span><span class="s2"> {s.R1_E.to(</span>
+<span class="s2">            &#39;centimeter&#39;).magnitude:.12e} {s.U1_E.to(&#39;centimeter&#39;).magnitude:.12e} {s.U2_E.to(</span>
+<span class="s2">            &#39;centimeter&#39;).magnitude:.12e} {s.R2_E.to(&#39;centimeter&#39;).magnitude:.12e}</span>
+<span class="s2">                {s.LAM_S.to(&#39;centimeter&#39;).magnitude:.12e} 0.0</span>
+<span class="s2">                6 </span><span class="si">{s.C0_S:.12e}</span><span class="s2"> </span><span class="si">{s.C1_S:.12e}</span><span class="s2"> </span><span class="si">{s.C2_S:.12e}</span><span class="s2"> </span><span class="si">{s.C3_S:.12e}</span><span class="s2"> </span><span class="si">{s.C4_S:.12e}</span><span class="s2"> </span><span class="si">{s.C5_S:.12e}</span><span class="s2"> {_s.SHIFT_S.to(</span>
+<span class="s2">            &#39;centimeter&#39;).magnitude:.12e}</span>
+<span class="s2">                {s.OMEGA_S.to(&#39;degree&#39;).magnitude:.12e} </span><span class="si">{s.THETA_S:.12e}</span><span class="s2"> {s.R1_S.to(</span>
+<span class="s2">            &#39;centimeter&#39;).magnitude:.12e} {s.U1_S.to(&#39;centimeter&#39;).magnitude:.12e} {s.U2_S.to(</span>
+<span class="s2">            &#39;centimeter&#39;).magnitude:.12e} {s.R2_S.to(&#39;centimeter&#39;).magnitude:.12e}</span>
+<span class="s2">                {s.LAM_L.to(&#39;centimeter&#39;).magnitude:.12e} </span><span class="si">{s.XI_L}</span><span class="s2"></span>
+<span class="s2">                6 </span><span class="si">{s.C0_L:.12e}</span><span class="s2"> </span><span class="si">{s.C1_L:.12e}</span><span class="s2"> </span><span class="si">{s.C2_L:.12e}</span><span class="s2"> </span><span class="si">{s.C3_L:.12e}</span><span class="s2"> </span><span class="si">{s.C4_L:.12e}</span><span class="s2"> </span><span class="si">{s.C5_L:.12e}</span><span class="s2"> {s.SHIFT_L.to(</span>
+<span class="s2">            &#39;centimeter&#39;).magnitude:.12e}</span>
+<span class="s2">                {s.OMEGA_L.to(&#39;degree&#39;).magnitude:.12e} </span><span class="si">{s.THETA_L:.12e}</span><span class="s2"> {s.R1_L.to(</span>
+<span class="s2">            &#39;centimeter&#39;).magnitude:.12e} {s.U1_L.to(&#39;centimeter&#39;).magnitude:.12e} {s.U2_L.to(</span>
+<span class="s2">            &#39;centimeter&#39;).magnitude:.12e} {s.R2_L.to(&#39;centimeter&#39;).magnitude:.12e} {s.RM3.to(</span>
+<span class="s2">            &#39;centimeter&#39;).magnitude:.12e}</span>
+<span class="s2">                </span><span class="si">{s.IORDRE}</span><span class="s2"> </span><span class="si">{s.RESOL:.12e}</span><span class="s2"></span>
+<span class="s2">                {s.XPAS.to(&#39;centimeter&#39;).magnitude}&quot;&quot;&quot;</span>
+        <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">KPOS</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">RE</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">s</span><span class="o">.</span><span class="n">RE</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">RM</span>
+            <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">RS</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">s</span><span class="o">.</span><span class="n">RS</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">RM</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                </span><span class="si">{s.KPOS}</span><span class="s2"></span>
+<span class="s2">                {s.RE.to(&#39;centimeter&#39;).magnitude:.12e} {s.TE.to(&#39;radian&#39;).magnitude:.12e} {s.RS.to(</span>
+<span class="s2">                &#39;centimeter&#39;).magnitude:.12e} {s.TS.to(&#39;radian&#39;).magnitude:.12e}</span>
+<span class="s2">                        &quot;&quot;&quot;</span>
+            <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">s</span><span class="o">.</span><span class="n">KPOS</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                </span><span class="si">{s.KPOS}</span><span class="s2"></span>
+<span class="s2">                </span><span class="si">{s.DP:.12e}</span><span class="s2"> 0.0 0.0 0.0</span>
+<span class="s2">                        &quot;&quot;&quot;</span>
+            <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="n">_</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(),</span> <span class="n">command</span><span class="p">))</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
