@@ -97,6 +97,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.frame">Affine geometry using the frame module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.physics">Accelerator physics and relativity calculations using the physics module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.units">Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.polarity">Polarity type system</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
@@ -172,6 +173,7 @@
 <li><a class="reference internal" href="#module-zgoubidoo.frame" id="id1">Affine geometry using the frame module</a></li>
 <li><a class="reference internal" href="#module-zgoubidoo.physics" id="id2">Accelerator physics and relativity calculations using the physics module</a></li>
 <li><a class="reference internal" href="#module-zgoubidoo.units" id="id3">Units</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.polarity" id="id4">Polarity type system</a></li>
 </ul>
 </div>
 <div class="section" id="module-zgoubidoo.frame">
@@ -2310,6 +2312,44 @@ helper class (<code class="docutils literal notranslate"><span class="pre">Kinem
 </div>
 <div class="section" id="module-zgoubidoo.units">
 <span id="units"></span><h2><a class="toc-backref" href="#id3">Units</a><a class="headerlink" href="#module-zgoubidoo.units" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-zgoubidoo.polarity">
+<span id="polarity-type-system"></span><h2><a class="toc-backref" href="#id4">Polarity type system</a><a class="headerlink" href="#module-zgoubidoo.polarity" title="Permalink to this headline">¶</a></h2>
+<p>Type system for polarities.</p>
+<p class="rubric">Examples</p>
+<p>The conversion to numeric types can be used for easily in numerical expressions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gradient</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">HorizontalPolarity</span><span class="p">)</span> <span class="o">*</span> <span class="mf">3.1415</span><span class="p">;</span> <span class="n">gradient</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mf">3.1415</span>
+</pre></div>
+</div>
+<p>One major use case consists in type-hinting functions (shown here with default value argument):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">polarity</span><span class="p">:</span> <span class="n">PolarityType</span> <span class="o">=</span> <span class="n">HorizontalPolarity</span><span class="p">):</span> <span class="k">pass</span>
+</pre></div>
+</div>
+<dl class="class">
+<dt id="zgoubidoo.polarity.HorizontalPolarity">
+<em class="property">class </em><code class="descclassname">zgoubidoo.polarity.</code><code class="descname">HorizontalPolarity</code><a class="reference internal" href="_modules/zgoubidoo/polarity.html#HorizontalPolarity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.polarity.HorizontalPolarity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Positive polarity.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="zgoubidoo.polarity.Polarity">
+<em class="property">class </em><code class="descclassname">zgoubidoo.polarity.</code><code class="descname">Polarity</code><a class="reference internal" href="_modules/zgoubidoo/polarity.html#Polarity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.polarity.Polarity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class to build polarity.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="zgoubidoo.polarity.PolarityType">
+<em class="property">class </em><code class="descclassname">zgoubidoo.polarity.</code><code class="descname">PolarityType</code><a class="reference internal" href="_modules/zgoubidoo/polarity.html#PolarityType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.polarity.PolarityType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metaclass to construct polarity types. Supports conversion to float and int.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="zgoubidoo.polarity.VerticalPolarity">
+<em class="property">class </em><code class="descclassname">zgoubidoo.polarity.</code><code class="descname">VerticalPolarity</code><a class="reference internal" href="_modules/zgoubidoo/polarity.html#VerticalPolarity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.polarity.VerticalPolarity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Negative polarity.</p>
+</dd></dl>
+
 </div>
 </div>
 
