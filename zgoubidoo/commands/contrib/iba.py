@@ -5,6 +5,7 @@ TODO
 """
 from typing import NoReturn, Optional
 import numpy as _np
+import matplotlib.pyplot as _plt
 from ..magnetique import Dipole as _Dipole
 from ..magnetique import PolarMagnet as _PolarMagnet
 from ..magnetique import Bend as _Bend
@@ -452,7 +453,6 @@ class QShort(QuadrupoleIBA):
         Returns:
 
         """
-
         super().post_init(polarity=polarity,
                           p=[-2.27972E-05, 4.98563E-02, -1.58432E-02],
                           l_eff=0.290)
@@ -731,3 +731,27 @@ class CGTR:
             ]
         )
         return self.run(fit=self.scanning)
+
+    def plot(self, ax=None, artist: zgoubidoo.vis.ZgoubiPlot = None):
+        """
+
+        Args:
+            ax:
+            artist:
+
+        Returns:
+
+        """
+        if ax is None:
+            fig = _plt.figure(figsize=(12, 8))
+            ax = fig.add_subplot(111)
+
+        if artist is None:
+            artist = zgoubidoo.vis.ZgoubiMpl(ax)
+
+        zgoubidoo.vis.beamline(beamline=self.line,
+                               artist=artist,
+                               tracks=self.tracks,
+                               )
+        ax.set_aspect('equal', 'datalim')
+        ax.hlines(0.0, -10, 1000)
