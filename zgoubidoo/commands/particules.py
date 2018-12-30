@@ -3,10 +3,22 @@
 More details here.
 """
 from .commands import Command as _Command
+from .commands import CommandType as _MetaCommand
 from .. import ureg as _ureg
 
 
-class Particule(_Command):
+class ParticuleType(_MetaCommand):
+    """
+    TODO
+    """
+    def __str__(cls):
+        return f"""
+        '{cls.KEYWORD}' {cls.__name__.upper()}
+        {cls.M.to('MeV_c2').magnitude:.12e} {cls.Q.to('coulomb').magnitude:.12e} {cls.G:.12e} {cls.tau:.12e} 0.0
+        """
+
+
+class Particule(_Command, metaclass=ParticuleType):
     """Particle characteristics."""
     KEYWORD = 'PARTICUL'
     """Keyword of the command used for the Zgoubi input data."""
@@ -19,7 +31,7 @@ class Particule(_Command):
     }
 
     def __init__(self, label1='', label2='', *params, **kwargs):
-        if issubclass(self.__class__, Particule) and len(label1) == 0:
+        if len(label1) == 0:
             label1 = self.__class__.__name__.upper()
         super().__init__(label1, label2, Particule.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
@@ -31,14 +43,17 @@ class Particule(_Command):
 
     @property
     def mass(self):
+        """Mass of the particle."""
         return self.M
 
     @property
     def charge(self):
+        """Charge of the particle."""
         return self.Q
 
     @property
     def lifetime(self):
+        """Lifetime constant of the particle."""
         return self.tau
 
 
@@ -118,6 +133,15 @@ class AntiProton(Particule):
     PARAMETERS = {
         'M': (938.27203 * _ureg.MeV_c2, 'Mass of the particle.'),
         'Q': (-1.602176487e-19 * _ureg.coulomb, 'Charge of the particle.'),
+        'G': (5.585694701 - 2) / 2,
+    }
+
+
+class HMinus(Particule):
+    """An H- ion."""
+    PARAMETERS = {
+        'M': (938.27203 * _ureg.MeV_c2, 'Mass of the particle.'),
+        'Q': (+1.602176487e-19 * _ureg.coulomb, 'Charge of the particle.'),
         'G': (5.585694701 - 2) / 2,
     }
 

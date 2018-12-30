@@ -7,7 +7,7 @@ TODO
 from typing import NoReturn, List
 import numpy as _np
 import parse as _parse
-from .commands import MetaCommand as _MetaCommand
+from .commands import CommandType as _MetaCommand
 from .commands import Command as _Command
 from .commands import Marker as _Marker
 from .commands import Fit2 as _Fit2
@@ -1952,21 +1952,23 @@ class Quadrupole(CartesianMagnet):
         return f"""
         {super().__str__().rstrip()}
         {s.IL}
-        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {s.B0.to('kilogauss').magnitude:.12e}
+        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B0):.12e}
         {_cm(s.XE):.12e} {_cm(s.LAM_E):.12e}
         6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
         {_cm(s.XS):.12e} {_cm(s.LAM_S):.12e}
         6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
         {_cm(s.XPAS)}
-        {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {s.ALE.to('radian').magnitude:.12e}
+        {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
         """
 
     @property
     def gradient(self):
+        """Quadrupolar gradient (field at pole tip divided by the bore radius."""
         return self.B0 / self.R0
 
     @gradient.setter
     def gradient(self, g):
+        print("hello")
         self.B0 = g * self.R0
 
     def align(self, mode=''):

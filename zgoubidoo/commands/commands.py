@@ -27,14 +27,14 @@ class ZgoubidooException(Exception):
         self.message = m
 
 
-class MetaCommand(type):
+class CommandType(type):
     """
     Dark magic.
     Be careful.
 
     TODO
     """
-    def __new__(mcs, name: str, bases: Tuple[MetaCommand, ...], dct: Dict[str, Any]):
+    def __new__(mcs, name: str, bases: Tuple[CommandType, ...], dct: Dict[str, Any]):
         # Insert a default initializer (constructor) in case one is not present
         if '__init__' not in dct:
             def default_init(self, label1: str = '', label2: str = '', *params, **kwargs):
@@ -93,12 +93,18 @@ class MetaCommand(type):
 
     def __getattr__(cls, key):
         try:
-            return cls.PARAMETERS[key]
+            return cls.PARAMETERS[key][0]
         except KeyError:
             raise AttributeError(key)
 
+    def __getitem__(cls, item):
+        return getattr(cls, item)
 
-class Command(metaclass=MetaCommand):
+    def __contains__(cls, item) -> bool:
+        return item in cls.PARAMETERS
+
+
+class Command(metaclass=CommandType):
     """Test test test.
 
     More info on this wonderful class.

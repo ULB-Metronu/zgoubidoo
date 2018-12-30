@@ -344,7 +344,7 @@ class QuadrupoleIBA(_Quadrupole):
     @current.setter
     def current(self, current):
         if current < 0.0:
-            raise Exception("Trying to set a quadrupole with a negative current. Adjust the polarity instead.")
+            raise Exception("Trying to set a quadrupole with a negative current. Change the polarity instead.")
         self._current = current
         self._gradient = _np.poly1d(self.p)(current) / self.l_eff
 
@@ -360,9 +360,10 @@ class QuadrupoleIBA(_Quadrupole):
     @gradient.setter
     def gradient(self, gradient):
         if gradient < 0.0:
-            raise Exception("Trying to set a quadrupole with a negative gradient. Adjust the polarity instead.")
+            raise Exception("Trying to set a quadrupole with a negative gradient. Change the polarity instead.")
         self._gradient = gradient
         self._current = _np.roots([self.p[0], self.p[1], self.p[2] - _np.abs(gradient * self.l_eff)])[1]
+        super().gradient = gradient
 
     def set_value(self, value):
         self.current = value
@@ -419,7 +420,7 @@ class QLong(QuadrupoleIBA):
         'XL': 490 * _ureg.mm,
     }
 
-    def post_init(self, polarity: Optional[str]=None, **kwargs):
+    def post_init(self, polarity: Optional[str] = None, **kwargs):
         """
 
         Args:
