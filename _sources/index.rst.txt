@@ -10,6 +10,7 @@ Zgoubidoo's documentation
    installation
    zgoubi
    commands
+   contrib
    input
    lowlevel
    beam
