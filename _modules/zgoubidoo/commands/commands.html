@@ -772,7 +772,11 @@
     <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="Fit"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.Fit.html#zgoubidoo.commands.commands.Fit">[docs]</a><span class="k">class</span> <span class="nc">Fit</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
+<div class="viewcode-block" id="FitType"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.FitType.html#zgoubidoo.commands.commands.FitType">[docs]</a><span class="k">class</span> <span class="nc">FitType</span><span class="p">(</span><span class="n">CommandType</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Fit"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.Fit.html#zgoubidoo.commands.commands.Fit">[docs]</a><span class="k">class</span> <span class="nc">Fit</span><span class="p">(</span><span class="n">Command</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">FitType</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Fitting procedure.</span>
 
 <span class="sd">    TODO</span>
@@ -985,7 +989,7 @@
         <span class="k">return</span> <span class="kc">True</span></div></div>
 
 
-<div class="viewcode-block" id="Fit2"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.Fit2.html#zgoubidoo.commands.commands.Fit2">[docs]</a><span class="k">class</span> <span class="nc">Fit2</span><span class="p">(</span><span class="n">Fit</span><span class="p">):</span>
+<div class="viewcode-block" id="Fit2"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.Fit2.html#zgoubidoo.commands.commands.Fit2">[docs]</a><span class="k">class</span> <span class="nc">Fit2</span><span class="p">(</span><span class="n">Fit</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">FitType</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Fitting procedure.</span>
 
 <span class="sd">    TODO</span>

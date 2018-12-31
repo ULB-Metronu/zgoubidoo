@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Marker &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  <title>FitType &mdash; Zgoubidoo 2018.1-BETA documentation</title>
   
 
   
@@ -29,8 +29,8 @@
   <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Matrix" href="zgoubidoo.commands.commands.Matrix.html" />
-    <link rel="prev" title="MCDesintegration" href="zgoubidoo.commands.commands.MCDesintegration.html" /> 
+    <link rel="next" title="Focale" href="zgoubidoo.commands.commands.Focale.html" />
+    <link rel="prev" title="Fit2" href="zgoubidoo.commands.commands.Fit2.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -112,7 +112,7 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Fin.html">Fin</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Fit.html">Fit</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Fit2.html">Fit2</a></li>
-<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.FitType.html">FitType</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">FitType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Focale.html">Focale</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.FocaleZ.html">FocaleZ</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.GasScattering.html">GasScattering</a></li>
@@ -123,7 +123,7 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Images.html">Images</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.ImagesZ.html">ImagesZ</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.MCDesintegration.html">MCDesintegration</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Marker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Marker.html">Marker</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Matrix.html">Matrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Optics.html">Optics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Ordre.html">Ordre</a></li>
@@ -212,13 +212,13 @@
         
           <li><a href="../commands.html">Zgoubi commands</a> &raquo;</li>
         
-      <li>Marker</li>
+      <li>FitType</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/api/zgoubidoo.commands.commands.Marker.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/api/zgoubidoo.commands.commands.FitType.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -231,69 +231,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="marker">
-<h1>Marker<a class="headerlink" href="#marker" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="fittype">
+<h1>FitType<a class="headerlink" href="#fittype" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="zgoubidoo.commands.commands.Marker">
-<em class="property">class </em><code class="descclassname">zgoubidoo.commands.commands.</code><code class="descname">Marker</code><span class="sig-paren">(</span><em>label1=''</em>, <em>label2=''</em>, <em>*params</em>, <em>with_plt=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/commands.html#Marker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.commands.Marker" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" title="zgoubidoo.commands.commands.Command"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.commands.Command</span></code></a></p>
-<p>Marker.</p>
-<p class="rubric">Command attributes</p>
-<dl class="attribute">
-<dt>
-<code class="descname">LABEL1=''</code></dt>
-<dd><p>Primary label for the Zgoubi command (default: auto-generated hash).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">LABEL2=''</code></dt>
-<dd><p>Secondary label for the Zgoubi command.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.commands.Marker.KEYWORD" title="zgoubidoo.commands.commands.Marker.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></td>
-<td>Keyword of the command used for the Zgoubi input data.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.commands.Marker.PARAMETERS" title="zgoubidoo.commands.commands.Marker.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
-<dt id="zgoubidoo.commands.commands.Marker.KEYWORD">
-<code class="descname">KEYWORD</code><em class="property"> = 'MARKER'</em><a class="headerlink" href="#zgoubidoo.commands.commands.Marker.KEYWORD" title="Permalink to this definition">¶</a></dt>
-<dd><p>Keyword of the command used for the Zgoubi input data.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.commands.commands.Marker.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.')}</em><a class="headerlink" href="#zgoubidoo.commands.commands.Marker.PARAMETERS" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dt id="zgoubidoo.commands.commands.FitType">
+<em class="property">class </em><code class="descclassname">zgoubidoo.commands.commands.</code><code class="descname">FitType</code><span class="sig-paren">(</span><em>name: str, bases: Tuple[type, ...], dct: Dict[str, Any]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/commands.html#FitType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.commands.FitType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.commands.CommandType.html#zgoubidoo.commands.commands.CommandType" title="zgoubidoo.commands.commands.CommandType"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.commands.CommandType</span></code></a></p>
 </dd></dl>
 
 </div>
@@ -306,10 +249,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="zgoubidoo.commands.commands.Matrix.html" class="btn btn-neutral float-right" title="Matrix" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="zgoubidoo.commands.commands.Focale.html" class="btn btn-neutral float-right" title="Focale" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="zgoubidoo.commands.commands.MCDesintegration.html" class="btn btn-neutral" title="MCDesintegration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="zgoubidoo.commands.commands.Fit2.html" class="btn btn-neutral" title="Fit2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
