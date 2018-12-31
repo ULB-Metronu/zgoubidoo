@@ -165,7 +165,9 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">NoReturn</span><span class="p">,</span> <span class="n">List</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 <span class="kn">import</span> <span class="nn">parse</span> <span class="k">as</span> <span class="nn">_parse</span>
-<span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">CommandType</span> <span class="k">as</span> <span class="n">_MetaCommand</span>
+<span class="kn">from</span> <span class="nn">.particules</span> <span class="k">import</span> <span class="n">ParticuleType</span> <span class="k">as</span> <span class="n">_ParticuleType</span>
+<span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">CommandType</span> <span class="k">as</span> <span class="n">_CommandType</span>
+<span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">FitType</span> <span class="k">as</span> <span class="n">_FitType</span>
 <span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">_Command</span>
 <span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">Marker</span> <span class="k">as</span> <span class="n">_Marker</span>
 <span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">Fit2</span> <span class="k">as</span> <span class="n">_Fit2</span>
@@ -182,7 +184,12 @@
 <span class="kn">import</span> <span class="nn">zgoubidoo</span>
 
 
-<div class="viewcode-block" id="Magnet"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.magnetique.Magnet.html#zgoubidoo.commands.magnetique.Magnet">[docs]</a><span class="k">class</span> <span class="nc">Magnet</span><span class="p">(</span><span class="n">_Command</span><span class="p">,</span> <span class="n">_Patchable</span><span class="p">,</span> <span class="n">_Plotable</span><span class="p">):</span>
+<div class="viewcode-block" id="MagnetType"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.magnetique.MagnetType.html#zgoubidoo.commands.magnetique.MagnetType">[docs]</a><span class="k">class</span> <span class="nc">MagnetType</span><span class="p">(</span><span class="n">_CommandType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Type for magnetic element commands.&quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Magnet"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.magnetique.Magnet.html#zgoubidoo.commands.magnetique.Magnet">[docs]</a><span class="k">class</span> <span class="nc">Magnet</span><span class="p">(</span><span class="n">_Command</span><span class="p">,</span> <span class="n">_Patchable</span><span class="p">,</span> <span class="n">_Plotable</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MagnetType</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for all magnetic elements.</span>
 
 <span class="sd">    TODO</span>
@@ -194,7 +201,12 @@
 <span class="sd">        commands (e.g. fit).&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="CartesianMagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet">[docs]</a><span class="k">class</span> <span class="nc">CartesianMagnet</span><span class="p">(</span><span class="n">Magnet</span><span class="p">):</span>
+<div class="viewcode-block" id="CartesianMagnetType"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.magnetique.CartesianMagnetType.html#zgoubidoo.commands.magnetique.CartesianMagnetType">[docs]</a><span class="k">class</span> <span class="nc">CartesianMagnetType</span><span class="p">(</span><span class="n">MagnetType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Type for cartesian magnets.&quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="CartesianMagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet">[docs]</a><span class="k">class</span> <span class="nc">CartesianMagnet</span><span class="p">(</span><span class="n">Magnet</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">CartesianMagnetType</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for magnetic elements in cartesian coordinates.</span>
 
 <span class="sd">    TODO</span>
@@ -261,7 +273,12 @@
         <span class="nb">getattr</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;tracks_{CartesianMagnet.__name__.lower()}&quot;</span><span class="p">)(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tracks</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="PolarMagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.magnetique.PolarMagnet.html#zgoubidoo.commands.magnetique.PolarMagnet">[docs]</a><span class="k">class</span> <span class="nc">PolarMagnet</span><span class="p">(</span><span class="n">Magnet</span><span class="p">):</span>
+<div class="viewcode-block" id="PolarMagnetType"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.magnetique.PolarMagnetType.html#zgoubidoo.commands.magnetique.PolarMagnetType">[docs]</a><span class="k">class</span> <span class="nc">PolarMagnetType</span><span class="p">(</span><span class="n">MagnetType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Type for polar magnets.&quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="PolarMagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.magnetique.PolarMagnet.html#zgoubidoo.commands.magnetique.PolarMagnet">[docs]</a><span class="k">class</span> <span class="nc">PolarMagnet</span><span class="p">(</span><span class="n">Magnet</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">PolarMagnetType</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for magnetic elements in polar coordinates.</span>
 
 <span class="sd">    TODO</span>
@@ -993,10 +1010,10 @@
 
 <div class="viewcode-block" id="Dipole.fit"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.magnetique.Dipole.html#zgoubidoo.commands.magnetique.Dipole.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
             <span class="n">boro</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span>
-            <span class="n">particle</span><span class="p">:</span> <span class="n">_MetaCommand</span><span class="o">=</span><span class="n">_Proton</span><span class="p">,</span>
+            <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span><span class="o">=</span><span class="n">_Proton</span><span class="p">,</span>
             <span class="n">entry_coordinates</span><span class="p">:</span> <span class="n">List</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">exit_coordinates</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-            <span class="n">method</span><span class="p">:</span> <span class="n">_MetaCommand</span><span class="o">=</span><span class="n">_Fit2</span><span class="p">,</span>
+            <span class="n">method</span><span class="p">:</span> <span class="n">_FitType</span><span class="o">=</span><span class="n">_Fit2</span><span class="p">,</span>
             <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 

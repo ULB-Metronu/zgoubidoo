@@ -206,6 +206,7 @@
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Aimant.html">Aimant</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Bend.html">Bend</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.CartesianMagnet.html">CartesianMagnet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.CartesianMagnetType.html">CartesianMagnetType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Decapole.html">Decapole</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Dipole.html">Dipole</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.DipoleM.html">DipoleM</a></li>
@@ -217,10 +218,12 @@
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.FFAGSpirale.html">FFAGSpirale</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.FakeDrift.html">FakeDrift</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Magnet.html">Magnet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.MagnetType.html">MagnetType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Multipole.html">Multipole</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Octupole.html">Octupole</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.PS170.html">PS170</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.PolarMagnet.html">PolarMagnet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.PolarMagnetType.html">PolarMagnetType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Quadisex.html">Quadisex</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Quadrupole.html">Quadrupole</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.SexQuad.html">SexQuad</a></li>
@@ -459,7 +462,7 @@
 <td>Fitting procedure.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.commands.FitType.html#zgoubidoo.commands.commands.FitType" title="zgoubidoo.commands.commands.FitType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FitType</span></code></a>(name,&nbsp;bases,&nbsp;…],&nbsp;dct,&nbsp;Any])</td>
-<td></td>
+<td>Type for fit commands.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.commands.Focale.html#zgoubidoo.commands.commands.Focale" title="zgoubidoo.commands.commands.Focale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Focale</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Particle coordinates and horizontal beam size at distance XL.</td>
@@ -556,7 +559,7 @@
 </div>
 <div class="section" id="class-inheritance-diagram">
 <h3>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h3>
-<div class="graphviz"><img src="_images/inheritance-debe051cfabdb34315fd0bd32841cdc57c45f9a8.png" alt="Inheritance diagram of zgoubidoo.commands.commands.AutoRef, zgoubidoo.commands.commands.BeamBeam, zgoubidoo.commands.commands.Binary, zgoubidoo.commands.commands.Chambre, zgoubidoo.commands.commands.Chambre, zgoubidoo.commands.commands.Chambre, zgoubidoo.commands.commands.ChangRef, zgoubidoo.commands.commands.ChangRef, zgoubidoo.commands.commands.Cible, zgoubidoo.commands.commands.Collimateur, zgoubidoo.commands.commands.Collimateur, zgoubidoo.commands.commands.Command, zgoubidoo.commands.commands.CommandType, zgoubidoo.commands.commands.ESL, zgoubidoo.commands.commands.End, zgoubidoo.commands.commands.FaiStore, zgoubidoo.commands.commands.Faisceau, zgoubidoo.commands.commands.Faiscnl, zgoubidoo.commands.commands.Fin, zgoubidoo.commands.commands.Fit, zgoubidoo.commands.commands.Fit2, zgoubidoo.commands.commands.FitType, zgoubidoo.commands.commands.Focale, zgoubidoo.commands.commands.FocaleZ, zgoubidoo.commands.commands.GasScattering, zgoubidoo.commands.commands.GetFitVal, zgoubidoo.commands.commands.Histo, zgoubidoo.commands.commands.Image, zgoubidoo.commands.commands.ImageZ, zgoubidoo.commands.commands.Images, zgoubidoo.commands.commands.ImagesZ, zgoubidoo.commands.commands.MCDesintegration, zgoubidoo.commands.commands.Marker, zgoubidoo.commands.commands.Matrix, zgoubidoo.commands.commands.Optics, zgoubidoo.commands.commands.Ordre, zgoubidoo.commands.commands.Pickups, zgoubidoo.commands.commands.PlotData, zgoubidoo.commands.commands.Rebelote, zgoubidoo.commands.commands.Reset, zgoubidoo.commands.commands.Scaling, zgoubidoo.commands.commands.Separa, zgoubidoo.commands.commands.SynchrotronRadiation, zgoubidoo.commands.commands.SynchrotronRadiationLosses, zgoubidoo.commands.commands.SynchrotronRadiationPrint, zgoubidoo.commands.commands.Target, zgoubidoo.commands.commands.TransferMatrix, zgoubidoo.commands.commands.TranslationRotation, zgoubidoo.commands.commands.Twiss, zgoubidoo.commands.commands.WienFilter, zgoubidoo.commands.commands.Ymy, zgoubidoo.commands.commands.ZgoubidooException" usemap="#inheritanceeef1998487" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="_images/inheritance-f29b0c9c88ab0c0eb3385073779fb5d36e7f2308.png" alt="Inheritance diagram of zgoubidoo.commands.commands.AutoRef, zgoubidoo.commands.commands.BeamBeam, zgoubidoo.commands.commands.Binary, zgoubidoo.commands.commands.Chambre, zgoubidoo.commands.commands.Chambre, zgoubidoo.commands.commands.Chambre, zgoubidoo.commands.commands.ChangRef, zgoubidoo.commands.commands.ChangRef, zgoubidoo.commands.commands.Cible, zgoubidoo.commands.commands.Collimateur, zgoubidoo.commands.commands.Collimateur, zgoubidoo.commands.commands.Command, zgoubidoo.commands.commands.CommandType, zgoubidoo.commands.commands.ESL, zgoubidoo.commands.commands.End, zgoubidoo.commands.commands.FaiStore, zgoubidoo.commands.commands.Faisceau, zgoubidoo.commands.commands.Faiscnl, zgoubidoo.commands.commands.Fin, zgoubidoo.commands.commands.Fit, zgoubidoo.commands.commands.Fit2, zgoubidoo.commands.commands.FitType, zgoubidoo.commands.commands.Focale, zgoubidoo.commands.commands.FocaleZ, zgoubidoo.commands.commands.GasScattering, zgoubidoo.commands.commands.GetFitVal, zgoubidoo.commands.commands.Histo, zgoubidoo.commands.commands.Image, zgoubidoo.commands.commands.ImageZ, zgoubidoo.commands.commands.Images, zgoubidoo.commands.commands.ImagesZ, zgoubidoo.commands.commands.MCDesintegration, zgoubidoo.commands.commands.Marker, zgoubidoo.commands.commands.Matrix, zgoubidoo.commands.commands.Optics, zgoubidoo.commands.commands.Ordre, zgoubidoo.commands.commands.Pickups, zgoubidoo.commands.commands.PlotData, zgoubidoo.commands.commands.Rebelote, zgoubidoo.commands.commands.Reset, zgoubidoo.commands.commands.Scaling, zgoubidoo.commands.commands.Separa, zgoubidoo.commands.commands.SynchrotronRadiation, zgoubidoo.commands.commands.SynchrotronRadiationLosses, zgoubidoo.commands.commands.SynchrotronRadiationPrint, zgoubidoo.commands.commands.Target, zgoubidoo.commands.commands.TransferMatrix, zgoubidoo.commands.commands.TranslationRotation, zgoubidoo.commands.commands.Twiss, zgoubidoo.commands.commands.WienFilter, zgoubidoo.commands.commands.Ymy, zgoubidoo.commands.commands.ZgoubidooException" usemap="#inheritanceeef1998487" class="inheritance graphviz" /></div>
 <map id="inheritanceeef1998487" name="inheritanceeef1998487">
 <area shape="rect" id="node1" href="api/zgoubidoo.commands.commands.AutoRef.html#zgoubidoo.commands.commands.AutoRef" target="_top" title="Automatic transformation to a new reference frame." alt="" coords="137,260,176,273"/>
 <area shape="rect" id="node2" href="api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" target="_top" title="Test test test." alt="" coords="19,595,63,608"/>
@@ -603,7 +606,7 @@
 <area shape="rect" id="node47" href="api/zgoubidoo.commands.commands.WienFilter.html#zgoubidoo.commands.commands.WienFilter" target="_top" title="Wien filter." alt="" coords="135,235,179,248"/>
 <area shape="rect" id="node48" href="api/zgoubidoo.commands.commands.Ymy.html#zgoubidoo.commands.commands.Ymy" target="_top" title="Reverse signs of Y and Z reference axes, equivalent to a 180 degree rotation around the X axis." alt="" coords="137,54,176,67"/>
 <area shape="rect" id="node10" href="api/zgoubidoo.commands.commands.CommandType.html#zgoubidoo.commands.commands.CommandType" target="_top" title="Dark magic." alt="" coords="11,29,71,42"/>
-<area shape="rect" id="node19" href="api/zgoubidoo.commands.commands.FitType.html#zgoubidoo.commands.commands.FitType" target="_top" title="FitType" alt="" coords="137,29,176,42"/>
+<area shape="rect" id="node19" href="api/zgoubidoo.commands.commands.FitType.html#zgoubidoo.commands.commands.FitType" target="_top" title="Type for fit commands." alt="" coords="137,29,176,42"/>
 <area shape="rect" id="node18" href="api/zgoubidoo.commands.commands.Fit2.html#zgoubidoo.commands.commands.Fit2" target="_top" title="Fitting procedure." alt="" coords="234,570,273,582"/>
 <area shape="rect" id="node49" href="api/zgoubidoo.commands.commands.ZgoubidooException.html#zgoubidoo.commands.commands.ZgoubidooException" target="_top" title="Exception raised for errors in the Zgoubidoo commands module." alt="" coords="3,3,80,16"/>
 </map></div>
@@ -840,38 +843,44 @@ TODO</p>
 <tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet" title="zgoubidoo.commands.magnetique.CartesianMagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CartesianMagnet</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;…)</td>
 <td>Base class for magnetic elements in cartesian coordinates.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Decapole.html#zgoubidoo.commands.magnetique.Decapole" title="zgoubidoo.commands.magnetique.Decapole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Decapole</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.CartesianMagnetType.html#zgoubidoo.commands.magnetique.CartesianMagnetType" title="zgoubidoo.commands.magnetique.CartesianMagnetType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CartesianMagnetType</span></code></a>(name,&nbsp;bases,&nbsp;…],&nbsp;dct,&nbsp;Any])</td>
+<td>Type for cartesian magnets.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Decapole.html#zgoubidoo.commands.magnetique.Decapole" title="zgoubidoo.commands.magnetique.Decapole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Decapole</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Decapole magnet.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Dipole.html#zgoubidoo.commands.magnetique.Dipole" title="zgoubidoo.commands.magnetique.Dipole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dipole</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Dipole.html#zgoubidoo.commands.magnetique.Dipole" title="zgoubidoo.commands.magnetique.Dipole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dipole</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Dipole magnet, polar frame.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.DipoleM.html#zgoubidoo.commands.magnetique.DipoleM" title="zgoubidoo.commands.magnetique.DipoleM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DipoleM</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.DipoleM.html#zgoubidoo.commands.magnetique.DipoleM" title="zgoubidoo.commands.magnetique.DipoleM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DipoleM</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>TODO.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Dipoles.html#zgoubidoo.commands.magnetique.Dipoles" title="zgoubidoo.commands.magnetique.Dipoles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dipoles</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Dipoles.html#zgoubidoo.commands.magnetique.Dipoles" title="zgoubidoo.commands.magnetique.Dipoles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dipoles</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Dipole magnet N-tuple, polar frame.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Dodecapole.html#zgoubidoo.commands.magnetique.Dodecapole" title="zgoubidoo.commands.magnetique.Dodecapole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dodecapole</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Dodecapole.html#zgoubidoo.commands.magnetique.Dodecapole" title="zgoubidoo.commands.magnetique.Dodecapole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dodecapole</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Dodecapole magnet.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Drift.html#zgoubidoo.commands.magnetique.Drift" title="zgoubidoo.commands.magnetique.Drift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Drift</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Drift.html#zgoubidoo.commands.magnetique.Drift" title="zgoubidoo.commands.magnetique.Drift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Drift</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Field free drift space.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Emma.html#zgoubidoo.commands.magnetique.Emma" title="zgoubidoo.commands.magnetique.Emma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Emma</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Emma.html#zgoubidoo.commands.magnetique.Emma" title="zgoubidoo.commands.magnetique.Emma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Emma</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>2-D Cartesian or cylindrical mesh field map for EMMA FFAG.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.FFAG.html#zgoubidoo.commands.magnetique.FFAG" title="zgoubidoo.commands.magnetique.FFAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FFAG</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.FFAG.html#zgoubidoo.commands.magnetique.FFAG" title="zgoubidoo.commands.magnetique.FFAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FFAG</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>FFAG magnet, N-tuple.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.FFAGSpirale.html#zgoubidoo.commands.magnetique.FFAGSpirale" title="zgoubidoo.commands.magnetique.FFAGSpirale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FFAGSpirale</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.FFAGSpirale.html#zgoubidoo.commands.magnetique.FFAGSpirale" title="zgoubidoo.commands.magnetique.FFAGSpirale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FFAGSpirale</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Spiral FFAG magnet, N-tuple.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.FakeDrift.html#zgoubidoo.commands.magnetique.FakeDrift" title="zgoubidoo.commands.magnetique.FakeDrift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FakeDrift</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.FakeDrift.html#zgoubidoo.commands.magnetique.FakeDrift" title="zgoubidoo.commands.magnetique.FakeDrift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FakeDrift</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>A fake drift (bend with almost vanishing field) to allow plotting trajectories through drift spaces.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Magnet.html#zgoubidoo.commands.magnetique.Magnet" title="zgoubidoo.commands.magnetique.Magnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Magnet</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Magnet.html#zgoubidoo.commands.magnetique.Magnet" title="zgoubidoo.commands.magnetique.Magnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Magnet</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Base class for all magnetic elements.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.MagnetType.html#zgoubidoo.commands.magnetique.MagnetType" title="zgoubidoo.commands.magnetique.MagnetType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MagnetType</span></code></a>(name,&nbsp;bases,&nbsp;…],&nbsp;dct,&nbsp;Any])</td>
+<td>Type for magnetic element commands.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Multipole.html#zgoubidoo.commands.magnetique.Multipole" title="zgoubidoo.commands.magnetique.Multipole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Multipole</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Magnetic multipole.</td>
@@ -885,25 +894,28 @@ TODO</p>
 <tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.PolarMagnet.html#zgoubidoo.commands.magnetique.PolarMagnet" title="zgoubidoo.commands.magnetique.PolarMagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PolarMagnet</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Base class for magnetic elements in polar coordinates.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Quadisex.html#zgoubidoo.commands.magnetique.Quadisex" title="zgoubidoo.commands.magnetique.Quadisex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Quadisex</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.PolarMagnetType.html#zgoubidoo.commands.magnetique.PolarMagnetType" title="zgoubidoo.commands.magnetique.PolarMagnetType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PolarMagnetType</span></code></a>(name,&nbsp;bases,&nbsp;…],&nbsp;dct,&nbsp;Any])</td>
+<td>Type for polar magnets.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Quadisex.html#zgoubidoo.commands.magnetique.Quadisex" title="zgoubidoo.commands.magnetique.Quadisex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Quadisex</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Sharp edge magnetic multipoles.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Quadrupole.html#zgoubidoo.commands.magnetique.Quadrupole" title="zgoubidoo.commands.magnetique.Quadrupole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Quadrupole</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Quadrupole.html#zgoubidoo.commands.magnetique.Quadrupole" title="zgoubidoo.commands.magnetique.Quadrupole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Quadrupole</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Quadrupole magnet.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.SexQuad.html#zgoubidoo.commands.magnetique.SexQuad" title="zgoubidoo.commands.magnetique.SexQuad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SexQuad</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.SexQuad.html#zgoubidoo.commands.magnetique.SexQuad" title="zgoubidoo.commands.magnetique.SexQuad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SexQuad</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Sharp edge magnetic multipole.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Sextupole.html#zgoubidoo.commands.magnetique.Sextupole" title="zgoubidoo.commands.magnetique.Sextupole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sextupole</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Sextupole.html#zgoubidoo.commands.magnetique.Sextupole" title="zgoubidoo.commands.magnetique.Sextupole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sextupole</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Sextupole magnet.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Solenoid.html#zgoubidoo.commands.magnetique.Solenoid" title="zgoubidoo.commands.magnetique.Solenoid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solenoid</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Solenoid.html#zgoubidoo.commands.magnetique.Solenoid" title="zgoubidoo.commands.magnetique.Solenoid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solenoid</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Solenoid.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Undulator.html#zgoubidoo.commands.magnetique.Undulator" title="zgoubidoo.commands.magnetique.Undulator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Undulator</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Undulator.html#zgoubidoo.commands.magnetique.Undulator" title="zgoubidoo.commands.magnetique.Undulator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Undulator</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Undulator magnet.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Venus.html#zgoubidoo.commands.magnetique.Venus" title="zgoubidoo.commands.magnetique.Venus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Venus</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Venus.html#zgoubidoo.commands.magnetique.Venus" title="zgoubidoo.commands.magnetique.Venus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Venus</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Simulation of a rectangular shaped dipole magnet.</td>
 </tr>
 </tbody>
@@ -911,36 +923,40 @@ TODO</p>
 </div>
 <div class="section" id="id8">
 <h3>Class Inheritance Diagram<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
-<div class="graphviz"><img src="_images/inheritance-59360ff7b7799d78803dcd7620c71dfa247b9c05.png" alt="Inheritance diagram of zgoubidoo.commands.magnetique.AGSMainMagnet, zgoubidoo.commands.magnetique.AGSQuadrupole, zgoubidoo.commands.magnetique.Aimant, zgoubidoo.commands.magnetique.Bend, zgoubidoo.commands.magnetique.CartesianMagnet, zgoubidoo.commands.magnetique.Decapole, zgoubidoo.commands.magnetique.Dipole, zgoubidoo.commands.magnetique.DipoleM, zgoubidoo.commands.magnetique.Dipoles, zgoubidoo.commands.magnetique.Dodecapole, zgoubidoo.commands.magnetique.Drift, zgoubidoo.commands.magnetique.Emma, zgoubidoo.commands.magnetique.FFAG, zgoubidoo.commands.magnetique.FFAGSpirale, zgoubidoo.commands.magnetique.FakeDrift, zgoubidoo.commands.magnetique.Magnet, zgoubidoo.commands.magnetique.Multipole, zgoubidoo.commands.magnetique.Octupole, zgoubidoo.commands.magnetique.PS170, zgoubidoo.commands.magnetique.PolarMagnet, zgoubidoo.commands.magnetique.Quadisex, zgoubidoo.commands.magnetique.Quadrupole, zgoubidoo.commands.magnetique.SexQuad, zgoubidoo.commands.magnetique.Sextupole, zgoubidoo.commands.magnetique.Solenoid, zgoubidoo.commands.magnetique.Undulator, zgoubidoo.commands.magnetique.Venus" usemap="#inheritance140c993230" class="inheritance graphviz" /></div>
-<map id="inheritance140c993230" name="inheritance140c993230">
-<area shape="rect" id="node1" href="api/zgoubidoo.commands.magnetique.AGSMainMagnet.html#zgoubidoo.commands.magnetique.AGSMainMagnet" target="_top" title="AGS main magnet." alt="" coords="427,5,550,29"/>
-<area shape="rect" id="node2" href="api/zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet" target="_top" title="Base class for magnetic elements in cartesian coordinates." alt="" coords="256,317,379,341"/>
-<area shape="rect" id="node3" href="api/zgoubidoo.commands.magnetique.AGSQuadrupole.html#zgoubidoo.commands.magnetique.AGSQuadrupole" target="_top" title="AGS quadrupole." alt="" coords="429,53,548,77"/>
-<area shape="rect" id="node6" href="api/zgoubidoo.commands.magnetique.Bend.html#zgoubidoo.commands.magnetique.Bend" target="_top" title="Bending magnet, Cartesian frame." alt="" coords="452,101,524,125"/>
-<area shape="rect" id="node9" href="api/zgoubidoo.commands.magnetique.Decapole.html#zgoubidoo.commands.magnetique.Decapole" target="_top" title="Decapole magnet." alt="" coords="450,149,527,173"/>
-<area shape="rect" id="node13" href="api/zgoubidoo.commands.magnetique.Dodecapole.html#zgoubidoo.commands.magnetique.Dodecapole" target="_top" title="Dodecapole magnet." alt="" coords="442,197,535,221"/>
-<area shape="rect" id="node14" href="api/zgoubidoo.commands.magnetique.Drift.html#zgoubidoo.commands.magnetique.Drift" target="_top" title="Field free drift space." alt="" coords="452,245,524,269"/>
-<area shape="rect" id="node15" href="api/zgoubidoo.commands.magnetique.Emma.html#zgoubidoo.commands.magnetique.Emma" target="_top" title="2&#45;D Cartesian or cylindrical mesh field map for EMMA FFAG." alt="" coords="452,293,524,317"/>
-<area shape="rect" id="node21" href="api/zgoubidoo.commands.magnetique.Multipole.html#zgoubidoo.commands.magnetique.Multipole" target="_top" title="Magnetic multipole." alt="" coords="451,341,526,365"/>
-<area shape="rect" id="node22" href="api/zgoubidoo.commands.magnetique.Octupole.html#zgoubidoo.commands.magnetique.Octupole" target="_top" title="Octupole magnet." alt="" coords="451,389,526,413"/>
-<area shape="rect" id="node24" href="api/zgoubidoo.commands.magnetique.Quadisex.html#zgoubidoo.commands.magnetique.Quadisex" target="_top" title="Sharp edge magnetic multipoles." alt="" coords="450,437,527,461"/>
-<area shape="rect" id="node25" href="api/zgoubidoo.commands.magnetique.Quadrupole.html#zgoubidoo.commands.magnetique.Quadrupole" target="_top" title="Quadrupole magnet." alt="" coords="443,485,534,509"/>
-<area shape="rect" id="node26" href="api/zgoubidoo.commands.magnetique.SexQuad.html#zgoubidoo.commands.magnetique.SexQuad" target="_top" title="Sharp edge magnetic multipole." alt="" coords="450,533,527,557"/>
-<area shape="rect" id="node27" href="api/zgoubidoo.commands.magnetique.Sextupole.html#zgoubidoo.commands.magnetique.Sextupole" target="_top" title="Sextupole magnet." alt="" coords="448,581,529,605"/>
-<area shape="rect" id="node4" href="api/zgoubidoo.commands.magnetique.Aimant.html#zgoubidoo.commands.magnetique.Aimant" target="_top" title="Generation of dipole mid&#45;plane 2&#45;D map, polar frame." alt="" coords="452,629,524,653"/>
-<area shape="rect" id="node5" href="api/zgoubidoo.commands.magnetique.PolarMagnet.html#zgoubidoo.commands.magnetique.PolarMagnet" target="_top" title="Base class for magnetic elements in polar coordinates." alt="" coords="269,725,366,749"/>
-<area shape="rect" id="node10" href="api/zgoubidoo.commands.magnetique.Dipole.html#zgoubidoo.commands.magnetique.Dipole" target="_top" title="Dipole magnet, polar frame." alt="" coords="452,677,524,701"/>
-<area shape="rect" id="node11" href="api/zgoubidoo.commands.magnetique.DipoleM.html#zgoubidoo.commands.magnetique.DipoleM" target="_top" title="TODO." alt="" coords="452,725,524,749"/>
-<area shape="rect" id="node12" href="api/zgoubidoo.commands.magnetique.Dipoles.html#zgoubidoo.commands.magnetique.Dipoles" target="_top" title="Dipole magnet N&#45;tuple, polar frame." alt="" coords="452,773,524,797"/>
-<area shape="rect" id="node16" href="api/zgoubidoo.commands.magnetique.FFAG.html#zgoubidoo.commands.magnetique.FFAG" target="_top" title="FFAG magnet, N&#45;tuple." alt="" coords="452,821,524,845"/>
-<area shape="rect" id="node17" href="api/zgoubidoo.commands.magnetique.FFAGSpirale.html#zgoubidoo.commands.magnetique.FFAGSpirale" target="_top" title="Spiral FFAG magnet, N&#45;tuple." alt="" coords="440,869,537,893"/>
-<area shape="rect" id="node18" href="api/zgoubidoo.commands.magnetique.FakeDrift.html#zgoubidoo.commands.magnetique.FakeDrift" target="_top" title="A fake drift (bend with almost vanishing field) to allow plotting trajectories through drift spaces." alt="" coords="598,101,673,125"/>
-<area shape="rect" id="node7" href="api/zgoubidoo.commands.magnetique.Magnet.html#zgoubidoo.commands.magnetique.Magnet" target="_top" title="Base class for all magnetic elements." alt="" coords="136,797,208,821"/>
-<area shape="rect" id="node23" href="api/zgoubidoo.commands.magnetique.PS170.html#zgoubidoo.commands.magnetique.PS170" target="_top" title="Simulation of a round shape dipole magnet." alt="" coords="282,773,354,797"/>
-<area shape="rect" id="node28" href="api/zgoubidoo.commands.magnetique.Solenoid.html#zgoubidoo.commands.magnetique.Solenoid" target="_top" title="Solenoid." alt="" coords="281,821,354,845"/>
-<area shape="rect" id="node29" href="api/zgoubidoo.commands.magnetique.Undulator.html#zgoubidoo.commands.magnetique.Undulator" target="_top" title="Undulator magnet." alt="" coords="278,869,357,893"/>
-<area shape="rect" id="node30" href="api/zgoubidoo.commands.magnetique.Venus.html#zgoubidoo.commands.magnetique.Venus" target="_top" title="Simulation of a rectangular shaped dipole magnet." alt="" coords="282,917,354,941"/>
-<area shape="rect" id="node8" href="api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" target="_top" title="Test test test." alt="" coords="5,749,88,773"/>
+<div class="graphviz"><img src="_images/inheritance-f41388e286ad85f33bb1e1e86d4a7809488e21e1.png" alt="Inheritance diagram of zgoubidoo.commands.magnetique.AGSMainMagnet, zgoubidoo.commands.magnetique.AGSQuadrupole, zgoubidoo.commands.magnetique.Aimant, zgoubidoo.commands.magnetique.Bend, zgoubidoo.commands.magnetique.CartesianMagnet, zgoubidoo.commands.magnetique.CartesianMagnetType, zgoubidoo.commands.magnetique.Decapole, zgoubidoo.commands.magnetique.Dipole, zgoubidoo.commands.magnetique.DipoleM, zgoubidoo.commands.magnetique.Dipoles, zgoubidoo.commands.magnetique.Dodecapole, zgoubidoo.commands.magnetique.Drift, zgoubidoo.commands.magnetique.Emma, zgoubidoo.commands.magnetique.FFAG, zgoubidoo.commands.magnetique.FFAGSpirale, zgoubidoo.commands.magnetique.FakeDrift, zgoubidoo.commands.magnetique.Magnet, zgoubidoo.commands.magnetique.MagnetType, zgoubidoo.commands.magnetique.Multipole, zgoubidoo.commands.magnetique.Octupole, zgoubidoo.commands.magnetique.PS170, zgoubidoo.commands.magnetique.PolarMagnet, zgoubidoo.commands.magnetique.PolarMagnetType, zgoubidoo.commands.magnetique.Quadisex, zgoubidoo.commands.magnetique.Quadrupole, zgoubidoo.commands.magnetique.SexQuad, zgoubidoo.commands.magnetique.Sextupole, zgoubidoo.commands.magnetique.Solenoid, zgoubidoo.commands.magnetique.Undulator, zgoubidoo.commands.magnetique.Venus" usemap="#inheritanced976f0bc34" class="inheritance graphviz" /></div>
+<map id="inheritanced976f0bc34" name="inheritanced976f0bc34">
+<area shape="rect" id="node1" href="api/zgoubidoo.commands.magnetique.AGSMainMagnet.html#zgoubidoo.commands.magnetique.AGSMainMagnet" target="_top" title="AGS main magnet." alt="" coords="508,5,630,29"/>
+<area shape="rect" id="node2" href="api/zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet" target="_top" title="Base class for magnetic elements in cartesian coordinates." alt="" coords="322,317,445,341"/>
+<area shape="rect" id="node3" href="api/zgoubidoo.commands.magnetique.AGSQuadrupole.html#zgoubidoo.commands.magnetique.AGSQuadrupole" target="_top" title="AGS quadrupole." alt="" coords="509,53,629,77"/>
+<area shape="rect" id="node6" href="api/zgoubidoo.commands.magnetique.Bend.html#zgoubidoo.commands.magnetique.Bend" target="_top" title="Bending magnet, Cartesian frame." alt="" coords="533,101,605,125"/>
+<area shape="rect" id="node12" href="api/zgoubidoo.commands.magnetique.Decapole.html#zgoubidoo.commands.magnetique.Decapole" target="_top" title="Decapole magnet." alt="" coords="530,149,608,173"/>
+<area shape="rect" id="node16" href="api/zgoubidoo.commands.magnetique.Dodecapole.html#zgoubidoo.commands.magnetique.Dodecapole" target="_top" title="Dodecapole magnet." alt="" coords="523,197,615,221"/>
+<area shape="rect" id="node17" href="api/zgoubidoo.commands.magnetique.Drift.html#zgoubidoo.commands.magnetique.Drift" target="_top" title="Field free drift space." alt="" coords="533,245,605,269"/>
+<area shape="rect" id="node18" href="api/zgoubidoo.commands.magnetique.Emma.html#zgoubidoo.commands.magnetique.Emma" target="_top" title="2&#45;D Cartesian or cylindrical mesh field map for EMMA FFAG." alt="" coords="533,293,605,317"/>
+<area shape="rect" id="node24" href="api/zgoubidoo.commands.magnetique.Multipole.html#zgoubidoo.commands.magnetique.Multipole" target="_top" title="Magnetic multipole." alt="" coords="532,341,606,365"/>
+<area shape="rect" id="node25" href="api/zgoubidoo.commands.magnetique.Octupole.html#zgoubidoo.commands.magnetique.Octupole" target="_top" title="Octupole magnet." alt="" coords="532,389,606,413"/>
+<area shape="rect" id="node28" href="api/zgoubidoo.commands.magnetique.Quadisex.html#zgoubidoo.commands.magnetique.Quadisex" target="_top" title="Sharp edge magnetic multipoles." alt="" coords="530,437,608,461"/>
+<area shape="rect" id="node29" href="api/zgoubidoo.commands.magnetique.Quadrupole.html#zgoubidoo.commands.magnetique.Quadrupole" target="_top" title="Quadrupole magnet." alt="" coords="524,485,615,509"/>
+<area shape="rect" id="node30" href="api/zgoubidoo.commands.magnetique.SexQuad.html#zgoubidoo.commands.magnetique.SexQuad" target="_top" title="Sharp edge magnetic multipole." alt="" coords="531,533,607,557"/>
+<area shape="rect" id="node31" href="api/zgoubidoo.commands.magnetique.Sextupole.html#zgoubidoo.commands.magnetique.Sextupole" target="_top" title="Sextupole magnet." alt="" coords="529,581,609,605"/>
+<area shape="rect" id="node4" href="api/zgoubidoo.commands.magnetique.Aimant.html#zgoubidoo.commands.magnetique.Aimant" target="_top" title="Generation of dipole mid&#45;plane 2&#45;D map, polar frame." alt="" coords="533,629,605,653"/>
+<area shape="rect" id="node5" href="api/zgoubidoo.commands.magnetique.PolarMagnet.html#zgoubidoo.commands.magnetique.PolarMagnet" target="_top" title="Base class for magnetic elements in polar coordinates." alt="" coords="335,725,432,749"/>
+<area shape="rect" id="node13" href="api/zgoubidoo.commands.magnetique.Dipole.html#zgoubidoo.commands.magnetique.Dipole" target="_top" title="Dipole magnet, polar frame." alt="" coords="533,677,605,701"/>
+<area shape="rect" id="node14" href="api/zgoubidoo.commands.magnetique.DipoleM.html#zgoubidoo.commands.magnetique.DipoleM" target="_top" title="TODO." alt="" coords="533,725,605,749"/>
+<area shape="rect" id="node15" href="api/zgoubidoo.commands.magnetique.Dipoles.html#zgoubidoo.commands.magnetique.Dipoles" target="_top" title="Dipole magnet N&#45;tuple, polar frame." alt="" coords="533,773,605,797"/>
+<area shape="rect" id="node19" href="api/zgoubidoo.commands.magnetique.FFAG.html#zgoubidoo.commands.magnetique.FFAG" target="_top" title="FFAG magnet, N&#45;tuple." alt="" coords="533,821,605,845"/>
+<area shape="rect" id="node20" href="api/zgoubidoo.commands.magnetique.FFAGSpirale.html#zgoubidoo.commands.magnetique.FFAGSpirale" target="_top" title="Spiral FFAG magnet, N&#45;tuple." alt="" coords="520,869,618,893"/>
+<area shape="rect" id="node21" href="api/zgoubidoo.commands.magnetique.FakeDrift.html#zgoubidoo.commands.magnetique.FakeDrift" target="_top" title="A fake drift (bend with almost vanishing field) to allow plotting trajectories through drift spaces." alt="" coords="678,101,754,125"/>
+<area shape="rect" id="node7" href="api/zgoubidoo.commands.magnetique.Magnet.html#zgoubidoo.commands.magnetique.Magnet" target="_top" title="Base class for all magnetic elements." alt="" coords="176,797,248,821"/>
+<area shape="rect" id="node26" href="api/zgoubidoo.commands.magnetique.PS170.html#zgoubidoo.commands.magnetique.PS170" target="_top" title="Simulation of a round shape dipole magnet." alt="" coords="348,773,420,797"/>
+<area shape="rect" id="node32" href="api/zgoubidoo.commands.magnetique.Solenoid.html#zgoubidoo.commands.magnetique.Solenoid" target="_top" title="Solenoid." alt="" coords="347,821,420,845"/>
+<area shape="rect" id="node33" href="api/zgoubidoo.commands.magnetique.Undulator.html#zgoubidoo.commands.magnetique.Undulator" target="_top" title="Undulator magnet." alt="" coords="344,869,423,893"/>
+<area shape="rect" id="node34" href="api/zgoubidoo.commands.magnetique.Venus.html#zgoubidoo.commands.magnetique.Venus" target="_top" title="Simulation of a rectangular shaped dipole magnet." alt="" coords="348,917,420,941"/>
+<area shape="rect" id="node8" href="api/zgoubidoo.commands.magnetique.CartesianMagnetType.html#zgoubidoo.commands.magnetique.CartesianMagnetType" target="_top" title="Type for cartesian magnets." alt="" coords="308,221,460,245"/>
+<area shape="rect" id="node9" href="api/zgoubidoo.commands.magnetique.MagnetType.html#zgoubidoo.commands.magnetique.MagnetType" target="_top" title="Type for magnetic element commands." alt="" coords="165,245,260,269"/>
+<area shape="rect" id="node27" href="api/zgoubidoo.commands.magnetique.PolarMagnetType.html#zgoubidoo.commands.magnetique.PolarMagnetType" target="_top" title="Type for polar magnets." alt="" coords="321,269,447,293"/>
+<area shape="rect" id="node10" href="api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" target="_top" title="Test test test." alt="" coords="20,749,103,773"/>
+<area shape="rect" id="node11" href="api/zgoubidoo.commands.commands.CommandType.html#zgoubidoo.commands.commands.CommandType" target="_top" title="Dark magic." alt="" coords="5,245,117,269"/>
 </map></div>
 </div>
 <div class="section" id="module-zgoubidoo.commands.electrique">
