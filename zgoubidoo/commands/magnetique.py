@@ -43,7 +43,12 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
         commands (e.g. fit)."""
 
 
-class CartesianMagnet(Magnet):
+class CartesianMagnetType(MagnetType):
+    """Type for cartesian magnets."""
+    pass
+
+
+class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
     """Base class for magnetic elements in cartesian coordinates.
 
     TODO
@@ -110,7 +115,12 @@ class CartesianMagnet(Magnet):
         getattr(artist, f"tracks_{CartesianMagnet.__name__.lower()}")(self, tracks)
 
 
-class PolarMagnet(Magnet):
+class PolarMagnetType(MagnetType):
+    """Type for polar magnets."""
+    pass
+
+
+class PolarMagnet(Magnet, metaclass=PolarMagnetType):
     """Base class for magnetic elements in polar coordinates.
 
     TODO
