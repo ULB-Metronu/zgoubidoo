@@ -160,8 +160,8 @@
             
   <div class="section" id="module-zgoubidoo">
 <span id="zgoubidoo-s-documentation"></span><h1>Zgoubidoo’s documentation<a class="headerlink" href="#module-zgoubidoo" title="Permalink to this headline">¶</a></h1>
-<p><em>Zgoubidoo: a modern Python 3 interface to the `Zgoubi`_ particle tracking code.</em></p>
-<p>Zgoubidoo is a Python 3 interface for Zgoubi, a ray-tracing code for beam dynamics simulations. Zgoubido is intended to
+<p><em>Zgoubidoo: a modern Python 3 interface to the Zgoubi particle tracking code.</em></p>
+<p>Zgoubidoo is a Python 3 interface for <a class="reference external" href="https://sourceforge.net/projects/zgoubi/">Zgoubi</a>, a ray-tracing code for beam dynamics simulations. Zgoubido is intended to
 follow a modern Python design and aims at being easy to use. Interactive use with iPython or Jupyter Notebook is
 supported and encouraged. As such Zgoubidoo can be viewed as a ‘Zgoubi for the mere mortal’ interface.</p>
 <p>Zgoubi is a ray-tracing (tracking) code for beam dynamics simulations. Many magnetic and electric elements are
@@ -170,12 +170,13 @@ supported, as well as multiple other features, such as spin tracking. It is main
 <div class="section" id="design-goals">
 <h2>Design goals<a class="headerlink" href="#design-goals" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Fully featured interface to Zgoubi: all functionalities of Zgoubi are supported through the Python interface;</li>
-<li>Ease of use: a simple tracking study and its visualization can be set up in just a few lines of code;</li>
-<li>Written in high-quality Python 3 with type-hints;</li>
-<li>The library interface and use-n-feel must be Jupyter notebook friendly;</li>
-<li>Decoupling between a low-level use (simple Python interface to generate Zgoubi input files and run the executable);</li>
-<li>Strong support and enforcement of physical units: no units conversion nightmare, you can freely use whatever units
+<li><strong>Fully featured interface to Zgoubi</strong>: all functionalities of Zgoubi are supported through the Python interface;</li>
+<li><strong>Ease of use</strong>: a simple tracking study and its visualization can be set up in just a few lines of code;</li>
+<li>Written in <strong>high-quality Python 3 with type-hints</strong>;</li>
+<li>The library interface and use-n-feel must be <strong>Jupyter notebook friendly</strong>;</li>
+<li>Decoupling between a low-level use (simple Python interface to generate Zgoubi input files and run the executable)
+and high-level interfaces with more abstraction (<cite>sequences</cite>, etc.);</li>
+<li>Strong support and enforcement of physical units: <strong>no units conversion nightmare</strong>, you can freely use whatever units
 set you like, the conversion into Zgoubi’s default units is automatically handled.</li>
 </ul>
 </div>
