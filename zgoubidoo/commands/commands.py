@@ -615,6 +615,7 @@ class Fin(Command):
 
 
 class FitType(CommandType):
+    """Type for fit commands."""
     pass
 
 

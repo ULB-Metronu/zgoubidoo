@@ -7,7 +7,9 @@ TODO
 from typing import NoReturn, List
 import numpy as _np
 import parse as _parse
-from .commands import CommandType as _MetaCommand
+from .particules import ParticuleType as _ParticuleType
+from .commands import CommandType as _CommandType
+from .commands import FitType as _FitType
 from .commands import Command as _Command
 from .commands import Marker as _Marker
 from .commands import Fit2 as _Fit2
@@ -24,7 +26,12 @@ from ..units import _cm, _radian, _kilogauss, _degree
 import zgoubidoo
 
 
-class Magnet(_Command, _Patchable, _Plotable):
+class MagnetType(_CommandType):
+    """Type for magnetic element commands."""
+    pass
+
+
+class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
     """Base class for all magnetic elements.
 
     TODO
@@ -835,10 +842,10 @@ class Dipole(PolarMagnet):
 
     def fit(self,
             boro: _Q,
-            particle: _MetaCommand=_Proton,
+            particle: _ParticuleType=_Proton,
             entry_coordinates: List=None,
             exit_coordinates: float=0.0,
-            method: _MetaCommand=_Fit2,
+            method: _FitType=_Fit2,
             debug=False):
         """
 
