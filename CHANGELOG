@@ -1,5 +1,5 @@
+2019.1 - See you next year.
+
 2018.1 - First release!
     - Support all Zgoubi elements, altough some commands (in particular related to electric elements or spin tracking) have never been tested
     - Step-by-step computation of Twiss parameters (in a similar fashion to what pyzgoubi does) using 11 particules
-
-2019.1 - See you next year.

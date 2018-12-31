@@ -1,5 +1,15 @@
 """Type system for polarities.
 
+Examples:
+    The conversion to numeric types can be used for easily in numerical expressions:
+
+    >>> gradient = int(HorizontalPolarity) * 3.1415; gradient
+    >>> 3.1415
+
+    One major use case consists in type-hinting functions (shown here with default value argument):
+
+    >>> def foo(polarity: PolarityType = HorizontalPolarity): pass
+
 """
 from typing import SupportsInt, SupportsFloat
 
@@ -13,7 +23,10 @@ class PolarityType(type, SupportsInt, SupportsFloat):
         return cls.P
 
     def __str__(cls):
-        return cls.__name__.rstrip('Polarity')
+        return cls.__name__.replace('P', ' ').split()[0]  # No very proud of this...
+
+    def __eq__(self, other):
+        return float(self) == other
 
 
 class Polarity(metaclass=PolarityType):

@@ -614,7 +614,11 @@ class Fin(Command):
     """Keyword of the command used for the Zgoubi input data."""
 
 
-class Fit(Command):
+class FitType(CommandType):
+    pass
+
+
+class Fit(Command, metaclass=FitType):
     """Fitting procedure.
 
     TODO
@@ -827,7 +831,7 @@ class Fit(Command):
         return True
 
 
-class Fit2(Fit):
+class Fit2(Fit, metaclass=FitType):
     """Fitting procedure.
 
     TODO

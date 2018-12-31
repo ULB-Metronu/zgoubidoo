@@ -1,8 +1,7 @@
-from typing import Optional, List, Callable
+from typing import Optional, List
 from ..input import Input
-from ..commands.particules import Proton
-from ..commands.commands import Command, Fit, Fit2, Marker
-from ..commands.magnetique import Magnet
+from ..commands.particules import Proton, ParticuleType
+from ..commands.commands import Command, Fit2, Marker, FitType
 from ..commands.objet import Objet2
 import zgoubidoo
 
@@ -19,7 +18,7 @@ class Sequence:
 
     """
 
-    def __init__(self, sequence: Optional[List[Command]] = None, particle=None):
+    def __init__(self, sequence: Optional[List[Command]] = None, particle: Optional[ParticuleType] = Proton):
         """
 
         Args:
@@ -27,7 +26,7 @@ class Sequence:
             particle:
         """
         self._sequence: List[Command] = sequence
-        self._particle = particle or Proton()
+        self._particle = particle()
         self._closed_orbit = None
         self._z: zgoubidoo.Zgoubi = zgoubidoo.Zgoubi()
 
@@ -58,7 +57,7 @@ class Sequence:
 
         return True
 
-    def find_closed_orbit(self, guess: Optional[List] = None, tolerance: float = 1e-10, method: Callable[..., Fit] = Fit2):
+    def find_closed_orbit(self, guess: Optional[List] = None, tolerance: float = 1e-8, method: FitType = Fit2):
         if guess is None:
             guess = [0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]
         zi = Input(
@@ -66,10 +65,10 @@ class Sequence:
             line=[
                      self._particle,
                      Objet2('BUNCH', BORO=2149 * _.kilogauss * _.cm).add([guess])
-                 ] + self._sequence
+                 ] + self._sequence + [Marker('__END__')]
         )
-        objet_index = [i for i, x in enumerate(zi) if isinstance(x, Objet2)][0]
-        last_magnet_index = [i for i, x in enumerate(zi) if isinstance(x, Magnet)][-1]
+        #objet_index = [i for i, x in enumerate(zi) if isinstance(x, Objet2)][0]
+        #last_magnet_index = [i for i, x in enumerate(zi) if isinstance(x, Magnet)][-1]
         fit = method(
             PENALTY=tolerance,
             PARAMS=[
@@ -138,11 +137,10 @@ class Sequence:
             ]
         )
         zi.line.append(fit)
-        zi.line.append(Marker('END_MARKER'))
         zi.IL = 0
         out = self._z(zi)
-        co = out.tracks.query("LABEL1 == 'END_MARKER'").iloc[0][['Yo', 'To', 'Zo', 'Po', 'Do-1']].values
-        co1 = out.tracks.query("LABEL1 == 'END_MARKER'").iloc[0][['Y-DY', 'T', 'Z', 'P', 'D-1']].values
+        co = out.tracks.query("LABEL1 == '__END__'").iloc[0][['Yo', 'To', 'Zo', 'Po', 'Do-1']].values
+        co1 = out.tracks.query("LABEL1 == '__END__'").iloc[0][['Y-DY', 'T', 'Z', 'P', 'D-1']].values
         assert ((co - co1).all() < tolerance)
         self._closed_orbit = co
         return self._closed_orbit

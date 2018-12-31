@@ -23,3 +23,9 @@ Units
 
 .. automodule:: zgoubidoo.units
     :members:
+
+Polarity type system
+--------------------
+
+.. automodule:: zgoubidoo.polarity
+    :members:

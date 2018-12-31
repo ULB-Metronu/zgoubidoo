@@ -1,6 +1,6 @@
-"""*Zgoubidoo: a modern Python 3 interface to the `Zgoubi`_ particle tracking code.*
+"""*Zgoubidoo: a modern Python 3 interface to the Zgoubi particle tracking code.*
 
-Zgoubidoo is a Python 3 interface for Zgoubi, a ray-tracing code for beam dynamics simulations. Zgoubido is intended to
+Zgoubidoo is a Python 3 interface for `Zgoubi`_, a ray-tracing code for beam dynamics simulations. Zgoubido is intended to
 follow a modern Python design and aims at being easy to use. Interactive use with iPython or Jupyter Notebook is
 supported and encouraged. As such Zgoubidoo can be viewed as a 'Zgoubi for the mere mortal' interface.
 
@@ -14,12 +14,13 @@ supported, as well as multiple other features, such as spin tracking. It is main
 Design goals
 ------------
 
-- Fully featured interface to Zgoubi: all functionalities of Zgoubi are supported through the Python interface;
-- Ease of use: a simple tracking study and its visualization can be set up in just a few lines of code;
-- Written in high-quality Python 3 with type-hints;
-- The library interface and use-n-feel must be Jupyter notebook friendly;
-- Decoupling between a low-level use (simple Python interface to generate Zgoubi input files and run the executable);
-- Strong support and enforcement of physical units: no units conversion nightmare, you can freely use whatever units
+- **Fully featured interface to Zgoubi**: all functionalities of Zgoubi are supported through the Python interface;
+- **Ease of use**: a simple tracking study and its visualization can be set up in just a few lines of code;
+- Written in **high-quality Python 3 with type-hints**;
+- The library interface and use-n-feel must be **Jupyter notebook friendly**;
+- Decoupling between a low-level use (simple Python interface to generate Zgoubi input files and run the executable)
+  and high-level interfaces with more abstraction (`sequences`, etc.);
+- Strong support and enforcement of physical units: **no units conversion nightmare**, you can freely use whatever units
   set you like, the conversion into Zgoubi's default units is automatically handled.
 
 Publications
@@ -45,6 +46,7 @@ from . import commands
 from . import physics
 from . import vis
 from . import twiss
+from . import sequence
 from .input import Input, InputValidator, ZgoubiInputException
 from .output import read_fai_file, read_plt_file, read_matrix_file
 from .zgoubi import Zgoubi, ZgoubiRun, ZgoubiException
