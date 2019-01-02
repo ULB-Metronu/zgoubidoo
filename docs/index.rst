@@ -7,6 +7,7 @@ Zgoubidoo's documentation
    :maxdepth: 2
    :caption: Contents:
 
+   news
    installation
    zgoubi
    commands
