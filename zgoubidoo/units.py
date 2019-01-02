@@ -143,13 +143,16 @@ def _mev(q: Union[str, _Q]) -> float:
 
 @parse_quantity
 def _mev_c(q: _Q) -> float:
-    """
-    Convert a quantity of dimension [LENGTH] to meters.
+    """Convert a quantity of dimension [LENGTH] to meters.
 
-    >>> _m(1 * _ureg.km)
-    1000.0
+    Examples:
+        >>> _m(1 * _ureg.km)
+        1000.0
 
-    :param q: the quantity of dimension [LENGTH]
-    :return: the magnitude in meters.
+    Args:
+        q: the quantity of dimension [LENGTH]
+
+    Returns:
+        the magnitude in meters.
     """
     return float(q.to('MeV_c').magnitude)

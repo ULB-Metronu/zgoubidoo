@@ -818,8 +818,10 @@ class Frame:
         return self._translate_axis(axis, _m(offset))
 
     def reset(self) -> Frame:
-        """
-        Reset the frame (rotation and translation) with respect to the parent.
+        """Reset the frame.
+
+        Reset the frame (rotation and translation) with respect to the parent; the frame is thus equivalent to its
+        parent frame.
 
         Example:
             >>> f1 = Frame().rotate_x(1 * _ureg.radian)
@@ -829,7 +831,7 @@ class Frame:
             [<Quantity(0.0, 'radian')>, <Quantity(0.0, 'radian')>, <Quantity(0.0, 'radian')>]
 
         Returns:
-            the frame itself (to allow method chaining)
+            the reseted frame itself (to allow method chaining).
         """
         self._q: _np.quaternion = _np.quaternion(1, 0, 0, 0)
         self._o: _np.ndarray = _np.zeros(3)

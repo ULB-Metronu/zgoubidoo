@@ -15,18 +15,23 @@ import pandas as pd
 
 
 def read_fai_file(filename: str = 'zgoubi.fai', path: str = '.') -> pd.DataFrame:
-    """Function to read Zgoubi .fai file.
+    """Function to read Zgoubi .fai files.
 
-    Reads the content of a Zgoubi .fai file ('faisceau', 'beam' file) and formats it as a valid Pandas dataframe
-    with headers.
+    Reads the content of a Zgoubi .fai file ('faisceau', 'beam' file) and formats it as a valid Pandas DataFrame with
+    headers.
+
+    Example:
+        >>> read_fai_file()
 
     Args:
-        filename:
-        path:
+        filename: the name of the file
+        path: the path to the .fai file
 
     Returns:
-        xxxx
+        a Pandas DataFrame with the .fai file content.
 
+    Raises:
+        a FileNotFoundError in case the file is not found.
     """
     # Header line from the Zgoubi .fai file
     with open(filename) as file:
@@ -41,14 +46,26 @@ def read_fai_file(filename: str = 'zgoubi.fai', path: str = '.') -> pd.DataFrame
 
 
 def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> pd.DataFrame:
-    """
+    """Function to read Zgoubi .plt files.
+
+    Reads the content of a Zgoubi .plt file ('plot' file) and formats it as a valid Pandas DataFrame with headers.
+
+    Notes:
+        each coordinate is converted from the Zgoubi internal unit system onto the SI system. This means, in particular
+        that the positions are in meters and the angles in mrad.
+
+    Example:
+        >>> read_plt_file()
 
     Args:
-        filename:
-        path:
+        filename: the name of the file
+        path: the path to the .plt file
 
     Returns:
+        a Pandas DataFrame with the .plt file content.
 
+    Raises:
+        a FileNotFoundError in case the file is not found.
     """
     # Header line from the Zgoubi .plt file
     with open(filename) as file:
@@ -76,14 +93,26 @@ def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> pd.DataFrame
 
 
 def read_matrix_file(filename: str = 'zgoubi.MATRIX.out', path: str = '.') -> pd.DataFrame:
-    """
+    """Function to read Zgoubi MATRIX files.
+
+    Reads the content of a Zgoubi matrix file (output from a Twiss or Optics command) and formats it as a valid Pandas
+    DataFrame with headers.
+
+    Notes:
+        the resulting DataFrame uses SI units.
+
+    Example:
+        >>> read_matrix_file()
 
     Args:
-        filename:
-        path:
+        filename: the name of the file
+        path: the path to the .plt file
 
     Returns:
+        a Pandas DataFrame with the .plt file content.
 
+    Raises:
+        a FileNotFoundError in case the file is not found.
     """
     # Cleaned up header lines
     headers = [

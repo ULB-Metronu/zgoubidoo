@@ -16,11 +16,17 @@ The maximum value allowed for IMAX can be changed at leisure in the include file
 
 import numpy as _np
 from .commands import Command as _Command
+from .commands import CommandType as _CommandType
 from .commands import ZgoubidooException as _ZgoubidooException
 from .. import ureg as _ureg
 
 
-class Objet(_Command):
+class ObjetType(_CommandType):
+    """Type system for Objet types."""
+    pass
+
+
+class Objet(_Command, metaclass=ObjetType):
     """Generation of an object.
 
 

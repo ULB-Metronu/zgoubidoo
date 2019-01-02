@@ -11,7 +11,7 @@ Example:
     _ = zgoubidoo.ureg
 
 """
-from typing import Tuple
+from typing import Tuple, Optional
 import numpy as np
 import pandas as pd
 from .commands import Patchable
@@ -189,14 +189,15 @@ def compute_dispersion_prime_from_matrix(m: pd.DataFrame, twiss: pd.Series, plan
     return d0 * r21 + dp0 * r22 + r25
 
 
-def compute_twiss(matrix: pd.DataFrame, twiss_init: pd.Series) -> pd.DataFrame:
+def compute_twiss(matrix: pd.DataFrame, twiss_init: Optional[pd.Series] = None) -> pd.DataFrame:
     """
     Uses a step-by-step transfer matrix to compute the Twiss parameters (uncoupled). The phase advance and the
     determinants of the jacobians are computed as well.
 
     Args:
         matrix: the input step-by-step transfer matrix
-        twiss_init: the initial values for the Twiss computation
+        twiss_init: the initial values for the Twiss computation (if None, periodic conditions are assumed and the
+        Twiss parameters are computed from the transfer matrix).
 
     Returns:
         the same DataFrame as the input, but with added columns for the computed quantities.
@@ -239,6 +240,7 @@ def align_tracks(tracks: pd.DataFrame,
     """
     coordinates: list = ['Y-DY', 'T', 'Z', 'P', 'D-1', 'Yo', 'To', 'Zo', 'Po', 'Do-1']  # Keep it in this order
     particules: list = ['O', 'A', 'C', 'E', 'G', 'I', 'B', 'D', 'F', 'H', 'J']  # Keep it in this order
+    assert set(particules) == set(tracks[identifier].unique()), "Required particles not found (are you using Objet5?)."
     ref: pd.DataFrame = tracks.query(f"{identifier} == '{reference_track}'")[coordinates + [align_on, 'LABEL1']]
     alignment_values = ref[align_on].values
     assert np.all(np.diff(alignment_values) >= 0), "The reference alignment values are not monotonously increasing"

@@ -5,7 +5,7 @@ which allows to represent a set of Zgoubi input commands and serialize it into a
 be validated using a set of validators, following the Zgoubi input constraints.
 """
 from __future__ import annotations
-from typing import Callable, Sequence, Union, Optional
+from typing import Callable, Sequence, Iterable, Union
 from functools import partial, reduce
 import tempfile
 import os
@@ -16,6 +16,8 @@ from . import _Q
 from .commands import *
 from .beam import Beam
 import zgoubidoo.commands
+
+ListPaths = List[Union[str, tempfile.TemporaryDirectory]]
 
 ZGOUBI_INPUT_FILENAME: str = 'zgoubi.dat'
 """File name for Zgoubi input data."""
@@ -53,14 +55,14 @@ class Input:
         >>> zi()
     """
 
-    def __init__(self, name: str = 'beamline', line: Sequence[commands.Command] = None):
+    def __init__(self, name: str = 'beamline', line: Optional[Sequence[commands.Command]] = None):
         self._name: str = name
         if line is None:
             line = []
         self._line: List[commands.Command] = line
-        self._paths = list()
-        self._inputs = list()
-        self._optical_length = 0 * _ureg.m
+        self._paths: ListPaths = list()
+        self._inputs: List[Input] = list()
+        self._optical_length: _Q = 0 * _ureg.m
 
     def __str__(self) -> str:
         """Provides the string representation, a valid Zgoubi input stream.
@@ -83,13 +85,16 @@ class Input:
             beam:
             filename: the Zgoubi input file name (default: zgoubi.dat)
             path:
+
+        Raises:
+
         """
-        self._paths = list()
+        self._paths: ListPaths = list()
         if beam is None:
             self._paths.append(path)
             self.write(self, filename, path)
         else:
-            objets = self[zgoubidoo.commands.Objet2]
+            objets = self[zgoubidoo.commands.Objet]
             particules = self[zgoubidoo.commands.Particule]
             if len(objets) == 0 and len(particules) == 0:
                 generated_input = Input(name=self.name, line=self.line.copy())
@@ -144,7 +149,7 @@ class Input:
         """Remove a command from the input sequence.
 
         Args:
-            other: the `Command` to be removed or its label as a string.
+            other: the `Command` to be removed or its LABEL1 as a string.
 
         Returns:
             the `Input` itself (in-place operation).
@@ -156,7 +161,13 @@ class Input:
         return self
 
     def __getitem__(self,
-                    items: Union[slice, int, float, Command, str, Tuple[Union[Command, str]], List[Union[Command, str]]]
+                    items: Union[slice,
+                                 int,
+                                 float,
+                                 str,
+                                 CommandType,
+                                 type,
+                                 Iterable[Union[CommandType, type, str]]]
                     ) -> Union[zgoubidoo.commands.Command, Input]:
         """Multi-purpose dictionnary-like elements access and filtering.
 
@@ -216,7 +227,7 @@ class Input:
                          line=l
                          )
 
-    def __setattr__(self, key: str, value):
+    def __setattr__(self, key: str, value: Any):
         """
 
         Args:
@@ -233,7 +244,7 @@ class Input:
                 if getattr(e, key) is not None:
                     setattr(e, key, value)
 
-    def __contains__(self, items: Union[str, Command, Tuple[Union[str, Command]]]) -> int:
+    def __contains__(self, items: Union[str, CommandType, Tuple[Union[str, CommandType]]]) -> int:
         """
 
         Args:
@@ -247,7 +258,7 @@ class Input:
         l, i = self._filter(items)
         return len(l)
 
-    def _filter(self, items) -> tuple:
+    def _filter(self, items: Union[str, CommandType, Tuple[Union[str, CommandType]]]) -> tuple:
         """
 
         Args:
@@ -320,7 +331,7 @@ class Input:
         and can be used as such, for example, as a parameter to the Fit command.
 
         Args:
-            obj: the object: can be an instance of a Zgoubidoo Command or a string representing the element's LABEL1.
+            obj: the object; can be an instance of a Zgoubidoo Command or a string representing the element's LABEL1.
 
         Returns:
             the index of the object in the input sequence.
@@ -334,48 +345,50 @@ class Input:
             for i, e in enumerate(self.line):
                 if e.LABEL1 == obj:
                     return i + 1
-        raise ValueError("Element not found.")
+        raise ValueError(f"Element {obj} not found.")
 
-    def get_labels(self, label="LABEL1") -> List[str]:
-        """
+    def get_attributes(self, attribute: str = "LABEL1") -> List[str]:
+        """List a given command attribute in the input sequence.
+
+        In case some elements in the input sequence do not have that attribute, None is used.
 
         Args:
-            label:
+            attribute: the name of the attribute.
 
         Returns:
-
+            the list of the values of the given attribute across the input sequence.
         """
-        return [getattr(e, label, '') for e in self._line]
+        return [getattr(e, attribute, None) for e in self._line]
 
-    labels = property(get_labels)
+    labels = property(get_attributes)
     """List of the LABEL1 property of each element of the input sequence."""
 
-    labels1 = property(get_labels)
+    labels1 = property(get_attributes)
     """Same as ``labels``."""
 
-    labels2 = property(partial(get_labels, label='LABEL2'))
+    labels2 = property(partial(get_attributes, label='LABEL2'))
     """List of the LABEL2 property of each element of the input sequence."""
 
     @property
-    def name(self):
-        """
+    def name(self) -> str:
+        """Name of the input sequence.
 
         Returns:
-
+            the name of the input sequence or None.
         """
         return self._name
 
     @property
-    def paths(self):
-        """
+    def paths(self) -> ListPaths:
+        """Paths where the input has been written.
 
         Returns:
-
+            a list of paths.
         """
         return self._paths
 
     @property
-    def inputs(self):
+    def inputs(self) -> List[Input]:
         """
 
         Returns:
@@ -402,7 +415,7 @@ class Input:
         return self._line
 
     @property
-    def optical_length(self) -> Optional[_Q]:
+    def optical_length(self) -> _Q:
         """
 
         Returns:
@@ -442,15 +455,17 @@ class Input:
             return f.write(str(_))
 
     @staticmethod
-    def build(name='beamline', line=None) -> str:
-        """
+    def build(name: str = 'beamline', line: Optional[List[commands.Command]] = None) -> str:
+        """Build a string representing the complete input.
+
+        A string is built based on the Zgoubi serialization of all elements (commands) of the input sequence.
 
         Args:
-            name:
-            line:
+            name: the name of the resulting Zgoubi input.
+            line: the input sequence.
 
         Returns:
-
+            a string in a valid Zgoubi input format.
         """
         extra_end = None
         if len(line) == 0 or not isinstance(line[-1], commands.End):
@@ -492,7 +507,7 @@ class InputValidator:
             True if the validation is successful; otherwise a `ZgoubiInputException` is raised.
         """
         line = _.line
-        if len(_) > 0 and not isinstance(line[0], (commands.Objet, commands.MCObjet)):
+        if len(_) > 0 and not isinstance(line[0], (zgoubidoo.commands.Objet, zgoubidoo.commands.MCObjet)):
             raise ZgoubiInputException("The first command in the input is not an Objet. (or MCObjet).")
         return True
 
@@ -507,7 +522,7 @@ class InputValidator:
         Returns:
             True is the validation is successful; otherwise a `ZgoubiInputException` is raised.
         """
-        objets = _[commands.Objet, commands.MCObjet]
+        objets = _[zgoubidoo.commands.Objet, zgoubidoo.commands.MCObjet]
         for o in objets:
             if (o.IMAX or 0.0) > ZGOUBI_IMAX:
                 raise ZgoubiInputException(f"Objet {o.label1} IMAX exceeds maximum value ({ZGOUBI_IMAX}).")

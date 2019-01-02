@@ -7,7 +7,7 @@ import os
 import numpy as np
 import pandas as pd
 from . import _Q
-from zgoubidoo.commands import Particule
+from zgoubidoo.commands import ParticuleType
 import zgoubidoo.physics
 
 
@@ -24,17 +24,17 @@ class Beam:
     """
 
     def __init__(self,
-                 distribution: Optional[pd.DataFrame]=None,
-                 particle: Particule=zgoubidoo.commands.Proton,
-                 kinematic: Optional[Union[zgoubidoo.physics.Kinematics, float, _Q]]=None,
-                 slices: int=1,
+                 distribution: Optional[pd.DataFrame] = None,
+                 particle: ParticuleType = zgoubidoo.commands.Proton,
+                 kinematic: Optional[Union[zgoubidoo.physics.Kinematics, float, _Q]] = None,
+                 slices: int = 1,
                  *args,
                  **kwargs):
-        self._particle: zgoubidoo.commands.Particule = particle
+        self._particle: zgoubidoo.commands.ParticuleType = particle
         if not isinstance(kinematic, zgoubidoo.physics.Kinematics):
             kinematic = zgoubidoo.physics.Kinematics(kinematic)
         self._kinematic: Union[zgoubidoo.physics.Kinematics, float, _Q] = kinematic
-        self._objet: zgoubidoo.commands.Objet = zgoubidoo.commands.Objet2
+        self._objet: zgoubidoo.commands.ObjetType = zgoubidoo.commands.Objet2
         self._slices: int = slices
         self._distribution = None
         self._initialize_distribution(distribution, *args, **kwargs)
@@ -84,11 +84,11 @@ class Beam:
         return self._distribution
 
     @property
-    def particle(self) -> zgoubidoo.commands.Particule:
+    def particle(self) -> zgoubidoo.commands.ParticuleType:
         return self._particle
 
     @property
-    def objet(self) -> zgoubidoo.commands.Objet:
+    def objet(self) -> zgoubidoo.commands.ObjetType:
         return self._objet
 
     @property

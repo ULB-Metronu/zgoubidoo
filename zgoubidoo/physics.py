@@ -328,7 +328,7 @@ def momentum_to_brho(p: _Q, particle: ParticuleType = Proton) -> _Q:
     :param particle: the particle type (default: proton)
     :return:
     """
-    return p / particle.charge
+    return p / particle.Q
 
 
 def momentum_to_range(p: _Q, particle: ParticuleType = Proton) -> _Q:
