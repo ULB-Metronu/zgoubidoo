@@ -51,4 +51,5 @@ I take the opportunity to thank François for its supports over the last few mon
 to discuss the matter with during ICAP’18.
 
 With best regards,
+
 Cedric
