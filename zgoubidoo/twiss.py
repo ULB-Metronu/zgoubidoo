@@ -212,6 +212,10 @@ def compute_periodic_twiss(matrix: pd.DataFrame) -> pd.Series:
     twiss['ALPHA22'] = (m['R33'] - m['R44']) / 2.0 / np.sin(twiss['MU2'])
     twiss['GAMMA11'] = -m['R21'] / np.sin(twiss['MU1'])
     twiss['GAMMA22'] = -m['R43'] / np.sin(twiss['MU2'])
+    twiss['DY'] = m['R15']
+    twiss['DYP'] = m['R25']
+    twiss['DZ'] = m['R35']
+    twiss['DZP'] = m['R45']
     return pd.Series(twiss)
 
 
