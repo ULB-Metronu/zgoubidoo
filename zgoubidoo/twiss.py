@@ -189,6 +189,32 @@ def compute_dispersion_prime_from_matrix(m: pd.DataFrame, twiss: pd.Series, plan
     return d0 * r21 + dp0 * r22 + r25
 
 
+def compute_periodic_twiss(matrix: pd.DataFrame) -> pd.Series:
+    """
+    Compute twiss parameters from a transfer matrix which is assumed to be a periodic transfer matrix.
+
+    Args:
+        matrix: the (periodic) transfer matrix
+
+    Returns:
+        a Series object with the values of the periodic Twiss parameters.
+    """
+    m = matrix.iloc[-1]
+    twiss = dict({
+        'CMU1': (m['R11'] + m['R22'])/2.0,
+        'CMU2': (m['R33'] + m['R44'])/2.0,
+    })
+    twiss['MU1'] = np.arccos(twiss['CMU1'])
+    twiss['MU2'] = np.arccos(twiss['CMU2'])
+    twiss['BETA11'] = m['R12'] / np.sin(twiss['MU1'])
+    twiss['BETA22'] = m['R34'] / np.sin(twiss['MU2'])
+    twiss['ALPHA11'] = (m['R11'] - m['R22']) / 2.0 / np.sin(twiss['MU1'])
+    twiss['ALPHA22'] = (m['R33'] - m['R44']) / 2.0 / np.sin(twiss['MU2'])
+    twiss['GAMMA11'] = -m['R21'] / np.sin(twiss['MU1'])
+    twiss['GAMMA22'] = -m['R43'] / np.sin(twiss['MU2'])
+    return pd.Series(twiss)
+
+
 def compute_twiss(matrix: pd.DataFrame, twiss_init: Optional[pd.Series] = None) -> pd.DataFrame:
     """
     Uses a step-by-step transfer matrix to compute the Twiss parameters (uncoupled). The phase advance and the
@@ -202,6 +228,9 @@ def compute_twiss(matrix: pd.DataFrame, twiss_init: Optional[pd.Series] = None) 
     Returns:
         the same DataFrame as the input, but with added columns for the computed quantities.
     """
+    if twiss_init is None:
+        twiss_init = compute_periodic_twiss(matrix)
+
     matrix['BETA11'] = compute_beta_from_matrix(matrix, twiss_init, plane=1)
     matrix['BETA22'] = compute_beta_from_matrix(matrix, twiss_init, plane=2)
     matrix['ALPHA11'] = compute_alpha_from_matrix(matrix, twiss_init, plane=1)
