@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>zgoubidoo.twiss &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  <title>zgoubidoo.twiss &mdash; Zgoubidoo 2019.1 documentation</title>
   
 
   
@@ -57,7 +57,7 @@
             
             
               <div class="version">
-                2018.1
+                2019.1
               </div>
             
           
@@ -349,6 +349,36 @@
     <span class="k">return</span> <span class="n">d0</span> <span class="o">*</span> <span class="n">r21</span> <span class="o">+</span> <span class="n">dp0</span> <span class="o">*</span> <span class="n">r22</span> <span class="o">+</span> <span class="n">r25</span></div>
 
 
+<div class="viewcode-block" id="compute_periodic_twiss"><a class="viewcode-back" href="../../lowlevel.html#zgoubidoo.twiss.compute_periodic_twiss">[docs]</a><span class="k">def</span> <span class="nf">compute_periodic_twiss</span><span class="p">(</span><span class="n">matrix</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute twiss parameters from a transfer matrix which is assumed to be a periodic transfer matrix.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        matrix: the (periodic) transfer matrix</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a Series object with the values of the periodic Twiss parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">twiss</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span>
+        <span class="s1">&#39;CMU1&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;R11&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">m</span><span class="p">[</span><span class="s1">&#39;R22&#39;</span><span class="p">])</span><span class="o">/</span><span class="mf">2.0</span><span class="p">,</span>
+        <span class="s1">&#39;CMU2&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;R33&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">m</span><span class="p">[</span><span class="s1">&#39;R44&#39;</span><span class="p">])</span><span class="o">/</span><span class="mf">2.0</span><span class="p">,</span>
+    <span class="p">})</span>
+    <span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;MU1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;CMU1&#39;</span><span class="p">])</span>
+    <span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;MU2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;CMU2&#39;</span><span class="p">])</span>
+    <span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;BETA11&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s1">&#39;R12&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;MU1&#39;</span><span class="p">])</span>
+    <span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;BETA22&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s1">&#39;R34&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;MU2&#39;</span><span class="p">])</span>
+    <span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;ALPHA11&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;R11&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="p">[</span><span class="s1">&#39;R22&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;MU1&#39;</span><span class="p">])</span>
+    <span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;ALPHA22&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;R33&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="p">[</span><span class="s1">&#39;R44&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;MU2&#39;</span><span class="p">])</span>
+    <span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;GAMMA11&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;R21&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;MU1&#39;</span><span class="p">])</span>
+    <span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;GAMMA22&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;R43&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;MU2&#39;</span><span class="p">])</span>
+    <span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;DY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s1">&#39;R15&#39;</span><span class="p">]</span>
+    <span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;DYP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s1">&#39;R25&#39;</span><span class="p">]</span>
+    <span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;DZ&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s1">&#39;R35&#39;</span><span class="p">]</span>
+    <span class="n">twiss</span><span class="p">[</span><span class="s1">&#39;DZP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s1">&#39;R45&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">twiss</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="compute_twiss"><a class="viewcode-back" href="../../lowlevel.html#zgoubidoo.twiss.compute_twiss">[docs]</a><span class="k">def</span> <span class="nf">compute_twiss</span><span class="p">(</span><span class="n">matrix</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">twiss_init</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Uses a step-by-step transfer matrix to compute the Twiss parameters (uncoupled). The phase advance and the</span>
@@ -362,6 +392,9 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        the same DataFrame as the input, but with added columns for the computed quantities.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">twiss_init</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">twiss_init</span> <span class="o">=</span> <span class="n">compute_periodic_twiss</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+
     <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;BETA11&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_beta_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">twiss_init</span><span class="p">,</span> <span class="n">plane</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;BETA22&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_beta_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">twiss_init</span><span class="p">,</span> <span class="n">plane</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;ALPHA11&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_alpha_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">twiss_init</span><span class="p">,</span> <span class="n">plane</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>

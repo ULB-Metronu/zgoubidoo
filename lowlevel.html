@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Using the Zgoubidoo low-level interface &mdash; Zgoubidoo 2018.1-BETA documentation</title>
+  <title>Using the Zgoubidoo low-level interface &mdash; Zgoubidoo 2019.1 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                2018.1
+                2019.1
               </div>
             
           
@@ -470,6 +470,22 @@ matrix</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Pandas Series with the phase advance computed at all steps of the input step-by-step transfer matrix</p>
 </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="zgoubidoo.twiss.compute_periodic_twiss">
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_periodic_twiss</code><span class="sig-paren">(</span><em>matrix: pandas.core.frame.DataFrame</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_periodic_twiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_periodic_twiss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute twiss parameters from a transfer matrix which is assumed to be a periodic transfer matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>matrix</strong> – the (periodic) transfer matrix</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a Series object with the values of the periodic Twiss parameters.</td>
 </tr>
 </tbody>
 </table>
