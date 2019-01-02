@@ -24,9 +24,9 @@ copyright = u'2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)'
 author = u'Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)'
 
 # The short X.Y version
-version = '2018.1'
+version = '2019.1'
 # The full version, including alpha/beta/rc tags
-release = '2018.1-BETA'
+release = '2019.1'
 
 
 # -- General configuration ---------------------------------------------------
