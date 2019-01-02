@@ -83,6 +83,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Zgoubi commands</a></li>
@@ -175,11 +176,17 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 <span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">_Command</span>
+<span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">CommandType</span> <span class="k">as</span> <span class="n">_CommandType</span>
 <span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">ZgoubidooException</span> <span class="k">as</span> <span class="n">_ZgoubidooException</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
 
 
-<div class="viewcode-block" id="Objet"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet.html#zgoubidoo.commands.objet.Objet">[docs]</a><span class="k">class</span> <span class="nc">Objet</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
+<div class="viewcode-block" id="ObjetType"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.ObjetType.html#zgoubidoo.commands.objet.ObjetType">[docs]</a><span class="k">class</span> <span class="nc">ObjetType</span><span class="p">(</span><span class="n">_CommandType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Type system for Objet types.&quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Objet"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet.html#zgoubidoo.commands.objet.Objet">[docs]</a><span class="k">class</span> <span class="nc">Objet</span><span class="p">(</span><span class="n">_Command</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ObjetType</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generation of an object.</span>
 
 

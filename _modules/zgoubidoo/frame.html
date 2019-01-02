@@ -83,6 +83,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../commands.html">Zgoubi commands</a></li>
@@ -977,8 +978,10 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_translate_axis</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">_m</span><span class="p">(</span><span class="n">offset</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Frame.reset"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Reset the frame (rotation and translation) with respect to the parent.</span>
+        <span class="sd">&quot;&quot;&quot;Reset the frame.</span>
+
+<span class="sd">        Reset the frame (rotation and translation) with respect to the parent; the frame is thus equivalent to its</span>
+<span class="sd">        parent frame.</span>
 
 <span class="sd">        Example:</span>
 <span class="sd">            &gt;&gt;&gt; f1 = Frame().rotate_x(1 * _ureg.radian)</span>
@@ -988,7 +991,7 @@
 <span class="sd">            [&lt;Quantity(0.0, &#39;radian&#39;)&gt;, &lt;Quantity(0.0, &#39;radian&#39;)&gt;, &lt;Quantity(0.0, &#39;radian&#39;)&gt;]</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            the frame itself (to allow method chaining)</span>
+<span class="sd">            the reseted frame itself (to allow method chaining).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_q</span><span class="p">:</span> <span class="n">_np</span><span class="o">.</span><span class="n">quaternion</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">quaternion</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_o</span><span class="p">:</span> <span class="n">_np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>

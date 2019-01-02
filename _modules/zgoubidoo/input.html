@@ -83,6 +83,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../commands.html">Zgoubi commands</a></li>
@@ -164,7 +165,7 @@
 <span class="sd">be validated using a set of validators, following the Zgoubi input constraints.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span><span class="p">,</span> <span class="n">reduce</span>
 <span class="kn">import</span> <span class="nn">tempfile</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -175,6 +176,8 @@
 <span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.beam</span> <span class="k">import</span> <span class="n">Beam</span>
 <span class="kn">import</span> <span class="nn">zgoubidoo.commands</span>
+
+<span class="n">ListPaths</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">]]</span>
 
 <span class="n">ZGOUBI_INPUT_FILENAME</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;zgoubi.dat&#39;</span>
 <span class="sd">&quot;&quot;&quot;File name for Zgoubi input data.&quot;&quot;&quot;</span>
@@ -212,14 +215,14 @@
 <span class="sd">        &gt;&gt;&gt; zi()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;beamline&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">commands</span><span class="o">.</span><span class="n">Command</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;beamline&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">commands</span><span class="o">.</span><span class="n">Command</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">name</span>
         <span class="k">if</span> <span class="n">line</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">line</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_line</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">commands</span><span class="o">.</span><span class="n">Command</span><span class="p">]</span> <span class="o">=</span> <span class="n">line</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_paths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_inputs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_optical_length</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_paths</span><span class="p">:</span> <span class="n">ListPaths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_inputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Input</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_optical_length</span><span class="p">:</span> <span class="n">_Q</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span>
 
 <div class="viewcode-block" id="Input.__str__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__str__">[docs]</a>    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Provides the string representation, a valid Zgoubi input stream.</span>
@@ -242,13 +245,16 @@
 <span class="sd">            beam:</span>
 <span class="sd">            filename: the Zgoubi input file name (default: zgoubi.dat)</span>
 <span class="sd">            path:</span>
+
+<span class="sd">        Raises:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_paths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_paths</span><span class="p">:</span> <span class="n">ListPaths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">beam</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">objets</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Objet2</span><span class="p">]</span>
+            <span class="n">objets</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Objet</span><span class="p">]</span>
             <span class="n">particules</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Particule</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">objets</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">particules</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">generated_input</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
@@ -303,7 +309,7 @@
         <span class="sd">&quot;&quot;&quot;Remove a command from the input sequence.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            other: the `Command` to be removed or its label as a string.</span>
+<span class="sd">            other: the `Command` to be removed or its LABEL1 as a string.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            the `Input` itself (in-place operation).</span>
@@ -315,7 +321,13 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="Input.__getitem__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__getitem__">[docs]</a>    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                    <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">slice</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Command</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Command</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Command</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span>
+                    <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">slice</span><span class="p">,</span>
+                                 <span class="nb">int</span><span class="p">,</span>
+                                 <span class="nb">float</span><span class="p">,</span>
+                                 <span class="nb">str</span><span class="p">,</span>
+                                 <span class="n">CommandType</span><span class="p">,</span>
+                                 <span class="nb">type</span><span class="p">,</span>
+                                 <span class="n">Iterable</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">CommandType</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span>
                     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Command</span><span class="p">,</span> <span class="n">Input</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Multi-purpose dictionnary-like elements access and filtering.</span>
 
@@ -375,7 +387,7 @@
                          <span class="n">line</span><span class="o">=</span><span class="n">l</span>
                          <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Input.__setattr__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__setattr__">[docs]</a>    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Input.__setattr__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__setattr__">[docs]</a>    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
@@ -392,7 +404,7 @@
                 <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="nb">setattr</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Input.__contains__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__contains__">[docs]</a>    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Command</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Command</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="Input.__contains__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__contains__">[docs]</a>    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CommandType</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CommandType</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
@@ -406,7 +418,7 @@
         <span class="n">l</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filter</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CommandType</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CommandType</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
@@ -479,7 +491,7 @@
 <span class="sd">        and can be used as such, for example, as a parameter to the Fit command.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            obj: the object: can be an instance of a Zgoubidoo Command or a string representing the element&#39;s LABEL1.</span>
+<span class="sd">            obj: the object; can be an instance of a Zgoubidoo Command or a string representing the element&#39;s LABEL1.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            the index of the object in the input sequence.</span>
@@ -493,48 +505,50 @@
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">==</span> <span class="n">obj</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Element not found.&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Element </span><span class="si">{obj}</span><span class="s2"> not found.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Input.get_labels"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.get_labels">[docs]</a>    <span class="k">def</span> <span class="nf">get_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;LABEL1&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Input.get_attributes"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.get_attributes">[docs]</a>    <span class="k">def</span> <span class="nf">get_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;LABEL1&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;List a given command attribute in the input sequence.</span>
+
+<span class="sd">        In case some elements in the input sequence do not have that attribute, None is used.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            label:</span>
+<span class="sd">            attribute: the name of the attribute.</span>
 
 <span class="sd">        Returns:</span>
-
+<span class="sd">            the list of the values of the given attribute across the input sequence.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_line</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_line</span><span class="p">]</span></div>
 
-    <span class="n">labels</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">get_labels</span><span class="p">)</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">get_attributes</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;List of the LABEL1 property of each element of the input sequence.&quot;&quot;&quot;</span>
 
-    <span class="n">labels1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">get_labels</span><span class="p">)</span>
+    <span class="n">labels1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">get_attributes</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;Same as ``labels``.&quot;&quot;&quot;</span>
 
-    <span class="n">labels2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">get_labels</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;LABEL2&#39;</span><span class="p">))</span>
+    <span class="n">labels2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">get_attributes</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;LABEL2&#39;</span><span class="p">))</span>
     <span class="sd">&quot;&quot;&quot;List of the LABEL2 property of each element of the input sequence.&quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Name of the input sequence.</span>
 
 <span class="sd">        Returns:</span>
-
+<span class="sd">            the name of the input sequence or None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">paths</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">paths</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ListPaths</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Paths where the input has been written.</span>
 
 <span class="sd">        Returns:</span>
-
+<span class="sd">            a list of paths.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paths</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Input</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Returns:</span>
@@ -561,7 +575,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_line</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">optical_length</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_Q</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">optical_length</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Returns:</span>
@@ -601,15 +615,17 @@
             <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_</span><span class="p">))</span>
 
 <div class="viewcode-block" id="Input.build"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.build">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;beamline&#39;</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;beamline&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">commands</span><span class="o">.</span><span class="n">Command</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Build a string representing the complete input.</span>
+
+<span class="sd">        A string is built based on the Zgoubi serialization of all elements (commands) of the input sequence.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            name:</span>
-<span class="sd">            line:</span>
+<span class="sd">            name: the name of the resulting Zgoubi input.</span>
+<span class="sd">            line: the input sequence.</span>
 
 <span class="sd">        Returns:</span>
-
+<span class="sd">            a string in a valid Zgoubi input format.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">extra_end</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">commands</span><span class="o">.</span><span class="n">End</span><span class="p">):</span>
@@ -651,7 +667,7 @@
 <span class="sd">            True if the validation is successful; otherwise a `ZgoubiInputException` is raised.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">line</span> <span class="o">=</span> <span class="n">_</span><span class="o">.</span><span class="n">line</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">commands</span><span class="o">.</span><span class="n">Objet</span><span class="p">,</span> <span class="n">commands</span><span class="o">.</span><span class="n">MCObjet</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Objet</span><span class="p">,</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">MCObjet</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="n">ZgoubiInputException</span><span class="p">(</span><span class="s2">&quot;The first command in the input is not an Objet. (or MCObjet).&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span></div>
 
@@ -666,7 +682,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            True is the validation is successful; otherwise a `ZgoubiInputException` is raised.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">objets</span> <span class="o">=</span> <span class="n">_</span><span class="p">[</span><span class="n">commands</span><span class="o">.</span><span class="n">Objet</span><span class="p">,</span> <span class="n">commands</span><span class="o">.</span><span class="n">MCObjet</span><span class="p">]</span>
+        <span class="n">objets</span> <span class="o">=</span> <span class="n">_</span><span class="p">[</span><span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Objet</span><span class="p">,</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">MCObjet</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">objets</span><span class="p">:</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">IMAX</span> <span class="ow">or</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">ZGOUBI_IMAX</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ZgoubiInputException</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Objet </span><span class="si">{o.label1}</span><span class="s2"> IMAX exceeds maximum value (</span><span class="si">{ZGOUBI_IMAX}</span><span class="s2">).&quot;</span><span class="p">)</span>

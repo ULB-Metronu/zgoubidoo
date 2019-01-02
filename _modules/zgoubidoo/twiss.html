@@ -83,6 +83,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../commands.html">Zgoubi commands</a></li>
@@ -170,7 +171,7 @@
 <span class="sd">    _ = zgoubidoo.ureg</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">Patchable</span>
@@ -348,14 +349,15 @@
     <span class="k">return</span> <span class="n">d0</span> <span class="o">*</span> <span class="n">r21</span> <span class="o">+</span> <span class="n">dp0</span> <span class="o">*</span> <span class="n">r22</span> <span class="o">+</span> <span class="n">r25</span></div>
 
 
-<div class="viewcode-block" id="compute_twiss"><a class="viewcode-back" href="../../lowlevel.html#zgoubidoo.twiss.compute_twiss">[docs]</a><span class="k">def</span> <span class="nf">compute_twiss</span><span class="p">(</span><span class="n">matrix</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">twiss_init</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="viewcode-block" id="compute_twiss"><a class="viewcode-back" href="../../lowlevel.html#zgoubidoo.twiss.compute_twiss">[docs]</a><span class="k">def</span> <span class="nf">compute_twiss</span><span class="p">(</span><span class="n">matrix</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">twiss_init</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Uses a step-by-step transfer matrix to compute the Twiss parameters (uncoupled). The phase advance and the</span>
 <span class="sd">    determinants of the jacobians are computed as well.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        matrix: the input step-by-step transfer matrix</span>
-<span class="sd">        twiss_init: the initial values for the Twiss computation</span>
+<span class="sd">        twiss_init: the initial values for the Twiss computation (if None, periodic conditions are assumed and the</span>
+<span class="sd">        Twiss parameters are computed from the transfer matrix).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        the same DataFrame as the input, but with added columns for the computed quantities.</span>
@@ -398,6 +400,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">coordinates</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Y-DY&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;D-1&#39;</span><span class="p">,</span> <span class="s1">&#39;Yo&#39;</span><span class="p">,</span> <span class="s1">&#39;To&#39;</span><span class="p">,</span> <span class="s1">&#39;Zo&#39;</span><span class="p">,</span> <span class="s1">&#39;Po&#39;</span><span class="p">,</span> <span class="s1">&#39;Do-1&#39;</span><span class="p">]</span>  <span class="c1"># Keep it in this order</span>
     <span class="n">particules</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="s1">&#39;J&#39;</span><span class="p">]</span>  <span class="c1"># Keep it in this order</span>
+    <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">particules</span><span class="p">)</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="n">tracks</span><span class="p">[</span><span class="n">identifier</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()),</span> <span class="s2">&quot;Required particles not found (are you using Objet5?).&quot;</span>
     <span class="n">ref</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{identifier}</span><span class="s2"> == &#39;</span><span class="si">{reference_track}</span><span class="s2">&#39;&quot;</span><span class="p">)[</span><span class="n">coordinates</span> <span class="o">+</span> <span class="p">[</span><span class="n">align_on</span><span class="p">,</span> <span class="s1">&#39;LABEL1&#39;</span><span class="p">]]</span>
     <span class="n">alignment_values</span> <span class="o">=</span> <span class="n">ref</span><span class="p">[</span><span class="n">align_on</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
     <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">alignment_values</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;The reference alignment values are not monotonously increasing&quot;</span>

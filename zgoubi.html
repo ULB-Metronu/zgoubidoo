@@ -85,12 +85,14 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Zgoubi</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.zgoubi">Running Zgoubi with Zgoubidoo</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contrib.html">Zgoubidoo specialized and contributed commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input.html">Working with Zgoubi Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="beam.html">Working with Zgoubidoo beams</a></li>
@@ -189,7 +191,7 @@
 
 <dl class="method">
 <dt id="zgoubidoo.zgoubi.Zgoubi.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>zgoubi_input: zgoubidoo.input.Input</em>, <em>debug: bool = False</em>, <em>n_procs: int = None</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.zgoubi.ZgoubiRun<a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#Zgoubi.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.Zgoubi.__call__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>zgoubi_input: zgoubidoo.input.Input</em>, <em>debug: bool = False</em>, <em>n_procs: Optional[int] = None</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.zgoubi.ZgoubiRun<a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#Zgoubi.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.Zgoubi.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Starts up to <cite>n_procs</cite> Zgoubi runs.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -199,10 +201,14 @@
 <li><strong>zgoubi_input</strong> – <cite>Input</cite> object specifying the Zgoubi inputs and input paths.</li>
 <li><strong>debug</strong> – verbose output</li>
 <li><strong>n_procs</strong> – maximum number of Zgoubi simulations to be started in parallel</li>
+<li><strong>to multiprocessing.cpu_count</strong><strong>)</strong> (<em>(</em><em>default</em>) – </li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a ZgoubiRun object holding the simulation results.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a ZgoubiRun object holding the simulation results.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">a ZgoubiException in case the input paths list is empty.</p>
 </td>
 </tr>
 </tbody>
@@ -254,28 +260,49 @@
 
 <dl class="class">
 <dt id="zgoubidoo.zgoubi.ZgoubiRun">
-<em class="property">class </em><code class="descclassname">zgoubidoo.zgoubi.</code><code class="descname">ZgoubiRun</code><span class="sig-paren">(</span><em>results: List[Mapping[KT, VT_co]]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#ZgoubiRun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiRun" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zgoubidoo.zgoubi.</code><code class="descname">ZgoubiRun</code><span class="sig-paren">(</span><em>results: List[Mapping[KT, VT_co]], with_matrix: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#ZgoubiRun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiRun" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="attribute">
 <dt id="zgoubidoo.zgoubi.ZgoubiRun.matrix">
 <code class="descname">matrix</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiRun.matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<dd><p>Collects all matrix data from the different Zgoubi instances in the results and concatenate them.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A concatenated DataFrame with all the matrix information from the previous run.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">FileNotFoundError in case the file is not present.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="zgoubidoo.zgoubi.ZgoubiRun.results">
 <code class="descname">results</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiRun.results" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<dd><p>Raw information from the Zgoubi run.</p>
+<p>Provides the raw data structures from the Zgoubi runs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of mappings.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="zgoubidoo.zgoubi.ZgoubiRun.tracks">
 <code class="descname">tracks</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiRun.tracks" title="Permalink to this definition">¶</a></dt>
-<dd><p>Collect all tracks from the different Zgoubi instances in the results and concatenate them.</p>
+<dd><p>Collects all tracks from the different Zgoubi instances in the results and concatenate them.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A concatenated DataFrame with all the tracks in the result.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">FileNotFoundError in case the file is not present.</td>
 </tr>
 </tbody>
 </table>
