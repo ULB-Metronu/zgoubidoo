@@ -5,7 +5,7 @@ which allows to represent a set of Zgoubi input commands and serialize it into a
 be validated using a set of validators, following the Zgoubi input constraints.
 """
 from __future__ import annotations
-from typing import Callable, Sequence, Iterable, Union
+from typing import Callable, Sequence
 from functools import partial, reduce
 import tempfile
 import os
@@ -15,6 +15,7 @@ from . import ureg as _ureg
 from . import _Q
 from .commands import *
 from .beam import Beam
+from .frame import Frame as _Frame
 import zgoubidoo.commands
 
 ListPaths = List[Union[str, tempfile.TemporaryDirectory]]
@@ -433,6 +434,17 @@ class Input:
 
         """
         self._optical_length += l
+
+    def survey(self, reference_frame: _Frame = None) -> Input:
+        """Perform a survey on the input sequence.
+
+        Args:
+            reference_frame: a Zgoubidoo Frame object acting as the global reference frame
+
+        Returns:
+            the surveyed input sequence.
+        """
+        return zgoubidoo.survey(self, reference_frame)
 
     @staticmethod
     def write(_: Input,

@@ -37,7 +37,7 @@ class Kinematics:
             kinetic:
         """
         self._q: Union[float, _Q] = q
-        self._p: Particule = particle
+        self._p: ParticuleType = particle
         self._type: Optional[str] = None
 
         if _Q(q).dimensionality == _ureg.cm.dimensionality:
@@ -77,7 +77,7 @@ class Kinematics:
             except KeyError:
                 raise ZgoubiPhysicsException(f"Invalid conversion attempted: {c}.")
 
-    def to_range(self, magnitude: bool=False):
+    def to_range(self, magnitude: bool = False):
         """
 
         Args:
@@ -398,7 +398,7 @@ def brho_to_energy(brho: _Q, particle: ParticuleType = Proton) -> _Q:
     :param particle: the particle type (default: proton)
     :return:
     """
-    return brho * particle.Q
+    return momentum_to_energy(brho_to_momentum(brho, particle))
 
 
 def brho_to_momentum(brho: _Q, particle: ParticuleType = Proton) -> _Q:

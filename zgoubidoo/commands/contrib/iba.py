@@ -723,8 +723,8 @@ class CGTR:
                 _Fit.Parameter(line=self.zi, place='SMY', parameter=SMY.B1),
             ],
             CONSTRAINTS=[
-                _Fit.EqualityConstraint(line=self.zi, place='ISO', variable=_Fit.Coordinates.Y, value=x),
-                _Fit.EqualityConstraint(line=self.zi, place='ISO', variable=_Fit.Coordinates.Z, value=y),
+                _Fit.EqualityConstraint(line=self.zi, place='ISO', variable=_Fit.FitCoordinates.Y, value=x),
+                _Fit.EqualityConstraint(line=self.zi, place='ISO', variable=_Fit.FitCoordinates.Z, value=y),
             ]
         )
         return self.run(fit=self.scanning)

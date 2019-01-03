@@ -137,6 +137,7 @@ class Objet2(Objet):
         return self._PARTICULES
 
     def clear(self):
+        """Reset the object's content, remove all particles."""
         self._PARTICULES = None
         return self
 
@@ -145,6 +146,14 @@ class Objet2(Objet):
         return self
 
     def add(self, p):
+        """
+
+        Args:
+            p:
+
+        Returns:
+
+        """
         if self._PARTICULES is None:
             if not hasattr(p, 'columns'):
                 self._PARTICULES = p

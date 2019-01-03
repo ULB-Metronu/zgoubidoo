@@ -92,9 +92,12 @@ class CommandType(type):
         {k}='{v[0]}' ({type(v[0]).__name__}): {v[1]}
             """
 
-    def __getattr__(cls, key):
+    def __getattr__(cls, key: str):
         try:
-            return cls.PARAMETERS[key]
+            if key.endswith('_'):
+                return cls.PARAMETERS[key.rstrip('_')][2]
+            else:
+                return cls.PARAMETERS[key][0]
         except KeyError:
             raise AttributeError(key)
 
@@ -636,34 +639,15 @@ class Fit(Command, metaclass=FitType):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'PARAMS': (
-            [
-                {
-                    'IR': 1,
-                    'IP': 1,
-                    'XC': 0,
-                    'DV': 1.0
-                }
-            ], 'Physical parameters to be varied'),
-        'CONSTRAINTS': (
-            [
-                {
-                    'IC': 1,
-                    'I': 1,
-                    'J': 1,
-                    'IR': 1,
-                    'V': 1,
-                    'WV': 1,
-                    'NP': 0
-                }
-            ], 'Constraints'),
+        'PARAMS': ([], 'Physical parameters to be varied'),
+        'CONSTRAINTS': ([], 'Constraints'),
         'PENALTY': (1.0e-8, 'Penalty'),
-        'ITERATIONS': (10000, 'Iterations'),
+        'ITERATIONS': (50000, 'Iterations'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
-    class Coordinates:
+    class FitCoordinates:
         """Zgoubi coordinates."""
         DP = 1
         Y = 2
@@ -675,23 +659,29 @@ class Fit(Command, metaclass=FitType):
         """
         TODO
         """
-        def __init__(self, line: zgoubidoo.Input, place: Union[str, Command], parameter: Union[int, Iterable]):
+        def __init__(self,
+                     line: zgoubidoo.Input,
+                     place: Union[str, Command],
+                     parameter: Union[int, Iterable],
+                     range: Tuple[float] = None):
             """
 
+            Args:
+                line:
+                place:
+                parameter:
+                range:
             """
             self.IR: int = line.index(place)
             self.IP: int = parameter
             self.XC: int = 0
-            self.DV = [-100, 100]
+            self.DV: Tuple[float] = range if range is not None else [-100.0, 100.0]
 
         def __getitem__(self, item):
             return getattr(self, item)
 
     class Constraint:
-        """
-        TODO
-        """
-
+        """Generic constraint."""
         def __getitem__(self, item):
             return getattr(self, item)
 
@@ -796,9 +786,11 @@ class Fit(Command, metaclass=FitType):
         command = list()
         command.append(super().__str__().rstrip())
         command.append(f"""
-        {len(self.PARAMS)}
+        {len(self.PARAMS) - list(self.PARAMS).count(None)}
         """)
         for p in self.PARAMS:
+            if p is None:
+                continue
             if isinstance(p['IP'], (list, tuple)):
                 ip = p['IP'][2]
             else:
@@ -812,9 +804,11 @@ class Fit(Command, metaclass=FitType):
         {p['IR']} {ip} {p['XC']} {p['DV']}
         """)
         command.append(f"""
-        {len(self.CONSTRAINTS)} {self.PENALTY:.12e} {self.ITERATIONS}
+        {len(self.CONSTRAINTS) - list(self.PARAMS).count(None)} {self.PENALTY:.12e} {self.ITERATIONS}
         """)
         for c in self.CONSTRAINTS:
+            if c is None:
+                continue
             command.append(f"""
         {c['IC']} {c['I']} {c['J']} {c['IR']} {c['V']} {c['WV']} {c['NP']}
         """)
