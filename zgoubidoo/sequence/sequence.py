@@ -1,8 +1,14 @@
-from typing import Optional, List
+"""High-level sequence module.
+
+"""
+from typing import Optional, List, Union, Iterable
+from dataclasses import dataclass
+import numpy as _np
 from ..input import Input
 from ..commands.particules import Proton, ParticuleType
-from ..commands.commands import Command, Fit2, Marker, FitType
+from ..commands.commands import CommandType, Command, Fit2, Marker, FitType
 from ..commands.objet import Objet2
+from .. import ureg as _ureg
 import zgoubidoo
 
 
@@ -13,12 +19,51 @@ class ZgoubidooSequenceException(Exception):
         self.message = m
 
 
+@dataclass
+class Coordinates:
+    """Particle coordinates in 6D phase space.
+
+    Follows Zgoubi's convention.
+
+    Examples:
+        >>> c = Coordinates()
+        >>> c.y
+        0.0
+        >>> c = Coordinates(1.0, 1.0, 0.0, 0.0, 0.0, 0.0)
+        >>> c.t
+        1.0
+    """
+    y: float = 0
+    t: float = 0
+    z: float = 0
+    p: float = 0
+    x: float = 0
+    d: float = 1
+    iex: int = 1
+
+    def __getitem__(self, item: int):
+        return getattr(self, list(self.__dataclass_fields__.keys())[item])
+
+    @property
+    def array(self) -> _np.array:
+        """Convert to a numpy array."""
+        return _np.array(self.list)
+
+    @property
+    def list(self) -> list:
+        """Convert to a flat list."""
+        return list(self.__dict__.values())
+
+
 class Sequence:
-    """
+    """Sequence.
 
     """
 
-    def __init__(self, sequence: Optional[List[Command]] = None, particle: Optional[ParticuleType] = Proton):
+    def __init__(self,
+                 sequence: Optional[List[Command]] = None,
+                 particle: Optional[ParticuleType] = Proton,
+                 ):
         """
 
         Args:
@@ -30,7 +75,14 @@ class Sequence:
         self._closed_orbit = None
         self._z: zgoubidoo.Zgoubi = zgoubidoo.Zgoubi()
 
-    def __getitem__(self, item) -> Command:
+    def __getitem__(self, item: Union[slice,
+                                      int,
+                                      float,
+                                      str,
+                                      CommandType,
+                                      type,
+                                      Iterable[Union[CommandType, type, str]]]) -> Union[
+            zgoubidoo.commands.Command, Input]:
         """
 
         Args:
@@ -57,95 +109,55 @@ class Sequence:
 
         return True
 
-    def find_closed_orbit(self, guess: Optional[List] = None, tolerance: float = 1e-8, method: FitType = Fit2):
-        if guess is None:
-            guess = [0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]
+    def find_closed_orbit(self,
+                          guess: Coordinates = Coordinates(),
+                          tolerance: float = 1e-10,
+                          fit_method: FitType = Fit2,
+                          ):
+        """
+
+        Args:
+            guess: initial closed orbit guess
+            tolerance: tolerance for the termination of the fit method
+            fit_method: a Zgoubi Fit command
+
+        Returns:
+            the closed orbit
+        """
         zi = Input(
             name='CLOSED_ORBIT_FINDER',
             line=[
                      self._particle,
-                     Objet2('BUNCH', BORO=2149 * _.kilogauss * _.cm).add([guess])
+                     Objet2('BUNCH', BORO=2149 * _ureg.kilogauss * _ureg.cm).add(guess.list)
                  ] + self._sequence + [Marker('__END__')]
         )
-        #objet_index = [i for i, x in enumerate(zi) if isinstance(x, Objet2)][0]
-        #last_magnet_index = [i for i, x in enumerate(zi) if isinstance(x, Magnet)][-1]
-        fit = method(
+        fit = fit_method(
+            'FIT_CO',
             PENALTY=tolerance,
             PARAMS=[
-                {
-                    'IR': objet_index + 1,
-                    'IP': 30,  # Y
-                    'XC': 0,
-                    'DV': [-50, 50],
-                },
-                {
-                    'IR': objet_index + 1,
-                    'IP': 31,  # T
-                    'XC': 0,
-                    'DV': [-50, 50],
-                },
-                {
-                    'IR': objet_index + 1,
-                    'IP': 32,  # Z
-                    'XC': 0,
-                    'DV': [-50, 50],
-                },
-                {
-                    'IR': objet_index + 1,
-                    'IP': 33,  # P
-                    'XC': 0,
-                    'DV': [-50, 50],
-                },
+                fit_method.Parameter(line=zi, place='BUNCH', parameter=Objet2.Y),
+                fit_method.Parameter(line=zi, place='BUNCH', parameter=Objet2.T),
+                #fit_method.Parameter(line=zi, place='BUNCH', parameter=Objet2.Z),
+                #fit_method.Parameter(line=zi, place='BUNCH', parameter=Objet2.P),
             ],
             CONSTRAINTS=[
-                {
-                    'IC': 3.1,  # F(I, J) - F0(I, J)
-                    'I': 1,
-                    'J': 2,  # Y
-                    'IR': last_magnet_index + 1,
-                    'V': 0.0,
-                    'WV': 1.0,
-                    'NP': 0,
-                },
-                {
-                    'IC': 3.1,  # F(I, J) - F0(I, J)
-                    'I': 1,
-                    'J': 3,  # T
-                    'IR': last_magnet_index + 1,
-                    'V': 0.0,
-                    'WV': 1.0,
-                    'NP': 0,
-                },
-                {
-                    'IC': 3.1,  # F(I, J) - F0(I, J)
-                    'I': 1,
-                    'J': 4,  # Z
-                    'IR': last_magnet_index + 1,
-                    'V': 0.0,
-                    'WV': 1.0,
-                    'NP': 0,
-                },
-                {
-                    'IC': 3.1,  # F(I, J) - F0(I, J)
-                    'I': 1,
-                    'J': 5,  # P
-                    'IR': last_magnet_index + 1,
-                    'V': 0.0,
-                    'WV': 1.0,
-                    'NP': 0,
-                }
+                fit_method.DifferenceEqualityConstraint(zi, '__END__', fit_method.Coordinates.Y),
+                fit_method.DifferenceEqualityConstraint(zi, '__END__', fit_method.Coordinates.T),
+                #fit_method.DifferenceEqualityConstraint(zi, '__END__', fit_method.Coordinates.Z),
+                #fit_method.DifferenceEqualityConstraint(zi, '__END__', fit_method.Coordinates.P),
             ]
         )
         zi.line.append(fit)
         zi.IL = 0
-        out = self._z(zi)
-        co = out.tracks.query("LABEL1 == '__END__'").iloc[0][['Yo', 'To', 'Zo', 'Po', 'Do-1']].values
-        co1 = out.tracks.query("LABEL1 == '__END__'").iloc[0][['Y-DY', 'T', 'Z', 'P', 'D-1']].values
-        assert ((co - co1).all() < tolerance)
+        self.out = self._z(zi())
+        co = self.out.tracks.query("LABEL1 == '__END__'").iloc[-1][['Yo', 'To', 'Zo', 'Po', 'Do-1']].values
+        co1 = self.out.tracks.query("LABEL1 == '__END__'").iloc[-1][['Y-DY', 'T', 'Z', 'P', 'D-1']].values
+        assert ((co - co1)**2 < tolerance).all(), f"Inconsistency detected during closed orbit search {co} {co1}."
         self._closed_orbit = co
         return self._closed_orbit
 
     def track_closed_orbit(self):
+        """Track closed orbit"""
         zi = zgoubidoo.Input(
             name='TEST',
             line=[

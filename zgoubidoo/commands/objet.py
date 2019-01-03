@@ -99,6 +99,10 @@ class Objet2(Objet):
         'KOBJ': (2, ''),
         'K2': (0, ''),
         'IDMAX': (1, ''),
+        'Y': (0.0, '', 30),
+        'T': (0.0, '', 31),
+        'Z': (0.0, '', 32),
+        'P': (0.0, '', 33),
     }
 
     def post_init(self, **kwargs):
@@ -125,7 +129,7 @@ class Objet2(Objet):
     @property
     def PARTICULES(self):
         if isinstance(self._PARTICULES, list):
-            self._PARTICULES = _np.array(self._PARTICULES)
+            self._PARTICULES = _np.array(self._PARTICULES).reshape(1, 7)
         if self._PARTICULES is None:
             self._PARTICULES = _np.zeros((1, 7))
             self._PARTICULES[:, 5] = 1.0  # D = 1
@@ -162,7 +166,7 @@ class Objet2(Objet):
         """
         for p in s.PARTICULES[:, 0:6]:
             c += f"""
-        {p[0]} {p[1]} {p[2]} {p[3]} {p[4]} {p[5]} A
+        {p[0]:.12e} {p[1]:.12e} {p[2]:.12e} {p[3]:.12e} {p[4]:.12e} {p[5]:.12e} A
         """.lstrip()
         c += " ".join(map(lambda x: f"{int(x):d}", s.IEX)) + "\n"
         return c

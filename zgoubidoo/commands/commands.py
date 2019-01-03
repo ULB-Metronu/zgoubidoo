@@ -4,7 +4,7 @@ Commands controlling Zgoubi's control flow, geometry, tracking options, etc.
 TODO
 """
 from __future__ import annotations
-from typing import Optional, Any, Tuple, Dict, List
+from typing import Optional, Any, Tuple, Dict, List, Union, Iterable
 import uuid
 import pandas as _pd
 import parse as _parse
@@ -14,6 +14,7 @@ from .. import ureg as _ureg
 from .. import _Q
 from ..frame import Frame as _Frame
 from ..units import _radian, _degree, _m, _cm
+from ..utils import fortran_float
 import zgoubidoo
 
 ZGOUBI_LABEL_LENGTH: int = 10
@@ -93,12 +94,15 @@ class CommandType(type):
 
     def __getattr__(cls, key):
         try:
-            return cls.PARAMETERS[key][0]
+            return cls.PARAMETERS[key]
         except KeyError:
             raise AttributeError(key)
 
-    def __getitem__(cls, item):
-        return getattr(cls, item)
+    def __getitem__(cls, item: str):
+        try:
+            return cls.PARAMETERS[item][0]
+        except KeyError:
+            raise AttributeError(item)
 
     def __contains__(cls, item) -> bool:
         return item in cls.PARAMETERS
@@ -138,8 +142,12 @@ class Command(metaclass=CommandType):
             if k not in self._POST_INIT:
                 setattr(self, k, v)
         if label1:
+            if len(label1) > ZGOUBI_LABEL_LENGTH:
+                raise ZgoubidooException(f"LABEL1 '{label1}' for element {self.KEYWORD} is too long.")
             self._attributes['LABEL1'] = label1
         if label2:
+            if len(label2) > ZGOUBI_LABEL_LENGTH:
+                raise ZgoubidooException(f"LABEL2 '{label2}' for element {label1} ({self.KEYWORD}) is too long.")
             self._attributes['LABEL2'] = label2
         if not self._attributes['LABEL1']:
             self._attributes['LABEL1'] = str(uuid.uuid4().hex)[:ZGOUBI_LABEL_LENGTH]
@@ -667,14 +675,14 @@ class Fit(Command, metaclass=FitType):
         """
         TODO
         """
-        def __init__(self, line, place, parameter):
+        def __init__(self, line: zgoubidoo.Input, place: Union[str, Command], parameter: Union[int, Iterable]):
             """
 
             """
-            self.IR = line.index(place)
-            self.IP = parameter
-            self.XC = 0
-            self.DV = [-30, 30]
+            self.IR: int = line.index(place)
+            self.IP: int = parameter
+            self.XC: int = 0
+            self.DV = [-100, 100]
 
         def __getitem__(self, item):
             return getattr(self, item)
@@ -705,7 +713,14 @@ class Fit(Command, metaclass=FitType):
 
     class EqualityConstraint(Constraint):
         """Equality constraint on the trajectories."""
-        def __init__(self, line, place, variable, value, weight=1.0, particle=1):
+        def __init__(self,
+                     line: zgoubidoo.Input,
+                     place: Union[str, Command],
+                     variable: int,
+                     value: float = 0.0,
+                     weight: float = 1.0,
+                     particle: int = 1
+                     ):
             """
 
             Args:
@@ -715,13 +730,67 @@ class Fit(Command, metaclass=FitType):
                 value:
                 weight:
             """
-            self.IC = 3
-            self.I = particle
-            self.J = variable
-            self.IR = line.index(place)
-            self.V = value
-            self.WV = weight
-            self.NP = 0
+            self.IC: float = 3
+            self.I: int = particle
+            self.J: int = variable
+            self.IR: int = line.index(place)
+            self.V: float = value
+            self.WV: float = weight
+            self.NP: int = 0
+
+    class DifferenceEqualityConstraint(EqualityConstraint):
+        """Equality constraint on the difference between current and initial coordinates."""
+        def __init__(self,
+                     line: zgoubidoo.Input,
+                     place: Union[str, Command],
+                     variable: int,
+                     value: float = 0.0,
+                     weight: float = 1.0,
+                     particle: int = 1
+                     ):
+            super().__init__(line, place, variable, value, weight, particle)
+            self.IC = 3.1
+
+    class SumEqualityConstraint(EqualityConstraint):
+        """Equality constraint on the difference between current and initial coordinates."""
+        def __init__(self,
+                     line: zgoubidoo.Input,
+                     place: Union[str, Command],
+                     variable: int,
+                     value: float = 0.0,
+                     weight: float = 1.0,
+                     particle: int = 1
+                     ):
+            super().__init__(line, place, variable, value, weight, particle)
+            self.IC = 3.2
+
+    class MaxEqualityConstraint(EqualityConstraint):
+        """Equality constraint on the difference between current and initial coordinates."""
+        def __init__(self,
+                     line: zgoubidoo.Input,
+                     place: Union[str, Command],
+                     variable: int,
+                     value: float = 0.0,
+                     weight: float = 1.0,
+                     particle: int = 1
+                     ):
+            super().__init__(line, place, variable, value, weight, particle)
+            self.IC = 3.3
+            self.NP = 2
+
+    class MinEqualityConstraint(EqualityConstraint):
+        """Equality constraint on the difference between current and initial coordinates."""
+        def __init__(self,
+                     line: zgoubidoo.Input,
+                     place: Union[str, Command],
+                     variable: int,
+                     value: float = 0.0,
+                     weight: float = 1.0,
+                     particle: int = 1
+                     ):
+            super().__init__(line, place, variable, value, weight, particle)
+            self.IC = 3.3
+            self.NP = 1
 
     def __str__(self):
         command = list()
@@ -800,7 +869,7 @@ class Fit(Command, metaclass=FitType):
                         break
                 except (TypeError, IndexError):
                     continue
-            return zgoubidoo._Q(v[0]).units
+            return _Q(v[0]).units
 
         grab: bool = False
         data: list = []
@@ -817,11 +886,11 @@ class Fit(Command, metaclass=FitType):
                         'variable_id': int(values[1]),
                         'parameter_id': int(values[2]),
                         'parameter': find_parameter_by_id(int(values[0]), int(values[2])),
-                        'min': float(values[3]),
-                        'initial': float(values[4]),
-                        'final': float(values[5]) * find_dimension_by_id(int(values[0]), int(values[2])),
-                        'max': float(values[6]),
-                        'stepsize': float(values[7]),
+                        'min': fortran_float(values[3]),
+                        'initial': fortran_float(values[4]),
+                        'final': fortran_float(values[5]) * find_dimension_by_id(int(values[0]), int(values[2])),
+                        'max': fortran_float(values[6]),
+                        'stepsize': fortran_float(values[7]),
                 }
                 if len(values) >= 9:
                     d['name'] = values[8]

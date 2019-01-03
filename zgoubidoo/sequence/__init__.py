@@ -1,4 +1,4 @@
 """
 
 """
-from .sequence import Sequence, ZgoubidooSequenceException
+from .sequence import Sequence, ZgoubidooSequenceException, Coordinates

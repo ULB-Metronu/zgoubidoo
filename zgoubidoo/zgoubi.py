@@ -107,6 +107,11 @@ class ZgoubiRun:
         """
         return self._results
 
+    def print(self, what='result'):
+        """Print."""
+        for r in self.results:
+            print('\n'.join(r[what]))
+
 
 class Zgoubi:
     """High level interface to run Zgoubi from Python."""
@@ -267,7 +272,7 @@ class Zgoubi:
         """
         data = []
         for l in out:
-            if str(label) in l and 'Keyword' in l:
+            if label in l and 'Keyword' in l:
                 data.append(l)
                 continue
             if len(data) > 0:
