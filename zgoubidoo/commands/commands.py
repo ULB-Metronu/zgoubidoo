@@ -220,7 +220,7 @@ class Command(metaclass=CommandType):
                 raise ZgoubidooException(f"The parameter {k_} is not part of the {self.__class__.__name__} definition.")
 
             default = self._retrieve_default_parameter_value(k_)
-            if isinstance(v, float) and k.endswith('_'):
+            if isinstance(v, (int, float)) and k.endswith('_'):
                 v = _ureg.Quantity(v, _ureg.Quantity(default).units)
             try:
                 dimension = v.dimensionality
@@ -268,6 +268,12 @@ class Command(metaclass=CommandType):
         return f"""
         '{self.KEYWORD}' {self.LABEL1} {self.LABEL2}
         """
+
+    def __copy__(self):
+        label1 = f"{self.LABEL1}_COPY"
+        if len(label1) > ZGOUBI_LABEL_LENGTH:
+            label1 = str(uuid.uuid4().hex)[:ZGOUBI_LABEL_LENGTH]
+        return self.__class__(label1=label1, label2=self.LABEL2, **self.attributes)
 
     @property
     def attributes(self) -> Dict[str, _ureg.Quantity]:
@@ -558,7 +564,9 @@ class ESL(Command):
 class Faisceau(Command):
     """Print particle coordinates.
 
-    TODO
+    .. rubric:: Zgoubi manual description
+
+    Print particle coordinates at the location where the keyword is introduced in the structure.
     """
     KEYWORD = 'FAISCEAU'
     """Keyword of the command used for the Zgoubi input data."""
