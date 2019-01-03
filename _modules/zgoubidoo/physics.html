@@ -197,7 +197,7 @@
 <span class="sd">            kinetic:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">_Q</span><span class="p">]</span> <span class="o">=</span> <span class="n">q</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_p</span><span class="p">:</span> <span class="n">Particule</span> <span class="o">=</span> <span class="n">particle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_p</span><span class="p">:</span> <span class="n">ParticuleType</span> <span class="o">=</span> <span class="n">particle</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="n">_Q</span><span class="p">(</span><span class="n">q</span><span class="p">)</span><span class="o">.</span><span class="n">dimensionality</span> <span class="o">==</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">dimensionality</span><span class="p">:</span>
@@ -237,7 +237,7 @@
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ZgoubiPhysicsException</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Invalid conversion attempted: </span><span class="si">{c}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Kinematics.to_range"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.physics.Kinematics.to_range">[docs]</a>    <span class="k">def</span> <span class="nf">to_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Kinematics.to_range"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.physics.Kinematics.to_range">[docs]</a>    <span class="k">def</span> <span class="nf">to_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
@@ -558,7 +558,7 @@
 <span class="sd">    :param particle: the particle type (default: proton)</span>
 <span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">brho</span> <span class="o">*</span> <span class="n">particle</span><span class="o">.</span><span class="n">Q</span></div>
+    <span class="k">return</span> <span class="n">momentum_to_energy</span><span class="p">(</span><span class="n">brho_to_momentum</span><span class="p">(</span><span class="n">brho</span><span class="p">,</span> <span class="n">particle</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="brho_to_momentum"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.physics.brho_to_momentum">[docs]</a><span class="k">def</span> <span class="nf">brho_to_momentum</span><span class="p">(</span><span class="n">brho</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">ParticuleType</span> <span class="o">=</span> <span class="n">Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>

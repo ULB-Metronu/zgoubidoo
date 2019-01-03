@@ -165,7 +165,7 @@
 <span class="sd">be validated using a set of validators, following the Zgoubi input constraints.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span><span class="p">,</span> <span class="n">reduce</span>
 <span class="kn">import</span> <span class="nn">tempfile</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -175,6 +175,7 @@
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">_Q</span>
 <span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.beam</span> <span class="k">import</span> <span class="n">Beam</span>
+<span class="kn">from</span> <span class="nn">.frame</span> <span class="k">import</span> <span class="n">Frame</span> <span class="k">as</span> <span class="n">_Frame</span>
 <span class="kn">import</span> <span class="nn">zgoubidoo.commands</span>
 
 <span class="n">ListPaths</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">]]</span>
@@ -593,6 +594,17 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_optical_length</span> <span class="o">+=</span> <span class="n">l</span></div>
+
+<div class="viewcode-block" id="Input.survey"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.survey">[docs]</a>    <span class="k">def</span> <span class="nf">survey</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference_frame</span><span class="p">:</span> <span class="n">_Frame</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Input</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Perform a survey on the input sequence.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            reference_frame: a Zgoubidoo Frame object acting as the global reference frame</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the surveyed input sequence.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">survey</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference_frame</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">_</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span>

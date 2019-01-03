@@ -290,6 +290,58 @@
 </table>
 </dd></dl>
 
+<dl class="attribute">
+<dt>
+<code class="descname">Y='0.0'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">T='0.0'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">Z='0.0'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">P='0.0'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <p class="rubric">Attributes Summary</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -322,10 +374,18 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.add" title="zgoubidoo.commands.objet.Objet2.add"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add</span></code></a>(p)</td>
-<td></td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param p:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.clear" title="zgoubidoo.commands.objet.Objet2.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear</span></code></a>()</td>
-<td></td>
+<td>Reset the object’s content, remove all particles.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.post_init" title="zgoubidoo.commands.objet.Objet2.post_init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">post_init</span></code></a>(**kwargs)</td>
 <td>TODO :param **kwargs: all arguments from the initializer (constructor) are passed to <code class="docutils literal notranslate"><span class="pre">post_init</span></code> as keyword arguments.</td>
@@ -352,7 +412,7 @@
 
 <dl class="attribute">
 <dt id="zgoubidoo.commands.objet.Objet2.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'BORO': (&lt;Quantity(1.0, 'centimeter * kilogauss')&gt;, 'Reference magnetic rigidity.'), 'IDMAX': (1, ''), 'K2': (0, ''), 'KOBJ': (2, ''), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.')}</em><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="descname">PARAMETERS</code><em class="property"> = {'BORO': (&lt;Quantity(1.0, 'centimeter * kilogauss')&gt;, 'Reference magnetic rigidity.'), 'IDMAX': (1, ''), 'K2': (0, ''), 'KOBJ': (2, ''), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'P': (0.0, '', 33), 'T': (0.0, '', 31), 'Y': (0.0, '', 30), 'Z': (0.0, '', 32)}</em><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -364,12 +424,22 @@
 <dl class="method">
 <dt id="zgoubidoo.commands.objet.Objet2.add">
 <code class="descname">add</code><span class="sig-paren">(</span><em>p</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/objet.html#Objet2.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.add" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>p</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="zgoubidoo.commands.objet.Objet2.clear">
 <code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/objet.html#Objet2.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.clear" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Reset the object’s content, remove all particles.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="zgoubidoo.commands.objet.Objet2.post_init">

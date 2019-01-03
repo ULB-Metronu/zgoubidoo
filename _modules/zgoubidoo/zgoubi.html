@@ -265,7 +265,12 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            a list of mappings.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span>
+
+<div class="viewcode-block" id="ZgoubiRun.print"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.ZgoubiRun.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">what</span><span class="o">=</span><span class="s1">&#39;result&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="n">what</span><span class="p">]))</span></div></div>
 
 
 <div class="viewcode-block" id="Zgoubi"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.Zgoubi">[docs]</a><span class="k">class</span> <span class="nc">Zgoubi</span><span class="p">:</span>
@@ -427,7 +432,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="ow">in</span> <span class="n">l</span> <span class="ow">and</span> <span class="s1">&#39;Keyword&#39;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">l</span> <span class="ow">and</span> <span class="s1">&#39;Keyword&#39;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
                 <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
                 <span class="k">continue</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
