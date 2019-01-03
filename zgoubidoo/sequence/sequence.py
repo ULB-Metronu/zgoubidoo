@@ -3,6 +3,7 @@
 """
 from typing import Optional, List, Union, Iterable
 from dataclasses import dataclass
+import copy
 import numpy as _np
 from ..input import Input
 from ..commands.particules import Proton, ParticuleType
@@ -132,9 +133,25 @@ class Sequence:
         """Provide the sequence of elements."""
         return self._sequence
 
+    def get_periodic_input(self, repeat: int = 1):
+        """
+        Provides an input sequence of a copy of the elements of the sequence, repeated a given number of times wrapped
+        in a Zgoubi Input and performs a survey.
+
+        Notes:
+            the elements (`Commands`) are copied.
+
+        Args:
+            repeat: the number of periodic repetitions of the sequence
+
+        Returns:
+            the repeated input sequence.
+        """
+        return Input(name=self.name, line=[copy.copy(e) for e in repeat * self.sequence]).survey()
+
     @property
     def input(self) -> Input:
-        """Provide the sequence of elements wrapped in a Zgoubi Input and perform a survey."""
+        """Provide the sequence of elements wrapped in a Zgoubi Input and performs a survey."""
         return Input(name=self.name, line=self.sequence).survey()
 
     @property
