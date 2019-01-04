@@ -17,6 +17,11 @@ Support for patchable elements
 .. automodapi:: zgoubidoo.commands.patchable
     :no-heading:
 
+Support for plotable elements
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodapi:: zgoubidoo.commands.plotable
+    :no-heading:
 
 Control-flow, calculation and miscellanous commands
 ---------------------------------------------------
