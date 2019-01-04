@@ -164,6 +164,122 @@
   <div class="section" id="module-zgoubidoo.beam">
 <span id="working-with-zgoubidoo-beams"></span><h1>Working with Zgoubidoo beams<a class="headerlink" href="#module-zgoubidoo.beam" title="Permalink to this headline">¶</a></h1>
 <p>Zgoubidoo beam.</p>
+<dl class="class">
+<dt id="zgoubidoo.beam.Beam">
+<em class="property">class </em><code class="descclassname">zgoubidoo.beam.</code><code class="descname">Beam</code><span class="sig-paren">(</span><em>distribution: Optional[pandas.core.frame.DataFrame] = None</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em>, <em>kinematic: Union[zgoubidoo.physics.Kinematics</em>, <em>float</em>, <em>pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>None] = None</em>, <em>slices: int = 1</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/beam.html#Beam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.beam.Beam" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="zgoubidoo.beam.Beam.from_5d_sigma_matrix">
+<code class="descname">from_5d_sigma_matrix</code><span class="sig-paren">(</span><em>n</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.beam.Beam<a class="reference internal" href="_modules/zgoubidoo/beam.html#Beam.from_5d_sigma_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.beam.Beam.from_5d_sigma_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a beam with a 5D particle distribution from a Sigma matrix.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.beam.Beam.from_file">
+<code class="descname">from_file</code><span class="sig-paren">(</span><em>file: str</em>, <em>n: Optional[int] = None</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.beam.Beam<a class="reference internal" href="_modules/zgoubidoo/beam.html#Beam.from_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.beam.Beam.from_file" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file</strong> – </li>
+<li><strong>n</strong> – </li>
+<li><strong>path</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.beam.Beam.from_twiss_parameters">
+<code class="descname">from_twiss_parameters</code><span class="sig-paren">(</span><em>n</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.beam.Beam<a class="reference internal" href="_modules/zgoubidoo/beam.html#Beam.from_twiss_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.beam.Beam.from_twiss_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a beam with a 5D particle distribution from Twiss parameters.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="zgoubidoo.beam.Beam.generate_from_5d_sigma_matrix">
+<em class="property">static </em><code class="descname">generate_from_5d_sigma_matrix</code><span class="sig-paren">(</span><em>n: int</em>, <em>x: float = 0</em>, <em>px: float = 0</em>, <em>y: float = 0</em>, <em>py: float = 0</em>, <em>dpp: float = 0</em>, <em>s11: float = 0</em>, <em>s12: float = 0</em>, <em>s13: float = 0</em>, <em>s14: float = 0</em>, <em>s15: float = 0</em>, <em>s22: float = 0</em>, <em>s23: float = 0</em>, <em>s24: float = 0</em>, <em>s25: float = 0</em>, <em>s33: float = 0</em>, <em>s34: float = 0</em>, <em>s35: float = 0</em>, <em>s44: float = 0</em>, <em>s45: float = 0</em>, <em>dpprms: float = 0</em>, <em>matrix=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/beam.html#Beam.generate_from_5d_sigma_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.beam.Beam.generate_from_5d_sigma_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> – </li>
+<li><strong>x</strong> – </li>
+<li><strong>px</strong> – </li>
+<li><strong>y</strong> – </li>
+<li><strong>py</strong> – </li>
+<li><strong>dpp</strong> – </li>
+<li><strong>s11</strong> – </li>
+<li><strong>s12</strong> – </li>
+<li><strong>s13</strong> – </li>
+<li><strong>s14</strong> – </li>
+<li><strong>s15</strong> – </li>
+<li><strong>s22</strong> – </li>
+<li><strong>s23</strong> – </li>
+<li><strong>s24</strong> – </li>
+<li><strong>s25</strong> – </li>
+<li><strong>s33</strong> – </li>
+<li><strong>s34</strong> – </li>
+<li><strong>s35</strong> – </li>
+<li><strong>s44</strong> – </li>
+<li><strong>s45</strong> – </li>
+<li><strong>dpprms</strong> – </li>
+<li><strong>matrix</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="zgoubidoo.beam.Beam.generate_from_file">
+<em class="property">static </em><code class="descname">generate_from_file</code><span class="sig-paren">(</span><em>file: str</em>, <em>path: str = '.'</em>, <em>n: Optional[int] = None</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/beam.html#Beam.generate_from_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.beam.Beam.generate_from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a beam distribution from file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.beam.Beam.get_slices">
+<code class="descname">get_slices</code><span class="sig-paren">(</span><em>n=None</em><span class="sig-paren">)</span> &#x2192; NoReturn<a class="reference internal" href="_modules/zgoubidoo/beam.html#Beam.get_slices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.beam.Beam.get_slices" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">NoReturn</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.beam.Beam.slices">
+<code class="descname">slices</code><a class="headerlink" href="#zgoubidoo.beam.Beam.slices" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">NoReturn</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Type:</th><td class="field-body">param n</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="zgoubidoo.beam.ZgoubidooBeamException">
+<em class="property">exception </em><code class="descclassname">zgoubidoo.beam.</code><code class="descname">ZgoubidooBeamException</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/beam.html#ZgoubidooBeamException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.beam.ZgoubidooBeamException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception raised for errors in the Zgoubidoo Beam module.</p>
+</dd></dl>
+
 </div>
 
 

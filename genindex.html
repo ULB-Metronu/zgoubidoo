@@ -273,6 +273,8 @@
 </li>
       <li><a href="api/zgoubidoo.commands.contrib.iba.B3G.html#zgoubidoo.commands.contrib.iba.B3G">B3G (class in zgoubidoo.commands.contrib.iba)</a>
 </li>
+      <li><a href="beam.html#zgoubidoo.beam.Beam">Beam (class in zgoubidoo.beam)</a>
+</li>
       <li><a href="api/zgoubidoo.commands.commands.BeamBeam.html#zgoubidoo.commands.commands.BeamBeam">BeamBeam (class in zgoubidoo.commands.commands)</a>
 </li>
       <li><a href="api/zgoubidoo.vis.beamline.html#zgoubidoo.vis.beamline">beamline() (in module zgoubidoo.vis)</a>
@@ -541,10 +543,10 @@
 </li>
       <li><a href="api/zgoubidoo.sequence.sequence.Sequence.html#zgoubidoo.sequence.sequence.Sequence.find_closed_orbit">find_closed_orbit() (zgoubidoo.sequence.sequence.Sequence method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="zgoubi.html#zgoubidoo.zgoubi.Zgoubi.find_labeled_output">find_labeled_output() (zgoubidoo.zgoubi.Zgoubi static method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/zgoubidoo.commands.commands.Fit.html#zgoubidoo.commands.commands.Fit">Fit (class in zgoubidoo.commands.commands)</a>
 </li>
       <li><a href="api/zgoubidoo.commands.magnetique.Dipole.html#zgoubidoo.commands.magnetique.Dipole.fit">fit() (zgoubidoo.commands.magnetique.Dipole method)</a>
@@ -558,6 +560,12 @@
       <li><a href="api/zgoubidoo.commands.commands.FocaleZ.html#zgoubidoo.commands.commands.FocaleZ">FocaleZ (class in zgoubidoo.commands.commands)</a>
 </li>
       <li><a href="utilities.html#zgoubidoo.frame.Frame">Frame (class in zgoubidoo.frame)</a>
+</li>
+      <li><a href="beam.html#zgoubidoo.beam.Beam.from_5d_sigma_matrix">from_5d_sigma_matrix() (zgoubidoo.beam.Beam method)</a>
+</li>
+      <li><a href="beam.html#zgoubidoo.beam.Beam.from_file">from_file() (zgoubidoo.beam.Beam method)</a>
+</li>
+      <li><a href="beam.html#zgoubidoo.beam.Beam.from_twiss_parameters">from_twiss_parameters() (zgoubidoo.beam.Beam method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -581,17 +589,23 @@
 </li>
       <li><a href="api/zgoubidoo.commands.commands.GasScattering.html#zgoubidoo.commands.commands.GasScattering">GasScattering (class in zgoubidoo.commands.commands)</a>
 </li>
+      <li><a href="beam.html#zgoubidoo.beam.Beam.generate_from_5d_sigma_matrix">generate_from_5d_sigma_matrix() (zgoubidoo.beam.Beam static method)</a>
+</li>
+      <li><a href="beam.html#zgoubidoo.beam.Beam.generate_from_file">generate_from_file() (zgoubidoo.beam.Beam static method)</a>
+</li>
       <li><a href="utilities.html#zgoubidoo.frame.Frame.get_angles">get_angles() (zgoubidoo.frame.Frame method)</a>
 </li>
       <li><a href="input.html#zgoubidoo.input.Input.get_attributes">get_attributes() (zgoubidoo.input.Input method)</a>
 </li>
-      <li><a href="utilities.html#zgoubidoo.frame.Frame.get_origin">get_origin() (zgoubidoo.frame.Frame method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="utilities.html#zgoubidoo.frame.Frame.get_origin">get_origin() (zgoubidoo.frame.Frame method)</a>
+</li>
       <li><a href="utilities.html#zgoubidoo.frame.Frame.get_quaternion">get_quaternion() (zgoubidoo.frame.Frame method)</a>
 </li>
       <li><a href="utilities.html#zgoubidoo.frame.Frame.get_rotation_matrix">get_rotation_matrix() (zgoubidoo.frame.Frame method)</a>
+</li>
+      <li><a href="beam.html#zgoubidoo.beam.Beam.get_slices">get_slices() (zgoubidoo.beam.Beam method)</a>
 </li>
       <li><a href="utilities.html#zgoubidoo.frame.Frame.get_tx">get_tx() (zgoubidoo.frame.Frame method)</a>
 </li>
@@ -1649,16 +1663,18 @@
 </li>
       <li><a href="api/zgoubidoo.commands.contrib.iba.CGTR.html#zgoubidoo.commands.contrib.iba.CGTR.shoot">shoot() (zgoubidoo.commands.contrib.iba.CGTR method)</a>
 </li>
+      <li><a href="beam.html#zgoubidoo.beam.Beam.slices">slices (zgoubidoo.beam.Beam attribute)</a>
+</li>
       <li><a href="api/zgoubidoo.commands.contrib.iba.SMX.html#zgoubidoo.commands.contrib.iba.SMX">SMX (class in zgoubidoo.commands.contrib.iba)</a>
 </li>
       <li><a href="api/zgoubidoo.commands.contrib.iba.SMY.html#zgoubidoo.commands.contrib.iba.SMY">SMY (class in zgoubidoo.commands.contrib.iba)</a>
 </li>
       <li><a href="api/zgoubidoo.commands.magnetique.Solenoid.html#zgoubidoo.commands.magnetique.Solenoid">Solenoid (class in zgoubidoo.commands.magnetique)</a>
 </li>
-      <li><a href="api/zgoubidoo.commands.spin.SpinPrint.html#zgoubidoo.commands.spin.SpinPrint">SpinPrint (in module zgoubidoo.commands.spin)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/zgoubidoo.commands.spin.SpinPrint.html#zgoubidoo.commands.spin.SpinPrint">SpinPrint (in module zgoubidoo.commands.spin)</a>
+</li>
       <li><a href="api/zgoubidoo.commands.spin.SpinRotation.html#zgoubidoo.commands.spin.SpinRotation">SpinRotation (class in zgoubidoo.commands.spin)</a>
 </li>
       <li><a href="api/zgoubidoo.commands.spin.SpinStore.html#zgoubidoo.commands.spin.SpinStore">SpinStore (class in zgoubidoo.commands.spin)</a>
@@ -1893,10 +1909,10 @@
 </li>
       <li><a href="commands.html#module-zgoubidoo.commands.particules">zgoubidoo.commands.particules (module)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="commands.html#module-zgoubidoo.commands.spin">zgoubidoo.commands.spin (module)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="utilities.html#module-zgoubidoo.frame">zgoubidoo.frame (module)</a>
 </li>
       <li><a href="input.html#module-zgoubidoo.input">zgoubidoo.input (module)</a>
@@ -1918,6 +1934,8 @@
       <li><a href="vis.html#module-zgoubidoo.vis">zgoubidoo.vis (module)</a>
 </li>
       <li><a href="zgoubi.html#module-zgoubidoo.zgoubi">zgoubidoo.zgoubi (module)</a>
+</li>
+      <li><a href="beam.html#zgoubidoo.beam.ZgoubidooBeamException">ZgoubidooBeamException</a>
 </li>
       <li><a href="api/zgoubidoo.commands.commands.ZgoubidooException.html#zgoubidoo.commands.commands.ZgoubidooException">ZgoubidooException</a>
 </li>
