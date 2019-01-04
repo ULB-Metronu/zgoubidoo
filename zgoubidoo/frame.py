@@ -71,10 +71,11 @@ class Frame:
         is considered to be a global reference frame. The frame is create with no rotation or translate with
         respect to its parent frame.
 
-        :param parent: parent frame, if None then the frame itself is considered as a global reference frame.
-        :param reference: reference frame, all quantities are provided by default with respect to this frame.
-        This allows to use the properties easily but can be modified on a case-by-case basis for each function.
-        Alternatively the reference frame can be modified after the object creation.
+        Args:
+            parent: parent frame, if None then the frame itself is considered as a global reference frame.
+            reference: reference frame, all quantities are provided by default with respect to this frame.
+            This allows to use the properties easily but can be modified on a case-by-case basis for each function.
+            Alternatively the reference frame can be modified after the object creation.
         """
         self._p: Optional[Frame] = parent
         self._r: Optional[Frame] = reference
@@ -368,14 +369,15 @@ class Frame:
         Provides the Y axis offset representing the translation of the frame with respect to another reference frame.
         This method works with full support of pint units.
 
-        >>> f1 = Frame().translate_y(10 * _ureg.cm)
-        >>> f1.get_y()
-        <Quantity(0.1, 'meter')>
-        >>> f2 = Frame(f1).translate_x(100 * _ureg.cm)
-        >>> f2.get_y()
-        <Quantity(0.1, 'meter')>
-        >>> f2.get_y(f1)
-        <Quantity(0.0, 'meter')>
+        Examples:
+            >>> f1 = Frame().translate_y(10 * _ureg.cm)
+            >>> f1.get_y()
+            <Quantity(0.1, 'meter')>
+            >>> f2 = Frame(f1).translate_x(100 * _ureg.cm)
+            >>> f2.get_y()
+            <Quantity(0.1, 'meter')>
+            >>> f2.get_y(f1)
+            <Quantity(0.0, 'meter')>
 
         Args:
             ref: reference frame with respect to which the origin is returned. If None then the translation is provided
@@ -394,19 +396,23 @@ class Frame:
         Provides the Z axis offset representing the translation of the frame with respect to another reference frame.
         This method works in the internal unit representation of the class `Frame`.
 
-        >>> f1 = Frame().translate_z(10 * _ureg.cm)
-        >>> f1._get_z()
-        0.1
-        >>> f2 = Frame(f1).translate_x(100 * _ureg.cm)
-        >>> f2._get_z()
-        0.1
-        >>> f2._get_z(f1)
-        0.0
+        Examples:
+            >>> f1 = Frame().translate_z(10 * _ureg.cm)
+            >>> f1._get_z()
+            0.1
+            >>> f2 = Frame(f1).translate_x(100 * _ureg.cm)
+            >>> f2._get_z()
+            0.1
+            >>> f2._get_z(f1)
+            0.0
 
-        :param ref: reference frame with respect to which the origin is returned.
-        If None then the translation is provided with respect to the current reference frame.
-        :return: the Z axis offset (float, no units) representing the Z axis translation with respect to
-        a given reference frame.
+        Args:
+            ref: reference frame with respect to which the origin is returned.
+            If None then the translation is provided with respect to the current reference frame.
+
+        Returns:
+            the Z axis offset (float, no units) representing the Z axis translation with respect to a given reference
+            frame.
         """
         return self._get_origin(ref)[_Z]
 
@@ -455,10 +461,14 @@ class Frame:
     def _get_angles(self, ref: Optional[Frame] = None) -> _np.ndarray:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param ref:
-        :return:
+        Args:
+            ref:
+
+        Returns:
+
         """
         m = _quaternion.as_rotation_matrix(self.get_quaternion(ref))
         m11 = m[1, 1]
@@ -480,11 +490,15 @@ class Frame:
     def get_angles(self, ref: Optional[Frame] = None, units: _ureg.Unit = _ureg.radian) -> List[_ureg.Quantity]:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param ref:
-        :param units:
-        :return:
+        Args:
+            ref:
+            units:
+
+        Returns:
+
         """
         return list(map(lambda _: (_ * _ureg.radian).to(units), self._get_angles(ref)))
 
@@ -493,20 +507,28 @@ class Frame:
     def _get_tx(self, ref: Optional[Frame] = None) -> float:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param ref:
-        :return:
+        Args:
+            ref:
+
+        Returns:
+
         """
         return self._get_angles(ref)[_X]
 
     def get_tx(self, ref: Optional[Frame] = None) -> _ureg.Quantity:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param ref:
-        :return:
+        Args:
+            ref:
+
+        Returns:
+
         """
         return self._get_tx(ref) * _ureg.radian
 
@@ -515,20 +537,28 @@ class Frame:
     def _get_ty(self, ref: Optional[Frame] = None) -> float:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param ref:
-        :return:
+        Args:
+            ref:
+
+        Returns:
+
         """
         return self._get_angles(ref)[_Y]
 
     def get_ty(self, ref: Optional[Frame] = None) -> _ureg.Quantity:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param ref:
-        :return:
+        Args:
+            ref:
+
+        Returns:
+
         """
         return self._get_ty(ref) * _ureg.radian
 
@@ -537,20 +567,28 @@ class Frame:
     def _get_tz(self, ref: Optional[Frame] = None) -> float:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param ref:
-        :return:
+        Args:
+            ref:
+
+        Returns:
+
         """
         return self._get_angles(ref)[_Z]
 
     def get_tz(self, ref: Optional[Frame] = None) -> _ureg.Quantity:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param ref:
-        :return:
+        Args:
+            ref:
+
+        Returns:
+
         """
         return self._get_tz(ref) * _ureg.radian
 
@@ -560,13 +598,17 @@ class Frame:
         """
         Provide a simple way to rotate the Frame in a generic way, by multiplying directly with a quaternion.
 
-        >>> f = Frame()
-        >>> q = _quaternion.from_rotation_vector([0, 0, 0.5])
-        >>> (f * q).tx
-        <Quantity(-0.5, 'radian')>
+        Examples:
+            >>> f = Frame()
+            >>> q = _quaternion.from_rotation_vector([0, 0, 0.5])
+            >>> (f * q).tx
+            <Quantity(-0.5, 'radian')>
 
-        :param q: a quaternion by which the frame is multiplied representing the rotation
-        :return: the rotated frame (in place), allows method chaining
+        Args:
+            q: a quaternion by which the frame is multiplied representing the rotation
+
+        Returns:
+            the rotated frame (in place), allows method chaining
         """
         self._q *= q
         return self
@@ -574,89 +616,124 @@ class Frame:
     def _rotate(self, angles: _np.array) -> Frame:
         """
 
-        :param angles:
-        :return: the rotated frame (in place), allows method chaining
+        Args:
+            angles:
+
+        Returns:
+            the rotated frame (in place), allows method chaining
         """
         return self * _quaternion.from_rotation_vector(angles)
 
     def rotate(self, angles: List[_ureg.Quantity]) -> Frame:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param angles:
-        :return: the rotated frame (in place), allows method chaining
+        Args:
+            angles:
+
+        Returns:
+            the rotated frame (in place), allows method chaining
         """
         return self._rotate(_np.array(list(map(lambda _: _radian(_), angles))))
 
     def _rotate_x(self, angle: float) -> Frame:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param angle:
-        :return:
+        Args:
+            angle:
+
+        Returns:
+
         """
         return self._rotate([angle, 0, 0])
 
     def rotate_x(self, angle: _ureg.Quantity) -> Frame:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param angle:
-        :return:
+        Args:
+            angle:
+
+        Returns:
+
         """
         return self._rotate_x(_radian(angle))
 
     def _rotate_y(self, angle: float) -> Frame:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param angle:
-        :return:
+        Args:
+            angle:
+
+        Returns:
+
         """
         return self._rotate([0, angle, 0])
 
     def rotate_y(self, angle: _ureg.Quantity) -> Frame:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param angle:
-        :return:
+        Args:
+            angle:
+
+        Returns:
+
         """
         return self._rotate_y(_radian(angle))
 
     def _rotate_z(self, angle: float) -> Frame:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param angle:
-        :return:
+        Args:
+            angle:
+
+        Returns:
+
         """
         return self._rotate([0, 0, angle])
 
     def rotate_z(self, angle: _ureg.Quantity) -> Frame:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param angle:
-        :return:
+        Args:
+            angle:
+
+        Returns:
+
         """
         return self._rotate_z(_radian(angle))
 
     def rotate_axis(self, axis: str, angle: float) -> Frame:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param axis:
-        :param angle:
-        :return:
+        Args:
+            axis:
+            angle:
+
+        Returns:
+
         """
         if axis.lower() not in "xyz" or len(axis) > 1:
             raise ZgoubidooFrameException("Invalid rotation axis for 'translate_axis'")
@@ -667,27 +744,35 @@ class Frame:
         Provide a simple way to translate the Frame in a generic way, by adding an offset directly.
         This method is unit-aware and the offset must be provided as a list of pint Quantities.
 
-        >>> f = Frame()
-        >>> offset = [1.0 * _ureg.cm, 2.0 * _ureg.cm, 3.0 * _ureg.cm]
-        >>> (f + offset).x
-        <Quantity(0.01, 'meter')>
-        >>> (f + offset).y
-        <Quantity(0.04, 'meter')>
-        >>> (f + offset).z
-        <Quantity(0.09, 'meter')>
+        Examples:
+            >>> f = Frame()
+            >>> offset = [1.0 * _ureg.cm, 2.0 * _ureg.cm, 3.0 * _ureg.cm]
+            >>> (f + offset).x
+            <Quantity(0.01, 'meter')>
+            >>> (f + offset).y
+            <Quantity(0.04, 'meter')>
+            >>> (f + offset).z
+            <Quantity(0.09, 'meter')>
 
-        :param offset: a list representing the offset (elements of the list must be quantities of dimension [LENGTH])
-        :return: the translated frame (in place)
+        Args:
+            offset: a list representing the offset (elements of the list must be quantities of dimension [LENGTH])
+
+        Returns:
+            the translated frame (in place)
         """
         return self.translate(offset)
 
     def _translate(self, offset: _np.ndarray) -> Frame:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param offset:
-        :return:
+        Args:
+            offset:
+
+        Returns:
+
         """
         self._o += offset
         return self
@@ -697,21 +782,25 @@ class Frame:
         Translates the origin of the Frame with respect to the parent reference frame.
         The translations are extrinsic (done with respect to the axes of the parent frame).
 
-        >>> f1 = Frame()
-        >>> f1.translate([1.0 * _ureg.meter, 2.0 * _ureg.meter, 3.0 * _ureg.meter]).o
-        [<Quantity(1.0, 'meter')>, <Quantity(2.0, 'meter')>, <Quantity(3.0, 'meter')>]
-        >>> f2 = Frame(parent=f1)
-        >>> f2.translate([-1.0 * _ureg.meter, -2.0 * _ureg.meter, -3.0 * _ureg.meter]).o
-        [<Quantity(0.0, 'meter')>, <Quantity(0.0, 'meter')>, <Quantity(0.0, 'meter')>]
-        >>> f2.get_origin(f1)
-        [<Quantity(-1.0, 'meter')>, <Quantity(-2.0, 'meter')>, <Quantity(-3.0, 'meter')>]
-        >>> f2.rotate_x(180 * _ureg.degree).o
-        [<Quantity(0.0, 'meter')>, <Quantity(4.0, 'meter')>, <Quantity(6.0, 'meter')>]
-        >>> f2.get_origin(f1)
-        [<Quantity(-1.0, 'meter')>, <Quantity(-2.0, 'meter')>, <Quantity(-3.0, 'meter')>]
+        Examples:
+            >>> f1 = Frame()
+            >>> f1.translate([1.0 * _ureg.meter, 2.0 * _ureg.meter, 3.0 * _ureg.meter]).o
+            [<Quantity(1.0, 'meter')>, <Quantity(2.0, 'meter')>, <Quantity(3.0, 'meter')>]
+            >>> f2 = Frame(parent=f1)
+            >>> f2.translate([-1.0 * _ureg.meter, -2.0 * _ureg.meter, -3.0 * _ureg.meter]).o
+            [<Quantity(0.0, 'meter')>, <Quantity(0.0, 'meter')>, <Quantity(0.0, 'meter')>]
+            >>> f2.get_origin(f1)
+            [<Quantity(-1.0, 'meter')>, <Quantity(-2.0, 'meter')>, <Quantity(-3.0, 'meter')>]
+            >>> f2.rotate_x(180 * _ureg.degree).o
+            [<Quantity(0.0, 'meter')>, <Quantity(4.0, 'meter')>, <Quantity(6.0, 'meter')>]
+            >>> f2.get_origin(f1)
+            [<Quantity(-1.0, 'meter')>, <Quantity(-2.0, 'meter')>, <Quantity(-3.0, 'meter')>]
 
-        :param offset: a list representing the offset (elements of the list must be quantities of dimension [LENGTH])
-        :return: the translated frame (in place), allows method chaining
+        Args:
+            offset: a list representing the offset (elements of the list must be quantities of dimension [LENGTH])
+
+        Returns:
+            the translated frame (in place), allows method chaining
         """
         if len(offset) != 3:
             raise ZgoubidooFrameException("The offset must be of length 3.")
@@ -720,10 +809,14 @@ class Frame:
     def _translate_x(self, offset: float) -> Frame:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param offset:
-        :return:
+        Args:
+            offset:
+
+        Returns:
+
         """
         self._o[_X] += offset
         return self
@@ -731,20 +824,28 @@ class Frame:
     def translate_x(self, offset: _ureg.Quantity) -> Frame:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param offset:
-        :return:
+        Args:
+            offset:
+
+        Returns:
+
         """
         return self._translate_x(_m(offset))
 
     def _translate_y(self, offset: float) -> Frame:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param offset:
-        :return:
+        Args:
+            offset:
+
+        Returns:
+
         """
         self._o[_Y] += offset
         return self
@@ -752,21 +853,28 @@ class Frame:
     def translate_y(self, offset: _ureg.Quantity) -> Frame:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
-        :param offset:
-        :return:
+        Args:
+            offset:
+
+        Returns:
+
         """
         return self._translate_y(_m(offset))
 
     def _translate_z(self, offset: float) -> Frame:
         """
 
-        >>> f1 = Frame() # TODO
+        Examples:
+            >>> f1 = Frame() # TODO
 
+        Args:
+            offset:
 
-        :param offset:
-        :return:
+        Returns:
+
         """
         self._o[_Z] += offset
         return self
@@ -823,7 +931,7 @@ class Frame:
         Reset the frame (rotation and translation) with respect to the parent; the frame is thus equivalent to its
         parent frame.
 
-        Example:
+        Examples:
             >>> f1 = Frame().rotate_x(1 * _ureg.radian)
             >>> f1.get_angles() #doctest: +ELLIPSIS
             [<Quantity(0.0, 'radian')>, <Quantity(0.999..., 'radian')>, <Quantity(0.999..., 'radian')>]
