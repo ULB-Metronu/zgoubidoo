@@ -193,14 +193,14 @@
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="ZgoubidooFrameException"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.ZgoubidooFrameException">[docs]</a><span class="k">class</span> <span class="nc">ZgoubidooFrameException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="ZgoubidooFrameException"><a class="viewcode-back" href="../../api/zgoubidoo.frame.ZgoubidooFrameException.html#zgoubidoo.frame.ZgoubidooFrameException">[docs]</a><span class="k">class</span> <span class="nc">ZgoubidooFrameException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Exception raised for errors in the Frame module.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">m</span></div>
 
 
-<div class="viewcode-block" id="Frame"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame">[docs]</a><span class="k">class</span> <span class="nc">Frame</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame">[docs]</a><span class="k">class</span> <span class="nc">Frame</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A Frame object represents a reference frame for affine geometry transformations (rotations and translations).</span>
 <span class="sd">    It has full support for transformation chaining through the notion of &#39;parent frame&#39; and is able to provide</span>
@@ -231,17 +231,18 @@
 <span class="sd">        is considered to be a global reference frame. The frame is create with no rotation or translate with</span>
 <span class="sd">        respect to its parent frame.</span>
 
-<span class="sd">        :param parent: parent frame, if None then the frame itself is considered as a global reference frame.</span>
-<span class="sd">        :param reference: reference frame, all quantities are provided by default with respect to this frame.</span>
-<span class="sd">        This allows to use the properties easily but can be modified on a case-by-case basis for each function.</span>
-<span class="sd">        Alternatively the reference frame can be modified after the object creation.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            parent: parent frame, if None then the frame itself is considered as a global reference frame.</span>
+<span class="sd">            reference: reference frame, all quantities are provided by default with respect to this frame.</span>
+<span class="sd">            This allows to use the properties easily but can be modified on a case-by-case basis for each function.</span>
+<span class="sd">            Alternatively the reference frame can be modified after the object creation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_p</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="n">parent</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="n">reference</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_q</span><span class="p">:</span> <span class="n">_np</span><span class="o">.</span><span class="n">quaternion</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">quaternion</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_o</span><span class="p">:</span> <span class="n">_np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Frame.__eq__"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.__eq__">[docs]</a>    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="n">Frame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="n">Frame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Equality comparison with another Frame.</span>
 
@@ -263,7 +264,7 @@
 <span class="sd">            &gt;&gt;&gt; f1 == f2</span>
 <span class="sd">            True</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span> <span class="o">==</span> <span class="n">o</span><span class="o">.</span><span class="n">_p</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_q</span> <span class="o">==</span> <span class="n">o</span><span class="o">.</span><span class="n">_q</span> <span class="ow">and</span> <span class="n">_np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_o</span> <span class="o">==</span> <span class="n">o</span><span class="o">.</span><span class="n">_o</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span> <span class="o">==</span> <span class="n">o</span><span class="o">.</span><span class="n">_p</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_q</span> <span class="o">==</span> <span class="n">o</span><span class="o">.</span><span class="n">_q</span> <span class="ow">and</span> <span class="n">_np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_o</span> <span class="o">==</span> <span class="n">o</span><span class="o">.</span><span class="n">_o</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">parent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]:</span>
@@ -349,7 +350,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_r</span> <span class="o">=</span> <span class="n">r</span>
 
-<div class="viewcode-block" id="Frame.get_quaternion"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.get_quaternion">[docs]</a>    <span class="k">def</span> <span class="nf">get_quaternion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_np</span><span class="o">.</span><span class="n">quaternion</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.get_quaternion"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.get_quaternion">[docs]</a>    <span class="k">def</span> <span class="nf">get_quaternion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_np</span><span class="o">.</span><span class="n">quaternion</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Provides the quaternion representation of the rotation of the frame with respect to another reference frame.</span>
 
@@ -416,7 +417,7 @@
     <span class="n">o_</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_origin</span><span class="p">)</span>
     <span class="n">origin_</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_origin</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Frame.get_origin"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.get_origin">[docs]</a>    <span class="k">def</span> <span class="nf">get_origin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">]:</span>
+<div class="viewcode-block" id="Frame.get_origin"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.get_origin">[docs]</a>    <span class="k">def</span> <span class="nf">get_origin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Offset of the frame with respect to a reference frame.</span>
 
 <span class="sd">        Provides the offset representing the translation of the frame with respect to another reference frame.</span>
@@ -471,7 +472,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_origin</span><span class="p">(</span><span class="n">ref</span><span class="p">)[</span><span class="n">_X</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Frame.get_x"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.get_x">[docs]</a>    <span class="k">def</span> <span class="nf">get_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.get_x"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.get_x">[docs]</a>    <span class="k">def</span> <span class="nf">get_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;X axis offset with respect to a reference frame.</span>
 
 <span class="sd">        Provides the X axis offset representing the translation of the frame with respect to another reference frame.</span>
@@ -522,20 +523,21 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_origin</span><span class="p">(</span><span class="n">ref</span><span class="p">)[</span><span class="n">_Y</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Frame.get_y"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.get_y">[docs]</a>    <span class="k">def</span> <span class="nf">get_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.get_y"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.get_y">[docs]</a>    <span class="k">def</span> <span class="nf">get_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Y axis offset with respect to a reference frame.</span>
 
 <span class="sd">        Provides the Y axis offset representing the translation of the frame with respect to another reference frame.</span>
 <span class="sd">        This method works with full support of pint units.</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame().translate_y(10 * _ureg.cm)</span>
-<span class="sd">        &gt;&gt;&gt; f1.get_y()</span>
-<span class="sd">        &lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
-<span class="sd">        &gt;&gt;&gt; f2 = Frame(f1).translate_x(100 * _ureg.cm)</span>
-<span class="sd">        &gt;&gt;&gt; f2.get_y()</span>
-<span class="sd">        &lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
-<span class="sd">        &gt;&gt;&gt; f2.get_y(f1)</span>
-<span class="sd">        &lt;Quantity(0.0, &#39;meter&#39;)&gt;</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame().translate_y(10 * _ureg.cm)</span>
+<span class="sd">            &gt;&gt;&gt; f1.get_y()</span>
+<span class="sd">            &lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
+<span class="sd">            &gt;&gt;&gt; f2 = Frame(f1).translate_x(100 * _ureg.cm)</span>
+<span class="sd">            &gt;&gt;&gt; f2.get_y()</span>
+<span class="sd">            &lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
+<span class="sd">            &gt;&gt;&gt; f2.get_y(f1)</span>
+<span class="sd">            &lt;Quantity(0.0, &#39;meter&#39;)&gt;</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            ref: reference frame with respect to which the origin is returned. If None then the translation is provided</span>
@@ -554,23 +556,27 @@
 <span class="sd">        Provides the Z axis offset representing the translation of the frame with respect to another reference frame.</span>
 <span class="sd">        This method works in the internal unit representation of the class `Frame`.</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame().translate_z(10 * _ureg.cm)</span>
-<span class="sd">        &gt;&gt;&gt; f1._get_z()</span>
-<span class="sd">        0.1</span>
-<span class="sd">        &gt;&gt;&gt; f2 = Frame(f1).translate_x(100 * _ureg.cm)</span>
-<span class="sd">        &gt;&gt;&gt; f2._get_z()</span>
-<span class="sd">        0.1</span>
-<span class="sd">        &gt;&gt;&gt; f2._get_z(f1)</span>
-<span class="sd">        0.0</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame().translate_z(10 * _ureg.cm)</span>
+<span class="sd">            &gt;&gt;&gt; f1._get_z()</span>
+<span class="sd">            0.1</span>
+<span class="sd">            &gt;&gt;&gt; f2 = Frame(f1).translate_x(100 * _ureg.cm)</span>
+<span class="sd">            &gt;&gt;&gt; f2._get_z()</span>
+<span class="sd">            0.1</span>
+<span class="sd">            &gt;&gt;&gt; f2._get_z(f1)</span>
+<span class="sd">            0.0</span>
 
-<span class="sd">        :param ref: reference frame with respect to which the origin is returned.</span>
-<span class="sd">        If None then the translation is provided with respect to the current reference frame.</span>
-<span class="sd">        :return: the Z axis offset (float, no units) representing the Z axis translation with respect to</span>
-<span class="sd">        a given reference frame.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            ref: reference frame with respect to which the origin is returned.</span>
+<span class="sd">            If None then the translation is provided with respect to the current reference frame.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the Z axis offset (float, no units) representing the Z axis translation with respect to a given reference</span>
+<span class="sd">            frame.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_origin</span><span class="p">(</span><span class="n">ref</span><span class="p">)[</span><span class="n">_Z</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Frame.get_z"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.get_z">[docs]</a>    <span class="k">def</span> <span class="nf">get_z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.get_z"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.get_z">[docs]</a>    <span class="k">def</span> <span class="nf">get_z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Provides the Z axis offset representing the translation of the frame with respect to another reference frame.</span>
 <span class="sd">        This method works with full support of pint units.</span>
@@ -596,7 +602,7 @@
 
     <span class="n">z</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">get_z</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Frame.get_rotation_matrix"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.get_rotation_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">get_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.get_rotation_matrix"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.get_rotation_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">get_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Provides the rotation matrix representation of the quaternion with respect to another reference frame.</span>
 
@@ -615,10 +621,14 @@
     <span class="k">def</span> <span class="nf">_get_angles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param ref:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            ref:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">_quaternion</span><span class="o">.</span><span class="n">as_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">(</span><span class="n">ref</span><span class="p">))</span>
         <span class="n">m11</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
@@ -637,14 +647,18 @@
             <span class="n">_np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">m22</span><span class="p">),</span>
         <span class="p">])</span>
 
-<div class="viewcode-block" id="Frame.get_angles"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.get_angles">[docs]</a>    <span class="k">def</span> <span class="nf">get_angles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="p">:</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Unit</span> <span class="o">=</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">]:</span>
+<div class="viewcode-block" id="Frame.get_angles"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.get_angles">[docs]</a>    <span class="k">def</span> <span class="nf">get_angles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="p">:</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Unit</span> <span class="o">=</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param ref:</span>
-<span class="sd">        :param units:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            ref:</span>
+<span class="sd">            units:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="p">(</span><span class="n">_</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">units</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_angles</span><span class="p">(</span><span class="n">ref</span><span class="p">)))</span></div>
 
@@ -653,20 +667,28 @@
     <span class="k">def</span> <span class="nf">_get_tx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param ref:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            ref:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_angles</span><span class="p">(</span><span class="n">ref</span><span class="p">)[</span><span class="n">_X</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Frame.get_tx"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.get_tx">[docs]</a>    <span class="k">def</span> <span class="nf">get_tx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.get_tx"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.get_tx">[docs]</a>    <span class="k">def</span> <span class="nf">get_tx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param ref:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            ref:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_tx</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span></div>
 
@@ -675,20 +697,28 @@
     <span class="k">def</span> <span class="nf">_get_ty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param ref:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            ref:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_angles</span><span class="p">(</span><span class="n">ref</span><span class="p">)[</span><span class="n">_Y</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Frame.get_ty"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.get_ty">[docs]</a>    <span class="k">def</span> <span class="nf">get_ty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.get_ty"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.get_ty">[docs]</a>    <span class="k">def</span> <span class="nf">get_ty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param ref:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            ref:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_ty</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span></div>
 
@@ -697,181 +727,240 @@
     <span class="k">def</span> <span class="nf">_get_tz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param ref:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            ref:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_angles</span><span class="p">(</span><span class="n">ref</span><span class="p">)[</span><span class="n">_Z</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Frame.get_tz"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.get_tz">[docs]</a>    <span class="k">def</span> <span class="nf">get_tz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.get_tz"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.get_tz">[docs]</a>    <span class="k">def</span> <span class="nf">get_tz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param ref:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            ref:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_tz</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span></div>
 
     <span class="n">tz</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">get_tz</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Frame.__mul__"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.__mul__">[docs]</a>    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="n">_np</span><span class="o">.</span><span class="n">quaternion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="n">_np</span><span class="o">.</span><span class="n">quaternion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Provide a simple way to rotate the Frame in a generic way, by multiplying directly with a quaternion.</span>
 
-<span class="sd">        &gt;&gt;&gt; f = Frame()</span>
-<span class="sd">        &gt;&gt;&gt; q = _quaternion.from_rotation_vector([0, 0, 0.5])</span>
-<span class="sd">        &gt;&gt;&gt; (f * q).tx</span>
-<span class="sd">        &lt;Quantity(-0.5, &#39;radian&#39;)&gt;</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f = Frame()</span>
+<span class="sd">            &gt;&gt;&gt; q = _quaternion.from_rotation_vector([0, 0, 0.5])</span>
+<span class="sd">            &gt;&gt;&gt; (f * q).tx</span>
+<span class="sd">            &lt;Quantity(-0.5, &#39;radian&#39;)&gt;</span>
 
-<span class="sd">        :param q: a quaternion by which the frame is multiplied representing the rotation</span>
-<span class="sd">        :return: the rotated frame (in place), allows method chaining</span>
+<span class="sd">        Args:</span>
+<span class="sd">            q: a quaternion by which the frame is multiplied representing the rotation</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the rotated frame (in place), allows method chaining</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_q</span> <span class="o">*=</span> <span class="n">q</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">_rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angles</span><span class="p">:</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        :param angles:</span>
-<span class="sd">        :return: the rotated frame (in place), allows method chaining</span>
+<span class="sd">        Args:</span>
+<span class="sd">            angles:</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the rotated frame (in place), allows method chaining</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span> <span class="o">*</span> <span class="n">_quaternion</span><span class="o">.</span><span class="n">from_rotation_vector</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Frame.rotate"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.rotate">[docs]</a>    <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angles</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.rotate"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.rotate">[docs]</a>    <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angles</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param angles:</span>
-<span class="sd">        :return: the rotated frame (in place), allows method chaining</span>
+<span class="sd">        Args:</span>
+<span class="sd">            angles:</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the rotated frame (in place), allows method chaining</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rotate</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="n">_radian</span><span class="p">(</span><span class="n">_</span><span class="p">),</span> <span class="n">angles</span><span class="p">))))</span></div>
 
     <span class="k">def</span> <span class="nf">_rotate_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param angle:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            angle:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rotate</span><span class="p">([</span><span class="n">angle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 
-<div class="viewcode-block" id="Frame.rotate_x"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.rotate_x">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.rotate_x"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.rotate_x">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param angle:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            angle:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rotate_x</span><span class="p">(</span><span class="n">_radian</span><span class="p">(</span><span class="n">angle</span><span class="p">))</span></div>
 
     <span class="k">def</span> <span class="nf">_rotate_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param angle:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            angle:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 
-<div class="viewcode-block" id="Frame.rotate_y"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.rotate_y">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.rotate_y"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.rotate_y">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param angle:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            angle:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rotate_y</span><span class="p">(</span><span class="n">_radian</span><span class="p">(</span><span class="n">angle</span><span class="p">))</span></div>
 
     <span class="k">def</span> <span class="nf">_rotate_z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param angle:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            angle:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rotate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">angle</span><span class="p">])</span>
 
-<div class="viewcode-block" id="Frame.rotate_z"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.rotate_z">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.rotate_z"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.rotate_z">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param angle:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            angle:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rotate_z</span><span class="p">(</span><span class="n">_radian</span><span class="p">(</span><span class="n">angle</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Frame.rotate_axis"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.rotate_axis">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.rotate_axis"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.rotate_axis">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param axis:</span>
-<span class="sd">        :param angle:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            axis:</span>
+<span class="sd">            angle:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">axis</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="s2">&quot;xyz&quot;</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ZgoubidooFrameException</span><span class="p">(</span><span class="s2">&quot;Invalid rotation axis for &#39;translate_axis&#39;&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;rotate_{axis.lower()}&quot;</span><span class="p">)(</span><span class="n">angle</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Frame.__add__"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.__add__">[docs]</a>    <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Provide a simple way to translate the Frame in a generic way, by adding an offset directly.</span>
 <span class="sd">        This method is unit-aware and the offset must be provided as a list of pint Quantities.</span>
 
-<span class="sd">        &gt;&gt;&gt; f = Frame()</span>
-<span class="sd">        &gt;&gt;&gt; offset = [1.0 * _ureg.cm, 2.0 * _ureg.cm, 3.0 * _ureg.cm]</span>
-<span class="sd">        &gt;&gt;&gt; (f + offset).x</span>
-<span class="sd">        &lt;Quantity(0.01, &#39;meter&#39;)&gt;</span>
-<span class="sd">        &gt;&gt;&gt; (f + offset).y</span>
-<span class="sd">        &lt;Quantity(0.04, &#39;meter&#39;)&gt;</span>
-<span class="sd">        &gt;&gt;&gt; (f + offset).z</span>
-<span class="sd">        &lt;Quantity(0.09, &#39;meter&#39;)&gt;</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f = Frame()</span>
+<span class="sd">            &gt;&gt;&gt; offset = [1.0 * _ureg.cm, 2.0 * _ureg.cm, 3.0 * _ureg.cm]</span>
+<span class="sd">            &gt;&gt;&gt; (f + offset).x</span>
+<span class="sd">            &lt;Quantity(0.01, &#39;meter&#39;)&gt;</span>
+<span class="sd">            &gt;&gt;&gt; (f + offset).y</span>
+<span class="sd">            &lt;Quantity(0.04, &#39;meter&#39;)&gt;</span>
+<span class="sd">            &gt;&gt;&gt; (f + offset).z</span>
+<span class="sd">            &lt;Quantity(0.09, &#39;meter&#39;)&gt;</span>
 
-<span class="sd">        :param offset: a list representing the offset (elements of the list must be quantities of dimension [LENGTH])</span>
-<span class="sd">        :return: the translated frame (in place)</span>
+<span class="sd">        Args:</span>
+<span class="sd">            offset: a list representing the offset (elements of the list must be quantities of dimension [LENGTH])</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the translated frame (in place)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="n">_np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param offset:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            offset:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_o</span> <span class="o">+=</span> <span class="n">offset</span>
         <span class="k">return</span> <span class="bp">self</span>
 
-<div class="viewcode-block" id="Frame.translate"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.translate">[docs]</a>    <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.translate"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.translate">[docs]</a>    <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Translates the origin of the Frame with respect to the parent reference frame.</span>
 <span class="sd">        The translations are extrinsic (done with respect to the axes of the parent frame).</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame()</span>
-<span class="sd">        &gt;&gt;&gt; f1.translate([1.0 * _ureg.meter, 2.0 * _ureg.meter, 3.0 * _ureg.meter]).o</span>
-<span class="sd">        [&lt;Quantity(1.0, &#39;meter&#39;)&gt;, &lt;Quantity(2.0, &#39;meter&#39;)&gt;, &lt;Quantity(3.0, &#39;meter&#39;)&gt;]</span>
-<span class="sd">        &gt;&gt;&gt; f2 = Frame(parent=f1)</span>
-<span class="sd">        &gt;&gt;&gt; f2.translate([-1.0 * _ureg.meter, -2.0 * _ureg.meter, -3.0 * _ureg.meter]).o</span>
-<span class="sd">        [&lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
-<span class="sd">        &gt;&gt;&gt; f2.get_origin(f1)</span>
-<span class="sd">        [&lt;Quantity(-1.0, &#39;meter&#39;)&gt;, &lt;Quantity(-2.0, &#39;meter&#39;)&gt;, &lt;Quantity(-3.0, &#39;meter&#39;)&gt;]</span>
-<span class="sd">        &gt;&gt;&gt; f2.rotate_x(180 * _ureg.degree).o</span>
-<span class="sd">        [&lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(4.0, &#39;meter&#39;)&gt;, &lt;Quantity(6.0, &#39;meter&#39;)&gt;]</span>
-<span class="sd">        &gt;&gt;&gt; f2.get_origin(f1)</span>
-<span class="sd">        [&lt;Quantity(-1.0, &#39;meter&#39;)&gt;, &lt;Quantity(-2.0, &#39;meter&#39;)&gt;, &lt;Quantity(-3.0, &#39;meter&#39;)&gt;]</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame()</span>
+<span class="sd">            &gt;&gt;&gt; f1.translate([1.0 * _ureg.meter, 2.0 * _ureg.meter, 3.0 * _ureg.meter]).o</span>
+<span class="sd">            [&lt;Quantity(1.0, &#39;meter&#39;)&gt;, &lt;Quantity(2.0, &#39;meter&#39;)&gt;, &lt;Quantity(3.0, &#39;meter&#39;)&gt;]</span>
+<span class="sd">            &gt;&gt;&gt; f2 = Frame(parent=f1)</span>
+<span class="sd">            &gt;&gt;&gt; f2.translate([-1.0 * _ureg.meter, -2.0 * _ureg.meter, -3.0 * _ureg.meter]).o</span>
+<span class="sd">            [&lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
+<span class="sd">            &gt;&gt;&gt; f2.get_origin(f1)</span>
+<span class="sd">            [&lt;Quantity(-1.0, &#39;meter&#39;)&gt;, &lt;Quantity(-2.0, &#39;meter&#39;)&gt;, &lt;Quantity(-3.0, &#39;meter&#39;)&gt;]</span>
+<span class="sd">            &gt;&gt;&gt; f2.rotate_x(180 * _ureg.degree).o</span>
+<span class="sd">            [&lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(4.0, &#39;meter&#39;)&gt;, &lt;Quantity(6.0, &#39;meter&#39;)&gt;]</span>
+<span class="sd">            &gt;&gt;&gt; f2.get_origin(f1)</span>
+<span class="sd">            [&lt;Quantity(-1.0, &#39;meter&#39;)&gt;, &lt;Quantity(-2.0, &#39;meter&#39;)&gt;, &lt;Quantity(-3.0, &#39;meter&#39;)&gt;]</span>
 
-<span class="sd">        :param offset: a list representing the offset (elements of the list must be quantities of dimension [LENGTH])</span>
-<span class="sd">        :return: the translated frame (in place), allows method chaining</span>
+<span class="sd">        Args:</span>
+<span class="sd">            offset: a list representing the offset (elements of the list must be quantities of dimension [LENGTH])</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the translated frame (in place), allows method chaining</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ZgoubidooFrameException</span><span class="p">(</span><span class="s2">&quot;The offset must be of length 3.&quot;</span><span class="p">)</span>
@@ -880,58 +969,77 @@
     <span class="k">def</span> <span class="nf">_translate_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param offset:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            offset:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_o</span><span class="p">[</span><span class="n">_X</span><span class="p">]</span> <span class="o">+=</span> <span class="n">offset</span>
         <span class="k">return</span> <span class="bp">self</span>
 
-<div class="viewcode-block" id="Frame.translate_x"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.translate_x">[docs]</a>    <span class="k">def</span> <span class="nf">translate_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.translate_x"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.translate_x">[docs]</a>    <span class="k">def</span> <span class="nf">translate_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param offset:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            offset:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_translate_x</span><span class="p">(</span><span class="n">_m</span><span class="p">(</span><span class="n">offset</span><span class="p">))</span></div>
 
     <span class="k">def</span> <span class="nf">_translate_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param offset:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            offset:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_o</span><span class="p">[</span><span class="n">_Y</span><span class="p">]</span> <span class="o">+=</span> <span class="n">offset</span>
         <span class="k">return</span> <span class="bp">self</span>
 
-<div class="viewcode-block" id="Frame.translate_y"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.translate_y">[docs]</a>    <span class="k">def</span> <span class="nf">translate_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.translate_y"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.translate_y">[docs]</a>    <span class="k">def</span> <span class="nf">translate_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
-<span class="sd">        :param offset:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Args:</span>
+<span class="sd">            offset:</span>
+
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_translate_y</span><span class="p">(</span><span class="n">_m</span><span class="p">(</span><span class="n">offset</span><span class="p">))</span></div>
 
     <span class="k">def</span> <span class="nf">_translate_z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        &gt;&gt;&gt; f1 = Frame() # TODO</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; f1 = Frame() # TODO</span>
 
+<span class="sd">        Args:</span>
+<span class="sd">            offset:</span>
 
-<span class="sd">        :param offset:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        Returns:</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_o</span><span class="p">[</span><span class="n">_Z</span><span class="p">]</span> <span class="o">+=</span> <span class="n">offset</span>
         <span class="k">return</span> <span class="bp">self</span>
 
-<div class="viewcode-block" id="Frame.translate_z"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.translate_z">[docs]</a>    <span class="k">def</span> <span class="nf">translate_z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.translate_z"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.translate_z">[docs]</a>    <span class="k">def</span> <span class="nf">translate_z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Example:</span>
@@ -962,7 +1070,7 @@
             <span class="k">raise</span> <span class="n">ZgoubidooFrameException</span><span class="p">(</span><span class="s2">&quot;Invalid rotation axis for &#39;translate_axis&#39;&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;_translate_{axis.lower()}&quot;</span><span class="p">)(</span><span class="n">offset</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Frame.translate_axis"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.translate_axis">[docs]</a>    <span class="k">def</span> <span class="nf">translate_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.translate_axis"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.translate_axis">[docs]</a>    <span class="k">def</span> <span class="nf">translate_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Example:</span>
@@ -977,13 +1085,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_translate_axis</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">_m</span><span class="p">(</span><span class="n">offset</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Frame.reset"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.frame.Frame.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
+<div class="viewcode-block" id="Frame.reset"><a class="viewcode-back" href="../../api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Frame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Reset the frame.</span>
 
 <span class="sd">        Reset the frame (rotation and translation) with respect to the parent; the frame is thus equivalent to its</span>
 <span class="sd">        parent frame.</span>
 
-<span class="sd">        Example:</span>
+<span class="sd">        Examples:</span>
 <span class="sd">            &gt;&gt;&gt; f1 = Frame().rotate_x(1 * _ureg.radian)</span>
 <span class="sd">            &gt;&gt;&gt; f1.get_angles() #doctest: +ELLIPSIS</span>
 <span class="sd">            [&lt;Quantity(0.0, &#39;radian&#39;)&gt;, &lt;Quantity(0.999..., &#39;radian&#39;)&gt;, &lt;Quantity(0.999..., &#39;radian&#39;)&gt;]</span>

@@ -163,7 +163,9 @@
 <span class="sd">More details here.</span>
 <span class="sd">TODO</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
 <span class="kn">from</span> <span class="nn">..magnetique</span> <span class="k">import</span> <span class="n">Dipole</span> <span class="k">as</span> <span class="n">_Dipole</span>
 <span class="kn">from</span> <span class="nn">..magnetique</span> <span class="k">import</span> <span class="n">PolarMagnet</span> <span class="k">as</span> <span class="n">_PolarMagnet</span>
 <span class="kn">from</span> <span class="nn">..magnetique</span> <span class="k">import</span> <span class="n">Bend</span> <span class="k">as</span> <span class="n">_Bend</span>
@@ -179,6 +181,7 @@
 <span class="kn">from</span> <span class="nn">...input</span> <span class="k">import</span> <span class="n">Input</span> <span class="k">as</span> <span class="n">_Input</span>
 <span class="kn">from</span> <span class="nn">...physics</span> <span class="k">import</span> <span class="n">Kinematics</span> <span class="k">as</span> <span class="n">_Kinematics</span>
 <span class="kn">from</span> <span class="nn">...zgoubi</span> <span class="k">import</span> <span class="n">Zgoubi</span> <span class="k">as</span> <span class="n">_Zgoubi</span>
+<span class="kn">from</span> <span class="nn">...zgoubi</span> <span class="k">import</span> <span class="n">ZgoubiRun</span> <span class="k">as</span> <span class="n">_ZgoubiRun</span>
 <span class="kn">from</span> <span class="nn">...polarity</span> <span class="k">import</span> <span class="n">PolarityType</span> <span class="k">as</span> <span class="n">_PolarityType</span>
 <span class="kn">from</span> <span class="nn">...polarity</span> <span class="k">import</span> <span class="n">Polarity</span> <span class="k">as</span> <span class="n">_Polarity</span>
 <span class="kn">from</span> <span class="nn">...polarity</span> <span class="k">import</span> <span class="n">HorizontalPolarity</span> <span class="k">as</span> <span class="n">_HorizontalPolarity</span>
@@ -889,7 +892,7 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scanning</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CGTR.spots"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.CGTR.html#zgoubidoo.commands.contrib.iba.CGTR.spots">[docs]</a>    <span class="k">def</span> <span class="nf">spots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spots</span><span class="p">):</span>
+<div class="viewcode-block" id="CGTR.spots"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.CGTR.html#zgoubidoo.commands.contrib.iba.CGTR.spots">[docs]</a>    <span class="k">def</span> <span class="nf">spots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spots</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
@@ -898,7 +901,15 @@
 <span class="sd">        Returns:</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">shoot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">_</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">spots</span><span class="p">]</span></div>
+        <span class="n">tracks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">spot</span> <span class="ow">in</span> <span class="n">spots</span><span class="p">:</span>
+            <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shoot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">spot</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">spot</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">_</span><span class="o">.</span><span class="n">tracks</span><span class="p">[</span><span class="s1">&#39;SPOT_X&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">spot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">_</span><span class="o">.</span><span class="n">tracks</span><span class="p">[</span><span class="s1">&#39;SPOT_Y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">spot</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">tracks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_</span><span class="o">.</span><span class="n">tracks</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">:</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">tracks</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span> <span class="o">=</span> <span class="n">df</span>
+        <span class="k">return</span> <span class="n">df</span></div>
 
 <div class="viewcode-block" id="CGTR.plot"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.CGTR.html#zgoubidoo.commands.contrib.iba.CGTR.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">artist</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">ZgoubiPlot</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

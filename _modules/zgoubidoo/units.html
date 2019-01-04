@@ -1,0 +1,370 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>zgoubidoo.units &mdash; Zgoubidoo 2019.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2019.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../news.html">News and announcements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>zgoubidoo.units</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for zgoubidoo.units</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">_Q</span>
+
+
+<div class="viewcode-block" id="parse_quantity"><a class="viewcode-back" href="../../api/zgoubidoo.units.parse_quantity.html#zgoubidoo.units.parse_quantity">[docs]</a><span class="k">def</span> <span class="nf">parse_quantity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">parse_arg</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">_Q</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">parse_arg</span></div>
+
+
+<span class="nd">@parse_quantity</span>
+<span class="k">def</span> <span class="nf">_m</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a quantity of dimension [LENGTH] to meters.</span>
+
+<span class="sd">    &gt;&gt;&gt; _m(1 * _ureg.km)</span>
+<span class="sd">    1000.0</span>
+
+<span class="sd">    :param q: the quantity of dimension [LENGTH]</span>
+<span class="sd">    :return: the magnitude in meters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">_Q</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;m&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+
+
+<span class="nd">@parse_quantity</span>
+<span class="k">def</span> <span class="nf">_cm</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a quantity of dimension [LENGTH] to centimeters.</span>
+
+<span class="sd">    &gt;&gt;&gt; _cm(1 * _ureg.km)</span>
+<span class="sd">    100000.0</span>
+
+<span class="sd">    :param q: the quantity of dimension [LENGTH]</span>
+<span class="sd">    :return: the magnitude in centimeters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+
+
+<span class="nd">@parse_quantity</span>
+<span class="k">def</span> <span class="nf">_mm</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a quantity of dimension [LENGTH] to millimeters.</span>
+
+<span class="sd">    &gt;&gt;&gt; _mm(1 * _ureg.km)</span>
+<span class="sd">    1000000.0</span>
+
+<span class="sd">    :param q: the quantity of dimension [LENGTH]</span>
+<span class="sd">    :return: the magnitude in millimeters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;mm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+
+
+<span class="nd">@parse_quantity</span>
+<span class="k">def</span> <span class="nf">_degree</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a quantity to degrees.</span>
+
+<span class="sd">    &gt;&gt;&gt; _degree(1 * _ureg.degree)</span>
+<span class="sd">    1.0</span>
+<span class="sd">    &gt;&gt;&gt; _degree(10.0 * _ureg.degree)</span>
+<span class="sd">    10.0</span>
+
+<span class="sd">    :param q: the quantity</span>
+<span class="sd">    :return: the magnitude in degrees.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;degree&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+
+
+<span class="nd">@parse_quantity</span>
+<span class="k">def</span> <span class="nf">_radian</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a quantity to radians.</span>
+
+<span class="sd">    &gt;&gt;&gt; _radian(180 * _ureg.degree) #doctest: +ELLIPSIS</span>
+<span class="sd">    3.14159...</span>
+
+<span class="sd">    :param q: the quantity</span>
+<span class="sd">    :return: the magnitude in degrees.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;radian&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+
+
+<span class="nd">@parse_quantity</span>
+<span class="k">def</span> <span class="nf">_tesla</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a quantity of dimension [LENGTH] to meters.</span>
+
+<span class="sd">    &gt;&gt;&gt; _m(1 * _ureg.km)</span>
+<span class="sd">    1000.0</span>
+
+<span class="sd">    :param q: the quantity of dimension [LENGTH]</span>
+<span class="sd">    :return: the magnitude in meters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;tesla&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+
+
+<span class="nd">@parse_quantity</span>
+<span class="k">def</span> <span class="nf">_gauss</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a quantity of dimension [LENGTH] to meters.</span>
+
+<span class="sd">    &gt;&gt;&gt; _m(1 * _ureg.km)</span>
+<span class="sd">    1000.0</span>
+
+<span class="sd">    :param q: the quantity of dimension [LENGTH]</span>
+<span class="sd">    :return: the magnitude in meters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;gauss&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+
+
+<span class="nd">@parse_quantity</span>
+<span class="k">def</span> <span class="nf">_kilogauss</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a quantity of dimension [LENGTH] to meters.</span>
+
+<span class="sd">    &gt;&gt;&gt; _m(1 * _ureg.km)</span>
+<span class="sd">    1000.0</span>
+
+<span class="sd">    :param q: the quantity of dimension [LENGTH]</span>
+<span class="sd">    :return: the magnitude in meters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;kilogauss&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+
+
+<span class="nd">@parse_quantity</span>
+<span class="k">def</span> <span class="nf">_mev</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a quantity of dimension [length]**2 * [mass] * [time]**-2.0 to meters.</span>
+
+<span class="sd">    &gt;&gt;&gt; _mev(1 * _ureg.MeV)</span>
+<span class="sd">    1.0</span>
+
+<span class="sd">    :param q: the quantity of dimension [length]**2 * [mass] * [time]**-2.0</span>
+<span class="sd">    :return: the magnitude in MeV.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+
+
+<span class="nd">@parse_quantity</span>
+<span class="k">def</span> <span class="nf">_mev_c</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">_Q</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Convert a quantity of dimension [LENGTH] to meters.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; _m(1 * _ureg.km)</span>
+<span class="sd">        1000.0</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        q: the quantity of dimension [LENGTH]</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        the magnitude in meters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV_c&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

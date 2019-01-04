@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="next" title="Frame" href="api/zgoubidoo.frame.Frame.html" />
     <link rel="prev" title="ZgoubiPlot" href="api/zgoubidoo.vis.ZgoubiPlot.html" /> 
 
   
@@ -96,9 +96,70 @@
 <li class="toctree-l1"><a class="reference internal" href="sequence.html">Working with Zgoubidoo sequences</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vis.html">Zgoubidoo’s visualization and plotting module</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Zgoubidoo’s utility modules</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.frame">Affine geometry using the frame module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.physics">Accelerator physics and relativity calculations using the physics module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.units">Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.frame">Affine geometry using the frame module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.frame.Frame.html">Frame</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.frame.ZgoubidooFrameException.html">ZgoubidooFrameException</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.physics">Accelerator physics and relativity calculations using the physics module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.beta_to_brho.html">beta_to_brho</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.beta_to_energy.html">beta_to_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.beta_to_gamma.html">beta_to_gamma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.beta_to_momentum.html">beta_to_momentum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.beta_to_pv.html">beta_to_pv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.beta_to_range.html">beta_to_range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.brho_to_beta.html">brho_to_beta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.brho_to_energy.html">brho_to_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.brho_to_gamma.html">brho_to_gamma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.brho_to_momentum.html">brho_to_momentum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.brho_to_pv.html">brho_to_pv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.brho_to_range.html">brho_to_range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.energy_to_beta.html">energy_to_beta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.energy_to_brho.html">energy_to_brho</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.energy_to_gamma.html">energy_to_gamma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.energy_to_momentum.html">energy_to_momentum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.energy_to_pv.html">energy_to_pv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.energy_to_range.html">energy_to_range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.gamma_to_beta.html">gamma_to_beta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.gamma_to_brho.html">gamma_to_brho</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.gamma_to_energy.html">gamma_to_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.gamma_to_momentum.html">gamma_to_momentum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.gamma_to_pv.html">gamma_to_pv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.gamma_to_range.html">gamma_to_range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.momentum_to_beta.html">momentum_to_beta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.momentum_to_brho.html">momentum_to_brho</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.momentum_to_energy.html">momentum_to_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.momentum_to_gamma.html">momentum_to_gamma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.momentum_to_pv.html">momentum_to_pv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.momentum_to_range.html">momentum_to_range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.range_to_beta.html">range_to_beta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.range_to_brho.html">range_to_brho</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.range_to_energy.html">range_to_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.range_to_gamma.html">range_to_gamma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.range_to_momentum.html">range_to_momentum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.range_to_pv.html">range_to_pv</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.Kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.physics.ZgoubiPhysicsException.html">ZgoubiPhysicsException</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.units">Units</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.units.parse_quantity.html">parse_quantity</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.polarity">Polarity type system</a></li>
 </ul>
 </li>
@@ -169,17 +230,16 @@
             
   <div class="section" id="zgoubidoo-s-utility-modules">
 <h1>Zgoubidoo’s utility modules<a class="headerlink" href="#zgoubidoo-s-utility-modules" title="Permalink to this headline">¶</a></h1>
-<p>Blabla</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#module-zgoubidoo.frame" id="id1">Affine geometry using the frame module</a></li>
-<li><a class="reference internal" href="#module-zgoubidoo.physics" id="id2">Accelerator physics and relativity calculations using the physics module</a></li>
-<li><a class="reference internal" href="#module-zgoubidoo.units" id="id3">Units</a></li>
-<li><a class="reference internal" href="#module-zgoubidoo.polarity" id="id4">Polarity type system</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.frame" id="id4">Affine geometry using the frame module</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.physics" id="id5">Accelerator physics and relativity calculations using the physics module</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.units" id="id6">Units</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.polarity" id="id7">Polarity type system</a></li>
 </ul>
 </div>
 <div class="section" id="module-zgoubidoo.frame">
-<span id="affine-geometry-using-the-frame-module"></span><h2><a class="toc-backref" href="#id1">Affine geometry using the frame module</a><a class="headerlink" href="#module-zgoubidoo.frame" title="Permalink to this headline">¶</a></h2>
+<span id="affine-geometry-using-the-frame-module"></span><h2><a class="toc-backref" href="#id4">Affine geometry using the frame module</a><a class="headerlink" href="#module-zgoubidoo.frame" title="Permalink to this headline">¶</a></h2>
 <p>Module for handling of affine geometry transformations (rotations and translations).</p>
 <p>This module provides support for affine geometry transformations, mainly through the <cite>Frame</cite> class. A typical use case,
 the one that triggered the development of this module for ::py:module Zgoubidoo, is the problem of placing a sequence
@@ -193,1036 +253,33 @@ origin of a frame along with its orientation in space, can be obtained with resp
 frame.</p>
 <p class="rubric">Example</p>
 <p>example</p>
-<dl class="class">
-<dt id="zgoubidoo.frame.Frame">
-<em class="property">class </em><code class="descclassname">zgoubidoo.frame.</code><code class="descname">Frame</code><span class="sig-paren">(</span><em>parent: Optional[zgoubidoo.frame.Frame] = None</em>, <em>reference: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame" title="Permalink to this definition">¶</a></dt>
-<dd><p>A Frame object represents a reference frame for affine geometry transformations (rotations and translations).
-It has full support for transformation chaining through the notion of ‘parent frame’ and is able to provide
-rotation angles and translation offsets with respect to any parent among the linked list of parents.</p>
-<p>Additionnally Frames are unit-aware through the use of ‘pint quantities’. The internal representations use the
-‘quaternion-numpy’ module with the base units being radians and meters. This is transparent to the public interface
-which can use arbitrary units for the representations of lengths and angles.</p>
-<p>Frame handles quaternion rotations via <cite>quaternion-numpy</cite>: <a class="reference external" href="https://github.com/moble/quaternion">https://github.com/moble/quaternion</a> .</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span> <span class="c1">#doctest: +ELLIPSIS</span>
-<span class="go">&lt;zgoubidoo.frame.Frame object at 0x...&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">f1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">parent</span> <span class="o">==</span> <span class="n">f1</span>
-<span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span> <span class="c1">#doctest: +ELLIPSIS</span>
-<span class="go">&lt;zgoubidoo.frame.Frame object at 0x...&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
-<span class="go">[&lt;Quantity(0.01, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">o</span> <span class="o">==</span> <span class="n">f2</span><span class="o">.</span><span class="n">origin</span> <span class="o">==</span> <span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-<span class="go">True</span>
-</pre></div>
-</div>
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.__add__">
-<code class="descname">__add__</code><span class="sig-paren">(</span><em>offset: List[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.__add__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.__add__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provide a simple way to translate the Frame in a generic way, by adding an offset directly.
-This method is unit-aware and the offset must be provided as a list of pint Quantities.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">offset</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">f</span> <span class="o">+</span> <span class="n">offset</span><span class="p">)</span><span class="o">.</span><span class="n">x</span>
-<span class="go">&lt;Quantity(0.01, &#39;meter&#39;)&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">f</span> <span class="o">+</span> <span class="n">offset</span><span class="p">)</span><span class="o">.</span><span class="n">y</span>
-<span class="go">&lt;Quantity(0.04, &#39;meter&#39;)&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">f</span> <span class="o">+</span> <span class="n">offset</span><span class="p">)</span><span class="o">.</span><span class="n">z</span>
-<span class="go">&lt;Quantity(0.09, &#39;meter&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> – a list representing the offset (elements of the list must be quantities of dimension [LENGTH])</td>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame" title="zgoubidoo.frame.Frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame</span></code></a>(parent,&nbsp;reference)</td>
+<td>A Frame object represents a reference frame for affine geometry transformations (rotations and translations).</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the translated frame (in place)</td>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.frame.ZgoubidooFrameException.html#zgoubidoo.frame.ZgoubidooFrameException" title="zgoubidoo.frame.ZgoubidooFrameException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZgoubidooFrameException</span></code></a>(m)</td>
+<td>Exception raised for errors in the Frame module.</td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.__eq__">
-<code class="descname">__eq__</code><span class="sig-paren">(</span><em>o: zgoubidoo.frame.Frame</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.__eq__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.__eq__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Equality comparison with another Frame.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>o</strong> – other frame to be compared with</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the two frames are strictly equal (same parent and equal rotation and origin) else otherwise</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">rotate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span> <span class="c1">#doctest: +ELLIPSIS</span>
-<span class="go">&lt;zgoubidoo.frame.Frame object at 0x...&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">==</span> <span class="n">f2</span>
-<span class="go">False</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">rotate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span> <span class="c1">#doctest: +ELLIPSIS</span>
-<span class="go">&lt;zgoubidoo.frame.Frame object at 0x...&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">==</span> <span class="n">f2</span>
-<span class="go">True</span>
-</pre></div>
 </div>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.__mul__">
-<code class="descname">__mul__</code><span class="sig-paren">(</span><em>q: quaternion</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.__mul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.__mul__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provide a simple way to rotate the Frame in a generic way, by multiplying directly with a quaternion.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">_quaternion</span><span class="o">.</span><span class="n">from_rotation_vector</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">f</span> <span class="o">*</span> <span class="n">q</span><span class="p">)</span><span class="o">.</span><span class="n">tx</span>
-<span class="go">&lt;Quantity(-0.5, &#39;radian&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>q</strong> – a quaternion by which the frame is multiplied representing the rotation</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the rotated frame (in place), allows method chaining</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.frame.Frame.angles">
-<code class="descname">angles</code><a class="headerlink" href="#zgoubidoo.frame.Frame.angles" title="Permalink to this definition">¶</a></dt>
-<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ref</strong> – </li>
-<li><strong>units</strong> – </li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.get_angles">
-<code class="descname">get_angles</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em>, <em>units: pint.unit.build_unit_class.&lt;locals&gt;.Unit = &lt;Unit('radian')&gt;</em><span class="sig-paren">)</span> &#x2192; List[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.get_angles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_angles" title="Permalink to this definition">¶</a></dt>
-<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ref</strong> – </li>
-<li><strong>units</strong> – </li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.get_origin">
-<code class="descname">get_origin</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span> &#x2192; List[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.get_origin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_origin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Offset of the frame with respect to a reference frame.</p>
-<p>Provides the offset representing the translation of the frame with respect to another reference frame.
-This method supports units and returns <cite>pint</cite> quantities with dimensions of [LENGTH].</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the origin is returned. If None then the translation is provided
-with respect to the global reference frame.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the offset (list of quantities with dimensions of [LENGTH]) representing the translation with respect to a
-given reference frame.</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_origin</span><span class="p">()</span>
-<span class="go">[&lt;Quantity(0.1, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">()</span>
-<span class="go">[&lt;Quantity(0.1, &#39;meter&#39;)&gt;, &lt;Quantity(1.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
-<span class="go">[&lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(1.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.get_quaternion">
-<code class="descname">get_quaternion</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span> &#x2192; quaternion<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.get_quaternion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_quaternion" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides the quaternion representation of the rotation of the frame with respect to another reference frame.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the rotation quaternion is returned. If None then the rotation
-is provided with respect to the current reference frame.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the quaternion representing the rotation with respect to a given reference frame.</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">rotate_z</span><span class="p">(</span><span class="mi">20</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">()</span>
-<span class="go">quaternion(0.984807753012208, 0, 0, 0.17364817766693)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">rotate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">()</span> <span class="c1">#doctest: +ELLIPSIS</span>
-<span class="go">quaternion(0.981060..., 0.085831..., 0.015134..., 0.172987...)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span> <span class="c1">#doctest: +ELLIPSIS</span>
-<span class="go">quaternion(0.996194..., 0.087155..., 0, 0)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.get_rotation_matrix">
-<code class="descname">get_rotation_matrix</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.get_rotation_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_rotation_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides the rotation matrix representation of the quaternion with respect to another reference frame.</p>
-<p class="rubric">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">rotate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span><span class="o">.</span><span class="n">get_rotation_matrix</span><span class="p">()</span>
-<span class="go">1.0</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the rotation matrix is returned</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the rotation matrix representation of the quaternion</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.get_tx">
-<code class="descname">get_tx</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.get_tx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_tx" title="Permalink to this definition">¶</a></dt>
-<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – </td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.get_ty">
-<code class="descname">get_ty</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.get_ty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_ty" title="Permalink to this definition">¶</a></dt>
-<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – </td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.get_tz">
-<code class="descname">get_tz</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.get_tz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_tz" title="Permalink to this definition">¶</a></dt>
-<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – </td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.get_x">
-<code class="descname">get_x</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.get_x"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_x" title="Permalink to this definition">¶</a></dt>
-<dd><p>X axis offset with respect to a reference frame.</p>
-<p>Provides the X axis offset representing the translation of the frame with respect to another reference frame.
-This method works with full support of pint units.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span>
-<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span>
-<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_x</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
-<span class="go">&lt;Quantity(0.0, &#39;meter&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the origin is returned.</td>
-</tr>
-</tbody>
-</table>
-<p>If None then the translation is provided with respect to the current reference frame.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the X axis offset (with units, pint quantity) representing the X axis translation with respect to a given
-reference frame.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.get_y">
-<code class="descname">get_y</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.get_y"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_y" title="Permalink to this definition">¶</a></dt>
-<dd><p>Y axis offset with respect to a reference frame.</p>
-<p>Provides the Y axis offset representing the translation of the frame with respect to another reference frame.
-This method works with full support of pint units.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span>
-<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span>
-<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_y</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
-<span class="go">&lt;Quantity(0.0, &#39;meter&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ref</strong> – reference frame with respect to which the origin is returned. If None then the translation is provided</li>
-<li><strong>respect to the current reference frame.</strong> (<em>with</em>) – </li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the Y axis offset (with units, pint quantity) representing the Y axis translation with respect to</p>
-</td>
-</tr>
-</tbody>
-</table>
-<p>a given reference frame.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.get_z">
-<code class="descname">get_z</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.get_z"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_z" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides the Z axis offset representing the translation of the frame with respect to another reference frame.
-This method works with full support of pint units.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_z</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_z</span><span class="p">()</span>
-<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_z</span><span class="p">()</span>
-<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_z</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
-<span class="go">&lt;Quantity(0.0, &#39;meter&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ref</strong> – reference frame with respect to which the origin is returned. If None then the translation is provided</li>
-<li><strong>respect to the current reference frame.</strong> (<em>with</em>) – </li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the Z axis offset (with units, pint quantity) representing the Z axis translation with respect to a given
-reference frame.</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.frame.Frame.o">
-<code class="descname">o</code><a class="headerlink" href="#zgoubidoo.frame.Frame.o" title="Permalink to this definition">¶</a></dt>
-<dd><p>Offset of the frame with respect to a reference frame.</p>
-<p>Provides the offset representing the translation of the frame with respect to another reference frame.
-This method supports units and returns <cite>pint</cite> quantities with dimensions of [LENGTH].</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the origin is returned. If None then the translation is provided
-with respect to the global reference frame.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the offset (list of quantities with dimensions of [LENGTH]) representing the translation with respect to a
-given reference frame.</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_origin</span><span class="p">()</span>
-<span class="go">[&lt;Quantity(0.1, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">()</span>
-<span class="go">[&lt;Quantity(0.1, &#39;meter&#39;)&gt;, &lt;Quantity(1.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
-<span class="go">[&lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(1.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.frame.Frame.o_">
-<code class="descname">o_</code><a class="headerlink" href="#zgoubidoo.frame.Frame.o_" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides the offset representing the translation of the frame with respect to another reference frame.
-This method works in the internal unit representation of the class <cite>Frame</cite>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the origin is returned.
-If None then the translation is provided with respect to the current reference frame.</td>
-</tr>
-</tbody>
-</table>
-<dl class="docutils">
-<dt>Retunrs:</dt>
-<dd>the offset (numpy array, no units) representing the translation with respect to a given reference frame.</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">_get_origin</span><span class="p">()</span>
-<span class="go">array([0.1, 0. , 0. ])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">_get_origin</span><span class="p">()</span>
-<span class="go">array([0.1, 1. , 0. ])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">_get_origin</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
-<span class="go">array([0., 1., 0.])</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.frame.Frame.origin">
-<code class="descname">origin</code><a class="headerlink" href="#zgoubidoo.frame.Frame.origin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Offset of the frame with respect to a reference frame.</p>
-<p>Provides the offset representing the translation of the frame with respect to another reference frame.
-This method supports units and returns <cite>pint</cite> quantities with dimensions of [LENGTH].</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the origin is returned. If None then the translation is provided
-with respect to the global reference frame.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the offset (list of quantities with dimensions of [LENGTH]) representing the translation with respect to a
-given reference frame.</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_origin</span><span class="p">()</span>
-<span class="go">[&lt;Quantity(0.1, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">()</span>
-<span class="go">[&lt;Quantity(0.1, &#39;meter&#39;)&gt;, &lt;Quantity(1.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
-<span class="go">[&lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(1.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.frame.Frame.origin_">
-<code class="descname">origin_</code><a class="headerlink" href="#zgoubidoo.frame.Frame.origin_" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides the offset representing the translation of the frame with respect to another reference frame.
-This method works in the internal unit representation of the class <cite>Frame</cite>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the origin is returned.
-If None then the translation is provided with respect to the current reference frame.</td>
-</tr>
-</tbody>
-</table>
-<dl class="docutils">
-<dt>Retunrs:</dt>
-<dd>the offset (numpy array, no units) representing the translation with respect to a given reference frame.</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">_get_origin</span><span class="p">()</span>
-<span class="go">array([0.1, 0. , 0. ])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">_get_origin</span><span class="p">()</span>
-<span class="go">array([0.1, 1. , 0. ])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">_get_origin</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
-<span class="go">array([0., 1., 0.])</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.frame.Frame.parent">
-<code class="descname">parent</code><a class="headerlink" href="#zgoubidoo.frame.Frame.parent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides the parent frame.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">parent frame, None in case the frame is a global reference frame.</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span>
-<span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">f1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">parent</span> <span class="o">==</span> <span class="n">f1</span>
-<span class="go">True</span>
-</pre></div>
-</div>
-<p>The ‘parent’ property can also be set:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span>
-<span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span>
-<span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">f1</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="n">f1</span>
-<span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">parent</span> <span class="o">==</span> <span class="n">f1</span>
-<span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span>
-<span class="go">True</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.frame.Frame.q">
-<code class="descname">q</code><a class="headerlink" href="#zgoubidoo.frame.Frame.q" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides the quaternion representation of the rotation of the frame with respect to another reference frame.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the rotation quaternion is returned. If None then the rotation
-is provided with respect to the current reference frame.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the quaternion representing the rotation with respect to a given reference frame.</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">rotate_z</span><span class="p">(</span><span class="mi">20</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">()</span>
-<span class="go">quaternion(0.984807753012208, 0, 0, 0.17364817766693)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">rotate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">()</span> <span class="c1">#doctest: +ELLIPSIS</span>
-<span class="go">quaternion(0.981060..., 0.085831..., 0.015134..., 0.172987...)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span> <span class="c1">#doctest: +ELLIPSIS</span>
-<span class="go">quaternion(0.996194..., 0.087155..., 0, 0)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.frame.Frame.quaternion">
-<code class="descname">quaternion</code><a class="headerlink" href="#zgoubidoo.frame.Frame.quaternion" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides the quaternion representation of the rotation of the frame with respect to another reference frame.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the rotation quaternion is returned. If None then the rotation
-is provided with respect to the current reference frame.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the quaternion representing the rotation with respect to a given reference frame.</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">rotate_z</span><span class="p">(</span><span class="mi">20</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">()</span>
-<span class="go">quaternion(0.984807753012208, 0, 0, 0.17364817766693)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">rotate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">()</span> <span class="c1">#doctest: +ELLIPSIS</span>
-<span class="go">quaternion(0.981060..., 0.085831..., 0.015134..., 0.172987...)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span> <span class="c1">#doctest: +ELLIPSIS</span>
-<span class="go">quaternion(0.996194..., 0.087155..., 0, 0)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.frame.Frame.reference">
-<code class="descname">reference</code><a class="headerlink" href="#zgoubidoo.frame.Frame.reference" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides the reference frame with respect to which the quantities will be provided. None if not set.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a frame serving as reference frame for the current frame (None if not set)</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">reference</span> <span class="ow">is</span> <span class="kc">None</span>
-<span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">f1</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="n">f1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">reference</span> <span class="ow">is</span> <span class="n">f1</span>
-<span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">reference</span> <span class="o">==</span> <span class="n">f1</span>
-<span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">reference</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">reference</span> <span class="ow">is</span> <span class="kc">None</span>
-<span class="go">True</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.reset">
-<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.reset" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reset the frame.</p>
-<p>Reset the frame (rotation and translation) with respect to the parent; the frame is thus equivalent to its
-parent frame.</p>
-<p class="rubric">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">rotate_x</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_angles</span><span class="p">()</span> <span class="c1">#doctest: +ELLIPSIS</span>
-<span class="go">[&lt;Quantity(0.0, &#39;radian&#39;)&gt;, &lt;Quantity(0.999..., &#39;radian&#39;)&gt;, &lt;Quantity(0.999..., &#39;radian&#39;)&gt;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span><span class="o">.</span><span class="n">get_angles</span><span class="p">()</span>
-<span class="go">[&lt;Quantity(0.0, &#39;radian&#39;)&gt;, &lt;Quantity(0.0, &#39;radian&#39;)&gt;, &lt;Quantity(0.0, &#39;radian&#39;)&gt;]</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the reseted frame itself (to allow method chaining).</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.rotate">
-<code class="descname">rotate</code><span class="sig-paren">(</span><em>angles: List[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.rotate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.rotate" title="Permalink to this definition">¶</a></dt>
-<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angles</strong> – </td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the rotated frame (in place), allows method chaining</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.rotate_axis">
-<code class="descname">rotate_axis</code><span class="sig-paren">(</span><em>axis: str</em>, <em>angle: float</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.rotate_axis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.rotate_axis" title="Permalink to this definition">¶</a></dt>
-<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>axis</strong> – </li>
-<li><strong>angle</strong> – </li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.rotate_x">
-<code class="descname">rotate_x</code><span class="sig-paren">(</span><em>angle: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.rotate_x"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.rotate_x" title="Permalink to this definition">¶</a></dt>
-<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angle</strong> – </td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.rotate_y">
-<code class="descname">rotate_y</code><span class="sig-paren">(</span><em>angle: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.rotate_y"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.rotate_y" title="Permalink to this definition">¶</a></dt>
-<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angle</strong> – </td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.rotate_z">
-<code class="descname">rotate_z</code><span class="sig-paren">(</span><em>angle: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.rotate_z"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.rotate_z" title="Permalink to this definition">¶</a></dt>
-<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angle</strong> – </td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.translate">
-<code class="descname">translate</code><span class="sig-paren">(</span><em>offset: List[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.translate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Translates the origin of the Frame with respect to the parent reference frame.
-The translations are extrinsic (done with respect to the axes of the parent frame).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">meter</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">meter</span><span class="p">,</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">meter</span><span class="p">])</span><span class="o">.</span><span class="n">o</span>
-<span class="go">[&lt;Quantity(1.0, &#39;meter&#39;)&gt;, &lt;Quantity(2.0, &#39;meter&#39;)&gt;, &lt;Quantity(3.0, &#39;meter&#39;)&gt;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">f1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">meter</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">meter</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">meter</span><span class="p">])</span><span class="o">.</span><span class="n">o</span>
-<span class="go">[&lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
-<span class="go">[&lt;Quantity(-1.0, &#39;meter&#39;)&gt;, &lt;Quantity(-2.0, &#39;meter&#39;)&gt;, &lt;Quantity(-3.0, &#39;meter&#39;)&gt;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">rotate_x</span><span class="p">(</span><span class="mi">180</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span><span class="o">.</span><span class="n">o</span>
-<span class="go">[&lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(4.0, &#39;meter&#39;)&gt;, &lt;Quantity(6.0, &#39;meter&#39;)&gt;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
-<span class="go">[&lt;Quantity(-1.0, &#39;meter&#39;)&gt;, &lt;Quantity(-2.0, &#39;meter&#39;)&gt;, &lt;Quantity(-3.0, &#39;meter&#39;)&gt;]</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> – a list representing the offset (elements of the list must be quantities of dimension [LENGTH])</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the translated frame (in place), allows method chaining</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.translate_axis">
-<code class="descname">translate_axis</code><span class="sig-paren">(</span><em>axis: str</em>, <em>offset: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.translate_axis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.translate_axis" title="Permalink to this definition">¶</a></dt>
-<dd><p class="rubric">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>axis</strong> – </li>
-<li><strong>offset</strong> – </li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the translated frame (in place)</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.translate_x">
-<code class="descname">translate_x</code><span class="sig-paren">(</span><em>offset: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.translate_x"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.translate_x" title="Permalink to this definition">¶</a></dt>
-<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> – </td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.translate_y">
-<code class="descname">translate_y</code><span class="sig-paren">(</span><em>offset: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.translate_y"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.translate_y" title="Permalink to this definition">¶</a></dt>
-<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> – </td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.frame.Frame.translate_z">
-<code class="descname">translate_z</code><span class="sig-paren">(</span><em>offset: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="_modules/zgoubidoo/frame.html#Frame.translate_z"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.translate_z" title="Permalink to this definition">¶</a></dt>
-<dd><p class="rubric">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> – </td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the translated frame (in place)</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.frame.Frame.tx">
-<code class="descname">tx</code><a class="headerlink" href="#zgoubidoo.frame.Frame.tx" title="Permalink to this definition">¶</a></dt>
-<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – </td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.frame.Frame.ty">
-<code class="descname">ty</code><a class="headerlink" href="#zgoubidoo.frame.Frame.ty" title="Permalink to this definition">¶</a></dt>
-<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – </td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.frame.Frame.tz">
-<code class="descname">tz</code><a class="headerlink" href="#zgoubidoo.frame.Frame.tz" title="Permalink to this definition">¶</a></dt>
-<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – </td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.frame.Frame.x">
-<code class="descname">x</code><a class="headerlink" href="#zgoubidoo.frame.Frame.x" title="Permalink to this definition">¶</a></dt>
-<dd><p>X axis offset with respect to a reference frame.</p>
-<p>Provides the X axis offset representing the translation of the frame with respect to another reference frame.
-This method works with full support of pint units.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span>
-<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span>
-<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_x</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
-<span class="go">&lt;Quantity(0.0, &#39;meter&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the origin is returned.</td>
-</tr>
-</tbody>
-</table>
-<p>If None then the translation is provided with respect to the current reference frame.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the X axis offset (with units, pint quantity) representing the X axis translation with respect to a given
-reference frame.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.frame.Frame.y">
-<code class="descname">y</code><a class="headerlink" href="#zgoubidoo.frame.Frame.y" title="Permalink to this definition">¶</a></dt>
-<dd><p>Y axis offset with respect to a reference frame.</p>
-<p>Provides the Y axis offset representing the translation of the frame with respect to another reference frame.
-This method works with full support of pint units.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span>
-<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span>
-<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_y</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
-<span class="go">&lt;Quantity(0.0, &#39;meter&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ref</strong> – reference frame with respect to which the origin is returned. If None then the translation is provided</li>
-<li><strong>respect to the current reference frame.</strong> (<em>with</em>) – </li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the Y axis offset (with units, pint quantity) representing the Y axis translation with respect to</p>
-</td>
-</tr>
-</tbody>
-</table>
-<p>a given reference frame.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.frame.Frame.z">
-<code class="descname">z</code><a class="headerlink" href="#zgoubidoo.frame.Frame.z" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides the Z axis offset representing the translation of the frame with respect to another reference frame.
-This method works with full support of pint units.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_z</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_z</span><span class="p">()</span>
-<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_z</span><span class="p">()</span>
-<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_z</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
-<span class="go">&lt;Quantity(0.0, &#39;meter&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ref</strong> – reference frame with respect to which the origin is returned. If None then the translation is provided</li>
-<li><strong>respect to the current reference frame.</strong> (<em>with</em>) – </li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the Z axis offset (with units, pint quantity) representing the Z axis translation with respect to a given
-reference frame.</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="exception">
-<dt id="zgoubidoo.frame.ZgoubidooFrameException">
-<em class="property">exception </em><code class="descclassname">zgoubidoo.frame.</code><code class="descname">ZgoubidooFrameException</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/frame.html#ZgoubidooFrameException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.ZgoubidooFrameException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Exception raised for errors in the Frame module.</p>
-</dd></dl>
-
+<div class="section" id="class-inheritance-diagram">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h3>
+<div class="graphviz"><img src="_images/inheritance-4ea01585d336e32ac9c620ef0815f712749c9016.png" alt="Inheritance diagram of zgoubidoo.frame.Frame, zgoubidoo.frame.ZgoubidooFrameException" usemap="#inheritancec448e1dccb" class="inheritance graphviz" /></div>
+<map id="inheritancec448e1dccb" name="inheritancec448e1dccb">
+<area shape="rect" id="node1" href="api/zgoubidoo.frame.Frame.html#zgoubidoo.frame.Frame" target="_top" title="A Frame object represents a reference frame for affine geometry transformations (rotations and translations)." alt="" coords="60,53,132,77"/>
+<area shape="rect" id="node2" href="api/zgoubidoo.frame.ZgoubidooFrameException.html#zgoubidoo.frame.ZgoubidooFrameException" target="_top" title="Exception raised for errors in the Frame module." alt="" coords="5,5,187,29"/>
+</map></div>
 </div>
 <div class="section" id="module-zgoubidoo.physics">
-<span id="accelerator-physics-and-relativity-calculations-using-the-physics-module"></span><h2><a class="toc-backref" href="#id2">Accelerator physics and relativity calculations using the physics module</a><a class="headerlink" href="#module-zgoubidoo.physics" title="Permalink to this headline">¶</a></h2>
+<span id="accelerator-physics-and-relativity-calculations-using-the-physics-module"></span><h2><a class="toc-backref" href="#id5">Accelerator physics and relativity calculations using the physics module</a><a class="headerlink" href="#module-zgoubidoo.physics" title="Permalink to this headline">¶</a></h2>
 <p>Zgoubidoo relativistic physics module.</p>
 <p>This module provides a collection of functions and classes to deal with relativistic physics computations. This mainly
 concerns conversions between kinematic quantities. Full support for units (via <code class="docutils literal notranslate"><span class="pre">pint</span></code>) is provided. Additionnally, a
@@ -1232,1093 +289,169 @@ helper class (<code class="docutils literal notranslate"><span class="pre">Kinem
 <span class="go">TODO</span>
 </pre></div>
 </div>
-<dl class="class">
-<dt id="zgoubidoo.physics.Kinematics">
-<em class="property">class </em><code class="descclassname">zgoubidoo.physics.</code><code class="descname">Kinematics</code><span class="sig-paren">(</span><em>q: Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity], particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;, kinetic: bool = True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/physics.html#Kinematics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.Kinematics" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="attribute">
-<dt id="zgoubidoo.physics.Kinematics.beta">
-<code class="descname">beta</code><a class="headerlink" href="#zgoubidoo.physics.Kinematics.beta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides <em>beta</em>.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.physics.Kinematics.brho">
-<code class="descname">brho</code><a class="headerlink" href="#zgoubidoo.physics.Kinematics.brho" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides <em>brho</em>.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.physics.Kinematics.brho_">
-<code class="descname">brho_</code><a class="headerlink" href="#zgoubidoo.physics.Kinematics.brho_" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides <em>brho</em> (magnitude only).</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.physics.Kinematics.energy">
-<code class="descname">energy</code><a class="headerlink" href="#zgoubidoo.physics.Kinematics.energy" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.physics.Kinematics.energy_">
-<code class="descname">energy_</code><a class="headerlink" href="#zgoubidoo.physics.Kinematics.energy_" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.physics.Kinematics.etot">
-<code class="descname">etot</code><a class="headerlink" href="#zgoubidoo.physics.Kinematics.etot" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.physics.Kinematics.etot_">
-<code class="descname">etot_</code><a class="headerlink" href="#zgoubidoo.physics.Kinematics.etot_" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.physics.Kinematics.gamma">
-<code class="descname">gamma</code><a class="headerlink" href="#zgoubidoo.physics.Kinematics.gamma" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides <em>gamma</em>.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.physics.Kinematics.momentum">
-<code class="descname">momentum</code><a class="headerlink" href="#zgoubidoo.physics.Kinematics.momentum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides the <em>momentum</em>.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.physics.Kinematics.momentum_">
-<code class="descname">momentum_</code><a class="headerlink" href="#zgoubidoo.physics.Kinematics.momentum_" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides the <em>momentum</em> (magnitude only).</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.physics.Kinematics.range">
-<code class="descname">range</code><a class="headerlink" href="#zgoubidoo.physics.Kinematics.range" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.physics.Kinematics.range_">
-<code class="descname">range_</code><a class="headerlink" href="#zgoubidoo.physics.Kinematics.range_" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.physics.Kinematics.to">
-<code class="descname">to</code><span class="sig-paren">(</span><em>quantity: str</em><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="_modules/zgoubidoo/physics.html#Kinematics.to"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.Kinematics.to" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>quantity</strong> – </td>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.beta_to_brho.html#zgoubidoo.physics.beta_to_brho" title="zgoubidoo.physics.beta_to_brho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta_to_brho</span></code></a>(beta,&nbsp;particle)</td>
+<td>Converts relativistic beta to kinetic energy.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.beta_to_energy.html#zgoubidoo.physics.beta_to_energy" title="zgoubidoo.physics.beta_to_energy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta_to_energy</span></code></a>(beta,&nbsp;particle)</td>
+<td>Converts relativistic beta to kinetic energy.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.beta_to_gamma.html#zgoubidoo.physics.beta_to_gamma" title="zgoubidoo.physics.beta_to_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta_to_gamma</span></code></a>(beta)</td>
+<td>Converts relativistic beta to relativistic gamma.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.beta_to_momentum.html#zgoubidoo.physics.beta_to_momentum" title="zgoubidoo.physics.beta_to_momentum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta_to_momentum</span></code></a>(beta,&nbsp;particle)</td>
+<td>Converts relativistic beta to kinetic energy.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.beta_to_pv.html#zgoubidoo.physics.beta_to_pv" title="zgoubidoo.physics.beta_to_pv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta_to_pv</span></code></a>(beta,&nbsp;particle)</td>
+<td>Converts relativistic beta to kinetic energy.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.beta_to_range.html#zgoubidoo.physics.beta_to_range" title="zgoubidoo.physics.beta_to_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta_to_range</span></code></a>(beta,&nbsp;particle)</td>
+<td>Converts relativistic beta to kinetic energy.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.brho_to_beta.html#zgoubidoo.physics.brho_to_beta" title="zgoubidoo.physics.brho_to_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brho_to_beta</span></code></a>(brho,&nbsp;particle)</td>
+<td>Converts magnetic rigidity (brho) to momentum.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.brho_to_energy.html#zgoubidoo.physics.brho_to_energy" title="zgoubidoo.physics.brho_to_energy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brho_to_energy</span></code></a>(brho,&nbsp;particle)</td>
+<td>Converts magnetic rigidity (brho) to momentum.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.brho_to_gamma.html#zgoubidoo.physics.brho_to_gamma" title="zgoubidoo.physics.brho_to_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brho_to_gamma</span></code></a>(brho,&nbsp;particle)</td>
+<td>Converts magnetic rigidity (brho) to momentum.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.brho_to_momentum.html#zgoubidoo.physics.brho_to_momentum" title="zgoubidoo.physics.brho_to_momentum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brho_to_momentum</span></code></a>(brho,&nbsp;particle)</td>
+<td>Converts magnetic rigidity (brho) to momentum.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.brho_to_pv.html#zgoubidoo.physics.brho_to_pv" title="zgoubidoo.physics.brho_to_pv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brho_to_pv</span></code></a>(brho,&nbsp;particle)</td>
+<td>Converts magnetic rigidity (brho) to momentum.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.brho_to_range.html#zgoubidoo.physics.brho_to_range" title="zgoubidoo.physics.brho_to_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brho_to_range</span></code></a>(brho,&nbsp;particle)</td>
+<td>Converts magnetic rigidity (brho) to momentum.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.energy_to_beta.html#zgoubidoo.physics.energy_to_beta" title="zgoubidoo.physics.energy_to_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">energy_to_beta</span></code></a>(e,&nbsp;particle)</td>
+<td>Converts the kinetic energy to relativistic beta.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.energy_to_brho.html#zgoubidoo.physics.energy_to_brho" title="zgoubidoo.physics.energy_to_brho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">energy_to_brho</span></code></a>(e,&nbsp;particle)</td>
+<td>Converts kinetic energy to magnetic rigidity (brho).</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.energy_to_gamma.html#zgoubidoo.physics.energy_to_gamma" title="zgoubidoo.physics.energy_to_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">energy_to_gamma</span></code></a>(e,&nbsp;particle)</td>
+<td>Converts the kinetic energy to relativistic gamma.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.energy_to_momentum.html#zgoubidoo.physics.energy_to_momentum" title="zgoubidoo.physics.energy_to_momentum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">energy_to_momentum</span></code></a>(e,&nbsp;particle)</td>
+<td>Converts momentum to kinetic energy.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.energy_to_pv.html#zgoubidoo.physics.energy_to_pv" title="zgoubidoo.physics.energy_to_pv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">energy_to_pv</span></code></a>(e,&nbsp;particle)</td>
+<td>Converts kinetic energy to relativistic pv.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.energy_to_range.html#zgoubidoo.physics.energy_to_range" title="zgoubidoo.physics.energy_to_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">energy_to_range</span></code></a>(e,&nbsp;particle)</td>
+<td>Converts kinetic energy to proton range in water; following IEC60601.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.gamma_to_beta.html#zgoubidoo.physics.gamma_to_beta" title="zgoubidoo.physics.gamma_to_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma_to_beta</span></code></a>(gamma,&nbsp;particle)</td>
+<td>Converts relativistic gamma to kinetic energy.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.gamma_to_brho.html#zgoubidoo.physics.gamma_to_brho" title="zgoubidoo.physics.gamma_to_brho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma_to_brho</span></code></a>(gamma,&nbsp;particle)</td>
+<td>Converts relativistic gamma to kinetic energy.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.gamma_to_energy.html#zgoubidoo.physics.gamma_to_energy" title="zgoubidoo.physics.gamma_to_energy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma_to_energy</span></code></a>(gamma,&nbsp;particle)</td>
+<td>Converts relativistic gamma to kinetic energy.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.gamma_to_momentum.html#zgoubidoo.physics.gamma_to_momentum" title="zgoubidoo.physics.gamma_to_momentum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma_to_momentum</span></code></a>(gamma,&nbsp;particle)</td>
+<td>Converts relativistic gamma to kinetic energy.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.gamma_to_pv.html#zgoubidoo.physics.gamma_to_pv" title="zgoubidoo.physics.gamma_to_pv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma_to_pv</span></code></a>(gamma,&nbsp;particle)</td>
+<td>Converts relativistic gamma to kinetic energy.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.gamma_to_range.html#zgoubidoo.physics.gamma_to_range" title="zgoubidoo.physics.gamma_to_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma_to_range</span></code></a>(gamma,&nbsp;particle)</td>
+<td>Converts relativistic gamma to kinetic energy.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.momentum_to_beta.html#zgoubidoo.physics.momentum_to_beta" title="zgoubidoo.physics.momentum_to_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">momentum_to_beta</span></code></a>(p,&nbsp;particle)</td>
+<td>Converts momentum to proton range in water; following IEC60601.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.momentum_to_brho.html#zgoubidoo.physics.momentum_to_brho" title="zgoubidoo.physics.momentum_to_brho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">momentum_to_brho</span></code></a>(p,&nbsp;particle)</td>
+<td>Converts momentum to magnetic rigidity (brho).</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.momentum_to_energy.html#zgoubidoo.physics.momentum_to_energy" title="zgoubidoo.physics.momentum_to_energy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">momentum_to_energy</span></code></a>(p,&nbsp;particle)</td>
+<td>Converts momentum to kinetic energy.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.momentum_to_gamma.html#zgoubidoo.physics.momentum_to_gamma" title="zgoubidoo.physics.momentum_to_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">momentum_to_gamma</span></code></a>(p,&nbsp;particle)</td>
+<td>Converts momentum to proton range in water; following IEC60601.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.momentum_to_pv.html#zgoubidoo.physics.momentum_to_pv" title="zgoubidoo.physics.momentum_to_pv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">momentum_to_pv</span></code></a>(p,&nbsp;particle)</td>
+<td>Converts momentum to proton range in water; following IEC60601.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.momentum_to_range.html#zgoubidoo.physics.momentum_to_range" title="zgoubidoo.physics.momentum_to_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">momentum_to_range</span></code></a>(p,&nbsp;particle)</td>
+<td>Converts momentum to proton range in water; following IEC60601.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.range_to_beta.html#zgoubidoo.physics.range_to_beta" title="zgoubidoo.physics.range_to_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_to_beta</span></code></a>(r,&nbsp;particle)</td>
+<td>Converts proton range in water to kinetic energy following IEC60601.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.range_to_brho.html#zgoubidoo.physics.range_to_brho" title="zgoubidoo.physics.range_to_brho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_to_brho</span></code></a>(r,&nbsp;particle)</td>
+<td>Converts proton range in water to kinetic energy following IEC60601.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.range_to_energy.html#zgoubidoo.physics.range_to_energy" title="zgoubidoo.physics.range_to_energy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_to_energy</span></code></a>(r,&nbsp;particle)</td>
+<td>Converts proton range in water to kinetic energy following IEC60601.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.range_to_gamma.html#zgoubidoo.physics.range_to_gamma" title="zgoubidoo.physics.range_to_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_to_gamma</span></code></a>(r,&nbsp;particle)</td>
+<td>Converts proton range in water to kinetic energy following IEC60601.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.range_to_momentum.html#zgoubidoo.physics.range_to_momentum" title="zgoubidoo.physics.range_to_momentum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_to_momentum</span></code></a>(r,&nbsp;particle)</td>
+<td>Converts proton range in water to kinetic energy following IEC60601.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.range_to_pv.html#zgoubidoo.physics.range_to_pv" title="zgoubidoo.physics.range_to_pv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_to_pv</span></code></a>(r,&nbsp;particle)</td>
+<td>Converts proton range in water to kinetic energy following IEC60601.</td>
 </tr>
 </tbody>
 </table>
-<p>Returns:</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.physics.Kinematics.to_beta">
-<code class="descname">to_beta</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="_modules/zgoubidoo/physics.html#Kinematics.to_beta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.Kinematics.to_beta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns:</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.physics.Kinematics.to_brho">
-<code class="descname">to_brho</code><span class="sig-paren">(</span><em>magnitude: bool = False</em><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="_modules/zgoubidoo/physics.html#Kinematics.to_brho"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.Kinematics.to_brho" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>magnitude</strong> – </td>
-</tr>
-</tbody>
-</table>
-<p>Returns:</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.physics.Kinematics.to_energy">
-<code class="descname">to_energy</code><span class="sig-paren">(</span><em>magnitude: bool = False</em><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="_modules/zgoubidoo/physics.html#Kinematics.to_energy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.Kinematics.to_energy" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>magnitude</strong> – </td>
-</tr>
-</tbody>
-</table>
-<p>Returns:</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.physics.Kinematics.to_etot">
-<code class="descname">to_etot</code><span class="sig-paren">(</span><em>magnitude: bool = False</em><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="_modules/zgoubidoo/physics.html#Kinematics.to_etot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.Kinematics.to_etot" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>magnitude</strong> – </td>
-</tr>
-</tbody>
-</table>
-<p>Returns:</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.physics.Kinematics.to_gamma">
-<code class="descname">to_gamma</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="_modules/zgoubidoo/physics.html#Kinematics.to_gamma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.Kinematics.to_gamma" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns:</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.physics.Kinematics.to_momentum">
-<code class="descname">to_momentum</code><span class="sig-paren">(</span><em>magnitude: bool = False</em><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="_modules/zgoubidoo/physics.html#Kinematics.to_momentum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.Kinematics.to_momentum" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>magnitude</strong> – </td>
-</tr>
-</tbody>
-</table>
-<p>Returns:</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.physics.Kinematics.to_range">
-<code class="descname">to_range</code><span class="sig-paren">(</span><em>magnitude: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/physics.html#Kinematics.to_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.Kinematics.to_range" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>magnitude</strong> – </td>
-</tr>
-</tbody>
-</table>
-<p>Returns:</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="exception">
-<dt id="zgoubidoo.physics.ZgoubiPhysicsException">
-<em class="property">exception </em><code class="descclassname">zgoubidoo.physics.</code><code class="descname">ZgoubiPhysicsException</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/physics.html#ZgoubiPhysicsException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.ZgoubiPhysicsException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Exception raised for errors in the Zgoubidoo physics module.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.beta_to_brho">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">beta_to_brho</code><span class="sig-paren">(</span><em>beta: float</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#beta_to_brho"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.beta_to_brho" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts relativistic beta to kinetic energy.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="go">2</span>
-</pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<div class="section" id="id1">
+<h3>Classes<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>beta</strong> – relativistic beta (dimensionless)</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.Kinematics.html#zgoubidoo.physics.Kinematics" title="zgoubidoo.physics.Kinematics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Kinematics</span></code></a>(q,&nbsp;…)</td>
+<td></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">kinetic energy</p>
-</td>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.ZgoubiPhysicsException.html#zgoubidoo.physics.ZgoubiPhysicsException" title="zgoubidoo.physics.ZgoubiPhysicsException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZgoubiPhysicsException</span></code></a>(m)</td>
+<td>Exception raised for errors in the Zgoubidoo physics module.</td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.beta_to_energy">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">beta_to_energy</code><span class="sig-paren">(</span><em>beta: float</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#beta_to_energy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.beta_to_energy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts relativistic beta to kinetic energy.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="go">2</span>
-</pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>beta</strong> – relativistic beta (dimensionless)</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">kinetic energy</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.beta_to_gamma">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">beta_to_gamma</code><span class="sig-paren">(</span><em>beta: float</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="_modules/zgoubidoo/physics.html#beta_to_gamma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.beta_to_gamma" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts relativistic beta to relativistic gamma.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="go">2</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>beta</strong> – relativistic beta</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.beta_to_momentum">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">beta_to_momentum</code><span class="sig-paren">(</span><em>beta: float</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#beta_to_momentum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.beta_to_momentum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts relativistic beta to kinetic energy.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="go">2</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>beta</strong> – relativistic beta (dimensionless)</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">kinetic energy</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.beta_to_pv">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">beta_to_pv</code><span class="sig-paren">(</span><em>beta: float</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#beta_to_pv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.beta_to_pv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts relativistic beta to kinetic energy.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="go">2</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>beta</strong> – relativistic beta (dimensionless)</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">kinetic energy</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.beta_to_range">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">beta_to_range</code><span class="sig-paren">(</span><em>beta: float</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#beta_to_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.beta_to_range" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts relativistic beta to kinetic energy.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="go">2</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>beta</strong> – relativistic beta (dimensionless)</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">kinetic energy</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.brho_to_beta">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">brho_to_beta</code><span class="sig-paren">(</span><em>brho: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="_modules/zgoubidoo/physics.html#brho_to_beta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.brho_to_beta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts magnetic rigidity (brho) to momentum.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">momentum_to_brho</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;tesla * meter&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(0.33356409519815206, &#39;meter * tesla&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>brho</strong> – magnetic rigidity</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.brho_to_energy">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">brho_to_energy</code><span class="sig-paren">(</span><em>brho: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#brho_to_energy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.brho_to_energy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts magnetic rigidity (brho) to momentum.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">momentum_to_brho</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;tesla * meter&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(0.33356409519815206, &#39;meter * tesla&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>brho</strong> – magnetic rigidity</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.brho_to_gamma">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">brho_to_gamma</code><span class="sig-paren">(</span><em>brho: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="_modules/zgoubidoo/physics.html#brho_to_gamma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.brho_to_gamma" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts magnetic rigidity (brho) to momentum.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">momentum_to_brho</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;tesla * meter&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(0.33356409519815206, &#39;meter * tesla&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>brho</strong> – magnetic rigidity</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.brho_to_momentum">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">brho_to_momentum</code><span class="sig-paren">(</span><em>brho: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#brho_to_momentum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.brho_to_momentum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts magnetic rigidity (brho) to momentum.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">momentum_to_brho</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;tesla * meter&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(0.33356409519815206, &#39;meter * tesla&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>brho</strong> – magnetic rigidity</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.brho_to_pv">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">brho_to_pv</code><span class="sig-paren">(</span><em>brho: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#brho_to_pv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.brho_to_pv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts magnetic rigidity (brho) to momentum.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">momentum_to_brho</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;tesla * meter&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(0.33356409519815206, &#39;meter * tesla&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>brho</strong> – magnetic rigidity</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.brho_to_range">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">brho_to_range</code><span class="sig-paren">(</span><em>brho: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#brho_to_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.brho_to_range" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts magnetic rigidity (brho) to momentum.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">momentum_to_brho</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;tesla * meter&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(0.33356409519815206, &#39;meter * tesla&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>brho</strong> – magnetic rigidity</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.energy_to_beta">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">energy_to_beta</code><span class="sig-paren">(</span><em>e: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="_modules/zgoubidoo/physics.html#energy_to_beta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.energy_to_beta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts the kinetic energy to relativistic beta.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="go">2</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>e</strong> – kinetic energy</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">relativistic beta</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.energy_to_brho">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">energy_to_brho</code><span class="sig-paren">(</span><em>e: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#energy_to_brho"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.energy_to_brho" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts kinetic energy to magnetic rigidity (brho).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">energy_to_momentum</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV_c&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(444.58340724772927, &#39;megaelectronvolt_per_c&#39;)&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">energy_to_momentum</span><span class="p">(</span><span class="mi">230</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV_c&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(696.064029957015, &#39;megaelectronvolt_per_c&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>e</strong> – kinetic energy</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">magnetic rigidity</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.energy_to_gamma">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">energy_to_gamma</code><span class="sig-paren">(</span><em>e: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="_modules/zgoubidoo/physics.html#energy_to_gamma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.energy_to_gamma" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts the kinetic energy to relativistic gamma.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="go">2</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>e</strong> – kinetic energy</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">relativistic gamma</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.energy_to_momentum">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">energy_to_momentum</code><span class="sig-paren">(</span><em>e: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#energy_to_momentum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.energy_to_momentum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts momentum to kinetic energy.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">energy_to_momentum</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV_c&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(444.58340724772927, &#39;megaelectronvolt_per_c&#39;)&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">energy_to_momentum</span><span class="p">(</span><span class="mi">230</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV_c&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(696.064029957015, &#39;megaelectronvolt_per_c&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>e</strong> – kinetic energy</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">relativistic momentum</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.energy_to_pv">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">energy_to_pv</code><span class="sig-paren">(</span><em>e: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#energy_to_pv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.energy_to_pv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts kinetic energy to relativistic pv.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">energy_to_pv</span><span class="p">(</span><span class="mi">230</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV</span><span class="p">)</span>
-<span class="go">&lt;Quantity(414.71945005821937, &#39;megaelectronvolt&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>e</strong> – kinetic energy</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">relativistic pv</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.energy_to_range">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">energy_to_range</code><span class="sig-paren">(</span><em>e: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#energy_to_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.energy_to_range" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts kinetic energy to proton range in water; following IEC60601.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">energy_to_range</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(7.7269636143698905, &#39;centimeter&#39;)&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">energy_to_range</span><span class="p">(</span><span class="mi">230</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(32.9424672323197, &#39;centimeter&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>e</strong> – kinetic energy</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">proton range in water</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.gamma_to_beta">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">gamma_to_beta</code><span class="sig-paren">(</span><em>gamma: float</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="_modules/zgoubidoo/physics.html#gamma_to_beta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.gamma_to_beta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts relativistic gamma to kinetic energy.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gamma_to_energy</span><span class="p">(</span><span class="mf">100.0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(92888.93096999999, &#39;megaelectronvolt&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>gamma</strong> – relativistic gamma (dimensionless)</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">kinetic energy</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.gamma_to_brho">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">gamma_to_brho</code><span class="sig-paren">(</span><em>gamma: float</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#gamma_to_brho"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.gamma_to_brho" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts relativistic gamma to kinetic energy.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gamma_to_energy</span><span class="p">(</span><span class="mf">100.0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(92888.93096999999, &#39;megaelectronvolt&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>gamma</strong> – relativistic gamma (dimensionless)</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">kinetic energy</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.gamma_to_energy">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">gamma_to_energy</code><span class="sig-paren">(</span><em>gamma: float</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#gamma_to_energy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.gamma_to_energy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts relativistic gamma to kinetic energy.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gamma_to_energy</span><span class="p">(</span><span class="mf">100.0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(92888.93096999999, &#39;megaelectronvolt&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>gamma</strong> – relativistic gamma (dimensionless)</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">kinetic energy</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.gamma_to_momentum">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">gamma_to_momentum</code><span class="sig-paren">(</span><em>gamma: float</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#gamma_to_momentum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.gamma_to_momentum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts relativistic gamma to kinetic energy.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gamma_to_energy</span><span class="p">(</span><span class="mf">100.0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(92888.93096999999, &#39;megaelectronvolt&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>gamma</strong> – relativistic gamma (dimensionless)</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">kinetic energy</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.gamma_to_pv">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">gamma_to_pv</code><span class="sig-paren">(</span><em>gamma: float</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#gamma_to_pv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.gamma_to_pv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts relativistic gamma to kinetic energy.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gamma_to_energy</span><span class="p">(</span><span class="mf">100.0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(92888.93096999999, &#39;megaelectronvolt&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>gamma</strong> – relativistic gamma (dimensionless)</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">kinetic energy</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.gamma_to_range">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">gamma_to_range</code><span class="sig-paren">(</span><em>gamma: float</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#gamma_to_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.gamma_to_range" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts relativistic gamma to kinetic energy.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gamma_to_energy</span><span class="p">(</span><span class="mf">100.0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(92888.93096999999, &#39;megaelectronvolt&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>gamma</strong> – relativistic gamma (dimensionless)</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">kinetic energy</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.momentum_to_beta">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">momentum_to_beta</code><span class="sig-paren">(</span><em>p: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="_modules/zgoubidoo/physics.html#momentum_to_beta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.momentum_to_beta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts momentum to proton range in water; following IEC60601.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">momentum_to_range</span><span class="p">(</span><span class="mi">696</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(32.93315610400117, &#39;centimeter&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>p</strong> – relativistic momentum</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.momentum_to_brho">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">momentum_to_brho</code><span class="sig-paren">(</span><em>p: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#momentum_to_brho"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.momentum_to_brho" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts momentum to magnetic rigidity (brho).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">momentum_to_brho</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;tesla * meter&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(0.33356409519815206, &#39;meter * tesla&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>p</strong> – relativistic momentum</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.momentum_to_energy">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">momentum_to_energy</code><span class="sig-paren">(</span><em>p: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#momentum_to_energy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.momentum_to_energy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts momentum to kinetic energy.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">momentum_to_energy</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(5.313897343302641, &#39;megaelectronvolt&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>p</strong> – relativistic momentum</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.momentum_to_gamma">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">momentum_to_gamma</code><span class="sig-paren">(</span><em>p: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="_modules/zgoubidoo/physics.html#momentum_to_gamma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.momentum_to_gamma" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts momentum to proton range in water; following IEC60601.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">momentum_to_range</span><span class="p">(</span><span class="mi">696</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(32.93315610400117, &#39;centimeter&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>p</strong> – relativistic momentum</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.momentum_to_pv">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">momentum_to_pv</code><span class="sig-paren">(</span><em>p: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#momentum_to_pv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.momentum_to_pv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts momentum to proton range in water; following IEC60601.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">momentum_to_range</span><span class="p">(</span><span class="mi">696</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(32.93315610400117, &#39;centimeter&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>p</strong> – relativistic momentum</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.momentum_to_range">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">momentum_to_range</code><span class="sig-paren">(</span><em>p: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#momentum_to_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.momentum_to_range" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts momentum to proton range in water; following IEC60601.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">momentum_to_range</span><span class="p">(</span><span class="mi">696</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(32.93315610400117, &#39;centimeter&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>p</strong> – relativistic momentum</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.range_to_beta">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">range_to_beta</code><span class="sig-paren">(</span><em>r: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#range_to_beta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.range_to_beta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts proton range in water to kinetic energy following IEC60601.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">range_to_energy</span><span class="p">(</span><span class="mi">32</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(226.12911179644985, &#39;megaelectronvolt&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>r</strong> – proton range in water</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.range_to_brho">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">range_to_brho</code><span class="sig-paren">(</span><em>r: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#range_to_brho"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.range_to_brho" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts proton range in water to kinetic energy following IEC60601.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">range_to_energy</span><span class="p">(</span><span class="mi">32</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(226.12911179644985, &#39;megaelectronvolt&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>r</strong> – proton range in water</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.range_to_energy">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">range_to_energy</code><span class="sig-paren">(</span><em>r: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#range_to_energy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.range_to_energy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts proton range in water to kinetic energy following IEC60601.</p>
-<p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">range_to_energy</span><span class="p">(</span><span class="mi">32</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(226.12911179644985, &#39;megaelectronvolt&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>r</strong> – proton range in water</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the kinetic energy of the particle.</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.range_to_gamma">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">range_to_gamma</code><span class="sig-paren">(</span><em>r: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#range_to_gamma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.range_to_gamma" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts proton range in water to kinetic energy following IEC60601.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">range_to_energy</span><span class="p">(</span><span class="mi">32</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(226.12911179644985, &#39;megaelectronvolt&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>r</strong> – proton range in water</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.range_to_momentum">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">range_to_momentum</code><span class="sig-paren">(</span><em>r: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#range_to_momentum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.range_to_momentum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts proton range in water to kinetic energy following IEC60601.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">range_to_energy</span><span class="p">(</span><span class="mi">32</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(226.12911179644985, &#39;megaelectronvolt&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>r</strong> – proton range in water</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.physics.range_to_pv">
-<code class="descclassname">zgoubidoo.physics.</code><code class="descname">range_to_pv</code><span class="sig-paren">(</span><em>r: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="_modules/zgoubidoo/physics.html#range_to_pv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.range_to_pv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts proton range in water to kinetic energy following IEC60601.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">range_to_energy</span><span class="p">(</span><span class="mi">32</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(226.12911179644985, &#39;megaelectronvolt&#39;)&gt;</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>r</strong> – proton range in water</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
+<div class="section" id="id2">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="graphviz"><img src="_images/inheritance-34a9edbc385911dcfb08bc9867fba242914d2056.png" alt="Inheritance diagram of zgoubidoo.physics.Kinematics, zgoubidoo.physics.ZgoubiPhysicsException" usemap="#inheritance285d72cfc3" class="inheritance graphviz" /></div>
+<map id="inheritance285d72cfc3" name="inheritance285d72cfc3">
+<area shape="rect" id="node1" href="api/zgoubidoo.physics.Kinematics.html#zgoubidoo.physics.Kinematics" target="_top" title="Kinematics" alt="" coords="45,53,132,77"/>
+<area shape="rect" id="node2" href="api/zgoubidoo.physics.ZgoubiPhysicsException.html#zgoubidoo.physics.ZgoubiPhysicsException" target="_top" title="Exception raised for errors in the Zgoubidoo physics module." alt="" coords="5,5,172,29"/>
+</map></div>
 </div>
 <div class="section" id="module-zgoubidoo.units">
-<span id="units"></span><h2><a class="toc-backref" href="#id3">Units</a><a class="headerlink" href="#module-zgoubidoo.units" title="Permalink to this headline">¶</a></h2>
+<span id="units"></span><h2><a class="toc-backref" href="#id6">Units</a><a class="headerlink" href="#module-zgoubidoo.units" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Functions<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.units.parse_quantity.html#zgoubidoo.units.parse_quantity" title="zgoubidoo.units.parse_quantity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_quantity</span></code></a>(f)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div class="section" id="module-zgoubidoo.polarity">
-<span id="polarity-type-system"></span><h2><a class="toc-backref" href="#id4">Polarity type system</a><a class="headerlink" href="#module-zgoubidoo.polarity" title="Permalink to this headline">¶</a></h2>
+<span id="polarity-type-system"></span><h2><a class="toc-backref" href="#id7">Polarity type system</a><a class="headerlink" href="#module-zgoubidoo.polarity" title="Permalink to this headline">¶</a></h2>
 <p>Type system for polarities.</p>
 <p class="rubric">Examples</p>
 <p>The conversion to numeric types can be used for easily in numerical expressions:</p>
@@ -2365,7 +498,7 @@ helper class (<code class="docutils literal notranslate"><span class="pre">Kinem
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="api/zgoubidoo.frame.Frame.html" class="btn btn-neutral float-right" title="Frame" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="api/zgoubidoo.vis.ZgoubiPlot.html" class="btn btn-neutral" title="ZgoubiPlot" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

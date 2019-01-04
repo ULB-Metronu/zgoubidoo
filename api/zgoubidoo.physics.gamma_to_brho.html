@@ -1,0 +1,303 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>gamma_to_brho &mdash; Zgoubidoo 2019.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="gamma_to_energy" href="zgoubidoo.physics.gamma_to_energy.html" />
+    <link rel="prev" title="gamma_to_beta" href="zgoubidoo.physics.gamma_to_beta.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2019.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../news.html">News and announcements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html#module-zgoubidoo.frame">Affine geometry using the frame module</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../utilities.html#module-zgoubidoo.physics">Accelerator physics and relativity calculations using the physics module</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../utilities.html#functions">Functions</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.beta_to_brho.html">beta_to_brho</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.beta_to_energy.html">beta_to_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.beta_to_gamma.html">beta_to_gamma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.beta_to_momentum.html">beta_to_momentum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.beta_to_pv.html">beta_to_pv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.beta_to_range.html">beta_to_range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.brho_to_beta.html">brho_to_beta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.brho_to_energy.html">brho_to_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.brho_to_gamma.html">brho_to_gamma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.brho_to_momentum.html">brho_to_momentum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.brho_to_pv.html">brho_to_pv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.brho_to_range.html">brho_to_range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.energy_to_beta.html">energy_to_beta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.energy_to_brho.html">energy_to_brho</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.energy_to_gamma.html">energy_to_gamma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.energy_to_momentum.html">energy_to_momentum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.energy_to_pv.html">energy_to_pv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.energy_to_range.html">energy_to_range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.gamma_to_beta.html">gamma_to_beta</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">gamma_to_brho</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.gamma_to_energy.html">gamma_to_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.gamma_to_momentum.html">gamma_to_momentum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.gamma_to_pv.html">gamma_to_pv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.gamma_to_range.html">gamma_to_range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.momentum_to_beta.html">momentum_to_beta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.momentum_to_brho.html">momentum_to_brho</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.momentum_to_energy.html">momentum_to_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.momentum_to_gamma.html">momentum_to_gamma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.momentum_to_pv.html">momentum_to_pv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.momentum_to_range.html">momentum_to_range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.range_to_beta.html">range_to_beta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.range_to_brho.html">range_to_brho</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.range_to_energy.html">range_to_energy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.range_to_gamma.html">range_to_gamma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.range_to_momentum.html">range_to_momentum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.physics.range_to_pv.html">range_to_pv</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities.html#id1">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities.html#id2">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html#module-zgoubidoo.units">Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html#polarity-type-system">Polarity type system</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../utilities.html">Zgoubidoo’s utility modules</a> &raquo;</li>
+        
+      <li>gamma_to_brho</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/zgoubidoo.physics.gamma_to_brho.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="gamma-to-brho">
+<h1>gamma_to_brho<a class="headerlink" href="#gamma-to-brho" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="zgoubidoo.physics.gamma_to_brho">
+<code class="descclassname">zgoubidoo.physics.</code><code class="descname">gamma_to_brho</code><span class="sig-paren">(</span><em>gamma: float</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="../_modules/zgoubidoo/physics.html#gamma_to_brho"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.physics.gamma_to_brho" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts relativistic gamma to kinetic energy.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gamma_to_energy</span><span class="p">(</span><span class="mf">100.0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span>
+<span class="go">&lt;Quantity(92888.93096999999, &#39;megaelectronvolt&#39;)&gt;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>gamma</strong> – relativistic gamma (dimensionless)</li>
+<li><strong>particle</strong> – the particle type (default: proton)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">kinetic energy</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="zgoubidoo.physics.gamma_to_energy.html" class="btn btn-neutral float-right" title="gamma_to_energy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="zgoubidoo.physics.gamma_to_beta.html" class="btn btn-neutral" title="gamma_to_beta" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,1369 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Frame &mdash; Zgoubidoo 2019.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ZgoubidooFrameException" href="zgoubidoo.frame.ZgoubidooFrameException.html" />
+    <link rel="prev" title="Zgoubidoo’s utility modules" href="../utilities.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2019.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../news.html">News and announcements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../utilities.html#module-zgoubidoo.frame">Affine geometry using the frame module</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../utilities.html#classes">Classes</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Frame</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.frame.ZgoubidooFrameException.html">ZgoubidooFrameException</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html#module-zgoubidoo.physics">Accelerator physics and relativity calculations using the physics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html#module-zgoubidoo.units">Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html#polarity-type-system">Polarity type system</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../utilities.html">Zgoubidoo’s utility modules</a> &raquo;</li>
+        
+      <li>Frame</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/zgoubidoo.frame.Frame.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="frame">
+<h1>Frame<a class="headerlink" href="#frame" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="zgoubidoo.frame.Frame">
+<em class="property">class </em><code class="descclassname">zgoubidoo.frame.</code><code class="descname">Frame</code><span class="sig-paren">(</span><em>parent: Optional[zgoubidoo.frame.Frame] = None</em>, <em>reference: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A Frame object represents a reference frame for affine geometry transformations (rotations and translations).
+It has full support for transformation chaining through the notion of ‘parent frame’ and is able to provide
+rotation angles and translation offsets with respect to any parent among the linked list of parents.</p>
+<p>Additionnally Frames are unit-aware through the use of ‘pint quantities’. The internal representations use the
+‘quaternion-numpy’ module with the base units being radians and meters. This is transparent to the public interface
+which can use arbitrary units for the representations of lengths and angles.</p>
+<p>Frame handles quaternion rotations via <cite>quaternion-numpy</cite>: <a class="reference external" href="https://github.com/moble/quaternion">https://github.com/moble/quaternion</a> .</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span> <span class="c1">#doctest: +ELLIPSIS</span>
+<span class="go">&lt;zgoubidoo.frame.Frame object at 0x...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">f1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">parent</span> <span class="o">==</span> <span class="n">f1</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span> <span class="c1">#doctest: +ELLIPSIS</span>
+<span class="go">&lt;zgoubidoo.frame.Frame object at 0x...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+<span class="go">[&lt;Quantity(0.01, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">o</span> <span class="o">==</span> <span class="n">f2</span><span class="o">.</span><span class="n">origin</span> <span class="o">==</span> <span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.angles" title="zgoubidoo.frame.Frame.angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">angles</span></code></a></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.o" title="zgoubidoo.frame.Frame.o"><code class="xref py py-obj docutils literal notranslate"><span class="pre">o</span></code></a></td>
+<td>Offset of the frame with respect to a reference frame.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.o_" title="zgoubidoo.frame.Frame.o_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">o_</span></code></a></td>
+<td>Provides the offset representing the translation of the frame with respect to another reference frame.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.origin" title="zgoubidoo.frame.Frame.origin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">origin</span></code></a></td>
+<td>Offset of the frame with respect to a reference frame.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.origin_" title="zgoubidoo.frame.Frame.origin_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">origin_</span></code></a></td>
+<td>Provides the offset representing the translation of the frame with respect to another reference frame.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.parent" title="zgoubidoo.frame.Frame.parent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parent</span></code></a></td>
+<td>Provides the parent frame.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.q" title="zgoubidoo.frame.Frame.q"><code class="xref py py-obj docutils literal notranslate"><span class="pre">q</span></code></a></td>
+<td>Provides the quaternion representation of the rotation of the frame with respect to another reference frame.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.quaternion" title="zgoubidoo.frame.Frame.quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion</span></code></a></td>
+<td>Provides the quaternion representation of the rotation of the frame with respect to another reference frame.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.reference" title="zgoubidoo.frame.Frame.reference"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reference</span></code></a></td>
+<td>Provides the reference frame with respect to which the quantities will be provided.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.tx" title="zgoubidoo.frame.Frame.tx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tx</span></code></a></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.ty" title="zgoubidoo.frame.Frame.ty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ty</span></code></a></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.tz" title="zgoubidoo.frame.Frame.tz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tz</span></code></a></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.x" title="zgoubidoo.frame.Frame.x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code></a></td>
+<td>X axis offset with respect to a reference frame.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.y" title="zgoubidoo.frame.Frame.y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">y</span></code></a></td>
+<td>Y axis offset with respect to a reference frame.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.z" title="zgoubidoo.frame.Frame.z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">z</span></code></a></td>
+<td>Provides the Z axis offset representing the translation of the frame with respect to another reference frame.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.get_angles" title="zgoubidoo.frame.Frame.get_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_angles</span></code></a>(ref,&nbsp;units)</td>
+<td><p class="rubric">Examples</p>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.get_origin" title="zgoubidoo.frame.Frame.get_origin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_origin</span></code></a>(ref)</td>
+<td>Offset of the frame with respect to a reference frame.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.get_quaternion" title="zgoubidoo.frame.Frame.get_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_quaternion</span></code></a>(ref)</td>
+<td>Provides the quaternion representation of the rotation of the frame with respect to another reference frame.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.get_rotation_matrix" title="zgoubidoo.frame.Frame.get_rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_rotation_matrix</span></code></a>(ref)</td>
+<td>Provides the rotation matrix representation of the quaternion with respect to another reference frame.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.get_tx" title="zgoubidoo.frame.Frame.get_tx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tx</span></code></a>(ref)</td>
+<td><p class="rubric">Examples</p>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.get_ty" title="zgoubidoo.frame.Frame.get_ty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_ty</span></code></a>(ref)</td>
+<td><p class="rubric">Examples</p>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.get_tz" title="zgoubidoo.frame.Frame.get_tz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tz</span></code></a>(ref)</td>
+<td><p class="rubric">Examples</p>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.get_x" title="zgoubidoo.frame.Frame.get_x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_x</span></code></a>(ref)</td>
+<td>X axis offset with respect to a reference frame.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.get_y" title="zgoubidoo.frame.Frame.get_y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_y</span></code></a>(ref)</td>
+<td>Y axis offset with respect to a reference frame.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.get_z" title="zgoubidoo.frame.Frame.get_z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_z</span></code></a>(ref)</td>
+<td>Provides the Z axis offset representing the translation of the frame with respect to another reference frame.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.reset" title="zgoubidoo.frame.Frame.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>()</td>
+<td>Reset the frame.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.rotate" title="zgoubidoo.frame.Frame.rotate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate</span></code></a>(angles)</td>
+<td><p class="rubric">Examples</p>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.rotate_axis" title="zgoubidoo.frame.Frame.rotate_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate_axis</span></code></a>(axis,&nbsp;angle)</td>
+<td><p class="rubric">Examples</p>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.rotate_x" title="zgoubidoo.frame.Frame.rotate_x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate_x</span></code></a>(angle)</td>
+<td><p class="rubric">Examples</p>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.rotate_y" title="zgoubidoo.frame.Frame.rotate_y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate_y</span></code></a>(angle)</td>
+<td><p class="rubric">Examples</p>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.rotate_z" title="zgoubidoo.frame.Frame.rotate_z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate_z</span></code></a>(angle)</td>
+<td><p class="rubric">Examples</p>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.translate" title="zgoubidoo.frame.Frame.translate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">translate</span></code></a>(offset)</td>
+<td>Translates the origin of the Frame with respect to the parent reference frame.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.translate_axis" title="zgoubidoo.frame.Frame.translate_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">translate_axis</span></code></a>(axis,&nbsp;offset)</td>
+<td><p class="rubric">Example</p>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.translate_x" title="zgoubidoo.frame.Frame.translate_x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">translate_x</span></code></a>(offset)</td>
+<td><p class="rubric">Examples</p>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.translate_y" title="zgoubidoo.frame.Frame.translate_y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">translate_y</span></code></a>(offset)</td>
+<td><p class="rubric">Examples</p>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.frame.Frame.translate_z" title="zgoubidoo.frame.Frame.translate_z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">translate_z</span></code></a>(offset)</td>
+<td><p class="rubric">Example</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="zgoubidoo.frame.Frame.angles">
+<code class="descname">angles</code><a class="headerlink" href="#zgoubidoo.frame.Frame.angles" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ref</strong> – </li>
+<li><strong>units</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Examples</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.frame.Frame.o">
+<code class="descname">o</code><a class="headerlink" href="#zgoubidoo.frame.Frame.o" title="Permalink to this definition">¶</a></dt>
+<dd><p>Offset of the frame with respect to a reference frame.</p>
+<p>Provides the offset representing the translation of the frame with respect to another reference frame.
+This method supports units and returns <cite>pint</cite> quantities with dimensions of [LENGTH].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the origin is returned. If None then the translation is provided
+with respect to the global reference frame.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the offset (list of quantities with dimensions of [LENGTH]) representing the translation with respect to a
+given reference frame.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_origin</span><span class="p">()</span>
+<span class="go">[&lt;Quantity(0.1, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">()</span>
+<span class="go">[&lt;Quantity(0.1, &#39;meter&#39;)&gt;, &lt;Quantity(1.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+<span class="go">[&lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(1.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.frame.Frame.o_">
+<code class="descname">o_</code><a class="headerlink" href="#zgoubidoo.frame.Frame.o_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides the offset representing the translation of the frame with respect to another reference frame.
+This method works in the internal unit representation of the class <cite>Frame</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the origin is returned.
+If None then the translation is provided with respect to the current reference frame.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Retunrs:</dt>
+<dd>the offset (numpy array, no units) representing the translation with respect to a given reference frame.</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">_get_origin</span><span class="p">()</span>
+<span class="go">array([0.1, 0. , 0. ])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">_get_origin</span><span class="p">()</span>
+<span class="go">array([0.1, 1. , 0. ])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">_get_origin</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+<span class="go">array([0., 1., 0.])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.frame.Frame.origin">
+<code class="descname">origin</code><a class="headerlink" href="#zgoubidoo.frame.Frame.origin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Offset of the frame with respect to a reference frame.</p>
+<p>Provides the offset representing the translation of the frame with respect to another reference frame.
+This method supports units and returns <cite>pint</cite> quantities with dimensions of [LENGTH].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the origin is returned. If None then the translation is provided
+with respect to the global reference frame.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the offset (list of quantities with dimensions of [LENGTH]) representing the translation with respect to a
+given reference frame.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_origin</span><span class="p">()</span>
+<span class="go">[&lt;Quantity(0.1, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">()</span>
+<span class="go">[&lt;Quantity(0.1, &#39;meter&#39;)&gt;, &lt;Quantity(1.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+<span class="go">[&lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(1.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.frame.Frame.origin_">
+<code class="descname">origin_</code><a class="headerlink" href="#zgoubidoo.frame.Frame.origin_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides the offset representing the translation of the frame with respect to another reference frame.
+This method works in the internal unit representation of the class <cite>Frame</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the origin is returned.
+If None then the translation is provided with respect to the current reference frame.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Retunrs:</dt>
+<dd>the offset (numpy array, no units) representing the translation with respect to a given reference frame.</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">_get_origin</span><span class="p">()</span>
+<span class="go">array([0.1, 0. , 0. ])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">_get_origin</span><span class="p">()</span>
+<span class="go">array([0.1, 1. , 0. ])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">_get_origin</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+<span class="go">array([0., 1., 0.])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.frame.Frame.parent">
+<code class="descname">parent</code><a class="headerlink" href="#zgoubidoo.frame.Frame.parent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides the parent frame.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">parent frame, None in case the frame is a global reference frame.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">f1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">parent</span> <span class="o">==</span> <span class="n">f1</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>The ‘parent’ property can also be set:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">f1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="n">f1</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">parent</span> <span class="o">==</span> <span class="n">f1</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.frame.Frame.q">
+<code class="descname">q</code><a class="headerlink" href="#zgoubidoo.frame.Frame.q" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides the quaternion representation of the rotation of the frame with respect to another reference frame.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the rotation quaternion is returned. If None then the rotation
+is provided with respect to the current reference frame.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the quaternion representing the rotation with respect to a given reference frame.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">rotate_z</span><span class="p">(</span><span class="mi">20</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">()</span>
+<span class="go">quaternion(0.984807753012208, 0, 0, 0.17364817766693)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">rotate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">()</span> <span class="c1">#doctest: +ELLIPSIS</span>
+<span class="go">quaternion(0.981060..., 0.085831..., 0.015134..., 0.172987...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span> <span class="c1">#doctest: +ELLIPSIS</span>
+<span class="go">quaternion(0.996194..., 0.087155..., 0, 0)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.frame.Frame.quaternion">
+<code class="descname">quaternion</code><a class="headerlink" href="#zgoubidoo.frame.Frame.quaternion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides the quaternion representation of the rotation of the frame with respect to another reference frame.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the rotation quaternion is returned. If None then the rotation
+is provided with respect to the current reference frame.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the quaternion representing the rotation with respect to a given reference frame.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">rotate_z</span><span class="p">(</span><span class="mi">20</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">()</span>
+<span class="go">quaternion(0.984807753012208, 0, 0, 0.17364817766693)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">rotate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">()</span> <span class="c1">#doctest: +ELLIPSIS</span>
+<span class="go">quaternion(0.981060..., 0.085831..., 0.015134..., 0.172987...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span> <span class="c1">#doctest: +ELLIPSIS</span>
+<span class="go">quaternion(0.996194..., 0.087155..., 0, 0)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.frame.Frame.reference">
+<code class="descname">reference</code><a class="headerlink" href="#zgoubidoo.frame.Frame.reference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides the reference frame with respect to which the quantities will be provided. None if not set.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a frame serving as reference frame for the current frame (None if not set)</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">reference</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">f1</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="n">f1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">reference</span> <span class="ow">is</span> <span class="n">f1</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">reference</span> <span class="o">==</span> <span class="n">f1</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">reference</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">reference</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.frame.Frame.tx">
+<code class="descname">tx</code><a class="headerlink" href="#zgoubidoo.frame.Frame.tx" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Examples</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.frame.Frame.ty">
+<code class="descname">ty</code><a class="headerlink" href="#zgoubidoo.frame.Frame.ty" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Examples</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.frame.Frame.tz">
+<code class="descname">tz</code><a class="headerlink" href="#zgoubidoo.frame.Frame.tz" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Examples</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.frame.Frame.x">
+<code class="descname">x</code><a class="headerlink" href="#zgoubidoo.frame.Frame.x" title="Permalink to this definition">¶</a></dt>
+<dd><p>X axis offset with respect to a reference frame.</p>
+<p>Provides the X axis offset representing the translation of the frame with respect to another reference frame.
+This method works with full support of pint units.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span>
+<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span>
+<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_x</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+<span class="go">&lt;Quantity(0.0, &#39;meter&#39;)&gt;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the origin is returned.</td>
+</tr>
+</tbody>
+</table>
+<p>If None then the translation is provided with respect to the current reference frame.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the X axis offset (with units, pint quantity) representing the X axis translation with respect to a given
+reference frame.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.frame.Frame.y">
+<code class="descname">y</code><a class="headerlink" href="#zgoubidoo.frame.Frame.y" title="Permalink to this definition">¶</a></dt>
+<dd><p>Y axis offset with respect to a reference frame.</p>
+<p>Provides the Y axis offset representing the translation of the frame with respect to another reference frame.
+This method works with full support of pint units.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span>
+<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span>
+<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_y</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+<span class="go">&lt;Quantity(0.0, &#39;meter&#39;)&gt;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ref</strong> – reference frame with respect to which the origin is returned. If None then the translation is provided</li>
+<li><strong>respect to the current reference frame.</strong> (<em>with</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the Y axis offset (with units, pint quantity) representing the Y axis translation with respect to</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>a given reference frame.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.frame.Frame.z">
+<code class="descname">z</code><a class="headerlink" href="#zgoubidoo.frame.Frame.z" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides the Z axis offset representing the translation of the frame with respect to another reference frame.
+This method works with full support of pint units.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_z</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_z</span><span class="p">()</span>
+<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_z</span><span class="p">()</span>
+<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_z</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+<span class="go">&lt;Quantity(0.0, &#39;meter&#39;)&gt;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ref</strong> – reference frame with respect to which the origin is returned. If None then the translation is provided</li>
+<li><strong>respect to the current reference frame.</strong> (<em>with</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the Z axis offset (with units, pint quantity) representing the Z axis translation with respect to a given
+reference frame.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.get_angles">
+<code class="descname">get_angles</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em>, <em>units: pint.unit.build_unit_class.&lt;locals&gt;.Unit = &lt;Unit('radian')&gt;</em><span class="sig-paren">)</span> &#x2192; List[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.get_angles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_angles" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ref</strong> – </li>
+<li><strong>units</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.get_origin">
+<code class="descname">get_origin</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span> &#x2192; List[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.get_origin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_origin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Offset of the frame with respect to a reference frame.</p>
+<p>Provides the offset representing the translation of the frame with respect to another reference frame.
+This method supports units and returns <cite>pint</cite> quantities with dimensions of [LENGTH].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the origin is returned. If None then the translation is provided
+with respect to the global reference frame.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the offset (list of quantities with dimensions of [LENGTH]) representing the translation with respect to a
+given reference frame.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_origin</span><span class="p">()</span>
+<span class="go">[&lt;Quantity(0.1, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">()</span>
+<span class="go">[&lt;Quantity(0.1, &#39;meter&#39;)&gt;, &lt;Quantity(1.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+<span class="go">[&lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(1.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.get_quaternion">
+<code class="descname">get_quaternion</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span> &#x2192; quaternion<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.get_quaternion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_quaternion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides the quaternion representation of the rotation of the frame with respect to another reference frame.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the rotation quaternion is returned. If None then the rotation
+is provided with respect to the current reference frame.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the quaternion representing the rotation with respect to a given reference frame.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">rotate_z</span><span class="p">(</span><span class="mi">20</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">()</span>
+<span class="go">quaternion(0.984807753012208, 0, 0, 0.17364817766693)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">rotate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">()</span> <span class="c1">#doctest: +ELLIPSIS</span>
+<span class="go">quaternion(0.981060..., 0.085831..., 0.015134..., 0.172987...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_quaternion</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span> <span class="c1">#doctest: +ELLIPSIS</span>
+<span class="go">quaternion(0.996194..., 0.087155..., 0, 0)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.get_rotation_matrix">
+<code class="descname">get_rotation_matrix</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.get_rotation_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_rotation_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides the rotation matrix representation of the quaternion with respect to another reference frame.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">rotate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span><span class="o">.</span><span class="n">get_rotation_matrix</span><span class="p">()</span>
+<span class="go">1.0</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the rotation matrix is returned</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the rotation matrix representation of the quaternion</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.get_tx">
+<code class="descname">get_tx</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.get_tx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_tx" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.get_ty">
+<code class="descname">get_ty</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.get_ty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_ty" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.get_tz">
+<code class="descname">get_tz</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.get_tz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_tz" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.get_x">
+<code class="descname">get_x</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.get_x"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_x" title="Permalink to this definition">¶</a></dt>
+<dd><p>X axis offset with respect to a reference frame.</p>
+<p>Provides the X axis offset representing the translation of the frame with respect to another reference frame.
+This method works with full support of pint units.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span>
+<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span>
+<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_x</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+<span class="go">&lt;Quantity(0.0, &#39;meter&#39;)&gt;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> – reference frame with respect to which the origin is returned.</td>
+</tr>
+</tbody>
+</table>
+<p>If None then the translation is provided with respect to the current reference frame.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the X axis offset (with units, pint quantity) representing the X axis translation with respect to a given
+reference frame.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.get_y">
+<code class="descname">get_y</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.get_y"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_y" title="Permalink to this definition">¶</a></dt>
+<dd><p>Y axis offset with respect to a reference frame.</p>
+<p>Provides the Y axis offset representing the translation of the frame with respect to another reference frame.
+This method works with full support of pint units.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span>
+<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span>
+<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_y</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+<span class="go">&lt;Quantity(0.0, &#39;meter&#39;)&gt;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ref</strong> – reference frame with respect to which the origin is returned. If None then the translation is provided</li>
+<li><strong>respect to the current reference frame.</strong> (<em>with</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the Y axis offset (with units, pint quantity) representing the Y axis translation with respect to</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>a given reference frame.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.get_z">
+<code class="descname">get_z</code><span class="sig-paren">(</span><em>ref: Optional[zgoubidoo.frame.Frame] = None</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.get_z"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.get_z" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides the Z axis offset representing the translation of the frame with respect to another reference frame.
+This method works with full support of pint units.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">translate_z</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_z</span><span class="p">()</span>
+<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_z</span><span class="p">()</span>
+<span class="go">&lt;Quantity(0.1, &#39;meter&#39;)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_z</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+<span class="go">&lt;Quantity(0.0, &#39;meter&#39;)&gt;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ref</strong> – reference frame with respect to which the origin is returned. If None then the translation is provided</li>
+<li><strong>respect to the current reference frame.</strong> (<em>with</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the Z axis offset (with units, pint quantity) representing the Z axis translation with respect to a given
+reference frame.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the frame.</p>
+<p>Reset the frame (rotation and translation) with respect to the parent; the frame is thus equivalent to its
+parent frame.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span><span class="o">.</span><span class="n">rotate_x</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">get_angles</span><span class="p">()</span> <span class="c1">#doctest: +ELLIPSIS</span>
+<span class="go">[&lt;Quantity(0.0, &#39;radian&#39;)&gt;, &lt;Quantity(0.999..., &#39;radian&#39;)&gt;, &lt;Quantity(0.999..., &#39;radian&#39;)&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span><span class="o">.</span><span class="n">get_angles</span><span class="p">()</span>
+<span class="go">[&lt;Quantity(0.0, &#39;radian&#39;)&gt;, &lt;Quantity(0.0, &#39;radian&#39;)&gt;, &lt;Quantity(0.0, &#39;radian&#39;)&gt;]</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the reseted frame itself (to allow method chaining).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.rotate">
+<code class="descname">rotate</code><span class="sig-paren">(</span><em>angles: List[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.rotate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.rotate" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angles</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the rotated frame (in place), allows method chaining</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.rotate_axis">
+<code class="descname">rotate_axis</code><span class="sig-paren">(</span><em>axis: str</em>, <em>angle: float</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.rotate_axis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.rotate_axis" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>axis</strong> – </li>
+<li><strong>angle</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.rotate_x">
+<code class="descname">rotate_x</code><span class="sig-paren">(</span><em>angle: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.rotate_x"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.rotate_x" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angle</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.rotate_y">
+<code class="descname">rotate_y</code><span class="sig-paren">(</span><em>angle: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.rotate_y"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.rotate_y" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angle</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.rotate_z">
+<code class="descname">rotate_z</code><span class="sig-paren">(</span><em>angle: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.rotate_z"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.rotate_z" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angle</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.translate">
+<code class="descname">translate</code><span class="sig-paren">(</span><em>offset: List[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.translate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translates the origin of the Frame with respect to the parent reference frame.
+The translations are extrinsic (done with respect to the axes of the parent frame).</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">meter</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">meter</span><span class="p">,</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">meter</span><span class="p">])</span><span class="o">.</span><span class="n">o</span>
+<span class="go">[&lt;Quantity(1.0, &#39;meter&#39;)&gt;, &lt;Quantity(2.0, &#39;meter&#39;)&gt;, &lt;Quantity(3.0, &#39;meter&#39;)&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="n">f1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">meter</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">meter</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">meter</span><span class="p">])</span><span class="o">.</span><span class="n">o</span>
+<span class="go">[&lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(0.0, &#39;meter&#39;)&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+<span class="go">[&lt;Quantity(-1.0, &#39;meter&#39;)&gt;, &lt;Quantity(-2.0, &#39;meter&#39;)&gt;, &lt;Quantity(-3.0, &#39;meter&#39;)&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">rotate_x</span><span class="p">(</span><span class="mi">180</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span><span class="o">.</span><span class="n">o</span>
+<span class="go">[&lt;Quantity(0.0, &#39;meter&#39;)&gt;, &lt;Quantity(4.0, &#39;meter&#39;)&gt;, &lt;Quantity(6.0, &#39;meter&#39;)&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span><span class="o">.</span><span class="n">get_origin</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+<span class="go">[&lt;Quantity(-1.0, &#39;meter&#39;)&gt;, &lt;Quantity(-2.0, &#39;meter&#39;)&gt;, &lt;Quantity(-3.0, &#39;meter&#39;)&gt;]</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> – a list representing the offset (elements of the list must be quantities of dimension [LENGTH])</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the translated frame (in place), allows method chaining</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.translate_axis">
+<code class="descname">translate_axis</code><span class="sig-paren">(</span><em>axis: str</em>, <em>offset: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.translate_axis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.translate_axis" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>axis</strong> – </li>
+<li><strong>offset</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the translated frame (in place)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.translate_x">
+<code class="descname">translate_x</code><span class="sig-paren">(</span><em>offset: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.translate_x"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.translate_x" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.translate_y">
+<code class="descname">translate_y</code><span class="sig-paren">(</span><em>offset: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.translate_y"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.translate_y" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.frame.Frame.translate_z">
+<code class="descname">translate_z</code><span class="sig-paren">(</span><em>offset: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.frame.Frame<a class="reference internal" href="../_modules/zgoubidoo/frame.html#Frame.translate_z"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.frame.Frame.translate_z" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the translated frame (in place)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="zgoubidoo.frame.ZgoubidooFrameException.html" class="btn btn-neutral float-right" title="ZgoubidooFrameException" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../utilities.html" class="btn btn-neutral" title="Zgoubidoo’s utility modules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -171,13 +171,14 @@
 <span class="sd">    &gt;&gt;&gt; def foo(polarity: PolarityType = HorizontalPolarity): pass</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">SupportsInt</span><span class="p">,</span> <span class="n">SupportsFloat</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">SupportsInt</span> <span class="k">as</span> <span class="n">_SupportsInt</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">SupportsFloat</span> <span class="k">as</span> <span class="n">_SupportsFloat</span>
 
 
-<div class="viewcode-block" id="PolarityType"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.polarity.PolarityType">[docs]</a><span class="k">class</span> <span class="nc">PolarityType</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">SupportsInt</span><span class="p">,</span> <span class="n">SupportsFloat</span><span class="p">):</span>
+<div class="viewcode-block" id="PolarityType"><a class="viewcode-back" href="../../utilities.html#zgoubidoo.polarity.PolarityType">[docs]</a><span class="k">class</span> <span class="nc">PolarityType</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">_SupportsInt</span><span class="p">,</span> <span class="n">_SupportsFloat</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Metaclass to construct polarity types. Supports conversion to float and int.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__float__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__int__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">P</span>
