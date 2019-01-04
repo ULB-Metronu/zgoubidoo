@@ -5,12 +5,17 @@ from typing import Optional, List, Union, Iterable
 from dataclasses import dataclass
 import copy
 import numpy as _np
-from ..input import Input
-from ..commands.particules import Proton, ParticuleType
-from ..commands.commands import CommandType, Command, Fit, Marker, FitType
-from ..commands.objet import Objet2
+from ..input import Input as _Input
+from ..commands.particules import Proton as _Proton
+from .. commands.particules import ParticuleType as _ParticuleType
+from ..commands.commands import CommandType as _CommandType
+from ..commands.commands import Command as _Command
+from ..commands.commands import Fit as _Fit
+from ..commands.commands import FitType as _FitType
+from ..commands.commands import Marker as _Marker
+from ..commands.objet import Objet2 as _Objet2
 from .. import _Q
-from ..zgoubi import ZgoubiRun
+from ..zgoubi import ZgoubiRun as _ZgoubiRun
 import zgoubidoo
 
 
@@ -88,8 +93,8 @@ class Sequence:
 
     def __init__(self,
                  name: str = '',
-                 sequence: Optional[List[Command]] = None,
-                 particle: Optional[ParticuleType] = Proton,
+                 sequence: Optional[List[_Command]] = None,
+                 particle: Optional[_ParticuleType] = _Proton,
                  periods: int = 1,
                  ):
         """
@@ -101,24 +106,24 @@ class Sequence:
             periods:
         """
         self._name = name
-        self._sequence: List[Command] = sequence
-        self._input: Input = Input(name=self.name, line=self.sequence)
+        self._sequence: List[_Command] = sequence
+        self._input: _Input = _Input(name=self.name, line=self.sequence)
         if periods > 1:
             self.repeat_sequence(periods)
         self._particle = particle()
         self._closed_orbit = None
         self._z: zgoubidoo.Zgoubi = zgoubidoo.Zgoubi()
-        self._last_run: Optional[ZgoubiRun] = None
+        self._last_run: Optional[_ZgoubiRun] = None
         self.validate()
 
     def __getitem__(self, item: Union[slice,
                                       int,
                                       float,
                                       str,
-                                      CommandType,
+                                      _CommandType,
                                       type,
-                                      Iterable[Union[CommandType, type, str]]]) -> Union[
-            zgoubidoo.commands.Command, Input]:
+                                      Iterable[Union[_CommandType, type, str]]]) -> Union[
+            zgoubidoo.commands.Command, _Input]:
         """
 
         Args:
@@ -135,17 +140,17 @@ class Sequence:
         return self._name
 
     @property
-    def sequence(self) -> List[Command]:
+    def sequence(self) -> List[_Command]:
         """Provide the sequence of elements."""
         return self._sequence
 
     @property
-    def input(self) -> Input:
+    def input(self) -> _Input:
         """Provide the sequence of elements wrapped in a Zgoubi Input."""
         return self._input
 
     @property
-    def last_run(self) -> ZgoubiRun:
+    def last_run(self) -> _ZgoubiRun:
         """Provide the result of the last Zgoubi run."""
         return self._last_run
 
@@ -188,7 +193,7 @@ class Sequence:
                           dpp: float = 0.0,
                           guess: Coordinates = Coordinates(),
                           tolerance: float = 1e-10,
-                          fit_method: FitType = Fit,
+                          fit_method: _FitType = _Fit,
                           plane: PlaneType = HorizontalPlane,
                           ):
         """
@@ -205,24 +210,24 @@ class Sequence:
             the closed orbit
         """
         guess.d += dpp
-        zi = Input(
+        zi = _Input(
             name='CLOSED_ORBIT_FINDER',
             line=[
                      self._particle,
-                     Objet2('BUNCH', BORO=brho).add(guess.list)
-                 ] + self._sequence + [Marker('__END__')]
+                     _Objet2('BUNCH', BORO=brho).add(guess.list)
+                 ] + self._sequence + [_Marker('__END__')]
         )
         fit = fit_method(
             'FIT_CO',
             PENALTY=tolerance,
             PARAMS=[
-                fit_method.Parameter(line=zi, place='BUNCH', parameter=Objet2.Y_, range=(-100, 500))
+                fit_method.Parameter(line=zi, place='BUNCH', parameter=_Objet2.Y_, range=(-100, 500))
                 if issubclass(plane, Sequence.HorizontalPlane) else None,
-                fit_method.Parameter(line=zi, place='BUNCH', parameter=Objet2.T_, range=(-100, 500))
+                fit_method.Parameter(line=zi, place='BUNCH', parameter=_Objet2.T_, range=(-100, 500))
                 if issubclass(plane, Sequence.HorizontalPlane) else None,
-                fit_method.Parameter(line=zi, place='BUNCH', parameter=Objet2.Z_, range=(-100, 500))
+                fit_method.Parameter(line=zi, place='BUNCH', parameter=_Objet2.Z_, range=(-100, 500))
                 if issubclass(plane, Sequence.VerticalPlane) else None,
-                fit_method.Parameter(line=zi, place='BUNCH', parameter=Objet2.P_, range=(-100, 500))
+                fit_method.Parameter(line=zi, place='BUNCH', parameter=_Objet2.P_, range=(-100, 500))
                 if issubclass(plane, Sequence.VerticalPlane) else None,
             ],
             CONSTRAINTS=[
@@ -255,7 +260,7 @@ class Sequence:
             name=self.name,
             line=[
                      self._particle,
-                     Objet2('BUNCH', BORO=brho).add([[100 * self._closed_orbit[0],
+                     _Objet2('BUNCH', BORO=brho).add([[100 * self._closed_orbit[0],
                                                       1000 * self._closed_orbit[1],
                                                       100 * self._closed_orbit[2],
                                                       1000 * self._closed_orbit[3],
