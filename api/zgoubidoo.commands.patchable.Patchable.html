@@ -1,0 +1,398 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Patchable &mdash; Zgoubidoo 2019.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="AutoRef" href="zgoubidoo.commands.commands.AutoRef.html" />
+    <link rel="prev" title="Zgoubi commands" href="../commands.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2019.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../news.html">News and announcements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../commands.html">Zgoubi commands</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../commands.html#zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands">Zgoubidoo’s class hierarchy and bases classes for new commands</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.patchable">Support for patchable elements</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../commands.html#classes">Classes</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Patchable</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.commands">Control-flow, calculation and miscellanous commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.particules">Particule definition commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.objet">Objet (bunch) definition commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.mcobjet">Monte-Carlo Objet (bunch) definition commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.magnetique">Magnetic elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.electrique">Electric elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.fieldmaps">Field-map elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.spin">Spin tracking commands</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../commands.html">Zgoubi commands</a> &raquo;</li>
+        
+      <li>Patchable</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/zgoubidoo.commands.patchable.Patchable.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="patchable">
+<h1>Patchable<a class="headerlink" href="#patchable" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="zgoubidoo.commands.patchable.Patchable">
+<em class="property">class </em><code class="descclassname">zgoubidoo.commands.patchable.</code><code class="descname">Patchable</code><a class="reference internal" href="../_modules/zgoubidoo/commands/patchable.html#Patchable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Patchable elements are Zgoubi commands that affect the placement of the reference frame.</p>
+<p>A default implementation of the placement methods is provided for subclasses. It only places the entrance frame
+at the location of the placement frame and all other frames are set to the entrance frame (‘point-like’ element).</p>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.center" title="zgoubidoo.commands.patchable.Patchable.center"><code class="xref py py-obj docutils literal notranslate"><span class="pre">center</span></code></a></td>
+<td>Center frame.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.entry" title="zgoubidoo.commands.patchable.Patchable.entry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entry</span></code></a></td>
+<td>Entrance frame.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.entry_patched" title="zgoubidoo.commands.patchable.Patchable.entry_patched"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entry_patched</span></code></a></td>
+<td>Entrance patched frame.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.exit" title="zgoubidoo.commands.patchable.Patchable.exit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exit</span></code></a></td>
+<td>Exit frame.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.exit_patched" title="zgoubidoo.commands.patchable.Patchable.exit_patched"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exit_patched</span></code></a></td>
+<td>Exit patched frame.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.length" title="zgoubidoo.commands.patchable.Patchable.length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">length</span></code></a></td>
+<td>Length of the element.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.place" title="zgoubidoo.commands.patchable.Patchable.place"><code class="xref py py-obj docutils literal notranslate"><span class="pre">place</span></code></a>(frame)</td>
+<td>Place the element with a reference frame.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="zgoubidoo.commands.patchable.Patchable.center">
+<code class="descname">center</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.center" title="Permalink to this definition">¶</a></dt>
+<dd><p>Center frame.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the frame of the center of the element.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.commands.patchable.Patchable.entry">
+<code class="descname">entry</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Entrance frame.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the frame of the entrance of the element.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.commands.patchable.Patchable.entry_patched">
+<code class="descname">entry_patched</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.entry_patched" title="Permalink to this definition">¶</a></dt>
+<dd><p>Entrance patched frame.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the frame of the entrance of the element with the patch applied.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.commands.patchable.Patchable.exit">
+<code class="descname">exit</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.exit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit frame.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the frame of the exit of the element.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.commands.patchable.Patchable.exit_patched">
+<code class="descname">exit_patched</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.exit_patched" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit patched frame.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the frame of the exit of the element with the patch applied.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.commands.patchable.Patchable.length">
+<code class="descname">length</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Length of the element.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the length of the element with units.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="zgoubidoo.commands.patchable.Patchable.place">
+<code class="descname">place</code><span class="sig-paren">(</span><em>frame: zgoubidoo.frame.Frame</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/patchable.html#Patchable.place"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.place" title="Permalink to this definition">¶</a></dt>
+<dd><p>Place the element with a reference frame.</p>
+<p>All the frames of the element are reset and the entrance frame is then placed with respect to the reference
+frame.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frame</strong> – the reference frame for the placement of the entrance frame.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="zgoubidoo.commands.commands.AutoRef.html" class="btn btn-neutral float-right" title="AutoRef" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../commands.html" class="btn btn-neutral" title="Zgoubi commands" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

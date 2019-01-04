@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="AutoRef" href="api/zgoubidoo.commands.commands.AutoRef.html" />
+    <link rel="next" title="Patchable" href="api/zgoubidoo.commands.patchable.Patchable.html" />
     <link rel="prev" title="Zgoubi" href="zgoubi.html" /> 
 
   
@@ -89,9 +89,23 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Zgoubi commands</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands">Zgoubidoo’s class hierarchy and bases classes for new commands</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.commands.commands">Control-flow, calculation and miscellanous commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands">Zgoubidoo’s class hierarchy and bases classes for new commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-zgoubidoo.commands.patchable">Support for patchable elements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.patchable.Patchable.html">Patchable</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-zgoubidoo.commands.plotable">Support for plotable elements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.plotable.Plotable.html">Plotable</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.commands.commands">Control-flow, calculation and miscellanous commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Classes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.commands.AutoRef.html">AutoRef</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.commands.BeamBeam.html">BeamBeam</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.commands.Binary.html">Binary</a></li>
@@ -146,11 +160,11 @@
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.commands.ZgoubidooException.html">ZgoubidooException</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Class Inheritance Diagram</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.commands.particules">Particule definition commands</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id1">Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Classes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.particules.AntiMuon.html">AntiMuon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.particules.AntiProton.html">AntiProton</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.particules.CarbonIon.html">CarbonIon</a></li>
@@ -169,11 +183,11 @@
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.particules.SulfurIon.html">SulfurIon</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id2">Class Inheritance Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Class Inheritance Diagram</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.commands.objet">Objet (bunch) definition commands</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Classes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet.html">Objet</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet1.html">Objet1</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet2.html">Objet2</a></li>
@@ -187,22 +201,22 @@
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.objet.ObjetType.html">ObjetType</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Class Inheritance Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Class Inheritance Diagram</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.commands.mcobjet">Monte-Carlo Objet (bunch) definition commands</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Classes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.mcobjet.MCObjet.html">MCObjet</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.mcobjet.MCObjet1.html">MCObjet1</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.mcobjet.MCObjet2.html">MCObjet2</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.mcobjet.MCObjet3.html">MCObjet3</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Class Inheritance Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Class Inheritance Diagram</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.commands.magnetique">Magnetic elements</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Classes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.AGSMainMagnet.html">AGSMainMagnet</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.AGSQuadrupole.html">AGSQuadrupole</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Aimant.html">Aimant</a></li>
@@ -235,11 +249,11 @@
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Venus.html">Venus</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Class Inheritance Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Class Inheritance Diagram</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.commands.electrique">Electric elements</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id9">Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id13">Classes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.electrique.Cavite.html">Cavite</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.electrique.Cavity.html">Cavity</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.electrique.EBMult.html">EBMult</a></li>
@@ -252,11 +266,11 @@
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.electrique.Unipot.html">Unipot</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">Class Inheritance Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">Class Inheritance Diagram</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.commands.fieldmaps">Field-map elements</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id11">Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id15">Classes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.fieldmaps.Brevol.html">Brevol</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.fieldmaps.CartesianMesh.html">CartesianMesh</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.fieldmaps.Map2D.html">Map2D</a></li>
@@ -266,11 +280,11 @@
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.fieldmaps.Tosca.html">Tosca</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id12">Class Inheritance Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Class Inheritance Diagram</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.commands.spin">Spin tracking commands</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id13">Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id17">Classes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.spin.SpinPrint.html">SpinPrint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.spin.SpinRotation.html">SpinRotation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.spin.SpinStore.html">SpinStore</a></li>
@@ -280,7 +294,7 @@
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.spin.Spnprnl.html">Spnprnl</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id14">Class Inheritance Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">Class Inheritance Diagram</a></li>
 </ul>
 </li>
 </ul>
@@ -363,27 +377,75 @@
 <p>TODO</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands" id="id15">Zgoubidoo’s class hierarchy and bases classes for new commands</a></li>
-<li><a class="reference internal" href="#module-zgoubidoo.commands.commands" id="id16">Control-flow, calculation and miscellanous commands</a></li>
-<li><a class="reference internal" href="#module-zgoubidoo.commands.particules" id="id17">Particule definition commands</a></li>
-<li><a class="reference internal" href="#module-zgoubidoo.commands.objet" id="id18">Objet (bunch) definition commands</a></li>
-<li><a class="reference internal" href="#module-zgoubidoo.commands.mcobjet" id="id19">Monte-Carlo Objet (bunch) definition commands</a></li>
-<li><a class="reference internal" href="#module-zgoubidoo.commands.magnetique" id="id20">Magnetic elements</a></li>
-<li><a class="reference internal" href="#module-zgoubidoo.commands.electrique" id="id21">Electric elements</a></li>
-<li><a class="reference internal" href="#module-zgoubidoo.commands.fieldmaps" id="id22">Field-map elements</a></li>
-<li><a class="reference internal" href="#module-zgoubidoo.commands.spin" id="id23">Spin tracking commands</a></li>
+<li><a class="reference internal" href="#zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands" id="id19">Zgoubidoo’s class hierarchy and bases classes for new commands</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.commands.commands" id="id20">Control-flow, calculation and miscellanous commands</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.commands.particules" id="id21">Particule definition commands</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.commands.objet" id="id22">Objet (bunch) definition commands</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.commands.mcobjet" id="id23">Monte-Carlo Objet (bunch) definition commands</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.commands.magnetique" id="id24">Magnetic elements</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.commands.electrique" id="id25">Electric elements</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.commands.fieldmaps" id="id26">Field-map elements</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.commands.spin" id="id27">Spin tracking commands</a></li>
 </ul>
 </div>
 <div class="section" id="zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands">
-<h2><a class="toc-backref" href="#id15">Zgoubidoo’s class hierarchy and bases classes for new commands</a><a class="headerlink" href="#zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id19">Zgoubidoo’s class hierarchy and bases classes for new commands</a><a class="headerlink" href="#zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands" title="Permalink to this headline">¶</a></h2>
 <p>Say something here</p>
+<div class="section" id="module-zgoubidoo.commands.patchable">
+<span id="support-for-patchable-elements"></span><h3>Support for patchable elements<a class="headerlink" href="#module-zgoubidoo.commands.patchable" title="Permalink to this headline">¶</a></h3>
+<p>Patchable elements module.</p>
 </div>
-<div class="section" id="module-zgoubidoo.commands.commands">
-<span id="control-flow-calculation-and-miscellanous-commands"></span><h2><a class="toc-backref" href="#id16">Control-flow, calculation and miscellanous commands</a><a class="headerlink" href="#module-zgoubidoo.commands.commands" title="Permalink to this headline">¶</a></h2>
-<p>Commands controlling Zgoubi’s control flow, geometry, tracking options, etc.</p>
-<p>TODO</p>
 <div class="section" id="classes">
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.patchable.Patchable.html#zgoubidoo.commands.patchable.Patchable" title="zgoubidoo.commands.patchable.Patchable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Patchable</span></code></a></td>
+<td>Patchable elements are Zgoubi commands that affect the placement of the reference frame.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="class-inheritance-diagram">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h3>
+<div class="graphviz"><img src="_images/inheritance-b8f8a72e2723c2630db7a03a07c4197d12058e6f.png" alt="Inheritance diagram of zgoubidoo.commands.patchable.Patchable" usemap="#inheritance95bc070a9b" class="inheritance graphviz" /></div>
+<map id="inheritance95bc070a9b" name="inheritance95bc070a9b">
+<area shape="rect" id="node1" href="api/zgoubidoo.commands.patchable.Patchable.html#zgoubidoo.commands.patchable.Patchable" target="_top" title="Patchable elements are Zgoubi commands that affect the placement of the reference frame." alt="" coords="5,5,86,29"/>
+</map></div>
+<div class="section" id="module-zgoubidoo.commands.plotable">
+<span id="support-for-plotable-elements"></span><h3>Support for plotable elements<a class="headerlink" href="#module-zgoubidoo.commands.plotable" title="Permalink to this headline">¶</a></h3>
+<p>Plotable type system.</p>
+</div>
+<div class="section" id="id1">
+<h3>Classes<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.plotable.Plotable.html#zgoubidoo.commands.plotable.Plotable" title="zgoubidoo.commands.plotable.Plotable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Plotable</span></code></a></td>
+<td>Plotable type.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id2">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="graphviz"><img src="_images/inheritance-9cfbb7b3a381a65f5800986e95e245ad73698929.png" alt="Inheritance diagram of zgoubidoo.commands.plotable.Plotable" usemap="#inheritanceb0199d5eaf" class="inheritance graphviz" /></div>
+<map id="inheritanceb0199d5eaf" name="inheritanceb0199d5eaf">
+<area shape="rect" id="node1" href="api/zgoubidoo.commands.plotable.Plotable.html#zgoubidoo.commands.plotable.Plotable" target="_top" title="Plotable type." alt="" coords="5,5,77,29"/>
+</map></div>
+</div>
+<div class="section" id="module-zgoubidoo.commands.commands">
+<span id="control-flow-calculation-and-miscellanous-commands"></span><h2><a class="toc-backref" href="#id20">Control-flow, calculation and miscellanous commands</a><a class="headerlink" href="#module-zgoubidoo.commands.commands" title="Permalink to this headline">¶</a></h2>
+<p>Commands controlling Zgoubi’s control flow, geometry, tracking options, etc.</p>
+<p>TODO</p>
+<div class="section" id="id3">
+<h3>Classes<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -549,9 +611,9 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="class-inheritance-diagram">
-<h3>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h3>
-<div class="graphviz"><img src="_images/inheritance-f29b0c9c88ab0c0eb3385073779fb5d36e7f2308.png" alt="Inheritance diagram of zgoubidoo.commands.commands.AutoRef, zgoubidoo.commands.commands.BeamBeam, zgoubidoo.commands.commands.Binary, zgoubidoo.commands.commands.Chambre, zgoubidoo.commands.commands.Chambre, zgoubidoo.commands.commands.Chambre, zgoubidoo.commands.commands.ChangRef, zgoubidoo.commands.commands.ChangRef, zgoubidoo.commands.commands.Cible, zgoubidoo.commands.commands.Collimateur, zgoubidoo.commands.commands.Collimateur, zgoubidoo.commands.commands.Command, zgoubidoo.commands.commands.CommandType, zgoubidoo.commands.commands.ESL, zgoubidoo.commands.commands.End, zgoubidoo.commands.commands.FaiStore, zgoubidoo.commands.commands.Faisceau, zgoubidoo.commands.commands.Faiscnl, zgoubidoo.commands.commands.Fin, zgoubidoo.commands.commands.Fit, zgoubidoo.commands.commands.Fit2, zgoubidoo.commands.commands.FitType, zgoubidoo.commands.commands.Focale, zgoubidoo.commands.commands.FocaleZ, zgoubidoo.commands.commands.GasScattering, zgoubidoo.commands.commands.GetFitVal, zgoubidoo.commands.commands.Histo, zgoubidoo.commands.commands.Image, zgoubidoo.commands.commands.ImageZ, zgoubidoo.commands.commands.Images, zgoubidoo.commands.commands.ImagesZ, zgoubidoo.commands.commands.MCDesintegration, zgoubidoo.commands.commands.Marker, zgoubidoo.commands.commands.Matrix, zgoubidoo.commands.commands.Optics, zgoubidoo.commands.commands.Ordre, zgoubidoo.commands.commands.Pickups, zgoubidoo.commands.commands.PlotData, zgoubidoo.commands.commands.Rebelote, zgoubidoo.commands.commands.Reset, zgoubidoo.commands.commands.Scaling, zgoubidoo.commands.commands.Separa, zgoubidoo.commands.commands.SynchrotronRadiation, zgoubidoo.commands.commands.SynchrotronRadiationLosses, zgoubidoo.commands.commands.SynchrotronRadiationPrint, zgoubidoo.commands.commands.Target, zgoubidoo.commands.commands.TransferMatrix, zgoubidoo.commands.commands.TranslationRotation, zgoubidoo.commands.commands.Twiss, zgoubidoo.commands.commands.WienFilter, zgoubidoo.commands.commands.Ymy, zgoubidoo.commands.commands.ZgoubidooException" usemap="#inheritanceeef1998487" class="inheritance graphviz" /></div>
+<div class="section" id="id4">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="graphviz"><img src="_images/inheritance-de04b47b93883c22f85345f050b151401c5bd49c.png" alt="Inheritance diagram of zgoubidoo.commands.commands.AutoRef, zgoubidoo.commands.commands.BeamBeam, zgoubidoo.commands.commands.Binary, zgoubidoo.commands.commands.Chambre, zgoubidoo.commands.commands.Chambre, zgoubidoo.commands.commands.Chambre, zgoubidoo.commands.commands.ChangRef, zgoubidoo.commands.commands.ChangRef, zgoubidoo.commands.commands.Cible, zgoubidoo.commands.commands.Collimateur, zgoubidoo.commands.commands.Collimateur, zgoubidoo.commands.commands.Command, zgoubidoo.commands.commands.CommandType, zgoubidoo.commands.commands.ESL, zgoubidoo.commands.commands.End, zgoubidoo.commands.commands.FaiStore, zgoubidoo.commands.commands.Faisceau, zgoubidoo.commands.commands.Faiscnl, zgoubidoo.commands.commands.Fin, zgoubidoo.commands.commands.Fit, zgoubidoo.commands.commands.Fit2, zgoubidoo.commands.commands.FitType, zgoubidoo.commands.commands.Focale, zgoubidoo.commands.commands.FocaleZ, zgoubidoo.commands.commands.GasScattering, zgoubidoo.commands.commands.GetFitVal, zgoubidoo.commands.commands.Histo, zgoubidoo.commands.commands.Image, zgoubidoo.commands.commands.ImageZ, zgoubidoo.commands.commands.Images, zgoubidoo.commands.commands.ImagesZ, zgoubidoo.commands.commands.MCDesintegration, zgoubidoo.commands.commands.Marker, zgoubidoo.commands.commands.Matrix, zgoubidoo.commands.commands.Optics, zgoubidoo.commands.commands.Ordre, zgoubidoo.commands.commands.Pickups, zgoubidoo.commands.commands.PlotData, zgoubidoo.commands.commands.Rebelote, zgoubidoo.commands.commands.Reset, zgoubidoo.commands.commands.Scaling, zgoubidoo.commands.commands.Separa, zgoubidoo.commands.commands.SynchrotronRadiation, zgoubidoo.commands.commands.SynchrotronRadiationLosses, zgoubidoo.commands.commands.SynchrotronRadiationPrint, zgoubidoo.commands.commands.Target, zgoubidoo.commands.commands.TransferMatrix, zgoubidoo.commands.commands.TranslationRotation, zgoubidoo.commands.commands.Twiss, zgoubidoo.commands.commands.WienFilter, zgoubidoo.commands.commands.Ymy, zgoubidoo.commands.commands.ZgoubidooException" usemap="#inheritanceeef1998487" class="inheritance graphviz" /></div>
 <map id="inheritanceeef1998487" name="inheritanceeef1998487">
 <area shape="rect" id="node1" href="api/zgoubidoo.commands.commands.AutoRef.html#zgoubidoo.commands.commands.AutoRef" target="_top" title="Automatic transformation to a new reference frame." alt="" coords="137,260,176,273"/>
 <area shape="rect" id="node2" href="api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" target="_top" title="Test test test." alt="" coords="19,595,63,608"/>
@@ -597,6 +659,7 @@
 <area shape="rect" id="node46" href="api/zgoubidoo.commands.commands.Twiss.html#zgoubidoo.commands.commands.Twiss" target="_top" title="Calculation of periodic optical parameters." alt="" coords="137,209,176,222"/>
 <area shape="rect" id="node47" href="api/zgoubidoo.commands.commands.WienFilter.html#zgoubidoo.commands.commands.WienFilter" target="_top" title="Wien filter." alt="" coords="135,235,179,248"/>
 <area shape="rect" id="node48" href="api/zgoubidoo.commands.commands.Ymy.html#zgoubidoo.commands.commands.Ymy" target="_top" title="Reverse signs of Y and Z reference axes, equivalent to a 180 degree rotation around the X axis." alt="" coords="137,54,176,67"/>
+<area shape="rect" id="node7" href="api/zgoubidoo.commands.patchable.Patchable.html#zgoubidoo.commands.patchable.Patchable" target="_top" title="Patchable elements are Zgoubi commands that affect the placement of the reference frame." alt="" coords="20,67,63,80"/>
 <area shape="rect" id="node10" href="api/zgoubidoo.commands.commands.CommandType.html#zgoubidoo.commands.commands.CommandType" target="_top" title="Dark magic." alt="" coords="11,29,71,42"/>
 <area shape="rect" id="node19" href="api/zgoubidoo.commands.commands.FitType.html#zgoubidoo.commands.commands.FitType" target="_top" title="Type for fit commands." alt="" coords="137,29,176,42"/>
 <area shape="rect" id="node18" href="api/zgoubidoo.commands.commands.Fit2.html#zgoubidoo.commands.commands.Fit2" target="_top" title="Fitting procedure." alt="" coords="234,570,273,582"/>
@@ -604,11 +667,11 @@
 </map></div>
 </div>
 <div class="section" id="module-zgoubidoo.commands.particules">
-<span id="particule-definition-commands"></span><h2><a class="toc-backref" href="#id17">Particule definition commands</a><a class="headerlink" href="#module-zgoubidoo.commands.particules" title="Permalink to this headline">¶</a></h2>
+<span id="particule-definition-commands"></span><h2><a class="toc-backref" href="#id21">Particule definition commands</a><a class="headerlink" href="#module-zgoubidoo.commands.particules" title="Permalink to this headline">¶</a></h2>
 <p>Zgoubidoo’s interfaces to Zgoubi commands related to particle types.</p>
 <p>More details here.</p>
-<div class="section" id="id1">
-<h3>Classes<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>Classes<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -666,8 +729,8 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="id2">
-<h3>Class Inheritance Diagram<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <div class="graphviz"><img src="_images/inheritance-bc04d342af7879be45b5a692588298d5c771f402.png" alt="Inheritance diagram of zgoubidoo.commands.particules.AntiMuon, zgoubidoo.commands.particules.AntiProton, zgoubidoo.commands.particules.CarbonIon, zgoubidoo.commands.particules.Electron, zgoubidoo.commands.particules.HMinus, zgoubidoo.commands.particules.HeliumIon, zgoubidoo.commands.particules.ImmortalAntiMuon, zgoubidoo.commands.particules.ImmortalMuon, zgoubidoo.commands.particules.LeadIon, zgoubidoo.commands.particules.Muon, zgoubidoo.commands.particules.Particule, zgoubidoo.commands.particules.ParticuleType, zgoubidoo.commands.particules.Pion, zgoubidoo.commands.particules.Positron, zgoubidoo.commands.particules.Proton, zgoubidoo.commands.particules.SulfurIon" usemap="#inheritance5ab59eca13" class="inheritance graphviz" /></div>
 <map id="inheritance5ab59eca13" name="inheritance5ab59eca13">
 <area shape="rect" id="node1" href="api/zgoubidoo.commands.particules.AntiMuon.html#zgoubidoo.commands.particules.AntiMuon" target="_top" title="An anti&#45;muon particle." alt="" coords="318,5,396,29"/>
@@ -691,7 +754,7 @@
 </map></div>
 </div>
 <div class="section" id="module-zgoubidoo.commands.objet">
-<span id="objet-bunch-definition-commands"></span><h2><a class="toc-backref" href="#id18">Objet (bunch) definition commands</a><a class="headerlink" href="#module-zgoubidoo.commands.objet" title="Permalink to this headline">¶</a></h2>
+<span id="objet-bunch-definition-commands"></span><h2><a class="toc-backref" href="#id22">Objet (bunch) definition commands</a><a class="headerlink" href="#module-zgoubidoo.commands.objet" title="Permalink to this headline">¶</a></h2>
 <p>Zgoubi commands for the generation of Objet’s.</p>
 <p>The description of the object, i.e., initial coordinates of the ensemble of particles, must be the first procedure
 in the zgoubi input data file, zgoubi.dat.</p>
@@ -706,8 +769,8 @@ include:</p>
 <p>A recurrent quantity appearing in these procedures is IMAX, the number of particles to be ray-traced.
 The maximum value allowed for IMAX can be changed at leisure in the include file <cite>MAXTRA.H</cite> where it is defined
 (that requires re-compiling zgoubi).</p>
-<div class="section" id="id3">
-<h3>Classes<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3>Classes<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -754,8 +817,8 @@ The maximum value allowed for IMAX can be changed at leisure in the include file
 </tbody>
 </table>
 </div>
-<div class="section" id="id4">
-<h3>Class Inheritance Diagram<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <div class="graphviz"><img src="_images/inheritance-baf359683933f1ec8f1e0b3a44f3810550ba1d21.png" alt="Inheritance diagram of zgoubidoo.commands.objet.Objet, zgoubidoo.commands.objet.Objet1, zgoubidoo.commands.objet.Objet2, zgoubidoo.commands.objet.Objet3, zgoubidoo.commands.objet.Objet4, zgoubidoo.commands.objet.Objet5, zgoubidoo.commands.objet.Objet6, zgoubidoo.commands.objet.Objet7, zgoubidoo.commands.objet.Objet8, zgoubidoo.commands.objet.ObjetA, zgoubidoo.commands.objet.ObjetType" usemap="#inheritance3ecbed7481" class="inheritance graphviz" /></div>
 <map id="inheritance3ecbed7481" name="inheritance3ecbed7481">
 <area shape="rect" id="node1" href="api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" target="_top" title="Test test test." alt="" coords="20,197,103,221"/>
@@ -774,9 +837,9 @@ The maximum value allowed for IMAX can be changed at leisure in the include file
 </map></div>
 </div>
 <div class="section" id="module-zgoubidoo.commands.mcobjet">
-<span id="monte-carlo-objet-bunch-definition-commands"></span><h2><a class="toc-backref" href="#id19">Monte-Carlo Objet (bunch) definition commands</a><a class="headerlink" href="#module-zgoubidoo.commands.mcobjet" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id5">
-<h3>Classes<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<span id="monte-carlo-objet-bunch-definition-commands"></span><h2><a class="toc-backref" href="#id23">Monte-Carlo Objet (bunch) definition commands</a><a class="headerlink" href="#module-zgoubidoo.commands.mcobjet" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h3>Classes<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -801,8 +864,8 @@ The maximum value allowed for IMAX can be changed at leisure in the include file
 </tbody>
 </table>
 </div>
-<div class="section" id="id6">
-<h3>Class Inheritance Diagram<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <div class="graphviz"><img src="_images/inheritance-895d94013663145de8f52a1d92257be845e977d1.png" alt="Inheritance diagram of zgoubidoo.commands.mcobjet.MCObjet, zgoubidoo.commands.mcobjet.MCObjet1, zgoubidoo.commands.mcobjet.MCObjet2, zgoubidoo.commands.mcobjet.MCObjet3" usemap="#inheritance81e2917cbe" class="inheritance graphviz" /></div>
 <map id="inheritance81e2917cbe" name="inheritance81e2917cbe">
 <area shape="rect" id="node1" href="api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" target="_top" title="Test test test." alt="" coords="5,53,88,77"/>
@@ -813,12 +876,12 @@ The maximum value allowed for IMAX can be changed at leisure in the include file
 </map></div>
 </div>
 <div class="section" id="module-zgoubidoo.commands.magnetique">
-<span id="magnetic-elements"></span><h2><a class="toc-backref" href="#id20">Magnetic elements</a><a class="headerlink" href="#module-zgoubidoo.commands.magnetique" title="Permalink to this headline">¶</a></h2>
+<span id="magnetic-elements"></span><h2><a class="toc-backref" href="#id24">Magnetic elements</a><a class="headerlink" href="#module-zgoubidoo.commands.magnetique" title="Permalink to this headline">¶</a></h2>
 <p>Zgoubidoo’s interfaces to purefly magnetic Zgoubi commands.</p>
 <p>More details here.
 TODO</p>
-<div class="section" id="id7">
-<h3>Classes<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>Classes<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -918,9 +981,9 @@ TODO</p>
 </tbody>
 </table>
 </div>
-<div class="section" id="id8">
-<h3>Class Inheritance Diagram<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
-<div class="graphviz"><img src="_images/inheritance-3f9663799c118f4ee7e390015f73c41017683eda.png" alt="Inheritance diagram of zgoubidoo.commands.magnetique.AGSMainMagnet, zgoubidoo.commands.magnetique.AGSQuadrupole, zgoubidoo.commands.magnetique.Aimant, zgoubidoo.commands.magnetique.Bend, zgoubidoo.commands.magnetique.CartesianMagnet, zgoubidoo.commands.magnetique.CartesianMagnetType, zgoubidoo.commands.magnetique.Decapole, zgoubidoo.commands.magnetique.Dipole, zgoubidoo.commands.magnetique.DipoleM, zgoubidoo.commands.magnetique.Dipoles, zgoubidoo.commands.magnetique.Dodecapole, zgoubidoo.commands.magnetique.Drift, zgoubidoo.commands.magnetique.Emma, zgoubidoo.commands.magnetique.FFAG, zgoubidoo.commands.magnetique.FFAGSpirale, zgoubidoo.commands.magnetique.FakeDrift, zgoubidoo.commands.magnetique.Magnet, zgoubidoo.commands.magnetique.MagnetType, zgoubidoo.commands.magnetique.Multipole, zgoubidoo.commands.magnetique.Octupole, zgoubidoo.commands.magnetique.PS170, zgoubidoo.commands.magnetique.PolarMagnet, zgoubidoo.commands.magnetique.PolarMagnetType, zgoubidoo.commands.magnetique.Quadisex, zgoubidoo.commands.magnetique.Quadrupole, zgoubidoo.commands.magnetique.SexQuad, zgoubidoo.commands.magnetique.Sextupole, zgoubidoo.commands.magnetique.Solenoid, zgoubidoo.commands.magnetique.Undulator, zgoubidoo.commands.magnetique.Venus" usemap="#inheritanced976f0bc34" class="inheritance graphviz" /></div>
+<div class="section" id="id12">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="graphviz"><img src="_images/inheritance-9d38c0d1b87d03dfbaef12d2f7f967c5b124a14c.png" alt="Inheritance diagram of zgoubidoo.commands.magnetique.AGSMainMagnet, zgoubidoo.commands.magnetique.AGSQuadrupole, zgoubidoo.commands.magnetique.Aimant, zgoubidoo.commands.magnetique.Bend, zgoubidoo.commands.magnetique.CartesianMagnet, zgoubidoo.commands.magnetique.CartesianMagnetType, zgoubidoo.commands.magnetique.Decapole, zgoubidoo.commands.magnetique.Dipole, zgoubidoo.commands.magnetique.DipoleM, zgoubidoo.commands.magnetique.Dipoles, zgoubidoo.commands.magnetique.Dodecapole, zgoubidoo.commands.magnetique.Drift, zgoubidoo.commands.magnetique.Emma, zgoubidoo.commands.magnetique.FFAG, zgoubidoo.commands.magnetique.FFAGSpirale, zgoubidoo.commands.magnetique.FakeDrift, zgoubidoo.commands.magnetique.Magnet, zgoubidoo.commands.magnetique.MagnetType, zgoubidoo.commands.magnetique.Multipole, zgoubidoo.commands.magnetique.Octupole, zgoubidoo.commands.magnetique.PS170, zgoubidoo.commands.magnetique.PolarMagnet, zgoubidoo.commands.magnetique.PolarMagnetType, zgoubidoo.commands.magnetique.Quadisex, zgoubidoo.commands.magnetique.Quadrupole, zgoubidoo.commands.magnetique.SexQuad, zgoubidoo.commands.magnetique.Sextupole, zgoubidoo.commands.magnetique.Solenoid, zgoubidoo.commands.magnetique.Undulator, zgoubidoo.commands.magnetique.Venus" usemap="#inheritanced976f0bc34" class="inheritance graphviz" /></div>
 <map id="inheritanced976f0bc34" name="inheritanced976f0bc34">
 <area shape="rect" id="node1" href="api/zgoubidoo.commands.magnetique.AGSMainMagnet.html#zgoubidoo.commands.magnetique.AGSMainMagnet" target="_top" title="AGS main magnet." alt="" coords="508,5,630,29"/>
 <area shape="rect" id="node2" href="api/zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet" target="_top" title="Base class for magnetic elements in cartesian coordinates." alt="" coords="322,317,445,341"/>
@@ -954,14 +1017,16 @@ TODO</p>
 <area shape="rect" id="node27" href="api/zgoubidoo.commands.magnetique.PolarMagnetType.html#zgoubidoo.commands.magnetique.PolarMagnetType" target="_top" title="Type for polar magnets." alt="" coords="321,269,447,293"/>
 <area shape="rect" id="node10" href="api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" target="_top" title="Test test test." alt="" coords="20,749,103,773"/>
 <area shape="rect" id="node11" href="api/zgoubidoo.commands.commands.CommandType.html#zgoubidoo.commands.commands.CommandType" target="_top" title="Dark magic." alt="" coords="5,245,117,269"/>
+<area shape="rect" id="node22" href="api/zgoubidoo.commands.patchable.Patchable.html#zgoubidoo.commands.patchable.Patchable" target="_top" title="Patchable elements are Zgoubi commands that affect the placement of the reference frame." alt="" coords="21,797,102,821"/>
+<area shape="rect" id="node23" href="api/zgoubidoo.commands.plotable.Plotable.html#zgoubidoo.commands.plotable.Plotable" target="_top" title="Plotable type." alt="" coords="25,845,97,869"/>
 </map></div>
 </div>
 <div class="section" id="module-zgoubidoo.commands.electrique">
-<span id="electric-elements"></span><h2><a class="toc-backref" href="#id21">Electric elements</a><a class="headerlink" href="#module-zgoubidoo.commands.electrique" title="Permalink to this headline">¶</a></h2>
+<span id="electric-elements"></span><h2><a class="toc-backref" href="#id25">Electric elements</a><a class="headerlink" href="#module-zgoubidoo.commands.electrique" title="Permalink to this headline">¶</a></h2>
 <p>Zgoubidoo’s interfaces to purefly electric Zgoubi commands.</p>
 <p>More details here.</p>
-<div class="section" id="id9">
-<h3>Classes<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>Classes<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -1001,8 +1066,8 @@ TODO</p>
 </tbody>
 </table>
 </div>
-<div class="section" id="id10">
-<h3>Class Inheritance Diagram<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <div class="graphviz"><img src="_images/inheritance-fa14edefb57760f79175eaa76425bd51efa3071a.png" alt="Inheritance diagram of zgoubidoo.commands.electrique.Cavite, zgoubidoo.commands.electrique.Cavite, zgoubidoo.commands.electrique.EBMult, zgoubidoo.commands.electrique.EBMult, zgoubidoo.commands.electrique.EL2Tub, zgoubidoo.commands.electrique.ELMir, zgoubidoo.commands.electrique.ELMirCircular, zgoubidoo.commands.electrique.ELMulti, zgoubidoo.commands.electrique.ELRevol, zgoubidoo.commands.electrique.Unipot" usemap="#inheritance470ccb1476" class="inheritance graphviz" /></div>
 <map id="inheritance470ccb1476" name="inheritance470ccb1476">
 <area shape="rect" id="node1" href="api/zgoubidoo.commands.electrique.Cavite.html#zgoubidoo.commands.electrique.Cavite" target="_top" title="Accelerating cavity." alt="" coords="151,5,223,29"/>
@@ -1017,9 +1082,9 @@ TODO</p>
 </map></div>
 </div>
 <div class="section" id="module-zgoubidoo.commands.fieldmaps">
-<span id="field-map-elements"></span><h2><a class="toc-backref" href="#id22">Field-map elements</a><a class="headerlink" href="#module-zgoubidoo.commands.fieldmaps" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id11">
-<h3>Classes<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<span id="field-map-elements"></span><h2><a class="toc-backref" href="#id26">Field-map elements</a><a class="headerlink" href="#module-zgoubidoo.commands.fieldmaps" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id15">
+<h3>Classes<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -1050,8 +1115,8 @@ TODO</p>
 </tbody>
 </table>
 </div>
-<div class="section" id="id12">
-<h3>Class Inheritance Diagram<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id16">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <div class="graphviz"><img src="_images/inheritance-875f9ac0327572e5a50e6276f43e8b8a6a21eedd.png" alt="Inheritance diagram of zgoubidoo.commands.fieldmaps.Brevol, zgoubidoo.commands.fieldmaps.CartesianMesh, zgoubidoo.commands.fieldmaps.Map2D, zgoubidoo.commands.fieldmaps.Map2DElectric, zgoubidoo.commands.fieldmaps.Poisson, zgoubidoo.commands.fieldmaps.PolarMesh, zgoubidoo.commands.fieldmaps.Tosca" usemap="#inheritance77982c000d" class="inheritance graphviz" /></div>
 <map id="inheritance77982c000d" name="inheritance77982c000d">
 <area shape="rect" id="node1" href="api/zgoubidoo.commands.fieldmaps.Brevol.html#zgoubidoo.commands.fieldmaps.Brevol" target="_top" title="1&#45;D uniform mesh magnetic field map." alt="" coords="156,5,228,29"/>
@@ -1065,11 +1130,11 @@ TODO</p>
 </map></div>
 </div>
 <div class="section" id="module-zgoubidoo.commands.spin">
-<span id="spin-tracking-commands"></span><h2><a class="toc-backref" href="#id23">Spin tracking commands</a><a class="headerlink" href="#module-zgoubidoo.commands.spin" title="Permalink to this headline">¶</a></h2>
+<span id="spin-tracking-commands"></span><h2><a class="toc-backref" href="#id27">Spin tracking commands</a><a class="headerlink" href="#module-zgoubidoo.commands.spin" title="Permalink to this headline">¶</a></h2>
 <p>Zgoubidoo’s interfaces to spin tracking commands.</p>
 <p>More details here.</p>
-<div class="section" id="id13">
-<h3>Classes<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h3>Classes<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -1100,8 +1165,8 @@ TODO</p>
 </tbody>
 </table>
 </div>
-<div class="section" id="id14">
-<h3>Class Inheritance Diagram<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id18">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <div class="graphviz"><img src="_images/inheritance-c7c3310a94d13d68ec9b8d764ad51487ba0e8197.png" alt="Inheritance diagram of zgoubidoo.commands.spin.SpnPrt, zgoubidoo.commands.spin.SpinRotation, zgoubidoo.commands.spin.SpinStore, zgoubidoo.commands.spin.SpnTrk, zgoubidoo.commands.spin.SpnPrt, zgoubidoo.commands.spin.SpnTrk, zgoubidoo.commands.spin.Spnprnl" usemap="#inheritancec66b31d56e" class="inheritance graphviz" /></div>
 <map id="inheritancec66b31d56e" name="inheritancec66b31d56e">
 <area shape="rect" id="node1" href="api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" target="_top" title="Test test test." alt="" coords="5,101,88,125"/>
@@ -1122,7 +1187,7 @@ TODO</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="api/zgoubidoo.commands.commands.AutoRef.html" class="btn btn-neutral float-right" title="AutoRef" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="api/zgoubidoo.commands.patchable.Patchable.html" class="btn btn-neutral float-right" title="Patchable" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="zgoubi.html" class="btn btn-neutral" title="Zgoubi" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
