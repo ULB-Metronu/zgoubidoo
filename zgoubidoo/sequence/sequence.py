@@ -90,6 +90,7 @@ class Sequence:
                  name: str = '',
                  sequence: Optional[List[Command]] = None,
                  particle: Optional[ParticuleType] = Proton,
+                 periods: int = 1,
                  ):
         """
 
@@ -97,13 +98,18 @@ class Sequence:
             name: the name of the sequence
             sequence:
             particle:
+            periods:
         """
         self._name = name
         self._sequence: List[Command] = sequence
+        self._input: Input = Input(name=self.name, line=self.sequence)
+        if periods > 1:
+            self.repeat_sequence(periods)
         self._particle = particle()
         self._closed_orbit = None
         self._z: zgoubidoo.Zgoubi = zgoubidoo.Zgoubi()
         self._last_run: Optional[ZgoubiRun] = None
+        self.validate()
 
     def __getitem__(self, item: Union[slice,
                                       int,
@@ -121,7 +127,7 @@ class Sequence:
         Returns:
 
         """
-        return self._sequence[item]
+        return self.input[item]
 
     @property
     def name(self) -> str:
@@ -133,47 +139,49 @@ class Sequence:
         """Provide the sequence of elements."""
         return self._sequence
 
-    def get_periodic_input(self, repeat: int = 1):
-        """
-        Provides an input sequence of a copy of the elements of the sequence, repeated a given number of times wrapped
-        in a Zgoubi Input and performs a survey.
-
-        Notes:
-            the elements (`Commands`) are copied.
-
-        Args:
-            repeat: the number of periodic repetitions of the sequence
-
-        Returns:
-            the repeated input sequence.
-        """
-        return Input(name=self.name, line=[copy.copy(e) for e in repeat * self.sequence]).survey()
-
     @property
     def input(self) -> Input:
-        """Provide the sequence of elements wrapped in a Zgoubi Input and performs a survey."""
-        return Input(name=self.name, line=self.sequence).survey()
+        """Provide the sequence of elements wrapped in a Zgoubi Input."""
+        return self._input
 
     @property
     def last_run(self) -> ZgoubiRun:
         """Provide the result of the last Zgoubi run."""
         return self._last_run
 
-    def is_valid(self) -> bool:
+    def validate(self) -> bool:
         """
+        Verify the validity of the sequence based on a set of rules.
 
         Returns:
+            true if the sequence is valid.
 
         Raises:
+            ZgoubidooSequenceException in case the sequence is not valid.
 
         """
         if len(self[zgoubidoo.commands.Particule]) > 0:
-            raise ZgoubidooSequenceException("A valid sequence should not contain any Particule")
+            raise ZgoubidooSequenceException("A valid sequence should not contain any Particule.")
 
         if len(self[zgoubidoo.commands.Objet]) > 0:
-            raise ZgoubidooSequenceException("A valid sequence should not contain any Objet")
+            raise ZgoubidooSequenceException("A valid sequence should not contain any Objet.")
+
+        if len(self[zgoubidoo.commands.Fit]) > 0:
+            raise ZgoubidooSequenceException("A valid sequence should not contain a Fit command.")
 
         return True
+
+    def repeat_sequence(self, periods: int = 1):
+        """
+
+        Args:
+            periods: the number of periodic repetitions of the sequence
+
+        Returns:
+
+        """
+        self._sequence = [copy.copy(e) for e in periods * self.sequence]
+        self._input = Input(name=self.name, line=self.sequence).survey()
 
     def find_closed_orbit(self,
                           brho: _Q,
