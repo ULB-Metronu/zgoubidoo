@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Zgoubidoo’s visualization and plotting module" href="vis.html" />
+    <link rel="next" title="Coordinates" href="api/zgoubidoo.sequence.sequence.Coordinates.html" />
     <link rel="prev" title="Working with Zgoubidoo beams" href="beam.html" /> 
 
   
@@ -93,7 +93,19 @@
 <li class="toctree-l1"><a class="reference internal" href="input.html">Working with Zgoubi Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="beam.html">Working with Zgoubidoo beams</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Working with Zgoubidoo sequences</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.sequence.sequence">Sequence main class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.sequence.sequence.Coordinates.html">Coordinates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.sequence.sequence.Sequence.html">Sequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.sequence.sequence.ZgoubidooSequenceException.html">ZgoubidooSequenceException</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="vis.html">Zgoubidoo’s visualization and plotting module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Zgoubidoo’s utility modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
@@ -161,15 +173,44 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-zgoubidoo.output">
-<span id="working-with-zgoubidoo-sequences"></span><h1>Working with Zgoubidoo sequences<a class="headerlink" href="#module-zgoubidoo.output" title="Permalink to this headline">¶</a></h1>
-<p>Module for handling of affine geometry transformations (rotations and translations).</p>
-<p>This module provides support for affine geometry transformations, mainly through the <cite>Frame</cite> class.</p>
-<p class="rubric">Example</p>
-<p>example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="go">2</span>
-</pre></div>
+  <div class="section" id="module-zgoubidoo.sequence">
+<span id="working-with-zgoubidoo-sequences"></span><h1>Working with Zgoubidoo sequences<a class="headerlink" href="#module-zgoubidoo.sequence" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#module-zgoubidoo.sequence.sequence" id="id1">Sequence main class</a></li>
+</ul>
+</div>
+<div class="section" id="module-zgoubidoo.sequence.sequence">
+<span id="sequence-main-class"></span><h2><a class="toc-backref" href="#id1">Sequence main class</a><a class="headerlink" href="#module-zgoubidoo.sequence.sequence" title="Permalink to this headline">¶</a></h2>
+<p>High-level sequence module.</p>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.sequence.sequence.Coordinates.html#zgoubidoo.sequence.sequence.Coordinates" title="zgoubidoo.sequence.sequence.Coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Coordinates</span></code></a>(y,&nbsp;t,&nbsp;z,&nbsp;p,&nbsp;x,&nbsp;d,&nbsp;iex)</td>
+<td>Particle coordinates in 6D phase space.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.sequence.sequence.Sequence.html#zgoubidoo.sequence.sequence.Sequence" title="zgoubidoo.sequence.sequence.Sequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sequence</span></code></a>(name,&nbsp;sequence,&nbsp;particle,&nbsp;periods)</td>
+<td>Sequence.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.sequence.sequence.ZgoubidooSequenceException.html#zgoubidoo.sequence.sequence.ZgoubidooSequenceException" title="zgoubidoo.sequence.sequence.ZgoubidooSequenceException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZgoubidooSequenceException</span></code></a>(m)</td>
+<td>Exception raised for errors when using zgoubidoo.Sequence</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="class-inheritance-diagram">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h3>
+<div class="graphviz"><img src="_images/inheritance-16a678dceed784a2d0b88a35fbacfdbe2b013f18.png" alt="Inheritance diagram of zgoubidoo.sequence.sequence.Coordinates, zgoubidoo.sequence.sequence.Sequence, zgoubidoo.sequence.sequence.ZgoubidooSequenceException" usemap="#inheritancedffb1d7e06" class="inheritance graphviz" /></div>
+<map id="inheritancedffb1d7e06" name="inheritancedffb1d7e06">
+<area shape="rect" id="node1" href="api/zgoubidoo.sequence.sequence.Coordinates.html#zgoubidoo.sequence.sequence.Coordinates" target="_top" title="Particle coordinates in 6D phase space." alt="" coords="60,101,153,125"/>
+<area shape="rect" id="node2" href="api/zgoubidoo.sequence.sequence.Sequence.html#zgoubidoo.sequence.sequence.Sequence" target="_top" title="Sequence." alt="" coords="66,53,148,77"/>
+<area shape="rect" id="node3" href="api/zgoubidoo.sequence.sequence.ZgoubidooSequenceException.html#zgoubidoo.sequence.sequence.ZgoubidooSequenceException" target="_top" title="Exception raised for errors when using zgoubidoo.Sequence" alt="" coords="5,5,208,29"/>
+</map></div>
 </div>
 </div>
 
@@ -181,7 +222,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="vis.html" class="btn btn-neutral float-right" title="Zgoubidoo’s visualization and plotting module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="api/zgoubidoo.sequence.sequence.Coordinates.html" class="btn btn-neutral float-right" title="Coordinates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="beam.html" class="btn btn-neutral" title="Working with Zgoubidoo beams" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -1,0 +1,500 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>zgoubidoo.sequence.sequence &mdash; Zgoubidoo 2019.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2019.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../news.html">News and announcements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../beam.html">Working with Zgoubidoo beams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>zgoubidoo.sequence.sequence</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for zgoubidoo.sequence.sequence</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;High-level sequence module.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="k">import</span> <span class="n">dataclass</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+<span class="kn">from</span> <span class="nn">..input</span> <span class="k">import</span> <span class="n">Input</span> <span class="k">as</span> <span class="n">_Input</span>
+<span class="kn">from</span> <span class="nn">..commands.particules</span> <span class="k">import</span> <span class="n">Proton</span> <span class="k">as</span> <span class="n">_Proton</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="n">commands</span><span class="o">.</span><span class="n">particules</span> <span class="kn">import</span> <span class="nn">ParticuleType</span> <span class="k">as</span> <span class="nn">_ParticuleType</span>
+<span class="kn">from</span> <span class="nn">..commands.commands</span> <span class="k">import</span> <span class="n">CommandType</span> <span class="k">as</span> <span class="n">_CommandType</span>
+<span class="kn">from</span> <span class="nn">..commands.commands</span> <span class="k">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">_Command</span>
+<span class="kn">from</span> <span class="nn">..commands.commands</span> <span class="k">import</span> <span class="n">Fit</span> <span class="k">as</span> <span class="n">_Fit</span>
+<span class="kn">from</span> <span class="nn">..commands.commands</span> <span class="k">import</span> <span class="n">FitType</span> <span class="k">as</span> <span class="n">_FitType</span>
+<span class="kn">from</span> <span class="nn">..commands.commands</span> <span class="k">import</span> <span class="n">Marker</span> <span class="k">as</span> <span class="n">_Marker</span>
+<span class="kn">from</span> <span class="nn">..commands.objet</span> <span class="k">import</span> <span class="n">Objet2</span> <span class="k">as</span> <span class="n">_Objet2</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">_Q</span>
+<span class="kn">from</span> <span class="nn">..zgoubi</span> <span class="k">import</span> <span class="n">ZgoubiRun</span> <span class="k">as</span> <span class="n">_ZgoubiRun</span>
+<span class="kn">import</span> <span class="nn">zgoubidoo</span>
+
+
+<div class="viewcode-block" id="ZgoubidooSequenceException"><a class="viewcode-back" href="../../../api/zgoubidoo.sequence.sequence.ZgoubidooSequenceException.html#zgoubidoo.sequence.sequence.ZgoubidooSequenceException">[docs]</a><span class="k">class</span> <span class="nc">ZgoubidooSequenceException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exception raised for errors when using zgoubidoo.Sequence&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">m</span></div>
+
+
+<div class="viewcode-block" id="Coordinates"><a class="viewcode-back" href="../../../api/zgoubidoo.sequence.sequence.Coordinates.html#zgoubidoo.sequence.sequence.Coordinates">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Coordinates</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Particle coordinates in 6D phase space.</span>
+
+<span class="sd">    Follows Zgoubi&#39;s convention.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; c = Coordinates()</span>
+<span class="sd">        &gt;&gt;&gt; c.y</span>
+<span class="sd">        0.0</span>
+<span class="sd">        &gt;&gt;&gt; c = Coordinates(1.0, 1.0, 0.0, 0.0, 0.0, 0.0)</span>
+<span class="sd">        &gt;&gt;&gt; c.t</span>
+<span class="sd">        1.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">t</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">d</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">iex</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="n">item</span><span class="p">])</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">array</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Convert to a numpy array.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Convert to a flat list.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="Sequence"><a class="viewcode-back" href="../../../api/zgoubidoo.sequence.sequence.Sequence.html#zgoubidoo.sequence.sequence.Sequence">[docs]</a><span class="k">class</span> <span class="nc">Sequence</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Sequence.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">class</span> <span class="nc">PlaneType</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A type system for plane classes.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">class</span> <span class="nc">HorizontalPlane</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">PlaneType</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A type to represent the horizontal plane.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">class</span> <span class="nc">VerticalPlane</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">PlaneType</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A type to represent the vertical plane.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">class</span> <span class="nc">BothPlanes</span><span class="p">(</span><span class="n">HorizontalPlane</span><span class="p">,</span> <span class="n">VerticalPlane</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A type to represent both planes, horizontal and vertical.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; issubclass(Sequence.BothPlanes, Sequence.HorizontalPlane)</span>
+<span class="sd">            True</span>
+<span class="sd">            &gt;&gt;&gt; issubclass(Sequence.BothPlanes, Sequence.VerticalPlane)</span>
+<span class="sd">            True</span>
+<span class="sd">            &gt;&gt;&gt; issubclass(Sequence.HorizontalPlane, Sequence.HorizontalPlane)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="n">sequence</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">_Command</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">particle</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_ParticuleType</span><span class="p">]</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">,</span>
+                 <span class="n">periods</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                 <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: the name of the sequence</span>
+<span class="sd">            sequence:</span>
+<span class="sd">            particle:</span>
+<span class="sd">            periods:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sequence</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_Command</span><span class="p">]</span> <span class="o">=</span> <span class="n">sequence</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">:</span> <span class="n">_Input</span> <span class="o">=</span> <span class="n">_Input</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sequence</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">periods</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">repeat_sequence</span><span class="p">(</span><span class="n">periods</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_particle</span> <span class="o">=</span> <span class="n">particle</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_closed_orbit</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_z</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Zgoubi</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Zgoubi</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_run</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_ZgoubiRun</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">slice</span><span class="p">,</span>
+                                      <span class="nb">int</span><span class="p">,</span>
+                                      <span class="nb">float</span><span class="p">,</span>
+                                      <span class="nb">str</span><span class="p">,</span>
+                                      <span class="n">_CommandType</span><span class="p">,</span>
+                                      <span class="nb">type</span><span class="p">,</span>
+                                      <span class="n">Iterable</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">_CommandType</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span>
+            <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Command</span><span class="p">,</span> <span class="n">_Input</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            item:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Provide the name of the sequence.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">_Command</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Provide the sequence of elements.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequence</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">input</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Input</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Provide the sequence of elements wrapped in a Zgoubi Input.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">last_run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ZgoubiRun</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Provide the result of the last Zgoubi run.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_run</span>
+
+<div class="viewcode-block" id="Sequence.validate"><a class="viewcode-back" href="../../../api/zgoubidoo.sequence.sequence.Sequence.html#zgoubidoo.sequence.sequence.Sequence.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verify the validity of the sequence based on a set of rules.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            true if the sequence is valid.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ZgoubidooSequenceException in case the sequence is not valid.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Particule</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ZgoubidooSequenceException</span><span class="p">(</span><span class="s2">&quot;A valid sequence should not contain any Particule.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Objet</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ZgoubidooSequenceException</span><span class="p">(</span><span class="s2">&quot;A valid sequence should not contain any Objet.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Fit</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ZgoubidooSequenceException</span><span class="p">(</span><span class="s2">&quot;A valid sequence should not contain a Fit command.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Sequence.repeat_sequence"><a class="viewcode-back" href="../../../api/zgoubidoo.sequence.sequence.Sequence.html#zgoubidoo.sequence.sequence.Sequence.repeat_sequence">[docs]</a>    <span class="k">def</span> <span class="nf">repeat_sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">periods</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            periods: the number of periodic repetitions of the sequence</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sequence</span> <span class="o">=</span> <span class="p">[</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">periods</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sequence</span><span class="p">)</span><span class="o">.</span><span class="n">survey</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Sequence.find_closed_orbit"><a class="viewcode-back" href="../../../api/zgoubidoo.sequence.sequence.Sequence.html#zgoubidoo.sequence.sequence.Sequence.find_closed_orbit">[docs]</a>    <span class="k">def</span> <span class="nf">find_closed_orbit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                          <span class="n">brho</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span>
+                          <span class="n">dpp</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+                          <span class="n">guess</span><span class="p">:</span> <span class="n">Coordinates</span> <span class="o">=</span> <span class="n">Coordinates</span><span class="p">(),</span>
+                          <span class="n">tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-10</span><span class="p">,</span>
+                          <span class="n">fit_method</span><span class="p">:</span> <span class="n">_FitType</span> <span class="o">=</span> <span class="n">_Fit</span><span class="p">,</span>
+                          <span class="n">plane</span><span class="p">:</span> <span class="n">PlaneType</span> <span class="o">=</span> <span class="n">HorizontalPlane</span><span class="p">,</span>
+                          <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            brho: nominal magnetic rigidity of the sequence</span>
+<span class="sd">            dpp: momentum offset for off-momentum closed orbit computation</span>
+<span class="sd">            guess: initial closed orbit guess</span>
+<span class="sd">            tolerance: tolerance for the termination of the fit method</span>
+<span class="sd">            fit_method: a Zgoubi Fit command</span>
+<span class="sd">            plane: the plane(s) for which the search has to be performed</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the closed orbit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">guess</span><span class="o">.</span><span class="n">d</span> <span class="o">+=</span> <span class="n">dpp</span>
+        <span class="n">zi</span> <span class="o">=</span> <span class="n">_Input</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;CLOSED_ORBIT_FINDER&#39;</span><span class="p">,</span>
+            <span class="n">line</span><span class="o">=</span><span class="p">[</span>
+                     <span class="bp">self</span><span class="o">.</span><span class="n">_particle</span><span class="p">,</span>
+                     <span class="n">_Objet2</span><span class="p">(</span><span class="s1">&#39;BUNCH&#39;</span><span class="p">,</span> <span class="n">BORO</span><span class="o">=</span><span class="n">brho</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">guess</span><span class="o">.</span><span class="n">list</span><span class="p">)</span>
+                 <span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequence</span> <span class="o">+</span> <span class="p">[</span><span class="n">_Marker</span><span class="p">(</span><span class="s1">&#39;__END__&#39;</span><span class="p">)]</span>
+        <span class="p">)</span>
+        <span class="n">fit</span> <span class="o">=</span> <span class="n">fit_method</span><span class="p">(</span>
+            <span class="s1">&#39;FIT_CO&#39;</span><span class="p">,</span>
+            <span class="n">PENALTY</span><span class="o">=</span><span class="n">tolerance</span><span class="p">,</span>
+            <span class="n">PARAMS</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">fit_method</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="n">zi</span><span class="p">,</span> <span class="n">place</span><span class="o">=</span><span class="s1">&#39;BUNCH&#39;</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="n">_Objet2</span><span class="o">.</span><span class="n">Y_</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">500</span><span class="p">))</span>
+                <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">plane</span><span class="p">,</span> <span class="n">Sequence</span><span class="o">.</span><span class="n">HorizontalPlane</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">fit_method</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="n">zi</span><span class="p">,</span> <span class="n">place</span><span class="o">=</span><span class="s1">&#39;BUNCH&#39;</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="n">_Objet2</span><span class="o">.</span><span class="n">T_</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">500</span><span class="p">))</span>
+                <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">plane</span><span class="p">,</span> <span class="n">Sequence</span><span class="o">.</span><span class="n">HorizontalPlane</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">fit_method</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="n">zi</span><span class="p">,</span> <span class="n">place</span><span class="o">=</span><span class="s1">&#39;BUNCH&#39;</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="n">_Objet2</span><span class="o">.</span><span class="n">Z_</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">500</span><span class="p">))</span>
+                <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">plane</span><span class="p">,</span> <span class="n">Sequence</span><span class="o">.</span><span class="n">VerticalPlane</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">fit_method</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="n">zi</span><span class="p">,</span> <span class="n">place</span><span class="o">=</span><span class="s1">&#39;BUNCH&#39;</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="n">_Objet2</span><span class="o">.</span><span class="n">P_</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">500</span><span class="p">))</span>
+                <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">plane</span><span class="p">,</span> <span class="n">Sequence</span><span class="o">.</span><span class="n">VerticalPlane</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">CONSTRAINTS</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">fit_method</span><span class="o">.</span><span class="n">DifferenceEqualityConstraint</span><span class="p">(</span><span class="n">zi</span><span class="p">,</span> <span class="s1">&#39;__END__&#39;</span><span class="p">,</span> <span class="n">fit_method</span><span class="o">.</span><span class="n">FitCoordinates</span><span class="o">.</span><span class="n">Y</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">plane</span><span class="p">,</span> <span class="n">Sequence</span><span class="o">.</span><span class="n">HorizontalPlane</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">fit_method</span><span class="o">.</span><span class="n">DifferenceEqualityConstraint</span><span class="p">(</span><span class="n">zi</span><span class="p">,</span> <span class="s1">&#39;__END__&#39;</span><span class="p">,</span> <span class="n">fit_method</span><span class="o">.</span><span class="n">FitCoordinates</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">plane</span><span class="p">,</span> <span class="n">Sequence</span><span class="o">.</span><span class="n">HorizontalPlane</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">fit_method</span><span class="o">.</span><span class="n">DifferenceEqualityConstraint</span><span class="p">(</span><span class="n">zi</span><span class="p">,</span> <span class="s1">&#39;__END__&#39;</span><span class="p">,</span> <span class="n">fit_method</span><span class="o">.</span><span class="n">FitCoordinates</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">plane</span><span class="p">,</span> <span class="n">Sequence</span><span class="o">.</span><span class="n">VerticalPlane</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">fit_method</span><span class="o">.</span><span class="n">DifferenceEqualityConstraint</span><span class="p">(</span><span class="n">zi</span><span class="p">,</span> <span class="s1">&#39;__END__&#39;</span><span class="p">,</span> <span class="n">fit_method</span><span class="o">.</span><span class="n">FitCoordinates</span><span class="o">.</span><span class="n">P</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">plane</span><span class="p">,</span> <span class="n">Sequence</span><span class="o">.</span><span class="n">VerticalPlane</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">zi</span><span class="o">.</span><span class="n">line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span>
+        <span class="n">zi</span><span class="o">.</span><span class="n">IL</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_run</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z</span><span class="p">(</span><span class="n">zi</span><span class="p">())</span>
+        <span class="n">co</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_run</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;LABEL1 == &#39;__END__&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][[</span><span class="s1">&#39;Yo&#39;</span><span class="p">,</span> <span class="s1">&#39;To&#39;</span><span class="p">,</span> <span class="s1">&#39;Zo&#39;</span><span class="p">,</span> <span class="s1">&#39;Po&#39;</span><span class="p">,</span> <span class="s1">&#39;Do-1&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">co1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_run</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;LABEL1 == &#39;__END__&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][[</span><span class="s1">&#39;Y-DY&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;D-1&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">assert</span> <span class="n">_np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">co</span><span class="o">-</span><span class="n">co1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">&lt;</span> <span class="n">tolerance</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;Inconsistency detected during closed orbit search </span><span class="si">{co}</span><span class="s2"> </span><span class="si">{co1}</span><span class="s2">.&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_closed_orbit</span> <span class="o">=</span> <span class="n">co</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed_orbit</span></div>
+
+<div class="viewcode-block" id="Sequence.track_closed_orbit"><a class="viewcode-back" href="../../../api/zgoubidoo.sequence.sequence.Sequence.html#zgoubidoo.sequence.sequence.Sequence.track_closed_orbit">[docs]</a>    <span class="k">def</span> <span class="nf">track_closed_orbit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">brho</span><span class="p">:</span> <span class="n">_Q</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Track closed orbit.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            brho: nominal magnetic rigidity of the sequence</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">zi</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">line</span><span class="o">=</span><span class="p">[</span>
+                     <span class="bp">self</span><span class="o">.</span><span class="n">_particle</span><span class="p">,</span>
+                     <span class="n">_Objet2</span><span class="p">(</span><span class="s1">&#39;BUNCH&#39;</span><span class="p">,</span> <span class="n">BORO</span><span class="o">=</span><span class="n">brho</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">([[</span><span class="mi">100</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed_orbit</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                                      <span class="mi">1000</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed_orbit</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                                      <span class="mi">100</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed_orbit</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                                                      <span class="mi">1000</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed_orbit</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+                                                      <span class="mf">0.0</span><span class="p">,</span>
+                                                      <span class="bp">self</span><span class="o">.</span><span class="n">_closed_orbit</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                                      <span class="mf">0.0</span><span class="p">]])</span>
+                 <span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequence</span>
+        <span class="p">)</span>
+        <span class="n">zi</span><span class="o">.</span><span class="n">IL</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_run</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z</span><span class="p">(</span><span class="n">zi</span><span class="p">())</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_run</span><span class="o">.</span><span class="n">tracks</span></div>
+
+<div class="viewcode-block" id="Sequence.twiss"><a class="viewcode-back" href="../../../api/zgoubidoo.sequence.sequence.Sequence.html#zgoubidoo.sequence.sequence.Sequence.twiss">[docs]</a>    <span class="k">def</span> <span class="nf">twiss</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div></div>
+
+
+
+
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
