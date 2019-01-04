@@ -11,6 +11,12 @@ Zgoubidoo's class hierarchy and bases classes for new commands
 
 Say something here
 
+Support for patchable elements
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodapi:: zgoubidoo.commands.patchable
+    :no-heading:
+
 
 Control-flow, calculation and miscellanous commands
 ---------------------------------------------------

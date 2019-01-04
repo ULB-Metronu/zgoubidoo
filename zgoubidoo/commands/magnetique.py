@@ -852,10 +852,10 @@ class Dipole(PolarMagnet):
 
     def fit(self,
             boro: _Q,
-            particle: _ParticuleType=_Proton,
-            entry_coordinates: List=None,
-            exit_coordinates: float=0.0,
-            method: _FitType=_Fit2,
+            particle: _ParticuleType = _Proton,
+            entry_coordinates: List = None,
+            exit_coordinates: float = 0.0,
+            method: _FitType = _Fit2,
             debug=False):
         """
 

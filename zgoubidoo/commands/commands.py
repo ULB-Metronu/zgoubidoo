@@ -103,7 +103,7 @@ class CommandType(type):
 
     def __getitem__(cls, item: str):
         try:
-            return cls.PARAMETERS[item][0]
+            return cls.PARAMETERS[item]
         except KeyError:
             raise AttributeError(item)
 
@@ -681,7 +681,10 @@ class Fit(Command, metaclass=FitType):
                 range:
             """
             self.IR: int = line.index(place)
-            self.IP: int = parameter
+            try:
+                self.IP: int = parameter[2]
+            except TypeError:
+                self.IP: int = parameter
             self.XC: int = 0
             self.DV: Tuple[float] = range if range is not None else [-100.0, 100.0]
 

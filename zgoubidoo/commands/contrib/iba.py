@@ -719,8 +719,8 @@ class CGTR:
         self.scanning = zgoubidoo.commands.Fit(
             PENALTY=1e-8,
             PARAMS=[
-                _Fit.Parameter(line=self.zi, place='SMX', parameter=SMX.B1),
-                _Fit.Parameter(line=self.zi, place='SMY', parameter=SMY.B1),
+                _Fit.Parameter(line=self.zi, place='SMX', parameter=SMX.B1_),
+                _Fit.Parameter(line=self.zi, place='SMY', parameter=SMY.B1_),
             ],
             CONSTRAINTS=[
                 _Fit.EqualityConstraint(line=self.zi, place='ISO', variable=_Fit.FitCoordinates.Y, value=x),
