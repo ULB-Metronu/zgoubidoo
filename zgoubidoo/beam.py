@@ -2,7 +2,7 @@
 
 """
 from __future__ import annotations
-from typing import Optional, Union, NoReturn
+from typing import Optional, Union
 import os
 import numpy as np
 import pandas as pd
@@ -59,11 +59,14 @@ class Beam:
     def __str__(self):
         pass
 
-    def get_slices(self, n=None) -> NoReturn:
+    def get_slices(self, n=None):
         """
 
-        :param n:
-        :return: NoReturn
+        Args:
+            n:
+
+        Yields:
+
         """
         if n is None:
             n = self._slices

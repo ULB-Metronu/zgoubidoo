@@ -11,13 +11,14 @@ Examples:
     >>> def foo(polarity: PolarityType = HorizontalPolarity): pass
 
 """
-from typing import SupportsInt, SupportsFloat
+from typing import SupportsInt as _SupportsInt
+from typing import SupportsFloat as _SupportsFloat
 
 
-class PolarityType(type, SupportsInt, SupportsFloat):
+class PolarityType(type, _SupportsInt, _SupportsFloat):
     """Metaclass to construct polarity types. Supports conversion to float and int."""
     def __float__(cls):
-        return int(cls)
+        return float(cls)
 
     def __int__(cls):
         return cls.P

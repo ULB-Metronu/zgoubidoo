@@ -1,28 +1,26 @@
 Zgoubidoo's utility modules
 ===========================
 
-Blabla
-
 .. contents:: :local:
     :depth: 1
 
 Affine geometry using the frame module
 --------------------------------------
 
-.. automodule:: zgoubidoo.frame
-    :members:
+.. automodapi:: zgoubidoo.frame
+    :no-heading:
 
 Accelerator physics and relativity calculations using the physics module
 ------------------------------------------------------------------------
 
-.. automodule:: zgoubidoo.physics
-    :members:
+.. automodapi:: zgoubidoo.physics
+    :no-heading:
 
 Units
 -----
 
-.. automodule:: zgoubidoo.units
-    :members:
+.. automodapi:: zgoubidoo.units
+    :no-heading:
 
 Polarity type system
 --------------------

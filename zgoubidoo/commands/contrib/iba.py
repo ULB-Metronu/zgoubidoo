@@ -3,7 +3,9 @@
 More details here.
 TODO
 """
+from typing import List
 import numpy as _np
+import pandas as _pd
 from ..magnetique import Dipole as _Dipole
 from ..magnetique import PolarMagnet as _PolarMagnet
 from ..magnetique import Bend as _Bend
@@ -19,6 +21,7 @@ from ... import ureg as _ureg
 from ...input import Input as _Input
 from ...physics import Kinematics as _Kinematics
 from ...zgoubi import Zgoubi as _Zgoubi
+from ...zgoubi import ZgoubiRun as _ZgoubiRun
 from ...polarity import PolarityType as _PolarityType
 from ...polarity import Polarity as _Polarity
 from ...polarity import HorizontalPolarity as _HorizontalPolarity
@@ -729,7 +732,7 @@ class CGTR:
         )
         return self.run(fit=self.scanning)
 
-    def spots(self, spots):
+    def spots(self, spots) -> _pd.DataFrame:
         """
 
         Args:
@@ -738,7 +741,15 @@ class CGTR:
         Returns:
 
         """
-        return [self.shoot(x=_[0], y=_[1]) for _ in spots]
+        tracks: List[_pd.DataFrame] = list()
+        for spot in spots:
+            _ = self.shoot(x=spot[0], y=spot[1])
+            _.tracks['SPOT_X'] = spot[0]
+            _.tracks['SPOT_Y'] = spot[1]
+            tracks.append(_.tracks)
+        df: _pd.DataFrame = _pd.concat(tracks)
+        self.tracks = df
+        return df
 
     def plot(self, ax=None, artist: zgoubidoo.vis.ZgoubiPlot = None):
         """
