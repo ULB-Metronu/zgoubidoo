@@ -51,6 +51,10 @@ class ZgoubiMpl(ZgoubiPlot):
         """
         return self._ax
 
+    @ax.setter
+    def ax(self, ax):
+        self._ax = ax
+
     def init_plot(self, figsize=(12, 8), subplots=111):
         """
         Initialize the Matplotlib figure and ax.
