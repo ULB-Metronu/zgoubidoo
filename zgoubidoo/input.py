@@ -228,6 +228,20 @@ class Input:
                          line=l
                          )
 
+    def __getattr__(self, item: str) -> commands.Command:
+        """
+
+        Args:
+            item:
+
+        Returns:
+
+        """
+        for e in self._line:
+            if e.LABEL1 == item:
+                return e
+        raise AttributeError
+
     def __setattr__(self, key: str, value: Any):
         """
 
