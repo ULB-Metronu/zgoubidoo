@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>VerticalSlits &mdash; Zgoubidoo 2019.1 documentation</title>
+  <title>ResearchArea &mdash; Zgoubidoo 2019.1 documentation</title>
   
 
   
@@ -29,8 +29,8 @@
   <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Working with Zgoubi Input" href="../input.html" />
-    <link rel="prev" title="SMY" href="zgoubidoo.commands.contrib.iba.SMY.html" /> 
+    <link rel="next" title="SMX" href="zgoubidoo.commands.contrib.iba.SMX.html" />
+    <link rel="prev" title="QuadrupoleIBA" href="zgoubidoo.commands.contrib.iba.QuadrupoleIBA.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -110,10 +110,10 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.QShort.html">QShort</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.QWall.html">QWall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.QuadrupoleIBA.html">QuadrupoleIBA</a></li>
-<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.ResearchArea.html">ResearchArea</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">ResearchArea</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.SMX.html">SMX</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.SMY.html">SMY</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">VerticalSlits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.VerticalSlits.html">VerticalSlits</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../contrib.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
@@ -177,13 +177,13 @@
         
           <li><a href="../contrib.html">Zgoubidoo specialized and contributed commands</a> &raquo;</li>
         
-      <li>VerticalSlits</li>
+      <li>ResearchArea</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/api/zgoubidoo.commands.contrib.iba.VerticalSlits.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/api/zgoubidoo.commands.contrib.iba.ResearchArea.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -196,166 +196,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="verticalslits">
-<h1>VerticalSlits<a class="headerlink" href="#verticalslits" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="researcharea">
+<h1>ResearchArea<a class="headerlink" href="#researcharea" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="zgoubidoo.commands.contrib.iba.VerticalSlits">
-<em class="property">class </em><code class="descclassname">zgoubidoo.commands.contrib.iba.</code><code class="descname">VerticalSlits</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#VerticalSlits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.VerticalSlits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.commands.Collimateur.html#zgoubidoo.commands.commands.Collimateur" title="zgoubidoo.commands.commands.Collimateur"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.commands.Collimateur</span></code></a></p>
-<p>Proteus One vertical slits.</p>
-<p class="rubric">Command attributes</p>
-<dl class="attribute">
-<dt>
-<code class="descname">LABEL1=''</code></dt>
-<dd><p>Primary label for the Zgoubi command (default: auto-generated hash).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">LABEL2=''</code></dt>
-<dd><p>Secondary label for the Zgoubi command.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">IA='2'</code></dt>
-<dd><p>Element active or not (0 - inactive, 1 - active, 2 - active and prints information.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">IFORM='1'</code></dt>
-<dd><p>Aperture shape.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">J='0'</code></dt>
-<dd><p>Description of the aperture coordinates system.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">C1='0 centimeter'</code></dt>
-<dd><p>Half opening (Y).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">C2='0 centimeter'</code></dt>
-<dd><p>Half opening (Z).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">C3='0 centimeter'</code></dt>
-<dd><p>Center of the aperture (Y).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">C4='0 centimeter'</code></dt>
-<dd><p>Center of the aperture (Z).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.VerticalSlits.KEYWORD" title="zgoubidoo.commands.contrib.iba.VerticalSlits.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.VerticalSlits.PARAMETERS" title="zgoubidoo.commands.contrib.iba.VerticalSlits.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
-<dt id="zgoubidoo.commands.contrib.iba.VerticalSlits.KEYWORD">
-<code class="descname">KEYWORD</code><em class="property"> = 'COLLIMA'</em><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.VerticalSlits.KEYWORD" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.commands.contrib.iba.VerticalSlits.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'C1': (&lt;Quantity(0, 'centimeter')&gt;, 'Half opening (Y).'), 'C2': (&lt;Quantity(0, 'centimeter')&gt;, 'Half opening (Z).'), 'C3': (&lt;Quantity(0, 'centimeter')&gt;, 'Center of the aperture (Y).'), 'C4': (&lt;Quantity(0, 'centimeter')&gt;, 'Center of the aperture (Z).'), 'IA': (2, 'Element active or not (0 - inactive, 1 - active, 2 - active and prints information.'), 'IFORM': (1, 'Aperture shape.'), 'J': (0, 'Description of the aperture coordinates system.'), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.')}</em><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.VerticalSlits.PARAMETERS" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dt id="zgoubidoo.commands.contrib.iba.ResearchArea">
+<em class="property">class </em><code class="descclassname">zgoubidoo.commands.contrib.iba.</code><code class="descname">ResearchArea</code><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#ResearchArea"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.ResearchArea" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Proteus One research area input sequence.</p>
 </dd></dl>
 
 </div>
@@ -368,10 +215,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../input.html" class="btn btn-neutral float-right" title="Working with Zgoubi Input" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="zgoubidoo.commands.contrib.iba.SMX.html" class="btn btn-neutral float-right" title="SMX" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="zgoubidoo.commands.contrib.iba.SMY.html" class="btn btn-neutral" title="SMY" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="zgoubidoo.commands.contrib.iba.QuadrupoleIBA.html" class="btn btn-neutral" title="QuadrupoleIBA" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -231,6 +231,20 @@ will write the string representation to a Zgoubi input file.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="zgoubidoo.input.Input.__getattr__">
+<code class="descname">__getattr__</code><span class="sig-paren">(</span><em>item: str</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.commands.commands.Command<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.__getattr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.__getattr__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>item</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="zgoubidoo.input.Input.__getitem__">
 <code class="descname">__getitem__</code><span class="sig-paren">(</span><em>items: Union[slice, int, float, str, zgoubidoo.commands.commands.CommandType, type, Iterable[Union[zgoubidoo.commands.commands.CommandType, type, str]]]</em><span class="sig-paren">)</span> &#x2192; Union[zgoubidoo.commands.commands.Command, zgoubidoo.input.Input]<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.__getitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.__getitem__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Multi-purpose dictionnary-like elements access and filtering.</p>
@@ -287,7 +301,7 @@ in the form of a list of classes (or a single class).</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> – the <cite>Command</cite> to be removed or its LABEL1 as a string.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> – the <cite>Command</cite> to be removed or the LABEL1 of the command to be removed as a string.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the <cite>Input</cite> itself (in-place operation).</td>
 </tr>
@@ -543,7 +557,9 @@ and can be used as such, for example, as a parameter to the Fit command.</p>
 <dl class="method">
 <dt id="zgoubidoo.input.Input.update">
 <code class="descname">update</code><span class="sig-paren">(</span><em>parameters: pandas.core.frame.DataFrame</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.input.Input<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.update" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>TODO</p>
+<p>This is essentially an update following a fit.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">

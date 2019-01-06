@@ -163,7 +163,7 @@
 <span class="sd">More details here.</span>
 <span class="sd">TODO</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Tuple</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
 <span class="kn">from</span> <span class="nn">..magnetique</span> <span class="k">import</span> <span class="n">Dipole</span> <span class="k">as</span> <span class="n">_Dipole</span>
@@ -178,6 +178,7 @@
 <span class="kn">from</span> <span class="nn">..particules</span> <span class="k">import</span> <span class="n">Proton</span> <span class="k">as</span> <span class="n">_Proton</span>
 <span class="kn">from</span> <span class="nn">..objet</span> <span class="k">import</span> <span class="n">Objet2</span> <span class="k">as</span> <span class="n">_Objet2</span>
 <span class="kn">from</span> <span class="nn">...</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
+<span class="kn">from</span> <span class="nn">...</span> <span class="k">import</span> <span class="n">_Q</span>
 <span class="kn">from</span> <span class="nn">...input</span> <span class="k">import</span> <span class="n">Input</span> <span class="k">as</span> <span class="n">_Input</span>
 <span class="kn">from</span> <span class="nn">...physics</span> <span class="k">import</span> <span class="n">Kinematics</span> <span class="k">as</span> <span class="n">_Kinematics</span>
 <span class="kn">from</span> <span class="nn">...zgoubi</span> <span class="k">import</span> <span class="n">Zgoubi</span> <span class="k">as</span> <span class="n">_Zgoubi</span>
@@ -324,6 +325,8 @@
 
 <div class="viewcode-block" id="B3G"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.B3G.html#zgoubidoo.commands.contrib.iba.B3G">[docs]</a><span class="k">class</span> <span class="nc">B3G</span><span class="p">(</span><span class="n">DipoleIBA</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Proteus One 60 degree dipole.</span>
+
+
 
 <span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; B3G()</span>
@@ -747,24 +750,34 @@
     <span class="k">pass</span></div>
 
 
+<div class="viewcode-block" id="ResearchArea"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.ResearchArea.html#zgoubidoo.commands.contrib.iba.ResearchArea">[docs]</a><span class="k">class</span> <span class="nc">ResearchArea</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One research area input sequence.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        TODO</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
 <div class="viewcode-block" id="CGTR"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.CGTR.html#zgoubidoo.commands.contrib.iba.CGTR">[docs]</a><span class="k">class</span> <span class="nc">CGTR</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Proteus One compact gantry (CGTR) input sequence.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">kinematics</span><span class="o">=</span><span class="n">_Kinematics</span><span class="p">(</span><span class="mi">230</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV</span><span class="p">),</span>
-                 <span class="n">b1g</span><span class="o">=</span><span class="n">B1G</span><span class="p">(),</span>
-                 <span class="n">b2g</span><span class="o">=</span><span class="n">B2G</span><span class="p">(),</span>
-                 <span class="n">b3g</span><span class="o">=</span><span class="n">B3G</span><span class="p">(),</span>
-                 <span class="n">q1g</span><span class="o">=</span><span class="n">Q1G</span><span class="p">(),</span>
-                 <span class="n">q2g</span><span class="o">=</span><span class="n">Q2G</span><span class="p">(),</span>
-                 <span class="n">q3g</span><span class="o">=</span><span class="n">Q3G</span><span class="p">(),</span>
-                 <span class="n">q4g</span><span class="o">=</span><span class="n">Q4G</span><span class="p">(),</span>
-                 <span class="n">q5g</span><span class="o">=</span><span class="n">Q5G</span><span class="p">(),</span>
-                 <span class="n">q6g</span><span class="o">=</span><span class="n">Q6G</span><span class="p">(),</span>
-                 <span class="n">q7g</span><span class="o">=</span><span class="n">Q7G</span><span class="p">(),</span>
-                 <span class="n">smx</span><span class="o">=</span><span class="n">SMX</span><span class="p">(),</span>
-                 <span class="n">smy</span><span class="o">=</span><span class="n">SMY</span><span class="p">(),</span>
+                 <span class="n">kinematics</span><span class="p">:</span> <span class="n">_Kinematics</span> <span class="o">=</span> <span class="n">_Kinematics</span><span class="p">(</span><span class="mi">230</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV</span><span class="p">),</span>
+                 <span class="n">b1g</span><span class="p">:</span> <span class="n">B1G</span> <span class="o">=</span> <span class="n">B1G</span><span class="p">(),</span>
+                 <span class="n">b2g</span><span class="p">:</span> <span class="n">B2G</span> <span class="o">=</span> <span class="n">B2G</span><span class="p">(),</span>
+                 <span class="n">b3g</span><span class="p">:</span> <span class="n">B3G</span> <span class="o">=</span> <span class="n">B3G</span><span class="p">(),</span>
+                 <span class="n">q1g</span><span class="p">:</span> <span class="n">Q1G</span> <span class="o">=</span> <span class="n">Q1G</span><span class="p">(),</span>
+                 <span class="n">q2g</span><span class="p">:</span> <span class="n">Q2G</span> <span class="o">=</span> <span class="n">Q2G</span><span class="p">(),</span>
+                 <span class="n">q3g</span><span class="p">:</span> <span class="n">Q3G</span> <span class="o">=</span> <span class="n">Q3G</span><span class="p">(),</span>
+                 <span class="n">q4g</span><span class="p">:</span> <span class="n">Q4G</span> <span class="o">=</span> <span class="n">Q4G</span><span class="p">(),</span>
+                 <span class="n">q5g</span><span class="p">:</span> <span class="n">Q5G</span> <span class="o">=</span> <span class="n">Q5G</span><span class="p">(),</span>
+                 <span class="n">q6g</span><span class="p">:</span> <span class="n">Q6G</span> <span class="o">=</span> <span class="n">Q6G</span><span class="p">(),</span>
+                 <span class="n">q7g</span><span class="p">:</span> <span class="n">Q7G</span> <span class="o">=</span> <span class="n">Q7G</span><span class="p">(),</span>
+                 <span class="n">smx</span><span class="p">:</span> <span class="n">SMX</span> <span class="o">=</span> <span class="n">SMX</span><span class="p">(),</span>
+                 <span class="n">smy</span><span class="p">:</span> <span class="n">SMY</span> <span class="o">=</span> <span class="n">SMY</span><span class="p">(),</span>
+                 <span class="n">with_fit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                  <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
@@ -782,25 +795,25 @@
 <span class="sd">            q7g:</span>
 <span class="sd">            smx:</span>
 <span class="sd">            smy:</span>
+<span class="sd">            with_fit: if True the dipole magnets of the line will be fit.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">b1g</span> <span class="o">=</span> <span class="n">b1g</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">b2g</span> <span class="o">=</span> <span class="n">b2g</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">b3g</span> <span class="o">=</span> <span class="n">b3g</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">q1g</span> <span class="o">=</span> <span class="n">q1g</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">q2g</span> <span class="o">=</span> <span class="n">q2g</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">q3g</span> <span class="o">=</span> <span class="n">q3g</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">q4g</span> <span class="o">=</span> <span class="n">q4g</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">q5g</span> <span class="o">=</span> <span class="n">q5g</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">q6g</span> <span class="o">=</span> <span class="n">q6g</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">q7g</span> <span class="o">=</span> <span class="n">q7g</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">smx</span> <span class="o">=</span> <span class="n">smx</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">smy</span> <span class="o">=</span> <span class="n">smy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b1g</span><span class="p">:</span> <span class="n">B1G</span> <span class="o">=</span> <span class="n">b1g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b2g</span><span class="p">:</span> <span class="n">B2G</span> <span class="o">=</span> <span class="n">b2g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b3g</span><span class="p">:</span> <span class="n">B3G</span> <span class="o">=</span> <span class="n">b3g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q1g</span><span class="p">:</span> <span class="n">Q1G</span> <span class="o">=</span> <span class="n">q1g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q2g</span><span class="p">:</span> <span class="n">Q2G</span> <span class="o">=</span> <span class="n">q2g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q3g</span><span class="p">:</span> <span class="n">Q3G</span> <span class="o">=</span> <span class="n">q3g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q4g</span><span class="p">:</span> <span class="n">Q4G</span> <span class="o">=</span> <span class="n">q4g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q5g</span><span class="p">:</span> <span class="n">Q5G</span> <span class="o">=</span> <span class="n">q5g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q6g</span><span class="p">:</span> <span class="n">Q6G</span> <span class="o">=</span> <span class="n">q6g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q7g</span><span class="p">:</span> <span class="n">Q7G</span> <span class="o">=</span> <span class="n">q7g</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">smx</span><span class="p">:</span> <span class="n">SMX</span> <span class="o">=</span> <span class="n">smx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">smy</span><span class="p">:</span> <span class="n">SMY</span> <span class="o">=</span> <span class="n">smy</span>
 
-        <span class="n">b1g</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">boro</span><span class="o">=</span><span class="n">kinematics</span><span class="o">.</span><span class="n">brho</span><span class="p">)</span>
-        <span class="n">b2g</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">boro</span><span class="o">=</span><span class="n">kinematics</span><span class="o">.</span><span class="n">brho</span><span class="p">)</span>
-        <span class="n">b3g</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">boro</span><span class="o">=</span><span class="n">kinematics</span><span class="o">.</span><span class="n">brho</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">with_fit</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fit_dipoles</span><span class="p">(</span><span class="n">boro</span><span class="o">=</span><span class="n">kinematics</span><span class="o">.</span><span class="n">brho</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">zi</span> <span class="o">=</span> <span class="n">_Input</span><span class="p">(</span><span class="s1">&#39;CGTR&#39;</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="p">[</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zi</span><span class="p">:</span> <span class="n">_Input</span> <span class="o">=</span> <span class="n">_Input</span><span class="p">(</span><span class="s1">&#39;CGTR&#39;</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="p">[</span>
             <span class="n">_Objet2</span><span class="p">(</span><span class="s1">&#39;BUNCH&#39;</span><span class="p">,</span> <span class="n">BORO</span><span class="o">=</span><span class="n">kinematics</span><span class="o">.</span><span class="n">brho</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]),</span>
             <span class="n">_Proton</span><span class="p">(),</span>
             <span class="n">_Marker</span><span class="p">(</span><span class="s1">&#39;START&#39;</span><span class="p">),</span>
@@ -832,12 +845,12 @@
             <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">1101.071</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span> <span class="o">-</span> <span class="n">b3g</span><span class="o">.</span><span class="n">extra_drift</span><span class="p">),</span>
             <span class="n">_Marker</span><span class="p">(</span><span class="s1">&#39;ISO&#39;</span><span class="p">),</span>
         <span class="p">],</span>
-                         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span> <span class="o">=</span> <span class="kc">None</span>
+                                 <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">survey</span><span class="p">(</span><span class="n">beamline</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Input</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Returns:</span>
@@ -845,41 +858,61 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">zi</span>
 
-<div class="viewcode-block" id="CGTR.run"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.CGTR.html#zgoubidoo.commands.contrib.iba.CGTR.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fit_dipoles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boro</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">dipoles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">DipoleIBA</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            boro:</span>
+<span class="sd">            dipoles:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dipoles</span> <span class="o">=</span> <span class="n">dipoles</span> <span class="ow">or</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">b1g</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b2g</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b3g</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">dipole</span> <span class="ow">in</span> <span class="n">dipoles</span><span class="p">:</span>
+            <span class="n">dipole</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">boro</span><span class="o">=</span><span class="n">boro</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CGTR.run"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.CGTR.html#zgoubidoo.commands.contrib.iba.CGTR.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fit</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Fit</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">_Input</span><span class="p">,</span> <span class="n">_ZgoubiRun</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            self:</span>
 <span class="sd">            fit:</span>
+<span class="sd">            debug:</span>
 
 <span class="sd">        Returns:</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">z</span> <span class="o">=</span> <span class="n">_Zgoubi</span><span class="p">()</span>
+        <span class="n">z</span><span class="p">:</span> <span class="n">_Zgoubi</span> <span class="o">=</span> <span class="n">_Zgoubi</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">fit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">zi</span> <span class="o">+=</span> <span class="n">fit</span>
+            <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">zi</span>
             <span class="n">z</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zi</span><span class="p">())</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">zi</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">fit</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">zi</span> <span class="o">-=</span> <span class="n">fit</span>
             <span class="n">out</span> <span class="o">=</span> <span class="n">z</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zi</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">zi</span>
             <span class="n">out</span> <span class="o">=</span> <span class="n">z</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zi</span><span class="p">())</span>
         <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">survey</span><span class="p">(</span><span class="n">beamline</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">tracks</span>
         <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="CGTR.shoot"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.CGTR.html#zgoubidoo.commands.contrib.iba.CGTR.shoot">[docs]</a>    <span class="k">def</span> <span class="nf">shoot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+<div class="viewcode-block" id="CGTR.shoot"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.CGTR.html#zgoubidoo.commands.contrib.iba.CGTR.shoot">[docs]</a>    <span class="k">def</span> <span class="nf">shoot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ZgoubiRun</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x:</span>
 <span class="sd">            y:</span>
+<span class="sd">            debug:</span>
 
 <span class="sd">        Returns:</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scanning</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Fit</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scanning</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Fit</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Fit</span><span class="p">(</span>
             <span class="n">PENALTY</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
             <span class="n">PARAMS</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">_Fit</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">zi</span><span class="p">,</span> <span class="n">place</span><span class="o">=</span><span class="s1">&#39;SMX&#39;</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="n">SMX</span><span class="o">.</span><span class="n">B1_</span><span class="p">),</span>
@@ -890,20 +923,21 @@
                 <span class="n">_Fit</span><span class="o">.</span><span class="n">EqualityConstraint</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">zi</span><span class="p">,</span> <span class="n">place</span><span class="o">=</span><span class="s1">&#39;ISO&#39;</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">_Fit</span><span class="o">.</span><span class="n">FitCoordinates</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">y</span><span class="p">),</span>
             <span class="p">]</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scanning</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scanning</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CGTR.spots"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.CGTR.html#zgoubidoo.commands.contrib.iba.CGTR.spots">[docs]</a>    <span class="k">def</span> <span class="nf">spots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spots</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="viewcode-block" id="CGTR.spots"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.CGTR.html#zgoubidoo.commands.contrib.iba.CGTR.spots">[docs]</a>    <span class="k">def</span> <span class="nf">spots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spots</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            spots:</span>
+<span class="sd">            debug:</span>
 
 <span class="sd">        Returns:</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">tracks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">spot</span> <span class="ow">in</span> <span class="n">spots</span><span class="p">:</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shoot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">spot</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">spot</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shoot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">spot</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">spot</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span>
             <span class="n">_</span><span class="o">.</span><span class="n">tracks</span><span class="p">[</span><span class="s1">&#39;SPOT_X&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">spot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">_</span><span class="o">.</span><span class="n">tracks</span><span class="p">[</span><span class="s1">&#39;SPOT_Y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">spot</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">tracks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_</span><span class="o">.</span><span class="n">tracks</span><span class="p">)</span>
@@ -923,6 +957,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">artist</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">artist</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">ZgoubiMpl</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">artist</span><span class="o">.</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span>
 
         <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">beamline</span><span class="p">(</span><span class="n">beamline</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">,</span>
                                <span class="n">artist</span><span class="o">=</span><span class="n">artist</span><span class="p">,</span>
