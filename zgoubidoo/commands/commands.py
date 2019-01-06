@@ -1056,7 +1056,7 @@ class ImagesZ(Command):
     """Keyword of the command used for the Zgoubi input data."""
 
 
-class Marker(Command):
+class Marker(Command, _Patchable):
     """Marker."""
     KEYWORD = 'MARKER'
     """Keyword of the command used for the Zgoubi input data."""
