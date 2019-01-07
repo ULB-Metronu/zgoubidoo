@@ -3,7 +3,7 @@
 More details here.
 TODO
 """
-from typing import List
+from typing import List, Optional, Union, Iterable, Tuple
 import numpy as _np
 import pandas as _pd
 from ..magnetique import Dipole as _Dipole
@@ -18,10 +18,11 @@ from ..commands import Fit as _Fit
 from ..particules import Proton as _Proton
 from ..objet import Objet2 as _Objet2
 from ... import ureg as _ureg
+from ... import _Q
 from ...input import Input as _Input
 from ...physics import Kinematics as _Kinematics
 from ...zgoubi import Zgoubi as _Zgoubi
-from ...zgoubi import ZgoubiRun as _ZgoubiRun
+from ...zgoubi import ZgoubiResults as _ZgoubiRun
 from ...polarity import PolarityType as _PolarityType
 from ...polarity import Polarity as _Polarity
 from ...polarity import HorizontalPolarity as _HorizontalPolarity
@@ -164,6 +165,8 @@ class B2G(DipoleIBA):
 
 class B3G(DipoleIBA):
     """Proteus One 60 degree dipole.
+
+
 
     Examples:
         >>> B3G()
@@ -587,24 +590,34 @@ class VerticalSlits(_Collimator):
     pass
 
 
+class ResearchArea:
+    """Proteus One research area input sequence."""
+    def __init__(self):
+        """
+        TODO
+        """
+        pass
+
+
 class CGTR:
     """Proteus One compact gantry (CGTR) input sequence.
 
     """
     def __init__(self,
-                 kinematics=_Kinematics(230 * _ureg.MeV),
-                 b1g=B1G(),
-                 b2g=B2G(),
-                 b3g=B3G(),
-                 q1g=Q1G(),
-                 q2g=Q2G(),
-                 q3g=Q3G(),
-                 q4g=Q4G(),
-                 q5g=Q5G(),
-                 q6g=Q6G(),
-                 q7g=Q7G(),
-                 smx=SMX(),
-                 smy=SMY(),
+                 kinematics: _Kinematics = _Kinematics(230 * _ureg.MeV),
+                 b1g: B1G = B1G(),
+                 b2g: B2G = B2G(),
+                 b3g: B3G = B3G(),
+                 q1g: Q1G = Q1G(),
+                 q2g: Q2G = Q2G(),
+                 q3g: Q3G = Q3G(),
+                 q4g: Q4G = Q4G(),
+                 q5g: Q5G = Q5G(),
+                 q6g: Q6G = Q6G(),
+                 q7g: Q7G = Q7G(),
+                 smx: SMX = SMX(),
+                 smy: SMY = SMY(),
+                 with_fit: bool = True,
                  ):
         """
 
@@ -622,25 +635,25 @@ class CGTR:
             q7g:
             smx:
             smy:
+            with_fit: if True the dipole magnets of the line will be fit.
         """
-        self.b1g = b1g
-        self.b2g = b2g
-        self.b3g = b3g
-        self.q1g = q1g
-        self.q2g = q2g
-        self.q3g = q3g
-        self.q4g = q4g
-        self.q5g = q5g
-        self.q6g = q6g
-        self.q7g = q7g
-        self.smx = smx
-        self.smy = smy
+        self.b1g: B1G = b1g
+        self.b2g: B2G = b2g
+        self.b3g: B3G = b3g
+        self.q1g: Q1G = q1g
+        self.q2g: Q2G = q2g
+        self.q3g: Q3G = q3g
+        self.q4g: Q4G = q4g
+        self.q5g: Q5G = q5g
+        self.q6g: Q6G = q6g
+        self.q7g: Q7G = q7g
+        self.smx: SMX = smx
+        self.smy: SMY = smy
 
-        b1g.fit(boro=kinematics.brho)
-        b2g.fit(boro=kinematics.brho)
-        b3g.fit(boro=kinematics.brho)
+        if with_fit:
+            self.fit_dipoles(boro=kinematics.brho)
 
-        self.zi = _Input('CGTR', line=[
+        self.zi: _Input = _Input('CGTR', line=[
             _Objet2('BUNCH', BORO=kinematics.brho).add([[0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]]),
             _Proton(),
             _Marker('START'),
@@ -672,12 +685,12 @@ class CGTR:
             _FakeDrift(XL=1101.071 * _ureg.mm - b3g.extra_drift),
             _Marker('ISO'),
         ],
-                         )
-        self.tracks = None
+                                 )
+        self.tracks: Optional[_pd.DataFrame] = None
         zgoubidoo.survey(beamline=self.line)
 
     @property
-    def line(self):
+    def line(self) -> _Input:
         """
 
         Returns:
@@ -685,41 +698,61 @@ class CGTR:
         """
         return self.zi
 
-    def run(self, fit=None):
+    def fit_dipoles(self, boro: _Q, dipoles: Optional[List[DipoleIBA]] = None):
+        """
+
+        Args:
+            boro:
+            dipoles:
+
+        Returns:
+
+        """
+        dipoles = dipoles or [self.b1g, self.b2g, self.b3g]
+        for dipole in dipoles:
+            dipole.fit(boro=boro)
+
+    def run(self, fit: zgoubidoo.commands.Fit = None, debug: bool = False) -> Union[_Input, _ZgoubiRun]:
         """
 
         Args:
             self:
             fit:
+            debug:
 
         Returns:
 
         """
-        z = _Zgoubi()
+        z: _Zgoubi = _Zgoubi()
         if fit is not None:
             self.zi += fit
+            if debug:
+                return self.zi
             z(self.zi())
             self.zi.update(fit.results)
             self.zi -= fit
             out = z(self.zi())
         else:
+            if debug:
+                return self.zi
             out = z(self.zi())
         if out is not None:
             zgoubidoo.survey(beamline=self.line)
         self.tracks = out.tracks
         return out
 
-    def shoot(self, x=0.0, y=0.0):
+    def shoot(self, x: float = 0.0, y: float = 0.0, debug: bool = False) -> _ZgoubiRun:
         """
 
         Args:
             x:
             y:
+            debug:
 
         Returns:
 
         """
-        self.scanning = zgoubidoo.commands.Fit(
+        self.scanning: zgoubidoo.commands.Fit = zgoubidoo.commands.Fit(
             PENALTY=1e-8,
             PARAMS=[
                 _Fit.Parameter(line=self.zi, place='SMX', parameter=SMX.B1_),
@@ -730,20 +763,21 @@ class CGTR:
                 _Fit.EqualityConstraint(line=self.zi, place='ISO', variable=_Fit.FitCoordinates.Z, value=y),
             ]
         )
-        return self.run(fit=self.scanning)
+        return self.run(fit=self.scanning, debug=debug)
 
-    def spots(self, spots) -> _pd.DataFrame:
+    def spots(self, spots: Iterable[Tuple[float, float]], debug: bool = False) -> _pd.DataFrame:
         """
 
         Args:
             spots:
+            debug:
 
         Returns:
 
         """
         tracks: List[_pd.DataFrame] = list()
         for spot in spots:
-            _ = self.shoot(x=spot[0], y=spot[1])
+            _ = self.shoot(x=spot[0], y=spot[1], debug=debug)
             _.tracks['SPOT_X'] = spot[0]
             _.tracks['SPOT_Y'] = spot[1]
             tracks.append(_.tracks)
@@ -763,6 +797,8 @@ class CGTR:
         """
         if artist is None:
             artist = zgoubidoo.vis.ZgoubiMpl(ax=ax)
+        if ax is not None:
+            artist.ax = ax
 
         zgoubidoo.vis.beamline(beamline=self.line,
                                artist=artist,
