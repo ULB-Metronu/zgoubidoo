@@ -49,7 +49,7 @@ from . import twiss
 from . import sequence
 from .input import Input, InputValidator, ZgoubiInputException
 from .output import read_fai_file, read_plt_file, read_matrix_file
-from .zgoubi import Zgoubi, ZgoubiRun, ZgoubiException
+from .zgoubi import Zgoubi, ZgoubiResults, ZgoubiException
 from .survey import survey
 from .frame import Frame, ZgoubidooFrameException
 from .beam import Beam, ZgoubidooBeamException

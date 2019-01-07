@@ -15,7 +15,7 @@ from ..commands.commands import FitType as _FitType
 from ..commands.commands import Marker as _Marker
 from ..commands.objet import Objet2 as _Objet2
 from .. import _Q
-from ..zgoubi import ZgoubiRun as _ZgoubiRun
+from ..zgoubi import ZgoubiResults as _ZgoubiResults
 import zgoubidoo
 
 
@@ -120,7 +120,7 @@ class Sequence:
         self._particle = particle()
         self._closed_orbit = None
         self._z: zgoubidoo.Zgoubi = zgoubidoo.Zgoubi()
-        self._last_run: Optional[_ZgoubiRun] = None
+        self._last_run: Optional[_ZgoubiResults] = None
         self.validate()
 
     def __getitem__(self, item: Union[slice,
@@ -157,7 +157,7 @@ class Sequence:
         return self._input
 
     @property
-    def last_run(self) -> _ZgoubiRun:
+    def last_run(self) -> _ZgoubiResults:
         """Provide the result of the last Zgoubi run."""
         return self._last_run
 
