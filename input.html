@@ -198,14 +198,14 @@ will write the string representation to a Zgoubi input file.</p>
 </div>
 <dl class="method">
 <dt id="zgoubidoo.input.Input.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>beam: Optional[zgoubidoo.beam.Beam] = None</em>, <em>filename: str = 'zgoubi.dat'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#Input.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.__call__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>mappings: Optional[zgoubidoo.input.ParametricMapping] = None</em>, <em>filename: str = 'zgoubi.dat'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#Input.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes the string representation of the object onto a file (Zgoubi input file).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>beam</strong> – </li>
+<li><strong>mappings</strong> – </li>
 <li><strong>filename</strong> – the Zgoubi input file name (default: zgoubi.dat)</li>
 <li><strong>path</strong> – </li>
 </ul>
@@ -451,12 +451,6 @@ and can be used as such, for example, as a parameter to the Fit command.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="zgoubidoo.input.Input.inputs">
-<code class="descname">inputs</code><a class="headerlink" href="#zgoubidoo.input.Input.inputs" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
-</dd></dl>
-
-<dl class="attribute">
 <dt id="zgoubidoo.input.Input.keywords">
 <code class="descname">keywords</code><a class="headerlink" href="#zgoubidoo.input.Input.keywords" title="Permalink to this definition">¶</a></dt>
 <dd><p>type: Returns</p>
@@ -621,6 +615,42 @@ and can be used as such, for example, as a parameter to the Fit command.</p>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="zgoubidoo.input.ParametricMapping">
+<em class="property">class </em><code class="descclassname">zgoubidoo.input.</code><code class="descname">ParametricMapping</code><span class="sig-paren">(</span><em>mappings: List[Mapping[Tuple[str], Sequence[float]]]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#ParametricMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.ParametricMapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstraction for multi-dimensional parametric mappings.</p>
+<blockquote>
+<div><p>Main feature is to compute the complete “cross product” of the different parameters to support multi-dimensional
+mapping.</p>
+<dl class="docutils">
+<dt>Examples:</dt>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ParametricMapping</span><span class="p">([{(</span><span class="s1">&#39;B3G&#39;</span><span class="p">,</span> <span class="s1">&#39;B1&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="p">(</span><span class="s1">&#39;B1G&#39;</span><span class="p">,</span> <span class="s1">&#39;B1&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mf">11.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">13.0</span><span class="p">]},</span> <span class="p">{(</span><span class="s1">&#39;B2G&#39;</span><span class="p">,</span> <span class="s1">&#39;B1&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">]}])</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<p>pm.combinations</p>
+<dl class="attribute">
+<dt id="zgoubidoo.input.ParametricMapping.combinations">
+<code class="descname">combinations</code><a class="headerlink" href="#zgoubidoo.input.ParametricMapping.combinations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cartesian product adapted to work with dictionaries, roughly similar to <cite>itertools.product</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of the cartesian product of the mappings.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference external" href="https://docs.python.org/3/library/itertools.html#itertools.product">https://docs.python.org/3/library/itertools.html#itertools.product</a></p>
+</div>
 </dd></dl>
 
 </dd></dl>

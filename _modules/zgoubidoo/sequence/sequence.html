@@ -175,7 +175,7 @@
 <span class="kn">from</span> <span class="nn">..commands.commands</span> <span class="k">import</span> <span class="n">Marker</span> <span class="k">as</span> <span class="n">_Marker</span>
 <span class="kn">from</span> <span class="nn">..commands.objet</span> <span class="k">import</span> <span class="n">Objet2</span> <span class="k">as</span> <span class="n">_Objet2</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">_Q</span>
-<span class="kn">from</span> <span class="nn">..zgoubi</span> <span class="k">import</span> <span class="n">ZgoubiRun</span> <span class="k">as</span> <span class="n">_ZgoubiRun</span>
+<span class="kn">from</span> <span class="nn">..zgoubi</span> <span class="k">import</span> <span class="n">ZgoubiResults</span> <span class="k">as</span> <span class="n">_ZgoubiResults</span>
 <span class="kn">import</span> <span class="nn">zgoubidoo</span>
 
 
@@ -280,7 +280,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_particle</span> <span class="o">=</span> <span class="n">particle</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_closed_orbit</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_z</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Zgoubi</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Zgoubi</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_last_run</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_ZgoubiRun</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_run</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_ZgoubiResults</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">slice</span><span class="p">,</span>
@@ -317,7 +317,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">last_run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ZgoubiRun</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">last_run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ZgoubiResults</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Provide the result of the last Zgoubi run.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_run</span>
 
