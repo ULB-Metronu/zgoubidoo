@@ -137,7 +137,7 @@ class Command(metaclass=CommandType):
             **kwargs:
         """
         self._output = list()
-        self._results = None
+        self._results: Optional[_pd.DataFrame] = None
         self._attributes = {}
         for d in (Command.PARAMETERS, ) + params:
             self._attributes = dict(self._attributes, **{k: v[0] for k, v in d.items()})
@@ -317,14 +317,17 @@ class Command(metaclass=CommandType):
         return self._output
 
     @property
-    def results(self):
+    def results(self) -> Optional[_pd.DataFrame]:
         """
-        Provides the outputs associated with a command after each successive Zgoubi run.
+        Provides the results of a Zgoubi command in the form of a Pandas DataFrame.
 
         Returns:
-            the output, None if no output has been previously attached.
+            the results, None if not available, a DataFrame otherwise.
         """
-        return self._results.set_index('variable_id')
+        try:
+            return self._results.set_index('variable_id')
+        except AttributeError:
+            return None
 
     def attach_output(self, output: str, zgoubi_input: zgoubidoo.Input):  # -> NoReturn:
         """
@@ -332,22 +335,22 @@ class Command(metaclass=CommandType):
 
         Args:
             output: the output from a Zgoubi run to be attached to the command.
-            zgoubi_input: xxxx.
+            zgoubi_input: the Input sequence (required for output processing).
         """
         self._output.append(output)
         self.process_output(output, zgoubi_input)
 
-    def process_output(self, output: str, zgoubi_input: zgoubidoo.Input) -> Optional[bool]:
+    def process_output(self, output: str, zgoubi_input: zgoubidoo.Input) -> bool:
         """
         
         Args:
-            output:
-            zgoubi_input:
+            output: the output from a Zgoubi run to be processed by the command.
+            zgoubi_input: the Input sequence (required and some cases by the command output processor).
 
         Returns:
-
+            a flag indicating if the processing is valid.
         """
-        pass
+        return True
 
     @classmethod
     def build(cls, stream: str, debug: bool = False) -> Command:
@@ -382,7 +385,13 @@ class Command(metaclass=CommandType):
 class AutoRef(Command):
     """Automatic transformation to a new reference frame.
 
-    TODO
+    .. rubric:: Zgoubi manual description
+
+    AUTOREF positions the new reference frame following 3 options:
+
+    - If I = 1, AUTOREF is equivalent to CHANGREF[XCE = 0,Y CE = Y (1),ALE = T(1)] so that the new reference frame is at the exit of the last element, with particle 1 at the origin with its horizontal angle set to T = 0.
+    - If I = 2, it is equivalent to CHANGREF[XW,Y W,T(1)] so that the new reference frame is at the position (X W, Y W ) of the waist (calculated automatically in the same way as for IMAGE) of the three rays number 1, 4 and 5 (compatible for instance with OBJET, KOBJ = 5, 6, together with the use of MATRIX) while T(1), the horizontal angle of particle number I1, is set to zero.
+    - If I = 3, it is equivalent to CHANGREF[XW,Y W,T(I1)] so that the new reference frame is at the position (X W, Y W ) of the waist (calculated automatically in the same way as for IMAGE) of the three rays number I1, I2 and I3 specified as data, while T(I1) is set to zero.
     """
     KEYWORD = 'AUTOREF'
     """Keyword of the command used for the Zgoubi input data."""
