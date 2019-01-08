@@ -14,8 +14,9 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..'))
+import zgoubidoo
 
+sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
 
@@ -24,9 +25,10 @@ copyright = u'2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)'
 author = u'Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)'
 
 # The short X.Y version
-version = '2019.1'
+version = zgoubidoo.__version__
+
 # The full version, including alpha/beta/rc tags
-release = '2019.1'
+release = zgoubidoo.__version__
 
 
 # -- General configuration ---------------------------------------------------
