@@ -8,7 +8,8 @@
 
 
 """
-from typing import List, Mapping, Iterable, Optional
+import logging
+from typing import List, Mapping, Iterable, Optional, Union
 from functools import partial as _partial
 import logging
 import shutil
@@ -19,9 +20,10 @@ import multiprocessing
 from multiprocessing.pool import ThreadPool as _ThreadPool
 import subprocess as sub
 import pandas as _pd
-from .commands import Matrix as _Matrix
 from .input import Input
 from .output import read_plt_file, read_matrix_file
+
+_logger = logging.getLogger(__name__)
 
 
 class ZgoubiException(Exception):
@@ -31,21 +33,28 @@ class ZgoubiException(Exception):
         self.message = m
 
 
-class ZgoubiRun:
-    """
+class ZgoubiResults:
+    """Results from a Zgoubi executable run.
+
+    Examples:
+        >>> 1 + 1 # TODO
 
     """
-    def __init__(self, results: List[Mapping], with_matrix: bool = False):
+    def __init__(self, results: List[Mapping]):
         """
 
         Args:
             results: a list of dictionnaries structure with the Zgoubi run information and errors.
-            with_matrix: if True, the Zgoubi MATRIX file output is read as well.
         """
-        self._with_matrix: bool = with_matrix
         self._results: List[Mapping] = results
         self._tracks: Optional[_pd.DataFrame] = None
         self._matrix: Optional[_pd.DataFrame] = None
+
+    def __len__(self):
+        return len(self._results)
+
+    def __getitem__(self, item):
+        return self._results[item]
 
     @property
     def tracks(self) -> Optional[_pd.DataFrame]:
@@ -83,7 +92,7 @@ class ZgoubiRun:
             FileNotFoundError in case the file is not present.
 
         """
-        if self._matrix is None and self._with_matrix:
+        if self._matrix is None:
             try:
                 m = list()
                 for r in self._results:
@@ -107,14 +116,18 @@ class ZgoubiRun:
         """
         return self._results
 
-    def print(self, what='result'):
-        """Print."""
+    def print(self, what: str = 'result'):
+        """Helper function to print the raw results from a Zgoubi run."""
         for r in self.results:
             print('\n'.join(r[what]))
 
 
 class Zgoubi:
-    """High level interface to run Zgoubi from Python."""
+    """High level interface to run Zgoubi from Python.
+
+    `Zgoubi` is responsible for running the Zgoubi executable within Zgoubidoo. It will run Zgoubi as a subprocess and
+    offers a variety of concurency and parallelisation features.
+    """
 
     ZGOUBI_EXECUTABLE_NAME: str = 'zgoubi'
     """Default name of the Zgoubi executable."""
@@ -147,38 +160,46 @@ class Zgoubi:
         """
         return self._get_exec()
 
-    def __call__(self, zgoubi_input: Input, debug: bool = False, n_procs: Optional[int] = None) -> ZgoubiRun:
+    def __call__(self, zgoubi_inputs: Union[Input, List[Input]], debug: bool = False, n_procs: Optional[int] = None) -> ZgoubiResults:
         """
         Starts up to `n_procs` Zgoubi runs.
 
         Args:
-            zgoubi_input: `Input` object specifying the Zgoubi inputs and input paths.
+            zgoubi_inputs: `Input` object specifying the Zgoubi inputs and input paths.
             debug: verbose output
             n_procs: maximum number of Zgoubi simulations to be started in parallel
             (default to `multiprocessing.cpu_count`)
 
         Returns:
-            a ZgoubiRun object holding the simulation results.
+            a ZgoubiResults object holding the simulation results.
 
         Raises:
             a ZgoubiException in case the input paths list is empty.
         """
+
+        def execute_in_thread():
+            """Closure to execute Zgoubi within a Threadpool"""
+            if len(zgoubi_input.paths) == 0:
+                raise ZgoubiException("The input must be written before calling Zgoubi.")
+            for p in zgoubi_input.paths:
+                try:
+                    path = p.name  # Path from a TemporaryDirectory
+                except AttributeError:
+                    path = p  # Path as a string
+                self._results.append(pool.apply_async(self._execute_zgoubi, (zgoubi_input, path)))
+
         n = n_procs or multiprocessing.cpu_count()
         self._results = list()
-        pool = _ThreadPool(n)
-        if len(zgoubi_input.paths) == 0:
-            raise ZgoubiException("The input must be written before calling Zgoubi.")
-        for p in zgoubi_input.paths:
-            try:
-                path = p.name  # Path from a TemporaryDirectory
-            except AttributeError:
-                path = p  # Path as a string
-            self._results.append(pool.apply_async(self._execute_zgoubi, (zgoubi_input, path)))
+        pool: _ThreadPool = _ThreadPool(n)
+        try:
+            for zgoubi_input in zgoubi_inputs:
+                execute_in_thread()
+        except TypeError:
+            zgoubi_input = zgoubi_inputs
+            execute_in_thread()
         pool.close()
         pool.join()
-        return ZgoubiRun(results=list(map(lambda _: getattr(_, 'get', None)(), self._results)),
-                         with_matrix=bool(_Matrix in zgoubi_input)
-                         )
+        return ZgoubiResults(results=list(map(lambda _: getattr(_, 'get', None)(), self._results)))
 
     def _execute_zgoubi(self, zgoubi_input: Input, path: str = '.', debug=False) -> dict:
         """Run Zgoubi as a subprocess.
@@ -197,7 +218,7 @@ class Zgoubi:
             FileNotFoundError if the result file is not present at the end of the execution.
         """
         stderr = None
-        p = sub.Popen([self._get_exec()],
+        p = sub.Popen([self.executable],
                       stdin=sub.PIPE,
                       stdout=sub.PIPE,
                       stderr=sub.STDOUT,
@@ -276,7 +297,7 @@ class Zgoubi:
                 data.append(l)
                 continue
             if len(data) > 0:
-                if '****' in l:
+                if '****' in l:  # This might be a bit fragile
                     break
                 data.append(l)
         return list(filter(lambda _: len(_), data))

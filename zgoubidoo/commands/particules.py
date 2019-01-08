@@ -1,6 +1,6 @@
 """Zgoubidoo's interfaces to Zgoubi commands related to particle types.
 
-More details here.
+More details here. TODO
 """
 from .commands import Command as _Command
 from .commands import CommandType as _MetaCommand

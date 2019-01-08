@@ -1,5 +1,5 @@
-from .input import Input
-from .commands import *
+from input import Input
+from commands import *
 
 
 def find_closed_orbit():

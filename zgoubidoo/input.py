@@ -5,7 +5,8 @@ which allows to represent a set of Zgoubi input commands and serialize it into a
 be validated using a set of validators, following the Zgoubi input constraints.
 """
 from __future__ import annotations
-from typing import Callable, Sequence
+from typing import Callable, Sequence, Mapping, Tuple
+from dataclasses import dataclass, field
 from functools import partial, reduce
 import tempfile
 import os
@@ -18,7 +19,7 @@ from .beam import Beam
 from .frame import Frame as _Frame
 import zgoubidoo.commands
 
-ListPaths = List[Union[str, tempfile.TemporaryDirectory]]
+PathsList = List[Union[str, tempfile.TemporaryDirectory]]
 
 ZGOUBI_INPUT_FILENAME: str = 'zgoubi.dat'
 """File name for Zgoubi input data."""
@@ -32,6 +33,59 @@ class ZgoubiInputException(Exception):
 
     def __init__(self, m):
         self.message = m
+
+
+@dataclass
+class ParametricMapping:
+    """Abstraction for multi-dimensional parametric mappings.
+
+    Main feature is to compute the complete "cross product" of the different parameters to support multi-dimensional
+    mapping.
+
+    Examples:
+        >>> pm = ParametricMapping([{('B3G', 'B1'): [1.0, 2.0], ('B1G', 'B1'): [11.0, 12.0]}, {('B2G', 'B1'): [1.5, 2.5, 3.5]}])
+        >>> pm.combinations
+        [{('B3G', 'B1'): 1.0, ('B1G', 'B1'): 11.0, ('B2G', 'B1'): 1.5},
+         {('B3G', 'B1'): 1.0, ('B1G', 'B1'): 11.0, ('B2G', 'B1'): 2.5},
+         {('B3G', 'B1'): 1.0, ('B1G', 'B1'): 11.0, ('B2G', 'B1'): 3.5},
+         {('B3G', 'B1'): 2.0, ('B1G', 'B1'): 12.0, ('B2G', 'B1'): 1.5},
+         {('B3G', 'B1'): 2.0, ('B1G', 'B1'): 12.0, ('B2G', 'B1'): 2.5},
+         {('B3G', 'B1'): 2.0, ('B1G', 'B1'): 12.0, ('B2G', 'B1'): 3.5}]
+    """
+    mappings: List[Mapping[Tuple[str], Sequence[float]]] = field(default_factory=lambda: [{}])
+
+    @property
+    def combinations(self) -> List[Mapping[Tuple[str], float]]:
+        """Cartesian product adapted to work with dictionaries, roughly similar to `itertools.product`.
+
+        Returns:
+            a list of the cartesian product of the mappings.
+
+        See also:
+            https://docs.python.org/3/library/itertools.html#itertools.product
+        """
+        labels = [label for arg in self.mappings for label in tuple(arg.keys())]
+        pools = [list(map(tuple, zip(*arg.values()))) for arg in self.mappings]
+
+        def cartesian_product(*args):
+            """Cartesian product similar to `itertools.product`"""
+            result = [[]]
+            for pool in args:
+                result = [x + [y] for x in result for y in pool]
+            return result
+
+        results = []
+        for term in cartesian_product(*pools):
+            results.append([pp for p in term for pp in p])
+
+        tmp = []
+        for r in results:
+            tmp.append({k: v for k, v in zip(labels, r)})
+
+        if len(tmp) == 0:
+            return [{}]
+        else:
+            return tmp
 
 
 class Input:
@@ -61,8 +115,7 @@ class Input:
         if line is None:
             line = []
         self._line: List[commands.Command] = line
-        self._paths: ListPaths = list()
-        self._inputs: List[Input] = list()
+        self._paths: PathsList = list()
         self._optical_length: _Q = 0 * _ureg.m
 
     def __str__(self) -> str:
@@ -79,49 +132,30 @@ class Input:
     def __repr__(self) -> str:
         return str(self)
 
-    def __call__(self, beam: Optional[Beam] = None, filename: str = ZGOUBI_INPUT_FILENAME, path: str = '.'):
+    def __call__(self, mappings: Optional[ParametricMapping] = None,
+                 filename: str = ZGOUBI_INPUT_FILENAME,
+                 path: Optional[str] = None):
         """Writes the string representation of the object onto a file (Zgoubi input file).
 
         Args:
-            beam:
+            mappings:
             filename: the Zgoubi input file name (default: zgoubi.dat)
             path:
 
         Raises:
 
         """
-        self._paths: ListPaths = list()
-        if beam is None:
-            self._paths.append(path)
-            self.write(self, filename, path)
-        else:
-            objets = self[zgoubidoo.commands.Objet]
-            particules = self[zgoubidoo.commands.Particule]
-            if len(objets) == 0 and len(particules) == 0:
-                generated_input = Input(name=self.name, line=self.line.copy())
-                generated_input._line.insert(0, beam.particle())
-                objet = beam.objet(BORO=beam.brho)
-                generated_input._line.insert(0, objet)
-                if beam.distribution is None:
-                    objet.clear()
-                    temp_dir = tempfile.TemporaryDirectory()
-                    self._paths.append(temp_dir)
-                    self._inputs.append(generated_input)
-                    generated_input.write(generated_input, filename, path=temp_dir.name)
-                else:
-                    for s in beam.slices:
-                        if len(s) > ZGOUBI_IMAX:
-                            raise ZgoubiInputException(f"Trying to track too many particles (IMAX={ZGOUBI_IMAX}). "
-                                                       f"Try to increase the number of slices.")
-                        objet.clear()
-                        objet += s
-                        temp_dir = tempfile.TemporaryDirectory()
-                        self._paths.append(temp_dir)
-                        self._inputs.append(generated_input)
-                        generated_input.write(generated_input, filename, path=temp_dir.name)
-            else:
-                raise ZgoubiInputException("When applying a Beam on an Input, the input should not contain "
-                                           "any 'Particle' or 'Objet'.")
+        mappings = mappings or ParametricMapping()
+        initial_state = {}
+        self._paths: PathsList = list()
+        for mapping in mappings.combinations:
+            previous_state = self.adjust(mapping)
+            if initial_state is None:
+                initial_state = previous_state
+            target_dir = tempfile.TemporaryDirectory(prefix=path)
+            self._paths.append(target_dir)
+            Input.write(self, filename, path=target_dir.name)
+        self.adjust(initial_state)
         return self
 
     def __len__(self) -> int:
@@ -150,7 +184,7 @@ class Input:
         """Remove a command from the input sequence.
 
         Args:
-            other: the `Command` to be removed or its LABEL1 as a string.
+            other: the `Command` to be removed or the LABEL1 of the command to be removed as a string.
 
         Returns:
             the `Input` itself (in-place operation).
@@ -328,6 +362,9 @@ class Input:
 
     def update(self, parameters: _pd.DataFrame) -> Input:
         """
+        TODO
+
+        This is essentially an update following a fit.
 
         Args:
             parameters:
@@ -338,6 +375,21 @@ class Input:
         for i, r in parameters.iterrows():
             setattr(self[r['element_id'] - 1], r['parameter'], r['final'])
         return self
+
+    def adjust(self, mapping: Mapping[Tuple[str], float]) -> Mapping[Tuple[str], float]:
+        """
+
+        Args:
+            mapping:
+
+        Returns:
+
+        """
+        initial_values = {}
+        for k, v in mapping.items():
+            initial_values[k] = getattr(getattr(self, k[0]), k[1].rstrip('_'))
+            setattr(getattr(self, k[0]), k[1], v)
+        return initial_values
 
     def index(self, obj: Union[str, commands.Command]) -> int:
         """Index of an object in the sequence.
@@ -394,22 +446,13 @@ class Input:
         return self._name
 
     @property
-    def paths(self) -> ListPaths:
+    def paths(self) -> PathsList:
         """Paths where the input has been written.
 
         Returns:
             a list of paths.
         """
         return self._paths
-
-    @property
-    def inputs(self) -> List[Input]:
-        """
-
-        Returns:
-
-        """
-        return self._inputs
 
     @property
     def keywords(self) -> List[str]:

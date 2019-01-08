@@ -5,7 +5,7 @@ This module provides support for affine geometry transformations, mainly through
 Example:
     example
 
-    >>> 1 + 1
+    >>> 1 + 1 # TODO
     2
 
 

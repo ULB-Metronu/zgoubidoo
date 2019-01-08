@@ -1,6 +1,6 @@
 """Step-by-step computation of the transfer matrix and Twiss parameters from Zgoubi tracks.
 
-Blabla
+TODO
 
 Example:
     import matplotlib.pyplot as plt
