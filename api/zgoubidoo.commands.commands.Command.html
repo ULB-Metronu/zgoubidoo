@@ -296,7 +296,7 @@ TODO</p>
 <td>Provides the outputs associated with a command after each successive Zgoubi run.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.commands.Command.results" title="zgoubidoo.commands.commands.Command.results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">results</span></code></a></td>
-<td>Provides the outputs associated with a command after each successive Zgoubi run.</td>
+<td>Provides the results of a Zgoubi command in the form of a Pandas DataFrame.</td>
 </tr>
 </tbody>
 </table>
@@ -340,7 +340,7 @@ TODO</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param output:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">param output:</th><td class="field-body">the output from a Zgoubi run to be processed by the command.</td>
 </tr>
 </tbody>
 </table>
@@ -403,12 +403,12 @@ commands (e.g. fit).</p>
 <dl class="attribute">
 <dt id="zgoubidoo.commands.commands.Command.results">
 <code class="descname">results</code><a class="headerlink" href="#zgoubidoo.commands.commands.Command.results" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides the outputs associated with a command after each successive Zgoubi run.</p>
+<dd><p>Provides the results of a Zgoubi command in the form of a Pandas DataFrame.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the output, None if no output has been previously attached.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the results, None if not available, a DataFrame otherwise.</td>
 </tr>
 </tbody>
 </table>
@@ -425,7 +425,7 @@ commands (e.g. fit).</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>output</strong> – the output from a Zgoubi run to be attached to the command.</li>
-<li><strong>zgoubi_input</strong> – xxxx.</li>
+<li><strong>zgoubi_input</strong> – the Input sequence (required for output processing).</li>
 </ul>
 </td>
 </tr>
@@ -474,20 +474,22 @@ commands (e.g. fit).</p>
 
 <dl class="method">
 <dt id="zgoubidoo.commands.commands.Command.process_output">
-<code class="descname">process_output</code><span class="sig-paren">(</span><em>output: str</em>, <em>zgoubi_input: zgoubidoo.input.Input</em><span class="sig-paren">)</span> &#x2192; Optional[bool]<a class="reference internal" href="../_modules/zgoubidoo/commands/commands.html#Command.process_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.commands.Command.process_output" title="Permalink to this definition">¶</a></dt>
+<code class="descname">process_output</code><span class="sig-paren">(</span><em>output: str</em>, <em>zgoubi_input: zgoubidoo.input.Input</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/zgoubidoo/commands/commands.html#Command.process_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.commands.Command.process_output" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>output</strong> – </li>
-<li><strong>zgoubi_input</strong> – </li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>output</strong> – the output from a Zgoubi run to be processed by the command.</li>
+<li><strong>zgoubi_input</strong> – the Input sequence (required and some cases by the command output processor).</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a flag indicating if the processing is valid.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<p>Returns:</p>
 </dd></dl>
 
 </dd></dl>

@@ -239,7 +239,13 @@
 <em class="property">class </em><code class="descclassname">zgoubidoo.commands.commands.</code><code class="descname">AutoRef</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/commands.html#AutoRef"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.commands.AutoRef" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" title="zgoubidoo.commands.commands.Command"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.commands.Command</span></code></a></p>
 <p>Automatic transformation to a new reference frame.</p>
-<p>TODO</p>
+<p class="rubric">Zgoubi manual description</p>
+<p>AUTOREF positions the new reference frame following 3 options:</p>
+<ul class="simple">
+<li>If I = 1, AUTOREF is equivalent to CHANGREF[XCE = 0,Y CE = Y (1),ALE = T(1)] so that the new reference frame is at the exit of the last element, with particle 1 at the origin with its horizontal angle set to T = 0.</li>
+<li>If I = 2, it is equivalent to CHANGREF[XW,Y W,T(1)] so that the new reference frame is at the position (X W, Y W ) of the waist (calculated automatically in the same way as for IMAGE) of the three rays number 1, 4 and 5 (compatible for instance with OBJET, KOBJ = 5, 6, together with the use of MATRIX) while T(1), the horizontal angle of particle number I1, is set to zero.</li>
+<li>If I = 3, it is equivalent to CHANGREF[XW,Y W,T(I1)] so that the new reference frame is at the position (X W, Y W ) of the waist (calculated automatically in the same way as for IMAGE) of the three rays number I1, I2 and I3 specified as data, while T(I1) is set to zero.</li>
+</ul>
 <p class="rubric">Command attributes</p>
 <dl class="attribute">
 <dt>

@@ -169,7 +169,7 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span> <span class="k">as</span> <span class="n">_partial</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
@@ -209,6 +209,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tracks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
@@ -303,7 +309,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_executable</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">executable</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">path</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">ApplyResult</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">ApplyResult</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">executable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -314,12 +320,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_exec</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Zgoubi.__call__"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.Zgoubi.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zgoubi_inputs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Input</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Input</span><span class="p">]],</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">n_procs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ZgoubiResults</span><span class="p">:</span>
+<div class="viewcode-block" id="Zgoubi.__call__"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.Zgoubi.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zgoubi_input</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">n_procs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ZgoubiResults</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Starts up to `n_procs` Zgoubi runs.</span>
+<span class="sd">        Execute up to `n_procs` Zgoubi runs.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            zgoubi_inputs: `Input` object specifying the Zgoubi inputs and input paths.</span>
+<span class="sd">            zgoubi_input: `Input` object specifying the Zgoubi inputs and input paths.</span>
 <span class="sd">            debug: verbose output</span>
 <span class="sd">            n_procs: maximum number of Zgoubi simulations to be started in parallel</span>
 <span class="sd">            (default to `multiprocessing.cpu_count`)</span>
@@ -335,27 +341,28 @@
             <span class="sd">&quot;&quot;&quot;Closure to execute Zgoubi within a Threadpool&quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">zgoubi_input</span><span class="o">.</span><span class="n">paths</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ZgoubiException</span><span class="p">(</span><span class="s2">&quot;The input must be written before calling Zgoubi.&quot;</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">zgoubi_input</span><span class="o">.</span><span class="n">paths</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">zgoubi_input</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">path</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span>  <span class="c1"># Path from a TemporaryDirectory</span>
                 <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
                     <span class="n">path</span> <span class="o">=</span> <span class="n">p</span>  <span class="c1"># Path as a string</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_execute_zgoubi</span><span class="p">,</span> <span class="p">(</span><span class="n">zgoubi_input</span><span class="p">,</span> <span class="n">path</span><span class="p">)))</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Starting Zgoubi in </span><span class="si">{path}</span><span class="s2">.&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_execute_zgoubi</span><span class="p">,</span> <span class="p">(</span><span class="n">zgoubi_input</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">m</span><span class="p">)))</span>
 
         <span class="n">n</span> <span class="o">=</span> <span class="n">n_procs</span> <span class="ow">or</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="n">pool</span><span class="p">:</span> <span class="n">_ThreadPool</span> <span class="o">=</span> <span class="n">_ThreadPool</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">zgoubi_input</span> <span class="ow">in</span> <span class="n">zgoubi_inputs</span><span class="p">:</span>
-                <span class="n">execute_in_thread</span><span class="p">()</span>
-        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-            <span class="n">zgoubi_input</span> <span class="o">=</span> <span class="n">zgoubi_inputs</span>
-            <span class="n">execute_in_thread</span><span class="p">()</span>
+        <span class="n">execute_in_thread</span><span class="p">()</span>
         <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">ZgoubiResults</span><span class="p">(</span><span class="n">results</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">)))</span></div>
 
-    <span class="k">def</span> <span class="nf">_execute_zgoubi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zgoubi_input</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_execute_zgoubi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                        <span class="n">zgoubi_input</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span>
+                        <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
+                        <span class="n">mapping</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="n">debug</span><span class="o">=</span><span class="kc">False</span>
+                        <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Run Zgoubi as a subprocess.</span>
 
 <span class="sd">        Zgoubi is run as a subprocess; the standard IOs are piped to the Python process and retrieved.</span>
@@ -363,6 +370,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            zgoubi_input: Zgoubi input sequence (used after the run to process the output of each element).</span>
 <span class="sd">            path: path to the input file.</span>
+<span class="sd">            mapping: TODO</span>
 <span class="sd">            debug: verbose output.</span>
 
 <span class="sd">        Returns:</span>
@@ -412,6 +420,7 @@
             <span class="s1">&#39;result&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">,</span>
             <span class="s1">&#39;input&#39;</span><span class="p">:</span> <span class="n">zgoubi_input</span><span class="p">,</span>
             <span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="n">path</span><span class="p">,</span>
+            <span class="s1">&#39;mapping&#39;</span><span class="p">:</span> <span class="n">mapping</span><span class="p">,</span>
         <span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">_get_exec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optional_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;/usr/local/bin&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -434,7 +443,7 @@
                 <span class="k">return</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_executable</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH&#39;</span><span class="p">],</span> <span class="n">optional_path</span><span class="p">))</span>
 
 <div class="viewcode-block" id="Zgoubi.find_labeled_output"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.Zgoubi.find_labeled_output">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">find_labeled_output</span><span class="p">(</span><span class="n">out</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">find_labeled_output</span><span class="p">(</span><span class="n">out</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Process the Zgoubi output and retrieves output data for a particular labeled element.</span>
 
@@ -445,7 +454,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            the output of the given label</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">l</span> <span class="ow">and</span> <span class="s1">&#39;Keyword&#39;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
                 <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>

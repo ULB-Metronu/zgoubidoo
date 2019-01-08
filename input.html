@@ -198,7 +198,7 @@ will write the string representation to a Zgoubi input file.</p>
 </div>
 <dl class="method">
 <dt id="zgoubidoo.input.Input.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>mappings: Optional[zgoubidoo.input.ParametricMapping] = None</em>, <em>filename: str = 'zgoubi.dat'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#Input.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.__call__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>mappings: Optional[zgoubidoo.input.ParametricMapping] = None</em>, <em>filename: str = 'zgoubi.dat'</em>, <em>path: Optional[str] = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#Input.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes the string representation of the object onto a file (Zgoubi input file).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -358,6 +358,20 @@ in case it is not present. The <cite>Input</cite> name is used as a header.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="zgoubidoo.input.Input.adjust">
+<code class="descname">adjust</code><span class="sig-paren">(</span><em>mapping: Mapping[Tuple[str], float]</em><span class="sig-paren">)</span> &#x2192; Mapping[Tuple[str], float]<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.adjust"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.adjust" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mapping</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="zgoubidoo.input.Input.apply">
 <code class="descname">apply</code><span class="sig-paren">(</span><em>f: Callable[[zgoubidoo.commands.commands.Command], zgoubidoo.commands.commands.Command]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.apply" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
@@ -396,7 +410,17 @@ in case it is not present. The <cite>Input</cite> name is used as a header.</p>
 <dl class="method">
 <dt id="zgoubidoo.input.Input.cleanup">
 <code class="descname">cleanup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#Input.cleanup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.cleanup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns:</p>
+<dd><p>Cleanup temporary paths.</p>
+<p>Performs the cleanup to remove the temporary paths and the Zgoubi data files (input file, but also other output
+files). This is essentially the inverse of calling the input. Note that coding the input multiple times will
+automatically cleanup previous sets of temporary directories.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">zi</span> <span class="o">=</span> <span class="n">Input</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">ParametricMapping</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zi</span><span class="p">(</span><span class="n">mappings</span><span class="o">=</span><span class="n">pm</span><span class="p">)</span>  <span class="c1"># Writes input files in newly created tempoary directories</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zi</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>  <span class="c1"># Cleanup the temporary directories and Zgoubi input files</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -621,20 +645,21 @@ and can be used as such, for example, as a parameter to the Fit command.</p>
 
 <dl class="class">
 <dt id="zgoubidoo.input.ParametricMapping">
-<em class="property">class </em><code class="descclassname">zgoubidoo.input.</code><code class="descname">ParametricMapping</code><span class="sig-paren">(</span><em>mappings: List[Mapping[Tuple[str], Sequence[float]]]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#ParametricMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.ParametricMapping" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zgoubidoo.input.</code><code class="descname">ParametricMapping</code><span class="sig-paren">(</span><em>mappings: List[Mapping[Tuple[str], Sequence[float]]] = &lt;factory&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#ParametricMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.ParametricMapping" title="Permalink to this definition">¶</a></dt>
 <dd><p>Abstraction for multi-dimensional parametric mappings.</p>
-<blockquote>
-<div><p>Main feature is to compute the complete “cross product” of the different parameters to support multi-dimensional
+<p>Main feature is to compute the complete “cross product” of the different parameters to support multi-dimensional
 mapping.</p>
-<dl class="docutils">
-<dt>Examples:</dt>
-<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ParametricMapping</span><span class="p">([{(</span><span class="s1">&#39;B3G&#39;</span><span class="p">,</span> <span class="s1">&#39;B1&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="p">(</span><span class="s1">&#39;B1G&#39;</span><span class="p">,</span> <span class="s1">&#39;B1&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mf">11.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">13.0</span><span class="p">]},</span> <span class="p">{(</span><span class="s1">&#39;B2G&#39;</span><span class="p">,</span> <span class="s1">&#39;B1&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">]}])</span>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">ParametricMapping</span><span class="p">([{(</span><span class="s1">&#39;B3G&#39;</span><span class="p">,</span> <span class="s1">&#39;B1&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="p">(</span><span class="s1">&#39;B1G&#39;</span><span class="p">,</span> <span class="s1">&#39;B1&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mf">11.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">]},</span> <span class="p">{(</span><span class="s1">&#39;B2G&#39;</span><span class="p">,</span> <span class="s1">&#39;B1&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">]}])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span><span class="o">.</span><span class="n">combinations</span>
+<span class="go">[{(&#39;B3G&#39;, &#39;B1&#39;): 1.0, (&#39;B1G&#39;, &#39;B1&#39;): 11.0, (&#39;B2G&#39;, &#39;B1&#39;): 1.5},</span>
+<span class="go"> {(&#39;B3G&#39;, &#39;B1&#39;): 1.0, (&#39;B1G&#39;, &#39;B1&#39;): 11.0, (&#39;B2G&#39;, &#39;B1&#39;): 2.5},</span>
+<span class="go"> {(&#39;B3G&#39;, &#39;B1&#39;): 1.0, (&#39;B1G&#39;, &#39;B1&#39;): 11.0, (&#39;B2G&#39;, &#39;B1&#39;): 3.5},</span>
+<span class="go"> {(&#39;B3G&#39;, &#39;B1&#39;): 2.0, (&#39;B1G&#39;, &#39;B1&#39;): 12.0, (&#39;B2G&#39;, &#39;B1&#39;): 1.5},</span>
+<span class="go"> {(&#39;B3G&#39;, &#39;B1&#39;): 2.0, (&#39;B1G&#39;, &#39;B1&#39;): 12.0, (&#39;B2G&#39;, &#39;B1&#39;): 2.5},</span>
+<span class="go"> {(&#39;B3G&#39;, &#39;B1&#39;): 2.0, (&#39;B1G&#39;, &#39;B1&#39;): 12.0, (&#39;B2G&#39;, &#39;B1&#39;): 3.5}]</span>
 </pre></div>
 </div>
-</dd>
-</dl>
-</div></blockquote>
-<p>pm.combinations</p>
 <dl class="attribute">
 <dt id="zgoubidoo.input.ParametricMapping.combinations">
 <code class="descname">combinations</code><a class="headerlink" href="#zgoubidoo.input.ParametricMapping.combinations" title="Permalink to this definition">¶</a></dt>

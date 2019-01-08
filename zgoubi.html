@@ -193,14 +193,14 @@ offers a variety of concurency and parallelisation features.</p>
 
 <dl class="method">
 <dt id="zgoubidoo.zgoubi.Zgoubi.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>zgoubi_inputs: Union[zgoubidoo.input.Input, List[zgoubidoo.input.Input]], debug: bool = False, n_procs: Optional[int] = None</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.zgoubi.ZgoubiResults<a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#Zgoubi.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.Zgoubi.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Starts up to <cite>n_procs</cite> Zgoubi runs.</p>
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>zgoubi_input: zgoubidoo.input.Input</em>, <em>debug: bool = False</em>, <em>n_procs: Optional[int] = None</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.zgoubi.ZgoubiResults<a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#Zgoubi.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.Zgoubi.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute up to <cite>n_procs</cite> Zgoubi runs.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>zgoubi_inputs</strong> – <cite>Input</cite> object specifying the Zgoubi inputs and input paths.</li>
+<li><strong>zgoubi_input</strong> – <cite>Input</cite> object specifying the Zgoubi inputs and input paths.</li>
 <li><strong>debug</strong> – verbose output</li>
 <li><strong>n_procs</strong> – maximum number of Zgoubi simulations to be started in parallel</li>
 <li><strong>to multiprocessing.cpu_count</strong><strong>)</strong> (<em>(</em><em>default</em>) – </li>
@@ -233,7 +233,7 @@ offers a variety of concurency and parallelisation features.</p>
 
 <dl class="staticmethod">
 <dt id="zgoubidoo.zgoubi.Zgoubi.find_labeled_output">
-<em class="property">static </em><code class="descname">find_labeled_output</code><span class="sig-paren">(</span><em>out: Iterable[str], label: str</em><span class="sig-paren">)</span> &#x2192; list<a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#Zgoubi.find_labeled_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.Zgoubi.find_labeled_output" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">find_labeled_output</code><span class="sig-paren">(</span><em>out: Iterable[str], label: str</em><span class="sig-paren">)</span> &#x2192; Iterable[str]<a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#Zgoubi.find_labeled_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.Zgoubi.find_labeled_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process the Zgoubi output and retrieves output data for a particular labeled element.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
