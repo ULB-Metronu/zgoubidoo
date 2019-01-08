@@ -15,11 +15,10 @@ import parse as _parse
 from . import ureg as _ureg
 from . import _Q
 from .commands import *
-from .beam import Beam
 from .frame import Frame as _Frame
 import zgoubidoo.commands
 
-PathsList = List[Union[str, tempfile.TemporaryDirectory]]
+PathsDict = Dict[Union[str, tempfile.TemporaryDirectory], Mapping[Tuple[str], float]]
 
 ZGOUBI_INPUT_FILENAME: str = 'zgoubi.dat'
 """File name for Zgoubi input data."""
@@ -42,6 +41,9 @@ class ParametricMapping:
     Main feature is to compute the complete "cross product" of the different parameters to support multi-dimensional
     mapping.
 
+    See also:
+        for implementation details, see also https://codereview.stackexchange.com/q/211121/52027 .
+
     Examples:
         >>> pm = ParametricMapping([{('B3G', 'B1'): [1.0, 2.0], ('B1G', 'B1'): [11.0, 12.0]}, {('B2G', 'B1'): [1.5, 2.5, 3.5]}])
         >>> pm.combinations
@@ -62,7 +64,9 @@ class ParametricMapping:
             a list of the cartesian product of the mappings.
 
         See also:
-            https://docs.python.org/3/library/itertools.html#itertools.product
+
+            - https://docs.python.org/3/library/itertools.html#itertools.product
+            - https://codereview.stackexchange.com/q/211121/52027
         """
         labels = [label for arg in self.mappings for label in tuple(arg.keys())]
         pools = [list(map(tuple, zip(*arg.values()))) for arg in self.mappings]
@@ -115,7 +119,7 @@ class Input:
         if line is None:
             line = []
         self._line: List[commands.Command] = line
-        self._paths: PathsList = list()
+        self._paths: PathsDict = dict()
         self._optical_length: _Q = 0 * _ureg.m
 
     def __str__(self) -> str:
@@ -146,14 +150,14 @@ class Input:
 
         """
         mappings = mappings or ParametricMapping()
-        initial_state = {}
-        self._paths: PathsList = list()
+        initial_state = None
+        self._paths: PathsDict = dict()
         for mapping in mappings.combinations:
             previous_state = self.adjust(mapping)
             if initial_state is None:
                 initial_state = previous_state
             target_dir = tempfile.TemporaryDirectory(prefix=path)
-            self._paths.append(target_dir)
+            self._paths[target_dir] = mapping
             Input.write(self, filename, path=target_dir.name)
         self.adjust(initial_state)
         return self
@@ -322,22 +326,32 @@ class Input:
             return list(), tuple()
         return list(filter(lambda x: reduce(lambda u, v: u or v, [isinstance(x, i) for i in items]), self._line)), items
 
-    def apply(self, f: Callable[[commands.Command], commands.Command]) -> None:
-        """
+    def apply(self, f: Callable[[commands.Command], commands.Command]) -> Input:
+        """Apply (map) a function on each command of the input sequence.
+
+        The function must take a single command as unique parameter and return the (modified) command.
 
         Args:
-            f:
+            f: the calable function.
 
         Returns:
-
+            the input sequence (in place operation).
         """
         self._line = list(map(f, self._line))
+        return self
 
     def cleanup(self):
-        """
+        """Cleanup temporary paths.
 
-        Returns:
+        Performs the cleanup to remove the temporary paths and the Zgoubi data files (input file, but also other output
+        files). This is essentially the inverse of calling the input. Note that coding the input multiple times will
+        automatically cleanup previous sets of temporary directories.
 
+        Examples:
+            >>> zi = Input()
+            >>> pm = ParametricMapping()
+            >>> zi(mappings=pm)  # Writes input files in newly created tempoary directories
+            >>> zi.cleanup()  # Cleanup the temporary directories and Zgoubi input files
         """
         for p in self._paths:
             try:
@@ -446,7 +460,7 @@ class Input:
         return self._name
 
     @property
-    def paths(self) -> PathsList:
+    def paths(self) -> PathsDict:
         """Paths where the input has been written.
 
         Returns:

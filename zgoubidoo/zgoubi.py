@@ -8,11 +8,11 @@
 
 
 """
-import logging
-from typing import List, Mapping, Iterable, Optional, Union
+from typing import List, Mapping, Iterable, Optional, Tuple
 from functools import partial as _partial
 import logging
 import shutil
+import tempfile
 import os
 import sys
 import re
@@ -56,6 +56,35 @@ class ZgoubiResults:
     def __getitem__(self, item):
         return self._results[item]
 
+    def get_tracks(self, parameters: Optional[List[Mapping[Tuple[str], float]]] = None):
+        """
+        Collects all tracks from the different Zgoubi instances matching the given parameters list
+        in the results and concatenate them.
+
+        Returns:
+            A concatenated DataFrame with all the tracks in the result matching the parameters list.
+
+        Raises:
+            FileNotFoundError in case the file is not present.
+        """
+        if self._tracks is not None and parameters is None:
+            return self._tracks
+        tracks = list()
+        for r in self.results:
+            if parameters is None or r['mapping'] in parameters:
+                try:
+                    tracks.append(read_plt_file(path=r['path']))
+                except FileNotFoundError:
+                    _logger.warning(
+                        f"Unable to read and load the Zgoubi .plt files required to collect the tracks for path "
+                        "{r['path']}."
+                    )
+                    return None
+        tracks = _pd.concat(tracks)
+        if parameters is None:
+            self._tracks = tracks
+        return tracks
+
     @property
     def tracks(self) -> Optional[_pd.DataFrame]:
         """
@@ -67,18 +96,7 @@ class ZgoubiResults:
         Raises:
             FileNotFoundError in case the file is not present.
         """
-        if self._tracks is None:
-            try:
-                tracks = list()
-                for r in self._results:
-                    tracks.append(read_plt_file(path=r['path']))
-                self._tracks = _pd.concat(tracks)
-            except FileNotFoundError:
-                logging.getLogger(__name__).warning(
-                    "Unable to read and load the Zgoubi .plt files required to collect the tracks."
-                )
-                return None
-        return self._tracks
+        return self.get_tracks()
 
     @property
     def matrix(self) -> Optional[_pd.DataFrame]:
@@ -99,7 +117,7 @@ class ZgoubiResults:
                     m.append(read_matrix_file(path=r['path']))
                 self._matrix = _pd.concat(m)
             except FileNotFoundError:
-                logging.getLogger(__name__).warning(
+                _logger.warning(
                     "Unable to read and load the Zgoubi MATRIX files required to collect the matrix data."
                 )
                 return None
@@ -115,6 +133,24 @@ class ZgoubiResults:
             a list of mappings.
         """
         return self._results
+
+    @property
+    def paths(self) -> List[tempfile.TemporaryDirectory]:
+        """Path of all the directories for the runs present in the results.
+
+        Returns:
+            a list of directories.
+        """
+        return [r['path'] for r in self.results]
+
+    @property
+    def mappings(self) -> List[Mapping[Tuple[str], float]]:
+        """Parametric mappings of all the runs present in the results.
+
+        Returns:
+            a list of parametric mappings.
+        """
+        return [r['mapping'] for r in self.results]
 
     def print(self, what: str = 'result'):
         """Helper function to print the raw results from a Zgoubi run."""
@@ -160,12 +196,12 @@ class Zgoubi:
         """
         return self._get_exec()
 
-    def __call__(self, zgoubi_inputs: Union[Input, List[Input]], debug: bool = False, n_procs: Optional[int] = None) -> ZgoubiResults:
+    def __call__(self, zgoubi_input: Input, debug: bool = False, n_procs: Optional[int] = None) -> ZgoubiResults:
         """
-        Starts up to `n_procs` Zgoubi runs.
+        Execute up to `n_procs` Zgoubi runs.
 
         Args:
-            zgoubi_inputs: `Input` object specifying the Zgoubi inputs and input paths.
+            zgoubi_input: `Input` object specifying the Zgoubi inputs and input paths.
             debug: verbose output
             n_procs: maximum number of Zgoubi simulations to be started in parallel
             (default to `multiprocessing.cpu_count`)
@@ -181,27 +217,28 @@ class Zgoubi:
             """Closure to execute Zgoubi within a Threadpool"""
             if len(zgoubi_input.paths) == 0:
                 raise ZgoubiException("The input must be written before calling Zgoubi.")
-            for p in zgoubi_input.paths:
+            for p, m in zgoubi_input.paths.items():
                 try:
                     path = p.name  # Path from a TemporaryDirectory
                 except AttributeError:
                     path = p  # Path as a string
-                self._results.append(pool.apply_async(self._execute_zgoubi, (zgoubi_input, path)))
+                _logger.info(f"Starting Zgoubi in {path}.")
+                self._results.append(pool.apply_async(self._execute_zgoubi, (zgoubi_input, path, m)))
 
         n = n_procs or multiprocessing.cpu_count()
         self._results = list()
         pool: _ThreadPool = _ThreadPool(n)
-        try:
-            for zgoubi_input in zgoubi_inputs:
-                execute_in_thread()
-        except TypeError:
-            zgoubi_input = zgoubi_inputs
-            execute_in_thread()
+        execute_in_thread()
         pool.close()
         pool.join()
-        return ZgoubiResults(results=list(map(lambda _: getattr(_, 'get', None)(), self._results)))
+        return ZgoubiResults(results=list(map(lambda _: _.get(), self._results)))
 
-    def _execute_zgoubi(self, zgoubi_input: Input, path: str = '.', debug=False) -> dict:
+    def _execute_zgoubi(self,
+                        zgoubi_input: Input,
+                        path: str = '.',
+                        mapping: Mapping[Tuple[str], float] = None,
+                        debug=False
+                        ) -> dict:
         """Run Zgoubi as a subprocess.
 
         Zgoubi is run as a subprocess; the standard IOs are piped to the Python process and retrieved.
@@ -209,6 +246,7 @@ class Zgoubi:
         Args:
             zgoubi_input: Zgoubi input sequence (used after the run to process the output of each element).
             path: path to the input file.
+            mapping: TODO
             debug: verbose output.
 
         Returns:
@@ -251,6 +289,7 @@ class Zgoubi:
                 cputime = float(re.search(r"\d+\.\d+[E|e]?[+|-]?\d+", lines[0]).group())
         if debug:
             print(output[0].decode())
+        _logger.info(f"Zgoubi process in {path} finished in {cputime} s.")
         return {
             'stdout': output[0].decode().split('\n'),
             'stderr': stderr,
@@ -258,6 +297,7 @@ class Zgoubi:
             'result': result,
             'input': zgoubi_input,
             'path': path,
+            'mapping': mapping,
         }
 
     def _get_exec(self, optional_path: str = '/usr/local/bin') -> str:
@@ -280,7 +320,7 @@ class Zgoubi:
                 return shutil.which(self._executable, path=os.path.join(os.environ['PATH'], optional_path))
 
     @staticmethod
-    def find_labeled_output(out: Iterable[str], label: str) -> list:
+    def find_labeled_output(out: Iterable[str], label: str) -> Iterable[str]:
         """
         Process the Zgoubi output and retrieves output data for a particular labeled element.
 
@@ -291,7 +331,7 @@ class Zgoubi:
         Returns:
             the output of the given label
         """
-        data = []
+        data: List[str] = []
         for l in out:
             if label in l and 'Keyword' in l:
                 data.append(l)
