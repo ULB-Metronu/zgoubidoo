@@ -1,6 +1,8 @@
 import zgoubidoo
 from zgoubidoo.commands import Quadrupole
 
+_ = zgoubidoo.ureg
+
 zi = zgoubidoo.Input(name='TEST-INPUT')
 
 qf = Quadrupole(
