@@ -1,8 +1,8 @@
 """Utility functions."""
-from typing import Pattern
-import re
+from typing import Pattern as _Pattern
+import re as _re
 
-re_f_float_neg: Pattern = re.compile(r'(-?[0-9.]*)(-\d\d\d)')
+_re_f_float_neg: _Pattern = _re.compile(r'(-?[0-9.]*)(-\d\d\d)')
 """A regex pattern matching Fortran quasi-float format."""
 
 
@@ -18,10 +18,10 @@ def fortran_float(input_string: str) -> float:
     try:
         fl: float = float(input_string)
     except ValueError:
-        match = re_f_float_neg.match(input_string.strip())
+        match = _re_f_float_neg.match(input_string.strip())
         if match:
             processed_string: str = match.group(1)+'E'+match.group(2)
             fl: float = float(processed_string)
         else:
-            raise ValueError(f"Failed to convert {input_string} to float")
+            raise ValueError(f"Failed to convert {input_string:s} to float")
     return fl

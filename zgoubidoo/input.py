@@ -5,7 +5,7 @@ which allows to represent a set of Zgoubi input commands and serialize it into a
 be validated using a set of validators, following the Zgoubi input constraints.
 """
 from __future__ import annotations
-from typing import List, Callable, Sequence, Mapping, Tuple, Dict, Union
+from typing import List, Callable, Sequence, Mapping, Tuple, Dict, Union, Optional
 from dataclasses import dataclass, field
 import itertools
 from functools import partial, reduce
