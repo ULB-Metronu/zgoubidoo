@@ -307,7 +307,7 @@ TODO</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.commands.Command.attach_output" title="zgoubidoo.commands.commands.Command.attach_output"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attach_output</span></code></a>(output,&nbsp;zgoubi_input)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.commands.Command.attach_output" title="zgoubidoo.commands.commands.Command.attach_output"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attach_output</span></code></a>(outputs,&nbsp;parameters,&nbsp;zgoubi_input)</td>
 <td>Attach the ouput that an command has generated during a Zgoubi run.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.commands.Command.build" title="zgoubidoo.commands.commands.Command.build"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build</span></code></a>(stream,&nbsp;debug)</td>
@@ -335,7 +335,7 @@ TODO</p>
 <tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.commands.Command.post_init" title="zgoubidoo.commands.commands.Command.post_init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">post_init</span></code></a>(**kwargs)</td>
 <td>TODO :param **kwargs: all arguments from the initializer (constructor) are passed to <code class="docutils literal notranslate"><span class="pre">post_init</span></code> as keyword arguments.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.commands.Command.process_output" title="zgoubidoo.commands.commands.Command.process_output"><code class="xref py py-obj docutils literal notranslate"><span class="pre">process_output</span></code></a>(output,&nbsp;zgoubi_input)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.commands.Command.process_output" title="zgoubidoo.commands.commands.Command.process_output"><code class="xref py py-obj docutils literal notranslate"><span class="pre">process_output</span></code></a>(output,&nbsp;parameters,&nbsp;zgoubi_input)</td>
 <td><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -417,14 +417,15 @@ commands (e.g. fit).</p>
 <p class="rubric">Methods Documentation</p>
 <dl class="method">
 <dt id="zgoubidoo.commands.commands.Command.attach_output">
-<code class="descname">attach_output</code><span class="sig-paren">(</span><em>output: str</em>, <em>zgoubi_input: zgoubidoo.input.Input</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/commands.html#Command.attach_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.commands.Command.attach_output" title="Permalink to this definition">¶</a></dt>
+<code class="descname">attach_output</code><span class="sig-paren">(</span><em>outputs: List[str], parameters: zgoubidoo.input.MappedParameters, zgoubi_input: zgoubidoo.input.Input</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/commands.html#Command.attach_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.commands.Command.attach_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attach the ouput that an command has generated during a Zgoubi run.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>output</strong> – the output from a Zgoubi run to be attached to the command.</li>
+<li><strong>outputs</strong> – the outputs from a Zgoubi run to be attached to the command.</li>
+<li><strong>parameters</strong> – TODO</li>
 <li><strong>zgoubi_input</strong> – the Input sequence (required for output processing).</li>
 </ul>
 </td>
@@ -474,13 +475,14 @@ commands (e.g. fit).</p>
 
 <dl class="method">
 <dt id="zgoubidoo.commands.commands.Command.process_output">
-<code class="descname">process_output</code><span class="sig-paren">(</span><em>output: str</em>, <em>zgoubi_input: zgoubidoo.input.Input</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/zgoubidoo/commands/commands.html#Command.process_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.commands.Command.process_output" title="Permalink to this definition">¶</a></dt>
+<code class="descname">process_output</code><span class="sig-paren">(</span><em>output: List[str], parameters: zgoubidoo.input.MappedParameters, zgoubi_input: zgoubidoo.input.Input</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/zgoubidoo/commands/commands.html#Command.process_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.commands.Command.process_output" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>output</strong> – the output from a Zgoubi run to be processed by the command.</li>
+<li><strong>parameters</strong> – TODO</li>
 <li><strong>zgoubi_input</strong> – the Input sequence (required and some cases by the command output processor).</li>
 </ul>
 </td>

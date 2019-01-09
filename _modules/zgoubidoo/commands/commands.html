@@ -175,6 +175,7 @@
 <span class="kn">from</span> <span class="nn">..frame</span> <span class="k">import</span> <span class="n">Frame</span> <span class="k">as</span> <span class="n">_Frame</span>
 <span class="kn">from</span> <span class="nn">..units</span> <span class="k">import</span> <span class="n">_radian</span><span class="p">,</span> <span class="n">_degree</span><span class="p">,</span> <span class="n">_m</span><span class="p">,</span> <span class="n">_cm</span>
 <span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">fortran_float</span>
+<span class="kn">from</span> <span class="nn">..input</span> <span class="k">import</span> <span class="n">MappedParameters</span> <span class="k">as</span> <span class="n">_MappedParameters</span>
 <span class="kn">import</span> <span class="nn">zgoubidoo</span>
 
 <span class="n">ZGOUBI_LABEL_LENGTH</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
@@ -296,8 +297,8 @@
 <span class="sd">            *params:</span>
 <span class="sd">            **kwargs:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_output</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">_MappedParameters</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">_MappedParameters</span><span class="p">,</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Command</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="p">,</span> <span class="p">)</span> <span class="o">+</span> <span class="n">params</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
@@ -467,7 +468,7 @@
         <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)[</span><span class="mi">0</span><span class="p">]}</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">_MappedParameters</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Provides the outputs associated with a command after each successive Zgoubi run.</span>
 
@@ -477,34 +478,40 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">_MappedParameters</span><span class="p">,</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Provides the results of a Zgoubi command in the form of a Pandas DataFrame.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            the results, None if not available, a DataFrame otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;variable_id&#39;</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span>
 
-<div class="viewcode-block" id="Command.attach_output"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command.attach_output">[docs]</a>    <span class="k">def</span> <span class="nf">attach_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zgoubi_input</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Input</span><span class="p">):</span>  <span class="c1"># -&gt; NoReturn:</span>
+<div class="viewcode-block" id="Command.attach_output"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command.attach_output">[docs]</a>    <span class="k">def</span> <span class="nf">attach_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                      <span class="n">outputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+                      <span class="n">parameters</span><span class="p">:</span> <span class="n">_MappedParameters</span><span class="p">,</span>
+                      <span class="n">zgoubi_input</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Input</span><span class="p">,</span>
+                      <span class="p">):</span>  <span class="c1"># -&gt; NoReturn:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Attach the ouput that an command has generated during a Zgoubi run.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            output: the output from a Zgoubi run to be attached to the command.</span>
+<span class="sd">            outputs: the outputs from a Zgoubi run to be attached to the command.</span>
+<span class="sd">            parameters: TODO</span>
 <span class="sd">            zgoubi_input: the Input sequence (required for output processing).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">process_output</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">zgoubi_input</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="p">[</span><span class="n">parameters</span><span class="p">]</span> <span class="o">=</span> <span class="n">outputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">process_output</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">zgoubi_input</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Command.process_output"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command.process_output">[docs]</a>    <span class="k">def</span> <span class="nf">process_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zgoubi_input</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Input</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="Command.process_output"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command.process_output">[docs]</a>    <span class="k">def</span> <span class="nf">process_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+                       <span class="n">parameters</span><span class="p">:</span> <span class="n">_MappedParameters</span><span class="p">,</span>
+                       <span class="n">zgoubi_input</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Input</span>
+                       <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        </span>
 <span class="sd">        Args:</span>
 <span class="sd">            output: the output from a Zgoubi run to be processed by the command.</span>
+<span class="sd">            parameters: TODO</span>
 <span class="sd">            zgoubi_input: the Input sequence (required and some cases by the command output processor).</span>
 
 <span class="sd">        Returns:</span>
@@ -994,16 +1001,21 @@
 <span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(),</span> <span class="n">command</span><span class="p">))</span>
 
-<div class="viewcode-block" id="Fit.process_output"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.Fit.html#zgoubidoo.commands.commands.Fit.process_output">[docs]</a>    <span class="k">def</span> <span class="nf">process_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zgoubi_input</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Input</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="Fit.process_output"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.Fit.html#zgoubidoo.commands.commands.Fit.process_output">[docs]</a>    <span class="k">def</span> <span class="nf">process_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+                       <span class="n">parameters</span><span class="p">:</span> <span class="n">_MappedParameters</span><span class="p">,</span>
+                       <span class="n">zgoubi_input</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Input</span>
+                       <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            output:</span>
-<span class="sd">            zgoubi_input:</span>
+<span class="sd">            output: the output from a Zgoubi run to be processed by the command.</span>
+<span class="sd">            parameters: TODO</span>
+<span class="sd">            zgoubi_input: the Input sequence (required and some cases by the command output processor).</span>
 
 <span class="sd">        Returns:</span>
-
+<span class="sd">            a flag indicating if the processing is valid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">def</span> <span class="nf">find_parameter_by_id</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
             <span class="sd">&quot;&quot;&quot;</span>
 
@@ -1047,7 +1059,7 @@
 
         <span class="n">grab</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">data</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">output</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;LMNT&#39;</span><span class="p">):</span>
                 <span class="n">grab</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">continue</span>
@@ -1071,7 +1083,7 @@
                     <span class="n">d</span><span class="p">[</span><span class="s1">&#39;label1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span>
                     <span class="n">d</span><span class="p">[</span><span class="s1">&#39;label2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
                 <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="n">parameters</span><span class="p">]</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;variable_id&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span></div></div>
 
 

@@ -233,7 +233,7 @@ offers a variety of concurency and parallelisation features.</p>
 
 <dl class="staticmethod">
 <dt id="zgoubidoo.zgoubi.Zgoubi.find_labeled_output">
-<em class="property">static </em><code class="descname">find_labeled_output</code><span class="sig-paren">(</span><em>out: Iterable[str], label: str</em><span class="sig-paren">)</span> &#x2192; Iterable[str]<a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#Zgoubi.find_labeled_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.Zgoubi.find_labeled_output" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">find_labeled_output</code><span class="sig-paren">(</span><em>out: Iterable[str], label: str</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#Zgoubi.find_labeled_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.Zgoubi.find_labeled_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process the Zgoubi output and retrieves output data for a particular labeled element.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -268,6 +268,37 @@ offers a variety of concurency and parallelisation features.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1"># TODO</span>
 </pre></div>
 </div>
+<dl class="method">
+<dt id="zgoubidoo.zgoubi.ZgoubiResults.get_tracks">
+<code class="descname">get_tracks</code><span class="sig-paren">(</span><em>parameters: Optional[List[zgoubidoo.input.MappedParameters]] = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#ZgoubiResults.get_tracks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.get_tracks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collects all tracks from the different Zgoubi instances matching the given parameters list
+in the results and concatenate them.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A concatenated DataFrame with all the tracks in the result matching the parameters list.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">FileNotFoundError in case the file is not present.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.zgoubi.ZgoubiResults.mappings">
+<code class="descname">mappings</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.mappings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parametric mappings of all the runs present in the results.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of parametric mappings.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="zgoubidoo.zgoubi.ZgoubiResults.matrix">
 <code class="descname">matrix</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.matrix" title="Permalink to this definition">¶</a></dt>
@@ -279,6 +310,20 @@ offers a variety of concurency and parallelisation features.</p>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A concatenated DataFrame with all the matrix information from the previous run.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">FileNotFoundError in case the file is not present.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.zgoubi.ZgoubiResults.paths">
+<code class="descname">paths</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path of all the directories for the runs present in the results.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of directories.</td>
 </tr>
 </tbody>
 </table>
