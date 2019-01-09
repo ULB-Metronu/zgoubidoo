@@ -14,3 +14,4 @@ examples/zgoubi.MATRIX.out
 examples/.ipynb_checkpoints
 zgoubidoo.egg-info
 tests/zgoubi*
+.mypy_cache
