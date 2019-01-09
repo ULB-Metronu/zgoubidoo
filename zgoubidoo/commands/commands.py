@@ -15,6 +15,7 @@ from .. import _Q
 from ..frame import Frame as _Frame
 from ..units import _radian, _degree, _m, _cm
 from ..utils import fortran_float
+from ..input import MappedParameters as _MappedParameters
 import zgoubidoo
 
 ZGOUBI_LABEL_LENGTH: int = 10
@@ -136,8 +137,8 @@ class Command(metaclass=CommandType):
             *params:
             **kwargs:
         """
-        self._output = list()
-        self._results: Optional[_pd.DataFrame] = None
+        self._output: Dict[_MappedParameters, List[str]] = dict()
+        self._results: Dict[_MappedParameters, _pd.DataFrame] = dict()
         self._attributes = {}
         for d in (Command.PARAMETERS, ) + params:
             self._attributes = dict(self._attributes, **{k: v[0] for k, v in d.items()})
@@ -307,7 +308,7 @@ class Command(metaclass=CommandType):
         return {k: v for k, v in self._attributes.items() if v != self.PARAMETERS.get(k)[0]}
 
     @property
-    def output(self) -> List[str]:
+    def output(self) -> Dict[_MappedParameters, List[str]]:
         """
         Provides the outputs associated with a command after each successive Zgoubi run.
 
@@ -317,34 +318,40 @@ class Command(metaclass=CommandType):
         return self._output
 
     @property
-    def results(self) -> Optional[_pd.DataFrame]:
+    def results(self) -> Dict[_MappedParameters, _pd.DataFrame]:
         """
         Provides the results of a Zgoubi command in the form of a Pandas DataFrame.
 
         Returns:
             the results, None if not available, a DataFrame otherwise.
         """
-        try:
-            return self._results.set_index('variable_id')
-        except AttributeError:
-            return None
+        return self._results
 
-    def attach_output(self, output: str, zgoubi_input: zgoubidoo.Input):  # -> NoReturn:
+    def attach_output(self,
+                      outputs: List[str],
+                      parameters: _MappedParameters,
+                      zgoubi_input: zgoubidoo.Input,
+                      ):  # -> NoReturn:
         """
         Attach the ouput that an command has generated during a Zgoubi run.
 
         Args:
-            output: the output from a Zgoubi run to be attached to the command.
+            outputs: the outputs from a Zgoubi run to be attached to the command.
+            parameters: TODO
             zgoubi_input: the Input sequence (required for output processing).
         """
-        self._output.append(output)
-        self.process_output(output, zgoubi_input)
+        self._output[parameters] = outputs
+        self.process_output(outputs, parameters, zgoubi_input)
 
-    def process_output(self, output: str, zgoubi_input: zgoubidoo.Input) -> bool:
+    def process_output(self, output: List[str],
+                       parameters: _MappedParameters,
+                       zgoubi_input: zgoubidoo.Input
+                       ) -> bool:
         """
         
         Args:
             output: the output from a Zgoubi run to be processed by the command.
+            parameters: TODO
             zgoubi_input: the Input sequence (required and some cases by the command output processor).
 
         Returns:
@@ -834,16 +841,21 @@ class Fit(Command, metaclass=FitType):
         """)
         return ''.join(map(lambda x: x.rstrip(), command))
 
-    def process_output(self, output: str, zgoubi_input: zgoubidoo.Input) -> Optional[bool]:
+    def process_output(self, output: List[str],
+                       parameters: _MappedParameters,
+                       zgoubi_input: zgoubidoo.Input
+                       ) -> bool:
         """
 
         Args:
-            output:
-            zgoubi_input:
+            output: the output from a Zgoubi run to be processed by the command.
+            parameters: TODO
+            zgoubi_input: the Input sequence (required and some cases by the command output processor).
 
         Returns:
-
+            a flag indicating if the processing is valid.
         """
+
         def find_parameter_by_id(command: int, parameter: int) -> str:
             """
 
@@ -887,7 +899,7 @@ class Fit(Command, metaclass=FitType):
 
         grab: bool = False
         data: list = []
-        for l in self.output:
+        for l in output:
             if l.strip().startswith('LMNT'):
                 grab = True
                 continue
@@ -911,7 +923,7 @@ class Fit(Command, metaclass=FitType):
                     d['label1'] = values[9]
                     d['label2'] = values[10]
                 data.append(d)
-        self._results = _pd.DataFrame(data)
+        self._results[parameters] = _pd.DataFrame(data).set_index('variable_id')
         return True
 
 

@@ -5,8 +5,9 @@ which allows to represent a set of Zgoubi input commands and serialize it into a
 be validated using a set of validators, following the Zgoubi input constraints.
 """
 from __future__ import annotations
-from typing import Callable, Sequence, Mapping, Tuple
+from typing import List, Callable, Sequence, Mapping, Tuple, Dict, Union
 from dataclasses import dataclass, field
+import itertools
 from functools import partial, reduce
 import tempfile
 import os
@@ -18,13 +19,18 @@ from .commands import *
 from .frame import Frame as _Frame
 import zgoubidoo.commands
 
-PathsDict = Dict[Union[str, tempfile.TemporaryDirectory], Mapping[Tuple[str], float]]
+ParametersMappingType = Mapping[Tuple[str], Sequence[Union[_Q, float]]]
+ParametersMappingListType = List[ParametersMappingType]
+MappedParametersType = Mapping[Tuple[str], Union[_Q, float]]
 
 ZGOUBI_INPUT_FILENAME: str = 'zgoubi.dat'
 """File name for Zgoubi input data."""
 
 ZGOUBI_IMAX: int = 10000
 """Maximum number of particles that a Zgoubi objet can contain."""
+
+flatten = itertools.chain.from_iterable
+"""Helper function to flatten an iterable."""
 
 
 class ZgoubiInputException(Exception):
@@ -34,12 +40,52 @@ class ZgoubiInputException(Exception):
         self.message = m
 
 
+class MappedParameters:
+    """A helper class to allow using parameters map as dictionnary key (immutable and hashable)."""
+    def __init__(self, parameters: MappedParametersType):
+        self._parameters: MappedParametersType = parameters
+        self._p = tuple(parameters.keys())
+        vs = list()
+        for v in parameters.values():
+            try:
+                vs.append(v.to_tuple())
+            except AttributeError:
+                vs.append(v)
+        self._v = tuple(vs)
+
+    @property
+    def parameters(self) -> MappedParametersType:
+        """The parameters map itself."""
+        return self._parameters
+
+    def __getitem__(self, item):
+        return self.parameters[item]
+
+    def __getattr__(self, attr):
+        return getattr(self.parameters, attr)
+
+    def __len__(self):
+        return len(self.parameters)
+
+    def __repr__(self):
+        return self.parameters.__repr__()
+
+    def __str__(self):
+        return str(self.parameters)
+
+    def __hash__(self):
+        return hash((self._p, self._v))
+
+    def __eq__(self, other):
+        return hash(self) == hash(other)
+
+
 @dataclass
 class ParametricMapping:
     """Abstraction for multi-dimensional parametric mappings.
 
     Main feature is to compute the complete "cross product" of the different parameters to support multi-dimensional
-    mapping.
+    mapping. It also accounts for "coupled" variables.
 
     See also:
         for implementation details, see also https://codereview.stackexchange.com/q/211121/52027 .
@@ -54,10 +100,16 @@ class ParametricMapping:
          {('B3G', 'B1'): 2.0, ('B1G', 'B1'): 12.0, ('B2G', 'B1'): 2.5},
          {('B3G', 'B1'): 2.0, ('B1G', 'B1'): 12.0, ('B2G', 'B1'): 3.5}]
     """
-    mappings: List[Mapping[Tuple[str], Sequence[float]]] = field(default_factory=lambda: [{}])
+    mappings: ParametersMappingListType = field(default_factory=lambda: [{}])
+    labels: List[Tuple[str]] = field(init=False, repr=False)
+    pools: List[List[Sequence[Union[_Q, float]]]] = field(init=False, repr=False)
+
+    def __post_init__(self):
+        self.labels = tuple(flatten(self.mappings))
+        self.pools = [list(map(tuple, zip(*arg.values()))) for arg in self.mappings]
 
     @property
-    def combinations(self) -> List[Mapping[Tuple[str], float]]:
+    def combinations(self) -> List[MappedParameters]:
         """Cartesian product adapted to work with dictionaries, roughly similar to `itertools.product`.
 
         Returns:
@@ -68,28 +120,11 @@ class ParametricMapping:
             - https://docs.python.org/3/library/itertools.html#itertools.product
             - https://codereview.stackexchange.com/q/211121/52027
         """
-        labels = [label for arg in self.mappings for label in tuple(arg.keys())]
-        pools = [list(map(tuple, zip(*arg.values()))) for arg in self.mappings]
+        pool_values = [flatten(term) for term in itertools.product(*self.pools)]
+        return list(map(MappedParameters, [dict(zip(self.labels, v)) for v in pool_values] or [{}]))
 
-        def cartesian_product(*args):
-            """Cartesian product similar to `itertools.product`"""
-            result = [[]]
-            for pool in args:
-                result = [x + [y] for x in result for y in pool]
-            return result
 
-        results = []
-        for term in cartesian_product(*pools):
-            results.append([pp for p in term for pp in p])
-
-        tmp = []
-        for r in results:
-            tmp.append({k: v for k, v in zip(labels, r)})
-
-        if len(tmp) == 0:
-            return [{}]
-        else:
-            return tmp
+PathsDict = Dict[MappedParameters, Union[str, tempfile.TemporaryDirectory]]
 
 
 class Input:
@@ -136,9 +171,10 @@ class Input:
     def __repr__(self) -> str:
         return str(self)
 
-    def __call__(self, mappings: Optional[ParametricMapping] = None,
+    def __call__(self,
+                 mappings: Optional[ParametricMapping] = None,
                  filename: str = ZGOUBI_INPUT_FILENAME,
-                 path: Optional[str] = None):
+                 path: Optional[str] = None) -> Input:
         """Writes the string representation of the object onto a file (Zgoubi input file).
 
         Args:
@@ -157,7 +193,7 @@ class Input:
             if initial_state is None:
                 initial_state = previous_state
             target_dir = tempfile.TemporaryDirectory(prefix=path)
-            self._paths[target_dir] = mapping
+            self._paths[MappedParameters(mapping)] = target_dir
             Input.write(self, filename, path=target_dir.name)
         self.adjust(initial_state)
         return self
@@ -280,7 +316,7 @@ class Input:
                 return e
         raise AttributeError
 
-    def __setattr__(self, key: str, value: Any):
+    def __setattr__(self, key: str, value: Any):  # -> NoReturn
         """
 
         Args:
@@ -358,7 +394,7 @@ class Input:
                 p.cleanup()
             except AttributeError:
                 pass
-        self._paths = list()
+        self._paths = dict()
 
     def validate(self, validators: Optional[List[Callable]]) -> bool:
         """
@@ -390,7 +426,7 @@ class Input:
             setattr(self[r['element_id'] - 1], r['parameter'], r['final'])
         return self
 
-    def adjust(self, mapping: Mapping[Tuple[str], float]) -> Mapping[Tuple[str], float]:
+    def adjust(self, mapping: MappedParameters) -> MappedParameters:
         """
 
         Args:
@@ -403,7 +439,7 @@ class Input:
         for k, v in mapping.items():
             initial_values[k] = getattr(getattr(self, k[0]), k[1].rstrip('_'))
             setattr(getattr(self, k[0]), k[1], v)
-        return initial_values
+        return MappedParameters(initial_values)
 
     def index(self, obj: Union[str, commands.Command]) -> int:
         """Index of an object in the sequence.
@@ -478,7 +514,7 @@ class Input:
         return [e.KEYWORD for e in self._line]
 
     @property
-    def line(self) -> List[commands.Command]:
+    def line(self) -> List[zgoubidoo.commands.Command]:
         """
 
         Returns:
@@ -551,8 +587,8 @@ class Input:
             a string in a valid Zgoubi input format.
         """
         extra_end = None
-        if len(line) == 0 or not isinstance(line[-1], commands.End):
-            extra_end = [commands.End()]
+        if len(line) == 0 or not isinstance(line[-1], zgoubidoo.commands.End):
+            extra_end = [zgoubidoo.commands.End()]
         return ''.join(map(str, [name] + (line or []) + (extra_end or [])))
 
     @classmethod
