@@ -74,6 +74,8 @@ class ZgoubiResults:
             if parameters is None or k in parameters:
                 try:
                     tracks.append(read_plt_file(path=r['path']))
+                    for kk, vv in k.items():
+                        tracks[-1][f"{kk[0]}.{kk[1]}"] = vv
                 except FileNotFoundError:
                     _logger.warning(
                         f"Unable to read and load the Zgoubi .plt files required to collect the tracks for path "
