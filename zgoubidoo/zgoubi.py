@@ -8,6 +8,7 @@
 
 
 """
+from __future__ import annotations
 from typing import List, Mapping, Iterable, Optional, Tuple, Dict
 import logging
 import shutil
@@ -173,7 +174,7 @@ class Zgoubi:
     ZGOUBI_RES_FILE: str = 'zgoubi.res'
     """Default name of the Zgoubi result '.res' file."""
 
-    def __init__(self, executable: str = ZGOUBI_EXECUTABLE_NAME, path: str = None):
+    def __init__(self, executable: str = ZGOUBI_EXECUTABLE_NAME, path: str = None, n_procs: Optional[int] = None):
         """
         The created `Zgoubi` object is an interface to the Zgoubi executable. The executable can be found
         automatically or its name and path can be specified.
@@ -184,10 +185,13 @@ class Zgoubi:
         Args:
             - executable: name of the Zgoubi executable
             - path: path to the Zgoubi executable
+            - n_procs: maximum number of Zgoubi simulations to be started in parallel
+
         """
         self._executable: str = executable
-        self._path: str = path
+        self._path: Optional[str] = path
         self._results: List[multiprocessing.pool.AsyncResult] = list()
+        self._pool: _ThreadPool = _ThreadPool(n_procs or multiprocessing.cpu_count())
 
     @property
     def executable(self) -> str:
@@ -198,14 +202,18 @@ class Zgoubi:
         """
         return self._get_exec()
 
-    def __call__(self, zgoubi_input: Input, debug: bool = False, n_procs: Optional[int] = None) -> ZgoubiResults:
+    def __call__(self,
+                 zgoubi_input: Input,
+                 mapping: _MappedParameters = _MappedParameters({}),
+                 debug: bool = False
+                 ) -> Zgoubi:
         """
         Execute up to `n_procs` Zgoubi runs.
 
         Args:
             zgoubi_input: `Input` object specifying the Zgoubi inputs and input paths.
+            mapping: TODO
             debug: verbose output
-            n_procs: maximum number of Zgoubi simulations to be started in parallel
             (default to `multiprocessing.cpu_count`)
 
         Returns:
@@ -215,7 +223,6 @@ class Zgoubi:
             a ZgoubiException in case the input paths list is empty.
         """
         self._results: list = list()
-        pool: _ThreadPool = _ThreadPool(n_procs or multiprocessing.cpu_count())
         if len(zgoubi_input.paths) == 0:
             raise ZgoubiException("The input must be written before calling Zgoubi.")
         for m, p in zgoubi_input.paths.items():
@@ -224,9 +231,22 @@ class Zgoubi:
             except AttributeError:
                 path = p  # Path as a string
             _logger.info(f"Starting Zgoubi in {path}.")
-            self._results.append(pool.apply_async(self._execute_zgoubi, (m, zgoubi_input, path)))
-        pool.close()
-        pool.join()
+            self._results.append(
+                self._pool.apply_async(
+                    self._execute_zgoubi,
+                    (_MappedParameters({**mapping, **m.parameters}), zgoubi_input, path)
+                )
+            )
+        return self
+
+    def collect(self) -> ZgoubiResults:
+        """
+        TODO
+        Returns:
+
+        """
+        self._pool.close()
+        self._pool.join()
         return ZgoubiResults(results=list(map(lambda _: _.get(), self._results)))
 
     def _execute_zgoubi(self,
@@ -271,6 +291,7 @@ class Zgoubi:
             result = open(os.path.join(path, Zgoubi.ZGOUBI_RES_FILE)).read().split('\n')
         except FileNotFoundError:
             raise ZgoubiException("Zgoubi execution ended but result '.res' file not found.")
+
         for e in zgoubi_input.line:
             e.attach_output(outputs=Zgoubi.find_labeled_output(result, e.LABEL1),
                             zgoubi_input=zgoubi_input,
@@ -286,7 +307,7 @@ class Zgoubi:
                 cputime = float(re.search(r"\d+\.\d+[E|e]?[+|-]?\d+", lines[0]).group())
         if debug:
             print(output[0].decode())
-        _logger.info(f"Zgoubi process in {path} finished in {cputime} s.")
+        _logger.warning(f"Zgoubi process in {path} finished in {cputime} s.")
         return {
             'stdout': output[0].decode().split('\n'),
             'stderr': stderr,

@@ -42,7 +42,8 @@ class ZgoubiInputException(Exception):
 
 class MappedParameters:
     """A helper class to allow using parameters map as dictionnary key (immutable and hashable)."""
-    def __init__(self, parameters: MappedParametersType):
+    def __init__(self, parameters: Optional[MappedParametersType] = None):
+        parameters = parameters or {}
         self._parameters: MappedParametersType = parameters
         self._p = tuple(parameters.keys())
         vs = list()

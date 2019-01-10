@@ -23,6 +23,7 @@ from ..vis import ZgoubiPlot as _ZgoubiPlot
 from .patchable import Patchable as _Patchable
 from .plotable import Plotable as _Plotable
 from ..units import _cm, _radian, _kilogauss, _degree
+from ..input import MappedParameters as _MappedParameters
 import zgoubidoo
 
 
@@ -903,12 +904,12 @@ class Dipole(PolarMagnet):
                      ]
                      )
         di += fit
-        out = z(di())  # Run Zgoubi
+        out = z(di()).collect()  # Run Zgoubi
         if debug:
-            print('\n'.join(out.results[0]['result']))
-        if fit.results is None:
+            print('\n'.join(out.results[_MappedParameters({})]['result']))
+        if fit.results.get(_MappedParameters()) is None:
             raise _ZgoubidooException(f"Unable to fit {self.__class__.__name__}.")
-        self.B0 = fit.results.at[1, 'final']
+        self.B0 = fit.results[_MappedParameters()].at[1, 'final']
         self._fit = fit
         return self
 

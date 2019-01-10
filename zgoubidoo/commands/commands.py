@@ -892,10 +892,10 @@ class Fit(Command, metaclass=FitType):
                     continue
                 try:
                     if v[2] == parameter:
-                        break
+                        return _Q(v[0]).units
                 except (TypeError, IndexError):
                     continue
-            return _Q(v[0]).units
+            return None
 
         grab: bool = False
         data: list = []
@@ -923,8 +923,11 @@ class Fit(Command, metaclass=FitType):
                     d['label1'] = values[9]
                     d['label2'] = values[10]
                 data.append(d)
-        self._results[parameters] = _pd.DataFrame(data).set_index('variable_id')
-        return True
+        if len(data) == 0:
+            return False
+        else:
+            self._results[parameters] = _pd.DataFrame(data).set_index('variable_id')
+            return True
 
 
 class Fit2(Fit, metaclass=FitType):
