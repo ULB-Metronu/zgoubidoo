@@ -9,7 +9,7 @@
 
 """
 from __future__ import annotations
-from typing import List, Mapping, Iterable, Optional, Tuple, Dict
+from typing import List, Mapping, Iterable, Optional, Tuple, Dict, Callable
 import logging
 import shutil
 import tempfile
@@ -17,7 +17,7 @@ import os
 import sys
 import re
 import multiprocessing
-from multiprocessing.pool import ThreadPool as _ThreadPool
+from concurrent.futures import ThreadPoolExecutor as _ThreadPoolExecutor
 import subprocess as sub
 import pandas as _pd
 from .input import Input
@@ -191,7 +191,7 @@ class Zgoubi:
         self._executable: str = executable
         self._path: Optional[str] = path
         self._results: List[multiprocessing.pool.AsyncResult] = list()
-        self._pool: _ThreadPool = _ThreadPool(n_procs or multiprocessing.cpu_count())
+        self._pool: _ThreadPoolExecutor = _ThreadPoolExecutor(max_workers=n_procs or multiprocessing.cpu_count())
 
     @property
     def executable(self) -> str:
@@ -205,7 +205,8 @@ class Zgoubi:
     def __call__(self,
                  zgoubi_input: Input,
                  mapping: _MappedParameters = _MappedParameters({}),
-                 debug: bool = False
+                 debug: bool = False,
+                 cb: Callable = None,
                  ) -> Zgoubi:
         """
         Execute up to `n_procs` Zgoubi runs.
@@ -231,13 +232,22 @@ class Zgoubi:
             except AttributeError:
                 path = p  # Path as a string
             _logger.info(f"Starting Zgoubi in {path}.")
-            self._results.append(
-                self._pool.apply_async(
-                    self._execute_zgoubi,
-                    (_MappedParameters({**mapping, **m.parameters}), zgoubi_input, path)
-                )
+            future = self._pool.submit(
+                self._execute_zgoubi,
+                _MappedParameters({**mapping, **m.parameters}),
+                zgoubi_input,
+                path,
             )
+            future.add_done_callback(cb)
+            self._results.append(future)
         return self
+
+    def wait(self):
+        """
+        TODO
+
+        """
+        self._pool.shutdown()
 
     def collect(self) -> ZgoubiResults:
         """
@@ -245,9 +255,8 @@ class Zgoubi:
         Returns:
 
         """
-        self._pool.close()
-        self._pool.join()
-        return ZgoubiResults(results=list(map(lambda _: _.get(), self._results)))
+        self.wait()
+        return ZgoubiResults(results=list(map(lambda _: _.result(), self._results)))
 
     def _execute_zgoubi(self,
                         mapping: _MappedParameters,
@@ -280,6 +289,7 @@ class Zgoubi:
                       )
 
         # Run
+        _logger.info(f"Zgoubi process in {path} has started.")
         output = p.communicate()
 
         # Collect STDERR
@@ -307,7 +317,7 @@ class Zgoubi:
                 cputime = float(re.search(r"\d+\.\d+[E|e]?[+|-]?\d+", lines[0]).group())
         if debug:
             print(output[0].decode())
-        _logger.warning(f"Zgoubi process in {path} finished in {cputime} s.")
+        _logger.info(f"Zgoubi process in {path} finished in {cputime} s.")
         return {
             'stdout': output[0].decode().split('\n'),
             'stderr': stderr,

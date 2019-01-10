@@ -602,21 +602,25 @@ class ResearchArea:
 class CGTR:
     """Proteus One compact gantry (CGTR) input sequence.
 
+    TODO
+    Examples:
+        >>> cgtr = CGTR()
+        >>> cgtr.shoot()
     """
     def __init__(self,
                  kinematics: _Kinematics = _Kinematics(230 * _ureg.MeV),
-                 b1g: B1G = B1G(),
-                 b2g: B2G = B2G(),
-                 b3g: B3G = B3G(),
-                 q1g: Q1G = Q1G(),
-                 q2g: Q2G = Q2G(),
-                 q3g: Q3G = Q3G(),
-                 q4g: Q4G = Q4G(),
-                 q5g: Q5G = Q5G(),
-                 q6g: Q6G = Q6G(),
-                 q7g: Q7G = Q7G(),
-                 smx: SMX = SMX(),
-                 smy: SMY = SMY(),
+                 b1g: Optional[B1G] = None,
+                 b2g: Optional[B2G] = None,
+                 b3g: Optional[B3G] = None,
+                 q1g: Optional[Q1G] = None,
+                 q2g: Optional[Q2G] = None,
+                 q3g: Optional[Q3G] = None,
+                 q4g: Optional[Q4G] = None,
+                 q5g: Optional[Q5G] = None,
+                 q6g: Optional[Q6G] = None,
+                 q7g: Optional[Q7G] = None,
+                 smx: Optional[SMX] = None,
+                 smy: Optional[SMY] = None,
                  with_fit: bool = True,
                  ):
         """
@@ -637,18 +641,18 @@ class CGTR:
             smy:
             with_fit: if True the dipole magnets of the line will be fit.
         """
-        self.b1g: B1G = b1g
-        self.b2g: B2G = b2g
-        self.b3g: B3G = b3g
-        self.q1g: Q1G = q1g
-        self.q2g: Q2G = q2g
-        self.q3g: Q3G = q3g
-        self.q4g: Q4G = q4g
-        self.q5g: Q5G = q5g
-        self.q6g: Q6G = q6g
-        self.q7g: Q7G = q7g
-        self.smx: SMX = smx
-        self.smy: SMY = smy
+        self.b1g: B1G = b1g or B1G()
+        self.b2g: B2G = b2g or B2G()
+        self.b3g: B3G = b3g or B3G()
+        self.q1g: Q1G = q1g or Q1G()
+        self.q2g: Q2G = q2g or Q2G()
+        self.q3g: Q3G = q3g or Q3G()
+        self.q4g: Q4G = q4g or Q4G()
+        self.q5g: Q5G = q5g or Q5G()
+        self.q6g: Q6G = q6g or Q6G()
+        self.q7g: Q7G = q7g or Q7G()
+        self.smx: SMX = smx or SMX()
+        self.smy: SMY = smy or SMY()
 
         if with_fit:
             self.fit_dipoles(boro=kinematics.brho)
@@ -661,10 +665,10 @@ class CGTR:
             self.q1g,
             _FakeDrift(XL=30.3 * _ureg.cm),
             self.q2g,
-            _FakeDrift(XL=72.42 * _ureg.cm - b1g.extra_drift),
+            _FakeDrift(XL=72.42 * _ureg.cm - self.b1g.extra_drift),
             self.b1g,
             _Ymy(),
-            _FakeDrift(XL=26.4 * _ureg.cm - b1g.extra_drift),
+            _FakeDrift(XL=26.4 * _ureg.cm - self.b1g.extra_drift),
             self.q3g,
             _FakeDrift(XL=32.6 * _ureg.cm),
             self.q4g,
@@ -674,15 +678,15 @@ class CGTR:
             self.q6g,
             _FakeDrift(XL=36.0 * _ureg.cm),
             self.q7g,
-            _FakeDrift(XL=60 * _ureg.cm - b2g.extra_drift),
+            _FakeDrift(XL=60 * _ureg.cm - self.b2g.extra_drift),
             self.b2g,
-            _FakeDrift(XL=26 * _ureg.cm - b2g.extra_drift),
+            _FakeDrift(XL=26 * _ureg.cm - self.b2g.extra_drift),
             self.smx,
             _FakeDrift(XL=12 * _ureg.cm),
             self.smy,
-            _FakeDrift(XL=19 * _ureg.cm - b3g.extra_drift),
+            _FakeDrift(XL=19 * _ureg.cm - self.b3g.extra_drift),
             self.b3g,
-            _FakeDrift(XL=1101.071 * _ureg.mm - b3g.extra_drift),
+            _FakeDrift(XL=1101.071 * _ureg.mm - self.b3g.extra_drift),
             _Marker('ISO'),
         ],
                                  )
@@ -708,9 +712,11 @@ class CGTR:
         Returns:
 
         """
+        z = _Zgoubi()
         dipoles = dipoles or [self.b1g, self.b2g, self.b3g]
         for dipole in dipoles:
-            dipole.fit(boro=boro)
+            dipole.fit(boro=boro, zgoubi=z)
+        z.wait()
 
     def run(self, fit: zgoubidoo.commands.Fit = None, debug: bool = False) -> Union[_Input, _ZgoubiRun]:
         """

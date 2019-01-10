@@ -4,7 +4,7 @@ More details here.
 TODO
 """
 
-from typing import NoReturn, List
+from typing import NoReturn, List, Optional
 import numpy as _np
 import parse as _parse
 from .particules import ParticuleType as _ParticuleType
@@ -18,6 +18,7 @@ from .objet import Objet2 as _Objet2
 from .particules import Proton as _Proton
 from .. import ureg as _ureg
 from .. import _Q
+from ..zgoubi import Zgoubi as _Zgoubi
 from ..frame import Frame as _Frame
 from ..vis import ZgoubiPlot as _ZgoubiPlot
 from .patchable import Patchable as _Patchable
@@ -857,6 +858,7 @@ class Dipole(PolarMagnet):
             entry_coordinates: List = None,
             exit_coordinates: float = 0.0,
             method: _FitType = _Fit2,
+            zgoubi: Optional[_Zgoubi] = None,
             debug=False):
         """
 
@@ -866,6 +868,7 @@ class Dipole(PolarMagnet):
             entry_coordinates:
             exit_coordinates:
             method:
+            zgoubi: TODO
             debug:
 
         Returns:
@@ -874,7 +877,7 @@ class Dipole(PolarMagnet):
         if entry_coordinates is None:
             entry_coordinates = [0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]
 
-        z = zgoubidoo.Zgoubi()
+        z = zgoubi or _Zgoubi()
         di = zgoubidoo.Input(f"FIT_{self.LABEL1}_MAGNET")
         di += _Objet2('BUNCH', BORO=boro).add([entry_coordinates])
         di += particle()
@@ -904,13 +907,19 @@ class Dipole(PolarMagnet):
                      ]
                      )
         di += fit
-        out = z(di()).collect()  # Run Zgoubi
-        if debug:
-            print('\n'.join(out.results[_MappedParameters({})]['result']))
-        if fit.results.get(_MappedParameters()) is None:
-            raise _ZgoubidooException(f"Unable to fit {self.__class__.__name__}.")
-        self.B0 = fit.results[_MappedParameters()].at[1, 'final']
-        self._fit = fit
+
+        def cb(f):
+            """Post execution callback."""
+            r = f.result()
+            if debug:
+                print('\n'.join(r.results[_MappedParameters({})]['result']))
+            if fit.results.get(_MappedParameters()) is None:
+                raise _ZgoubidooException(f"Unable to fit {self.__class__.__name__}.")
+            self.B0 = fit.results[_MappedParameters()].at[1, 'final']
+            self._fit = fit
+
+        z(di(), cb=cb)
+
         return self
 
 
