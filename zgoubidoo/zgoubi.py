@@ -295,7 +295,7 @@ class Zgoubi:
             'mapping': mapping,
         }
 
-    def _get_exec(self, optional_path: str = '/usr/local/bin') -> str:
+    def _get_exec(self, optional_path: Optional[str] = '/usr/local/bin') -> str:
         """Retrive the path to the Zgoubi executable.
 
         Args:

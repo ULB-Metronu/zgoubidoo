@@ -1,4 +1,5 @@
 """Patchable elements module."""
+from typing import Optional
 from .. import ureg as _ureg
 from .. import _Q
 from ..frame import Frame as _Frame
@@ -10,11 +11,16 @@ class Patchable:
     A default implementation of the placement methods is provided for subclasses. It only places the entrance frame
     at the location of the placement frame and all other frames are set to the entrance frame ('point-like' element).
     """
-    _entry: _Frame
-    _entry_patched: _Frame
-    _exit: _Frame
-    _exit_patched: _Frame
-    _center: _Frame
+
+    def __init__(self):
+        """
+        TODO
+        """
+        self._entry: Optional[_Frame] = None
+        self._entry_patched: Optional[_Frame] = None
+        self._exit: Optional[_Frame] = None
+        self._exit_patched: Optional[_Frame] = None
+        self._center: Optional[_Frame] = None
 
     def place(self, frame: _Frame):
         """Place the element with a reference frame.

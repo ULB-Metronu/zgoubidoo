@@ -6,7 +6,7 @@ from . import _Q
 def parse_quantity(f: Callable):
     def parse_arg(q: Union[str, _Q]):
         if isinstance(q, str):
-            q = _Q(q)
+            q: _Q = _Q(q)
         return f(q)
     return parse_arg
 
@@ -22,8 +22,6 @@ def _m(q: Union[str, _Q]) -> float:
     :param q: the quantity of dimension [LENGTH]
     :return: the magnitude in meters.
     """
-    if isinstance(q, str):
-        q = _Q(q)
     return float(q.to('m').magnitude)
 
 

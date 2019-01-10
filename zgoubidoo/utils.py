@@ -16,12 +16,12 @@ def fortran_float(input_string: str) -> float:
         https://gist.github.com/chernals/fb6177e2e8b423d4647242e44ce25cec
     """
     try:
-        fl: float = float(input_string)
+        fl = float(input_string)
     except ValueError:
         match = _re_f_float_neg.match(input_string.strip())
         if match:
             processed_string: str = match.group(1)+'E'+match.group(2)
-            fl: float = float(processed_string)
+            fl = float(processed_string)
         else:
             raise ValueError(f"Failed to convert {input_string:s} to float")
     return fl

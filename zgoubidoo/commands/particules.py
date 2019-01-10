@@ -62,7 +62,7 @@ class Electron(Particule):
     PARAMETERS = {
         'M': (0.51099892 * _ureg.MeV_c2, 'Mass of the particle.'),
         'Q': (-1.60217653e-19 * _ureg.coulomb, 'Charge of the particle.'),
-        'G': (-2.0023193043622 - 2) / 2,
+        'G': ((-2.0023193043622 - 2) / 2, 'G factor'),
     }
 
 
@@ -71,7 +71,7 @@ class Positron(Particule):
     PARAMETERS = {
         'M': (0.51099892 * _ureg.MeV_c2, 'Mass of the particle.'),
         'Q': (1.60217653e-19 * _ureg.coulomb, 'Charge of the particle.'),
-        'G': (-2.0023193043622 - 2) / 2,
+        'G': ((-2.0023193043622 - 2) / 2, 'G factor'),
     }
 
 
@@ -80,8 +80,8 @@ class Muon(Particule):
     PARAMETERS = {
         'M': (105.6583745 * _ureg.MeV_c2, 'Mass of the particle.'),
         'Q': (-1.60217653e-1 * _ureg.coulomb, 'Charge of the particle.'),
-        'G': (-2.0023318418 - 2) / 2,
-        'tau': 2.197029e-6,
+        'G': ((-2.0023318418 - 2) / 2, 'G factor'),
+        'tau': (2.197029e-6, 'Lifetime'),
     }
 
 
@@ -90,8 +90,8 @@ class AntiMuon(Particule):
     PARAMETERS = {
         'M': (105.6583745 * _ureg.MeV_c2, 'Mass of the particle.'),
         'Q': (1.60217653e-19 * _ureg.coulomb, 'Charge of the particle.'),
-        'G': (-2.0023318418 - 2) / 2,
-        'tau': 2.197029e-6,
+        'G': ((-2.0023318418 - 2) / 2, 'G factor'),
+        'tau': (2.197029e-6, 'Lifetime'),
     }
 
 
@@ -114,7 +114,7 @@ class Pion(Particule):
     PARAMETERS = {
         'M': (139.57018 * _ureg.MeV_c2, 'Mass of the particle.'),
         'Q': (1.60217653e-19 * _ureg.coulomb, 'Charge of the particle.'),
-        'G': 0,
+        'G': (0, 'G factor'),
         'tau': (2.6033e-8, 'Half-life of the particle.'),
     }
 
@@ -124,7 +124,7 @@ class Proton(Particule):
     PARAMETERS = {
         'M': (938.27203 * _ureg.MeV_c2, 'Mass of the particle.'),
         'Q': (1.602176487e-19 * _ureg.coulomb, 'Charge of the particle.'),
-        'G': (5.585694701 - 2) / 2,
+        'G': ((5.585694701 - 2) / 2, 'G factor'),
     }
 
 
@@ -133,7 +133,7 @@ class AntiProton(Particule):
     PARAMETERS = {
         'M': (938.27203 * _ureg.MeV_c2, 'Mass of the particle.'),
         'Q': (-1.602176487e-19 * _ureg.coulomb, 'Charge of the particle.'),
-        'G': (5.585694701 - 2) / 2,
+        'G': ((5.585694701 - 2) / 2, 'G factor'),
     }
 
 
@@ -142,41 +142,41 @@ class HMinus(Particule):
     PARAMETERS = {
         'M': (938.27203 * _ureg.MeV_c2, 'Mass of the particle.'),
         'Q': (+1.602176487e-19 * _ureg.coulomb, 'Charge of the particle.'),
-        'G': (5.585694701 - 2) / 2,
+        'G': ((5.585694701 - 2) / 2, 'G factor'),
     }
 
 
 class HeliumIon(Particule):
     """A fully stripped Helium ion"""
     PARAMETERS = {
-        'M': 1,
-        'Q': 1,
-        'G': 1,
+        'M': (1, ''),
+        'Q': (1, ''),
+        'G': (1, ''),
     }
 
 
 class CarbonIon(Particule):
     """A fully stripped Carbon ion"""
     PARAMETERS = {
-        'M': 1,
-        'Q': 1,
-        'G': 1,
+        'M': (1, ''),
+        'Q': (1, ''),
+        'G': (1, ''),
     }
 
 
 class LeadIon(Particule):
     """A fully stripped Lead ion"""
     PARAMETERS = {
-        'M': 1,
-        'Q': 1,
-        'G': 1,
+        'M': (1, ''),
+        'Q': (1, ''),
+        'G': (1, ''),
     }
 
 
 class SulfurIon(Particule):
     """A fully stripped Sulfur ion"""
     PARAMETERS = {
-        'M': 1,
-        'Q': 1,
-        'G': 1,
+        'M': (1, ''),
+        'Q': (1, ''),
+        'G': (1, ''),
     }
