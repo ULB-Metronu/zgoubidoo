@@ -20,6 +20,7 @@ from ..objet import Objet2 as _Objet2
 from ... import ureg as _ureg
 from ... import _Q
 from ...input import Input as _Input
+from ...input import MappedParameters as _MappedParameters
 from ...physics import Kinematics as _Kinematics
 from ...zgoubi import Zgoubi as _Zgoubi
 from ...zgoubi import ZgoubiResults as _ZgoubiRun
@@ -653,6 +654,7 @@ class CGTR:
         self.q7g: Q7G = q7g or Q7G()
         self.smx: SMX = smx or SMX()
         self.smy: SMY = smy or SMY()
+        self.iso: _Marker = _Marker('ISO')
 
         if with_fit:
             self.fit_dipoles(boro=kinematics.brho)
@@ -687,7 +689,7 @@ class CGTR:
             _FakeDrift(XL=19 * _ureg.cm - self.b3g.extra_drift),
             self.b3g,
             _FakeDrift(XL=1101.071 * _ureg.mm - self.b3g.extra_drift),
-            _Marker('ISO'),
+            self.iso,
         ],
                                  )
         self.tracks: Optional[_pd.DataFrame] = None
@@ -718,47 +720,64 @@ class CGTR:
             dipole.fit(boro=boro, zgoubi=z)
         z.wait()
 
-    def run(self, fit: zgoubidoo.commands.Fit = None, debug: bool = False) -> Union[_Input, _ZgoubiRun]:
+    def run(self,
+            zgoubi: zgoubidoo.Zgoubi,
+            mapping: _MappedParameters,
+            fit: zgoubidoo.commands.Fit = None,
+            debug: bool = False
+            ) -> Optional[Union[_Input, zgoubidoo.commands.Fit]]:
         """
 
         Args:
-            self:
+            zgoubi: TODO
+            mapping: TODO
             fit:
             debug:
 
         Returns:
 
         """
-        z: _Zgoubi = _Zgoubi()
         if fit is not None:
             self.zi += fit
             if debug:
                 return self.zi
-            z(self.zi())
-            self.zi.update(fit.results)
+
+            def attach_output_to_fit(f):
+                """Helper callback function to attach a run's output to a fit object."""
+                r = f.result()['result']
+                fit.attach_output(outputs=_Zgoubi.find_labeled_output(r, fit.LABEL1),
+                                  zgoubi_input=self.zi,
+                                  parameters=mapping,
+                                  )
+
+            zgoubi(zgoubi_input=self.zi, mapping=mapping, cb=attach_output_to_fit)
             self.zi -= fit
-            out = z(self.zi())
+            return fit
         else:
             if debug:
                 return self.zi
-            out = z(self.zi())
-        if out is not None:
-            zgoubidoo.survey(beamline=self.line)
-        self.tracks = out.tracks
-        return out
+            zgoubi(zgoubi_input=self.zi, mapping=mapping)
+        return None
 
-    def shoot(self, x: float = 0.0, y: float = 0.0, debug: bool = False) -> _ZgoubiRun:
+    def shoot(self,
+              x: float = 0.0,
+              y: float = 0.0,
+              zgoubi: zgoubidoo.Zgoubi = None,
+              debug: bool = False
+              ) -> zgoubidoo.commands.Fit:
         """
 
         Args:
             x:
             y:
+            zgoubi: TODO
             debug:
 
         Returns:
 
         """
-        self.scanning: zgoubidoo.commands.Fit = zgoubidoo.commands.Fit(
+        z = zgoubi or _Zgoubi()
+        fit = zgoubidoo.commands.Fit(
             PENALTY=1e-8,
             PARAMS=[
                 _Fit.Parameter(line=self.zi, place='SMX', parameter=SMX.B1_),
@@ -769,7 +788,11 @@ class CGTR:
                 _Fit.EqualityConstraint(line=self.zi, place='ISO', variable=_Fit.FitCoordinates.Z, value=y),
             ]
         )
-        return self.run(fit=self.scanning, debug=debug)
+        return self.run(zgoubi=z,
+                        mapping=_MappedParameters({('X', 'X'): x, ('Y', 'Y'): y}),
+                        fit=fit,
+                        debug=debug
+                        )
 
     def spots(self, spots: Iterable[Tuple[float, float]], debug: bool = False) -> _pd.DataFrame:
         """
@@ -781,35 +804,55 @@ class CGTR:
         Returns:
 
         """
-        tracks: List[_pd.DataFrame] = list()
+        z = _Zgoubi()
+        fits: List[zgoubidoo.commands.Fit] = list()
         for spot in spots:
-            _ = self.shoot(x=spot[0], y=spot[1], debug=debug)
-            _.tracks['SPOT_X'] = spot[0]
-            _.tracks['SPOT_Y'] = spot[1]
-            tracks.append(_.tracks)
-        df: _pd.DataFrame = _pd.concat(tracks)
-        self.tracks = df
-        return df
+            fits.append(self.shoot(x=float(spot[0]), y=float(spot[1]), zgoubi=z, debug=debug))
+        z.collect()
+        z.cleanup()
+        for f in fits:
+            for p, r in f.results.items():
+                self.zi.update(r)
+                self.run(zgoubi=z, mapping=p)
+        _ = z.collect()
+        tracks = _.tracks
+        tracks['SPOT_X'] = tracks['X.X']
+        tracks['SPOT_Y'] = tracks['Y.Y']
+        del tracks['X.X']
+        del tracks['Y.Y']
+        self.tracks = tracks
+        return tracks
 
-    def plot(self, ax=None, artist: zgoubidoo.vis.ZgoubiPlot = None):
+    def plot(self,
+             ax=None,
+             artist: zgoubidoo.vis.ZgoubiPlot = None,
+             start: Optional[Union[str, zgoubidoo.commands.Command]] = None,
+             stop: Optional[Union[str, zgoubidoo.commands.Command]] = None,
+             crosshair: bool = True):
         """
-
+        TODO
         Args:
             ax:
             artist:
+            start: TODO
+            stop: TODO
+            crosshair:
 
         Returns:
 
         """
+        zgoubidoo.survey(beamline=self.line)
+
         if artist is None:
             artist = zgoubidoo.vis.ZgoubiMpl(ax=ax)
         if ax is not None:
             artist.ax = ax
 
-        zgoubidoo.vis.beamline(beamline=self.line,
+        zgoubidoo.vis.beamline(beamline=self.line[start:stop],
                                artist=artist,
                                tracks=self.tracks,
                                )
 
         artist.ax.set_aspect('equal', 'datalim')
-        artist.ax.hlines(0.0, -10, 1000)
+        if crosshair:
+            artist.ax.hlines(0.0, -10, 1000)

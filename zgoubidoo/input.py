@@ -19,9 +19,9 @@ from .commands import *
 from .frame import Frame as _Frame
 import zgoubidoo.commands
 
-ParametersMappingType = Mapping[Tuple[str], Sequence[Union[_Q, float]]]
+ParametersMappingType = Mapping[Tuple[str, str], Sequence[Union[_Q, float]]]
 ParametersMappingListType = List[ParametersMappingType]
-MappedParametersType = Mapping[Tuple[str], Union[_Q, float]]
+MappedParametersType = Mapping[Tuple[str, str], Union[_Q, float]]
 
 ZGOUBI_INPUT_FILENAME: str = 'zgoubi.dat'
 """File name for Zgoubi input data."""
@@ -176,28 +176,65 @@ class Input:
                  mappings: Optional[ParametricMapping] = None,
                  filename: str = ZGOUBI_INPUT_FILENAME,
                  path: Optional[str] = None) -> Input:
+        """
+        TODO
+        Args:
+            mappings:
+            filename:
+            path:
+
+        Returns:
+
+        """
+        self._paths = {**self.paths, **self._generate(mappings, filename, path)}
+        return self
+
+    def dump(self,
+             filename: str = ZGOUBI_INPUT_FILENAME,
+             path: Optional[str] = None,
+             identifier: Optional[MappedParameters] = None,
+             ) -> PathsDict:
+        """
+
+        Args:
+            filename:
+            path:
+            identifier: TODO
+
+        Returns:
+
+        """
+        _ = self._generate(filename=filename, path=path)
+        _[identifier] = _.pop(MappedParameters())
+        return _
+
+    def _generate(self,
+                  mappings: Optional[ParametricMapping] = None,
+                  filename: str = ZGOUBI_INPUT_FILENAME,
+                  path: Optional[str] = None,
+                  ) -> PathsDict:
         """Writes the string representation of the object onto a file (Zgoubi input file).
 
         Args:
-            mappings:
+            mappings: TODO
             filename: the Zgoubi input file name (default: zgoubi.dat)
             path:
 
         Raises:
 
         """
+        paths: PathsDict = dict()
         mappings = mappings or ParametricMapping()
         initial_state = None
-        self._paths: PathsDict = dict()
         for mapping in mappings.combinations:
             previous_state = self.adjust(mapping)
             if initial_state is None:
                 initial_state = previous_state
             target_dir = tempfile.TemporaryDirectory(prefix=path)
-            self._paths[MappedParameters(mapping)] = target_dir
+            paths[mapping] = target_dir
             Input.write(self, filename, path=target_dir.name)
         self.adjust(initial_state)
-        return self
+        return paths
 
     def __len__(self) -> int:
         """Length of the input sequence.
@@ -277,9 +314,9 @@ class Input:
         if isinstance(items, slice):
             start = items.start
             end = items.stop
-            if isinstance(items.start, (Command, str)):
+            if isinstance(items.start, (zgoubidoo.commands.Command, str)):
                 start = self.index(items.start) - 1
-            if isinstance(items.stop, (Command, str)):
+            if isinstance(items.stop, (zgoubidoo.commands.Command, str)):
                 end = self.index(items.stop)
             slicing = slice(start, end, items.step)
             return Input(name=f"{self._name}_sliced_from_{getattr(items.start, 'LABEL1', items.start)}"
@@ -457,7 +494,7 @@ class Input:
         Raises:
             ValueError if the object is not present in the input sequence.
         """
-        if isinstance(obj, Command):
+        if isinstance(obj, zgoubidoo.commands.Command):
             return self.line.index(obj) + 1
         elif isinstance(obj, str):
             for i, e in enumerate(self.line):

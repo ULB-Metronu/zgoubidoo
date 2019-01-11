@@ -923,6 +923,7 @@ class Fit(Command, metaclass=FitType):
                     d['label1'] = values[9]
                     d['label2'] = values[10]
                 data.append(d)
+
         if len(data) == 0:
             return False
         else:
