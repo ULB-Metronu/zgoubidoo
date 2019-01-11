@@ -365,6 +365,7 @@ class QuadrupoleIBA(_Quadrupole):
         super().gradient = gradient
 
     def set_value(self, value):
+        """Set the current."""
         self.current = value
 
     @property
@@ -381,7 +382,7 @@ class QuadrupoleIBA(_Quadrupole):
         self._gradient = _np.abs(value)
         if value > 0:
             self._polarity = _HorizontalPolarity
-        elif value == 0 :
+        elif value == 0:
             self._polarity = _Polarity
         else:
             self._polarity = _VerticalPolarity
@@ -414,6 +415,10 @@ class QuadrupoleIBA(_Quadrupole):
     def l_eff(self, value):
         self.__L_EFF = value
         self.current = self._current
+
+    @property
+    def B0(self):
+        return self.gradient * self.R0.to('m').magnitude * _ureg.tesla
 
 
 class QLong(QuadrupoleIBA):
