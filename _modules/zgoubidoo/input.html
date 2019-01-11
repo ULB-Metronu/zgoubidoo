@@ -179,9 +179,9 @@
 <span class="kn">from</span> <span class="nn">.frame</span> <span class="k">import</span> <span class="n">Frame</span> <span class="k">as</span> <span class="n">_Frame</span>
 <span class="kn">import</span> <span class="nn">zgoubidoo.commands</span>
 
-<span class="n">ParametersMappingType</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">_Q</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]</span>
+<span class="n">ParametersMappingType</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">_Q</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]</span>
 <span class="n">ParametersMappingListType</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">ParametersMappingType</span><span class="p">]</span>
-<span class="n">MappedParametersType</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="n">_Q</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span>
+<span class="n">MappedParametersType</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="n">_Q</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span>
 
 <span class="n">ZGOUBI_INPUT_FILENAME</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;zgoubi.dat&#39;</span>
 <span class="sd">&quot;&quot;&quot;File name for Zgoubi input data.&quot;&quot;&quot;</span>
@@ -202,7 +202,8 @@
 
 <div class="viewcode-block" id="MappedParameters"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.MappedParameters">[docs]</a><span class="k">class</span> <span class="nc">MappedParameters</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A helper class to allow using parameters map as dictionnary key (immutable and hashable).&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">MappedParametersType</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">MappedParametersType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="n">parameters</span> <span class="ow">or</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">:</span> <span class="n">MappedParametersType</span> <span class="o">=</span> <span class="n">parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_p</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="n">vs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -335,28 +336,65 @@
                  <span class="n">mappings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ParametricMapping</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ZGOUBI_INPUT_FILENAME</span><span class="p">,</span>
                  <span class="n">path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Input</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        TODO</span>
+<span class="sd">        Args:</span>
+<span class="sd">            mappings:</span>
+<span class="sd">            filename:</span>
+<span class="sd">            path:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_paths</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_generate</span><span class="p">(</span><span class="n">mappings</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">path</span><span class="p">)}</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Input.dump"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.dump">[docs]</a>    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+             <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ZGOUBI_INPUT_FILENAME</span><span class="p">,</span>
+             <span class="n">path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">identifier</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">MappedParameters</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PathsDict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename:</span>
+<span class="sd">            path:</span>
+<span class="sd">            identifier: TODO</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">_</span><span class="p">[</span><span class="n">identifier</span><span class="p">]</span> <span class="o">=</span> <span class="n">_</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">MappedParameters</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">_</span></div>
+
+    <span class="k">def</span> <span class="nf">_generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                  <span class="n">mappings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ParametricMapping</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ZGOUBI_INPUT_FILENAME</span><span class="p">,</span>
+                  <span class="n">path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PathsDict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Writes the string representation of the object onto a file (Zgoubi input file).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            mappings:</span>
+<span class="sd">            mappings: TODO</span>
 <span class="sd">            filename: the Zgoubi input file name (default: zgoubi.dat)</span>
 <span class="sd">            path:</span>
 
 <span class="sd">        Raises:</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">paths</span><span class="p">:</span> <span class="n">PathsDict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="n">mappings</span> <span class="o">=</span> <span class="n">mappings</span> <span class="ow">or</span> <span class="n">ParametricMapping</span><span class="p">()</span>
         <span class="n">initial_state</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_paths</span><span class="p">:</span> <span class="n">PathsDict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">mapping</span> <span class="ow">in</span> <span class="n">mappings</span><span class="o">.</span><span class="n">combinations</span><span class="p">:</span>
             <span class="n">previous_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjust</span><span class="p">(</span><span class="n">mapping</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">initial_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">initial_state</span> <span class="o">=</span> <span class="n">previous_state</span>
             <span class="n">target_dir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_paths</span><span class="p">[</span><span class="n">MappedParameters</span><span class="p">(</span><span class="n">mapping</span><span class="p">)]</span> <span class="o">=</span> <span class="n">target_dir</span>
+            <span class="n">paths</span><span class="p">[</span><span class="n">mapping</span><span class="p">]</span> <span class="o">=</span> <span class="n">target_dir</span>
             <span class="n">Input</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">target_dir</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">adjust</span><span class="p">(</span><span class="n">initial_state</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
+        <span class="k">return</span> <span class="n">paths</span>
 
 <div class="viewcode-block" id="Input.__len__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__len__">[docs]</a>    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Length of the input sequence.</span>
@@ -436,9 +474,9 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
             <span class="n">start</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">start</span>
             <span class="n">end</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">stop</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="p">(</span><span class="n">Command</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="p">(</span><span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Command</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">start</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="p">(</span><span class="n">Command</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="p">(</span><span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Command</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">stop</span><span class="p">)</span>
             <span class="n">slicing</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">items</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Input</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{self._name}</span><span class="s2">_sliced_from_{getattr(items.start, &#39;LABEL1&#39;, items.start)}&quot;</span>
@@ -616,7 +654,7 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError if the object is not present in the input sequence.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Command</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Command</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">):</span>

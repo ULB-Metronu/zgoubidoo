@@ -1052,10 +1052,10 @@
                     <span class="k">continue</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">parameter</span><span class="p">:</span>
-                        <span class="k">break</span>
+                        <span class="k">return</span> <span class="n">_Q</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">units</span>
                 <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
                     <span class="k">continue</span>
-            <span class="k">return</span> <span class="n">_Q</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">units</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
         <span class="n">grab</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">data</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1083,8 +1083,12 @@
                     <span class="n">d</span><span class="p">[</span><span class="s1">&#39;label1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span>
                     <span class="n">d</span><span class="p">[</span><span class="s1">&#39;label2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
                 <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="n">parameters</span><span class="p">]</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;variable_id&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">True</span></div></div>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="n">parameters</span><span class="p">]</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;variable_id&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span></div></div>
 
 
 <div class="viewcode-block" id="Fit2"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.Fit2.html#zgoubidoo.commands.commands.Fit2">[docs]</a><span class="k">class</span> <span class="nc">Fit2</span><span class="p">(</span><span class="n">Fit</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">FitType</span><span class="p">):</span>

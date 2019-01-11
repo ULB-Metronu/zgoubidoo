@@ -159,6 +159,7 @@
             
   <h1>Source code for zgoubidoo.commands.patchable</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Patchable elements module.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">_Q</span>
 <span class="kn">from</span> <span class="nn">..frame</span> <span class="k">import</span> <span class="n">Frame</span> <span class="k">as</span> <span class="n">_Frame</span>
@@ -170,11 +171,16 @@
 <span class="sd">    A default implementation of the placement methods is provided for subclasses. It only places the entrance frame</span>
 <span class="sd">    at the location of the placement frame and all other frames are set to the entrance frame (&#39;point-like&#39; element).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">_entry</span><span class="p">:</span> <span class="n">_Frame</span>
-    <span class="n">_entry_patched</span><span class="p">:</span> <span class="n">_Frame</span>
-    <span class="n">_exit</span><span class="p">:</span> <span class="n">_Frame</span>
-    <span class="n">_exit_patched</span><span class="p">:</span> <span class="n">_Frame</span>
-    <span class="n">_center</span><span class="p">:</span> <span class="n">_Frame</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        TODO</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_entry</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_entry_patched</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_exit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_exit_patched</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_center</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="Patchable.place"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.patchable.Patchable.html#zgoubidoo.commands.patchable.Patchable.place">[docs]</a>    <span class="k">def</span> <span class="nf">place</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">_Frame</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Place the element with a reference frame.</span>

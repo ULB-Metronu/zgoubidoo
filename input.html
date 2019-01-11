@@ -199,21 +199,11 @@ will write the string representation to a Zgoubi input file.</p>
 <dl class="method">
 <dt id="zgoubidoo.input.Input.__call__">
 <code class="descname">__call__</code><span class="sig-paren">(</span><em>mappings: Optional[zgoubidoo.input.ParametricMapping] = None</em>, <em>filename: str = 'zgoubi.dat'</em>, <em>path: Optional[str] = None</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.input.Input<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Writes the string representation of the object onto a file (Zgoubi input file).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>mappings</strong> – </li>
-<li><strong>filename</strong> – the Zgoubi input file name (default: zgoubi.dat)</li>
-<li><strong>path</strong> – </li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<p>Raises:</p>
+<dd><p>TODO
+:param mappings:
+:param filename:
+:param path:</p>
+<p>Returns:</p>
 </dd></dl>
 
 <dl class="method">
@@ -424,6 +414,25 @@ automatically cleanup previous sets of temporary directories.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">zi</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>  <span class="c1"># Cleanup the temporary directories and Zgoubi input files</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.input.Input.dump">
+<code class="descname">dump</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.dat'</em>, <em>path: Optional[str] = None</em>, <em>identifier: Optional[zgoubidoo.input.MappedParameters] = None</em><span class="sig-paren">)</span> &#x2192; Dict[zgoubidoo.input.MappedParameters, Union[str, tempfile.TemporaryDirectory]]<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.dump" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> – </li>
+<li><strong>path</strong> – </li>
+<li><strong>identifier</strong> – TODO</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
 </dd></dl>
 
 <dl class="method">
@@ -648,7 +657,7 @@ and can be used as such, for example, as a parameter to the Fit command.</p>
 
 <dl class="class">
 <dt id="zgoubidoo.input.MappedParameters">
-<em class="property">class </em><code class="descclassname">zgoubidoo.input.</code><code class="descname">MappedParameters</code><span class="sig-paren">(</span><em>parameters: Mapping[Tuple[str], Union[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity, float]]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#MappedParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.MappedParameters" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zgoubidoo.input.</code><code class="descname">MappedParameters</code><span class="sig-paren">(</span><em>parameters: Optional[Mapping[Tuple[str, str], Union[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity, float]]] = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#MappedParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.MappedParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>A helper class to allow using parameters map as dictionnary key (immutable and hashable).</p>
 <dl class="attribute">
 <dt id="zgoubidoo.input.MappedParameters.parameters">

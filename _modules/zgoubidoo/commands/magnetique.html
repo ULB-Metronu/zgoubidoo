@@ -164,7 +164,7 @@
 <span class="sd">TODO</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">NoReturn</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">NoReturn</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 <span class="kn">import</span> <span class="nn">parse</span> <span class="k">as</span> <span class="nn">_parse</span>
 <span class="kn">from</span> <span class="nn">.particules</span> <span class="k">import</span> <span class="n">ParticuleType</span> <span class="k">as</span> <span class="n">_ParticuleType</span>
@@ -178,11 +178,13 @@
 <span class="kn">from</span> <span class="nn">.particules</span> <span class="k">import</span> <span class="n">Proton</span> <span class="k">as</span> <span class="n">_Proton</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">_Q</span>
+<span class="kn">from</span> <span class="nn">..zgoubi</span> <span class="k">import</span> <span class="n">Zgoubi</span> <span class="k">as</span> <span class="n">_Zgoubi</span>
 <span class="kn">from</span> <span class="nn">..frame</span> <span class="k">import</span> <span class="n">Frame</span> <span class="k">as</span> <span class="n">_Frame</span>
 <span class="kn">from</span> <span class="nn">..vis</span> <span class="k">import</span> <span class="n">ZgoubiPlot</span> <span class="k">as</span> <span class="n">_ZgoubiPlot</span>
 <span class="kn">from</span> <span class="nn">.patchable</span> <span class="k">import</span> <span class="n">Patchable</span> <span class="k">as</span> <span class="n">_Patchable</span>
 <span class="kn">from</span> <span class="nn">.plotable</span> <span class="k">import</span> <span class="n">Plotable</span> <span class="k">as</span> <span class="n">_Plotable</span>
 <span class="kn">from</span> <span class="nn">..units</span> <span class="k">import</span> <span class="n">_cm</span><span class="p">,</span> <span class="n">_radian</span><span class="p">,</span> <span class="n">_kilogauss</span><span class="p">,</span> <span class="n">_degree</span>
+<span class="kn">from</span> <span class="nn">..input</span> <span class="k">import</span> <span class="n">MappedParameters</span> <span class="k">as</span> <span class="n">_MappedParameters</span>
 <span class="kn">import</span> <span class="nn">zgoubidoo</span>
 
 
@@ -1016,6 +1018,7 @@
             <span class="n">entry_coordinates</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">exit_coordinates</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
             <span class="n">method</span><span class="p">:</span> <span class="n">_FitType</span> <span class="o">=</span> <span class="n">_Fit2</span><span class="p">,</span>
+            <span class="n">zgoubi</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_Zgoubi</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
@@ -1025,6 +1028,7 @@
 <span class="sd">            entry_coordinates:</span>
 <span class="sd">            exit_coordinates:</span>
 <span class="sd">            method:</span>
+<span class="sd">            zgoubi: TODO</span>
 <span class="sd">            debug:</span>
 
 <span class="sd">        Returns:</span>
@@ -1033,7 +1037,7 @@
         <span class="k">if</span> <span class="n">entry_coordinates</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">entry_coordinates</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
 
-        <span class="n">z</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Zgoubi</span><span class="p">()</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">zgoubi</span> <span class="ow">or</span> <span class="n">_Zgoubi</span><span class="p">()</span>
         <span class="n">di</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;FIT_</span><span class="si">{self.LABEL1}</span><span class="s2">_MAGNET&quot;</span><span class="p">)</span>
         <span class="n">di</span> <span class="o">+=</span> <span class="n">_Objet2</span><span class="p">(</span><span class="s1">&#39;BUNCH&#39;</span><span class="p">,</span> <span class="n">BORO</span><span class="o">=</span><span class="n">boro</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="n">entry_coordinates</span><span class="p">])</span>
         <span class="n">di</span> <span class="o">+=</span> <span class="n">particle</span><span class="p">()</span>
@@ -1063,13 +1067,19 @@
                      <span class="p">]</span>
                      <span class="p">)</span>
         <span class="n">di</span> <span class="o">+=</span> <span class="n">fit</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">z</span><span class="p">(</span><span class="n">di</span><span class="p">())</span>  <span class="c1"># Run Zgoubi</span>
-        <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;result&#39;</span><span class="p">]))</span>
-        <span class="k">if</span> <span class="n">fit</span><span class="o">.</span><span class="n">results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">_ZgoubidooException</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Unable to fit </span><span class="si">{self.__class__.__name__}</span><span class="s2">.&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">B0</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;final&#39;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_fit</span> <span class="o">=</span> <span class="n">fit</span>
+
+        <span class="k">def</span> <span class="nf">cb</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Post execution callback.&quot;&quot;&quot;</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">_MappedParameters</span><span class="p">({})][</span><span class="s1">&#39;result&#39;</span><span class="p">]))</span>
+            <span class="k">if</span> <span class="n">fit</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_MappedParameters</span><span class="p">())</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">_ZgoubidooException</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Unable to fit </span><span class="si">{self.__class__.__name__}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">B0</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">_MappedParameters</span><span class="p">()]</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;final&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fit</span> <span class="o">=</span> <span class="n">fit</span>
+
+        <span class="n">z</span><span class="p">(</span><span class="n">di</span><span class="p">(),</span> <span class="n">cb</span><span class="o">=</span><span class="n">cb</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="bp">self</span></div></div>
 
 
