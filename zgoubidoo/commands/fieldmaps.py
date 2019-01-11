@@ -1,3 +1,7 @@
+"""Zgoubidoo's interfaces to field map tracking commands.
+
+More details here.
+"""
 from .commands import Command as _Command
 from .. import ureg as _ureg
 from ..units import _cm, _radian

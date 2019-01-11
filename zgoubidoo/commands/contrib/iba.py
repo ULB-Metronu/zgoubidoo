@@ -335,10 +335,7 @@ class QuadrupoleIBA(_Quadrupole):
         Returns:
 
         """
-        try:
-            return self._current
-        except AttributeError:
-            raise Exception("Hello")
+        return self._current
 
     @current.setter
     def current(self, current):

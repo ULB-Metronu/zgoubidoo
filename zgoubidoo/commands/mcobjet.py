@@ -1,3 +1,7 @@
+"""Zgoubidoo's interfaces to Monte-Carlo object definition commands.
+
+More details here.
+"""
 from .commands import Command as _Command
 
 
