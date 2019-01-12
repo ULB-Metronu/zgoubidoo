@@ -203,6 +203,12 @@
 <em class="property">class </em><code class="descclassname">zgoubidoo.commands.contrib.iba.</code><code class="descname">DipoleIBA</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#DipoleIBA"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.DipoleIBA" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.magnetique.Dipole.html#zgoubidoo.commands.magnetique.Dipole" title="zgoubidoo.commands.magnetique.Dipole"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.magnetique.Dipole</span></code></a></p>
 <p>IBA generic dipole.</p>
+<p>The main feature is to provide a method to compute extra drift length taken by the polar extension of the field map.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">DipoleIBA</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">extra_drift</span><span class="p">()</span>
+</pre></div>
+</div>
 <p class="rubric">Command attributes</p>
 <dl class="attribute">
 <dt>
@@ -1099,7 +1105,7 @@
 <td></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.DipoleIBA.extra_drift" title="zgoubidoo.commands.contrib.iba.DipoleIBA.extra_drift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extra_drift</span></code></a></td>
-<td>type: Returns</td>
+<td>Compute the extra drift length of the field map extension.</td>
 </tr>
 </tbody>
 </table>
@@ -1117,7 +1123,19 @@
 <dl class="attribute">
 <dt id="zgoubidoo.commands.contrib.iba.DipoleIBA.extra_drift">
 <code class="descname">extra_drift</code><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.DipoleIBA.extra_drift" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<dd><p>Compute the extra drift length of the field map extension.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><cite>_PolarMagnet.drift_length_from_polar</cite>.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the drift lenght.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
