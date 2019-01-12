@@ -23,7 +23,6 @@ from ...input import Input as _Input
 from ...input import MappedParameters as _MappedParameters
 from ...physics import Kinematics as _Kinematics
 from ...zgoubi import Zgoubi as _Zgoubi
-from ...zgoubi import ZgoubiResults as _ZgoubiRun
 from ...polarity import PolarityType as _PolarityType
 from ...polarity import Polarity as _Polarity
 from ...polarity import HorizontalPolarity as _HorizontalPolarity
@@ -34,14 +33,22 @@ import zgoubidoo
 class DipoleIBA(_Dipole):
     """IBA generic dipole.
 
+    The main feature is to provide a method to compute extra drift length taken by the polar extension of the field map.
+
+    Examples:
+        >>> d = DipoleIBA()
+        >>> d.extra_drift()
     """
 
     @property
     def extra_drift(self) -> _ureg.Quantity:
-        """
+        """Compute the extra drift length of the field map extension.
+
+        See Also:
+            `_PolarMagnet.drift_length_from_polar`.
 
         Returns:
-
+            the drift lenght.
         """
         return _PolarMagnet.drift_length_from_polar(radius=self.radius,
                                                     magnet_angle=self.AT,
@@ -807,15 +814,18 @@ class CGTR:
 
         """
         z = _Zgoubi()
-        fits: List[zgoubidoo.commands.Fit] = list()
-        for spot in spots:
-            fits.append(self.shoot(x=float(spot[0]), y=float(spot[1]), zgoubi=z, debug=debug))
+        fits = [self.shoot(x=float(spot[0]), y=float(spot[1]), zgoubi=z, debug=debug) for spot in spots]
         z.collect()
         z.cleanup()
         for f in fits:
             for p, r in f.results.items():
                 self.zi.update(r)
-                self.run(zgoubi=z, mapping=p)
+                self.run(zgoubi=z,
+                         mapping=_MappedParameters({
+                             **p,
+                             **{('SMX', 'B0'): r.at[1, 'final'], ('SMY', 'B0'): r.at[2, 'final']}
+                         })
+                         )
         _ = z.collect()
         tracks = _.tracks
         tracks['SPOT_X'] = tracks['X.X']
