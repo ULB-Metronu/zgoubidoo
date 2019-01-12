@@ -1851,7 +1851,9 @@ class PS170(Magnet):
     """Simulation of a round shape dipole magnet.
 
     TODO
-    >>> PS170('PS170', IL=2, XL=2 * _ureg.m, R0 = 1.5 * _ureg.m, B0 = 1 * _ureg.tesla)
+
+    Examples:
+        >>> PS170('PS170', IL=2, XL=2 * _ureg.m, R0 = 1.5 * _ureg.m, B0 = 1 * _ureg.tesla)
     """
     KEYWORD = 'PS170'
     """Keyword of the command used for the Zgoubi input data."""
