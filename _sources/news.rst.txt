@@ -1,6 +1,14 @@
 News and announcements
 ======================
 
+Release of Zgoubidoo 2019.2
+---------------------------
+
+This release is focused on the support for concurrent execution of multiple Zgoubi's instances and multi-dimensional
+parametric mappings.
+
+Numerous bugs have been fixed and the documentation has been updated.
+
 Release of Zgoubidoo 2019.1
 ---------------------------
 
