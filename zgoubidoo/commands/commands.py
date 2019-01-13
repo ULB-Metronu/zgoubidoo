@@ -488,13 +488,17 @@ class ChangRef(Command, _Patchable):
     """Transformation to a new reference frame.
 
     Supports only Zgoubi "new style" ChangeRef. To recover the "old style", do XS, YS, ZR.
+
+    ::note: `ChangRef` supports the `Patchable` interface and the transformations will thus be taken into account when
+    surveying the line.
+
     TODO
     """
     KEYWORD = 'CHANGREF'
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'TRANSFORMATIONS': []
+        'TRANSFORMATIONS': ([], 'List of transformations for new style ChangeRef'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""

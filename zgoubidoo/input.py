@@ -591,6 +591,38 @@ class Input:
         """
         return zgoubidoo.survey(self, reference_frame)
 
+    def plot(self,
+             ax=None,
+             artist: zgoubidoo.vis.ZgoubiPlot = None,
+             start: Optional[Union[str, zgoubidoo.commands.Command]] = None,
+             stop: Optional[Union[str, zgoubidoo.commands.Command]] = None,
+             ):
+        """Plot the input sequence.
+
+        TODO
+
+        Args:
+            ax: an optional matplotlib axis to draw on
+            artist: an artist object for the rendering
+            start: first element of the beamline to be plotted
+            stop: last element of the beamline to be plotted
+        """
+        zgoubidoo.survey(beamline=self)
+
+        if artist is None:
+            artist = zgoubidoo.vis.ZgoubiMpl(ax=ax)
+        if ax is not None:
+            artist.ax = ax
+
+        zgoubidoo.vis.beamline(beamline=self[start:stop],
+                               artist=artist,
+                               tracks=self.tracks,
+                               )
+
+        artist.ax.set_aspect('equal', 'datalim')
+
+        return artist.figure
+
     @staticmethod
     def write(_: Input,
               filename: str = ZGOUBI_INPUT_FILENAME,
