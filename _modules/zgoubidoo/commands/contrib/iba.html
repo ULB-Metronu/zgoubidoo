@@ -356,7 +356,7 @@
         <span class="s1">&#39;C2_S&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.13034787</span><span class="p">,</span>  <span class="c1"># Obtained from field map fit</span>
         <span class="s1">&#39;C3_S&#39;</span><span class="p">:</span> <span class="mf">0.02948957</span><span class="p">,</span>  <span class="c1"># Obtained from field map fit</span>
         <span class="s1">&#39;SHIFT_S&#39;</span><span class="p">:</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span>
-        <span class="s1">&#39;XPAS&#39;</span><span class="p">:</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span>
+        <span class="s1">&#39;XPAS&#39;</span><span class="p">:</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span>
     <span class="p">}</span>
 
 <div class="viewcode-block" id="B3G.post_init"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.B3G.html#zgoubidoo.commands.contrib.iba.B3G.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -1001,17 +1001,16 @@
              <span class="n">start</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Command</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
              <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Command</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
              <span class="n">crosshair</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Plot the P1 beamline.</span>
+
 <span class="sd">        TODO</span>
+
 <span class="sd">        Args:</span>
-<span class="sd">            ax:</span>
-<span class="sd">            artist:</span>
-<span class="sd">            start: TODO</span>
-<span class="sd">            stop: TODO</span>
-<span class="sd">            crosshair:</span>
-
-<span class="sd">        Returns:</span>
-
+<span class="sd">            ax: an optional matplotlib axis to draw on</span>
+<span class="sd">            artist: an artist object for the rendering</span>
+<span class="sd">            start: first element of the beamline to be plotted</span>
+<span class="sd">            stop: last element of the beamline to be plotted</span>
+<span class="sd">            crosshair: draw a crosshair indicating the isocenter</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">survey</span><span class="p">(</span><span class="n">beamline</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">)</span>
 
@@ -1027,7 +1026,8 @@
 
         <span class="n">artist</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="s1">&#39;datalim&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">crosshair</span><span class="p">:</span>
-            <span class="n">artist</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span></div></div>
+            <span class="n">artist</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">artist</span><span class="o">.</span><span class="n">figure</span></div></div>
 </pre></div>
 
            </div>

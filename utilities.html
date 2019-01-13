@@ -161,6 +161,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.polarity">Polarity type system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.utils">Miscelanous</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
@@ -236,6 +237,7 @@
 <li><a class="reference internal" href="#module-zgoubidoo.physics" id="id5">Accelerator physics and relativity calculations using the physics module</a></li>
 <li><a class="reference internal" href="#module-zgoubidoo.units" id="id6">Units</a></li>
 <li><a class="reference internal" href="#module-zgoubidoo.polarity" id="id7">Polarity type system</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.utils" id="id8">Miscelanous</a></li>
 </ul>
 </div>
 <div class="section" id="module-zgoubidoo.frame">
@@ -417,7 +419,15 @@ helper class (<code class="docutils literal notranslate"><span class="pre">Kinem
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.physics.Kinematics.html#zgoubidoo.physics.Kinematics" title="zgoubidoo.physics.Kinematics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Kinematics</span></code></a>(q,&nbsp;…)</td>
-<td></td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param q:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.physics.ZgoubiPhysicsException.html#zgoubidoo.physics.ZgoubiPhysicsException" title="zgoubidoo.physics.ZgoubiPhysicsException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZgoubiPhysicsException</span></code></a>(m)</td>
 <td>Exception raised for errors in the Zgoubidoo physics module.</td>
@@ -485,6 +495,33 @@ helper class (<code class="docutils literal notranslate"><span class="pre">Kinem
 <dt id="zgoubidoo.polarity.VerticalPolarity">
 <em class="property">class </em><code class="descclassname">zgoubidoo.polarity.</code><code class="descname">VerticalPolarity</code><a class="reference internal" href="_modules/zgoubidoo/polarity.html#VerticalPolarity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.polarity.VerticalPolarity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Negative polarity.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-zgoubidoo.utils">
+<span id="miscelanous"></span><h2><a class="toc-backref" href="#id8">Miscelanous</a><a class="headerlink" href="#module-zgoubidoo.utils" title="Permalink to this headline">¶</a></h2>
+<p>Utility functions.</p>
+<dl class="function">
+<dt id="zgoubidoo.utils.fortran_float">
+<code class="descclassname">zgoubidoo.utils.</code><code class="descname">fortran_float</code><span class="sig-paren">(</span><em>input_string: str</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="_modules/zgoubidoo/utils.html#fortran_float"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.utils.fortran_float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a float of the input string, just like <cite>float(input_string)</cite>, but allowing for Fortran’s string formatting
+to screw it up when you have very small numbers (like 0.31674-103 instead of 0.31674E-103 ).</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference external" href="https://gist.github.com/chernals/fb6177e2e8b423d4647242e44ce25cec">https://gist.github.com/chernals/fb6177e2e8b423d4647242e44ce25cec</a></p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>input_string</strong> – the string to be converted to float.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a float representing the input value.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> – in case it is not possible to convert the input string.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

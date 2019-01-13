@@ -751,6 +751,38 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">survey</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference_frame</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="Input.plot"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+             <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">artist</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">ZgoubiPlot</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">start</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Command</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Command</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot the input sequence.</span>
+
+<span class="sd">        TODO</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ax: an optional matplotlib axis to draw on</span>
+<span class="sd">            artist: an artist object for the rendering</span>
+<span class="sd">            start: first element of the beamline to be plotted</span>
+<span class="sd">            stop: last element of the beamline to be plotted</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">survey</span><span class="p">(</span><span class="n">beamline</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">artist</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">artist</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">ZgoubiMpl</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">artist</span><span class="o">.</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span>
+
+        <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">beamline</span><span class="p">(</span><span class="n">beamline</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">],</span>
+                               <span class="n">artist</span><span class="o">=</span><span class="n">artist</span><span class="p">,</span>
+                               <span class="n">tracks</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="p">,</span>
+                               <span class="p">)</span>
+
+        <span class="n">artist</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="s1">&#39;datalim&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">artist</span><span class="o">.</span><span class="n">figure</span></div>
+
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">_</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span>
               <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ZGOUBI_INPUT_FILENAME</span><span class="p">,</span>

@@ -204,6 +204,23 @@ which can use arbitrary units for the representations of lengths and angles.</p>
 <span class="go">True</span>
 </pre></div>
 </div>
+<p>Initialize a Frame with respect to a parent frame. If no parent is provided the newly created frame
+is considered to be a global reference frame. The frame is create with no rotation or translate with
+respect to its parent frame.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parent</strong> – parent frame, if None then the frame itself is considered as a global reference frame.</li>
+<li><strong>reference</strong> – reference frame, all quantities are provided by default with respect to this frame.</li>
+<li><strong>allows to use the properties easily but can be modified on a case-by-case basis for each function.</strong> (<em>This</em>) – </li>
+<li><strong>the reference frame can be modified after the object creation.</strong> (<em>Alternatively</em>) – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <p class="rubric">Attributes Summary</p>
 <table border="1" class="longtable docutils">
 <colgroup>

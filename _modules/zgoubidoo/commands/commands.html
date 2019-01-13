@@ -549,6 +549,24 @@
         <span class="k">return</span> <span class="n">_parse</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">{}</span><span class="s2">&#39; {label1:w}&quot;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span></div></div>
 
 
+<div class="viewcode-block" id="Fake"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.Fake.html#zgoubidoo.commands.commands.Fake">[docs]</a><span class="k">class</span> <span class="nc">Fake</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fake command for Zgoubi input.</span>
+
+<span class="sd">    This command can be used to add an arbitrary input command in a Zgoubi input sequence. The `INPUT` parameter is </span>
+<span class="sd">    formatted before being printed, and uses the full command attributes list for that purpose (see examples below).</span>
+<span class="sd">    </span>
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; c = Fake(&#39;FAKE1&#39;, INPUT=&quot;&#39;COMMAND_NAME&#39; {LABEL1} 1.0 2.0 3.0&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; str(c)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;INPUT&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;Input string.&#39;</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">INPUT</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="AutoRef"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.AutoRef.html#zgoubidoo.commands.commands.AutoRef">[docs]</a><span class="k">class</span> <span class="nc">AutoRef</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Automatic transformation to a new reference frame.</span>
 
@@ -630,13 +648,17 @@
     <span class="sd">&quot;&quot;&quot;Transformation to a new reference frame.</span>
 
 <span class="sd">    Supports only Zgoubi &quot;new style&quot; ChangeRef. To recover the &quot;old style&quot;, do XS, YS, ZR.</span>
+
+<span class="sd">    ::note: `ChangRef` supports the `Patchable` interface and the transformations will thus be taken into account when</span>
+<span class="sd">    surveying the line.</span>
+
 <span class="sd">    TODO</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;CHANGREF&#39;</span>
     <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span>
 
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;TRANSFORMATIONS&#39;</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="s1">&#39;TRANSFORMATIONS&#39;</span><span class="p">:</span> <span class="p">([],</span> <span class="s1">&#39;List of transformations for new style ChangeRef&#39;</span><span class="p">),</span>
     <span class="p">}</span>
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>

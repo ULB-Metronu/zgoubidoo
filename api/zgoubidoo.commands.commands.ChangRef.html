@@ -110,6 +110,7 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.FaiStore.html">FaiStore</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Faisceau.html">Faisceau</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Faiscnl.html">Faiscnl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Fake.html">Fake</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Fin.html">Fin</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Fit.html">Fit</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Fit2.html">Fit2</a></li>
@@ -239,8 +240,10 @@
 <em class="property">class </em><code class="descclassname">zgoubidoo.commands.commands.</code><code class="descname">ChangRef</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/commands.html#ChangRef"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.commands.ChangRef" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" title="zgoubidoo.commands.commands.Command"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.commands.Command</span></code></a>, <a class="reference internal" href="zgoubidoo.commands.patchable.Patchable.html#zgoubidoo.commands.patchable.Patchable" title="zgoubidoo.commands.patchable.Patchable"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.patchable.Patchable</span></code></a></p>
 <p>Transformation to a new reference frame.</p>
-<p>Supports only Zgoubi “new style” ChangeRef. To recover the “old style”, do XS, YS, ZR.
-TODO</p>
+<p>Supports only Zgoubi “new style” ChangeRef. To recover the “old style”, do XS, YS, ZR.</p>
+<p>::note: <cite>ChangRef</cite> supports the <cite>Patchable</cite> interface and the transformations will thus be taken into account when
+surveying the line.</p>
+<p>TODO</p>
 <p class="rubric">Command attributes</p>
 <dl class="attribute">
 <dt>
@@ -270,6 +273,21 @@ TODO</p>
 </table>
 </dd></dl>
 
+<dl class="attribute">
+<dt>
+<code class="descname">TRANSFORMATIONS='[]'</code></dt>
+<dd><p>List of transformations for new style ChangeRef</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Default initializer for all Commands.</p>
 <p class="rubric">Attributes Summary</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -297,7 +315,7 @@ TODO</p>
 
 <dl class="attribute">
 <dt id="zgoubidoo.commands.commands.ChangRef.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'TRANSFORMATIONS': []}</em><a class="headerlink" href="#zgoubidoo.commands.commands.ChangRef.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="descname">PARAMETERS</code><em class="property"> = {'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'TRANSFORMATIONS': ([], 'List of transformations for new style ChangeRef')}</em><a class="headerlink" href="#zgoubidoo.commands.commands.ChangRef.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parameters of the command, with their default value, their description and optinally an index used by other
 commands (e.g. fit).</p>
 </dd></dl>

@@ -209,6 +209,30 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cgtr</span><span class="o">.</span><span class="n">shoot</span><span class="p">()</span>
 </pre></div>
 </div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>kinematics</strong> – </li>
+<li><strong>b1g</strong> – </li>
+<li><strong>b2g</strong> – </li>
+<li><strong>b3g</strong> – </li>
+<li><strong>q1g</strong> – </li>
+<li><strong>q2g</strong> – </li>
+<li><strong>q3g</strong> – </li>
+<li><strong>q4g</strong> – </li>
+<li><strong>q5g</strong> – </li>
+<li><strong>q6g</strong> – </li>
+<li><strong>q7g</strong> – </li>
+<li><strong>smx</strong> – </li>
+<li><strong>smy</strong> – </li>
+<li><strong>with_fit</strong> – if True the dipole magnets of the line will be fit.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <p class="rubric">Attributes Summary</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -229,7 +253,7 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.plot" title="zgoubidoo.commands.contrib.iba.CGTR.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>([ax])</td>
-<td>TODO :param ax: :param artist: :param start: TODO :param stop: TODO :param crosshair:</td>
+<td>Plot the P1 beamline.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.run" title="zgoubidoo.commands.contrib.iba.CGTR.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>(zgoubi,&nbsp;mapping,&nbsp;fit,&nbsp;debug)</td>
 <td><table class="docutils field-list" frame="void" rules="none">
@@ -277,13 +301,23 @@
 <dl class="method">
 <dt id="zgoubidoo.commands.contrib.iba.CGTR.plot">
 <code class="descname">plot</code><span class="sig-paren">(</span><em>ax=None</em>, <em>artist: zgoubidoo.vis.zgoubiplot.ZgoubiPlot = None</em>, <em>start: Union[str</em>, <em>zgoubidoo.commands.commands.Command</em>, <em>None] = None</em>, <em>stop: Union[str</em>, <em>zgoubidoo.commands.commands.Command</em>, <em>None] = None</em>, <em>crosshair: bool = True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO
-:param ax:
-:param artist:
-:param start: TODO
-:param stop: TODO
-:param crosshair:</p>
-<p>Returns:</p>
+<dd><p>Plot the P1 beamline.</p>
+<p>TODO</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ax</strong> – an optional matplotlib axis to draw on</li>
+<li><strong>artist</strong> – an artist object for the rendering</li>
+<li><strong>start</strong> – first element of the beamline to be plotted</li>
+<li><strong>stop</strong> – last element of the beamline to be plotted</li>
+<li><strong>crosshair</strong> – draw a crosshair indicating the isocenter</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">

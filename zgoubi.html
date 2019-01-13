@@ -172,17 +172,190 @@
 </ul>
 <div class="section" id="module-zgoubidoo.zgoubi">
 <span id="running-zgoubi-with-zgoubidoo"></span><h2>Running Zgoubi with Zgoubidoo<a class="headerlink" href="#module-zgoubidoo.zgoubi" title="Permalink to this headline">¶</a></h2>
-<p>Provides an interface to run Zgoubi from Python; supports multiprocessing.</p>
+<p>Provides an interface to run Zgoubi from Python; supports multiprocessing and concurrent programming.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <p class="last">The full <a class="reference external" href="https://sourceforge.net/projects/zgoubi/">Zgoubi User Guide</a> can also be consulted for reference.</p>
 </div>
+<dl class="exception">
+<dt id="zgoubidoo.zgoubi.ZgoubiException">
+<em class="property">exception </em><code class="descclassname">zgoubidoo.zgoubi.</code><code class="descname">ZgoubiException</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#ZgoubiException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception raised for errors when running Zgoubi.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="zgoubidoo.zgoubi.ZgoubiResults">
+<em class="property">class </em><code class="descclassname">zgoubidoo.zgoubi.</code><code class="descname">ZgoubiResults</code><span class="sig-paren">(</span><em>results: List[Mapping[KT, VT_co]]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#ZgoubiResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Results from a Zgoubi executable run.</p>
+<p><cite>ZgoubiResults</cite> is used to store results and outputs from a single or multiple Zgoubi runs. It is instanciated from
+a list of dictionnaries containing the results (each one being a mapping between <cite>MappedParameters</cite> (to identify
+from which run the results are from) and the results themselves (also a dictionnary)).</p>
+<p>Methods and properties of <cite>ZgoubiResults</cite> are used to access and process individual or multiple results. In
+particular it is possible to extract a set of tracks from the results.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1"># TODO</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>results</strong> – a list of dictionnaries structure with the Zgoubi run information and errors.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="zgoubidoo.zgoubi.ZgoubiResults.__copy__">
+<code class="descname">__copy__</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; zgoubidoo.zgoubi.ZgoubiResults<a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#ZgoubiResults.__copy__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.__copy__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shallow copy operation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.zgoubi.ZgoubiResults.__getitem__">
+<code class="descname">__getitem__</code><span class="sig-paren">(</span><em>item: int</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#ZgoubiResults.__getitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve results from the list using a numeric index.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.zgoubi.ZgoubiResults.__len__">
+<code class="descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#ZgoubiResults.__len__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.__len__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Length of the results list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.zgoubi.ZgoubiResults.get_tracks">
+<code class="descname">get_tracks</code><span class="sig-paren">(</span><em>parameters: Optional[List[zgoubidoo.input.MappedParameters]] = None</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#ZgoubiResults.get_tracks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.get_tracks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collects all tracks from the different Zgoubi instances matching the given parameters list
+in the results and concatenate them.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A concatenated DataFrame with all the tracks in the result matching the parameters list.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.zgoubi.ZgoubiResults.mappings">
+<code class="descname">mappings</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.mappings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parametric mappings of all the runs present in the results.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of parametric mappings.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.zgoubi.ZgoubiResults.matrix">
+<code class="descname">matrix</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collects all matrix data from the different Zgoubi instances in the results and concatenate them.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A concatenated DataFrame with all the matrix information from the previous run.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="zgoubidoo.zgoubi.ZgoubiResults.merge">
+<em class="property">classmethod </em><code class="descname">merge</code><span class="sig-paren">(</span><em>*results</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#ZgoubiResults.merge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge multiple ZgoubiResults into one.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>results</strong> – list of <cite>ZgoubiResults</cite> to copy</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a new <cite>ZgoubiResults</cite> instance containing the concatenated results.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.zgoubi.ZgoubiResults.paths">
+<code class="descname">paths</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path of all the directories for the runs present in the results.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of directories.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.zgoubi.ZgoubiResults.print">
+<code class="descname">print</code><span class="sig-paren">(</span><em>what: str = 'result'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#ZgoubiResults.print"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.print" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to print the raw results from a Zgoubi run.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.zgoubi.ZgoubiResults.results">
+<code class="descname">results</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raw information from the Zgoubi run.</p>
+<p>Provides the raw data structures from the Zgoubi runs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of mappings.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.zgoubi.ZgoubiResults.tracks">
+<code class="descname">tracks</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.tracks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collects all tracks from the different Zgoubi instances in the results and concatenate them.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A concatenated DataFrame with all the tracks in the result.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="class">
 <dt id="zgoubidoo.zgoubi.Zgoubi">
 <em class="property">class </em><code class="descclassname">zgoubidoo.zgoubi.</code><code class="descname">Zgoubi</code><span class="sig-paren">(</span><em>executable: str = 'zgoubi'</em>, <em>path: Optional[str] = None</em>, <em>n_procs: Optional[int] = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#Zgoubi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.Zgoubi" title="Permalink to this definition">¶</a></dt>
 <dd><p>High level interface to run Zgoubi from Python.</p>
-<p><cite>Zgoubi</cite> is responsible for running the Zgoubi executable within Zgoubidoo. It will run Zgoubi as a subprocess and
-offers a variety of concurency and parallelisation features.</p>
+<p><cite>Zgoubi</cite> is responsible for running the Zgoubi executable within Zgoubidoo. It will run Zgoubi as a subprocess
+and offers a variety of concurency and parallelisation features.</p>
+<p>The <cite>Zgoubi</cite> object is an interface to the Zgoubi executable. The executable can be found automatically or its
+name and path can be specified.</p>
+<p>The Zgoubi executable is called on an instance of <cite>Input</cite> specifying a list of paths containing Zgoubi input
+files. Multiple instances can thus be run in parallel.</p>
+<p>TODO details on concurrency</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>executable</strong> (<em>-</em>) – name of the Zgoubi executable</li>
+<li><strong>path</strong> (<em>-</em>) – path to the Zgoubi executable</li>
+<li><strong>n_procs</strong> (<em>-</em>) – maximum number of Zgoubi simulations to be started in parallel</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="attribute">
 <dt id="zgoubidoo.zgoubi.Zgoubi.ZGOUBI_EXECUTABLE_NAME">
 <code class="descname">ZGOUBI_EXECUTABLE_NAME</code><em class="property"> = 'zgoubi'</em><a class="headerlink" href="#zgoubidoo.zgoubi.Zgoubi.ZGOUBI_EXECUTABLE_NAME" title="Permalink to this definition">¶</a></dt>
@@ -273,116 +446,6 @@ Returns:</p>
 <dt id="zgoubidoo.zgoubi.Zgoubi.wait">
 <code class="descname">wait</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#Zgoubi.wait"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.Zgoubi.wait" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="exception">
-<dt id="zgoubidoo.zgoubi.ZgoubiException">
-<em class="property">exception </em><code class="descclassname">zgoubidoo.zgoubi.</code><code class="descname">ZgoubiException</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#ZgoubiException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Exception raised for errors when running Zgoubi.</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="zgoubidoo.zgoubi.ZgoubiResults">
-<em class="property">class </em><code class="descclassname">zgoubidoo.zgoubi.</code><code class="descname">ZgoubiResults</code><span class="sig-paren">(</span><em>results: List[Mapping[KT, VT_co]]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#ZgoubiResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults" title="Permalink to this definition">¶</a></dt>
-<dd><p>Results from a Zgoubi executable run.</p>
-<p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-<dl class="method">
-<dt id="zgoubidoo.zgoubi.ZgoubiResults.get_tracks">
-<code class="descname">get_tracks</code><span class="sig-paren">(</span><em>parameters: Optional[List[zgoubidoo.input.MappedParameters]] = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#ZgoubiResults.get_tracks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.get_tracks" title="Permalink to this definition">¶</a></dt>
-<dd><p>Collects all tracks from the different Zgoubi instances matching the given parameters list
-in the results and concatenate them.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A concatenated DataFrame with all the tracks in the result matching the parameters list.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.zgoubi.ZgoubiResults.mappings">
-<code class="descname">mappings</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.mappings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parametric mappings of all the runs present in the results.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of parametric mappings.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.zgoubi.ZgoubiResults.matrix">
-<code class="descname">matrix</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Collects all matrix data from the different Zgoubi instances in the results and concatenate them.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A concatenated DataFrame with all the matrix information from the previous run.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.zgoubi.ZgoubiResults.paths">
-<code class="descname">paths</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.paths" title="Permalink to this definition">¶</a></dt>
-<dd><p>Path of all the directories for the runs present in the results.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of directories.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.zgoubi.ZgoubiResults.print">
-<code class="descname">print</code><span class="sig-paren">(</span><em>what: str = 'result'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/zgoubi.html#ZgoubiResults.print"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.print" title="Permalink to this definition">¶</a></dt>
-<dd><p>Helper function to print the raw results from a Zgoubi run.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.zgoubi.ZgoubiResults.results">
-<code class="descname">results</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.results" title="Permalink to this definition">¶</a></dt>
-<dd><p>Raw information from the Zgoubi run.</p>
-<p>Provides the raw data structures from the Zgoubi runs.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of mappings.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="zgoubidoo.zgoubi.ZgoubiResults.tracks">
-<code class="descname">tracks</code><a class="headerlink" href="#zgoubidoo.zgoubi.ZgoubiResults.tracks" title="Permalink to this definition">¶</a></dt>
-<dd><p>Collects all tracks from the different Zgoubi instances in the results and concatenate them.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A concatenated DataFrame with all the tracks in the result.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">FileNotFoundError in case the file is not present.</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 </dd></dl>

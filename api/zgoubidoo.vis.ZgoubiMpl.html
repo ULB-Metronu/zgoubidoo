@@ -180,6 +180,20 @@
 <em class="property">class </em><code class="descclassname">zgoubidoo.vis.</code><code class="descname">ZgoubiMpl</code><span class="sig-paren">(</span><em>ax=None</em>, <em>with_boxes: bool = True</em>, <em>with_frames: bool = True</em>, <em>with_centers: bool = False</em>, <em>tracks_color: str = 'b'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#ZgoubiMpl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubiMpl" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.vis.zgoubiplot.ZgoubiPlot</span></code></p>
 <p>A matplotlib implementation of a <cite>ZgoubiPlot</cite> artist.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ax</strong> – the matplotlib ax used for plotting. If None it will be created with <cite>init_plot</cite></td>
+</tr>
+</tbody>
+</table>
+<p>(kwargs are forwarded).
+:param with_boxes: draw the body of each elements
+:param with_frames: draw the entry and exit frames of each elements
+:param with_centers: draw the center of each polar coordinate elements
+:param tracks_color: color for the plotting of tracks
+:param kwargs: forwarded to <cite>ZgoubiPlot</cite> and to <cite>init_plot</cite>.</p>
 <p class="rubric">Attributes Summary</p>
 <table border="1" class="longtable docutils">
 <colgroup>
