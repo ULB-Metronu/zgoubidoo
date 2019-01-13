@@ -18,7 +18,7 @@ def get_version_from_init():
 with open('README.md') as f:
     readme = f.read()
 
-with open('LICENSE') as f:
+with open('COPYING') as f:
     lic = f.read()
 
 
