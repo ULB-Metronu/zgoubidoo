@@ -27,3 +27,9 @@ Polarity type system
 
 .. automodule:: zgoubidoo.polarity
     :members:
+
+Miscelanous
+-----------
+
+.. automodule:: zgoubidoo.utils
+    :members:
