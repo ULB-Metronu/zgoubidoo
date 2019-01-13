@@ -34,7 +34,7 @@ def read_fai_file(filename: str = 'zgoubi.fai', path: str = '.') -> pd.DataFrame
         a FileNotFoundError in case the file is not found.
     """
     # Header line from the Zgoubi .fai file
-    with open(filename) as file:
+    with open(os.path.join(path, filename)) as file:
         headers = list(map(lambda s: s.strip(' '), file.read().split('\n')[2].split(',')))
     return pd.read_table(os.path.join(path, filename),
                          skiprows=4,
@@ -68,7 +68,7 @@ def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> pd.DataFrame
         a FileNotFoundError in case the file is not found.
     """
     # Header line from the Zgoubi .plt file
-    with open(filename) as file:
+    with open(os.path.join(path, filename)) as file:
         headers = list(map(lambda s: s.strip(' '), file.read().split('\n')[2].split(',')))
     df = pd.read_table(os.path.join(path, filename),
                        skiprows=4,

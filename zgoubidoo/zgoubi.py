@@ -81,7 +81,7 @@ class ZgoubiResults:
         """Retrieve results from the list using a numeric index."""
         return self._results[item]
 
-    def get_tracks(self, parameters: Optional[List[_MappedParameters]] = None):
+    def get_tracks(self, parameters: Optional[List[_MappedParameters]] = None) -> _pd.DataFrame:
         """
         Collects all tracks from the different Zgoubi instances matching the given parameters list
         in the results and concatenate them.
@@ -103,7 +103,7 @@ class ZgoubiResults:
                         f"Unable to read and load the Zgoubi .plt files required to collect the tracks for path "
                         "{r['path']}."
                     )
-                    return None
+                    continue
         if len(tracks) > 0:
             tracks = _pd.concat(tracks)
         else:
@@ -113,7 +113,7 @@ class ZgoubiResults:
         return tracks
 
     @property
-    def tracks(self) -> Optional[_pd.DataFrame]:
+    def tracks(self) -> _pd.DataFrame:
         """
         Collects all tracks from the different Zgoubi instances in the results and concatenate them.
 
@@ -321,7 +321,7 @@ class Zgoubi:
                       )
 
         # Run
-        _logger.warning(f"Zgoubi process in {path} has started.")
+        _logger.info(f"Zgoubi process in {path} has started.")
         output = p.communicate()
 
         # Collect STDERR
@@ -349,7 +349,7 @@ class Zgoubi:
                 cputime = float(re.search(r"\d+\.\d+[E|e]?[+|-]?\d+", lines[0]).group())
         if debug:
             print(output[0].decode())
-        _logger.warning(f"Zgoubi process in {path} finished in {cputime} s.")
+        _logger.info(f"Zgoubi process in {path} finished in {cputime} s.")
         return {
             'stdout': output[0].decode().split('\n'),
             'stderr': stderr,

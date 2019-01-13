@@ -196,7 +196,7 @@ class B3G(DipoleIBA):
         'C2_S': -0.13034787,  # Obtained from field map fit
         'C3_S': 0.02948957,  # Obtained from field map fit
         'SHIFT_S': 0 * _ureg.cm,
-        'XPAS': 0.1 * _ureg.mm,
+        'XPAS': 1.0 * _ureg.mm,
     }
 
     def post_init(self,
@@ -867,3 +867,4 @@ class CGTR:
         artist.ax.set_aspect('equal', 'datalim')
         if crosshair:
             artist.ax.hlines(0.0, -10, 1000)
+        return artist.figure

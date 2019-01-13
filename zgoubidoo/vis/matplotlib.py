@@ -51,6 +51,15 @@ class ZgoubiMpl(ZgoubiPlot):
         """
         return self._ax
 
+    @property
+    def figure(self):
+        """Current Matplotlib figure.
+
+        Returns:
+            the Matplotlib figure.
+        """
+        return self._fig
+
     @ax.setter
     def ax(self, ax):
         self._ax = ax
