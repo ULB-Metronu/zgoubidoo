@@ -859,7 +859,7 @@ class CGTR:
         if ax is not None:
             artist.ax = ax
 
-        zgoubidoo.vis.beamline(beamline=self.line[start:stop],
+        zgoubidoo.vis.beamline(line=self.line[start:stop],
                                artist=artist,
                                tracks=self.tracks,
                                )

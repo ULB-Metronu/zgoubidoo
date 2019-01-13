@@ -3,7 +3,8 @@
 TODO
 """
 from __future__ import annotations
-import numpy as np
+import numpy as _np
+import pandas as _pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import matplotlib.transforms as transforms
@@ -15,8 +16,7 @@ import zgoubidoo.commands
 
 
 class ZgoubiMpl(ZgoubiPlot):
-    """A matplotlib implementation of a `ZgoubiPlot` artist.
-    """
+    """A matplotlib implementation of a `ZgoubiPlot` artist."""
     def __init__(self,
                  ax=None,
                  with_boxes: bool = True,
@@ -25,14 +25,14 @@ class ZgoubiMpl(ZgoubiPlot):
                  tracks_color: str = 'b',
                  **kwargs):
         """
-
-        :param ax: the matplotlib ax used for plotting. If None it will be created with `init_plot`
-        (kwargs are forwarded).
-        :param with_boxes: draw the body of each elements
-        :param with_frames: draw the entry and exit frames of each elements
-        :param with_centers: draw the center of each polar coordinate elements
-        :param tracks_color: color for the plotting of tracks
-        :param kwargs: forwarded to `ZgoubiPlot` and to `init_plot`.
+        Args:
+            param ax: the matplotlib ax used for plotting. If None it will be created with `init_plot` (kwargs are
+            forwarded).
+            with_boxes: draw the body of each elements
+            with_frames: draw the entry and exit frames of each elements
+            with_centers: draw the center of each polar coordinate elements
+            tracks_color: color for the plotting of tracks
+            kwargs: forwarded to `ZgoubiPlot` and to `init_plot`.
         """
         super().__init__(with_boxes, with_frames, **kwargs)
         self._with_centers = with_centers
@@ -41,6 +41,20 @@ class ZgoubiMpl(ZgoubiPlot):
             self.init_plot(**kwargs)
         else:
             self._ax = ax
+
+    @property
+    def tracks_color(self):
+        """
+        The color for the rendering of the tracks.
+
+        Returns:
+            color as a string
+        """
+        return self._tracks_color
+
+    @tracks_color.setter
+    def tracks_color(self, color: str):
+        self._tracks_color = color
 
     @property
     def ax(self):
@@ -110,7 +124,7 @@ class ZgoubiMpl(ZgoubiPlot):
             Returns:
 
             """
-            if np.cos(_radian(magnet.entry_patched.tz)) > 0:
+            if _np.cos(_radian(magnet.entry_patched.tz)) > 0:
                 theta1 = 90 - _degree(magnet.entry_patched.tx + magnet.angular_opening)
                 theta2 = 90 - _degree(magnet.entry_patched.tx)
                 theta3 = 90 - _degree(magnet.entry_patched.tx + magnet.reference_angle)
@@ -193,13 +207,12 @@ class ZgoubiMpl(ZgoubiPlot):
             do_frame()
 
     def cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet):
-        """
+        """Rendering of magnets in cartesian coordinates.
+
+        Plot magnets in cartesian coordinates using rectangles.
 
         Args:
-            magnet:
-
-        Returns:
-
+            magnet: the magnet to be rendered.
         """
 
         def do_frame():
@@ -221,8 +234,8 @@ class ZgoubiMpl(ZgoubiPlot):
                         _cm(magnet.entry_patched.x),
                         _cm(magnet.entry_patched.y - magnet.WIDTH / 2)
                     ),
-                    np.linalg.norm(
-                        np.array([
+                    _np.linalg.norm(
+                        _np.array([
                             _cm(magnet.exit.x - magnet.entry_patched.x),
                             _cm(magnet.exit.y - magnet.entry_patched.y)
                         ]).astype(float)
@@ -241,21 +254,18 @@ class ZgoubiMpl(ZgoubiPlot):
         if self._with_frames:
             do_frame()
 
-    def tracks_cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet, tracks):
-        """
+    def tracks_cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet, tracks: _pd.DataFrame):
+        """Plot tracks for a cartesian magnet.
 
         Args:
-            magnet:
-            tracks:
-
-        Returns:
-
+            magnet: the magnet to which the tracks are attached
+            tracks: a dataframe containing the tracks
         """
         v = 100 * tracks[['X', 'Y-DY', 'Z']].values
         m = Frame(magnet.entry_patched).rotate_z(2 * magnet.entry_patched.tx).get_rotation_matrix()
-        tmp = np.dot(v, m)
-        tracks_x = _cm(magnet.entry_patched.x) + tmp[:, 0]
-        tracks_y = _cm(magnet.entry_patched.y) + tmp[:, 1]
+        _ = _np.dot(v, m)
+        tracks_x = _cm(magnet.entry_patched.x) + _[:, 0]
+        tracks_y = _cm(magnet.entry_patched.y) + _[:, 1]
         self.plot(tracks_x,
                   tracks_y,
                   '.',
@@ -265,23 +275,20 @@ class ZgoubiMpl(ZgoubiPlot):
                   )
 
     def tracks_polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet, tracks):
-        """
+        """Plot tracks for a polar magnet.
 
         Args:
-            magnet:
-            tracks:
-
-        Returns:
-
+            magnet: the magnet to which the tracks are attached
+            tracks: a dataframe containing the tracks
         """
         x = 100 * tracks['X'].values  # Polar angle
         y = 100 * tracks['Y-DY'].values
-        if np.cos(_radian(magnet.entry.tz)) > 0:
+        if _np.cos(_radian(magnet.entry.tz)) > 0:
             angle = _radian(90 * _ureg.degree - magnet.center.tx) - x
         else:
             angle = _radian(-90 * _ureg.degree - magnet.center.tx) + x
-        tracks_x = _cm(magnet.center.x) + y * np.cos(angle)
-        tracks_y = _cm(magnet.center.y) + y * np.sin(angle)
+        tracks_x = _cm(magnet.center.x) + y * _np.cos(angle)
+        tracks_y = _cm(magnet.center.y) + y * _np.sin(angle)
         self.plot(tracks_x,
                   tracks_y,
                   '.',

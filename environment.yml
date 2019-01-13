@@ -19,3 +19,5 @@ dependencies:
   - quaternion
   - numpy-stl
   - parse
+  - mypy
+  - pyarrow

@@ -614,7 +614,7 @@ class Input:
         if ax is not None:
             artist.ax = ax
 
-        zgoubidoo.vis.beamline(beamline=self[start:stop],
+        zgoubidoo.vis.beamline(line=self[start:stop],
                                artist=artist,
                                tracks=self.tracks,
                                )
@@ -644,7 +644,7 @@ class Input:
             return f.write(str(_))
 
     @staticmethod
-    def build(name: str = 'beamline', line: Optional[List[commands.Command]] = None) -> str:
+    def build(name: str = 'beamline', line: Optional[List[zgoubidoo.commands.Command]] = None) -> str:
         """Build a string representing the complete input.
 
         A string is built based on the Zgoubi serialization of all elements (commands) of the input sequence.
