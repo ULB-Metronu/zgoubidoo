@@ -1,6 +1,11 @@
 Zgoubidoo's documentation
 =========================
 
+.. image:: _static/zgoubidoo.png
+   :width: 300 px
+   :alt: Zgoubidoo's logo
+   :align: right
+
 .. automodule:: zgoubidoo
 
 .. toctree::

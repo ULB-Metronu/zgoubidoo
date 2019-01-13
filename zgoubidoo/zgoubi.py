@@ -1,11 +1,10 @@
-"""Provides an interface to run Zgoubi from Python; supports multiprocessing.
+"""Provides an interface to run Zgoubi from Python; supports multiprocessing and concurrent programming.
 
 .. seealso::
 
     The full `Zgoubi User Guide`_ can also be consulted for reference.
 
     .. _Zgoubi User Guide: https://sourceforge.net/projects/zgoubi/
-
 
 """
 from __future__ import annotations
@@ -26,6 +25,7 @@ from .input import MappedParameters as _MappedParameters
 from .input import PathsDict as _PathDict
 from .output import read_plt_file, read_matrix_file
 
+__all__ = ['ZgoubiException', 'ZgoubiResults', 'Zgoubi']
 _logger = logging.getLogger(__name__)
 
 
@@ -37,14 +37,18 @@ class ZgoubiException(Exception):
 
 
 class ZgoubiResults:
-    """Results from a Zgoubi executable run.
-
-    Examples:
-        >>> 1 + 1 # TODO
-
-    """
+    """Results from a Zgoubi executable run."""
     def __init__(self, results: List[Mapping]):
         """
+        `ZgoubiResults` is used to store results and outputs from a single or multiple Zgoubi runs. It is instanciated from
+        a list of dictionnaries containing the results (each one being a mapping between `MappedParameters` (to identify
+        from which run the results are from) and the results themselves (also a dictionnary)).
+
+        Methods and properties of `ZgoubiResults` are used to access and process individual or multiple results. In
+        particular it is possible to extract a set of tracks from the results.
+
+        Examples:
+            >>> 1 + 1 # TODO
 
         Args:
             results: a list of dictionnaries structure with the Zgoubi run information and errors.
@@ -53,10 +57,28 @@ class ZgoubiResults:
         self._tracks: Optional[_pd.DataFrame] = None
         self._matrix: Optional[_pd.DataFrame] = None
 
-    def __len__(self):
+    @classmethod
+    def merge(cls, *results: ZgoubiResults):
+        """Merge multiple ZgoubiResults into one.
+
+        Args:
+            results: list of `ZgoubiResults` to copy
+
+        Returns:
+            a new `ZgoubiResults` instance containing the concatenated results.
+        """
+        return cls([rr for r in results for rr in r._results])
+
+    def __len__(self) -> int:
+        """Length of the results list."""
         return len(self._results)
 
-    def __getitem__(self, item):
+    def __copy__(self) -> ZgoubiResults:
+        """Shallow copy operation."""
+        return ZgoubiResults(self._results)
+
+    def __getitem__(self, item: int):
+        """Retrieve results from the list using a numeric index."""
         return self._results[item]
 
     def get_tracks(self, parameters: Optional[List[_MappedParameters]] = None):
@@ -97,9 +119,6 @@ class ZgoubiResults:
 
         Returns:
             A concatenated DataFrame with all the tracks in the result.
-
-        Raises:
-            FileNotFoundError in case the file is not present.
         """
         return self.get_tracks()
 
@@ -160,11 +179,7 @@ class ZgoubiResults:
 
 
 class Zgoubi:
-    """High level interface to run Zgoubi from Python.
-
-    `Zgoubi` is responsible for running the Zgoubi executable within Zgoubidoo. It will run Zgoubi as a subprocess and
-    offers a variety of concurency and parallelisation features.
-    """
+    """High level interface to run Zgoubi from Python."""
 
     ZGOUBI_EXECUTABLE_NAME: str = 'zgoubi'
     """Default name of the Zgoubi executable."""
@@ -174,11 +189,16 @@ class Zgoubi:
 
     def __init__(self, executable: str = ZGOUBI_EXECUTABLE_NAME, path: str = None, n_procs: Optional[int] = None):
         """
-        The created `Zgoubi` object is an interface to the Zgoubi executable. The executable can be found
-        automatically or its name and path can be specified.
+        `Zgoubi` is responsible for running the Zgoubi executable within Zgoubidoo. It will run Zgoubi as a subprocess
+        and offers a variety of concurency and parallelisation features.
+
+        The `Zgoubi` object is an interface to the Zgoubi executable. The executable can be found automatically or its
+        name and path can be specified.
 
         The Zgoubi executable is called on an instance of `Input` specifying a list of paths containing Zgoubi input
         files. Multiple instances can thus be run in parallel.
+
+        TODO details on concurrency
 
         Args:
             - executable: name of the Zgoubi executable

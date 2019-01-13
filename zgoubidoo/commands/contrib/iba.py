@@ -841,17 +841,16 @@ class CGTR:
              start: Optional[Union[str, zgoubidoo.commands.Command]] = None,
              stop: Optional[Union[str, zgoubidoo.commands.Command]] = None,
              crosshair: bool = True):
-        """
+        """Plot the P1 beamline.
+
         TODO
+
         Args:
-            ax:
-            artist:
-            start: TODO
-            stop: TODO
-            crosshair:
-
-        Returns:
-
+            ax: an optional matplotlib axis to draw on
+            artist: an artist object for the rendering
+            start: first element of the beamline to be plotted
+            stop: last element of the beamline to be plotted
+            crosshair: draw a crosshair indicating the isocenter
         """
         zgoubidoo.survey(beamline=self.line)
 
