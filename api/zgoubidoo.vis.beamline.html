@@ -175,22 +175,25 @@
 <h1>beamline<a class="headerlink" href="#beamline" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="zgoubidoo.vis.beamline">
-<code class="descclassname">zgoubidoo.vis.</code><code class="descname">beamline</code><span class="sig-paren">(</span><em>beamline: zgoubidoo.input.Input</em>, <em>tracks=None</em>, <em>tracks_color: str = 'b'</em>, <em>artist: Optional[zgoubidoo.vis.zgoubiplot.ZgoubiPlot] = None</em>, <em>with_elements: bool = True</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/zgoubidoo/vis/beamline.html#beamline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.beamline" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<code class="descclassname">zgoubidoo.vis.</code><code class="descname">beamline</code><span class="sig-paren">(</span><em>line: zgoubidoo.input.Input</em>, <em>tracks=None</em>, <em>tracks_color: str = 'b'</em>, <em>artist: Optional[zgoubidoo.vis.zgoubiplot.ZgoubiPlot] = None</em>, <em>with_elements: bool = True</em>, <em>with_tracks: bool = True</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/zgoubidoo/vis/beamline.html#beamline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.beamline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use a <cite>ZgoubiPlot</cite> artist to perform the rendering of the beamline with elements and tracks.</p>
+<p>The <cite>Input</cite> must be surveyed first so that all the placements are taken into account for the plotting.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>beamline</strong> – </li>
-<li><strong>tracks</strong> – </li>
-<li><strong>artist</strong> – </li>
-<li><strong>with_elements</strong> – </li>
+<li><strong>line</strong> – the beamline to be rendered</li>
+<li><strong>tracks</strong> – the tracks dataset</li>
+<li><strong>tracks_color</strong> – color for the rendering of the tracks</li>
+<li><strong>artist</strong> – the artist for the rendering</li>
+<li><strong>with_elements</strong> – plot the beamline elements</li>
+<li><strong>with_tracks</strong> – plot the beam tracks</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p>Returns:</p>
 </dd></dl>
 
 </div>

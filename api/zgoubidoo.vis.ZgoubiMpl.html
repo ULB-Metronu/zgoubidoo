@@ -184,16 +184,19 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ax</strong> – the matplotlib ax used for plotting. If None it will be created with <cite>init_plot</cite></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ax</strong> (<em>param</em>) – the matplotlib ax used for plotting. If None it will be created with <cite>init_plot</cite> (kwargs are</li>
+<li><strong>forwarded</strong><strong>)</strong><strong></strong> – </li>
+<li><strong>with_boxes</strong> – draw the body of each elements</li>
+<li><strong>with_frames</strong> – draw the entry and exit frames of each elements</li>
+<li><strong>with_centers</strong> – draw the center of each polar coordinate elements</li>
+<li><strong>tracks_color</strong> – color for the plotting of tracks</li>
+<li><strong>kwargs</strong> – forwarded to <cite>ZgoubiPlot</cite> and to <cite>init_plot</cite>.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
-<p>(kwargs are forwarded).
-:param with_boxes: draw the body of each elements
-:param with_frames: draw the entry and exit frames of each elements
-:param with_centers: draw the center of each polar coordinate elements
-:param tracks_color: color for the plotting of tracks
-:param kwargs: forwarded to <cite>ZgoubiPlot</cite> and to <cite>init_plot</cite>.</p>
 <p class="rubric">Attributes Summary</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -214,15 +217,7 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.vis.ZgoubiMpl.cartesianmagnet" title="zgoubidoo.vis.ZgoubiMpl.cartesianmagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cartesianmagnet</span></code></a>(magnet)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param magnet:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<td>Rendering of magnets in cartesian coordinates.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.vis.ZgoubiMpl.init_plot" title="zgoubidoo.vis.ZgoubiMpl.init_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_plot</span></code></a>([figsize,&nbsp;subplots])</td>
 <td>Initialize the Matplotlib figure and ax.</td>
@@ -234,26 +229,10 @@
 <td>Rendering of magnets in polar coordinates.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.vis.ZgoubiMpl.tracks_cartesianmagnet" title="zgoubidoo.vis.ZgoubiMpl.tracks_cartesianmagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tracks_cartesianmagnet</span></code></a>(magnet,&nbsp;tracks)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param magnet:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<td>Plot tracks for a cartesian magnet.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.vis.ZgoubiMpl.tracks_polarmagnet" title="zgoubidoo.vis.ZgoubiMpl.tracks_polarmagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tracks_polarmagnet</span></code></a>(magnet,&nbsp;tracks)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param magnet:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<td>Plot tracks for a polar magnet.</td>
 </tr>
 </tbody>
 </table>
@@ -276,15 +255,16 @@
 <dl class="method">
 <dt id="zgoubidoo.vis.ZgoubiMpl.cartesianmagnet">
 <code class="descname">cartesianmagnet</code><span class="sig-paren">(</span><em>magnet: zgoubidoo.commands.magnetique.CartesianMagnet</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#ZgoubiMpl.cartesianmagnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubiMpl.cartesianmagnet" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Rendering of magnets in cartesian coordinates.</p>
+<p>Plot magnets in cartesian coordinates using rectangles.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>magnet</strong> – </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>magnet</strong> – the magnet to be rendered.</td>
 </tr>
 </tbody>
 </table>
-<p>Returns:</p>
 </dd></dl>
 
 <dl class="method">
@@ -329,38 +309,38 @@
 
 <dl class="method">
 <dt id="zgoubidoo.vis.ZgoubiMpl.tracks_cartesianmagnet">
-<code class="descname">tracks_cartesianmagnet</code><span class="sig-paren">(</span><em>magnet: zgoubidoo.commands.magnetique.CartesianMagnet</em>, <em>tracks</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#ZgoubiMpl.tracks_cartesianmagnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubiMpl.tracks_cartesianmagnet" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<code class="descname">tracks_cartesianmagnet</code><span class="sig-paren">(</span><em>magnet: zgoubidoo.commands.magnetique.CartesianMagnet</em>, <em>tracks: pandas.core.frame.DataFrame</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#ZgoubiMpl.tracks_cartesianmagnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubiMpl.tracks_cartesianmagnet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot tracks for a cartesian magnet.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>magnet</strong> – </li>
-<li><strong>tracks</strong> – </li>
+<li><strong>magnet</strong> – the magnet to which the tracks are attached</li>
+<li><strong>tracks</strong> – a dataframe containing the tracks</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p>Returns:</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="zgoubidoo.vis.ZgoubiMpl.tracks_polarmagnet">
 <code class="descname">tracks_polarmagnet</code><span class="sig-paren">(</span><em>magnet: zgoubidoo.commands.magnetique.PolarMagnet</em>, <em>tracks</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#ZgoubiMpl.tracks_polarmagnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubiMpl.tracks_polarmagnet" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Plot tracks for a polar magnet.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>magnet</strong> – </li>
-<li><strong>tracks</strong> – </li>
+<li><strong>magnet</strong> – the magnet to which the tracks are attached</li>
+<li><strong>tracks</strong> – a dataframe containing the tracks</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p>Returns:</p>
 </dd></dl>
 
 </dd></dl>

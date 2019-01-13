@@ -163,7 +163,8 @@
 <span class="sd">TODO</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">patches</span>
 <span class="kn">import</span> <span class="nn">matplotlib.transforms</span> <span class="k">as</span> <span class="nn">transforms</span>
@@ -175,8 +176,7 @@
 
 
 <div class="viewcode-block" id="ZgoubiMpl"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubiMpl.html#zgoubidoo.vis.ZgoubiMpl">[docs]</a><span class="k">class</span> <span class="nc">ZgoubiMpl</span><span class="p">(</span><span class="n">ZgoubiPlot</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A matplotlib implementation of a `ZgoubiPlot` artist.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;A matplotlib implementation of a `ZgoubiPlot` artist.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">with_boxes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -185,14 +185,14 @@
                  <span class="n">tracks_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span>
                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-
-<span class="sd">        :param ax: the matplotlib ax used for plotting. If None it will be created with `init_plot`</span>
-<span class="sd">        (kwargs are forwarded).</span>
-<span class="sd">        :param with_boxes: draw the body of each elements</span>
-<span class="sd">        :param with_frames: draw the entry and exit frames of each elements</span>
-<span class="sd">        :param with_centers: draw the center of each polar coordinate elements</span>
-<span class="sd">        :param tracks_color: color for the plotting of tracks</span>
-<span class="sd">        :param kwargs: forwarded to `ZgoubiPlot` and to `init_plot`.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            param ax: the matplotlib ax used for plotting. If None it will be created with `init_plot` (kwargs are</span>
+<span class="sd">            forwarded).</span>
+<span class="sd">            with_boxes: draw the body of each elements</span>
+<span class="sd">            with_frames: draw the entry and exit frames of each elements</span>
+<span class="sd">            with_centers: draw the center of each polar coordinate elements</span>
+<span class="sd">            tracks_color: color for the plotting of tracks</span>
+<span class="sd">            kwargs: forwarded to `ZgoubiPlot` and to `init_plot`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">with_boxes</span><span class="p">,</span> <span class="n">with_frames</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_with_centers</span> <span class="o">=</span> <span class="n">with_centers</span>
@@ -201,6 +201,20 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">init_plot</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span> <span class="o">=</span> <span class="n">ax</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">tracks_color</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The color for the rendering of the tracks.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            color as a string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracks_color</span>
+
+    <span class="nd">@tracks_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">tracks_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tracks_color</span> <span class="o">=</span> <span class="n">color</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">ax</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -270,7 +284,7 @@
 <span class="sd">            Returns:</span>
 
 <span class="sd">            &quot;&quot;&quot;</span>
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">_radian</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tz</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">_np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">_radian</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tz</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">theta1</span> <span class="o">=</span> <span class="mi">90</span> <span class="o">-</span> <span class="n">_degree</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tx</span> <span class="o">+</span> <span class="n">magnet</span><span class="o">.</span><span class="n">angular_opening</span><span class="p">)</span>
                 <span class="n">theta2</span> <span class="o">=</span> <span class="mi">90</span> <span class="o">-</span> <span class="n">_degree</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tx</span><span class="p">)</span>
                 <span class="n">theta3</span> <span class="o">=</span> <span class="mi">90</span> <span class="o">-</span> <span class="n">_degree</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tx</span> <span class="o">+</span> <span class="n">magnet</span><span class="o">.</span><span class="n">reference_angle</span><span class="p">)</span>
@@ -353,13 +367,12 @@
             <span class="n">do_frame</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="ZgoubiMpl.cartesianmagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubiMpl.html#zgoubidoo.vis.ZgoubiMpl.cartesianmagnet">[docs]</a>    <span class="k">def</span> <span class="nf">cartesianmagnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">CartesianMagnet</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Rendering of magnets in cartesian coordinates.</span>
+
+<span class="sd">        Plot magnets in cartesian coordinates using rectangles.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            magnet:</span>
-
-<span class="sd">        Returns:</span>
-
+<span class="sd">            magnet: the magnet to be rendered.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">def</span> <span class="nf">do_frame</span><span class="p">():</span>
@@ -381,8 +394,8 @@
                         <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">x</span><span class="p">),</span>
                         <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">magnet</span><span class="o">.</span><span class="n">WIDTH</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
                     <span class="p">),</span>
-                    <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
-                        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+                    <span class="n">_np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+                        <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
                             <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">exit</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">x</span><span class="p">),</span>
                             <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">exit</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
                         <span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
@@ -401,21 +414,18 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_frames</span><span class="p">:</span>
             <span class="n">do_frame</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ZgoubiMpl.tracks_cartesianmagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubiMpl.html#zgoubidoo.vis.ZgoubiMpl.tracks_cartesianmagnet">[docs]</a>    <span class="k">def</span> <span class="nf">tracks_cartesianmagnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">CartesianMagnet</span><span class="p">,</span> <span class="n">tracks</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ZgoubiMpl.tracks_cartesianmagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubiMpl.html#zgoubidoo.vis.ZgoubiMpl.tracks_cartesianmagnet">[docs]</a>    <span class="k">def</span> <span class="nf">tracks_cartesianmagnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">CartesianMagnet</span><span class="p">,</span> <span class="n">tracks</span><span class="p">:</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot tracks for a cartesian magnet.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            magnet:</span>
-<span class="sd">            tracks:</span>
-
-<span class="sd">        Returns:</span>
-
+<span class="sd">            magnet: the magnet to which the tracks are attached</span>
+<span class="sd">            tracks: a dataframe containing the tracks</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">v</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">tracks</span><span class="p">[[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y-DY&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="p">)</span><span class="o">.</span><span class="n">rotate_z</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">tx</span><span class="p">)</span><span class="o">.</span><span class="n">get_rotation_matrix</span><span class="p">()</span>
-        <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
-        <span class="n">tracks_x</span> <span class="o">=</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">tmp</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="n">tracks_y</span> <span class="o">=</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="n">tmp</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+        <span class="n">tracks_x</span> <span class="o">=</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">_</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">tracks_y</span> <span class="o">=</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="n">_</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tracks_x</span><span class="p">,</span>
                   <span class="n">tracks_y</span><span class="p">,</span>
                   <span class="s1">&#39;.&#39;</span><span class="p">,</span>
@@ -425,23 +435,20 @@
                   <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ZgoubiMpl.tracks_polarmagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubiMpl.html#zgoubidoo.vis.ZgoubiMpl.tracks_polarmagnet">[docs]</a>    <span class="k">def</span> <span class="nf">tracks_polarmagnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">PolarMagnet</span><span class="p">,</span> <span class="n">tracks</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Plot tracks for a polar magnet.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            magnet:</span>
-<span class="sd">            tracks:</span>
-
-<span class="sd">        Returns:</span>
-
+<span class="sd">            magnet: the magnet to which the tracks are attached</span>
+<span class="sd">            tracks: a dataframe containing the tracks</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">x</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">tracks</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>  <span class="c1"># Polar angle</span>
         <span class="n">y</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">tracks</span><span class="p">[</span><span class="s1">&#39;Y-DY&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">_radian</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry</span><span class="o">.</span><span class="n">tz</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">_np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">_radian</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">entry</span><span class="o">.</span><span class="n">tz</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">angle</span> <span class="o">=</span> <span class="n">_radian</span><span class="p">(</span><span class="mi">90</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span> <span class="o">-</span> <span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">tx</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">angle</span> <span class="o">=</span> <span class="n">_radian</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span> <span class="o">-</span> <span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">tx</span><span class="p">)</span> <span class="o">+</span> <span class="n">x</span>
-        <span class="n">tracks_x</span> <span class="o">=</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
-        <span class="n">tracks_y</span> <span class="o">=</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">tracks_x</span> <span class="o">=</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">tracks_y</span> <span class="o">=</span> <span class="n">_cm</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tracks_x</span><span class="p">,</span>
                   <span class="n">tracks_y</span><span class="p">,</span>
                   <span class="s1">&#39;.&#39;</span><span class="p">,</span>

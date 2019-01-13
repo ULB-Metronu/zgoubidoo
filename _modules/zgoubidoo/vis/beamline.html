@@ -160,35 +160,40 @@
   <h1>Source code for zgoubidoo.vis.beamline</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Beamline visualization module.</span>
 
-<span class="sd">This module provides high-level functions for the rendering of beamlines (Zgoubi ``Input``s).</span>
+<span class="sd">This module provides high-level functions for the rendering of beamlines (Zgoubi `Input`s).</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
 <span class="kn">from</span> <span class="nn">.zgoubiplot</span> <span class="k">import</span> <span class="n">ZgoubiPlot</span>
 <span class="kn">import</span> <span class="nn">zgoubidoo</span>
 
 
-<div class="viewcode-block" id="beamline"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.beamline.html#zgoubidoo.vis.beamline">[docs]</a><span class="k">def</span> <span class="nf">beamline</span><span class="p">(</span><span class="n">beamline</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Input</span><span class="p">,</span>
+<div class="viewcode-block" id="beamline"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.beamline.html#zgoubidoo.vis.beamline">[docs]</a><span class="k">def</span> <span class="nf">beamline</span><span class="p">(</span><span class="n">line</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Input</span><span class="p">,</span>
              <span class="n">tracks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
              <span class="n">tracks_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span>
              <span class="n">artist</span><span class="p">:</span> <span class="n">ZgoubiPlot</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">with_elements</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+             <span class="n">with_elements</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+             <span class="n">with_tracks</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
              <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Use a `ZgoubiPlot` artist to perform the rendering of the beamline with elements and tracks.</span>
+
+<span class="sd">    The `Input` must be surveyed first so that all the placements are taken into account for the plotting.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        beamline:</span>
-<span class="sd">        tracks:</span>
-<span class="sd">        artist:</span>
-<span class="sd">        with_elements:</span>
-
-<span class="sd">    Returns:</span>
-
+<span class="sd">        line: the beamline to be rendered</span>
+<span class="sd">        tracks: the tracks dataset</span>
+<span class="sd">        tracks_color: color for the rendering of the tracks</span>
+<span class="sd">        artist: the artist for the rendering</span>
+<span class="sd">        with_elements: plot the beamline elements</span>
+<span class="sd">        with_tracks: plot the beam tracks</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">line</span> <span class="o">=</span> <span class="n">beamline</span><span class="p">[</span><span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Patchable</span><span class="p">][</span><span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Plotable</span><span class="p">]</span><span class="o">.</span><span class="n">line</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Patchable</span><span class="p">][</span><span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Plotable</span><span class="p">]</span><span class="o">.</span><span class="n">line</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="s1">&#39;tracks_color&#39;</span><span class="p">):</span>
+        <span class="n">artist</span><span class="o">.</span><span class="n">tracks_color</span> <span class="o">=</span> <span class="n">tracks_color</span>
     <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">with_elements</span><span class="p">:</span>
             <span class="n">e</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">artist</span><span class="o">=</span><span class="n">artist</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">tracks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">tracks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">with_tracks</span><span class="p">:</span>
             <span class="n">e</span><span class="o">.</span><span class="n">plot_tracks</span><span class="p">(</span><span class="n">artist</span><span class="o">=</span><span class="n">artist</span><span class="p">,</span> <span class="n">tracks</span><span class="o">=</span><span class="n">tracks</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;LABEL1 == &#39;</span><span class="si">{e.LABEL1}</span><span class="s2">&#39;&quot;</span><span class="p">))</span></div>
 </pre></div>
 
