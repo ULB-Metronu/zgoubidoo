@@ -705,6 +705,8 @@
 <div class="viewcode-block" id="Bend"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.magnetique.Bend.html#zgoubidoo.commands.magnetique.Bend">[docs]</a><span class="k">class</span> <span class="nc">Bend</span><span class="p">(</span><span class="n">CartesianMagnet</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Bending magnet, Cartesian frame.</span>
 
+<span class="sd">    .. rubric:: Zgoubi manual description</span>
+
 <span class="sd">    TODO</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;BEND&#39;</span>
@@ -1016,23 +1018,23 @@
             <span class="n">boro</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span>
             <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">,</span>
             <span class="n">entry_coordinates</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">exit_coordinates</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">exit_coordinate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
             <span class="n">method</span><span class="p">:</span> <span class="n">_FitType</span> <span class="o">=</span> <span class="n">_Fit2</span><span class="p">,</span>
             <span class="n">zgoubi</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_Zgoubi</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            boro:</span>
-<span class="sd">            particle:</span>
-<span class="sd">            entry_coordinates:</span>
-<span class="sd">            exit_coordinates:</span>
-<span class="sd">            method:</span>
-<span class="sd">            zgoubi: TODO</span>
-<span class="sd">            debug:</span>
+<span class="sd">            boro: the reference energy of the magnet</span>
+<span class="sd">            particle: the particule type</span>
+<span class="sd">            entry_coordinates: references 6D coordinates at the magnet entry</span>
+<span class="sd">            exit_coordinate: the coordinate at the magnet exit</span>
+<span class="sd">            method: the Zgoubi fitting command</span>
+<span class="sd">            zgoubi: the `Zgoubi` instance used to launch the runs</span>
+<span class="sd">            debug: verbose output</span>
 
 <span class="sd">        Returns:</span>
-
+<span class="sd">            the `Dipole` itself (allows method chaining).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">entry_coordinates</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">entry_coordinates</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
@@ -1060,7 +1062,7 @@
                              <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># Particle #1</span>
                              <span class="s1">&#39;J&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># Y</span>
                              <span class="s1">&#39;IR&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="c1"># END</span>
-                             <span class="s1">&#39;V&#39;</span><span class="p">:</span> <span class="n">exit_coordinates</span><span class="p">,</span>
+                             <span class="s1">&#39;V&#39;</span><span class="p">:</span> <span class="n">exit_coordinate</span><span class="p">,</span>
                              <span class="s1">&#39;WV&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
                              <span class="s1">&#39;NP&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
                          <span class="p">},</span>

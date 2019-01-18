@@ -179,7 +179,7 @@
 <h1>Sequence<a class="headerlink" href="#sequence" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="zgoubidoo.sequence.sequence.Sequence">
-<em class="property">class </em><code class="descclassname">zgoubidoo.sequence.sequence.</code><code class="descname">Sequence</code><span class="sig-paren">(</span><em>name: str = ''</em>, <em>sequence: Optional[List[zgoubidoo.commands.commands.Command]] = None</em>, <em>particle: Optional[zgoubidoo.commands.particules.ParticuleType] = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em>, <em>periods: int = 1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/sequence/sequence.html#Sequence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.sequence.sequence.Sequence" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">zgoubidoo.sequence.sequence.</code><code class="descname">Sequence</code><span class="sig-paren">(</span><em>name: str = ''</em>, <em>sequence: Optional[List[zgoubidoo.commands.commands.Command]] = None</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em>, <em>periods: int = 1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/sequence/sequence.html#Sequence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.sequence.sequence.Sequence" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Sequence.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -224,16 +224,8 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.sequence.sequence.Sequence.find_closed_orbit" title="zgoubidoo.sequence.sequence.Sequence.find_closed_orbit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_closed_orbit</span></code></a>(brho,&nbsp;dpp,&nbsp;guess[,&nbsp;t,&nbsp;z,&nbsp;…])</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param brho:</th><td class="field-body">nominal magnetic rigidity of the sequence</td>
-</tr>
-</tbody>
-</table>
-</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sequence.find_closed_orbit</span></code></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.sequence.sequence.Sequence.repeat_sequence" title="zgoubidoo.sequence.sequence.Sequence.repeat_sequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">repeat_sequence</span></code></a>(periods)</td>
 <td><table class="docutils field-list" frame="void" rules="none">
@@ -246,11 +238,11 @@
 </table>
 </td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.sequence.sequence.Sequence.track_closed_orbit" title="zgoubidoo.sequence.sequence.Sequence.track_closed_orbit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">track_closed_orbit</span></code></a>(brho)</td>
-<td>Track closed orbit.</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sequence.track_closed_orbit</span></code></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.sequence.sequence.Sequence.twiss" title="zgoubidoo.sequence.sequence.Sequence.twiss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">twiss</span></code></a>()</td>
-<td>Returns:</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sequence.twiss</span></code></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.sequence.sequence.Sequence.validate" title="zgoubidoo.sequence.sequence.Sequence.validate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate</span></code></a>()</td>
 <td>Verify the validity of the sequence based on a set of rules.</td>
@@ -284,30 +276,6 @@
 
 <p class="rubric">Methods Documentation</p>
 <dl class="method">
-<dt id="zgoubidoo.sequence.sequence.Sequence.find_closed_orbit">
-<code class="descname">find_closed_orbit</code><span class="sig-paren">(</span><em>brho: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>dpp: float = 0.0</em>, <em>guess: zgoubidoo.sequence.sequence.Coordinates = Coordinates(y=0</em>, <em>t=0</em>, <em>z=0</em>, <em>p=0</em>, <em>x=0</em>, <em>d=1</em>, <em>iex=1)</em>, <em>tolerance: float = 1e-10</em>, <em>fit_method: zgoubidoo.commands.commands.FitType = &lt;class 'zgoubidoo.commands.commands.Fit'&gt;</em>, <em>plane: zgoubidoo.sequence.sequence.Sequence.PlaneType = &lt;class 'zgoubidoo.sequence.sequence.Sequence.HorizontalPlane'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/sequence/sequence.html#Sequence.find_closed_orbit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.sequence.sequence.Sequence.find_closed_orbit" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>brho</strong> – nominal magnetic rigidity of the sequence</li>
-<li><strong>dpp</strong> – momentum offset for off-momentum closed orbit computation</li>
-<li><strong>guess</strong> – initial closed orbit guess</li>
-<li><strong>tolerance</strong> – tolerance for the termination of the fit method</li>
-<li><strong>fit_method</strong> – a Zgoubi Fit command</li>
-<li><strong>plane</strong> – the plane(s) for which the search has to be performed</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the closed orbit</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
 <dt id="zgoubidoo.sequence.sequence.Sequence.repeat_sequence">
 <code class="descname">repeat_sequence</code><span class="sig-paren">(</span><em>periods: int = 1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/sequence/sequence.html#Sequence.repeat_sequence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.sequence.sequence.Sequence.repeat_sequence" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
@@ -319,26 +287,6 @@
 </tbody>
 </table>
 <p>Returns:</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.sequence.sequence.Sequence.track_closed_orbit">
-<code class="descname">track_closed_orbit</code><span class="sig-paren">(</span><em>brho: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/sequence/sequence.html#Sequence.track_closed_orbit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.sequence.sequence.Sequence.track_closed_orbit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Track closed orbit.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>brho</strong> – nominal magnetic rigidity of the sequence</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="zgoubidoo.sequence.sequence.Sequence.twiss">
-<code class="descname">twiss</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/sequence/sequence.html#Sequence.twiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.sequence.sequence.Sequence.twiss" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns:</p>
 </dd></dl>
 
 <dl class="method">

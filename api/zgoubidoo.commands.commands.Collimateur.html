@@ -30,7 +30,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Collimator" href="zgoubidoo.commands.commands.Collimator.html" />
-    <link rel="prev" title="Cible" href="zgoubidoo.commands.commands.Cible.html" /> 
+    <link rel="prev" title="Collima" href="zgoubidoo.commands.commands.Collima.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -101,6 +101,7 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.ChangRef.html">ChangRef</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.ChangeRef.html">ChangeRef</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Cible.html">Cible</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Collima.html">Collima</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Collimateur</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Collimator.html">Collimator</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Command.html">Command</a></li>
@@ -240,7 +241,9 @@
 <em class="property">class </em><code class="descclassname">zgoubidoo.commands.commands.</code><code class="descname">Collimateur</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/commands.html#Collimateur"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.commands.Collimateur" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" title="zgoubidoo.commands.commands.Command"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.commands.Command</span></code></a></p>
 <p>Collimator.</p>
-<p>TODO</p>
+<p class="rubric">Zgoubi manual description</p>
+<p>COLLIMA acts as a mathematical aperture of zero length. It causes the identification, counting and stop- ping of
+particles that reach the aperture limits.</p>
 <p class="rubric">Command attributes</p>
 <dl class="attribute">
 <dt>
@@ -287,7 +290,7 @@
 <dl class="attribute">
 <dt>
 <code class="descname">IFORM='1'</code></dt>
-<dd><p>Aperture shape.</p>
+<dd><p>Aperture shape (1 - rectangular, 2 - elliptic (other options, see documentation).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -393,7 +396,7 @@
 
 <dl class="attribute">
 <dt id="zgoubidoo.commands.commands.Collimateur.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'C1': (&lt;Quantity(0, 'centimeter')&gt;, 'Half opening (Y).'), 'C2': (&lt;Quantity(0, 'centimeter')&gt;, 'Half opening (Z).'), 'C3': (&lt;Quantity(0, 'centimeter')&gt;, 'Center of the aperture (Y).'), 'C4': (&lt;Quantity(0, 'centimeter')&gt;, 'Center of the aperture (Z).'), 'IA': (2, 'Element active or not (0 - inactive, 1 - active, 2 - active and prints information.'), 'IFORM': (1, 'Aperture shape.'), 'J': (0, 'Description of the aperture coordinates system.'), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.')}</em><a class="headerlink" href="#zgoubidoo.commands.commands.Collimateur.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="descname">PARAMETERS</code><em class="property"> = {'C1': (&lt;Quantity(0, 'centimeter')&gt;, 'Half opening (Y).'), 'C2': (&lt;Quantity(0, 'centimeter')&gt;, 'Half opening (Z).'), 'C3': (&lt;Quantity(0, 'centimeter')&gt;, 'Center of the aperture (Y).'), 'C4': (&lt;Quantity(0, 'centimeter')&gt;, 'Center of the aperture (Z).'), 'IA': (2, 'Element active or not (0 - inactive, 1 - active, 2 - active and prints information.'), 'IFORM': (1, 'Aperture shape (1 - rectangular, 2 - elliptic (other options, see documentation).'), 'J': (0, 'Description of the aperture coordinates system.'), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.')}</em><a class="headerlink" href="#zgoubidoo.commands.commands.Collimateur.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parameters of the command, with their default value, their description and optinally an index used by other
 commands (e.g. fit).</p>
 </dd></dl>
@@ -413,7 +416,7 @@ commands (e.g. fit).</p>
         <a href="zgoubidoo.commands.commands.Collimator.html" class="btn btn-neutral float-right" title="Collimator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="zgoubidoo.commands.commands.Cible.html" class="btn btn-neutral" title="Cible" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="zgoubidoo.commands.commands.Collima.html" class="btn btn-neutral" title="Collima" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

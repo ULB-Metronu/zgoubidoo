@@ -173,7 +173,7 @@
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">_Q</span>
 <span class="kn">from</span> <span class="nn">..frame</span> <span class="k">import</span> <span class="n">Frame</span> <span class="k">as</span> <span class="n">_Frame</span>
-<span class="kn">from</span> <span class="nn">..units</span> <span class="k">import</span> <span class="n">_radian</span><span class="p">,</span> <span class="n">_degree</span><span class="p">,</span> <span class="n">_m</span><span class="p">,</span> <span class="n">_cm</span>
+<span class="kn">from</span> <span class="nn">..units</span> <span class="k">import</span> <span class="n">_radian</span><span class="p">,</span> <span class="n">_degree</span><span class="p">,</span> <span class="n">_m</span><span class="p">,</span> <span class="n">_cm</span><span class="p">,</span> <span class="n">_mm</span>
 <span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">fortran_float</span>
 <span class="kn">from</span> <span class="nn">..input</span> <span class="k">import</span> <span class="n">MappedParameters</span> <span class="k">as</span> <span class="n">_MappedParameters</span>
 <span class="kn">import</span> <span class="nn">zgoubidoo</span>
@@ -621,7 +621,18 @@
 
 
 <div class="viewcode-block" id="Chambre"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.Chambre.html#zgoubidoo.commands.commands.Chambre">[docs]</a><span class="k">class</span> <span class="nc">Chambre</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Long transverse aperture limitation.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Long transverse aperture limitation.</span>
+
+<span class="sd">    .. rubric:: Zgoubi manual description</span>
+
+<span class="sd">    CHAMBR causes the identification, counting and stopping of particles that reach the transverse limits of the vacuum chamber. The chamber can be either rectangular (IFORM = 1) or elliptic (IFORM = 2). The chamber is centered at YC, ZC and has transverse dimensions ±Y L and ±ZL such that any particle will be stopped if its coordinates Y, Z satisfy</span>
+
+<span class="sd">    The conditions introduced with CHAMBR are valid along the optical structure until the next occurrence of the keyword CHAMBR. Then, if IL = 1 the aperture is possibly modified by introducing new values of YC, ZC, Y L and ZL, or, if IL = 2 the chamber ends and information is printed concerning those particles that have been stopped.</span>
+<span class="sd">The testing is done in optical elements at each integration step, between the EFB’s. For instance, in QUADRUPO there will be no testing from −XE to 0 and from XL to XL + XS, but only from 0 to XL ; in DIPOLE, there is no testing as long as the ENTRANCE EFB is not reached, and testing is stopped as soon as the EXIT or LATERAL EFB’s are passed.</span>
+<span class="sd">In optical elements defined in polar coordinates, Y stands for the radial coordinate (e.g., DIPOLE, see Figs. 3C, p. 27, and 11, p. 82). Thus, centering CHAMBR at</span>
+<span class="sd">Y C = RM simulates a chamber curved with radius RM, and having a radial acceptance RM ± YL. In DRIFT, the testing is done at the beginning and at the end, and only for positive drifts. There is no testing in CHANGREF.</span>
+<span class="sd">When a particle is stopped, its index IEX (see OBJET and section 4.6.10) is set to the value -4, and its actual path length is stored in the array SORT for possible further use.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;CHAMBR&#39;</span>
     <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span>
 
@@ -636,7 +647,14 @@
         <span class="s1">&#39;C4&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="s1">&#39;If J=0, Z center, if J=1, outer Z opening&#39;</span><span class="p">),</span>
     <span class="p">}</span>
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
-<span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span></div>
+<span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        {super().__str__().rstrip()}</span>
+<span class="s2">        </span><span class="si">{self.IA}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{self.IFORM}</span><span class="s2">.</span><span class="si">{self.J}</span><span class="s2"> {_cm(self.C1)} {_cm(self.C2)} {_cm(self.C3)} {_cm(self.C4)}</span>
+<span class="s2">        &quot;&quot;&quot;</span></div>
 
 
 <span class="c1"># Aliases</span>
@@ -651,6 +669,8 @@
 
 <span class="sd">    ::note: `ChangRef` supports the `Patchable` interface and the transformations will thus be taken into account when</span>
 <span class="sd">    surveying the line.</span>
+
+<span class="sd">    .. rubric:: Zgoubi manual description</span>
 
 <span class="sd">    TODO</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -702,14 +722,18 @@
 <div class="viewcode-block" id="Collimateur"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.Collimateur.html#zgoubidoo.commands.commands.Collimateur">[docs]</a><span class="k">class</span> <span class="nc">Collimateur</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Collimator.</span>
 
-<span class="sd">    TODO</span>
+<span class="sd">    .. rubric:: Zgoubi manual description</span>
+
+<span class="sd">    COLLIMA acts as a mathematical aperture of zero length. It causes the identification, counting and stop- ping of</span>
+<span class="sd">    particles that reach the aperture limits.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;COLLIMA&#39;</span>
     <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span>
 
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;IA&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Element active or not (0 - inactive, 1 - active, 2 - active and prints information.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;IFORM&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Aperture shape.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;IFORM&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Aperture shape (1 - rectangular, 2 - elliptic (other options, see documentation).&#39;</span><span class="p">),</span>
         <span class="s1">&#39;J&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Description of the aperture coordinates system.&#39;</span><span class="p">),</span>
         <span class="s1">&#39;C1&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="s1">&#39;Half opening (Y).&#39;</span><span class="p">),</span>
         <span class="s1">&#39;C2&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="s1">&#39;Half opening (Z).&#39;</span><span class="p">),</span>
@@ -723,11 +747,12 @@
         <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        {super().__str__().rstrip()}</span>
 <span class="s2">        </span><span class="si">{self.IA}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{self.IFORM}</span><span class="s2">.</span><span class="si">{self.J}</span><span class="s2"> </span><span class="si">{self.C1}</span><span class="s2"> </span><span class="si">{self.C2}</span><span class="s2"> </span><span class="si">{self.C3}</span><span class="s2"> </span><span class="si">{self.C4}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{self.IFORM}</span><span class="s2">.</span><span class="si">{self.J}</span><span class="s2"> {_cm(self.C1)} {_cm(self.C2)} {_cm(self.C3)} {_cm(self.C4)}</span>
 <span class="s2">        &quot;&quot;&quot;</span></div>
 
 
-<span class="c1"># Alias</span>
+<span class="c1"># Aliases</span>
+<span class="n">Collima</span> <span class="o">=</span> <span class="n">Collimateur</span>
 <span class="n">Collimator</span> <span class="o">=</span> <span class="n">Collimateur</span>
 
 
@@ -742,6 +767,8 @@
 
 <div class="viewcode-block" id="End"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.End.html#zgoubidoo.commands.commands.End">[docs]</a><span class="k">class</span> <span class="nc">End</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;End of input data list.</span>
+
+<span class="sd">    .. rubric:: Zgoubi manual description</span>
 
 <span class="sd">    The end of a problem, or of a set of several problems stacked in the data file, should be stated by means of the</span>
 <span class="sd">    keywords FIN or END.</span>

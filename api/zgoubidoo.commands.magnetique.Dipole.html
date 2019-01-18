@@ -1186,7 +1186,7 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param boro:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">param boro:</th><td class="field-body">the reference energy of the magnet</td>
 </tr>
 </tbody>
 </table>
@@ -1222,25 +1222,27 @@ commands (e.g. fit).</p>
 <p class="rubric">Methods Documentation</p>
 <dl class="method">
 <dt id="zgoubidoo.commands.magnetique.Dipole.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>boro: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em>, <em>entry_coordinates: List[T] = None</em>, <em>exit_coordinates: float = 0.0</em>, <em>method: zgoubidoo.commands.commands.FitType = &lt;class 'zgoubidoo.commands.commands.Fit2'&gt;</em>, <em>zgoubi: Optional[zgoubidoo.zgoubi.Zgoubi] = None</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#Dipole.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.Dipole.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>boro: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em>, <em>entry_coordinates: List[T] = None</em>, <em>exit_coordinate: float = 0.0</em>, <em>method: zgoubidoo.commands.commands.FitType = &lt;class 'zgoubidoo.commands.commands.Fit2'&gt;</em>, <em>zgoubi: Optional[zgoubidoo.zgoubi.Zgoubi] = None</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#Dipole.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.Dipole.fit" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>boro</strong> – </li>
-<li><strong>particle</strong> – </li>
-<li><strong>entry_coordinates</strong> – </li>
-<li><strong>exit_coordinates</strong> – </li>
-<li><strong>method</strong> – </li>
-<li><strong>zgoubi</strong> – TODO</li>
-<li><strong>debug</strong> – </li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>boro</strong> – the reference energy of the magnet</li>
+<li><strong>particle</strong> – the particule type</li>
+<li><strong>entry_coordinates</strong> – references 6D coordinates at the magnet entry</li>
+<li><strong>exit_coordinate</strong> – the coordinate at the magnet exit</li>
+<li><strong>method</strong> – the Zgoubi fitting command</li>
+<li><strong>zgoubi</strong> – the <cite>Zgoubi</cite> instance used to launch the runs</li>
+<li><strong>debug</strong> – verbose output</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the <cite>Dipole</cite> itself (allows method chaining).</p>
 </td>
 </tr>
 </tbody>
 </table>
-<p>Returns:</p>
 </dd></dl>
 
 <dl class="method">

@@ -175,6 +175,7 @@
 <span class="kn">from</span> <span class="nn">..commands</span> <span class="k">import</span> <span class="n">Marker</span> <span class="k">as</span> <span class="n">_Marker</span>
 <span class="kn">from</span> <span class="nn">..commands</span> <span class="k">import</span> <span class="n">Ymy</span> <span class="k">as</span> <span class="n">_Ymy</span>
 <span class="kn">from</span> <span class="nn">..commands</span> <span class="k">import</span> <span class="n">Fit</span> <span class="k">as</span> <span class="n">_Fit</span>
+<span class="kn">from</span> <span class="nn">..commands</span> <span class="k">import</span> <span class="n">Chamber</span> <span class="k">as</span> <span class="n">_Chamber</span>
 <span class="kn">from</span> <span class="nn">..particules</span> <span class="k">import</span> <span class="n">Proton</span> <span class="k">as</span> <span class="n">_Proton</span>
 <span class="kn">from</span> <span class="nn">..objet</span> <span class="k">import</span> <span class="n">Objet2</span> <span class="k">as</span> <span class="n">_Objet2</span>
 <span class="kn">from</span> <span class="nn">...</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
@@ -183,6 +184,7 @@
 <span class="kn">from</span> <span class="nn">...input</span> <span class="k">import</span> <span class="n">MappedParameters</span> <span class="k">as</span> <span class="n">_MappedParameters</span>
 <span class="kn">from</span> <span class="nn">...physics</span> <span class="k">import</span> <span class="n">Kinematics</span> <span class="k">as</span> <span class="n">_Kinematics</span>
 <span class="kn">from</span> <span class="nn">...zgoubi</span> <span class="k">import</span> <span class="n">Zgoubi</span> <span class="k">as</span> <span class="n">_Zgoubi</span>
+<span class="kn">from</span> <span class="nn">...zgoubi</span> <span class="k">import</span> <span class="n">ZgoubiResults</span> <span class="k">as</span> <span class="n">_ZgoubiResults</span>
 <span class="kn">from</span> <span class="nn">...polarity</span> <span class="k">import</span> <span class="n">PolarityType</span> <span class="k">as</span> <span class="n">_PolarityType</span>
 <span class="kn">from</span> <span class="nn">...polarity</span> <span class="k">import</span> <span class="n">Polarity</span> <span class="k">as</span> <span class="n">_Polarity</span>
 <span class="kn">from</span> <span class="nn">...polarity</span> <span class="k">import</span> <span class="n">HorizontalPolarity</span> <span class="k">as</span> <span class="n">_HorizontalPolarity</span>
@@ -449,6 +451,46 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span></div></div>
 
 
+<div class="viewcode-block" id="T1G"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.T1G.html#zgoubidoo.commands.contrib.iba.T1G">[docs]</a><span class="k">class</span> <span class="nc">T1G</span><span class="p">(</span><span class="n">_Bend</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One steering magnet.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;XL&#39;</span><span class="p">:</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="T1G.post_init"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.T1G.html#zgoubidoo.commands.contrib.iba.T1G.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            **kwargs:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span></div></div>
+
+
+<div class="viewcode-block" id="T2G"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.T2G.html#zgoubidoo.commands.contrib.iba.T2G">[docs]</a><span class="k">class</span> <span class="nc">T2G</span><span class="p">(</span><span class="n">_Bend</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One steering magnet.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;XL&#39;</span><span class="p">:</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="T2G.post_init"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.T2G.html#zgoubidoo.commands.contrib.iba.T2G.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            **kwargs:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span></div></div>
+
+
 <div class="viewcode-block" id="QuadrupoleIBA"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.QuadrupoleIBA.html#zgoubidoo.commands.contrib.iba.QuadrupoleIBA">[docs]</a><span class="k">class</span> <span class="nc">QuadrupoleIBA</span><span class="p">(</span><span class="n">_Quadrupole</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;IBA generic quadrupole.</span>
 
@@ -676,6 +718,26 @@
                           <span class="n">gradient</span><span class="o">=</span><span class="mf">17.5</span><span class="p">)</span></div></div>
 
 
+<div class="viewcode-block" id="Q1C"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.Q1C.html#zgoubidoo.commands.contrib.iba.Q1C">[docs]</a><span class="k">class</span> <span class="nc">Q1C</span><span class="p">(</span><span class="n">QShort</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One &#39;Q1C&#39; gantry quadrupole.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;LABEL1&#39;</span><span class="p">:</span> <span class="s1">&#39;Q1C&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;POLARITY&#39;</span><span class="p">:</span> <span class="n">_VerticalPolarity</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="Q2C"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.Q2C.html#zgoubidoo.commands.contrib.iba.Q2C">[docs]</a><span class="k">class</span> <span class="nc">Q2C</span><span class="p">(</span><span class="n">QShort</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Proteus One &#39;Q2C&#39; gantry quadrupole.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;LABEL1&#39;</span><span class="p">:</span> <span class="s1">&#39;Q2C&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;POLARITY&#39;</span><span class="p">:</span> <span class="n">_VerticalPolarity</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
 <div class="viewcode-block" id="Q1G"><a class="viewcode-back" href="../../../../api/zgoubidoo.commands.contrib.iba.Q1G.html#zgoubidoo.commands.contrib.iba.Q1G">[docs]</a><span class="k">class</span> <span class="nc">Q1G</span><span class="p">(</span><span class="n">QWall</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Proteus One &#39;Q1G&#39; gantry quadrupole.</span>
 
@@ -782,6 +844,8 @@
                  <span class="n">b1g</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">B1G</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">b2g</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">B2G</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">b3g</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">B3G</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">t1g</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T1G</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">t2g</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T2G</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">q1g</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Q1G</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">q2g</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Q2G</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">q3g</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Q3G</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -800,6 +864,8 @@
 <span class="sd">            b1g:</span>
 <span class="sd">            b2g:</span>
 <span class="sd">            b3g:</span>
+<span class="sd">            t1g:</span>
+<span class="sd">            t2g:</span>
 <span class="sd">            q1g:</span>
 <span class="sd">            q2g:</span>
 <span class="sd">            q3g:</span>
@@ -814,6 +880,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">b1g</span><span class="p">:</span> <span class="n">B1G</span> <span class="o">=</span> <span class="n">b1g</span> <span class="ow">or</span> <span class="n">B1G</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">b2g</span><span class="p">:</span> <span class="n">B2G</span> <span class="o">=</span> <span class="n">b2g</span> <span class="ow">or</span> <span class="n">B2G</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">b3g</span><span class="p">:</span> <span class="n">B3G</span> <span class="o">=</span> <span class="n">b3g</span> <span class="ow">or</span> <span class="n">B3G</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t1g</span><span class="p">:</span> <span class="n">T1G</span> <span class="o">=</span> <span class="n">t1g</span> <span class="ow">or</span> <span class="n">T1G</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t2g</span><span class="p">:</span> <span class="n">T2G</span> <span class="o">=</span> <span class="n">t2g</span> <span class="ow">or</span> <span class="n">T2G</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">q1g</span><span class="p">:</span> <span class="n">Q1G</span> <span class="o">=</span> <span class="n">q1g</span> <span class="ow">or</span> <span class="n">Q1G</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">q2g</span><span class="p">:</span> <span class="n">Q2G</span> <span class="o">=</span> <span class="n">q2g</span> <span class="ow">or</span> <span class="n">Q2G</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">q3g</span><span class="p">:</span> <span class="n">Q3G</span> <span class="o">=</span> <span class="n">q3g</span> <span class="ow">or</span> <span class="n">Q3G</span><span class="p">()</span>
@@ -833,55 +901,79 @@
             <span class="n">_Proton</span><span class="p">(),</span>
             <span class="n">_Marker</span><span class="p">(</span><span class="s1">&#39;START&#39;</span><span class="p">),</span>
             <span class="n">_Ymy</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">t1g</span><span class="p">,</span>
+            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mi">30</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">t2g</span><span class="p">,</span>
+            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mi">30</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">IFORM</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">C1</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span> <span class="n">C2</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">q1g</span><span class="p">,</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
             <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">30.3</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">IFORM</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">C1</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span> <span class="n">C2</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">q2g</span><span class="p">,</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
             <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">72.42</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">b1g</span><span class="o">.</span><span class="n">extra_drift</span><span class="p">),</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">IFORM</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">C1</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span> <span class="n">C2</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="n">C3</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">b1g</span><span class="o">.</span><span class="n">RM</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">b1g</span><span class="p">,</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
             <span class="n">_Ymy</span><span class="p">(),</span>
             <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">26.4</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">b1g</span><span class="o">.</span><span class="n">extra_drift</span><span class="p">),</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">IFORM</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">C1</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span> <span class="n">C2</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">q3g</span><span class="p">,</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
             <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">32.6</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">IFORM</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">C1</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span> <span class="n">C2</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">q4g</span><span class="p">,</span>
-            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">33.3</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">33.4</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">IFORM</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">C1</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span> <span class="n">C2</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">q5g</span><span class="p">,</span>
-            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">33.6</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">33.5</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">IFORM</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">C1</span><span class="o">=</span><span class="mi">5</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span> <span class="n">C2</span><span class="o">=</span><span class="mi">5</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">q6g</span><span class="p">,</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
             <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">36.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">IFORM</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">C1</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span> <span class="n">C2</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">q7g</span><span class="p">,</span>
-            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mi">60</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">b2g</span><span class="o">.</span><span class="n">extra_drift</span><span class="p">),</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">53.561</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">b2g</span><span class="o">.</span><span class="n">extra_drift</span><span class="p">),</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">IFORM</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">C1</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span> <span class="n">C2</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="n">C3</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">b2g</span><span class="o">.</span><span class="n">RM</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">b2g</span><span class="p">,</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
             <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mi">26</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">b2g</span><span class="o">.</span><span class="n">extra_drift</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">smx</span><span class="p">,</span>
             <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mi">12</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">smy</span><span class="p">,</span>
             <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mi">19</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">b3g</span><span class="o">.</span><span class="n">extra_drift</span><span class="p">),</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">IFORM</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">C1</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span> <span class="n">C2</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="n">C3</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">b3g</span><span class="o">.</span><span class="n">RM</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">b3g</span><span class="p">,</span>
-            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">1101.071</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">b3g</span><span class="o">.</span><span class="n">extra_drift</span><span class="p">),</span>
+            <span class="n">_Chamber</span><span class="p">(</span><span class="n">IA</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+            <span class="n">_FakeDrift</span><span class="p">(</span><span class="n">XL</span><span class="o">=</span><span class="mf">1181.071</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">b3g</span><span class="o">.</span><span class="n">extra_drift</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">iso</span><span class="p">,</span>
         <span class="p">],</span>
                                  <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tracks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_ZgoubiResults</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">survey</span><span class="p">(</span><span class="n">beamline</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Input</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Provides the full CGTR input sequence.</span>
 
 <span class="sd">        Returns:</span>
-
+<span class="sd">            the CGTR input sequence.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">zi</span>
 
     <span class="k">def</span> <span class="nf">fit_dipoles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boro</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">dipoles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">DipoleIBA</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Adjusts the main field of the dipoles according to the beam energy.</span>
+
+<span class="sd">        The adjustment is made so that the reference trajectory exists the magnet on axis.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            boro:</span>
-<span class="sd">            dipoles:</span>
-
-<span class="sd">        Returns:</span>
-
+<span class="sd">            boro: the beam energy</span>
+<span class="sd">            dipoles: a list of dipoles to fit</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">z</span> <span class="o">=</span> <span class="n">_Zgoubi</span><span class="p">()</span>
         <span class="n">dipoles</span> <span class="o">=</span> <span class="n">dipoles</span> <span class="ow">or</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">b1g</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b2g</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b3g</span><span class="p">]</span>
@@ -986,8 +1078,10 @@
                              <span class="o">**</span><span class="p">{(</span><span class="s1">&#39;SMX&#39;</span><span class="p">,</span> <span class="s1">&#39;B0&#39;</span><span class="p">):</span> <span class="n">r</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;final&#39;</span><span class="p">],</span> <span class="p">(</span><span class="s1">&#39;SMY&#39;</span><span class="p">,</span> <span class="s1">&#39;B0&#39;</span><span class="p">):</span> <span class="n">r</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;final&#39;</span><span class="p">]}</span>
                          <span class="p">})</span>
                          <span class="p">)</span>
-        <span class="n">_</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
-        <span class="n">tracks</span> <span class="o">=</span> <span class="n">_</span><span class="o">.</span><span class="n">tracks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+        <span class="n">tracks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">tracks</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tracks</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tracks</span>
         <span class="n">tracks</span><span class="p">[</span><span class="s1">&#39;SPOT_X&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tracks</span><span class="p">[</span><span class="s1">&#39;X.X&#39;</span><span class="p">]</span>
         <span class="n">tracks</span><span class="p">[</span><span class="s1">&#39;SPOT_Y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tracks</span><span class="p">[</span><span class="s1">&#39;Y.Y&#39;</span><span class="p">]</span>
         <span class="k">del</span> <span class="n">tracks</span><span class="p">[</span><span class="s1">&#39;X.X&#39;</span><span class="p">]</span>

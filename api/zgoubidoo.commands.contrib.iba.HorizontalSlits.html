@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Q1G" href="zgoubidoo.commands.contrib.iba.Q1G.html" />
+    <link rel="next" title="Q1C" href="zgoubidoo.commands.contrib.iba.Q1C.html" />
     <link rel="prev" title="DipoleIBA" href="zgoubidoo.commands.contrib.iba.DipoleIBA.html" /> 
 
   
@@ -98,7 +98,9 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.CGTR.html">CGTR</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.DipoleIBA.html">DipoleIBA</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">HorizontalSlits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.Q1C.html">Q1C</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.Q1G.html">Q1G</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.Q2C.html">Q2C</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.Q2G.html">Q2G</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.Q3G.html">Q3G</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.Q4G.html">Q4G</a></li>
@@ -113,6 +115,8 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.ResearchArea.html">ResearchArea</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.SMX.html">SMX</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.SMY.html">SMY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.T1G.html">T1G</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.T2G.html">T2G</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.VerticalSlits.html">VerticalSlits</a></li>
 </ul>
 </li>
@@ -249,7 +253,7 @@
 <dl class="attribute">
 <dt>
 <code class="descname">IFORM='1'</code></dt>
-<dd><p>Aperture shape.</p>
+<dd><p>Aperture shape (1 - rectangular, 2 - elliptic (other options, see documentation).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -354,7 +358,7 @@
 
 <dl class="attribute">
 <dt id="zgoubidoo.commands.contrib.iba.HorizontalSlits.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'C1': (&lt;Quantity(0, 'centimeter')&gt;, 'Half opening (Y).'), 'C2': (&lt;Quantity(0, 'centimeter')&gt;, 'Half opening (Z).'), 'C3': (&lt;Quantity(0, 'centimeter')&gt;, 'Center of the aperture (Y).'), 'C4': (&lt;Quantity(0, 'centimeter')&gt;, 'Center of the aperture (Z).'), 'IA': (2, 'Element active or not (0 - inactive, 1 - active, 2 - active and prints information.'), 'IFORM': (1, 'Aperture shape.'), 'J': (0, 'Description of the aperture coordinates system.'), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.')}</em><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.HorizontalSlits.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="descname">PARAMETERS</code><em class="property"> = {'C1': (&lt;Quantity(0, 'centimeter')&gt;, 'Half opening (Y).'), 'C2': (&lt;Quantity(0, 'centimeter')&gt;, 'Half opening (Z).'), 'C3': (&lt;Quantity(0, 'centimeter')&gt;, 'Center of the aperture (Y).'), 'C4': (&lt;Quantity(0, 'centimeter')&gt;, 'Center of the aperture (Z).'), 'IA': (2, 'Element active or not (0 - inactive, 1 - active, 2 - active and prints information.'), 'IFORM': (1, 'Aperture shape (1 - rectangular, 2 - elliptic (other options, see documentation).'), 'J': (0, 'Description of the aperture coordinates system.'), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.')}</em><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.HorizontalSlits.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -369,7 +373,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="zgoubidoo.commands.contrib.iba.Q1G.html" class="btn btn-neutral float-right" title="Q1G" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="zgoubidoo.commands.contrib.iba.Q1C.html" class="btn btn-neutral float-right" title="Q1C" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="zgoubidoo.commands.contrib.iba.DipoleIBA.html" class="btn btn-neutral" title="DipoleIBA" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
