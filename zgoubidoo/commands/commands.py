@@ -13,7 +13,7 @@ from .patchable import Patchable as _Patchable
 from .. import ureg as _ureg
 from .. import _Q
 from ..frame import Frame as _Frame
-from ..units import _radian, _degree, _m, _cm
+from ..units import _radian, _degree, _m, _cm, _mm
 from ..utils import fortran_float
 from ..input import MappedParameters as _MappedParameters
 import zgoubidoo
@@ -483,8 +483,8 @@ When a particle is stopped, its index IEX (see OBJET and section 4.6.10) is set 
         'J': (0, '0 (default) or 1'),
         'C1': (100 * _ureg.cm, 'If J=0, Y opening, if J=1, inner Y opening'),
         'C2': (100 * _ureg.cm, 'If J=0, Z opening, if J=1, outer Y opening'),
-        'C3': (100 * _ureg.cm, 'If J=0, Y center, if J=1, inner Z opening'),
-        'C4': (100 * _ureg.cm, 'If J=0, Z center, if J=1, outer Z opening'),
+        'C3': (0 * _ureg.cm, 'If J=0, Y center, if J=1, inner Z opening'),
+        'C4': (0 * _ureg.cm, 'If J=0, Z center, if J=1, outer Z opening'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
@@ -509,6 +509,8 @@ class ChangRef(Command, _Patchable):
 
     ::note: `ChangRef` supports the `Patchable` interface and the transformations will thus be taken into account when
     surveying the line.
+
+    .. rubric:: Zgoubi manual description
 
     TODO
     """
@@ -605,6 +607,8 @@ class Cible(Command):
 
 class End(Command):
     """End of input data list.
+
+    .. rubric:: Zgoubi manual description
 
     The end of a problem, or of a set of several problems stacked in the data file, should be stated by means of the
     keywords FIN or END.

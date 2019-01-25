@@ -15,6 +15,7 @@ from ..commands import Collimator as _Collimator
 from ..commands import Marker as _Marker
 from ..commands import Ymy as _Ymy
 from ..commands import Fit as _Fit
+from ..commands import Chamber as _Chamber
 from ..particules import Proton as _Proton
 from ..objet import Objet2 as _Objet2
 from ... import ureg as _ureg
@@ -23,6 +24,7 @@ from ...input import Input as _Input
 from ...input import MappedParameters as _MappedParameters
 from ...physics import Kinematics as _Kinematics
 from ...zgoubi import Zgoubi as _Zgoubi
+from ...zgoubi import ZgoubiResults as _ZgoubiResults
 from ...polarity import PolarityType as _PolarityType
 from ...polarity import Polarity as _Polarity
 from ...polarity import HorizontalPolarity as _HorizontalPolarity
@@ -289,6 +291,46 @@ class SMY(_Bend):
         self.LABEL1 = self.__class__.__name__
 
 
+class T1G(_Bend):
+    """Proteus One steering magnet.
+
+    """
+    PARAMETERS = {
+        'XL': 100 * _ureg.mm,
+    }
+
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        self.LABEL1 = self.__class__.__name__
+
+
+class T2G(_Bend):
+    """Proteus One steering magnet.
+
+    """
+    PARAMETERS = {
+        'XL': 100 * _ureg.mm,
+    }
+
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        self.LABEL1 = self.__class__.__name__
+
+
 class QuadrupoleIBA(_Quadrupole):
     """IBA generic quadrupole.
 
@@ -516,6 +558,26 @@ class QPMQ(QuadrupoleIBA):
                           gradient=17.5)
 
 
+class Q1C(QShort):
+    """Proteus One 'Q1C' gantry quadrupole.
+
+    """
+    PARAMETERS = {
+        'LABEL1': 'Q1C',
+        'POLARITY': _VerticalPolarity,
+    }
+
+
+class Q2C(QShort):
+    """Proteus One 'Q2C' gantry quadrupole.
+
+    """
+    PARAMETERS = {
+        'LABEL1': 'Q2C',
+        'POLARITY': _VerticalPolarity,
+    }
+
+
 class Q1G(QWall):
     """Proteus One 'Q1G' gantry quadrupole.
 
@@ -622,6 +684,8 @@ class CGTR:
                  b1g: Optional[B1G] = None,
                  b2g: Optional[B2G] = None,
                  b3g: Optional[B3G] = None,
+                 t1g: Optional[T1G] = None,
+                 t2g: Optional[T2G] = None,
                  q1g: Optional[Q1G] = None,
                  q2g: Optional[Q2G] = None,
                  q3g: Optional[Q3G] = None,
@@ -640,6 +704,8 @@ class CGTR:
             b1g:
             b2g:
             b3g:
+            t1g:
+            t2g:
             q1g:
             q2g:
             q3g:
@@ -654,6 +720,8 @@ class CGTR:
         self.b1g: B1G = b1g or B1G()
         self.b2g: B2G = b2g or B2G()
         self.b3g: B3G = b3g or B3G()
+        self.t1g: T1G = t1g or T1G()
+        self.t2g: T2G = t2g or T2G()
         self.q1g: Q1G = q1g or Q1G()
         self.q2g: Q2G = q2g or Q2G()
         self.q3g: Q3G = q3g or Q3G()
@@ -673,55 +741,79 @@ class CGTR:
             _Proton(),
             _Marker('START'),
             _Ymy(),
+            self.t1g,
+            _FakeDrift(XL=30 * _ureg.cm),
+            self.t2g,
+            _FakeDrift(XL=30 * _ureg.cm),
+            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm),
             self.q1g,
+            _Chamber(IA=2),
             _FakeDrift(XL=30.3 * _ureg.cm),
+            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm),
             self.q2g,
+            _Chamber(IA=2),
             _FakeDrift(XL=72.42 * _ureg.cm - self.b1g.extra_drift),
+            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm, C3=self.b1g.RM),
             self.b1g,
+            _Chamber(IA=2),
             _Ymy(),
             _FakeDrift(XL=26.4 * _ureg.cm - self.b1g.extra_drift),
+            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm),
             self.q3g,
+            _Chamber(IA=2),
             _FakeDrift(XL=32.6 * _ureg.cm),
+            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm),
             self.q4g,
-            _FakeDrift(XL=33.3 * _ureg.cm),
+            _Chamber(IA=2),
+            _FakeDrift(XL=33.4 * _ureg.cm),
+            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm),
             self.q5g,
-            _FakeDrift(XL=33.6 * _ureg.cm),
+            _Chamber(IA=2),
+            _FakeDrift(XL=33.5 * _ureg.cm),
+            _Chamber(IA=1, IFORM=1, J=0, C1=5 * _ureg.mm, C2=5 * _ureg.cm),
             self.q6g,
+            _Chamber(IA=2),
             _FakeDrift(XL=36.0 * _ureg.cm),
+            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm),
             self.q7g,
-            _FakeDrift(XL=60 * _ureg.cm - self.b2g.extra_drift),
+            _Chamber(IA=2),
+            _FakeDrift(XL=53.561 * _ureg.cm - self.b2g.extra_drift),
+            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm, C3=self.b2g.RM),
             self.b2g,
+            _Chamber(IA=2),
             _FakeDrift(XL=26 * _ureg.cm - self.b2g.extra_drift),
             self.smx,
             _FakeDrift(XL=12 * _ureg.cm),
             self.smy,
             _FakeDrift(XL=19 * _ureg.cm - self.b3g.extra_drift),
+            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm, C3=self.b3g.RM),
             self.b3g,
-            _FakeDrift(XL=1101.071 * _ureg.mm - self.b3g.extra_drift),
+            _Chamber(IA=2),
+            _FakeDrift(XL=1181.071 * _ureg.mm - self.b3g.extra_drift),
             self.iso,
         ],
                                  )
         self.tracks: Optional[_pd.DataFrame] = None
+        self.results: Optional[_ZgoubiResults] = None
         zgoubidoo.survey(beamline=self.line)
 
     @property
     def line(self) -> _Input:
-        """
+        """Provides the full CGTR input sequence.
 
         Returns:
-
+            the CGTR input sequence.
         """
         return self.zi
 
     def fit_dipoles(self, boro: _Q, dipoles: Optional[List[DipoleIBA]] = None):
-        """
+        """Adjusts the main field of the dipoles according to the beam energy.
+
+        The adjustment is made so that the reference trajectory exists the magnet on axis.
 
         Args:
-            boro:
-            dipoles:
-
-        Returns:
-
+            boro: the beam energy
+            dipoles: a list of dipoles to fit
         """
         z = _Zgoubi()
         dipoles = dipoles or [self.b1g, self.b2g, self.b3g]
@@ -826,8 +918,10 @@ class CGTR:
                              **{('SMX', 'B0'): r.at[1, 'final'], ('SMY', 'B0'): r.at[2, 'final']}
                          })
                          )
-        _ = z.collect()
-        tracks = _.tracks
+        self.results = z.collect()
+        tracks = self.results.tracks
+        if len(tracks) == 0:
+            return tracks
         tracks['SPOT_X'] = tracks['X.X']
         tracks['SPOT_Y'] = tracks['Y.Y']
         del tracks['X.X']
