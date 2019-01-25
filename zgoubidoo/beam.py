@@ -56,9 +56,6 @@ class Beam:
             raise ZgoubidooBeamException("Trying to initialize a beam distribution with invalid number of particles.")
         self.__dims = self._distribution.shape[1]
 
-    def __str__(self):
-        pass
-
     def get_slices(self, n=None):
         """
 
@@ -83,7 +80,8 @@ class Beam:
     slices = property(get_slices)
 
     @property
-    def distribution(self):
+    def distribution(self) -> pd.DataFrame:
+        """The beam distribution."""
         return self._distribution
 
     @property

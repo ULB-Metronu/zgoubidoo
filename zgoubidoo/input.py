@@ -49,7 +49,8 @@ class MappedParameters:
         vs = list()
         for v in parameters.values():
             try:
-                vs.append(v.to_base_units().to_tuple())
+                _: _Q = v  # mypy
+                vs.append(_.to_base_units().to_tuple())
             except AttributeError:
                 vs.append(v)
         self._v = tuple(vs)
