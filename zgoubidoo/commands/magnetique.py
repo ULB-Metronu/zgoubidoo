@@ -545,6 +545,8 @@ class Aimant(PolarMagnet):
 class Bend(CartesianMagnet):
     """Bending magnet, Cartesian frame.
 
+    .. rubric:: Zgoubi manual description
+
     TODO
     """
     KEYWORD = 'BEND'
@@ -856,23 +858,23 @@ class Dipole(PolarMagnet):
             boro: _Q,
             particle: _ParticuleType = _Proton,
             entry_coordinates: List = None,
-            exit_coordinates: float = 0.0,
+            exit_coordinate: float = 0.0,
             method: _FitType = _Fit2,
             zgoubi: Optional[_Zgoubi] = None,
             debug=False):
         """
 
         Args:
-            boro:
-            particle:
-            entry_coordinates:
-            exit_coordinates:
-            method:
-            zgoubi: TODO
-            debug:
+            boro: the reference energy of the magnet
+            particle: the particule type
+            entry_coordinates: references 6D coordinates at the magnet entry
+            exit_coordinate: the coordinate at the magnet exit
+            method: the Zgoubi fitting command
+            zgoubi: the `Zgoubi` instance used to launch the runs
+            debug: verbose output
 
         Returns:
-
+            the `Dipole` itself (allows method chaining).
         """
         if entry_coordinates is None:
             entry_coordinates = [0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]
@@ -900,7 +902,7 @@ class Dipole(PolarMagnet):
                              'I': 1,  # Particle #1
                              'J': 2,  # Y
                              'IR': 5,  # END
-                             'V': exit_coordinates,
+                             'V': exit_coordinate,
                              'WV': 1.0,
                              'NP': 0,
                          },

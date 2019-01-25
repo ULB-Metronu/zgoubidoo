@@ -10,6 +10,13 @@ class Cavite(_Command):
     KEYWORD = 'CAVITE'
     """Keyword of the command used for the Zgoubi input data."""
 
+    def __str__(self):
+        return f"""
+        {super().__str__()}
+        A B
+        C D
+        """
+
 
 # Alias
 Cavity = Cavite

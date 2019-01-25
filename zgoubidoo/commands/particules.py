@@ -95,14 +95,14 @@ class AntiMuon(Particule):
     }
 
 
-class ImmortalMuon(AntiMuon):
+class ImmortalMuon(Muon):
     """A muon particle (no decay)."""
     PARAMETERS = dict(AntiMuon.PARAMETERS, **{
         'tau': (0.0, 'Half-life of the particle.'),
     })
 
 
-class ImmortalAntiMuon(Muon):
+class ImmortalAntiMuon(AntiMuon):
     """An anti-muon particle (no decay)."""
     PARAMETERS = dict(Muon.PARAMETERS, **{
         'tau': (0.0, 'Half-life of the particle.'),
