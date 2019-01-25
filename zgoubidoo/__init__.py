@@ -29,7 +29,7 @@ Publications
 - Coming soon.
 
 """
-__version__ = "2019.1"
+__version__ = "2019.3"
 
 # Manipulation of physical quantities (with units, etc.)
 # https://pint.readthedocs.io/en/latest/
