@@ -23,7 +23,7 @@ import pandas as _pd
 from .input import Input
 from .input import MappedParameters as _MappedParameters
 from .input import PathsDict as _PathDict
-from .output import read_plt_file, read_matrix_file
+from .output import read_plt_file, read_matrix_file, read_srloss_file
 
 __all__ = ['ZgoubiException', 'ZgoubiResults', 'Zgoubi']
 _logger = logging.getLogger(__name__)
@@ -56,6 +56,7 @@ class ZgoubiResults:
         self._results: List[Mapping] = results
         self._tracks: Optional[_pd.DataFrame] = None
         self._matrix: Optional[_pd.DataFrame] = None
+        self._srloss: Optional[_pd.DataFrame] = None
 
     @classmethod
     def merge(cls, *results: ZgoubiResults):
@@ -121,6 +122,26 @@ class ZgoubiResults:
             A concatenated DataFrame with all the tracks in the result.
         """
         return self.get_tracks()
+
+    @property
+    def srloss(self) -> Optional[_pd.DataFrame]:
+        """
+
+        Returns:
+
+        """
+        if self._srloss is None:
+            try:
+                _ = list()
+                for r in self._results:
+                    _.append(read_srloss_file(path=r['path']))
+                self._srloss = _pd.concat(_)
+            except FileNotFoundError:
+                _logger.warning(
+                    "Unable to read and load the Zgoubi SRLOSS files required to collect the matrix data."
+                )
+                return None
+        return self._srloss
 
     @property
     def matrix(self) -> Optional[_pd.DataFrame]:

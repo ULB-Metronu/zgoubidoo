@@ -1971,9 +1971,9 @@ class Quadrupole(CartesianMagnet):
         'C4_S': 0,
         'C5_S': 0,
         'XPAS': (0.1 * _ureg.centimeter, 'Integration step'),
-        'KPOS': 1,
-        'XCE': 0 * _ureg.centimeter,
-        'YCE': 0 * _ureg.centimeter,
+        'KPOS': (1, 'Misalignment type'),
+        'XCE': (0 * _ureg.centimeter, 'x offset'),
+        'YCE': (0 * _ureg.centimeter, 'y offset'),
         'ALE': 0 * _ureg.radian,
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 

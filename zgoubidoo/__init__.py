@@ -48,7 +48,7 @@ from . import vis
 from . import twiss
 from . import sequence
 from .input import Input, InputValidator, ZgoubiInputException, ParametricMapping
-from .output import read_fai_file, read_plt_file, read_matrix_file
+from .output import read_fai_file, read_plt_file, read_matrix_file, read_srloss_file
 from .zgoubi import Zgoubi, ZgoubiResults, ZgoubiException
 from .survey import survey
 from .frame import Frame, ZgoubidooFrameException

@@ -1228,7 +1228,7 @@ class Rebelote(Command):
 
     def __str__(self):
         return f"""
-        {super().__str__()}
+        {super().__str__().rstrip()}
         {self.NPASS} {self.KWRIT} {self.K}.{self.N or ''} {self.LABL1 or ''} {self.LABL2 or ''}
         """
 
@@ -1272,37 +1272,6 @@ class Scaling(Command):
 class Separa(Command):
     """Wien Filter - analytical simulation."""
     KEYWORD = 'SEPARA'
-    """Keyword of the command used for the Zgoubi input data."""
-
-
-class SynchrotronRadiationLosses(Command):
-    """Synchrotron radiation loss.
-
-    The keyword SRLOSS allows activating or stopping (option KSR = 1, 0 respectively) stepwise tracking of energy loss
-    by stochastic emission of photons in magnetic fields, following the method described in section 3.1.
-
-    It can be chosen to allow radiation in the sole dipole fields, or in all types of fields regardless of their
-    multipole composition. It can also be chosen to allow for the radiation induced transverse kick.
-
-    SRLOSS must be preceded by PARTICUL for defining mass and charge values as they enter in the defini- tion of SR
-    parameters.
-
-    Statistics on SR parameters are computed and updated while tracking, the results of which can be obtained by means
-    of the keyword SRPRNT.
-    """
-    KEYWORD = 'SRLOSS'
-    """Keyword of the command used for the Zgoubi input data."""
-
-
-class SynchrotronRadiationPrint(Command):
-    """Print SR loss statistics."""
-    KEYWORD = 'SRPRNT'
-    """Keyword of the command used for the Zgoubi input data."""
-
-
-class SynchrotronRadiation(Command):
-    """Synchrotron radiation spectral-angular densities."""
-    KEYWORD = 'SYNRAD'
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -1352,7 +1321,7 @@ class Twiss(Command):
         'FACD': 1.0,
         'FACA': (0.0, 'Unused'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):

@@ -92,8 +92,45 @@ def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> pd.DataFrame
     return df
 
 
+def read_srloss_file(filename: str = 'zgoubi.SRLOSS.out', path: str = '.') -> pd.DataFrame:
+    """Read Zgoubi SRLOSS files to a DataFrame.
+
+    Reads the content of a Zgoubi SRLOSS (synchrotron radiation losses) file (produced with SRPrint) and formats it as a
+    valid Pandas DataFrame with headers.
+
+    Example:
+        >>> read_srloss_file()
+
+    Args:
+        filename: the name of the file
+        path: the path to the SRLOSS file
+
+    Returns:
+        a Pandas DataFrame with the SRLOSS file content.
+
+    Raises:
+        a FileNotFoundException in case the file is not found.
+    """
+    headers = [
+        'NPASS',
+        '*',
+        'PART',
+        'PHOTONS',
+        'LOSS',
+    ]
+    df = pd.read_table(os.path.join(path, filename),
+                       skiprows=2,
+                       names=headers,
+                       sep=r'\s+',
+                       skipinitialspace=True,
+                       quotechar='\''
+                       )
+
+    return df
+
+
 def read_matrix_file(filename: str = 'zgoubi.MATRIX.out', path: str = '.') -> pd.DataFrame:
-    """Function to read Zgoubi MATRIX files.
+    """Read Zgoubi MATRIX files to a DataFrame.
 
     Reads the content of a Zgoubi matrix file (output from a Twiss or Optics command) and formats it as a valid Pandas
     DataFrame with headers.

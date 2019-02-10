@@ -8,6 +8,7 @@ from .commands import *
 from .mcobjet import *
 from .objet import *
 from .particules import *
+from .radiation import *
 from .fieldmaps import *
 from .patchable import Patchable
 from .plotable import Plotable

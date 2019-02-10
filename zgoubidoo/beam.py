@@ -33,7 +33,7 @@ class Beam:
         self._particle: zgoubidoo.commands.ParticuleType = particle
         if not isinstance(kinematic, zgoubidoo.physics.Kinematics):
             kinematic = zgoubidoo.physics.Kinematics(kinematic)
-        self._kinematic: Union[zgoubidoo.physics.Kinematics, float, _Q] = kinematic
+        self._kinematic: zgoubidoo.physics.Kinematics = kinematic
         self._objet: zgoubidoo.commands.ObjetType = zgoubidoo.commands.Objet2
         self._slices: int = slices
         self._distribution = None
@@ -104,7 +104,7 @@ class Beam:
     def momentum(self):
         return self._kinematic.momentum
 
-    def from_file(self, file: str, n: int=None, path: str='.') -> Beam:
+    def from_file(self, file: str, n: int = None, path: str = '.') -> Beam:
         """
 
         Args:
@@ -119,13 +119,31 @@ class Beam:
         return self
 
     def from_5d_sigma_matrix(self, n, **kwargs) -> Beam:
-        """Initialize a beam with a 5D particle distribution from a \Sigma matrix."""
+        """
+        Initialize a beam with a 5D particle distribution from a Sigma matrix.
+
+        Args:
+            n:
+            **kwargs:
+
+        Returns:
+
+        """
         distribution = Beam.generate_from_5d_sigma_matrix(n, **kwargs)
         self._initialize_distribution(pd.DataFrame(distribution))
         return self
 
     def from_twiss_parameters(self, n, **kwargs) -> Beam:
-        """Initialize a beam with a 5D particle distribution from Twiss parameters."""
+        """
+        Initialize a beam with a 5D particle distribution from Twiss parameters.
+
+        Args:
+            n:
+            **kwargs:
+
+        Returns:
+
+        """
         keys = {'X', 'PX', 'Y', 'PY', 'DPP', 'DPPRMS', 'BETAX', 'ALPHAX', 'BETAY', 'ALPHAY', 'EMITX', 'EMITY'}
         if any([k not in keys for k in kwargs.keys()]):
             raise ZgoubidooBeamException("Invalid argument for a twiss distribution.")
@@ -153,8 +171,18 @@ class Beam:
         return self
 
     @staticmethod
-    def generate_from_file(file: str, path: str='.', n: Optional[int]=None) -> pd.DataFrame:
-        """Read a beam distribution from file."""
+    def generate_from_file(file: str, path: str = '.', n: Optional[int] = None) -> pd.DataFrame:
+        """
+        Read a beam distribution from file.
+
+        Args:
+            file:
+            path:
+            n:
+
+        Returns:
+
+        """
         return pd.read_csv(os.path.join(path, file))[:n]
 
     @staticmethod
