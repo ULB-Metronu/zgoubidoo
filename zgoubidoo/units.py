@@ -4,7 +4,9 @@ from . import _Q
 
 
 def parse_quantity(f: Callable):
+    """Decorator to convert argument 'q' from a string to a quantity."""
     def parse_arg(q: Union[str, _Q]):
+        """Converts string to a Pint quantity."""
         if isinstance(q, str):
             q: _Q = _Q(q)
         return f(q)

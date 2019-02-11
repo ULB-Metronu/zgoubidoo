@@ -39,8 +39,9 @@ _Q = ureg.Quantity
 ureg.define('electronvolt = e * volt = eV')
 ureg.define('electronvolt_per_c = eV / c = eV_c')
 ureg.define('electronvolt_per_c2 = eV / c**2 = eV_c2')
-ureg.define('[momentum] = [ev] / [c]')
-ureg.define('[energy] = [ev] / [c]**2 ')
+#ureg.define('[energy] = [eV]')
+#ureg.define('[momentum] = [eV] / [c]')
+#ureg.define('[mass] = [eV] / [c]**2 ')
 
 from . import commands
 from . import physics
