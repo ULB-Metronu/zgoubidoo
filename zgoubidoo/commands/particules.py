@@ -60,8 +60,8 @@ class Particule(_Command, metaclass=ParticuleType):
 class Electron(Particule):
     """An electron particle."""
     PARAMETERS = {
-        'M': (0.51099892 * _ureg.MeV_c2, 'Mass of the particle.'),
-        'Q': (-1.60217653e-19 * _ureg.coulomb, 'Charge of the particle.'),
+        'M': (0.5109989461 * _ureg.MeV_c2, 'Mass of the particle.'),
+        'Q': (-1.6021766208e-19 * _ureg.coulomb, 'Charge of the particle.'),
         'G': ((-2.0023193043622 - 2) / 2, 'G factor'),
     }
 
@@ -69,8 +69,8 @@ class Electron(Particule):
 class Positron(Particule):
     """A positron particle."""
     PARAMETERS = {
-        'M': (0.51099892 * _ureg.MeV_c2, 'Mass of the particle.'),
-        'Q': (1.60217653e-19 * _ureg.coulomb, 'Charge of the particle.'),
+        'M': (0.5109989461 * _ureg.MeV_c2, 'Mass of the particle.'),
+        'Q': (-1.6021766208e-19 * _ureg.coulomb, 'Charge of the particle.'),
         'G': ((-2.0023193043622 - 2) / 2, 'G factor'),
     }
 
@@ -146,6 +146,14 @@ class HMinus(Particule):
     }
 
 
+class Ion(Particule):
+    """Base class for ion particles."""
+    def charge_state(self):
+        """Modify the charge state of the ion."""
+        # TODO
+        pass
+
+
 class HeliumIon(Particule):
     """A fully stripped Helium ion"""
     PARAMETERS = {
@@ -180,3 +188,13 @@ class SulfurIon(Particule):
         'Q': (1, ''),
         'G': (1, ''),
     }
+
+
+class XenonIon(Particule):
+    """A fully stripped Sulfur ion"""
+    PARAMETERS = {
+        'M': (1, ''),
+        'Q': (1, ''),
+        'G': (1, ''),
+    }
+
