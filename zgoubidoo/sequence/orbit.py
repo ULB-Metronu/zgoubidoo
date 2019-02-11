@@ -1,3 +1,10 @@
+"""
+
+"""
+from ..commands.commands import Fit as _Fit
+from ..commands.commands import FitType as _FitType
+from ..commands.commands import Marker as _Marker
+from ..commands.objet import Objet2 as _Objet2
 from input import Input
 from commands import *
 
