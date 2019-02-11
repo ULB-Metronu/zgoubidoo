@@ -1,4 +1,4 @@
-"""Zgoubidoo's interfaces to purefly magnetic Zgoubi commands.
+"""Zgoubidoo's
 
 More details here.
 TODO

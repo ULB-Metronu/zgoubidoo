@@ -3,7 +3,7 @@ from .sequence import Sequence
 
 
 def track(sequence: Sequence,
-          beam: Beam
+          beam: Beam,
           ):
     """
 
@@ -13,4 +13,3 @@ def track(sequence: Sequence,
     Returns:
 
     """
-    pass
