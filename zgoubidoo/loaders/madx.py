@@ -6,7 +6,7 @@ import os
 import pandas as pd
 import numpy as np
 from .. import ureg as _ureg
-from ..input import Input as _Input
+from ..sequence import Sequence as _Sequence
 from ..commands import *
 from ..physics import Kinematics
 
@@ -102,7 +102,7 @@ def load_madx_twiss_table(filename: str, path: str = '.') -> pd.DataFrame:
 def from_madx_twiss(filename: str,
                     path: str = '.',
                     options: Optional[dict] = None,
-                    converters: Optional[dict] = None) -> _Input:
+                    converters: Optional[dict] = None) -> _Sequence:
     """
 
     Args:
@@ -118,11 +118,14 @@ def from_madx_twiss(filename: str,
     options = options or {}
     twiss_headers = load_madx_twiss_headers(filename, path)
     k = Kinematics(float(twiss_headers['PC']) * _ureg.GeV_c)
-    return _Input(name=twiss_headers['NAME'],
-                  line=list(
+    twiss_table = list(
                       load_madx_twiss_table(filename, path).set_index('NAME').apply(
                           lambda _: conversion_functions[_['KEYWORD']](_, k, options.get(_['KEYWORD'], {})),
                           axis=1
                       ).values
                   )
-                  )
+    return _Sequence(name=twiss_headers['NAME'],
+                     sequence=twiss_table,
+                     metadata=twiss_headers,
+                     particle=getattr(zgoubidoo.commands, twiss_headers['PARTICLE'].capitalize())
+                     )

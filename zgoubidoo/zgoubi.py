@@ -8,7 +8,7 @@
 
 """
 from __future__ import annotations
-from typing import List, Mapping, Iterable, Optional, Tuple, Dict, Callable
+from typing import List, Mapping, Iterable, Optional, Tuple, Dict, Callable, Union
 import logging
 import shutil
 import tempfile
@@ -123,6 +123,41 @@ class ZgoubiResults:
         """
         return self.get_tracks()
 
+    def get_srloss(self, parameters: Optional[List[_MappedParameters]] = None) -> _pd.DataFrame:
+        """
+
+        Args:
+            parameters:
+
+        Returns:
+
+        """
+        if self._srloss is not None and parameters is None:
+            return self._srloss
+        srloss = list()
+        for k, r in self.results.items():
+            if parameters is None or k in parameters:
+                try:
+                    try:
+                        p = r['path'].name
+                    except AttributeError:
+                        p = r['path']
+                    srloss.append(read_srloss_file(path=p))
+                    for kk, vv in k.items():
+                        srloss[-1][f"{kk[0]}.{kk[1]}"] = vv
+                except FileNotFoundError:
+                    _logger.warning(
+                        "Unable to read and load the Zgoubi SRLOSS files required to collect the SRLOSS data."
+                    )
+                    continue
+        if len(srloss) > 0:
+            srloss = _pd.concat(srloss)
+        else:
+            srloss = _pd.DataFrame()
+        if parameters is None:
+            self._srloss = srloss
+        return srloss
+
     @property
     def srloss(self) -> Optional[_pd.DataFrame]:
         """
@@ -130,18 +165,7 @@ class ZgoubiResults:
         Returns:
 
         """
-        if self._srloss is None:
-            try:
-                _ = list()
-                for r in self._results:
-                    _.append(read_srloss_file(path=r['path']))
-                self._srloss = _pd.concat(_)
-            except FileNotFoundError:
-                _logger.warning(
-                    "Unable to read and load the Zgoubi SRLOSS files required to collect the matrix data."
-                )
-                return None
-        return self._srloss
+        return self.get_srloss()
 
     @property
     def matrix(self) -> Optional[_pd.DataFrame]:
@@ -176,7 +200,7 @@ class ZgoubiResults:
         return {r['mapping']: r for r in self._results}
 
     @property
-    def paths(self) -> Dict[_MappedParameters, tempfile.TemporaryDirectory]:
+    def paths(self) -> Dict[_MappedParameters, Union[str, tempfile.TemporaryDirectory]]:
         """Path of all the directories for the runs present in the results.
 
         Returns:
@@ -195,7 +219,7 @@ class ZgoubiResults:
 
     def print(self, what: str = 'result'):
         """Helper function to print the raw results from a Zgoubi run."""
-        for r in self.results:
+        for r in self.results.values():
             print('\n'.join(r[what]))
 
 
@@ -253,7 +277,7 @@ class Zgoubi:
 
     def __call__(self,
                  zgoubi_input: Input,
-                 mapping: _MappedParameters = _MappedParameters({}),
+                 mapping: _MappedParameters = _MappedParameters(),
                  debug: bool = False,
                  cb: Callable = None,
                  ) -> Zgoubi:
@@ -277,11 +301,7 @@ class Zgoubi:
         else:
             paths = zgoubi_input.paths
 
-        for m, p in paths.items():
-            try:
-                path = p.name  # Path from a TemporaryDirectory
-            except AttributeError:
-                path = p  # p is a string
+        for m, path in paths.items():
             _logger.info(f"Starting Zgoubi in {path}.")
             future = self._pool.submit(
                 self._execute_zgoubi,
@@ -314,7 +334,7 @@ class Zgoubi:
     def _execute_zgoubi(self,
                         mapping: _MappedParameters,
                         zgoubi_input: Input,
-                        path: str = '.',
+                        path: Union[str, tempfile.TemporaryDirectory] = '.',
                         debug=False
                         ) -> dict:
         """Run Zgoubi as a subprocess.
@@ -334,16 +354,20 @@ class Zgoubi:
             FileNotFoundError if the result file is not present at the end of the execution.
         """
         stderr = None
-        p = sub.Popen([self.executable],
+        try:
+            p = path.name  # Path from a TemporaryDirectory
+        except AttributeError:
+            p = path  # p is a string
+        proc = sub.Popen([self.executable],
                       stdin=sub.PIPE,
                       stdout=sub.PIPE,
                       stderr=sub.STDOUT,
-                      cwd=path,
+                      cwd=p,
                       )
 
         # Run
         _logger.info(f"Zgoubi process in {path} has started.")
-        output = p.communicate()
+        output = proc.communicate()
 
         # Collect STDERR
         if output[1] is not None:
@@ -351,7 +375,7 @@ class Zgoubi:
 
         # Extract element by element output
         try:
-            result = open(os.path.join(path, Zgoubi.ZGOUBI_RES_FILE)).read().split('\n')
+            result = open(os.path.join(p, Zgoubi.ZGOUBI_RES_FILE)).read().split('\n')
         except FileNotFoundError:
             raise ZgoubiException("Zgoubi execution ended but result '.res' file not found.")
 

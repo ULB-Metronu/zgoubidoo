@@ -5,6 +5,7 @@ The high-level API adds a level of abstraction on top of low-level API (using `I
 import numpy as _np
 from dataclasses import dataclass as _dataclass
 from .sequence import Sequence, ZgoubidooSequenceException
+from .srloss import srloss
 
 
 @_dataclass
