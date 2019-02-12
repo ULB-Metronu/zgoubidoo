@@ -728,7 +728,7 @@ class Dipole(PolarMagnet):
 
     PARAMETERS = {
         'IL': (2, 'Print field and coordinates along trajectories', 1),
-        'AT': (0 * _ureg.degree, 'Total angular extent of the dipole', 2),
+        'AT': (0 * _ureg.degree, 'Total angular extent of the dipole (positive value in all cases)', 2),
         'RM': (0 * _ureg.centimeter, 'Reference radius', 3),
         'ACENT': (0 * _ureg.degree, 'Azimuth for positioning of EFBs', 4),
         'B0': (0 * _ureg.kilogauss, 'Reference field', 5),

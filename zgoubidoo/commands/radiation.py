@@ -52,14 +52,17 @@ class SynchrotronRadiationLosses(Command):
             value: value of the switch.
         """
         self.KSR = int(value)
+        return self
 
     def on(self):
         """Switches on the synchrotron radiation losses."""
         self.switch()
+        return self
 
     def off(self):
         """Switches off the synchrotron radiation losses."""
         self.switch(False)
+        return self
 
 
 SRLoss = SynchrotronRadiationLosses

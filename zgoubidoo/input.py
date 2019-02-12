@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 import itertools
 from functools import partial, reduce
 import tempfile
+import logging
 import os
 import pandas as _pd
 import parse as _parse
@@ -19,6 +20,7 @@ from .commands import *
 from .frame import Frame as _Frame
 import zgoubidoo.commands
 
+_logger = logging.getLogger(__name__)
 ParametersMappingType = Mapping[Tuple[str, str], Sequence[Union[_Q, float]]]
 ParametersMappingListType = List[ParametersMappingType]
 MappedParametersType = Mapping[Tuple[str, str], Union[_Q, float]]
@@ -127,6 +129,7 @@ class ParametricMapping:
 
 
 PathsDict = Dict[MappedParameters, Union[str, tempfile.TemporaryDirectory]]
+"""Type alias for a dictionnary of parametric keys and paths values."""
 
 
 class Input:
@@ -158,6 +161,9 @@ class Input:
         self._line: List[commands.Command] = line
         self._paths: PathsDict = dict()
         self._optical_length: _Q = 0 * _ureg.m
+
+    def __del__(self):
+        _logger.info(f"Input object for paths {self.paths} is being destroyed.")
 
     def __str__(self) -> str:
         """Provides the string representation, a valid Zgoubi input stream.
@@ -617,7 +623,6 @@ class Input:
 
         zgoubidoo.vis.beamline(line=self[start:stop],
                                artist=artist,
-                               tracks=self.tracks,
                                )
 
         artist.ax.set_aspect('equal', 'datalim')
