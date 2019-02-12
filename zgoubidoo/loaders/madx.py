@@ -1,18 +1,29 @@
 """
 TODO
 """
+from typing import Optional
 import os
 import pandas as pd
+import numpy as np
 from .. import ureg as _ureg
 from ..input import Input as _Input
 from ..commands import *
+from ..physics import Kinematics
 
 MADX_ELEMENTS = {
-    'MARKER': lambda r: Marker(r.name[0:8]),
-    'DRIFT': lambda r: Drift(r.name[0:8], XL=float(r['L']) * _ureg.meter),
-    'SBEND': lambda r: Dipole(r.name[0:8], AT=float(r['ANGLE']) * _ureg.degree),
-    'QUADRUPOLE': lambda r: Quadrupole(r.name[0:8], XL=float(r['L']) * _ureg.meter),
-    'SEXTUPOLE': lambda r: Sextupole(r.name[0:8], XL=float(r['L']) * _ureg.meter),
+    'MARKER': lambda r, _, __: Marker(r.name[0:8]),
+    'DRIFT': lambda r, _, __: Drift(r.name[0:8], XL=r['L'] * _ureg.meter),
+    'SBEND': lambda r, k, o: Dipole(r.name[0:8],
+                                    AT=np.abs(r['ANGLE'] * _ureg.radian),
+                                    RM=np.abs(r['L'] / r['ANGLE'] * _ureg.meter),
+                                    B0=k.brho / (r['L'] / r['ANGLE'] * _ureg.meter),
+                                    ),
+    'QUADRUPOLE': lambda r, k, o: Quadrupole(r.name[0:8],
+                                             XL=r['L'] * _ureg.meter,
+                                             R0=o.get('R0', 10 * _ureg.cm),
+                                             B0=r['K1L'] / r['L'] * k.brho_ * o.get('R0', 10) * _ureg.tesla,
+                                             ),
+    'SEXTUPOLE': lambda r, k, o: Sextupole(r.name[0:8], XL=r['L'] * _ureg.meter),
 }
 
 
@@ -26,7 +37,14 @@ def load_madx_twiss_headers(filename: str, path: str = '.') -> pd.Series:
     Returns:
 
     """
-    return pd.Series()
+    return pd.read_csv(os.path.join(path, filename),
+                       sep=r'\s+',
+                       usecols=['KEY', 'VALUE'],
+                       squeeze=True,
+                       index_col=0,
+                       names=['@', 'KEY', '_', 'VALUE'],
+                       converters={'PC': float},
+                       )[0:46]
 
 
 def load_madx_twiss_table(filename: str, path: str = '.') -> pd.DataFrame:
@@ -67,25 +85,43 @@ def load_madx_twiss_table(filename: str, path: str = '.') -> pd.DataFrame:
         'KSI',
         'APERTYPE', 'APER_1', 'APER_2',
     ]
-    return pd\
-        .read_csv(os.path.join(path, filename), skiprows=47, sep=r'\s+', index_col=False, names=headers) \
+    _ = pd \
+        .read_csv(os.path.join(path, filename),
+                  skiprows=47,
+                  sep=r'\s+',
+                  index_col=False,
+                  names=headers,
+                  ) \
         .drop(0)
+    _['L'] = _['L'].apply(float)
+    _['ANGLE'] = _['ANGLE'].apply(float)
+    _['K1L'] = _['K1L'].apply(float)
+    return _
 
 
-def from_madx_twiss(filename: str, path: str = '.') -> _Input:
+def from_madx_twiss(filename: str,
+                    path: str = '.',
+                    options: Optional[dict] = None,
+                    converters: Optional[dict] = None) -> _Input:
     """
 
     Args:
         filename:
         path:
+        options:
+        converters:
 
     Returns:
 
     """
-    return _Input(name='TEST',
+    conversion_functions = {**MADX_ELEMENTS, **(converters or {})}
+    options = options or {}
+    twiss_headers = load_madx_twiss_headers(filename, path)
+    k = Kinematics(float(twiss_headers['PC']) * _ureg.GeV_c)
+    return _Input(name=twiss_headers['NAME'],
                   line=list(
-                      load_madx_twiss(filename, path).set_index('NAME').apply(
-                          lambda _: MADX_ELEMENTS[r['KEYWORD']](_),
+                      load_madx_twiss_table(filename, path).set_index('NAME').apply(
+                          lambda _: conversion_functions[_['KEYWORD']](_, k, options.get(_['KEYWORD'], {})),
                           axis=1
                       ).values
                   )

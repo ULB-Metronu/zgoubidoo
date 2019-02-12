@@ -3,6 +3,7 @@
 This module provides high-level functions for the rendering of beamlines (Zgoubi `Input`s).
 """
 from __future__ import annotations
+from typing import Optional
 from .zgoubiplot import ZgoubiPlot
 import zgoubidoo
 
@@ -10,7 +11,7 @@ import zgoubidoo
 def beamline(line: zgoubidoo.Input,
              tracks=None,
              tracks_color: str = 'b',
-             artist: ZgoubiPlot = None,
+             artist: Optional[ZgoubiPlot] = None,
              with_elements: bool = True,
              with_tracks: bool = True,
              ) -> None:
