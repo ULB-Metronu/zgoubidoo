@@ -159,7 +159,7 @@ class ZgoubiResults:
         return srloss
 
     @property
-    def srloss(self) -> Optional[_pd.DataFrame]:
+    def srloss(self) -> _pd.DataFrame:
         """
 
         Returns:
@@ -342,7 +342,7 @@ class Zgoubi:
         Zgoubi is run as a subprocess; the standard IOs are piped to the Python process and retrieved.
 
         Args:
-            zgoubi_input: Zgoubi input sequence (used after the run to process the output of each element).
+            zgoubi_input: Zgoubi input physics (used after the run to process the output of each element).
             path: path to the input file.
             mapping: TODO
             debug: verbose output.
