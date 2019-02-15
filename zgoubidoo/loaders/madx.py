@@ -6,9 +6,9 @@ import os
 import pandas as pd
 import numpy as np
 from .. import ureg as _ureg
-from ..sequence import Sequence as _Sequence
+from ..physics import Sequence as _Sequence
 from ..commands import *
-from ..physics import Kinematics
+from ..kinematics import Kinematics
 
 MADX_ELEMENTS = {
     'MARKER': lambda r, _, __: Marker(r.name[0:8]),
