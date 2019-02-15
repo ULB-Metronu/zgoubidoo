@@ -47,12 +47,11 @@ from . import commands
 from . import physics
 from . import vis
 from . import twiss
-from . import sequence
+from . import physics
 from .input import Input, InputValidator, ZgoubiInputException, ParametricMapping
 from .output import read_fai_file, read_plt_file, read_matrix_file, read_srloss_file
 from .zgoubi import Zgoubi, ZgoubiResults, ZgoubiException
 from .survey import survey
 from .frame import Frame, ZgoubidooFrameException
-from .beam import Beam, ZgoubidooBeamException
 from .polarity import HorizontalPolarity, VerticalPolarity
 from .loaders import *
