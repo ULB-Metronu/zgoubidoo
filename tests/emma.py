@@ -24,7 +24,7 @@ dr = 53 * _.mm
 fb = -6.695 * fr * _.tesla / _.cm
 db = 4.704 * dr * _.tesla / _.cm
 
-rigidity = zgoubidoo.physics.Kinematics(10 * _.MeV, particle=zgoubidoo.commands.Electron)
+rigidity = zgoubidoo.kinematics.Kinematics(10 * _.MeV, particle=zgoubidoo.commands.Electron)
 objet = Objet2('BUNCH', BORO=rigidity.brho)
 objet.add([0.456, -38.1, 0.0, 0.0, 0.0, 1.0, 1.0])
 emma = zgoubidoo.Input(name='EMMA', line=[

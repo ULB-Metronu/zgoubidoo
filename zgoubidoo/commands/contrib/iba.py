@@ -22,7 +22,7 @@ from ... import ureg as _ureg
 from ... import _Q
 from ...input import Input as _Input
 from ...input import MappedParameters as _MappedParameters
-from ...physics import Kinematics as _Kinematics
+from ...kinematics import Kinematics as _Kinematics
 from ...zgoubi import Zgoubi as _Zgoubi
 from ...zgoubi import ZgoubiResults as _ZgoubiResults
 from ...polarity import PolarityType as _PolarityType
