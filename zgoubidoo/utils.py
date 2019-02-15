@@ -1,5 +1,5 @@
 """Utility functions."""
-from typing import Pattern as _Pattern
+from typing import Pattern as _Pattern, List, Any
 import re as _re
 
 _re_f_float_neg: _Pattern = _re.compile(r'(-?[0-9.]*)(-\d\d\d)')
@@ -33,3 +33,19 @@ def fortran_float(input_string: str) -> float:
         else:
             raise ValueError(f"Failed to convert {input_string:s} to float")
     return fl
+
+
+def intersperse(lst: List, item: Any) -> List:
+    """
+
+    Args:
+        lst:
+        item:
+
+    Returns:
+
+    """
+    result = [item] * (len(lst) * 2 - 1)
+    result[0::2] = lst
+    return result
+
