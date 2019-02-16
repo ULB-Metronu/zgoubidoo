@@ -405,7 +405,7 @@ class Zgoubi:
             'mapping': mapping,
         }
 
-    def _get_exec(self, optional_path: Optional[str] = '/usr/local/bin') -> Optional[str]:
+    def _get_exec(self, optional_path: Optional[str] = '/usr/local/bin') -> str:
         """Retrive the path to the Zgoubi executable.
 
         Args:
@@ -414,15 +414,19 @@ class Zgoubi:
         Returns:
             a string representing the full path to the executable.
         """
+        executable = None
         if self._path is not None:
-            return os.path.join(self._path, self._executable)
+            executable = os.path.join(self._path, self._executable)
         elif sys.platform in ('win32', 'win64'):
-            return shutil.which(self._executable)
+            executable = shutil.which(self._executable)
         else:
             if os.path.isfile(f"{sys.prefix}/bin/{self._executable}"):
-                return f"{sys.prefix}/bin/{self._executable}"
+                executable = f"{sys.prefix}/bin/{self._executable}"
             else:
-                return shutil.which(self._executable, path=os.path.join(os.environ['PATH'], optional_path))
+                executable = shutil.which(self._executable, path=os.path.join(os.environ['PATH'], optional_path))
+        if executable is None:
+            raise ZgoubiException("Unable to locate the Zgoubi executable.")
+        return executable
 
     @staticmethod
     def find_labeled_output(out: Iterable[str], label: str) -> List[str]:
