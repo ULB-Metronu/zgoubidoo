@@ -3,10 +3,10 @@ Commands controlling Zgoubi's control flow, geometry, tracking options, etc.
 
 TODO
 """
-from .commands import Command
+from .commands import Command as _Command
 
 
-class SynchrotronRadiationLosses(Command):
+class SynchrotronRadiationLosses(_Command):
     """Synchrotron radiation loss.
 
     .. rubric:: Zgoubi manual description
@@ -27,11 +27,11 @@ class SynchrotronRadiationLosses(Command):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'KSR': (1, 'Switch (0: SR switched off, 1: SR switched on'),
-        'I': (1, 'Output information to file.'),
+        'KSR': (1, 'Switch (0: SR switched off, 1: SR switched on).'),
+        'I': (1, 'Output SRLOSS information to file.'),
         'KEYWORDS': ('ALL', ''),
         'SCALING': ('', 'If "scale" then scale magnetic field based on energy loss from synchrotron radiation.'),
-        'OPTION': 1,
+        'OPTION': (2, '1: effect on DP only, 2 : effect on dp and kick angle.'),
         'SEED': (123456, 'Random seed.'),
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
@@ -40,7 +40,7 @@ class SynchrotronRadiationLosses(Command):
     def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        {self.KSR}.{self.I}
+        {self.KSR}.{self.I} {'PRINT' if self.I else ''}
         {self.KEYWORDS} {self.SCALING}
         {self.OPTION} {self.SEED}
         """
@@ -68,7 +68,7 @@ class SynchrotronRadiationLosses(Command):
 SRLoss = SynchrotronRadiationLosses
 
 
-class SynchrotronRadiationPrint(Command):
+class SynchrotronRadiationPrint(_Command):
     """Print SR loss statistics."""
     KEYWORD = 'SRPRNT'
     """Keyword of the command used for the Zgoubi input data."""
@@ -77,7 +77,7 @@ class SynchrotronRadiationPrint(Command):
 SRPrint = SynchrotronRadiationPrint
 
 
-class SynchrotronRadiation(Command):
+class SynchrotronRadiation(_Command):
     """Synchrotron radiation spectral-angular densities."""
     KEYWORD = 'SYNRAD'
     """Keyword of the command used for the Zgoubi input data."""
