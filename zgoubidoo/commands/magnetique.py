@@ -744,7 +744,7 @@ class Dipole(PolarMagnet):
         'C5_E': (0, 'Fringe field coefficient C5', 17),
         'SHIFT_E': (0 * _ureg.centimeter, 'Shift of the EFB', 18),
         'OMEGA_E': (0 * _ureg.degree, '', 19),
-        'THETA_E': (0, '', 20),
+        'THETA_E': (0 * _ureg.degree, 'Entrance face wedge angle', 20),
         'R1_E': (1e9 * _ureg.centimeter, 'Entrance EFB radius', 21),
         'U1_E': (1e9 * _ureg.centimeter, 'Entrance EFB linear extent', 22),
         'U2_E': (1e9 * _ureg.centimeter, 'Entrance EFB linear extent', 23),
@@ -758,7 +758,7 @@ class Dipole(PolarMagnet):
         'C5_S': (0, 'Fringe field coefficient C5', 31),
         'SHIFT_S': (0 * _ureg.centimeter, 'Shift of the EFB', 32),
         'OMEGA_S': (0 * _ureg.degree, '', 33),
-        'THETA_S': (0, '', 34),
+        'THETA_S': (0 * _ureg.degree, 'Exit face wedge angle', 34),
         'R1_S': (1e9 * _ureg.centimeter, 'Exit EFB radius', 35),
         'U1_S': (1e9 * _ureg.centimeter, 'Exit EFB linear extent', 36),
         'U2_S': (1e9 * _ureg.centimeter, 'Exit EFB linear extent', 37),
@@ -773,7 +773,7 @@ class Dipole(PolarMagnet):
         'C5_L': (0, 'Fringe field coefficient C5', 46),
         'SHIFT_L': (0 * _ureg.centimeter, 'Shift of the EFB', 47),
         'OMEGA_L': (0 * _ureg.degree, '', 48),
-        'THETA_L': (0, '', 49),
+        'THETA_L': (0 * _ureg.degree, 'Lateral field boundary wedge angle', 49),
         'R1_L': (1e9 * _ureg.centimeter, 'Lateral EFB radius', 50),
         'U1_L': (1e9 * _ureg.centimeter, 'Lateral EFB linear extent', 51),
         'U2_L': (1e9 * _ureg.centimeter, 'Lateral EFB linear extent', 52),
@@ -821,13 +821,13 @@ class Dipole(PolarMagnet):
         {_degree(s.ACENT):.12e} {_kilogauss(s.B0):.12e} {s.N:.12e} {s.B:.12e} {s.G:.12e}
         {_cm(s.LAM_E):.12e} -1.0
         6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e} {_cm(s.SHIFT_E):.12e}
-        {_degree(s.OMEGA_E):.12e} {s.THETA_E:.12e} {_cm(s.R1_E):.12e} {_cm(s.U1_E):.12e} {_cm(s.U2_E):.12e} {_cm(s.R2_E):.12e}
+        {_degree(s.OMEGA_E):.12e} {_degree(s.THETA_E):.12e} {_cm(s.R1_E):.12e} {_cm(s.U1_E):.12e} {_cm(s.U2_E):.12e} {_cm(s.R2_E):.12e}
         {_cm(s.LAM_S):.12e} -1.0
         6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e} {_cm(s.SHIFT_S):.12e}
-        {_degree(s.OMEGA_S):.12e} {s.THETA_S:.12e} {_cm(s.R1_S):.12e} {_cm(s.U1_S):.12e} {_cm(s.U2_S):.12e} {_cm(s.R2_S):.12e}
+        {_degree(s.OMEGA_S):.12e} {_degree(s.THETA_S):.12e} {_cm(s.R1_S):.12e} {_cm(s.U1_S):.12e} {_cm(s.U2_S):.12e} {_cm(s.R2_S):.12e}
         {_cm(s.LAM_L):.12e} {s.XI_L}
         6 {s.C0_L:.12e} {s.C1_L:.12e} {s.C2_L:.12e} {s.C3_L:.12e} {s.C4_L:.12e} {s.C5_L:.12e} {_cm(s.SHIFT_L):.12e}
-        {_degree(s.OMEGA_L):.12e} {s.THETA_L:.12e} {_cm(s.R1_L):.12e} {_cm(s.U1_L):.12e} {_cm(s.U2_L):.12e} {_cm(s.R2_L):.12e} {_cm(s.RM3):.12e}
+        {_degree(s.OMEGA_L):.12e} {_degree(s.THETA_L):.12e} {_cm(s.R1_L):.12e} {_cm(s.U1_L):.12e} {_cm(s.U2_L):.12e} {_cm(s.R2_L):.12e} {_cm(s.RM3):.12e}
         {s.IORDRE} {s.RESOL:.12e}
         {_cm(s.XPAS)}"""
         command.append(c)

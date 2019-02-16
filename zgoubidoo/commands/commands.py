@@ -392,19 +392,20 @@ class Command(metaclass=CommandType):
 class Fake(Command):
     """Fake command for Zgoubi input.
 
-    This command can be used to add an arbitrary input command in a Zgoubi input sequence. The `INPUT` parameter is 
-    formatted before being printed, and uses the full command attributes list for that purpose (see examples below).
+    This command can be used to add an arbitrary input command in a Zgoubi input sequence. The `INPUT` parameter is
+    formatted before being printed, and uses the OPTIONS command attributes list for that purpose (see examples below).
     
     Examples:
         >>> c = Fake('FAKE1', INPUT="'COMMAND_NAME' {LABEL1} 1.0 2.0 3.0")
         >>> str(c)
     """
     PARAMETERS = {
-        'INPUT': ('', 'Input string.')
+        'INPUT': ('', 'Input string.'),
+        'OPTIONS': {},
     }
 
     def __str__(self):
-        return self.INPUT.format(**self.attributes)
+        return self.INPUT.format(**self.OPTIONS)
 
 
 class AutoRef(Command):
