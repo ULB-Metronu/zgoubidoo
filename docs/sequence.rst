@@ -1,7 +1,7 @@
-Working with Zgoubidoo sequences
-================================
+High-level physics with Zgoubidoo
+=================================
 
-.. automodule:: zgoubidoo.sequence
+.. automodule:: zgoubidoo.physics
 
 .. contents:: :local:
     :depth: 1
@@ -9,5 +9,5 @@ Working with Zgoubidoo sequences
 Sequence main class
 ---------------------------------------------------
 
-.. automodapi:: zgoubidoo.sequence.sequence
+.. automodapi:: zgoubidoo.physics.sequence
     :no-heading:

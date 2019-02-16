@@ -1,6 +1,11 @@
 News and announcements
 ======================
 
+Release of Zgoubidoo 2019.3
+---------------------------
+
+xxx
+
 Release of Zgoubidoo 2019.2
 ---------------------------
 
