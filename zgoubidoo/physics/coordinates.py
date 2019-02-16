@@ -1,11 +1,8 @@
-"""High-level interface (API) for Zgoubi.
-
-The high-level API adds a level of abstraction on top of low-level API (using `Input` and `Command`).
 """
-import numpy as _np
+
+"""
 from dataclasses import dataclass as _dataclass
-from .sequence import Sequence, ZgoubidooSequenceException
-from .srloss import srloss
+import numpy as _np
 
 
 @_dataclass

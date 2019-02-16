@@ -8,7 +8,7 @@ import pandas as _pd
 from ..commands.particules import Proton as _Proton
 from .. commands.particules import ParticuleType as _ParticuleType
 from ..commands.commands import Command as _Command
-from ..physics import Kinematics as _Kinematics
+from ..kinematics import Kinematics as _Kinematics
 from .. import ureg as _ureg
 import zgoubidoo
 
@@ -37,8 +37,8 @@ class Sequence:
         """
 
         Args:
-            name: the name of the sequence
-            sequence: the list of commands composing the sequence
+            name: the name of the physics
+            sequence: the list of commands composing the physics
             metadata:
             kinematics:
             particle: the main particle type
@@ -51,19 +51,19 @@ class Sequence:
             self._metadata = _pd.Series()
         self._kinematics: Optional[_Kinematics] = kinematics
         try:
-            self._kinematics = self._kinematics or _Kinematics(float(self._metadata['PC']) * _ureg.GeV_c)
+            self._kinematics = self._kinematics or _Kinematics(float(self._metadata['PC']) * _ureg.GeV_c, particle=particle)
         except KeyError:
             pass
         try:
-            self._kinematics = self._kinematics or _Kinematics(float(self._metadata['ENERGY']) * _ureg.GeV)
+            self._kinematics = self._kinematics or _Kinematics(float(self._metadata['ENERGY']) * _ureg.GeV, particle=particle)
         except KeyError:
             pass
         try:
-            self._kinematics = self._kinematics or _Kinematics(float(self._metadata['GAMMA']))
+            self._kinematics = self._kinematics or _Kinematics(float(self._metadata['GAMMA']), particle=particle)
         except KeyError:
             pass
         if self._kinematics is None:
-            raise ValueError("Unable to infer kinematics data for the sequence.")
+            raise ValueError("Unable to infer kinematics data for the physics.")
         self._sequence: List[_Command] = sequence or []
         if periods > 1:
             self.repeat_sequence(periods)
@@ -73,60 +73,60 @@ class Sequence:
 
     @property
     def name(self) -> str:
-        """Provide the name of the sequence."""
+        """Provide the name of the physics."""
         return self._name
 
     @property
     def sequence(self) -> List[_Command]:
-        """Provide the sequence of elements."""
+        """Provide the physics of elements."""
         return self._sequence
 
     @property
     def metadata(self) -> _pd.Series:
-        """Provide the metadata associated with the sequence."""
+        """Provide the metadata associated with the physics."""
         return self._metadata
 
     @property
     def kinematics(self) -> _Kinematics:
-        """Provide the kinematics data associated with the sequence."""
+        """Provide the kinematics data associated with the physics."""
         return self._kinematics
 
     @property
     def zgoubi(self) -> zgoubidoo.Zgoubi:
-        """Provide the Zgoubi instance associated with the sequence."""
+        """Provide the Zgoubi instance associated with the physics."""
         return self._z
 
     @property
     def particle(self) -> _ParticuleType:
-        """Provide the particle type associated with the sequence."""
+        """Provide the particle type associated with the physics."""
         return self._particle
 
     def validate(self) -> bool:
         """
-        Verify the validity of the sequence based on a set of rules.
+        Verify the validity of the physics based on a set of rules.
 
         Returns:
-            true if the sequence is valid.
+            true if the physics is valid.
 
         Raises:
-            ZgoubidooSequenceException in case the sequence is not valid.
+            ZgoubidooSequenceException in case the physics is not valid.
         """
         if len(list(filter(lambda _: isinstance(_, zgoubidoo.commands.Particule), self.sequence))) > 0:
-            raise ZgoubidooSequenceException("A valid sequence should not contain any Particule.")
+            raise ZgoubidooSequenceException("A valid physics should not contain any Particule.")
 
         if len(list(filter(lambda _: isinstance(_, zgoubidoo.commands.Objet), self.sequence))) > 0:
-            raise ZgoubidooSequenceException("A valid sequence should not contain any Objet.")
+            raise ZgoubidooSequenceException("A valid physics should not contain any Objet.")
 
         if len(list(filter(lambda _: isinstance(_, zgoubidoo.commands.Fit), self.sequence))) > 0:
-            raise ZgoubidooSequenceException("A valid sequence should not contain a Fit command.")
+            raise ZgoubidooSequenceException("A valid physics should not contain a Fit command.")
 
         return True
 
     def repeat_sequence(self, periods: int = 1):
         """
-        Repeat the sequence, assuming a periodic sequence.
+        Repeat the physics, assuming a periodic physics.
 
         Args:
-            periods: the number of periodic repetitions of the sequence
+            periods: the number of periodic repetitions of the physics
         """
         self._sequence = [copy.copy(e) for e in periods * self.sequence]

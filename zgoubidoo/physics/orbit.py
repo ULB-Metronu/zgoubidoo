@@ -102,7 +102,7 @@ def track_closed_orbit(self, brho: _Q) -> _pd.DataFrame:
         """Track closed orbit.
 
         Args:
-            brho: nominal magnetic rigidity of the sequence
+            brho: nominal magnetic rigidity of the physics
         """
         zi = zgoubidoo.Input(
             name=self.name,

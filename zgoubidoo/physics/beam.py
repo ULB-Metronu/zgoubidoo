@@ -6,7 +6,7 @@ from typing import Optional, Union
 import os
 import numpy as np
 import pandas as pd
-from . import _Q
+from zgoubidoo import _Q
 from zgoubidoo.commands import ParticuleType
 import zgoubidoo.physics
 
@@ -26,14 +26,14 @@ class Beam:
     def __init__(self,
                  distribution: Optional[pd.DataFrame] = None,
                  particle: ParticuleType = zgoubidoo.commands.Proton,
-                 kinematic: Optional[Union[zgoubidoo.physics.Kinematics, float, _Q]] = None,
+                 kinematic: Optional[Union[zgoubidoo.kinematics.Kinematics, float, _Q]] = None,
                  slices: int = 1,
                  *args,
                  **kwargs):
         self._particle: zgoubidoo.commands.ParticuleType = particle
-        if not isinstance(kinematic, zgoubidoo.physics.Kinematics):
-            kinematic = zgoubidoo.physics.Kinematics(kinematic)
-        self._kinematic: zgoubidoo.physics.Kinematics = kinematic
+        if not isinstance(kinematic, zgoubidoo.kinematics.Kinematics):
+            kinematic = zgoubidoo.kinematics.Kinematics(kinematic)
+        self._kinematic: zgoubidoo.kinematics.Kinematics = kinematic
         self._objet: zgoubidoo.commands.ObjetType = zgoubidoo.commands.Objet2
         self._slices: int = slices
         self._distribution = None
