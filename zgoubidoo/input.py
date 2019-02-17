@@ -603,7 +603,7 @@ class Input:
              artist: zgoubidoo.vis.ZgoubiPlot = None,
              start: Optional[Union[str, zgoubidoo.commands.Command]] = None,
              stop: Optional[Union[str, zgoubidoo.commands.Command]] = None,
-             ):
+             ) -> zgoubidoo.vis.ZgoubiPlot:
         """Plot the input sequence.
 
         TODO
@@ -627,7 +627,7 @@ class Input:
 
         artist.ax.set_aspect('equal', 'datalim')
 
-        return artist.figure
+        return artist
 
     @staticmethod
     def write(_: Input,

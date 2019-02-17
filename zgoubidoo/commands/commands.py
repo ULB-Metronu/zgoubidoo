@@ -1140,6 +1140,11 @@ class Marker(Command, _Patchable):
         super().__init__(label1, label2, self.PARAMETERS, *params, **kwargs)
         self.LABEL2 = '.plt' if with_plt else ''
 
+    def __str__(self):
+        return f"""
+        {super().__str__().rstrip()}
+        """
+
 
 class Matrix(Command):
     """Calculation of transfer coefficients, periodic parameters."""

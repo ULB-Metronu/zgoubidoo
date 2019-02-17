@@ -1,5 +1,5 @@
 """Sequence tracking module."""
-from .sequence import Sequence
+from sequence import Sequence
 
 
 def track(sequence: Sequence,

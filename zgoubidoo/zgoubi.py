@@ -96,7 +96,11 @@ class ZgoubiResults:
         for k, r in self.results.items():
             if parameters is None or k in parameters:
                 try:
-                    tracks.append(read_plt_file(path=r['path']))
+                    try:
+                        p = r['path'].name
+                    except AttributeError:
+                        p = r['path']
+                    tracks.append(read_plt_file(path=p))
                     for kk, vv in k.items():
                         tracks[-1][f"{kk[0]}.{kk[1]}"] = vv
                 except FileNotFoundError:
