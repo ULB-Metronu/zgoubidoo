@@ -334,10 +334,40 @@ class Objet5(Objet):
 
 
 class Objet6(Objet):
+    """Generation of 61 particles.
+
+    Examples:
+        >>> 1 + 1 # TODO
     """
 
-    """
-    pass
+    PARAMETERS = {
+        'KOBJ': 6,
+        'NN': 1,
+        'PY': 1e-3,
+        'PT': 1e-3,
+        'PZ': 1e-3,
+        'PP': 1e-3,
+        'PX': 1e-3,
+        'PD': 1e-3,
+        'YR': 6,
+        'TR': 6,
+        'ZR': 6,
+        'PR': 6,
+        'XR': 6,
+        'DR': 1,
+    }
+
+    def __str__(s) -> str:
+        command = []
+        c = f"""
+        {super().__str__().rstrip()}
+        {s.KOBJ}.0{s.NN}
+        {s.PY:.12e} {s.PT:.12e} {s.PZ:.12e} {s.PP:.12e} {s.PX:.12e} {s.PD:.12e}
+        {s.YR:.12e} {s.TR:.12e} {s.ZR:.12e} {s.PR:.12e} {s.XR:.12e} {s.DR:.12e}
+        """
+        command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command)) + '\n'
 
 
 class Objet7(Objet):
