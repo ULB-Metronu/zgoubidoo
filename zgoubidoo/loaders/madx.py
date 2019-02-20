@@ -1,47 +1,35 @@
 """
 TODO
 """
-from typing import Optional, Dict
+from typing import Optional, Dict, List
 import os
 import sys
 import pandas as pd
 import numpy as np
+import itertools
 from .. import ureg as _ureg
-from ..physics import Sequence as _Sequence
-from ..commands import Dipole, Quadrupole, Sextupole, Octupole, Command, Marker, Drift, Bend
+from ..sequence import Sequence as _Sequence
+from ..commands import Dipole, Quadrupole, Sextupole, Octupole, Command, Marker, Drift, Bend, Ymy
 from ..kinematics import Kinematics
 from ..commands import particules
 
 
 def create_madx_marker(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> Command:
     """
+    Create a Marker command from the equivalent MAD-X marker keyword.
 
     Args:
         twiss_row:
-        kinematics:
-        options:
+        kinematics: kinematic quantities (used for field normalization)
+        options: options for the creation of the command
 
     Returns:
 
     """
-    return Marker(twiss_row.name[0:8])
+    return [options.get('command', Marker)()]
 
 
-def create_madx_drift(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> Command:
-    """
-
-    Args:
-        twiss_row:
-        kinematics:
-        options:
-
-    Returns:
-
-    """
-    return options.get('drift_command', Drift)(twiss_row.name[0:8], XL=twiss_row['L'] * _ureg.meter)
-
-
-def create_madx_rbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> Command:
+def create_madx_drift(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> List[Command]:
     """
 
     Args:
@@ -52,13 +40,27 @@ def create_madx_rbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dic
     Returns:
 
     """
-    return options.get('rbend_command', Bend)(twiss_row.name[0:8],
+    return [options.get('command', Drift)(XL=twiss_row['L'] * _ureg.meter)]
+
+
+def create_madx_rbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> List[Command]:
+    """
+
+    Args:
+        twiss_row:
+        kinematics:
+        options:
+
+    Returns:
+
+    """
+    return [options.get('command', Bend)(twiss_row.name[0:8],
                                               XL=twiss_row['L'] * _ureg.meter,
                                               B0=kinematics.brho / (twiss_row['L'] / twiss_row['ANGLE'] * _ureg.meter),
-                                              )
+                                              )]
 
 
-def create_madx_sbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> Command:
+def create_madx_sbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> List[Command]:
     """
 
     Args:
@@ -70,15 +72,19 @@ def create_madx_sbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dic
 
     """
     radius = np.abs(twiss_row['L'] / twiss_row['ANGLE']) * _ureg.meter
-    d = options.get('sbend_command', Dipole)(twiss_row.name[0:8],
-                                             AT=np.abs(twiss_row['ANGLE']) * _ureg.radian,
-                                             RM=radius,
-                                             B0=kinematics.brho / radius,
-                                             )
-    return d
+    d = options.get('command', Dipole)(twiss_row.name[0:8],
+                                       AT=np.abs(twiss_row['ANGLE']) * _ureg.radian,
+                                       RM=radius,
+                                       B0=kinematics.brho / radius,
+                                       THETA_E=float(twiss_row['E1']) * _ureg.radian,
+                                       THETA_S=float(twiss_row['E2']) * _ureg.radian,
+                                       )
+    if twiss_row['ANGLE'] < 0:
+        return [Ymy(), d]
+    return [d]
 
 
-def create_madx_quadrupole(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> Command:
+def create_madx_quadrupole(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> List[Command]:
     """
 
     Args:
@@ -89,11 +95,12 @@ def create_madx_quadrupole(twiss_row: pd.Series, kinematics: Kinematics, options
     Returns:
 
     """
-    return Quadrupole(twiss_row.name[0:8],
+    return [Quadrupole(twiss_row.name[0:8],
                       XL=twiss_row['L'] * _ureg.meter,
                       R0=options.get('R0', 10 * _ureg.cm),
-                      B0=twiss_row['K1L'] / twiss_row['L'] * kinematics.brho_ * options.get('R0', 0.1) * _ureg.tesla,
-                      )
+                      B0=twiss_row['K1L'] / twiss_row['L'] * kinematics.brho_ *
+                         options.get('R0', 10 * _ureg.cm).to('m').magnitude * _ureg.tesla,
+                      )]
 
 
 def create_madx_sextupole(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> Command:
@@ -107,7 +114,7 @@ def create_madx_sextupole(twiss_row: pd.Series, kinematics: Kinematics, options:
     Returns:
 
     """
-    return Sextupole(twiss_row.name[0:8], XL=twiss_row['L'] * _ureg.meter)
+    return [Sextupole(twiss_row.name[0:8], XL=twiss_row['L'] * _ureg.meter)]
 
 
 def create_madx_octupole(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> Command:
@@ -121,7 +128,7 @@ def create_madx_octupole(twiss_row: pd.Series, kinematics: Kinematics, options: 
     Returns:
 
     """
-    return Octupole(twiss_row.name[0:8], XL=twiss_row['L'] * _ureg.meter)
+    return [Octupole(twiss_row.name[0:8], XL=twiss_row['L'] * _ureg.meter)]
 
 
 def load_madx_twiss_headers(filename: str = 'twiss.outx', path: str = '.') -> pd.Series:
@@ -218,7 +225,7 @@ def from_madx_twiss(filename: str = 'twiss.outx',
     twiss_headers = load_madx_twiss_headers(filename, path)
     p = getattr(particules, twiss_headers['PARTICLE'].capitalize())
     k = Kinematics(float(twiss_headers['PC']) * _ureg.GeV_c, particle=p)
-    twiss_table = list(
+    converted_table: list = list(
                       load_madx_twiss_table(filename, path).set_index('NAME').apply(
                           lambda _: conversion_functions.get(_['KEYWORD'],
                                                              lambda _, __, ___: None
@@ -227,6 +234,6 @@ def from_madx_twiss(filename: str = 'twiss.outx',
                       ).values
     )
     return _Sequence(name=twiss_headers['NAME'],
-                     sequence=twiss_table,
+                     sequence=list(itertools.chain.from_iterable(converted_table)),
                      metadata=twiss_headers,
                      particle=p)

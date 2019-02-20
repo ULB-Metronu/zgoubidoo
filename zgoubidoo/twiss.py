@@ -1,6 +1,12 @@
 """Step-by-step computation of the transfer matrix and Twiss parameters from Zgoubi tracks.
 
-TODO
+The functions in this module perform a first-order analysis of the dynamics, via the computation of the transfer matrix
+and its parametrizations.
+
+The standard uncoupled Twiss parametrization (including off-momentum effects, aka. dispersion) is the default option.
+
+Additional formalisms for the parametrization of fully coupled transfer matrices are also available (Teng, Ripken,
+etc.).
 
 Example:
     import matplotlib.pyplot as plt
@@ -14,7 +20,7 @@ Example:
 from typing import Tuple, Optional
 import numpy as np
 import pandas as pd
-from .commands import Patchable
+from .commands import Patchable, PolarMagnet
 from .input import Input
 
 
@@ -235,18 +241,18 @@ def compute_twiss(matrix: pd.DataFrame, twiss_init: Optional[pd.Series] = None) 
     if twiss_init is None:
         twiss_init = compute_periodic_twiss(matrix)
 
-    matrix['BETA11'] = compute_beta_from_matrix(matrix, twiss_init, plane=1)
+    matrix['BETA11'] = compute_beta_from_matrix(matrix, twiss_init)
     matrix['BETA22'] = compute_beta_from_matrix(matrix, twiss_init, plane=2)
-    matrix['ALPHA11'] = compute_alpha_from_matrix(matrix, twiss_init, plane=1)
+    matrix['ALPHA11'] = compute_alpha_from_matrix(matrix, twiss_init)
     matrix['ALPHA22'] = compute_alpha_from_matrix(matrix, twiss_init, plane=2)
-    matrix['GAMMA11'] = compute_gamma_from_matrix(matrix, twiss_init, plane=1)
+    matrix['GAMMA11'] = compute_gamma_from_matrix(matrix, twiss_init)
     matrix['GAMMA22'] = compute_gamma_from_matrix(matrix, twiss_init, plane=2)
-    matrix['MU1'] = compute_mu_from_matrix(matrix, twiss_init, plane=1, beta=matrix['BETA11'])
+    matrix['MU1'] = compute_mu_from_matrix(matrix, twiss_init, beta=matrix['BETA11'])
     matrix['MU2'] = compute_mu_from_matrix(matrix, twiss_init, plane=2, beta=matrix['BETA22'])
-    matrix['DET1'] = compute_jacobian_from_matrix(matrix, plane=1)
+    matrix['DET1'] = compute_jacobian_from_matrix(matrix)
     matrix['DET2'] = compute_jacobian_from_matrix(matrix, plane=2)
-    matrix['DISP1'] = compute_dispersion_from_matrix(matrix, twiss_init, plane=1)
-    matrix['DISP2'] = compute_dispersion_prime_from_matrix(matrix, twiss_init, plane=1)
+    matrix['DISP1'] = compute_dispersion_from_matrix(matrix, twiss_init)
+    matrix['DISP2'] = compute_dispersion_prime_from_matrix(matrix, twiss_init)
     matrix['DISP3'] = compute_dispersion_from_matrix(matrix, twiss_init, plane=2)
     matrix['DISP4'] = compute_dispersion_prime_from_matrix(matrix, twiss_init, plane=2)
     return matrix
@@ -335,9 +341,15 @@ def compute_transfer_matrix(beamline: Input, tracks: pd.DataFrame, align_on: str
                 for j in range(0, n_dimensions)
             }
         )
-        m['X'] = ref[align_on].values + offset
+        if isinstance(e, PolarMagnet):
+            m['X'] = ref[align_on].values * e.radius.to('m').magnitude * 100 + offset
+        else:
+            m['X'] = ref[align_on].values + offset
         m['S'] = ref[align_on].values + offset
-        m['LABEL1'] = ref['LABEL1']
+        m['LABEL1'] = e.LABEL1
         matrix = matrix.append(m)
-        offset += ref[align_on].max() if align_on != 'S' else 0.0
+        if isinstance(e, PolarMagnet):
+            offset += e.length.to('m').magnitude if align_on != 'S' else 0.0
+        else:
+            offset += ref[align_on].max() if align_on != 'S' else 0.0
     return matrix.reset_index()

@@ -3,7 +3,11 @@ Commands controlling Zgoubi's control flow, geometry, tracking options, etc.
 
 TODO
 """
+from typing import List
+import pandas as _pd
 from .commands import Command as _Command
+from ..input import Input as _Input
+from ..input import MappedParameters as _MappedParameters
 
 
 class SynchrotronRadiationLosses(_Command):
@@ -72,6 +76,23 @@ class SynchrotronRadiationPrint(_Command):
     """Print SR loss statistics."""
     KEYWORD = 'SRPRNT'
     """Keyword of the command used for the Zgoubi input data."""
+
+    def process_output(self, output: List[str],
+                       parameters: _MappedParameters,
+                       zgoubi_input: _Input
+                       ) -> bool:
+        """
+
+        Args:
+            output:
+            parameters:
+            zgoubi_input:
+
+        Returns:
+
+        """
+        self._results[parameters] = _pd.DataFrame()
+        return True
 
 
 SRPrint = SynchrotronRadiationPrint
