@@ -1,5 +1,15 @@
-"""
-TODO
+"""MAD-X loaders and converters.
+
+Examples:
+    >>> fodo = zgoubidoo.loaders.from_madx_twiss(
+    filename='twiss.outx',
+    path='/Users/chernals/Downloads',
+    options={'DRIFT': {'command': FakeDrift}})
+    >>> zi = zgoubidoo.Input(line=[
+    Objet5(BORO=fodo.kinematics.brho),
+    fodo.particle,
+    ] + fodo.sequence)
+    >>> zi.XPAS = 1 * _.cm
 """
 from typing import Optional, Dict, List
 import os
@@ -295,24 +305,24 @@ def load_madx_twiss_headers(filename: str = 'twiss.outx', path: str = '.') -> pd
                        )[0:46]
 
 
-def load_madx_twiss_table(filename: str = 'twiss.outx', path: str = '.', headers: List = None) -> pd.DataFrame:
+def load_madx_twiss_table(filename: str = 'twiss.outx', path: str = '.', columns: List = None) -> pd.DataFrame:
     """
 
     Args:
         filename:
         path:
-        headers:
+        columns:
 
     Returns:
 
     """
-    headers = headers or MADX_TWISS_HEADERS
+    columns = columns or MADX_TWISS_HEADERS
     _: pd.DataFrame = pd \
         .read_csv(os.path.join(path, filename),
                   skiprows=47,
                   sep=r'\s+',
                   index_col=False,
-                  names=headers,
+                  names=columns,
                   ) \
         .drop(0)
     for c in _.columns:
@@ -320,12 +330,12 @@ def load_madx_twiss_table(filename: str = 'twiss.outx', path: str = '.', headers
             _[c] = _[c].apply(float)
         except ValueError:
             pass
-    return _
+    return _.set_index('NAME')
 
 
 def from_madx_twiss(filename: str = 'twiss.outx',
                     path: str = '.',
-                    headers: List = None,
+                    columns: List = None,
                     options: Optional[dict] = None,
                     converters: Optional[dict] = None) -> _Sequence:
     """
@@ -333,7 +343,7 @@ def from_madx_twiss(filename: str = 'twiss.outx',
     Args:
         filename:
         path:
-        headers:
+        columns:
         options:
         converters:
 
@@ -345,17 +355,19 @@ def from_madx_twiss(filename: str = 'twiss.outx',
     conversion_functions = {**madx_converters, **(converters or {})}
     options = options or {}
     twiss_headers = load_madx_twiss_headers(filename, path)
+    twiss_table = load_madx_twiss_table(filename, path, columns)
     p = getattr(particules, twiss_headers['PARTICLE'].capitalize())
     k = Kinematics(float(twiss_headers['PC']) * _ureg.GeV_c, particle=p)
     converted_table: list = list(
-                      load_madx_twiss_table(filename, path, headers).set_index('NAME').apply(
-                          lambda _: conversion_functions.get(_['KEYWORD'],
-                                                             lambda _, __, ___: None
-                                                             )(_, k, options.get(_['KEYWORD'], {})),
-                          axis=1
-                      ).values
+        twiss_table.apply(
+            lambda _: conversion_functions.get(_['KEYWORD'], lambda _, __, ___: None)
+            (_, k, options.get(_['KEYWORD'], {})),
+            axis=1
+        ).values
     )
     return _Sequence(name=twiss_headers['NAME'],
                      sequence=list(itertools.chain.from_iterable(converted_table)),
                      metadata=twiss_headers,
-                     particle=p)
+                     particle=p,
+                     table=twiss_table,
+                     )
