@@ -172,6 +172,15 @@ class CarbonIon(Particule):
     }
 
 
+class OxygenIon(Particule):
+    """A fully stripped Oxygen ion"""
+    PARAMETERS = {
+        'M': (1, ''),
+        'Q': (1, ''),
+        'G': (1, ''),
+    }
+
+
 class LeadIon(Particule):
     """A fully stripped Lead ion"""
     PARAMETERS = {

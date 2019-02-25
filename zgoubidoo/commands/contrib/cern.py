@@ -1,1 +1,5 @@
 """TODO"""
+
+
+class LHeC:
+    pass
