@@ -19,8 +19,8 @@ Zgoubidoo's documentation
    contrib
    input
    lowlevel
-   beam
-   sequence
+   physics
+   loaders
    vis
    utilities
    examples

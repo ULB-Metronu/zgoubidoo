@@ -13,7 +13,7 @@ Affine geometry using the frame module
 Accelerator physics and relativity calculations using the physics module
 ------------------------------------------------------------------------
 
-.. automodapi:: zgoubidoo.physics
+.. automodapi:: zgoubidoo.kinematics
     :no-heading:
 
 Units
