@@ -32,6 +32,7 @@ class Sequence:
                  metadata: Optional[_pd.Series] = None,
                  kinematics: Optional[_Kinematics] = None,
                  particle: _ParticuleType = _Proton,
+                 table: Optional[_pd.DataFrame] = None,
                  periods: int = 1,
                  ):
         """
@@ -42,9 +43,11 @@ class Sequence:
             metadata:
             kinematics:
             particle: the main particle type
+            table:
             periods: the number of repetitions (for periodic sequences)
         """
         self._name = name
+        self._table = table
         if metadata is not None:
             self._metadata: _pd.Series = metadata
         else:
@@ -81,6 +84,11 @@ class Sequence:
     def sequence(self) -> List[_Command]:
         """Provide the physics of elements."""
         return self._sequence
+
+    @property
+    def table(self) -> _pd.DataFrame:
+        """Provide the associated (twiss) table."""
+        return self._table
 
     @property
     def metadata(self) -> _pd.Series:
