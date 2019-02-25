@@ -402,7 +402,7 @@ class Input:
 
         """
         try:
-            items = tuple(map(lambda x: getattr(commands, x) if isinstance(x, str) else x, items))
+            items = tuple(map(lambda x: getattr(zgoubidoo.commands, x) if isinstance(x, str) else x, items))
         except AttributeError:
             return list(), tuple()
         return list(filter(lambda x: reduce(lambda u, v: u or v, [isinstance(x, i) for i in items]), self._line)), items
@@ -600,6 +600,7 @@ class Input:
 
     def plot(self,
              ax=None,
+             tracks=None,
              artist: zgoubidoo.vis.ZgoubiPlot = None,
              start: Optional[Union[str, zgoubidoo.commands.Command]] = None,
              stop: Optional[Union[str, zgoubidoo.commands.Command]] = None,
@@ -610,6 +611,7 @@ class Input:
 
         Args:
             ax: an optional matplotlib axis to draw on
+            tracks: TODO
             artist: an artist object for the rendering
             start: first element of the beamline to be plotted
             stop: last element of the beamline to be plotted
@@ -622,6 +624,7 @@ class Input:
             artist.ax = ax
 
         zgoubidoo.vis.beamline(line=self[start:stop],
+                               tracks=tracks,
                                artist=artist,
                                )
 

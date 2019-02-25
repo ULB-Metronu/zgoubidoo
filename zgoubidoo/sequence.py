@@ -142,6 +142,7 @@ class Sequence:
 
     def plot(self,
              ax=None,
+             tracks=None,
              artist: zgoubidoo.vis.ZgoubiPlot = None,
              start: Optional[Union[str, zgoubidoo.commands.Command]] = None,
              stop: Optional[Union[str, zgoubidoo.commands.Command]] = None,
@@ -152,6 +153,7 @@ class Sequence:
 
         Args:
             ax: an optional matplotlib axis to draw on
+            tracks: TODO
             artist: an artist object for the rendering
             start: first element of the beamline to be plotted
             stop: last element of the beamline to be plotted
@@ -164,6 +166,7 @@ class Sequence:
             artist.ax = ax
 
         zgoubidoo.vis.beamline(line=self.sequence[start:stop],
+                               tracks=tracks,
                                artist=artist,
                                )
 

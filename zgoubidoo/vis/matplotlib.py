@@ -10,7 +10,7 @@ import matplotlib.patches as patches
 import matplotlib.transforms as transforms
 from .. import ureg as _ureg
 from .zgoubiplot import ZgoubiPlot
-from ..units import _cm, _degree, _radian
+from ..units import _m, _cm, _degree, _radian
 from ..frame import Frame
 import zgoubidoo.commands
 
@@ -41,6 +41,9 @@ class ZgoubiMpl(ZgoubiPlot):
             self.init_plot(**kwargs)
         else:
             self._ax = ax
+        self._ax2 = self._ax.twinx()
+        self._ax2.set_ylim([0, 1])
+        self._ax2.axis('off')
 
     @property
     def tracks_color(self):
@@ -64,6 +67,15 @@ class ZgoubiMpl(ZgoubiPlot):
             the Matplotlib ax.
         """
         return self._ax
+
+    @property
+    def ax2(self):
+        """
+
+        Returns:
+
+        """
+        return self._ax2
 
     @property
     def figure(self):
@@ -253,6 +265,49 @@ class ZgoubiMpl(ZgoubiPlot):
             do_box()
         if self._with_frames:
             do_frame()
+
+    def cartouche_drift(self, s_location, magnet: zgoubidoo.commands.CartesianMagnet):
+        """
+
+        Args:
+            s_location:
+            magnet:
+
+        Returns:
+
+        """
+        offset = 1.1
+        self._ax2.hlines(offset, _m(s_location), _m(s_location) + _m(magnet.length), clip_on=False)
+
+    cartouche_fakedrift = cartouche_drift
+
+    def cartouche_cartesianmagnet(self, s_location, magnet: zgoubidoo.commands.CartesianMagnet):
+        """
+
+        Args:
+            s_location:
+            magnet:
+
+        Returns:
+
+        """
+        offset = 1.1
+        self._ax2.hlines(offset, _m(s_location), _m(s_location) + _m(magnet.length), clip_on=False)
+        self._ax2.add_patch(
+            patches.Rectangle(
+                (
+                    _m(s_location),
+                    offset - 0.05,
+                ),
+                _m(magnet.length),
+                0.1,
+                alpha=0.5,
+                facecolor=self._palette.get(magnet.COLOR, 'gray'),
+                edgecolor=self._palette.get(magnet.COLOR, 'gray'),
+                linewidth=0,
+                clip_on=False,
+            )
+        )
 
     def tracks_cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet, tracks: _pd.DataFrame):
         """Plot tracks for a cartesian magnet.
