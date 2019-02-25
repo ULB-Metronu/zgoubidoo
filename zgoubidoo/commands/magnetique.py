@@ -64,22 +64,47 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
 
     @property
     def rotation(self) -> _Q:
+        """
+
+        Returns:
+
+        """
         return self.ALE or 0.0 * _ureg.degree
 
     @property
     def length(self) -> _Q:
+        """
+
+        Returns:
+
+        """
         return self.XL or 0.0 * _ureg.cm
 
     @property
     def x_offset(self) -> _Q:
+        """
+
+        Returns:
+
+        """
         return self.XCE or 0.0 * _ureg.cm
 
     @property
     def y_offset(self) -> _Q:
+        """
+
+        Returns:
+
+        """
         return self.YCE or 0.0 * _ureg.cm
 
     @property
     def entry_patched(self) -> _Frame:
+        """
+
+        Returns:
+
+        """
         if self._entry_patched is None:
             self._entry_patched = _Frame(self.entry)
             self._entry_patched.translate_x(-(self.X_E or 0.0 * _ureg.cm))
@@ -97,6 +122,11 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
 
     @property
     def exit_patched(self) -> _Frame:
+        """
+
+        Returns:
+
+        """
         if self._exit_patched is None:
             if self.KPOS is None or self.KPOS == 1:
                 self._exit_patched = _Frame(self.exit)
@@ -107,11 +137,43 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
         return self._exit_patched
 
     def plot(self, artist=None):
+        """
+
+        Args:
+            artist:
+
+        Returns:
+
+        """
         if artist is None:
             return
         getattr(artist, CartesianMagnet.__name__.lower())(self)
 
+    def plot_cartouche(self, s_location, artist: _ZgoubiPlot):
+        """
+
+        Args:
+            s_location:
+            artist:
+
+        Returns:
+
+        """
+        getattr(artist,
+                f"cartouche_{self.__class__.__name__.lower()}",
+                getattr(artist, f"cartouche_{CartesianMagnet.__name__.lower()}")
+                )(s_location, self)
+
     def plot_tracks(self, artist=None, tracks=None):
+        """
+
+        Args:
+            artist:
+            tracks:
+
+        Returns:
+
+        """
         if artist is None or tracks is None:
             return
         getattr(artist, f"tracks_{CartesianMagnet.__name__.lower()}")(self, tracks)
@@ -186,7 +248,7 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
         Returns:
 
         """
-        return self.angular_opening * self.radius
+        return self.angular_opening.to('rad').magnitude * self.radius
 
     @property
     def entry_patched(self):
@@ -1539,7 +1601,7 @@ class FFAGSpirale(PolarMagnet):
         'AT': 0,
         'RM': 0,
 
-        'ACN': [0, ],
+        'ACN': (0, ),
         'DELTA_RM': [0, ],
         'BZ0': [0, ],
         'K': [0, ],
@@ -1665,117 +1727,118 @@ class FFAGSpirale(PolarMagnet):
 class Multipole(CartesianMagnet):
     """Magnetic multipole.
 
-    TODO
+    .. rubric:: Zgoubi manual description
+
+    The simulation of multipolar magnetic field M⃗ by MULTIPOL proceeds by addition of the dipolar (B1),
+    quadrupolar (B2), sextupolar (B3), etc., up to 20-polar (B10) components, and of their derivatives up to fourth
+    order.
+
+    The independent components B1, B2, B3, ..., B10 and their derivatives up to the fourth order are calculated as
+    described in section 1.3.7.
+
+    The entrance and exit fringe fields are treated separately. They are characterized by the integration zone XE at
+    entrance and XS at exit, as for QUADRUPO, and by the extent λE at entrance, λS at exit. The fringe field extents
+    for the dipole component are λE and λS. The fringe field for the quadrupolar (sextupolar, ..., 20-polar) component
+    is given by a coefficient E2 (E3, ..., E10) at entrance, and S2 (S3, ..., S10) at exit, such that the extent is
+    λE * E2 (λE * E3, ..., λE * E10) at entrance and λS * S2 (λS * S3, ..., λS * S10) at exit.
+
+    If λE = 0 (λS = 0) the multipole lens is considered to have a sharp edge field at entrance (exit), and then,
+    XE (XS) is forced to zero (for the mere purpose of saving computing time). If Ei = 0 (Si = 0) (i = 2, 10), the
+    entrance (exit) fringe field for the multipole component i is considered as a sharp edge field. In sharp edge field
+    model, the wedge angle vertical first order focusing effect (if B1 is non zero) is simulated at magnet entrance and
+    exit by a kick P2 = P1 − Z1 tan(ε/ρ) applied to each particle (P1, P2 are the vertical angles upstream and
+    downstream of the EFB, Z1 is the vertical particle position at the EFB, ρ the local horizontal bending radius and
+    ε the wedge angle experienced by the particle ; ε depends on the horizontal angle T).
+
+    Any multipole component Bi can be rotated independently by an angle RXi around the longitudinal X- axis, for the
+    simulation of positioning defects, as well as skew lenses.
+
+    Magnet (mis-)alignment is assured by KPOS. KPOS also allows some degrees of automatic alignment useful for periodic
+    structures (section 4.6.7).
     """
     KEYWORD = 'MULTIPOL'
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-            'IL': 2,
-            'XL': 0,
-            'R0': 0,
-            'B1': 0,
-            'B2': 0,
-            'B3': 0,
-            'B4': 0,
-            'B5': 0,
-            'B6': 0,
-            'B7': 0,
-            'B8': 0,
-            'B9': 0,
-            'B10': 0,
-            'X_E': 0,
-            'LAM_E': 0,
-            'E_2': 0,
-            'E_3': 0,
-            'E_4': 0,
-            'E_5': 0,
-            'E_6': 0,
-            'E_7': 0,
-            'E_8': 0,
-            'E_9': 0,
-            'E_10': 0,
-            'NCE': 0,
-            'C0_E': 0,
-            'C1_E': 0,
-            'C2_E': 0,
-            'C3_E': 0,
-            'C4_E': 0,
-            'C5_E': 0,
-            'X_S': 0,
-            'LAM_S': 0,
-            'S_2': 0,
-            'S_3': 0,
-            'S_4': 0,
-            'S_5': 0,
-            'S_6': 0,
-            'S_7': 0,
-            'S_8': 0,
-            'S_9': 0,
-            'S_10': 0,
-            'NCS': 0,
-            'C0_S': 0,
-            'C1_S': 0,
-            'C2_S': 0,
-            'C3_S': 0,
-            'C4_S': 0,
-            'C5_S': 0,
-            'R1': 0,
-            'R2': 0,
-            'R3': 0,
-            'R4': 0,
-            'R5': 0,
-            'R6': 0,
-            'R7': 0,
-            'R8': 0,
-            'R9': 0,
-            'R10': 0,
-            'XPAS': 0.1,
-            'KPOS': 1,
-            'XCE': 0,
-            'YCE': 0,
-            'ALE': 0,
+            'IL': (2, 'Print field and coordinates along trajectories', 1),
+            'XL': (0 * _ureg.centimeter, 'Magnet length'),
+            'R0': (1.0 * _ureg.centimeter, 'Radius of the pole tips'),
+            'B1': (0 * _ureg.tesla, 'Field at pole tip for dipolar component.'),
+            'B2': (0 * _ureg.tesla, 'Field at pole tip for quadrupolar component.'),
+            'B3': (0 * _ureg.tesla, 'Field at pole tip for sextupolar component.'),
+            'B4': (0 * _ureg.tesla, 'Field at pole tip for octupolar component.'),
+            'B5': (0 * _ureg.tesla, 'Field at pole tip for decapolar component.'),
+            'B6': (0 * _ureg.tesla, 'Field at pole tip for dodecapolar component.'),
+            'B7': (0 * _ureg.tesla, 'Field at pole tip for 14-polar component.'),
+            'B8': (0 * _ureg.tesla, 'Field at pole tip for 16-polar component.'),
+            'B9': (0 * _ureg.tesla, 'Field at pole tip for 18-polar component.'),
+            'B10': (0 * _ureg.tesla, 'Field at pole tip for 20-polar component.'),
+            'XE': (0 * _ureg.cm, 'Entrance face integration zone for the fringe field.'),
+            'LAM_E': (0 * _ureg.cm, 'Entrance face fringe field extent'),
+            'E2': (0 * _ureg.cm, 'Quadrupole entrance fringe field extent (E_2 * LAM_E).'),
+            'E3': (0 * _ureg.cm, 'Sextupolar entrance fringe field extent (E_3 * LAM_E).'),
+            'E4': (0 * _ureg.cm, 'Octupolar entrance fringe field extent (E_4 * LAM_E).'),
+            'E5': (0 * _ureg.cm, 'Decapolar entrance fringe field extent (E_5 * LAM_E).'),
+            'E6': (0 * _ureg.cm, 'Dodecapolar entrance fringe field extent (E_6 * LAM_E).'),
+            'E7': (0 * _ureg.cm, '14-polar entrance fringe field extent (E_7 * LAM_E).'),
+            'E8': (0 * _ureg.cm, '16-polar entrance fringe field extent (E_8 * LAM_E).'),
+            'E9': (0 * _ureg.cm, '18-polar entrance fringe field extent (E_9 * LAM_E).'),
+            'E10': (0 * _ureg.cm, '20-polar entrance fringe field extent (E_10 * LAM_E).'),
+            'C0_E': (0, 'Zeroth-order Enge coefficient for entrance fringe field.'),
+            'C1_E': (0, 'First-order Enge coefficient for entrance fringe field.'),
+            'C2_E': (0, 'Second-order Enge coefficient for entrance fringe field.'),
+            'C3_E': (0, 'Third-order Enge coefficient for entrance fringe field.'),
+            'C4_E': (0, 'Fourth-order Enge coefficient for entrance fringe field.'),
+            'C5_E': (0, 'Fifth-order Enge coefficient for entrance fringe field.'),
+            'XS': (0 * _ureg.cm, 'Exit face integration zone for the fringe field.'),
+            'LAM_S': (0 * _ureg.cm, 'Exit face fringe field extent'),
+            'S2': (0 * _ureg.cm, 'Quadrupole exit fringe field extent (E_2 * LAM_S).'),
+            'S3': (0 * _ureg.cm, 'Sextupolar exit fringe field extent (E_3 * LAM_S).'),
+            'S4': (0 * _ureg.cm, 'Octupolar exit fringe field extent (E_4 * LAM_S).'),
+            'S5': (0 * _ureg.cm, 'Decapolar exit fringe field extent (E_5 * LAM_S).'),
+            'S6': (0 * _ureg.cm, 'Dodecapolar exit fringe field extent (E_6 * LAM_S).'),
+            'S7': (0 * _ureg.cm, '14-polar exit fringe field extent (E_7 * LAM_S).'),
+            'S8': (0 * _ureg.cm, '16-polar exit fringe field extent (E_8 * LAM_S).'),
+            'S9': (0 * _ureg.cm, '18-polar exit fringe field extent (E_9 * LAM_S).'),
+            'S10': (0 * _ureg.cm, '20-polar exit fringe field extent (E_10 * LAM_S).'),
+            'C0_S': (0, 'Zeroth-order Enge coefficient for entrance fringe field.'),
+            'C1_S': (0, 'First-order Enge coefficient for exit fringe field.'),
+            'C2_S': (0, 'Second-order Enge coefficient for exit fringe field.'),
+            'C3_S': (0, 'Third-order Enge coefficient for exit fringe field.'),
+            'C4_S': (0, 'Fourth-order Enge coefficient for exit fringe field.'),
+            'C5_S': (0, 'Fifth-order Enge coefficient for exit fringe field.'),
+            'R1': (0 * _ureg.degree, 'Skew angle of the dipolar component'),
+            'R2': (0 * _ureg.degree, 'Skew angle of the quadrupolar component'),
+            'R3': (0 * _ureg.degree, 'Skew angle of the sextupolar component'),
+            'R4': (0 * _ureg.degree, 'Skew angle of the octupolar component'),
+            'R5': (0 * _ureg.degree, 'Skew angle of the decapolar component'),
+            'R6': (0 * _ureg.degree, 'Skew angle of the dodecapolar component'),
+            'R7': (0 * _ureg.degree, 'Skew angle of the 14-polar component'),
+            'R8': (0 * _ureg.degree, 'Skew angle of the 16-polar component'),
+            'R9': (0 * _ureg.degree, 'Skew angle of the 18-polar component'),
+            'R10': (0 * _ureg.degree, 'Skew angle of the 20-polar component'),
+            'XPAS': (0.1 * _ureg.cm, 'Integration step.'),
+            'KPOS': (1, ''),
+            'XCE': (0 * _ureg.cm, ''),
+            'YCE': (0 * _ureg.cm, ''),
+            'ALE': (0 * _ureg.radian, ''),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(s):
-        command = []
-        c = f"""
-            {super().__str__().rstrip()}
-            {s.IL}
-            {s.XL:.12e} {s.R0:.12e} {s.B1:.12e} {s.B2:.12e} {s.B3:.12e} {s.B4:.12e} {s.B5:.12e} {s.B6:.12e} {s.B7:.12e} {s.B8:.12e} {s.B9:.12e} {s.B10:.12e}
-            {s.X_E:.12e} {s.LAM_E:.12e} {s.E_2:.12e} {s.E_3:.12e} {s.E_4:.12e} {s.E_5:.12e} {s.E_6:.12e} {s.E_7:.12e} {s.E_8:.12e} {s.E_9:.12e} {s.E_10:.12e}
-            {s.NCE} {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
-            {s.X_S:.12e} {s.LAM_S:.12e} {s.S_2:.12e} {s.S_3:.12e} {s.S_4:.12e} {s.S_5:.12e} {s.S_6:.12e} {s.S_7:.12e} {s.S_8:.12e} {s.S_9:.12e} {s.S_10:.12e}
-            {s.NCS} {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
-            {s.R1:.12e} {s.R2:.12e} {s.R3:.12e} {s.R4:.12e} {s.R5:.12e} {s.R6:.12e} {s.R7:.12e} {s.R8:.12e} {s.R9:.12e} {s.R10:.12e}
-            {s.XPAS:.12e}  
-            """
-        command.append(c)
-
-        if s.KPOS not in (1, 3):
-            raise _ZgoubidooException("KPOS must be equal to 1,2 or 3.")
-
-        if s.KPOS == 1:
-            c = f"""
-            {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
-            """
-            command.append(c)
-        elif s.KPOS == 2:
-            c = f"""
-            {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
-            """
-            command.append(c)
-        elif s.KPOS == 3:
-            if s.B1 == 0:
-                raise _ZgoubidooException("B1 must be non-zero")
-            c = f"""
-            {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
-            """
-            command.append(c)
-
-        return ''.join(map(lambda _: _.rstrip(), command))
+        return f"""
+        {super().__str__().rstrip()}
+        {s.IL}
+        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B1):.12e} {_kilogauss(s.B2):.12e} {_kilogauss(s.B3):.12e} {_kilogauss(s.B4):.12e} {_kilogauss(s.B5):.12e} {_kilogauss(s.B6):.12e} {_kilogauss(s.B7):.12e} {_kilogauss(s.B8):.12e} {_kilogauss(s.B9):.12e} {_kilogauss(s.B10):.12e}
+        {_cm(s.XE):.12e} {_cm(s.LAM_E):.12e} {_cm(s.E2):.12e} {_cm(s.E3):.12e} {_cm(s.E4):.12e} {_cm(s.E5):.12e} {_cm(s.E6):.12e} {_cm(s.E7):.12e} {_cm(s.E8):.12e} {_cm(s.E9):.12e} {_cm(s.E10):.12e}
+        6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
+        {_cm(s.XS):.12e} {_cm(s.LAM_S):.12e} {_cm(s.S2):.12e} {_cm(s.S3):.12e} {_cm(s.S4):.12e} {_cm(s.S5):.12e} {_cm(s.S6):.12e} {_cm(s.S7):.12e} {_cm(s.S8):.12e} {_cm(s.S9):.12e} {_cm(s.S10):.12e}
+        6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
+        {_radian(s.R1):.12e} {_radian(s.R2):.12e} {_radian(s.R3):.12e} {_radian(s.R4):.12e} {_radian(s.R5):.12e} {_radian(s.R6):.12e} {_radian(s.R7):.12e} {_radian(s.R8):.12e} {_radian(s.R9):.12e} {_radian(s.R10):.12e}
+        {_cm(s.XPAS)}
+        {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
+        """
 
 
 class Octupole(CartesianMagnet):
@@ -1978,6 +2041,20 @@ class Quadrupole(CartesianMagnet):
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
+
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        if _cm(self.XE) == 0 and _cm(self.R0) != 0:
+            self.XE = 2 * self.R0
+        if _cm(self.XS) == 0 and _cm(self.R0) != 0:
+            self.XS = 2 * self.R0
 
     def __str__(s):
         return f"""

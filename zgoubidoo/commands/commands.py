@@ -154,8 +154,25 @@ class Command(metaclass=CommandType):
                 raise ZgoubidooException(f"LABEL2 '{label2}' for element {label1} ({self.KEYWORD}) is too long.")
             self._attributes['LABEL2'] = label2
         if not self._attributes['LABEL1']:
-            self._attributes['LABEL1'] = str(uuid.uuid4().hex)[:ZGOUBI_LABEL_LENGTH]
+            self.generate_label()
         Command.post_init(self, **kwargs)
+
+    def generate_label(self, prefix: str = ''):
+        """
+
+        Args:
+            prefix:
+
+        Returns:
+
+        """
+        self._attributes['LABEL1'] = '_'.join(filter(None, [
+            prefix,
+            str(uuid.uuid4().hex)
+        ]))[:ZGOUBI_LABEL_LENGTH]
+        if len(self.LABEL1) > ZGOUBI_LABEL_LENGTH:
+            raise ZgoubidooException(f"LABEL1 '{self.LABEL1}' for element {self.KEYWORD} is too long.")
+        return self
 
     def post_init(self, **kwargs):  # -> NoReturn:
         """
@@ -271,6 +288,11 @@ class Command(metaclass=CommandType):
         """
 
     def __copy__(self):
+        """
+        TODO  - also change the label generation
+        Returns:
+
+        """
         label1 = f"{self.LABEL1}_COPY"
         if len(label1) > ZGOUBI_LABEL_LENGTH:
             label1 = str(uuid.uuid4().hex)[:ZGOUBI_LABEL_LENGTH]
