@@ -183,7 +183,11 @@ class ZgoubiResults:
             try:
                 m = list()
                 for r in self._results:
-                    m.append(read_matrix_file(path=r['path']))
+                    try:
+                        p = r['path'].name
+                    except AttributeError:
+                        p = r['path']
+                    m.append(read_matrix_file(path=p))
                 self._matrix = _pd.concat(m)
             except FileNotFoundError:
                 _logger.warning(

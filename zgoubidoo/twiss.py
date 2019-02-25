@@ -117,7 +117,7 @@ def compute_mu_from_matrix(m: pd.DataFrame, twiss: pd.Series, beta=None, plane: 
     beta0 = twiss[f"BETA{v}{v}"]
     if beta is None:
         beta = compute_beta_from_matrix(m, twiss, plane)
-    return np.power(beta0 / beta, 0.5) * r11 - alpha0 * r12 / np.power(beta * beta0, 0.5)
+    return np.arccos(np.power(beta0 / beta, 0.5) * r11 - alpha0 * r12 / np.power(beta * beta0, 0.5))
 
 
 def compute_jacobian_from_matrix(m: pd.DataFrame, plane: int = 1) -> pd.Series:
@@ -342,10 +342,11 @@ def compute_transfer_matrix(beamline: Input, tracks: pd.DataFrame, align_on: str
             }
         )
         if isinstance(e, PolarMagnet):
-            m['X'] = ref[align_on].values * e.radius.to('m').magnitude * 100 + offset
+            m['X'] = ref[align_on].values * 100 * e.radius.to('m').magnitude + offset
+            m['S'] = ref[align_on].values * 100 * e.radius.to('m').magnitude + offset
         else:
             m['X'] = ref[align_on].values + offset
-        m['S'] = ref[align_on].values + offset
+            m['S'] = ref[align_on].values + offset
         m['LABEL1'] = e.LABEL1
         matrix = matrix.append(m)
         if isinstance(e, PolarMagnet):
