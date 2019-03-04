@@ -3,6 +3,10 @@
 This module interfaces Zgoubi input files to the other components of Zgoubidoo. Its main feature is the `Input` class,
 which allows to represent a set of Zgoubi input commands and serialize it into a valid input file. The input can also
 be validated using a set of validators, following the Zgoubi input constraints.
+
+The inputs are serialized and saved as `zgoubi.dat` in temporary directories. When serializing an input it is possible
+to provide a parametric mapping (combinations of the variations of one or more parameters) to generate multiple Zgoubi
+input files.
 """
 from __future__ import annotations
 from typing import List, Callable, Sequence, Mapping, Tuple, Dict, Union, Optional
@@ -83,6 +87,9 @@ class MappedParameters:
     def __eq__(self, other):
         return hash(self) == hash(other)
 
+    def __add__(self, other):
+        return MappedParameters({**self.parameters, **other.parameters})
+
 
 @dataclass
 class ParametricMapping:
@@ -90,6 +97,10 @@ class ParametricMapping:
 
     Main feature is to compute the complete "cross product" of the different parameters to support multi-dimensional
     mapping. It also accounts for "coupled" variables.
+
+    Note:
+        Using the special value "LABEL" for the first element of the mapping's label deactivate the sequence adjustment
+        mechanism.
 
     See also:
         for implementation details, see also https://codereview.stackexchange.com/q/211121/52027 .
@@ -105,12 +116,16 @@ class ParametricMapping:
          {('B3G', 'B1'): 2.0, ('B1G', 'B1'): 12.0, ('B2G', 'B1'): 3.5}]
     """
     mappings: ParametersMappingListType = field(default_factory=lambda: [{}])
-    labels: List[Tuple[str]] = field(init=False, repr=False)
-    pools: List[List[Sequence[Union[_Q, float]]]] = field(init=False, repr=False)
 
-    def __post_init__(self):
-        self.labels = tuple(flatten(self.mappings))
-        self.pools = [list(map(tuple, zip(*arg.values()))) for arg in self.mappings]
+    @property
+    def labels(self) -> List[Tuple[str]]:
+        """TODO"""
+        return tuple(flatten(self.mappings))
+
+    @property
+    def pools(self) -> List[List[Sequence[Union[_Q, float]]]]:
+        """TODO"""
+        return [list(map(tuple, zip(*arg.values()))) for arg in self.mappings]
 
     @property
     def combinations(self) -> List[MappedParameters]:
@@ -126,6 +141,16 @@ class ParametricMapping:
         """
         pool_values = [flatten(term) for term in itertools.product(*self.pools)]
         return list(map(MappedParameters, [dict(zip(self.labels, v)) for v in pool_values] or [{}]))
+
+    def __add__(self, other):
+        """TODO might need to be adapted or with iadd also ?"""
+        if len(self.labels) == 0:
+            self.mappings = other.mappings
+        elif len(other.labels) == 0:
+            return self
+        else:
+            self.mappings += other.mappings
+        return self
 
 
 PathsDict = Dict[MappedParameters, Union[str, tempfile.TemporaryDirectory]]
@@ -193,7 +218,7 @@ class Input:
         Returns:
 
         """
-        self._paths = {**self.paths, **self._generate(mappings, filename, path)}
+        self._paths = {**self.paths, **self._generate(mappings=mappings, filename=filename, path=path)}
         return self
 
     def dump(self,
@@ -212,8 +237,8 @@ class Input:
 
         """
         _ = self._generate(filename=filename, path=path)
-        _[identifier] = _.pop(MappedParameters())
-        return _
+        identifier = identifier or MappedParameters()
+        return {identifier + k: v for k, v in _.items()}
 
     def _generate(self,
                   mappings: Optional[ParametricMapping] = None,
@@ -225,13 +250,13 @@ class Input:
         Args:
             mappings: TODO
             filename: the Zgoubi input file name (default: zgoubi.dat)
-            path:
+            path: an optional path for the temporary directories that will be created for the input files
 
         Raises:
 
         """
         paths: PathsDict = dict()
-        mappings = mappings or ParametricMapping()
+        mappings = (mappings or ParametricMapping()) + self.beam.mappings
         initial_state = None
         for mapping in mappings.combinations:
             previous_state = self.adjust(mapping)
@@ -359,7 +384,7 @@ class Input:
         for e in self._line:
             if e.LABEL1 == item:
                 return e
-        raise AttributeError
+        raise AttributeError(f"Command with LABEL1 = {item} not found in the input sequence.")
 
     def __setattr__(self, key: str, value: Any):  # -> NoReturn
         """
@@ -375,7 +400,7 @@ class Input:
             self.__dict__[key] = value
         else:
             for e in self._line:
-                if getattr(e, key) is not None:
+                if getattr(e, key, None) is not None:
                     setattr(e, key, value)
 
     def __contains__(self, items: Union[str, CommandType, Tuple[Union[str, CommandType]]]) -> int:
@@ -482,8 +507,10 @@ class Input:
         """
         initial_values = {}
         for k, v in mapping.items():
-            initial_values[k] = getattr(getattr(self, k[0]), k[1].rstrip('_'))
-            setattr(getattr(self, k[0]), k[1], v)
+            assert len(k) == 2, "Parametric mapping labels must be a tuple of 2 strings."
+            if k[0] != 'LABEL':
+                initial_values[k] = getattr(getattr(self, k[0]), k[1].rstrip('_'))
+                setattr(getattr(self, k[0]), k[1], v)
         return MappedParameters(initial_values)
 
     def index(self, obj: Union[str, commands.Command]) -> int:
@@ -576,6 +603,22 @@ class Input:
         """
         return self._optical_length
 
+    @property
+    def beam(self) -> Optional[zgoubidoo.commands.Beam]:
+        """
+
+        Returns:
+
+        Raises:
+            TODO
+
+        """
+        _ = self[zgoubidoo.commands.Beam]
+        if len(_) > 1:
+            raise ZgoubiInputException("Multiple beams found in input.")
+        else:
+            return next(iter(_), None)
+
     def increase_optical_length(self, l: _Q):
         """
 
@@ -591,7 +634,7 @@ class Input:
         """Perform a survey on the input sequence.
 
         Args:
-            reference_frame: a Zgoubidoo Frame object acting as the global reference frame
+            reference_frame: a Zgoubidoo Frame object acting as the global reference frame.
 
         Returns:
             the surveyed input sequence.

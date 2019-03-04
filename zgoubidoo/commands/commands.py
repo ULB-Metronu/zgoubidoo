@@ -170,8 +170,6 @@ class Command(metaclass=CommandType):
             prefix,
             str(uuid.uuid4().hex)
         ]))[:ZGOUBI_LABEL_LENGTH]
-        if len(self.LABEL1) > ZGOUBI_LABEL_LENGTH:
-            raise ZgoubidooException(f"LABEL1 '{self.LABEL1}' for element {self.KEYWORD} is too long.")
         return self
 
     def post_init(self, **kwargs):  # -> NoReturn:
@@ -425,6 +423,8 @@ class Fake(Command):
         'INPUT': ('', 'Input string.'),
         'OPTIONS': {},
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(self):
         return self.INPUT.format(**self.OPTIONS)

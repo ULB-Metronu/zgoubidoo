@@ -7,40 +7,73 @@ import os
 import numpy as np
 import pandas as pd
 from zgoubidoo import _Q
-from zgoubidoo.commands import ParticuleType
-import zgoubidoo.physics
+from zgoubidoo.commands import CommandType as _CommandType
+from zgoubidoo.commands import Command as _Command
+from zgoubidoo.commands import ParticuleType, Proton, Objet2
+from zgoubidoo.kinematics import Kinematics as _Kinematics
+from ..input import ParametricMapping as _ParametricMapping
 
 
 class ZgoubidooBeamException(Exception):
-    """Exception raised for errors in the Zgoubidoo Beam module."""
+    """Exception raised for errors when running Zgoubi."""
 
     def __init__(self, m):
         self.message = m
 
 
-class Beam:
+class BeamType(_CommandType):
+    """Type system for Objet types."""
+    pass
+
+
+class Beam(_Command, metaclass=BeamType):
     """
     Beam
     """
+    PARAMETERS = {
+        'OBJET': ('Objet2', 'Active objet representation.'),
+        'SLICE': (0, "Active slice identifier.")
+    }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
-    def __init__(self,
-                 distribution: Optional[pd.DataFrame] = None,
-                 particle: ParticuleType = zgoubidoo.commands.Proton,
-                 kinematic: Optional[Union[zgoubidoo.kinematics.Kinematics, float, _Q]] = None,
-                 slices: int = 1,
-                 *args,
-                 **kwargs):
-        self._particle: zgoubidoo.commands.ParticuleType = particle
-        if not isinstance(kinematic, zgoubidoo.kinematics.Kinematics):
-            kinematic = zgoubidoo.kinematics.Kinematics(kinematic)
-        self._kinematic: zgoubidoo.kinematics.Kinematics = kinematic
-        self._objet: zgoubidoo.commands.ObjetType = zgoubidoo.commands.Objet2
+    def __str__(self) -> str:
+        return str(self.objet)
+
+    def post_init(self,
+                  distribution: Optional[pd.DataFrame] = None,
+                  particle: ParticuleType = Proton,
+                  kinematics: Union[_Kinematics, float, _Q] = None,
+                  slices: int = 1,
+                  *args,
+                  **kwargs):
+        """
+
+        Args:
+            distribution:
+            particle:
+            kinematics:
+            slices:
+            *args:
+            **kwargs:
+
+        Returns:
+
+        """
+        self._particle: ParticuleType = particle
+        if not isinstance(kinematics, _Kinematics):
+            kinematics = _Kinematics(kinematics)
+        self._kinematics: _Kinematics = kinematics
         self._slices: int = slices
         self._distribution = None
         self._initialize_distribution(distribution, *args, **kwargs)
 
     def _initialize_distribution(self, distribution=None, *args, **kwargs):
-        """Try setting the internal pandas.DataFrame with a distribution."""
+        """Try setting the internal pandas.DataFrame with a distribution.
+
+        Args:
+            distribution:
+        """
         if distribution is not None:
             self._distribution = distribution
         else:
@@ -56,7 +89,7 @@ class Beam:
             raise ZgoubidooBeamException("Trying to initialize a beam distribution with invalid number of particles.")
         self.__dims = self._distribution.shape[1]
 
-    def get_slices(self, n=None):
+    def get_slice(self, n: int = None):
         """
 
         Args:
@@ -69,15 +102,39 @@ class Beam:
             n = self._slices
         n_tot = len(self._distribution)
         n_slices = int(np.floor(n_tot / n))
-        for i in range(0, n + 1):
-            d = self._distribution.iloc[i * n_slices:(i + 1) * n_slices]
-            d.columns = ['Y', 'T', 'Z', 'P', 'D']
-            if len(d) < 1:
-                break
-            else:
-                yield d
+        d = self._distribution.iloc[self.SLICE * n_slices:(self.SLICE + 1) * n_slices]
+        d.columns = ['Y', 'T', 'Z', 'P', 'D']
+        if self.SLICE > 0:
+            d['Y'] += 1.0
+        if len(d) < 1:
+            return None
+        else:
+            return d
 
-    slices = property(get_slices)
+    slice = property(get_slice)
+
+    @property
+    def objet(self):
+        """
+        TODO
+
+        Return:
+
+        """
+        _ = Objet2(self.LABEL1, BORO=self._kinematics.brho)
+        _.add(self.slice)
+        return _
+
+    @property
+    def mappings(self) -> _ParametricMapping:
+        """TODO"""
+        return _ParametricMapping(
+            [
+                {
+                    (self.LABEL1, 'SLICE'): list(range(0, self._slices))
+                },
+            ]
+        )
 
     @property
     def distribution(self) -> pd.DataFrame:
@@ -85,24 +142,14 @@ class Beam:
         return self._distribution
 
     @property
-    def particle(self) -> zgoubidoo.commands.ParticuleType:
+    def particle(self) -> ParticuleType:
+        """The beam's particle type."""
         return self._particle
 
     @property
-    def objet(self) -> zgoubidoo.commands.ObjetType:
-        return self._objet
-
-    @property
-    def brho(self):
-        return self._kinematic.brho
-
-    @property
-    def energy(self):
-        return self._kinematic.energy
-
-    @property
-    def momentum(self):
-        return self._kinematic.momentum
+    def kinematics(self):
+        """The beam's kinematics properties."""
+        return self._kinematics
 
     def from_file(self, file: str, n: int = None, path: str = '.') -> Beam:
         """

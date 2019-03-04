@@ -86,6 +86,9 @@ class Objet1(Objet):
 class Objet2(Objet):
     """Objet with all initial coordinates entered explicitely.
 
+    This object type can be used to simulate a bunch with an explicit list of coordinates. That's the method Zgoubidoo
+    uses when tracking bunches.
+
     Examples:
         >>> zi = Input()
         >>> objet = Objet2()
@@ -99,13 +102,12 @@ class Objet2(Objet):
         'KOBJ': (2, ''),
         'K2': (0, ''),
         'IDMAX': (1, ''),
-        'Y': (0.0, '', 30),
-        'T': (0.0, '', 31),
-        'Z': (0.0, '', 32),
-        'P': (0.0, '', 33),
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
+        """Post initialization routine."""
         self._PARTICULES = None
 
     @property
@@ -128,6 +130,7 @@ class Objet2(Objet):
 
     @property
     def PARTICULES(self):
+        """The particles list."""
         if isinstance(self._PARTICULES, list):
             self._PARTICULES = _np.array(self._PARTICULES).reshape(1, 7)
         if self._PARTICULES is None:
@@ -308,6 +311,8 @@ class Objet5(Objet):
         'D_Z': 0,
         'D_ZP': 0,
     }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
 
     def __str__(s) -> str:
         command = []
