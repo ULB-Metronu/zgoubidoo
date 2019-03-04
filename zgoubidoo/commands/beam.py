@@ -104,8 +104,6 @@ class Beam(_Command, metaclass=BeamType):
         n_slices = int(np.floor(n_tot / n))
         d = self._distribution.iloc[self.SLICE * n_slices:(self.SLICE + 1) * n_slices]
         d.columns = ['Y', 'T', 'Z', 'P', 'D']
-        if self.SLICE > 0:
-            d['Y'] += 1.0
         if len(d) < 1:
             return None
         else:
