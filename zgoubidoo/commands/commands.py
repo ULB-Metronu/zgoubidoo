@@ -650,7 +650,7 @@ class ESL(Command):
 
 
 class Faisceau(Command):
-    """Print particle coordinates.
+    """Print coordinates.
 
     .. rubric:: Zgoubi manual description
 
@@ -661,9 +661,11 @@ class Faisceau(Command):
 
 
 class Faiscnl(Command):
-    """Store particle coordinates in file FNAME.
+    """Store coordinates in file.
 
-    TODO
+    .. rubric:: Zgoubi manual description
+
+    Store particle coordinates in file FNAME.
     """
     KEYWORD = 'FAISCNL'
     """Keyword of the command used for the Zgoubi input data."""
@@ -671,7 +673,7 @@ class Faiscnl(Command):
     PARAMETERS = {
         'FNAME': 'zgoubi.fai',
         'B_FNAME': 'b_zgoubi.fai',
-        'binary': False,
+        'binary': (False, 'Binary storage format.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
@@ -684,16 +686,22 @@ class Faiscnl(Command):
 
 
 class FaiStore(Command):
-    """Store coordinates every IP other pass at labeled elements.
+    """Store coordinates at labeled elements.
 
-    TODO
+    .. rubric:: Zgoubi manual description
+
+    Store coordinates every IP other pass at labeled elements.
+
+    If either FNAME or first LABEL is ’none’ then no storage occurs. Store occurs at all elements if first LABEL is
+    ’all’ or ’ALL’.
     """
     KEYWORD = 'FAISTORE'
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'FNAME': 'zgoubi.fai',
-        'IP': 1,
+        'FNAME': ('zgoubi.fai', 'Storage file name.'),
+        'LABELS': ('ALL', 'Label(s) of the element(s) at the exit of which the storage occurs (10 labels maximum).'),
+        'IP': (1, 'Store every IP other pass (when using REBELOTE with NPASS ≥ IP − 1).'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
