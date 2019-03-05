@@ -25,9 +25,20 @@ from .frame import Frame as _Frame
 import zgoubidoo.commands
 
 _logger = logging.getLogger(__name__)
-ParametersMappingType = Mapping[Tuple[str, str], Sequence[Union[_Q, float]]]
+ParametersMappingType = Mapping[str, Sequence[Union[_Q, float]]]
+"""Type alias for a parametric mapping of string keys and values."""
+
 ParametersMappingListType = List[ParametersMappingType]
-MappedParametersType = Mapping[Tuple[str, str], Union[_Q, float]]
+"""Type alias for a list of parametric mappings."""
+
+MappedParametersType = Mapping[str, Union[_Q, float]]
+"""Type alias for a dictionnary of parametric keys and values."""
+
+MappedParametersListType = List[MappedParametersType]
+"""Type alias for a list of mapped parameters."""
+
+PathsDictType = Dict[MappedParametersType, Union[str, tempfile.TemporaryDirectory]]
+"""Type alias for a dictionnary of parametric keys and paths values."""
 
 ZGOUBI_INPUT_FILENAME: str = 'zgoubi.dat'
 """File name for Zgoubi input data."""
@@ -46,51 +57,6 @@ class ZgoubiInputException(Exception):
         self.message = m
 
 
-class MappedParameters:
-    """A helper class to allow using parameters map as dictionnary key (immutable and hashable)."""
-    def __init__(self, parameters: Optional[MappedParametersType] = None):
-        parameters = parameters or {}
-        self._parameters: MappedParametersType = parameters
-        self._p = tuple(parameters.keys())
-        vs = list()
-        for v in parameters.values():
-            try:
-                _: _Q = v  # mypy
-                vs.append(_.to_base_units().to_tuple())
-            except AttributeError:
-                vs.append(v)
-        self._v = tuple(vs)
-
-    @property
-    def parameters(self) -> MappedParametersType:
-        """The parameters map itself."""
-        return self._parameters
-
-    def __getitem__(self, item):
-        return self.parameters[item]
-
-    def __getattr__(self, attr):
-        return getattr(self.parameters, attr)
-
-    def __len__(self):
-        return len(self.parameters)
-
-    def __repr__(self):
-        return self.parameters.__repr__()
-
-    def __str__(self):
-        return str(self.parameters)
-
-    def __hash__(self):
-        return hash((self._p, self._v))
-
-    def __eq__(self, other):
-        return hash(self) == hash(other)
-
-    def __add__(self, other):
-        return MappedParameters({**self.parameters, **other.parameters})
-
-
 @dataclass
 class ParametricMapping:
     """Abstraction for multi-dimensional parametric mappings.
@@ -99,7 +65,7 @@ class ParametricMapping:
     mapping. It also accounts for "coupled" variables.
 
     Note:
-        Using the special value "LABEL" for the first element of the mapping's label deactivate the sequence adjustment
+        TODO FIX Using the special value "LABEL" for the first element of the mapping's label deactivate the sequence adjustment
         mechanism.
 
     See also:
@@ -118,17 +84,17 @@ class ParametricMapping:
     mappings: ParametersMappingListType = field(default_factory=lambda: [{}])
 
     @property
-    def labels(self) -> List[Tuple[str]]:
-        """TODO"""
+    def labels(self) -> Tuple[str]:
+        """List of labels of the parametric mapping."""
         return tuple(flatten(self.mappings))
 
     @property
     def pools(self) -> List[List[Sequence[Union[_Q, float]]]]:
-        """TODO"""
+        """All combinations of values for the parametric mapping."""
         return [list(map(tuple, zip(*arg.values()))) for arg in self.mappings]
 
     @property
-    def combinations(self) -> List[MappedParameters]:
+    def combinations(self) -> List[MappedParametersType]:
         """Cartesian product adapted to work with dictionaries, roughly similar to `itertools.product`.
 
         Returns:
@@ -140,7 +106,7 @@ class ParametricMapping:
             - https://codereview.stackexchange.com/q/211121/52027
         """
         pool_values = [flatten(term) for term in itertools.product(*self.pools)]
-        return list(map(MappedParameters, [dict(zip(self.labels, v)) for v in pool_values] or [{}]))
+        return [dict(zip(self.labels, v)) for v in pool_values] or [{}]
 
     def __add__(self, other):
         """TODO might need to be adapted or with iadd also ?"""
@@ -151,10 +117,6 @@ class ParametricMapping:
         else:
             self.mappings += other.mappings
         return self
-
-
-PathsDict = Dict[MappedParameters, Union[str, tempfile.TemporaryDirectory]]
-"""Type alias for a dictionnary of parametric keys and paths values."""
 
 
 class Input:
@@ -184,7 +146,7 @@ class Input:
         if line is None:
             line = []
         self._line: List[commands.Command] = line
-        self._paths: PathsDict = dict()
+        self._paths: PathsDictType = dict()
         self._optical_length: _Q = 0 * _ureg.m
 
     def __del__(self):
@@ -205,7 +167,7 @@ class Input:
         return str(self)
 
     def __call__(self,
-                 mappings: Optional[ParametricMapping] = None,
+                 mappings: Optional[MappedParametersListType] = None,
                  filename: str = ZGOUBI_INPUT_FILENAME,
                  path: Optional[str] = None) -> Input:
         """
@@ -221,30 +183,11 @@ class Input:
         self._paths = {**self.paths, **self._generate(mappings=mappings, filename=filename, path=path)}
         return self
 
-    def dump(self,
-             filename: str = ZGOUBI_INPUT_FILENAME,
-             path: Optional[str] = None,
-             identifier: Optional[MappedParameters] = None,
-             ) -> PathsDict:
-        """
-
-        Args:
-            filename:
-            path:
-            identifier: TODO
-
-        Returns:
-
-        """
-        _ = self._generate(filename=filename, path=path)
-        identifier = identifier or MappedParameters()
-        return {identifier + k: v for k, v in _.items()}
-
     def _generate(self,
-                  mappings: Optional[ParametricMapping] = None,
+                  mappings: Optional[MappedParametersListType] = None,
                   filename: str = ZGOUBI_INPUT_FILENAME,
                   path: Optional[str] = None,
-                  ) -> PathsDict:
+                  ) -> PathsDictType:
         """Writes the string representation of the object onto a file (Zgoubi input file).
 
         Args:
@@ -255,10 +198,10 @@ class Input:
         Raises:
 
         """
-        paths: PathsDict = dict()
+        paths: PathsDictType = dict()
         mappings = (mappings or ParametricMapping()) + self.beam.mappings
         initial_state = None
-        for mapping in mappings.combinations:
+        for mapping in mappings:
             previous_state = self.adjust(mapping)
             if initial_state is None:
                 initial_state = previous_state
@@ -496,7 +439,7 @@ class Input:
             setattr(self[r['element_id'] - 1], r['parameter'], r['final'])
         return self
 
-    def adjust(self, mapping: MappedParameters) -> MappedParameters:
+    def adjust(self, mapping: MappedParametersType) -> MappedParametersType:
         """
 
         Args:
@@ -507,11 +450,12 @@ class Input:
         """
         initial_values = {}
         for k, v in mapping.items():
-            assert len(k) == 2, "Parametric mapping labels must be a tuple of 2 strings."
-            if k[0] != 'LABEL':
-                initial_values[k] = getattr(getattr(self, k[0]), k[1].rstrip('_'))
-                setattr(getattr(self, k[0]), k[1], v)
-        return MappedParameters(initial_values)
+            _ = k.split('.')
+            if len(_) > 1:
+                assert len(_) == 1, "Parametric mapping labels must be a tuple of 2 strings."
+                initial_values[k] = getattr(getattr(self, _[0]), _[1].rstrip('_'))
+                setattr(getattr(self, _[0]), _[1], v)
+        return initial_values
 
     def index(self, obj: Union[str, commands.Command]) -> int:
         """Index of an object in the sequence.
@@ -568,7 +512,7 @@ class Input:
         return self._name
 
     @property
-    def paths(self) -> PathsDict:
+    def paths(self) -> PathsDictType:
         """Paths where the input has been written.
 
         Returns:

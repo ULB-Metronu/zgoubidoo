@@ -4,7 +4,7 @@ Commands controlling Zgoubi's control flow, geometry, tracking options, etc.
 TODO
 """
 from __future__ import annotations
-from typing import Optional, Any, Tuple, Dict, List, Union, Iterable
+from typing import Any, Tuple, Dict, Mapping, List, Union, Iterable
 import uuid
 import pandas as _pd
 import parse as _parse
@@ -15,7 +15,6 @@ from .. import _Q
 from ..frame import Frame as _Frame
 from ..units import _radian, _degree, _m, _cm, _mm
 from ..utils import fortran_float
-from ..input import MappedParameters as _MappedParameters
 import zgoubidoo
 
 ZGOUBI_LABEL_LENGTH: int = 10
@@ -137,8 +136,8 @@ class Command(metaclass=CommandType):
             *params:
             **kwargs:
         """
-        self._output: Dict[_MappedParameters, List[str]] = dict()
-        self._results: Dict[_MappedParameters, _pd.DataFrame] = dict()
+        self._output: List[Tuple[Mapping[str, Union[_Q, float]], List[str]]] = list()
+        self._results: List[Tuple[Mapping[str, Union[_Q, float]], _pd.DataFrame]] = list()
         self._attributes = {}
         for d in (Command.PARAMETERS, ) + params:
             self._attributes = dict(self._attributes, **{k: v[0] for k, v in d.items()})
@@ -328,7 +327,7 @@ class Command(metaclass=CommandType):
         return {k: v for k, v in self._attributes.items() if v != self.PARAMETERS.get(k)[0]}
 
     @property
-    def output(self) -> Dict[_MappedParameters, List[str]]:
+    def output(self) -> List[Tuple[Mapping[str, Union[_Q, float]], List[str]]]:
         """
         Provides the outputs associated with a command after each successive Zgoubi run.
 
@@ -338,7 +337,7 @@ class Command(metaclass=CommandType):
         return self._output
 
     @property
-    def results(self) -> Dict[_MappedParameters, _pd.DataFrame]:
+    def results(self) -> List[Tuple[Mapping[str, Union[_Q, float]], _pd.DataFrame]]:
         """
         Provides the results of a Zgoubi command in the form of a Pandas DataFrame.
 
@@ -349,7 +348,7 @@ class Command(metaclass=CommandType):
 
     def attach_output(self,
                       outputs: List[str],
-                      parameters: _MappedParameters,
+                      parameters: Mapping[str, Union[_Q, float]],
                       zgoubi_input: zgoubidoo.Input,
                       ):  # -> NoReturn:
         """
@@ -364,7 +363,7 @@ class Command(metaclass=CommandType):
         self.process_output(outputs, parameters, zgoubi_input)
 
     def process_output(self, output: List[str],
-                       parameters: _MappedParameters,
+                       parameters: Mapping[str, Union[_Q, float]],
                        zgoubi_input: zgoubidoo.Input
                        ) -> bool:
         """
@@ -922,7 +921,7 @@ class Fit(Command, metaclass=FitType):
         return ''.join(map(lambda x: x.rstrip(), command))
 
     def process_output(self, output: List[str],
-                       parameters: _MappedParameters,
+                       parameters: dict,
                        zgoubi_input: zgoubidoo.Input
                        ) -> bool:
         """

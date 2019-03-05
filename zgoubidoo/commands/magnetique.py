@@ -24,7 +24,6 @@ from ..vis import ZgoubiPlot as _ZgoubiPlot
 from .patchable import Patchable as _Patchable
 from .plotable import Plotable as _Plotable
 from ..units import _cm, _radian, _kilogauss, _degree
-from ..input import MappedParameters as _MappedParameters
 import zgoubidoo
 
 

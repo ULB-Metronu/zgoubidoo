@@ -182,17 +182,8 @@ class Tosca(_Command):
         'RS': (),
         'TS': (),
     }
-    """Parameters of the command.
-    
-    The tuples contain their default value, their description and optinally an index used by other commands (e.g. fit).
-    """
-
-    def test(self):
-        """
-        Hello
-        Returns:
-
-        """
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+        commands (e.g. fit)."""
 
     def __str__(s) -> str:
         """Provides the Zgoubi input format representation of the command.

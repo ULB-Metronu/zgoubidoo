@@ -21,8 +21,10 @@ from concurrent.futures import Future as _Future
 import subprocess as sub
 import pandas as _pd
 from .input import Input
-from .input import MappedParameters as _MappedParameters
-from .input import PathsDict as _PathDict
+from .input import MappedParametersType as _MappedParametersType
+from .input import MappedParametersListType as _MappedParametersListType
+from .input import PathsDictType as _PathDict
+from .input import ZGOUBI_INPUT_FILENAME as _ZGOUBI_INPUT_FILENAME
 from .output import read_plt_file, read_matrix_file, read_srloss_file
 
 __all__ = ['ZgoubiException', 'ZgoubiResults', 'Zgoubi']
@@ -285,9 +287,11 @@ class Zgoubi:
 
     def __call__(self,
                  zgoubi_input: Input,
-                 mapping: _MappedParameters = _MappedParameters(),
+                 mapping: _MappedParametersListType = None,
                  debug: bool = False,
                  cb: Callable = None,
+                 filename: str = _ZGOUBI_INPUT_FILENAME,
+                 path: Optional[str] = None,
                  ) -> Zgoubi:
         """
         Execute up to `n_procs` Zgoubi runs.
@@ -305,7 +309,7 @@ class Zgoubi:
             a ZgoubiException in case the input paths list is empty.
         """
         if len(zgoubi_input.paths) == 0:
-            paths = zgoubi_input.dump(identifier=mapping)
+            paths = zgoubi_input(mappings=mapping, filename=filename, path=path)
         else:
             paths = zgoubi_input.paths
 
@@ -313,7 +317,7 @@ class Zgoubi:
             _logger.info(f"Starting Zgoubi in {path}.")
             future = self._pool.submit(
                 self._execute_zgoubi,
-                _MappedParameters({**mapping, **m.parameters}),
+                {**mapping, **m},
                 zgoubi_input,
                 path,
             )
@@ -340,7 +344,7 @@ class Zgoubi:
         return ZgoubiResults(results=list(map(lambda _: _[1].result(), self._futures)))
 
     def _execute_zgoubi(self,
-                        mapping: _MappedParameters,
+                        mapping: _MappedParametersType,
                         zgoubi_input: Input,
                         path: Union[str, tempfile.TemporaryDirectory] = '.',
                         debug=False
@@ -367,11 +371,11 @@ class Zgoubi:
         except AttributeError:
             p = path  # p is a string
         proc = sub.Popen([self.executable],
-                      stdin=sub.PIPE,
-                      stdout=sub.PIPE,
-                      stderr=sub.STDOUT,
-                      cwd=p,
-                      )
+                         stdin=sub.PIPE,
+                         stdout=sub.PIPE,
+                         stderr=sub.STDOUT,
+                         cwd=p,
+                         )
 
         # Run
         _logger.info(f"Zgoubi process in {path} has started.")

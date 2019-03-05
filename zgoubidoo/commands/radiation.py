@@ -3,11 +3,11 @@ Commands controlling Zgoubi's control flow, geometry, tracking options, etc.
 
 TODO
 """
-from typing import List
+from typing import List, Mapping, Union
 import pandas as _pd
 from .commands import Command as _Command
 from ..input import Input as _Input
-from ..input import MappedParameters as _MappedParameters
+from .. import _Q
 
 
 class SynchrotronRadiationLosses(_Command):
@@ -73,12 +73,14 @@ SRLoss = SynchrotronRadiationLosses
 
 
 class SynchrotronRadiationPrint(_Command):
-    """Print SR loss statistics."""
+    """Print SR loss statistics.
+
+    """
     KEYWORD = 'SRPRNT'
     """Keyword of the command used for the Zgoubi input data."""
 
     def process_output(self, output: List[str],
-                       parameters: _MappedParameters,
+                       parameters: Mapping[str, Union[_Q, float]],
                        zgoubi_input: _Input
                        ) -> bool:
         """
@@ -99,6 +101,8 @@ SRPrint = SynchrotronRadiationPrint
 
 
 class SynchrotronRadiation(_Command):
-    """Synchrotron radiation spectral-angular densities."""
+    """Synchrotron radiation spectral-angular densities.
+
+    """
     KEYWORD = 'SYNRAD'
     """Keyword of the command used for the Zgoubi input data."""
