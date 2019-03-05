@@ -24,6 +24,9 @@ from ..kinematics import Kinematics
 from ..commands import particules
 from ..units import _m
 
+MADX_TWISS_TABLE_HEADER_ROWS = 47
+"""MAD-X Twiss table header rows (to be skipped when reading the table's content."""
+
 MADX_TWISS_HEADERS = [
     'NAME',
     'KEYWORD',
@@ -289,8 +292,8 @@ def load_madx_twiss_headers(filename: str = 'twiss.outx', path: str = '.') -> pd
     """
 
     Args:
-        filename:
-        path:
+        filename: name of the Twiss table file
+        path: path to the Twiss table file
 
     Returns:
 
@@ -309,8 +312,8 @@ def load_madx_twiss_table(filename: str = 'twiss.outx', path: str = '.', columns
     """
 
     Args:
-        filename:
-        path:
+        filename: name of the Twiss table file
+        path: path to the Twiss table file
         columns:
 
     Returns:
@@ -319,7 +322,7 @@ def load_madx_twiss_table(filename: str = 'twiss.outx', path: str = '.', columns
     columns = columns or MADX_TWISS_HEADERS
     _: pd.DataFrame = pd \
         .read_csv(os.path.join(path, filename),
-                  skiprows=47,
+                  skiprows=MADX_TWISS_TABLE_HEADER_ROWS,
                   sep=r'\s+',
                   index_col=False,
                   names=columns,
@@ -341,8 +344,8 @@ def from_madx_twiss(filename: str = 'twiss.outx',
     """
     TODO
     Args:
-        filename:
-        path:
+        filename: name of the Twiss table file
+        path: path to the Twiss table file
         columns:
         options:
         converters:
