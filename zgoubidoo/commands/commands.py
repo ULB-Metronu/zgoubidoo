@@ -359,7 +359,7 @@ class Command(metaclass=CommandType):
             parameters: TODO
             zgoubi_input: the Input sequence (required for output processing).
         """
-        self._output[parameters] = outputs
+        self._output.append((parameters, outputs))
         self.process_output(outputs, parameters, zgoubi_input)
 
     def process_output(self, output: List[str],

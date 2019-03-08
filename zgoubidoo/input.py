@@ -9,7 +9,7 @@ to provide a parametric mapping (combinations of the variations of one or more p
 input files.
 """
 from __future__ import annotations
-from typing import List, Callable, Sequence, Mapping, Tuple, Dict, Union, Optional
+from typing import Callable, Sequence, Mapping, Union, List, Tuple
 from dataclasses import dataclass, field
 import itertools
 from functools import partial, reduce
@@ -37,8 +37,8 @@ MappedParametersType = Mapping[str, Union[_Q, float]]
 MappedParametersListType = List[MappedParametersType]
 """Type alias for a list of mapped parameters."""
 
-PathsDictType = Dict[MappedParametersType, Union[str, tempfile.TemporaryDirectory]]
-"""Type alias for a dictionnary of parametric keys and paths values."""
+PathsListType = List[Tuple[MappedParametersType, Union[str, tempfile.TemporaryDirectory]]]
+"""Type alias for a list of parametric keys and paths values."""
 
 ZGOUBI_INPUT_FILENAME: str = 'zgoubi.dat'
 """File name for Zgoubi input data."""
@@ -94,7 +94,7 @@ class ParametricMapping:
         return [list(map(tuple, zip(*arg.values()))) for arg in self.mappings]
 
     @property
-    def combinations(self) -> List[MappedParametersType]:
+    def combinations(self) -> MappedParametersListType:
         """Cartesian product adapted to work with dictionaries, roughly similar to `itertools.product`.
 
         Returns:
@@ -146,7 +146,7 @@ class Input:
         if line is None:
             line = []
         self._line: List[commands.Command] = line
-        self._paths: PathsDictType = dict()
+        self._paths: PathsListType = list()
         self._optical_length: _Q = 0 * _ureg.m
 
     def __del__(self):
@@ -180,14 +180,14 @@ class Input:
         Returns:
 
         """
-        self._paths = {**self.paths, **self._generate(mappings=mappings, filename=filename, path=path)}
+        self._paths = [*self.paths, *self._generate(mappings=mappings, filename=filename, path=path)]
         return self
 
     def _generate(self,
                   mappings: Optional[MappedParametersListType] = None,
                   filename: str = ZGOUBI_INPUT_FILENAME,
                   path: Optional[str] = None,
-                  ) -> PathsDictType:
+                  ) -> PathsListType:
         """Writes the string representation of the object onto a file (Zgoubi input file).
 
         Args:
@@ -198,15 +198,20 @@ class Input:
         Raises:
 
         """
-        paths: PathsDictType = dict()
-        mappings = (mappings or ParametricMapping()) + self.beam.mappings
-        initial_state = None
+        paths: PathsListType = list()
+        mappings = mappings or []
+        if len(self.beam_mappings) > 0:
+            mappings = list(map(lambda _: {**_[0], **_[1]}, itertools.product(mappings, self.beam_mappings)))
+        initial_state: MappedParametersType = {}
+        existing_mappings = [p[0] for p in self._paths]
         for mapping in mappings:
+            if mapping in existing_mappings:
+                continue
             previous_state = self.adjust(mapping)
             if initial_state is None:
                 initial_state = previous_state
             target_dir = tempfile.TemporaryDirectory(prefix=path)
-            paths[mapping] = target_dir
+            paths.append((mapping, target_dir))
             Input.write(self, filename, path=target_dir.name)
         self.adjust(initial_state)
         return paths
@@ -452,7 +457,7 @@ class Input:
         for k, v in mapping.items():
             _ = k.split('.')
             if len(_) > 1:
-                assert len(_) == 1, "Parametric mapping labels must be a tuple of 2 strings."
+                assert len(_) == 2, "Parametric mapping labels must be a tuple of 2 strings."
                 initial_values[k] = getattr(getattr(self, _[0]), _[1].rstrip('_'))
                 setattr(getattr(self, _[0]), _[1], v)
         return initial_values
@@ -512,7 +517,7 @@ class Input:
         return self._name
 
     @property
-    def paths(self) -> PathsDictType:
+    def paths(self) -> PathsListType:
         """Paths where the input has been written.
 
         Returns:
@@ -562,6 +567,18 @@ class Input:
             raise ZgoubiInputException("Multiple beams found in input.")
         else:
             return next(iter(_), None)
+
+    @property
+    def beam_mappings(self) -> MappedParametersListType:
+        """
+
+        Returns:
+
+        """
+        if self.beam is None:
+            return []
+        else:
+            return self.beam.mappings
 
     def increase_optical_length(self, l: _Q):
         """

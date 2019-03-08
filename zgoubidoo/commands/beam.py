@@ -9,9 +9,10 @@ import pandas as pd
 from zgoubidoo import _Q
 from zgoubidoo.commands import CommandType as _CommandType
 from zgoubidoo.commands import Command as _Command
-from zgoubidoo.commands import ParticuleType, Proton, Objet2
+from zgoubidoo.commands import ParticuleType, Proton, Objet2, ObjetType
 from zgoubidoo.kinematics import Kinematics as _Kinematics
 from ..input import ParametricMapping as _ParametricMapping
+from ..input import MappedParametersListType as _MappedParametersListType
 
 
 class ZgoubidooBeamException(Exception):
@@ -43,6 +44,7 @@ class Beam(_Command, metaclass=BeamType):
     def post_init(self,
                   distribution: Optional[pd.DataFrame] = None,
                   particle: ParticuleType = Proton,
+                  objet: ObjetType = Objet2,
                   kinematics: Union[_Kinematics, float, _Q] = None,
                   slices: int = 1,
                   *args,
@@ -52,6 +54,7 @@ class Beam(_Command, metaclass=BeamType):
         Args:
             distribution:
             particle:
+            objet:
             kinematics:
             slices:
             *args:
@@ -61,6 +64,7 @@ class Beam(_Command, metaclass=BeamType):
 
         """
         self._particle: ParticuleType = particle
+        self._objet: ObjetType = objet
         if not isinstance(kinematics, _Kinematics):
             kinematics = _Kinematics(kinematics)
         self._kinematics: _Kinematics = kinematics
@@ -84,10 +88,8 @@ class Beam(_Command, metaclass=BeamType):
                     self._distribution = Beam.generate_from_file(kwargs.get('filename'), path=kwargs.get('path', '.'))
                 else:
                     return
-        self._n_particles = self._distribution.shape[0]
-        if self._n_particles <= 0:
+        if self._distribution.shape[0] == 0:
             raise ZgoubidooBeamException("Trying to initialize a beam distribution with invalid number of particles.")
-        self.__dims = self._distribution.shape[1]
 
     def get_slice(self, n: int = None):
         """
@@ -95,7 +97,7 @@ class Beam(_Command, metaclass=BeamType):
         Args:
             n:
 
-        Yields:
+        Returns:
 
         """
         if n is None:
@@ -104,7 +106,7 @@ class Beam(_Command, metaclass=BeamType):
         n_slices = int(np.floor(n_tot / n))
         d = self._distribution.iloc[self.SLICE * n_slices:(self.SLICE + 1) * n_slices]
         d.columns = ['Y', 'T', 'Z', 'P', 'D']
-        if len(d) < 1:
+        if len(d) == 0:
             return None
         else:
             return d
@@ -119,20 +121,20 @@ class Beam(_Command, metaclass=BeamType):
         Return:
 
         """
-        _ = Objet2(self.LABEL1, BORO=self._kinematics.brho)
+        _ = self._objet(self.LABEL1, BORO=self._kinematics.brho)
         _.add(self.slice)
         return _
 
     @property
-    def mappings(self) -> _ParametricMapping:
+    def mappings(self) -> _MappedParametersListType:
         """TODO"""
         return _ParametricMapping(
             [
                 {
-                    (self.LABEL1, 'SLICE'): list(range(0, self._slices))
+                    f"{self.LABEL1}.SLICE": list(range(0, self._slices))
                 },
             ]
-        )
+        ).combinations
 
     @property
     def distribution(self) -> pd.DataFrame:
