@@ -21,7 +21,7 @@ from ..objet import Objet2 as _Objet2
 from ... import ureg as _ureg
 from ... import _Q
 from ...input import Input as _Input
-from ...input import MappedParameters as _MappedParameters
+from ...input import MappedParametersType as _MappedParametersType
 from ...kinematics import Kinematics as _Kinematics
 from ...zgoubi import Zgoubi as _Zgoubi
 from ...zgoubi import ZgoubiResults as _ZgoubiResults
@@ -680,7 +680,7 @@ class CGTR:
         >>> cgtr.shoot()
     """
     def __init__(self,
-                 kinematics: _Kinematics = _Kinematics(230 * _ureg.MeV),
+                 kinematics: _Kinematics = _Kinematics(230 * _ureg.MeV, kinetic=True),
                  b1g: Optional[B1G] = None,
                  b2g: Optional[B2G] = None,
                  b3g: Optional[B3G] = None,
@@ -823,7 +823,7 @@ class CGTR:
 
     def run(self,
             zgoubi: zgoubidoo.Zgoubi,
-            mapping: _MappedParameters,
+            identifier: _MappedParametersType,
             fit: zgoubidoo.commands.Fit = None,
             debug: bool = False
             ) -> Optional[Union[_Input, zgoubidoo.commands.Fit]]:
@@ -831,7 +831,7 @@ class CGTR:
 
         Args:
             zgoubi: TODO
-            mapping: TODO
+            identifier: TODO
             fit:
             debug:
 
@@ -848,16 +848,16 @@ class CGTR:
                 r = f.result()['result']
                 fit.attach_output(outputs=_Zgoubi.find_labeled_output(r, fit.LABEL1),
                                   zgoubi_input=self.zi,
-                                  parameters=mapping,
+                                  parameters=identifier,
                                   )
-
-            zgoubi(zgoubi_input=self.zi, mapping=mapping, cb=attach_output_to_fit)
+            zgoubi(zgoubi_input=self.zi, identifier=identifier, cb=attach_output_to_fit)
             self.zi -= fit
+            self.zi.cleanup()
             return fit
         else:
             if debug:
                 return self.zi
-            zgoubi(zgoubi_input=self.zi, mapping=mapping)
+            zgoubi(zgoubi_input=self.zi, identifier=identifier)
         return None
 
     def shoot(self,
@@ -890,7 +890,7 @@ class CGTR:
             ]
         )
         return self.run(zgoubi=z,
-                        mapping=_MappedParameters({('X', 'X'): x, ('Y', 'Y'): y}),
+                        identifier={'SPOT_X': x, 'SPOT_Y': y},
                         fit=fit,
                         debug=debug
                         )
@@ -907,25 +907,20 @@ class CGTR:
         """
         z = _Zgoubi()
         fits = [self.shoot(x=float(spot[0]), y=float(spot[1]), zgoubi=z, debug=debug) for spot in spots]
-        z.collect()
         z.cleanup()
         for f in fits:
-            for p, r in f.results.items():
+            for p, r in f.results:
                 self.zi.update(r)
                 self.run(zgoubi=z,
-                         mapping=_MappedParameters({
+                         identifier={
                              **p,
-                             **{('SMX', 'B0'): r.at[1, 'final'], ('SMY', 'B0'): r.at[2, 'final']}
-                         })
+                             **{'SMX.B1': r.at[1, 'final'], 'SMY.B1': r.at[2, 'final']}
+                         },
                          )
         self.results = z.collect()
         tracks = self.results.tracks
         if len(tracks) == 0:
             return tracks
-        tracks['SPOT_X'] = tracks['X.X']
-        tracks['SPOT_Y'] = tracks['Y.Y']
-        del tracks['X.X']
-        del tracks['Y.Y']
         self.tracks = tracks
         return tracks
 

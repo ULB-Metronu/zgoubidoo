@@ -286,7 +286,7 @@ class Zgoubi:
 
         """
         self.wait()
-        self._futures = list()
+        self._futures = dict()
         return self
 
     @property

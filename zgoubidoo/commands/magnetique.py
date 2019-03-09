@@ -974,11 +974,11 @@ class Dipole(PolarMagnet):
         def cb(f):
             """Post execution callback."""
             r = f.result()
-            if debug:
-                print('\n'.join(r.results[_MappedParameters({})]['result']))
-            if fit.results.get(_MappedParameters()) is None:
+            if len(fit.results) == 0:
                 raise _ZgoubidooException(f"Unable to fit {self.__class__.__name__}.")
-            self.B0 = fit.results[_MappedParameters()].at[1, 'final']
+            if debug:
+                print('\n'.join(r['result']))
+            self.B0 = fit.results[0][1].at[1, 'final']
             self._fit = fit
 
         z(di(), cb=cb)

@@ -1006,7 +1006,7 @@ class Fit(Command, metaclass=FitType):
         if len(data) == 0:
             return False
         else:
-            self._results[parameters] = _pd.DataFrame(data).set_index('variable_id')
+            self._results.append((parameters, _pd.DataFrame(data).set_index('variable_id')))
             return True
 
 
