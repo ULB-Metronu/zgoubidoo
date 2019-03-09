@@ -88,6 +88,8 @@ def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> pd.DataFrame
     df['To'] *= 1e-3
     df['Zo'] *= 1e-2
     df['Po'] *= 1e-3
+    df['KEX'] = df['# KEX']
+    del df['# KEX']
 
     return df
 

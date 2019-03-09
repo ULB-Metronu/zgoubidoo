@@ -15,9 +15,10 @@ from ..commands import Collimator as _Collimator
 from ..commands import Marker as _Marker
 from ..commands import Ymy as _Ymy
 from ..commands import Fit as _Fit
+from ..commands import FitType as _FitType
 from ..commands import Chamber as _Chamber
 from ..particules import Proton as _Proton
-from ..objet import Objet2 as _Objet2
+from ..beam import Beam as _Beam
 from ... import ureg as _ureg
 from ... import _Q
 from ...input import Input as _Input
@@ -695,6 +696,7 @@ class CGTR:
                  q7g: Optional[Q7G] = None,
                  smx: Optional[SMX] = None,
                  smy: Optional[SMY] = None,
+                 beam: Optional[_Beam] = None,
                  with_fit: bool = True,
                  ):
         """
@@ -715,6 +717,7 @@ class CGTR:
             q7g:
             smx:
             smy:
+            beam:
             with_fit: if True the dipole magnets of the line will be fit.
         """
         self.b1g: B1G = b1g or B1G()
@@ -731,13 +734,14 @@ class CGTR:
         self.q7g: Q7G = q7g or Q7G()
         self.smx: SMX = smx or SMX()
         self.smy: SMY = smy or SMY()
+        self.beam: _Beam = beam or _Beam('BUNCH', slices=1, kinematics=kinematics.brho)
         self.iso: _Marker = _Marker('ISO')
 
         if with_fit:
             self.fit_dipoles(boro=kinematics.brho)
 
         self.zi: _Input = _Input('CGTR', line=[
-            _Objet2('BUNCH', BORO=kinematics.brho).add([[0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]]),
+            self.beam,
             _Proton(),
             _Marker('START'),
             _Ymy(),
@@ -786,7 +790,7 @@ class CGTR:
             _FakeDrift(XL=12 * _ureg.cm),
             self.smy,
             _FakeDrift(XL=19 * _ureg.cm - self.b3g.extra_drift),
-            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm, C3=self.b3g.RM),
+            _Chamber(IA=1, IFORM=1, J=0, C1=1000 * _ureg.mm, C2=1000 * _ureg.cm, C3=self.b3g.RM),
             self.b3g,
             _Chamber(IA=2),
             _FakeDrift(XL=1181.071 * _ureg.mm - self.b3g.extra_drift),
@@ -839,9 +843,8 @@ class CGTR:
 
         """
         if fit is not None:
+            self.beam.REFERENCE = 1
             self.zi += fit
-            if debug:
-                return self.zi
 
             def attach_output_to_fit(f):
                 """Helper callback function to attach a run's output to a fit object."""
@@ -853,6 +856,7 @@ class CGTR:
             zgoubi(zgoubi_input=self.zi, identifier=identifier, cb=attach_output_to_fit)
             self.zi -= fit
             self.zi.cleanup()
+            self.beam.REFERENCE = 0
             return fit
         else:
             if debug:
@@ -864,6 +868,7 @@ class CGTR:
               x: float = 0.0,
               y: float = 0.0,
               zgoubi: zgoubidoo.Zgoubi = None,
+              fit_type: _FitType = _Fit,
               debug: bool = False
               ) -> zgoubidoo.commands.Fit:
         """
@@ -872,13 +877,14 @@ class CGTR:
             x:
             y:
             zgoubi: TODO
+            fit_type:
             debug:
 
         Returns:
 
         """
         z = zgoubi or _Zgoubi()
-        fit = zgoubidoo.commands.Fit(
+        fit = fit_type(
             PENALTY=1e-8,
             PARAMS=[
                 _Fit.Parameter(line=self.zi, place='SMX', parameter=SMX.B1_),
@@ -895,27 +901,36 @@ class CGTR:
                         debug=debug
                         )
 
-    def spots(self, spots: Iterable[Tuple[float, float]], debug: bool = False) -> _pd.DataFrame:
+    def spots(self,
+              spots: Iterable[Tuple[float, float]],
+              fit_type: _FitType = _Fit,
+              debug: bool = False,
+              debug_fit: bool = False
+              ) -> Union[_pd.DataFrame, List[_Fit]]:
         """
 
         Args:
             spots:
+            fit_type:
             debug:
+            debug_fit:
 
         Returns:
 
         """
         z = _Zgoubi()
-        fits = [self.shoot(x=float(spot[0]), y=float(spot[1]), zgoubi=z, debug=debug) for spot in spots]
+        fits = [
+            self.shoot(x=float(spot[0]), y=float(spot[1]), zgoubi=z, fit_type=fit_type, debug=debug) for spot in spots
+        ]
+        if debug_fit:
+            return fits
         z.cleanup()
+        self.zi.IL = 0
         for f in fits:
             for p, r in f.results:
                 self.zi.update(r)
                 self.run(zgoubi=z,
-                         identifier={
-                             **p,
-                             **{'SMX.B1': r.at[1, 'final'], 'SMY.B1': r.at[2, 'final']}
-                         },
+                         identifier={**p, **{'SMX.B1': r.at[1, 'final'], 'SMY.B1': r.at[2, 'final']}},
                          )
         self.results = z.collect()
         tracks = self.results.tracks
