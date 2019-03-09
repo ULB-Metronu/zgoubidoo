@@ -904,6 +904,7 @@ class CGTR:
     def spots(self,
               spots: Iterable[Tuple[float, float]],
               fit_type: _FitType = _Fit,
+              with_tracks: bool = False,
               debug: bool = False,
               debug_fit: bool = False
               ) -> Union[_pd.DataFrame, List[_Fit]]:
@@ -912,6 +913,7 @@ class CGTR:
         Args:
             spots:
             fit_type:
+            with_tracks:
             debug:
             debug_fit:
 
@@ -925,7 +927,7 @@ class CGTR:
         if debug_fit:
             return fits
         z.cleanup()
-        self.zi.IL = 0
+        self.zi.IL = int(with_tracks)
         for f in fits:
             for p, r in f.results:
                 self.zi.update(r)
