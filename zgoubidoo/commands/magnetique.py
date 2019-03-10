@@ -2217,53 +2217,41 @@ class Sextupole(CartesianMagnet):
 class Solenoid(Magnet):
     """Solenoid.
 
-    TODO
+    .. rubric:: Zgoubi manual description
+
+    The solenoidal m􏰛agnet has an effective length XL, a mean radius R0 and an asymptotic field B0 = μ0 NI/XL,
+    wherein BX is the longitudinal field component, and NI the number of Ampere-Turns.
+
+    The distance of ray-tracing beyond the effective length XL, is XE at the entrance, and XS at the exit.
     """
     KEYWORD = 'SOLENOID'
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': 2,
-        'XL': 0,
-        'R0': 0,
-        'B0': 0,
-        'X_E': 0,
-        'X_S': 0,
-        'XPAS': 0.1,
-        'KPOS': 1,
-        'XCE': 0,
-        'YCE': 0,
-        'ALE': 0,
+        'IL': (2, 'Print field and coordinates along trajectories'),
+        'XL': (0 * _ureg.centimeter, 'Magnet length'),
+        'R0': (1.0 * _ureg.centimeter, 'Radius'),
+        'B0': (0 * _ureg.kilogauss, 'Asymptotic field'),
+        'XE': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field'),
+        'XS': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field'),
+        'XPAS': (0.1 * _ureg.centimeter, 'Integration step'),
+        'KPOS': (1, 'Misalignment type'),
+        'XCE': (0 * _ureg.centimeter, 'x offset'),
+        'YCE': (0 * _ureg.centimeter, 'y offset'),
+        'ALE': 0 * _ureg.radian,
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(s):
-        command = []
-        c = f"""
-                {super().__str__().rstrip()}
-                {s.IL}
-                {s.XL:.12e} {s.R0:.12e} {s.B0:.12e}
-                {s.X_E:.12e} {s.X_S:.12e}
-                {s.XPAS:.12e}  
-                """
-        command.append(c)
-
-        if s.KPOS not in (1, 2):
-            raise _ZgoubidooException("KPOS must be equal to 1 or 2")
-
-        if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
-            c = f"""
-                {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
-                """
-            command.append(c)
-        elif s.KPOS == 2:  # Elements are misaligned
-            c = f"""
-                {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
-                """
-            command.append(c)
-
-        return ''.join(map(lambda _: _.rstrip(), command))
+        return f"""
+        {super().__str__().rstrip()}
+        {s.IL}
+        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B0):.12e}
+        {_cm(s.XE):.12e} {_cm(s.XS):.12e}
+        {_cm(s.XPAS)}
+        {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
+        """
 
 
 class Undulator(Magnet):
