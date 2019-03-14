@@ -33,7 +33,7 @@ class Beam(_Command, metaclass=BeamType):
     """
     PARAMETERS = {
         'OBJET': ('Objet2', 'Active objet representation.'),
-        'SLICE': (0, "Active slice identifier."),
+        'SLICE': (0, "Active slice identifier. Note: this is the number of slices, but the active slice number."),
         'REFERENCE': (0, ""),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
@@ -104,7 +104,17 @@ class Beam(_Command, metaclass=BeamType):
         self._distribution = None
         return self
 
-    def get_slice(self, n: int = None):
+    @property
+    def slices(self):
+        """Number of slices."""
+        return self._slices
+
+    @slices.setter
+    def slices(self, n):
+        self._slices = n
+
+    @property
+    def active_slice(self):
         """
 
         Args:
@@ -117,17 +127,13 @@ class Beam(_Command, metaclass=BeamType):
             n_tot = len(self._distribution)
         except TypeError:
             return None
-        if n is None:
-            n = self._slices
-        n_slices = int(np.floor(n_tot / n))
+        n_slices = int(np.floor(n_tot / self._slices))
         d = self._distribution.iloc[self.SLICE * n_slices:(self.SLICE + 1) * n_slices]
         d.columns = ['Y', 'T', 'Z', 'P', 'D']
         if len(d) == 0:
             return None
         else:
             return d
-
-    slice = property(get_slice)
 
     @property
     def objet(self):
@@ -138,19 +144,22 @@ class Beam(_Command, metaclass=BeamType):
 
         """
         _ = self._objet(self.LABEL1, BORO=self._kinematics.brho)
-        _.add(self.slice)
+        _.add(self.active_slice)
         return _
 
     @property
     def mappings(self) -> _MappedParametersListType:
         """TODO"""
-        return _ParametricMapping(
-            [
-                {
-                    f"{self.LABEL1}.SLICE": list(range(0, self._slices))
-                },
-            ]
-        ).combinations
+        if self.REFERENCE == 1:
+            return [{f"{self.LABEL1}.REFERENCE": 1}]
+        else:
+            return _ParametricMapping(
+                [
+                    {
+                        f"{self.LABEL1}.SLICE": list(range(0, self._slices))
+                    },
+                ]
+            ).combinations
 
     @property
     def distribution(self) -> pd.DataFrame:

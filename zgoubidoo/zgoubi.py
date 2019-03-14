@@ -327,6 +327,7 @@ class Zgoubi:
         identifier = identifier or {}
         mappings = [{**m, **identifier} for m in mappings]
         for m, path in zgoubi_input(mappings=mappings, filename=filename, path=path).paths:
+            print(f"Calling execute Zgoubi for mapping {m}")
             _logger.info(f"Starting Zgoubi in {path}.")
             future = self._pool.submit(
                 self._execute_zgoubi,
