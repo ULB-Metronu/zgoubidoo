@@ -18,6 +18,7 @@ from ..commands import Fit as _Fit
 from ..commands import FitType as _FitType
 from ..commands import Chamber as _Chamber
 from ..particules import Proton as _Proton
+from ..commands import ChangeRef as _ChangeRef
 from ..beam import Beam as _Beam
 from ... import ureg as _ureg
 from ... import _Q
@@ -30,6 +31,9 @@ from ...polarity import PolarityType as _PolarityType
 from ...polarity import Polarity as _Polarity
 from ...polarity import HorizontalPolarity as _HorizontalPolarity
 from ...polarity import VerticalPolarity as _VerticalPolarity
+from ...fieldmaps import FieldProfile as _FieldProfile
+from ...fieldmaps import FieldMap as _FieldMap
+from ...fieldmaps import EngeModel as _EngeModel
 import zgoubidoo
 
 
@@ -252,7 +256,7 @@ class B3G(DipoleIBA):
 
 
 class SMX(_Bend):
-    """Proteus One inline (horizontal) scanning magnet.
+    """Proteus One crossline (vertical) scanning magnet.
 
     """
     PARAMETERS = {
@@ -269,6 +273,77 @@ class SMX(_Bend):
 
         """
         self.LABEL1 = self.__class__.__name__
+        self._field_map = None
+
+    @property
+    def field_map(self):
+        if self._field_map is None:
+            self._field_map = _FieldMap(
+                field_file='B3D_1st_SCANNER.dat',
+                mesh_file='mesh3d_scanners_m.dat',
+                path='/Users/chernals/Downloads/Scanners'
+            )
+        return self._field_map
+
+    @property
+    def field_sampling(self):
+        return self.field_map.sampling_x[0]
+
+    @property
+    def field_trajectory(self):
+        sampling_x, length_sampling_x = self.field_map.sampling_x
+        trajectory = _np.stack([sampling_x,
+                               _np.zeros(length_sampling_x),
+                               _np.zeros(length_sampling_x)
+                               ]).T
+        return trajectory
+
+    @property
+    def field_profile(self):
+        return -self.field_map.sample(self.field_trajectory, field_component='BZ')
+
+    def fit_parameters(self, debug: bool = False):
+        model = _EngeModel()
+        model.params['ce_0'].set(vary=True)
+        model.params['ce_1'].set(vary=False)
+        model.params['ce_2'].set(vary=True)
+        model.params['ce_3'].set(vary=True)
+        model.params['ce_4'].set(vary=True)
+        model.params['ce_5'].set(vary=True)
+        model.params['cs_0'].set(vary=True)
+        model.params['cs_1'].set(vary=False)
+        model.params['cs_2'].set(vary=True)
+        model.params['cs_3'].set(vary=True)
+        model.params['cs_4'].set(vary=True)
+        model.params['cs_5'].set(vary=True)
+        model.params['offset_e'].set(value=-0.3, min=-0.4, max=-0.2)
+        model.params['offset_s'].set(value=0.0, min=-0.15, max=0.05)
+        model.params['lam_e'].set(value=0.03)
+        model.params['lam_s'].set(value=0.03)
+        model.params['amplitude'].set(value=0.82, min=0.75, max=0.9)
+        model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
+        self._fit = model.fit(self.field_profile, model.params, s=self.field_sampling)
+        if debug:
+            print(self._fit.fit_report())
+        self.LAM_E = self._fit.best_values['lam_e'] * _ureg.cm
+        self.LAM_S = self._fit.best_values['lam_s'] * _ureg.cm
+        self.C0_E = self._fit.best_values['ce_0']
+        self.C2_E = self._fit.best_values['ce_2']
+        self.C3_E = self._fit.best_values['ce_3']
+        self.C4_E = self._fit.best_values['ce_4']
+        self.C5_E = self._fit.best_values['ce_5']
+        self.C0_S = self._fit.best_values['cs_0']
+        self.C2_S = self._fit.best_values['cs_2']
+        self.C3_S = self._fit.best_values['cs_3']
+        self.C4_S = self._fit.best_values['cs_4']
+        self.C5_S = self._fit.best_values['cs_5']
+        return self._fit
+
+    def plot_profile(self, ax, with_fit: bool = True):
+        if self._fit is None:
+            return
+        ax.plot(self.field_sampling, self.field_profile, 'bo')
+        ax.plot(self.field_sampling, self._fit.best_fit, 'r-')
 
 
 class SMY(_Bend):
@@ -290,6 +365,77 @@ class SMY(_Bend):
 
         """
         self.LABEL1 = self.__class__.__name__
+        self._field_map = None
+
+    @property
+    def field_map(self):
+        if self._field_map is None:
+            self._field_map = _FieldMap(
+                field_file='B3D_2nd_SCANNER.dat',
+                mesh_file='mesh3d_scanners_m.dat',
+                path='/Users/chernals/Downloads/Scanners'
+            )
+        return self._field_map
+
+    @property
+    def field_sampling(self):
+        return self.field_map.sampling_x[0]
+
+    @property
+    def field_trajectory(self):
+        sampling_x, length_sampling_x = self.field_map.sampling_x
+        trajectory = _np.stack([sampling_x,
+                               _np.zeros(length_sampling_x),
+                               _np.zeros(length_sampling_x)
+                               ]).T
+        return trajectory
+
+    @property
+    def field_profile(self):
+        return -self.field_map.sample(self.field_trajectory, field_component='BY')
+
+    def fit_parameters(self, debug: bool = False):
+        model = _EngeModel()
+        model.params['ce_0'].set(vary=True)
+        model.params['ce_1'].set(vary=False)
+        model.params['ce_2'].set(vary=True)
+        model.params['ce_3'].set(vary=True)
+        model.params['ce_4'].set(vary=True)
+        model.params['ce_5'].set(vary=True)
+        model.params['cs_0'].set(vary=True)
+        model.params['cs_1'].set(vary=False)
+        model.params['cs_2'].set(vary=True)
+        model.params['cs_3'].set(vary=True)
+        model.params['cs_4'].set(vary=True)
+        model.params['cs_5'].set(vary=True)
+        model.params['offset_e'].set(value=0.045, min=-0.1, max=0.1)
+        model.params['offset_s'].set(value=0.2, min=0.1, max=0.3)
+        model.params['lam_e'].set(value=0.035)
+        model.params['lam_s'].set(value=0.035)
+        model.params['amplitude'].set(value=0.52, min=0.3, max=0.6)
+        model.params['field_offset'].set(value=0.0, min=-1e-3, max=1e-3)
+        self._fit = model.fit(self.field_profile, model.params, s=self.field_sampling)
+        if debug:
+            print(self._fit.fit_report(show_correl=True))
+        self.LAM_E = self._fit.best_values['lam_e'] * _ureg.cm
+        self.LAM_S = self._fit.best_values['lam_s'] * _ureg.cm
+        self.C0_E = self._fit.best_values['ce_0']
+        self.C2_E = self._fit.best_values['ce_2']
+        self.C3_E = self._fit.best_values['ce_3']
+        self.C4_E = self._fit.best_values['ce_4']
+        self.C5_E = self._fit.best_values['ce_5']
+        self.C0_S = self._fit.best_values['cs_0']
+        self.C2_S = self._fit.best_values['cs_2']
+        self.C3_S = self._fit.best_values['cs_3']
+        self.C4_S = self._fit.best_values['cs_4']
+        self.C5_S = self._fit.best_values['cs_5']
+        return self._fit
+
+    def plot_profile(self, ax, with_fit=True):
+        if self._fit is None:
+            return
+        ax.plot(self.field_sampling, self.field_profile, 'bo')
+        ax.plot(self.field_sampling, self._fit.best_fit, 'r-')
 
 
 class T1G(_Bend):
@@ -744,6 +890,7 @@ class CGTR:
             self.beam,
             _Proton(),
             _Marker('START'),
+            _ChangeRef(),
             _Ymy(),
             self.t1g,
             _FakeDrift(XL=30 * _ureg.cm),
@@ -862,6 +1009,7 @@ class CGTR:
             if debug:
                 return self.zi
             zgoubi(zgoubi_input=self.zi, identifier=identifier)
+            self.zi.cleanup()
         return None
 
     def shoot(self,
@@ -930,6 +1078,7 @@ class CGTR:
         self.zi.IL = int(with_tracks)
         for f in fits:
             for p, r in f.results:
+                print(p)
                 self.zi.update(r)
                 self.run(zgoubi=z,
                          identifier={**p, **{'SMX.B1': r.at[1, 'final'], 'SMY.B1': r.at[2, 'final']}},

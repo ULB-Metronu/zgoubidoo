@@ -1202,25 +1202,22 @@ class Dipoles(PolarMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': 2,
-        'N': 1,
-        'AT': 0,
-        'RM': 0,
-
-        'ACN': [0, ],
-        'DELTA_RM': [0, ],
-        'B0': [0, ],
-        'IND': [0, ],
-        'BI': [[0, ], ],
-        'G0_E': [0, ],
-        'K_E': [0, ],
-        'NCE': [0, ],
-        'C0_E': [0, ],
-        'C1_E': [0, ],
-        'C2_E': [0, ],
-        'C3_E': [0, ],
-        'C4_E': [0, ],
-        'C5_E': [0, ],
+        'IL': (2, 'Print field and coordinates along trajectories'),
+        'N': (1, 'Number of magnets (maximum 5).'),
+        'AT': (0 * _ureg.degree, 'Total angular extent of the N dipoles.'),
+        'RM': (0 * _ureg.cm, 'Reference radius.'),
+        'ACN': ([0 * _ureg.degree, 0 * _ureg.degree, 0 * _ureg.degree, 0 * _ureg.degree, 0 * _ureg.degree], 'Reference azimuth for positionning of the field boundaries of the magnets.'),
+        'DRM': ([0 * _ureg.cm, 0 * _ureg.cm, 0 * _ureg.cm, 0 * _ureg.cm, 0 * _ureg.cm], 'Offset for the reference radius of each magnets.'),
+        'B0': ([0 * _ureg.tesla, 0 * _ureg.tesla, 0 * _ureg.tesla, 0 * _ureg.tesla, 0 * _ureg.tesla], 'Dipole fields of each magnets.'),
+        'BI': ([[], [], [], [], []], 'Lists of field coefficients for each magnets.'),
+        'G0_E': ([0 * _ureg.cm, 0 * _ureg.cm, 0 * _ureg.cm, 0 * _ureg.cm, 0 * _ureg.cm], 'Reference gaps for the entrance fringe fields of each magnets.'),
+        'K_E': [0, 0, 0, 0, 0],
+        'C0_E': [0, 0, 0, 0, 0],
+        'C1_E': [0, 0, 0, 0, 0],
+        'C2_E': [0, 0, 0, 0, 0],
+        'C3_E': [0, 0, 0, 0, 0],
+        'C4_E': [0, 0, 0, 0, 0],
+        'C5_E': [0, 0, 0, 0, 0],
         'SHIFT_E': [0, ],
         'OMEGA_E': [0, ],
         'THETA_E': [0, ],
@@ -1228,15 +1225,15 @@ class Dipoles(PolarMagnet):
         'U1_E': [-1e9, ],
         'U2_E': [1e9, ],
         'R2_E': [1e9, ],
-        'G0_S': [0, ],
+        'G0_S': ([0 * _ureg.cm, 0 * _ureg.cm, 0 * _ureg.cm, 0 * _ureg.cm, 0 * _ureg.cm], 'Reference gaps for the exit fringe fields of each magnets.'),
         'K_S': [0, ],
         'NCS': [0, ],
-        'C0_S': [0, ],
-        'C1_S': [0, ],
-        'C2_S': [0, ],
-        'C3_S': [0, ],
-        'C4_S': [0, ],
-        'C5_S': [0, ],
+        'C0_S': [0, 0, 0, 0, 0],
+        'C1_S': [0, 0, 0, 0, 0],
+        'C2_S': [0, 0, 0, 0, 0],
+        'C3_S': [0, 0, 0, 0, 0],
+        'C4_S': [0, 0, 0, 0, 0],
+        'C5_S': [0, 0, 0, 0, 0],
         'SHIFT_S': [0, ],
         'OMEGA_S': [0, ],
         'THETA_S': [0, ],
@@ -1247,23 +1244,21 @@ class Dipoles(PolarMagnet):
         'G0_L': [0, ],
         'K_L': [0, ],
         'NCL': [0, ],
-        'C0_L': [0, ],
-        'C1_L': [0, ],
-        'C2_L': [0, ],
-        'C3_L': [0, ],
-        'C4_L': [0, ],
-        'C5_L': [0, ],
-        'SHIFT_L': [0, ],
-        'OMEGA_L': [0, ],
-        'THETA_L': [0, ],
-        'R1_L': [1e9, ],
-        'U1_L': [-1e9, ],
-        'U2_L': [1e9, ],
-        'R2_L': [1e9, ],
-        'R3': [1e9, ],
-
+        'C0_L': ([0, 0, 0, 0, 0], 'Unused.'),
+        'C1_L': ([0, 0, 0, 0, 0], 'Unused.'),
+        'C2_L': ([0, 0, 0, 0, 0], 'Unused.'),
+        'C3_L': ([0, 0, 0, 0, 0], 'Unused.'),
+        'C4_L': ([0, 0, 0, 0, 0], 'Unused.'),
+        'C5_L': ([0, 0, 0, 0, 0], 'Unused.'),
+        'SHIFT_L': ([0, 0, 0, 0, 0], 'Unused'),
+        'OMEGA_L': ([0, 0, 0, 0, 0], 'Unused.'),
+        'THETA_L': ([0, 0, 0, 0, 0], 'Unused.'),
+        'R1_L': ([0, 0, 0, 0, 0], 'Unused.'),
+        'U1_L': ([0, 0, 0, 0, 0], 'Unused.'),
+        'U2_L': ([0, 0, 0, 0, 0], 'Unused.'),
+        'R2_L': ([0, 0, 0, 0, 0], 'Unused.'),
+        'R3': ([0, 0, 0, 0, 0], 'Unused.'),
         'KIRD': 0,
-        'n': 0,
         'Resol': 2,
         'XPAS': 0.1,
         'KPOS': 2,
@@ -1277,71 +1272,34 @@ class Dipoles(PolarMagnet):
     commands (e.g. fit)."""
 
     def __str__(s):
-        command = []
-        c = f"""
-        {super().__str__().rstrip()}
-        {s.IL}
-        {s.N} {s.AT:.12e} {s.RM:.12e}
-        """
-        command.append(c)
-
-        for i in range(0, int(s.N)):
-            c = f"{s.ACN[i]:.12e} {s.DELTA_RM[i]:.12e} {s.B0[i]:.12e} {s.IND[i]} "
-            for bi in s.BI[i]:
-                c += f"{bi} "
-            command.append(c)
-
-            c = f"""
-                {s.G0_E[i]:.12e} {s.K_E[i]:.12e}
-                {s.NCE[i]} {s.C0_E[i]:.12e} {s.C1_E[i]:.12e} {s.C2_E[i]:.12e} {s.C3_E[i]:.12e} {s.C4_E[i]:.12e} {s.C5_E[i]:.12e} {s.SHIFT_E[i]:.12e}
-                {s.OMEGA_E[i]:.12e} {s.THETA_E[i]:.12e} {s.R1_E[i]:.12e} {s.U1_E[i]:.12e} {s.U2_E[i]:.12e} {s.R2_E[i]:.12e}
-                {s.G0_S[i]:.12e} {s.K_S[i]:.12e}
-                {s.NCS[i]} {s.C0_S[i]:.12e} {s.C1_S[i]:.12e} {s.C2_S[i]:.12e} {s.C3_S[i]:.12e} {s.C4_S[i]:.12e} {s.C5_S[i]:.12e} {s.SHIFT_S[i]:.12e}
-                {s.OMEGA_S[i]:.12e} {s.THETA_S[i]:.12e} {s.R1_S[i]:.12e} {s.U1_S[i]:.12e} {s.U2_S[i]:.12e} {s.R2_S[i]:.12e}
-                {s.G0_L[i]:.12e} {s.K_L[i]:.12e}
-                {s.NCL[i]} {s.C0_L[i]:.12e} {s.C1_L[i]:.12e} {s.C2_L[i]:.12e} {s.C3_L[i]:.12e} {s.C4_L[i]:.12e} {s.C5_L[i]:.12e} {s.SHIFT_L[i]:.12e}
-                {s.OMEGA_L[i]:.12e} {s.THETA_L[i]:.12e} {s.R1_L[i]:.12e} {s.U1_L[i]:.12e} {s.U2_L[i]:.12e} {s.R2_L[i]:.12e} {s.R3[i]:.12e}
-                """
-            command.append(c)
-
-        if s.KIRD != 0 and s.KIRD != 2 and s.KIRD != 4 and s.KIRD != 25:
-            raise _ZgoubidooException("KIRD must be equal to 0,2,4 or 25")
-        if (s.KIRD == 0 and s.n !=2) and (s.KIRD == 0 and s.n !=1):
-            raise _ZgoubidooException("n must be equal to 0 or 1 when KIRD = 0")
-        if (s.KIRD == 0 and s.Resol !=2) and (s.KIRD == 0 and s.Resol !=4):
-            raise _ZgoubidooException("Resol must be equal to 2 or 4 when KIRD = 0")
-
-        if s.KIRD == 0:
-            command.append(f"""
-            {s.KIRD}.{s.n} {s.Resol:.12e}
-            """)
-        else:
-            command.append(f"""
-            {s.KIRD} {s.Resol:.12e}
+        command = list()
+        command.append(f"""
+            {super().__str__().rstrip()}
+            {s.IL}
+            {s.N} {_degree(s.AT):.20e} {_cm(s.RM):.12e}
             """)
 
-        command.append(f"""{s.XPAS:.12e}""")
+        for i in range(s.N):
+            command.append(f"""
+            {s.ACN[i]} {s.DRM[i]} {s.B0[i]} {len(s.BI[i])} {' '.join(map(str, s.BI[i]))}
+            {s.G0_E} {s.KE}
+            6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e} {_cm(s.SHIFT_E):.12e}
+            {_degree(s.OMEGA_E):.20e} {_degree(s.THETA_E):.12e} {_cm(s.R1_E):.12e} {_cm(s.U1_E):.12e} {_cm(s.U2_E):.12e} {_cm(s.R2_S):.12e}
+            {s.G0_E} {s.KE}
+            6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e} {_cm(s.SHIFT_S):.12e}
+            {_degree(s.OMEGA_S):.20e} {_degree(s.THETA_S):.12e} {_cm(s.R1_S):.12e} {_cm(s.U1_S):.12e} {_cm(s.U2_S):.12e} {_cm(s.R2_S):.12e}
+            {s.G0_L} {s.KL}
+            6 {s.C0_L:.12e} {s.C1_L:.12e} {s.C2_L:.12e} {s.C3_L:.12e} {s.C4_L:.12e} {s.C5_L:.12e} {_cm(s.SHIFT_L):.12e}
+            {_degree(s.OMEGA_L):.12e} {_degree(s.THETA_L):.12e} {_cm(s.R1_L):.12e} {_cm(s.U1_L):.12e} {_cm(s.U2_L):.12e} {_cm(s.R2_L):.12e} {_cm(s.RM3):.12e}
 
-        if int(s.KPOS) not in (1, 2):
-            raise _ZgoubidooException("KPOS must be equal to 1 or 2.")
+            """)
 
-        if s.KPOS == 2:
-            if s.RE == 0:
-                s.RE = s.RM
-            if s.RS == 0:
-                s.RS = s.RM
-            c = f"""
-                {s.KPOS}
-                {s.RE:.12e} {s.TE:.12e} {s.RS:.12e} {s.TS:.12e}
-                """
-            command.append(c)
-        elif int(s.KPOS) == 1:
-            c = f"""
-                {s.KPOS}
-                {s.DP:.12e}
-                """
-            command.append(c)
-
+        command.append(f"""
+            {s.KIRD} {s.RESOL}
+            {s.XPAS}
+            {s.KPOS}
+            
+        """)
         return ''.join(map(lambda _: _.rstrip(), command))
 
 
