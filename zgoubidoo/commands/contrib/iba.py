@@ -32,7 +32,7 @@ from ...polarity import Polarity as _Polarity
 from ...polarity import HorizontalPolarity as _HorizontalPolarity
 from ...polarity import VerticalPolarity as _VerticalPolarity
 from ...fieldmaps import FieldProfile as _FieldProfile
-from ...fieldmaps import FieldMap as _FieldMap
+from ...fieldmaps import CartesianFieldMap as _FieldMap
 from ...fieldmaps import EngeModel as _EngeModel
 import zgoubidoo
 
@@ -281,7 +281,7 @@ class SMX(_Bend):
             self._field_map = _FieldMap(
                 field_file='B3D_1st_SCANNER.dat',
                 mesh_file='mesh3d_scanners_m.dat',
-                path='/Users/arthurvandenhoeke/Documents/MA2_Polytech/Memoire/scanners/'
+                path='/Users/chernals/Downloads/Scanners'
             )
         return self._field_map
 
@@ -355,46 +355,47 @@ class SMY(_Bend):
         'SK': 90 * _ureg.degree,
     }
 
-    def post_init(self, **kwargs):
+    def post_init(self, field_map: Optional[_FieldMap] = None, **kwargs):
         """
 
         Args:
+            field_map:
             **kwargs:
 
         Returns:
 
         """
         self.LABEL1 = self.__class__.__name__
-        self._field_map = None
+        self._field_map = field_map
 
     @property
     def field_map(self):
-        if self._field_map is None:
-            self._field_map = _FieldMap(
-                field_file='B3D_2nd_SCANNER.dat',
-                mesh_file='mesh3d_scanners_m.dat',
-                path='/Users/arthurvandenhoeke/Documents/MA2_Polytech/Memoire/scanners/'
-            )
         return self._field_map
 
     @property
     def field_sampling(self):
-        return self.field_map.sampling_x[0]
+        if self.field_map is not None:
+            return self.field_map.sampling_x[0]
 
     @property
     def field_trajectory(self):
-        sampling_x, length_sampling_x = self.field_map.sampling_x
-        trajectory = _np.stack([sampling_x,
-                               _np.zeros(length_sampling_x),
-                               _np.zeros(length_sampling_x)
-                               ]).T
-        return trajectory
+        if self.field_map is not None:
+            sampling_x, length_sampling_x = self.field_map.sampling_x
+            trajectory = _np.stack([sampling_x,
+                                   _np.zeros(length_sampling_x),
+                                   _np.zeros(length_sampling_x)
+                                   ]).T
+            return trajectory
 
     @property
     def field_profile(self):
-        return -self.field_map.sample(self.field_trajectory, field_component='BY')
+        if self.field_map is not None:
+            return -self.field_map.sample(self.field_trajectory, field_component='BY')
 
     def fit_parameters(self, debug: bool = False):
+        if self.field_map is None:
+            print("Define a field map!")
+            return None
         model = _EngeModel()
         model.params['ce_0'].set(vary=True)
         model.params['ce_1'].set(vary=False)
@@ -432,6 +433,9 @@ class SMY(_Bend):
         return self._fit
 
     def plot_profile(self, ax, with_fit=True):
+        if self._field_map is None:
+            print("Define a field map!")
+            return None
         if self._fit is None:
             return
         ax.plot(self.field_sampling, self.field_profile, 'bo')
@@ -881,6 +885,7 @@ class CGTR:
         self.smx: SMX = smx or SMX()
         self.smy: SMY = smy or SMY()
         self.beam: _Beam = beam or _Beam('BUNCH', slices=1, kinematics=kinematics.brho)
+        self.start: _Marker = _Marker('START')
         self.iso: _Marker = _Marker('ISO')
 
         if with_fit:
@@ -889,8 +894,8 @@ class CGTR:
         self.zi: _Input = _Input('CGTR', line=[
             self.beam,
             _Proton(),
-            _Marker('START'),
-            _ChangeRef(),
+            self.start,
+            #_ChangeRef(),
             _Ymy(),
             self.t1g,
             _FakeDrift(XL=30 * _ureg.cm),
@@ -1075,10 +1080,9 @@ class CGTR:
         if debug_fit:
             return fits
         z.cleanup()
-        self.zi.IL = int(with_tracks)
+        self.zi.IL = 2 if with_tracks else 0
         for f in fits:
             for p, r in f.results:
-                print(p)
                 self.zi.update(r)
                 self.run(zgoubi=z,
                          identifier={**p, **{'SMX.B1': r.at[1, 'final'], 'SMY.B1': r.at[2, 'final']}},
