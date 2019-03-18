@@ -325,8 +325,8 @@ class SMX(_Bend):
         self._fit = model.fit(self.field_profile, model.params, s=self.field_sampling)
         if debug:
             print(self._fit.fit_report())
-        self.LAM_E = self._fit.best_values['lam_e'] * _ureg.cm
-        self.LAM_S = self._fit.best_values['lam_s'] * _ureg.cm
+        self.LAM_E = self._fit.best_values['lam_e'] * _ureg.m
+        self.LAM_S = self._fit.best_values['lam_s'] * _ureg.m
         self.C0_E = self._fit.best_values['ce_0']
         self.C2_E = self._fit.best_values['ce_2']
         self.C3_E = self._fit.best_values['ce_3']
@@ -1001,6 +1001,8 @@ class CGTR:
             def attach_output_to_fit(f):
                 """Helper callback function to attach a run's output to a fit object."""
                 r = f.result()['result']
+                if debug:
+                    print(r)
                 fit.attach_output(outputs=_Zgoubi.find_labeled_output(r, fit.LABEL1),
                                   zgoubi_input=self.zi,
                                   parameters=identifier,
