@@ -281,7 +281,7 @@ class SMX(_Bend):
             self._field_map = _FieldMap(
                 field_file='B3D_1st_SCANNER.dat',
                 mesh_file='mesh3d_scanners_m.dat',
-                path='/Users/chernals/Downloads/Scanners'
+                path='/Users/arthurvandenhoeke/Documents/MA2_Polytech/Memoire/scanners/'
             )
         return self._field_map
 
@@ -373,7 +373,7 @@ class SMY(_Bend):
             self._field_map = _FieldMap(
                 field_file='B3D_2nd_SCANNER.dat',
                 mesh_file='mesh3d_scanners_m.dat',
-                path='/Users/chernals/Downloads/Scanners'
+                path='/Users/arthurvandenhoeke/Documents/MA2_Polytech/Memoire/scanners/'
             )
         return self._field_map
 
