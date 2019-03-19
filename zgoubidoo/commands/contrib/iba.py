@@ -277,8 +277,12 @@ class SMX(_Bend):
         self._field_map = field_map
 
     @property
-    def field_map(self):
+    def field_map(self) -> _FieldMap:
         return self._field_map
+
+    @field_map.setter
+    def field_map(self, v: _FieldMap):
+        self._field_map = v
 
     @property
     def field_sampling(self):
@@ -373,8 +377,12 @@ class SMY(_Bend):
         self._field_map = field_map
 
     @property
-    def field_map(self):
+    def field_map(self) -> _FieldMap:
         return self._field_map
+
+    @field_map.setter
+    def field_map(self, v: _FieldMap):
+        self._field_map = v
 
     @property
     def field_sampling(self):
@@ -422,8 +430,8 @@ class SMY(_Bend):
         self._fit = model.fit(self.field_profile, model.params, s=self.field_sampling)
         if debug:
             print(self._fit.fit_report(show_correl=True))
-        self.LAM_E = self._fit.best_values['lam_e'] * _ureg.cm
-        self.LAM_S = self._fit.best_values['lam_s'] * _ureg.cm
+        self.LAM_E = self._fit.best_values['lam_e'] * _ureg.m
+        self.LAM_S = self._fit.best_values['lam_s'] * _ureg.m
         self.C0_E = self._fit.best_values['ce_0']
         self.C2_E = self._fit.best_values['ce_2']
         self.C3_E = self._fit.best_values['ce_3']
