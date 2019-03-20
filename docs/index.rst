@@ -19,6 +19,7 @@ Zgoubidoo's documentation
    contrib
    input
    lowlevel
+   fieldmaps
    physics
    loaders
    vis

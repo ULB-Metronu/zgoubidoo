@@ -1,9 +1,59 @@
+"""Field map module."""
 from typing import Optional, Union
 import os
 import numpy as np
 import pandas as pd
 from scipy import interpolate
 from lmfit import Model
+
+
+def load_mesh_data(file: str, path: str = '.'):  # -> List[np.array]
+    """
+    Load a mesh data file and creates a complete mesh grid using numpy.
+
+    Args:
+        file: the file containing the mesh data
+        path: path to the mesh data file
+
+    Returns:
+        A numpy mesh grid (list of arrays)
+    """
+    with open(os.path.join(path, file)) as f:
+        _, x_dim, y_dim, z_dim, _, _ = tuple(map(int, f.readline().split()))
+        data = np.array(list(map(float, ' '.join(f.readlines()).split())))
+    x = data[0:x_dim]
+    y = data[x_dim:x_dim + y_dim]
+    z = data[x_dim + y_dim:x_dim + y_dim + z_dim]
+    return np.meshgrid(x, y, z, indexing='ij')
+
+
+def load_field_data(file: str, path: str = '.') -> pd.DataFrame:
+    """
+
+    Args:
+        file: the file containing the field map data
+        path: path to the field mpa data file
+
+    Returns:
+
+    """
+    return pd.read_csv(os.path.join(path, file), sep=r'\s+', names=['BX', 'BY', 'BZ', 'M'], header=None)
+
+
+def load_fieldmap(field_file: str, mesh_file: str, path: str = '.') -> np.array:
+    """
+
+    Args:
+        field_file:
+        mesh_file:
+        path:
+
+    Returns:
+
+    """
+    x, y, z = [c.reshape((np.prod(c.shape),)) for c in load_mesh_data(file=mesh_file, path=path)]
+    f = load_field_data(file=field_file, path=path).values.T.reshape((4, np.prod(x.shape)))
+    return np.array([x, y, z, *f]).T
 
 
 def enge(s: Union[float, np.array],
@@ -62,56 +112,23 @@ def enge(s: Union[float, np.array],
     return amplitude * (1 / (1 + np.exp(p_e))) * (1 / (1 + np.exp(p_s))) + field_offset
 
 
-def load_mesh_data(file: str, path: str = '.'):  # -> List[np.array]
+class EngeModel(Model):
+    def __init__(self):
+        super().__init__(enge)
+        self._params = None
+
+    @property
+    def params(self):
+        if self._params is None:
+            self._params = self.make_params()
+        return self._params
+
+
+
+class FieldMap:
     """
-    Load a mesh data file and creates a complete mesh grid using numpy.
-
-    Args:
-        file: the file containing the mesh data
-        path: path to the mesh data file
-
-    Returns:
-        A numpy mesh grid (list of arrays)
+    TODO
     """
-    with open(os.path.join(path, file)) as f:
-        _, x_dim, y_dim, z_dim, _, _ = tuple(map(int, f.readline().split()))
-        data = np.array(list(map(float, ' '.join(f.readlines()).split())))
-    x = data[0:x_dim]
-    y = data[x_dim:x_dim + y_dim]
-    z = data[x_dim + y_dim:x_dim + y_dim + z_dim]
-    return np.meshgrid(x, y, z, indexing='ij')
-
-
-def load_field_data(file: str, path: str = '.') -> pd.DataFrame:
-    """
-
-    Args:
-        file: the file containing the field map data
-        path: path to the field mpa data file
-
-    Returns:
-
-    """
-    return pd.read_csv(os.path.join(path, file), sep=r'\s+', names=['BX', 'BY', 'BZ', 'M'], header=None)
-
-
-def load_fieldmap(field_file: str, mesh_file: str, path: str = '.') -> np.array:
-    """
-
-    Args:
-        field_file:
-        mesh_file:
-        path:
-
-    Returns:
-
-    """
-    x, y, z = [c.reshape((np.prod(c.shape),)) for c in load_mesh_data(file=mesh_file, path=path)]
-    f = load_field_data(file=field_file, path=path).values.T.reshape((4, np.prod(x.shape)))
-    return np.array([x, y, z, *f]).T
-
-
-class CartesianFieldMap:
     def __init__(self, field_file: str, mesh_file: str, path: str = '.'):
         self._df: Optional[pd.DataFrame] = None
         self._data = load_fieldmap(field_file=field_file, mesh_file=mesh_file, path=path)
@@ -137,12 +154,28 @@ class CartesianFieldMap:
         return _, len(_)
 
     def to_df(self) -> pd.DataFrame:
+        """
+        Exports the field map to a Pandas dataframe.
+
+        Returns:
+            A dataframe containing the field map vector field information.
+        """
         if self._df is None:
             self._df = pd.DataFrame(self._data)
             self._df.columns = ['X', 'Y', 'Z', 'BX', 'BY', 'BZ', 'M']
         return self._df
 
     def sample(self, points, field_component: str = 'BX', method: str = 'nearest'):
+        """
+
+        Args:
+            points:
+            field_component:
+            method:
+
+        Returns:
+
+        """
         field_components = {
             'BX': self._data[:, 3],
             'BY': self._data[:, 4],
@@ -155,16 +188,6 @@ class CartesianFieldMap:
         pass
 
 
-class EngeModel(Model):
-    def __init__(self):
-        super().__init__(enge)
-        self._params = None
-
-    @property
-    def params(self):
-        if self._params is None:
-            self._params = self.make_params()
-        return self._params
 
 
 class FieldProfile:

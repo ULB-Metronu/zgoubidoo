@@ -9,7 +9,10 @@ import pandas as pd
 from zgoubidoo import _Q
 from zgoubidoo.commands import CommandType as _CommandType
 from zgoubidoo.commands import Command as _Command
-from zgoubidoo.commands import ParticuleType, Proton, Objet2, ObjetType
+from zgoubidoo.commands import ParticuleType as _ParticuleType
+from zgoubidoo.commands import Proton as _Proton
+from zgoubidoo.commands import Objet2 as _Objet2
+from zgoubidoo.commands import ObjetType as _ObjetType
 from zgoubidoo.kinematics import Kinematics as _Kinematics
 from ..input import ParametricMapping as _ParametricMapping
 from ..input import MappedParametersListType as _MappedParametersListType
@@ -47,8 +50,8 @@ class Beam(_Command, metaclass=BeamType):
 
     def post_init(self,
                   distribution: Optional[pd.DataFrame] = None,
-                  particle: ParticuleType = Proton,
-                  objet: ObjetType = Objet2,
+                  particle: _ParticuleType = _Proton,
+                  objet: _ObjetType = _Objet2,
                   kinematics: Union[_Kinematics, float, _Q] = None,
                   slices: int = 1,
                   *args,
@@ -67,8 +70,8 @@ class Beam(_Command, metaclass=BeamType):
         Returns:
 
         """
-        self._particle: ParticuleType = particle
-        self._objet: ObjetType = objet
+        self._particle: _ParticuleType = particle
+        self._objet: _ObjetType = objet
         if not isinstance(kinematics, _Kinematics):
             kinematics = _Kinematics(kinematics)
         self._kinematics: _Kinematics = kinematics

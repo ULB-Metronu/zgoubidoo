@@ -32,7 +32,7 @@ from ...polarity import Polarity as _Polarity
 from ...polarity import HorizontalPolarity as _HorizontalPolarity
 from ...polarity import VerticalPolarity as _VerticalPolarity
 from ...fieldmaps import FieldProfile as _FieldProfile
-from ...fieldmaps import CartesianFieldMap as _FieldMap
+from ...fieldmaps import FieldMap as _FieldMap
 from ...fieldmaps import EngeModel as _EngeModel
 import zgoubidoo
 
@@ -256,7 +256,7 @@ class B3G(DipoleIBA):
 
 
 class SMX(_Bend):
-    """Proteus One crossline (vertical) scanning magnet.
+    """Proteus One inline (horizontal) scanning magnet.
 
     """
     PARAMETERS = {

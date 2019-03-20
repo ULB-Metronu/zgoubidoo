@@ -15,5 +15,5 @@ Sequences
 Beams
 -----
 
-.. automodapi:: zgoubidoo.physics.beam
+.. automodapi:: zgoubidoo.commands.beam
     :no-heading:
