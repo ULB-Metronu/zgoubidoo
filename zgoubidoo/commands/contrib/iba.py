@@ -31,8 +31,6 @@ from ...polarity import PolarityType as _PolarityType
 from ...polarity import Polarity as _Polarity
 from ...polarity import HorizontalPolarity as _HorizontalPolarity
 from ...polarity import VerticalPolarity as _VerticalPolarity
-from ...fieldmaps import FieldProfile as _FieldProfile
-from ...fieldmaps import FieldMap as _FieldMap
 from ...fieldmaps import EngeModel as _EngeModel
 import zgoubidoo
 
@@ -263,95 +261,35 @@ class SMX(_Bend):
         'XL': 159 * _ureg.mm,
     }
 
-    def post_init(self, field_map: Optional[_FieldMap] = None, **kwargs):
+    def post_init(self, **kwargs):
         """
 
         Args:
-            field_map:
             **kwargs:
 
         Returns:
 
         """
         self.LABEL1 = self.__class__.__name__
-        self._field_map = field_map
-
-    @property
-    def field_map(self) -> _FieldMap:
-        return self._field_map
-
-    @field_map.setter
-    def field_map(self, v: _FieldMap):
-        self._field_map = v
-
-    @property
-    def field_sampling(self):
-        if self.field_map is not None:
-            return self.field_map.sampling_x[0]
-
-    @property
-    def field_trajectory(self):
-        if self.field_map is not None:
-            sampling_x, length_sampling_x = self.field_map.sampling_x
-            trajectory = _np.stack([sampling_x,
-                                   _np.zeros(length_sampling_x),
-                                   _np.zeros(length_sampling_x)
-                                   ]).T
-            return trajectory
-
-    @property
-    def field_profile(self):
-        if self.field_map is not None:
-            return -self.field_map.sample(self.field_trajectory, field_component='BZ')
-
-    def fit_parameters(self, debug: bool = False):
-        if self.field_map is None:
-            print("Define a field map!")
-            return None
-        model = _EngeModel()
-        model.params['ce_0'].set(vary=True)
-        model.params['ce_1'].set(vary=False)
-        model.params['ce_2'].set(vary=True)
-        model.params['ce_3'].set(vary=True)
-        model.params['ce_4'].set(vary=True)
-        model.params['ce_5'].set(vary=True)
-        model.params['cs_0'].set(vary=True)
-        model.params['cs_1'].set(vary=False)
-        model.params['cs_2'].set(vary=True)
-        model.params['cs_3'].set(vary=True)
-        model.params['cs_4'].set(vary=True)
-        model.params['cs_5'].set(vary=True)
-        model.params['offset_e'].set(value=-0.3, min=-0.4, max=-0.2)
-        model.params['offset_s'].set(value=0.0, min=-0.15, max=0.05)
-        model.params['lam_e'].set(value=0.03)
-        model.params['lam_s'].set(value=0.03)
-        model.params['amplitude'].set(value=0.82, min=0.75, max=0.9)
-        model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
-        self._fit = model.fit(self.field_profile, model.params, s=self.field_sampling)
-        if debug:
-            print(self._fit.fit_report())
-        self.LAM_E = self._fit.best_values['lam_e'] * _ureg.m
-        self.LAM_S = self._fit.best_values['lam_s'] * _ureg.m
-        self.C0_E = self._fit.best_values['ce_0']
-        self.C2_E = self._fit.best_values['ce_2']
-        self.C3_E = self._fit.best_values['ce_3']
-        self.C4_E = self._fit.best_values['ce_4']
-        self.C5_E = self._fit.best_values['ce_5']
-        self.C0_S = self._fit.best_values['cs_0']
-        self.C2_S = self._fit.best_values['cs_2']
-        self.C3_S = self._fit.best_values['cs_3']
-        self.C4_S = self._fit.best_values['cs_4']
-        self.C5_S = self._fit.best_values['cs_5']
-        return self._fit
-
-    def plot_profile(self, ax, with_fit: bool = True):
-        if self.field_map is None:
-            print("Define a field map!")
-            return None
-        if self._fit is None:
-            return
-        ax.plot(self.field_sampling, self.field_profile, 'bo')
-        ax.plot(self.field_sampling, self._fit.best_fit, 'r-')
+        self._field_profile_model = _EngeModel()
+        self._field_profile_model.params['ce_0'].set(vary=True)
+        self._field_profile_model.params['ce_1'].set(vary=False)
+        self._field_profile_model.params['ce_2'].set(vary=True)
+        self._field_profile_model.params['ce_3'].set(vary=True)
+        self._field_profile_model.params['ce_4'].set(vary=True)
+        self._field_profile_model.params['ce_5'].set(vary=True)
+        self._field_profile_model.params['cs_0'].set(vary=True)
+        self._field_profile_model.params['cs_1'].set(vary=False)
+        self._field_profile_model.params['cs_2'].set(vary=True)
+        self._field_profile_model.params['cs_3'].set(vary=True)
+        self._field_profile_model.params['cs_4'].set(vary=True)
+        self._field_profile_model.params['cs_5'].set(vary=True)
+        self._field_profile_model.params['offset_e'].set(value=0.2, min=0.1, max=0.3)
+        self._field_profile_model.params['offset_s'].set(value=0.5, min=0.35, max=0.55)
+        self._field_profile_model.params['lam_e'].set(value=0.03)
+        self._field_profile_model.params['lam_s'].set(value=0.03)
+        self._field_profile_model.params['amplitude'].set(value=0.82, min=0.75, max=0.9)
+        self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
 
 
 class SMY(_Bend):
@@ -361,97 +299,19 @@ class SMY(_Bend):
     PARAMETERS = {
         'XL': 109 * _ureg.mm,
         'SK': 90 * _ureg.degree,
+        'REFERENCE_FIELD_COMPONENT': 'BY',
     }
 
-    def post_init(self, field_map: Optional[_FieldMap] = None, **kwargs):
+    def post_init(self, **kwargs):
         """
 
         Args:
-            field_map:
             **kwargs:
 
         Returns:
 
         """
         self.LABEL1 = self.__class__.__name__
-        self._field_map = field_map
-
-    @property
-    def field_map(self) -> _FieldMap:
-        return self._field_map
-
-    @field_map.setter
-    def field_map(self, v: _FieldMap):
-        self._field_map = v
-
-    @property
-    def field_sampling(self):
-        if self.field_map is not None:
-            return self.field_map.sampling_x[0]
-
-    @property
-    def field_trajectory(self):
-        if self.field_map is not None:
-            sampling_x, length_sampling_x = self.field_map.sampling_x
-            trajectory = _np.stack([sampling_x,
-                                   _np.zeros(length_sampling_x),
-                                   _np.zeros(length_sampling_x)
-                                   ]).T
-            return trajectory
-
-    @property
-    def field_profile(self):
-        if self.field_map is not None:
-            return -self.field_map.sample(self.field_trajectory, field_component='BY')
-
-    def fit_parameters(self, debug: bool = False):
-        if self.field_map is None:
-            print("Define a field map!")
-            return None
-        model = _EngeModel()
-        model.params['ce_0'].set(vary=True)
-        model.params['ce_1'].set(vary=False)
-        model.params['ce_2'].set(vary=True)
-        model.params['ce_3'].set(vary=True)
-        model.params['ce_4'].set(vary=True)
-        model.params['ce_5'].set(vary=True)
-        model.params['cs_0'].set(vary=True)
-        model.params['cs_1'].set(vary=False)
-        model.params['cs_2'].set(vary=True)
-        model.params['cs_3'].set(vary=True)
-        model.params['cs_4'].set(vary=True)
-        model.params['cs_5'].set(vary=True)
-        model.params['offset_e'].set(value=0.045, min=-0.1, max=0.1)
-        model.params['offset_s'].set(value=0.2, min=0.1, max=0.3)
-        model.params['lam_e'].set(value=0.035)
-        model.params['lam_s'].set(value=0.035)
-        model.params['amplitude'].set(value=0.52, min=0.3, max=0.6)
-        model.params['field_offset'].set(value=0.0, min=-1e-3, max=1e-3)
-        self._fit = model.fit(self.field_profile, model.params, s=self.field_sampling)
-        if debug:
-            print(self._fit.fit_report(show_correl=True))
-        self.LAM_E = self._fit.best_values['lam_e'] * _ureg.m
-        self.LAM_S = self._fit.best_values['lam_s'] * _ureg.m
-        self.C0_E = self._fit.best_values['ce_0']
-        self.C2_E = self._fit.best_values['ce_2']
-        self.C3_E = self._fit.best_values['ce_3']
-        self.C4_E = self._fit.best_values['ce_4']
-        self.C5_E = self._fit.best_values['ce_5']
-        self.C0_S = self._fit.best_values['cs_0']
-        self.C2_S = self._fit.best_values['cs_2']
-        self.C3_S = self._fit.best_values['cs_3']
-        self.C4_S = self._fit.best_values['cs_4']
-        self.C5_S = self._fit.best_values['cs_5']
-        return self._fit
-
-    def plot_profile(self, ax, with_fit=True):
-        if self._field_map is None:
-            print("Define a field map!")
-            return None
-        if self._fit is None:
-            return
-        ax.plot(self.field_sampling, self.field_profile, 'bo')
-        ax.plot(self.field_sampling, self._fit.best_fit, 'r-')
 
 
 class T1G(_Bend):

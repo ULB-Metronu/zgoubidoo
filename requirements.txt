@@ -9,3 +9,4 @@ scipy
 numpy-stl
 pyyaml
 parse
+lmfit

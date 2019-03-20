@@ -1,1 +1,1 @@
-from .fieldmap import FieldMap, FieldProfile, EngeModel
+from .fieldmap import FieldMap, EngeModel

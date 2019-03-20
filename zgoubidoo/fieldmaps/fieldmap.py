@@ -1,5 +1,5 @@
 """Field map module."""
-from typing import Optional, Union
+from typing import Optional, Union, Tuple
 import os
 import numpy as np
 import pandas as pd
@@ -40,13 +40,13 @@ def load_field_data(file: str, path: str = '.') -> pd.DataFrame:
     return pd.read_csv(os.path.join(path, file), sep=r'\s+', names=['BX', 'BY', 'BZ', 'M'], header=None)
 
 
-def load_fieldmap(field_file: str, mesh_file: str, path: str = '.') -> np.array:
+def load_opera_fieldmap_with_mesh(field_file: str, mesh_file: str, path: str = '.') -> np.array:
     """
 
     Args:
-        field_file:
-        mesh_file:
-        path:
+        field_file: the file containing the field map data
+        mesh_file: the file containing the mesh data
+        path: path to the field mpa data files
 
     Returns:
 
@@ -54,6 +54,21 @@ def load_fieldmap(field_file: str, mesh_file: str, path: str = '.') -> np.array:
     x, y, z = [c.reshape((np.prod(c.shape),)) for c in load_mesh_data(file=mesh_file, path=path)]
     f = load_field_data(file=field_file, path=path).values.T.reshape((4, np.prod(x.shape)))
     return np.array([x, y, z, *f]).T
+
+
+def load_opera_fieldmap(file: str, path: str = '.') -> np.array:
+    """
+
+    Args:
+        file: the file containing the field map data
+        path: path to the field mpa data file
+
+    Returns:
+
+    """
+    return pd.read_csv(os.path.join(path, file), skiprows=9, sep=r'\s+', header=None, names=[
+        'X', 'Y', 'Z', 'BX', 'BY', 'BZ', 'MATCODE',
+    ]).values
 
 
 def enge(s: Union[float, np.array],
@@ -113,43 +128,92 @@ def enge(s: Union[float, np.array],
 
 
 class EngeModel(Model):
+    """
+    TODO
+    """
     def __init__(self):
         super().__init__(enge)
         self._params = None
 
     @property
     def params(self):
+        """TODO"""
         if self._params is None:
             self._params = self.make_params()
         return self._params
-
 
 
 class FieldMap:
     """
     TODO
     """
-    def __init__(self, field_file: str, mesh_file: str, path: str = '.'):
+    def __init__(self, field_map: pd.DataFrame):
+        """
+
+        Args:
+            field_map:
+        """
         self._df: Optional[pd.DataFrame] = None
-        self._data = load_fieldmap(field_file=field_file, mesh_file=mesh_file, path=path)
+        self._data = field_map
+
+    @classmethod
+    def load_from_opera(cls, file: str, path: str = '.'):
+        """
+
+        Args:
+            file:
+            path:
+
+        Returns:
+
+        """
+        return cls(field_map=load_opera_fieldmap(file=file, path=path))
+
+    @classmethod
+    def load_from_opera_with_mesh(cls, field_file: str, mesh_file: str, path: str = '.'):
+        """
+
+        Args:
+            cls:
+            field_file:
+            mesh_file:
+            path:
+
+        Returns:
+
+        """
+        return cls(field_map=load_opera_fieldmap_with_mesh(field_file=field_file, mesh_file=mesh_file, path=path))
 
     @property
     def data(self):
+        """Field map raw data in a numpy array."""
         return self._data
 
     @property
-    def sampling_x(self):
+    def sampling_x(self) -> Tuple[np.array, int]:
+        """Sampling points of the field map along the X axis."""
         return self.sampling_axis(axis=0)
 
     @property
-    def sampling_y(self):
+    def sampling_y(self) -> Tuple[np.array, int]:
+        """Sampling points of the field map along the Y axis."""
         return self.sampling_axis(axis=1)
 
     @property
-    def sampling_z(self):
+    def sampling_z(self) -> Tuple[np.array, int]:
+        """Sampling points of the field map along the Z axis."""
         return self.sampling_axis(axis=2)
 
-    def sampling_axis(self, axis=0):
+    def sampling_axis(self, axis: int) -> Tuple[np.array, int]:
+        """
+        Sampling points of the field map along a given axis.
+
+        Args:
+            axis: the index of the axis.
+
+        Returns:
+            A numpy array containing the data points of the field map sampling.
+        """
         _ = np.unique(self.data[:, axis])
         return _, len(_)
 
@@ -165,7 +229,7 @@ class FieldMap:
             self._df.columns = ['X', 'Y', 'Z', 'BX', 'BY', 'BZ', 'M']
         return self._df
 
-    def sample(self, points, field_component: str = 'BX', method: str = 'nearest'):
+    def sample(self, points, field_component: str = 'MOD', method: str = 'nearest'):
         """
 
         Args:
@@ -184,16 +248,22 @@ class FieldMap:
         }
         return interpolate.griddata(self._data[:, 0:3], field_components[field_component], points, method=method)
 
-    def export(self):
-        pass
+    def export_for_bdsim(self, sampling_method: str = 'nearest'):
+        """
 
+        Args:
+            sampling_method:
 
+        Returns:
 
+        """
+        new_mesh = np.mgrid[
+                   self.sampling_x[0].min():self.sampling_x[0].max():100j,
+                   self.sampling_y[0].min():self.sampling_y[0].max():100j,
+                   self.sampling_z[0].min():self.sampling_z[0].max():100j
+                   ].T.reshape(100 ** 3, 3)
 
-class FieldProfile:
-    def __init__(self, fieldmap, trajectory):
-        pass
-
-    def fit(self):
-        pass
-
+        fx = -self.sample(new_mesh, field_component='BX', method=sampling_method)
+        fy = -self.sample(new_mesh, field_component='BY', method=sampling_method)
+        fz = -self.sample(new_mesh, field_component='BZ', method=sampling_method)
+        np.concatenate([new_mesh, np.stack([fx, fy, fz]).T], axis=1)
