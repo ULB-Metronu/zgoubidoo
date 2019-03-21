@@ -86,12 +86,24 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
             raise Exception("Define a field map!")
 
         model = model or self.field_profile_model
-
-        return model.fit(
+        fit = model.fit(
             -self.field_map.sample(self.reference_trajectory(), field_component=self.REFERENCE_FIELD_COMPONENT),
             model.params,
             s=_np.linalg.norm(self.reference_trajectory() - self.reference_trajectory()[0], axis=1),
         )
+        self.process_fit_field_profile(fit)
+        return fit
+    
+    def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
+        """
+        
+        Args:
+            fit: 
+
+        Returns:
+
+        """
+        pass
 
     def plot_field_profile(self, ax, fit: Optional[lmfit.model.ModelResult] = None):
         """
@@ -1824,47 +1836,47 @@ class Multipole(CartesianMagnet):
     PARAMETERS = {
             'IL': (2, 'Print field and coordinates along trajectories', 1),
             'XL': (0 * _ureg.centimeter, 'Magnet length'),
-            'R0': (1.0 * _ureg.centimeter, 'Radius of the pole tips'),
-            'B1': (0 * _ureg.tesla, 'Field at pole tip for dipolar component.'),
-            'B2': (0 * _ureg.tesla, 'Field at pole tip for quadrupolar component.'),
-            'B3': (0 * _ureg.tesla, 'Field at pole tip for sextupolar component.'),
-            'B4': (0 * _ureg.tesla, 'Field at pole tip for octupolar component.'),
-            'B5': (0 * _ureg.tesla, 'Field at pole tip for decapolar component.'),
-            'B6': (0 * _ureg.tesla, 'Field at pole tip for dodecapolar component.'),
-            'B7': (0 * _ureg.tesla, 'Field at pole tip for 14-polar component.'),
-            'B8': (0 * _ureg.tesla, 'Field at pole tip for 16-polar component.'),
-            'B9': (0 * _ureg.tesla, 'Field at pole tip for 18-polar component.'),
-            'B10': (0 * _ureg.tesla, 'Field at pole tip for 20-polar component.'),
-            'XE': (0 * _ureg.cm, 'Entrance face integration zone for the fringe field.'),
+            'R0': (1.0 * _ureg.meter, 'Radius of the pole tips'),
+            'B1': (0 * _ureg.tesla, 'Field at pole tip for dipolar component.', 4),
+            'B2': (0 * _ureg.tesla, 'Field at pole tip for quadrupolar component.', 5),
+            'B3': (0 * _ureg.tesla, 'Field at pole tip for sextupolar component.', 6),
+            'B4': (0 * _ureg.tesla, 'Field at pole tip for octupolar component.', 7),
+            'B5': (0 * _ureg.tesla, 'Field at pole tip for decapolar component.', 8),
+            'B6': (0 * _ureg.tesla, 'Field at pole tip for dodecapolar component.', 9),
+            'B7': (0 * _ureg.tesla, 'Field at pole tip for 14-polar component.', 10),
+            'B8': (0 * _ureg.tesla, 'Field at pole tip for 16-polar component.', 11),
+            'B9': (0 * _ureg.tesla, 'Field at pole tip for 18-polar component.', 12),
+            'B10': (0 * _ureg.tesla, 'Field at pole tip for 20-polar component.', 13),
+            'X_E': (0 * _ureg.cm, 'Entrance face integration zone for the fringe field.'),
             'LAM_E': (0 * _ureg.cm, 'Entrance face fringe field extent'),
-            'E2': (0 * _ureg.cm, 'Quadrupole entrance fringe field extent (E_2 * LAM_E).'),
-            'E3': (0 * _ureg.cm, 'Sextupolar entrance fringe field extent (E_3 * LAM_E).'),
-            'E4': (0 * _ureg.cm, 'Octupolar entrance fringe field extent (E_4 * LAM_E).'),
-            'E5': (0 * _ureg.cm, 'Decapolar entrance fringe field extent (E_5 * LAM_E).'),
-            'E6': (0 * _ureg.cm, 'Dodecapolar entrance fringe field extent (E_6 * LAM_E).'),
-            'E7': (0 * _ureg.cm, '14-polar entrance fringe field extent (E_7 * LAM_E).'),
-            'E8': (0 * _ureg.cm, '16-polar entrance fringe field extent (E_8 * LAM_E).'),
-            'E9': (0 * _ureg.cm, '18-polar entrance fringe field extent (E_9 * LAM_E).'),
-            'E10': (0 * _ureg.cm, '20-polar entrance fringe field extent (E_10 * LAM_E).'),
+            'E2': (1, 'Quadrupole entrance fringe field extent (E_2 * LAM_E).'),
+            'E3': (1, 'Sextupolar entrance fringe field extent (E_3 * LAM_E).'),
+            'E4': (1, 'Octupolar entrance fringe field extent (E_4 * LAM_E).'),
+            'E5': (1, 'Decapolar entrance fringe field extent (E_5 * LAM_E).'),
+            'E6': (1, 'Dodecapolar entrance fringe field extent (E_6 * LAM_E).'),
+            'E7': (1, '14-polar entrance fringe field extent (E_7 * LAM_E).'),
+            'E8': (1, '16-polar entrance fringe field extent (E_8 * LAM_E).'),
+            'E9': (1, '18-polar entrance fringe field extent (E_9 * LAM_E).'),
+            'E10': (1, '20-polar entrance fringe field extent (E_10 * LAM_E).'),
             'C0_E': (0, 'Zeroth-order Enge coefficient for entrance fringe field.'),
-            'C1_E': (0, 'First-order Enge coefficient for entrance fringe field.'),
+            'C1_E': (1, 'First-order Enge coefficient for entrance fringe field.'),
             'C2_E': (0, 'Second-order Enge coefficient for entrance fringe field.'),
             'C3_E': (0, 'Third-order Enge coefficient for entrance fringe field.'),
             'C4_E': (0, 'Fourth-order Enge coefficient for entrance fringe field.'),
             'C5_E': (0, 'Fifth-order Enge coefficient for entrance fringe field.'),
-            'XS': (0 * _ureg.cm, 'Exit face integration zone for the fringe field.'),
+            'X_S': (0 * _ureg.cm, 'Exit face integration zone for the fringe field.'),
             'LAM_S': (0 * _ureg.cm, 'Exit face fringe field extent'),
-            'S2': (0 * _ureg.cm, 'Quadrupole exit fringe field extent (E_2 * LAM_S).'),
-            'S3': (0 * _ureg.cm, 'Sextupolar exit fringe field extent (E_3 * LAM_S).'),
-            'S4': (0 * _ureg.cm, 'Octupolar exit fringe field extent (E_4 * LAM_S).'),
-            'S5': (0 * _ureg.cm, 'Decapolar exit fringe field extent (E_5 * LAM_S).'),
-            'S6': (0 * _ureg.cm, 'Dodecapolar exit fringe field extent (E_6 * LAM_S).'),
-            'S7': (0 * _ureg.cm, '14-polar exit fringe field extent (E_7 * LAM_S).'),
-            'S8': (0 * _ureg.cm, '16-polar exit fringe field extent (E_8 * LAM_S).'),
-            'S9': (0 * _ureg.cm, '18-polar exit fringe field extent (E_9 * LAM_S).'),
-            'S10': (0 * _ureg.cm, '20-polar exit fringe field extent (E_10 * LAM_S).'),
+            'S2': (1, 'Quadrupole exit fringe field extent (E_2 * LAM_S).'),
+            'S3': (1, 'Sextupolar exit fringe field extent (E_3 * LAM_S).'),
+            'S4': (1, 'Octupolar exit fringe field extent (E_4 * LAM_S).'),
+            'S5': (1, 'Decapolar exit fringe field extent (E_5 * LAM_S).'),
+            'S6': (1, 'Dodecapolar exit fringe field extent (E_6 * LAM_S).'),
+            'S7': (1, '14-polar exit fringe field extent (E_7 * LAM_S).'),
+            'S8': (1, '16-polar exit fringe field extent (E_8 * LAM_S).'),
+            'S9': (1, '18-polar exit fringe field extent (E_9 * LAM_S).'),
+            'S10': (1, '20-polar exit fringe field extent (E_10 * LAM_S).'),
             'C0_S': (0, 'Zeroth-order Enge coefficient for entrance fringe field.'),
-            'C1_S': (0, 'First-order Enge coefficient for exit fringe field.'),
+            'C1_S': (1, 'First-order Enge coefficient for exit fringe field.'),
             'C2_S': (0, 'Second-order Enge coefficient for exit fringe field.'),
             'C3_S': (0, 'Third-order Enge coefficient for exit fringe field.'),
             'C4_S': (0, 'Fourth-order Enge coefficient for exit fringe field.'),
@@ -1893,14 +1905,17 @@ class Multipole(CartesianMagnet):
         {super().__str__().rstrip()}
         {s.IL}
         {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B1):.12e} {_kilogauss(s.B2):.12e} {_kilogauss(s.B3):.12e} {_kilogauss(s.B4):.12e} {_kilogauss(s.B5):.12e} {_kilogauss(s.B6):.12e} {_kilogauss(s.B7):.12e} {_kilogauss(s.B8):.12e} {_kilogauss(s.B9):.12e} {_kilogauss(s.B10):.12e}
-        {_cm(s.XE):.12e} {_cm(s.LAM_E):.12e} {_cm(s.E2):.12e} {_cm(s.E3):.12e} {_cm(s.E4):.12e} {_cm(s.E5):.12e} {_cm(s.E6):.12e} {_cm(s.E7):.12e} {_cm(s.E8):.12e} {_cm(s.E9):.12e} {_cm(s.E10):.12e}
+        {_cm(s.X_E):.12e} {_cm(s.LAM_E):.12e} {s.E2:.12e} {s.E3:.12e} {s.E4:.12e} {s.E5:.12e} {s.E6:.12e} {s.E7:.12e} {s.E8:.12e} {s.E9:.12e} {s.E10:.12e}
         6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
-        {_cm(s.XS):.12e} {_cm(s.LAM_S):.12e} {_cm(s.S2):.12e} {_cm(s.S3):.12e} {_cm(s.S4):.12e} {_cm(s.S5):.12e} {_cm(s.S6):.12e} {_cm(s.S7):.12e} {_cm(s.S8):.12e} {_cm(s.S9):.12e} {_cm(s.S10):.12e}
+        {_cm(s.X_S):.12e} {_cm(s.LAM_S):.12e} {s.S2:.12e} {s.S3:.12e} {s.S4:.12e} {s.S5:.12e} {s.S6:.12e} {s.S7:.12e} {s.S8:.12e} {s.S9:.12e} {s.S10:.12e}
         6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
         {_radian(s.R1):.12e} {_radian(s.R2):.12e} {_radian(s.R3):.12e} {_radian(s.R4):.12e} {_radian(s.R5):.12e} {_radian(s.R6):.12e} {_radian(s.R7):.12e} {_radian(s.R8):.12e} {_radian(s.R9):.12e} {_radian(s.R10):.12e}
         {_cm(s.XPAS)}
         {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
         """
+
+
+Multipol = Multipole
 
 
 class Octupole(CartesianMagnet):

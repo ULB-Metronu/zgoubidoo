@@ -6,9 +6,11 @@ TODO
 from typing import List, Optional, Union, Iterable, Tuple
 import numpy as _np
 import pandas as _pd
+import lmfit
 from ..magnetique import Dipole as _Dipole
 from ..magnetique import PolarMagnet as _PolarMagnet
 from ..magnetique import Bend as _Bend
+from ..magnetique import Multipole as _Multipole
 from ..magnetique import Quadrupole as _Quadrupole
 from ..magnetique import FakeDrift as _FakeDrift
 from ..commands import Collimator as _Collimator
@@ -253,12 +255,24 @@ class B3G(DipoleIBA):
                                                      )
 
 
-class SMX(_Bend):
+class SMX(_Multipole):
     """Proteus One inline (horizontal) scanning magnet.
 
     """
     PARAMETERS = {
-        'XL': 159 * _ureg.mm,
+        'XL': 0.26317552187769017 * _ureg.m,
+        'LAM_E': 0.03879980891555799 * _ureg.m,
+        'C0_E': 2.260586829767431,
+        'C2_E': -0.08454912439481363,
+        'C3_E': 0.03165152479873875,
+        'C4_E': -0.016368674101593452,
+        'C5_E': 0.002271083461208103,
+        'LAM_S': 0.019573704193528198 * _ureg.m,
+        'C0_S': 0.007471653696559507,
+        'C2_S': -0.1596436867616995,
+        'C3_S': 0.02917407661831325,
+        'C4_S': -0.0022865133242955886,
+        'C5_S': 7.362703656240262e-05,
     }
 
     def post_init(self, **kwargs):
@@ -291,15 +305,53 @@ class SMX(_Bend):
         self._field_profile_model.params['amplitude'].set(value=0.82, min=0.75, max=0.9)
         self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
 
+    def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
+        """
 
-class SMY(_Bend):
+        Args:
+            fit:
+
+        Returns:
+
+        """
+        self.LAM_E = fit.best_values['lam_e'] * _ureg.m
+        self.LAM_S = fit.best_values['lam_s'] * _ureg.m
+        self.C0_E = fit.best_values['ce_0']
+        self.C1_E = fit.best_values['ce_1']
+        self.C2_E = fit.best_values['ce_2']
+        self.C3_E = fit.best_values['ce_3']
+        self.C4_E = fit.best_values['ce_4']
+        self.C5_E = fit.best_values['ce_5']
+        self.C0_S = fit.best_values['cs_0']
+        self.C1_S = fit.best_values['cs_1']
+        self.C2_S = fit.best_values['cs_2']
+        self.C3_S = fit.best_values['cs_3']
+        self.C4_S = fit.best_values['cs_4']
+        self.C5_S = fit.best_values['cs_5']
+        self.XL = (fit.best_values['offset_s'] - fit.best_values['offset_e']) * _ureg.m
+
+
+class SMY(_Multipole):
     """Proteus One crossline (vertical) scanning magnet.
 
     """
     PARAMETERS = {
-        'XL': 109 * _ureg.mm,
-        'SK': 90 * _ureg.degree,
+        'XL': 0.15221715277508374 * _ureg.m,
+        'B1': 0.1 * _ureg.tesla,
+        'R1': 90 * _ureg.degree,
         'REFERENCE_FIELD_COMPONENT': 'BY',
+        'LAM_E': 0.037857895089871904 * _ureg.m,
+        'C0_E': 0.1999859299335233,
+        'C2_E': 0.08542911466613756,
+        'C3_E': -0.028865773164774223,
+        'C4_E': -0.004292970946705814,
+        'C5_E': 0.00536700990602016,
+        'LAM_S': 0.03846389166292385 * _ureg.m,
+        'C0_S': 0.2482542942709081,
+        'C2_S': 0.02638766212507734,
+        'C3_S': 0.008102763875877633,
+        'C4_S': -0.006877068617401515,
+        'C5_S': 0.0007046649650343981,
     }
 
     def post_init(self, **kwargs):
@@ -312,6 +364,50 @@ class SMY(_Bend):
 
         """
         self.LABEL1 = self.__class__.__name__
+        self._field_profile_model = _EngeModel()
+        self._field_profile_model.params['ce_0'].set(vary=True)
+        self._field_profile_model.params['ce_1'].set(vary=False)
+        self._field_profile_model.params['ce_2'].set(vary=True)
+        self._field_profile_model.params['ce_3'].set(vary=True)
+        self._field_profile_model.params['ce_4'].set(vary=True)
+        self._field_profile_model.params['ce_5'].set(vary=True)
+        self._field_profile_model.params['cs_0'].set(vary=True)
+        self._field_profile_model.params['cs_1'].set(vary=False)
+        self._field_profile_model.params['cs_2'].set(vary=True)
+        self._field_profile_model.params['cs_3'].set(vary=True)
+        self._field_profile_model.params['cs_4'].set(vary=True)
+        self._field_profile_model.params['cs_5'].set(vary=True)
+        self._field_profile_model.params['offset_e'].set(value=0.545, min=0.4, max=0.6)
+        self._field_profile_model.params['offset_s'].set(value=0.7, min=0.6, max=0.8)
+        self._field_profile_model.params['lam_e'].set(value=0.035)
+        self._field_profile_model.params['lam_s'].set(value=0.035)
+        self._field_profile_model.params['amplitude'].set(value=0.52, min=0.3, max=0.6)
+        self._field_profile_model.params['field_offset'].set(value=0.0, min=-1e-3, max=1e-3)
+
+    def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
+        """
+
+        Args:
+            fit:
+
+        Returns:
+
+        """
+        self.LAM_E = fit.best_values['lam_e'] * _ureg.m
+        self.LAM_S = fit.best_values['lam_s'] * _ureg.m
+        self.C0_E = fit.best_values['ce_0']
+        self.C1_E = fit.best_values['ce_1']
+        self.C2_E = fit.best_values['ce_2']
+        self.C3_E = fit.best_values['ce_3']
+        self.C4_E = fit.best_values['ce_4']
+        self.C5_E = fit.best_values['ce_5']
+        self.C0_S = fit.best_values['cs_0']
+        self.C1_S = fit.best_values['cs_1']
+        self.C2_S = fit.best_values['cs_2']
+        self.C3_S = fit.best_values['cs_3']
+        self.C4_S = fit.best_values['cs_4']
+        self.C5_S = fit.best_values['cs_5']
+        self.XL = (fit.best_values['offset_s'] - fit.best_values['offset_e']) * _ureg.m
 
 
 class T1G(_Bend):

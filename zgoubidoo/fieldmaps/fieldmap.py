@@ -124,7 +124,7 @@ def enge(s: Union[float, np.array],
     p_s = cs_0 + cs_1 * ((s - offset_s) / lam_s) + cs_2 * ((s - offset_s) / lam_s) ** 2 + cs_3 * (
                 (s - offset_s) / lam_s) ** 3 + cs_4 * ((s - offset_s) / lam_s) ** 4 + cs_5 * (
                       (s - offset_s) / lam_s) ** 5
-    return amplitude * (1 / (1 + np.exp(p_e))) * (1 / (1 + np.exp(p_s))) + field_offset
+    return amplitude * ((1 / (1 + np.exp(p_e))) + (1 / (1 + np.exp(p_s))) - 1) + field_offset
 
 
 class EngeModel(Model):
