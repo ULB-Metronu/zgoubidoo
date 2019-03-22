@@ -159,28 +159,29 @@ class FieldMap:
     @classmethod
     def load_from_opera(cls, file: str, path: str = '.'):
         """
+        Factory method to load a field map from a Opera output file.
 
         Args:
-            file:
-            path:
+            file: the file containing the field map data
+            path: path to the field mpa data file
 
         Returns:
-
+            A FieldMap loaded from file.
         """
         return cls(field_map=load_opera_fieldmap(file=file, path=path))
 
     @classmethod
     def load_from_opera_with_mesh(cls, field_file: str, mesh_file: str, path: str = '.'):
         """
+        Factory method to load a field map from Opera output files (field map and mesh definition).
 
         Args:
-            cls:
-            field_file:
-            mesh_file:
-            path:
+            field_file: the file containing the field map data
+            mesh_file: the file containing the mesh data
+            path: path to the field mpa data files
 
         Returns:
-
+            A FieldMap loaded from files.
         """
         return cls(field_map=load_opera_fieldmap_with_mesh(field_file=field_file, mesh_file=mesh_file, path=path))
 
@@ -234,25 +235,26 @@ class FieldMap:
 
         Args:
             points:
-            field_component:
-            method:
+            field_component: field component to be sampled ('BX', 'BY', 'BZ' or 'MOD')
+            method: method used for the grid interpolation ('nearest' or 'linear')
 
         Returns:
 
         """
+        # The lambda trick is used so that the modulus is only computed if needed
         field_components = {
-            'BX': self._data[:, 3],
-            'BY': self._data[:, 4],
-            'BZ': self._data[:, 5],
-            'MOD': np.sqrt((self._data[:, 3:6] * self._data[:, 3:6]).sum(axis=1)),
+            'BX': lambda: self._data[:, 3],
+            'BY': lambda: self._data[:, 4],
+            'BZ': lambda: self._data[:, 5],
+            'MOD': lambda: np.sqrt((self._data[:, 3:6] * self._data[:, 3:6]).sum(axis=1)),
         }
-        return interpolate.griddata(self._data[:, 0:3], field_components[field_component], points, method=method)
+        return interpolate.griddata(self._data[:, 0:3], field_components[field_component](), points, method=method)
 
-    def export_for_bdsim(self, sampling_method: str = 'nearest'):
+    def export_for_bdsim(self, method: str = 'nearest'):
         """
 
         Args:
-            sampling_method:
+            method: method used for the grid interpolation ('nearest' or 'linear')
 
         Returns:
 
@@ -263,7 +265,7 @@ class FieldMap:
                    self.sampling_z[0].min():self.sampling_z[0].max():100j
                    ].T.reshape(100 ** 3, 3)
 
-        fx = -self.sample(new_mesh, field_component='BX', method=sampling_method)
-        fy = -self.sample(new_mesh, field_component='BY', method=sampling_method)
-        fz = -self.sample(new_mesh, field_component='BZ', method=sampling_method)
-        np.concatenate([new_mesh, np.stack([fx, fy, fz]).T], axis=1)
+        fx = -self.sample(new_mesh, field_component='BX', method=method)
+        fy = -self.sample(new_mesh, field_component='BY', method=method)
+        fz = -self.sample(new_mesh, field_component='BZ', method=method)
+        return np.concatenate([new_mesh, np.stack([fx, fy, fz]).T], axis=1)
