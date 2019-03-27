@@ -11,3 +11,9 @@ MAD-X loaders
 
 .. automodapi:: zgoubidoo.loaders.madx
     :no-heading:
+
+TRANSPORT loaders
+-------------
+
+.. automodapi:: zgoubidoo.loaders.transport
+    :no-heading:

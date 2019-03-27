@@ -487,13 +487,27 @@ class Chambre(Command):
 
     .. rubric:: Zgoubi manual description
 
-    CHAMBR causes the identification, counting and stopping of particles that reach the transverse limits of the vacuum chamber. The chamber can be either rectangular (IFORM = 1) or elliptic (IFORM = 2). The chamber is centered at YC, ZC and has transverse dimensions ±Y L and ±ZL such that any particle will be stopped if its coordinates Y, Z satisfy
+    CHAMBR causes the identification, counting and stopping of particles that reach the transverse limits of the vacuum
+    chamber. The chamber can be either rectangular (IFORM = 1) or elliptic (IFORM = 2). The chamber is centered at YC,
+    ZC and has transverse dimensions ±Y L and ±ZL such that any particle will be stopped if its coordinates Y, Z
+    satisfy.
 
-    The conditions introduced with CHAMBR are valid along the optical structure until the next occurrence of the keyword CHAMBR. Then, if IL = 1 the aperture is possibly modified by introducing new values of YC, ZC, Y L and ZL, or, if IL = 2 the chamber ends and information is printed concerning those particles that have been stopped.
-The testing is done in optical elements at each integration step, between the EFB’s. For instance, in QUADRUPO there will be no testing from −XE to 0 and from XL to XL + XS, but only from 0 to XL ; in DIPOLE, there is no testing as long as the ENTRANCE EFB is not reached, and testing is stopped as soon as the EXIT or LATERAL EFB’s are passed.
-In optical elements defined in polar coordinates, Y stands for the radial coordinate (e.g., DIPOLE, see Figs. 3C, p. 27, and 11, p. 82). Thus, centering CHAMBR at
-Y C = RM simulates a chamber curved with radius RM, and having a radial acceptance RM ± YL. In DRIFT, the testing is done at the beginning and at the end, and only for positive drifts. There is no testing in CHANGREF.
-When a particle is stopped, its index IEX (see OBJET and section 4.6.10) is set to the value -4, and its actual path length is stored in the array SORT for possible further use.
+    The conditions introduced with CHAMBR are valid along the optical structure until the next occurrence of the
+    keyword CHAMBR. Then, if IL = 1 the aperture is possibly modified by introducing new values of YC, ZC, Y L and ZL,
+    or, if IL = 2 the chamber ends and information is printed concerning those particles that have been stopped.
+
+    The testing is done in optical elements at each integration step, between the EFB’s. For instance, in QUADRUPO
+    there will be no testing from −XE to 0 and from XL to XL + XS, but only from 0 to XL ; in DIPOLE, there is no
+    testing as long as the ENTRANCE EFB is not reached, and testing is stopped as soon as the EXIT or LATERAL EFB’s
+    are passed.
+
+    In optical elements defined in polar coordinates, Y stands for the radial coordinate (e.g., DIPOLE, see Figs. 3C,
+    p. 27, and 11, p. 82). Thus, centering CHAMBR at Y C = RM simulates a chamber curved with radius RM, and having a
+    radial acceptance RM ± YL. In DRIFT, the testing is done at the beginning and at the end, and only for positive
+    drifts. There is no testing in CHANGREF.
+
+    When a particle is stopped, its index IEX (see OBJET and section 4.6.10) is set to the value -4, and its actual
+    path length is stored in the array SORT for possible further use.
     """
     KEYWORD = 'CHAMBR'
     """Keyword of the command used for the Zgoubi input data."""

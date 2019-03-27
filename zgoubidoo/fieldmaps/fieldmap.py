@@ -4,7 +4,7 @@ import os
 import numpy as np
 import pandas as pd
 from scipy import interpolate
-from lmfit import Model
+from lmfit import Model as _Model
 
 
 def load_mesh_data(file: str, path: str = '.'):  # -> List[np.array]
@@ -16,7 +16,7 @@ def load_mesh_data(file: str, path: str = '.'):  # -> List[np.array]
         path: path to the mesh data file
 
     Returns:
-        A numpy mesh grid (list of arrays)
+        A Numpy mesh grid (list of arrays).
     """
     with open(os.path.join(path, file)) as f:
         _, x_dim, y_dim, z_dim, _, _ = tuple(map(int, f.readline().split()))
@@ -35,7 +35,7 @@ def load_field_data(file: str, path: str = '.') -> pd.DataFrame:
         path: path to the field mpa data file
 
     Returns:
-
+        A DataFrame containing the field data.
     """
     return pd.read_csv(os.path.join(path, file), sep=r'\s+', names=['BX', 'BY', 'BZ', 'M'], header=None)
 
@@ -49,7 +49,7 @@ def load_opera_fieldmap_with_mesh(field_file: str, mesh_file: str, path: str = '
         path: path to the field mpa data files
 
     Returns:
-
+        A Numpy array containing the mesh points and the associated field values.
     """
     x, y, z = [c.reshape((np.prod(c.shape),)) for c in load_mesh_data(file=mesh_file, path=path)]
     f = load_field_data(file=field_file, path=path).values.T.reshape((4, np.prod(x.shape)))
@@ -64,7 +64,7 @@ def load_opera_fieldmap(file: str, path: str = '.') -> np.array:
         path: path to the field mpa data file
 
     Returns:
-
+        A Numpy array containing the mesh points and the associated field values.
     """
     return pd.read_csv(os.path.join(path, file), skiprows=9, sep=r'\s+', header=None, names=[
         'X', 'Y', 'Z', 'BX', 'BY', 'BZ', 'MATCODE',
@@ -127,17 +127,15 @@ def enge(s: Union[float, np.array],
     return amplitude * ((1 / (1 + np.exp(p_e))) + (1 / (1 + np.exp(p_s))) - 1) + field_offset
 
 
-class EngeModel(Model):
-    """
-    TODO
-    """
+class EngeModel(_Model):
+    """Enge model to be used with lmfit."""
     def __init__(self):
         super().__init__(enge)
         self._params = None
 
     @property
     def params(self):
-        """TODO"""
+        """The parameters of the Enge model (interface to `lmfit.Model.make_params()`)."""
         if self._params is None:
             self._params = self.make_params()
         return self._params

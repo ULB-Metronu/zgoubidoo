@@ -2,7 +2,7 @@
 
 """
 from __future__ import annotations
-from typing import Optional, List, Union
+from typing import Optional, List, Union, Callable
 import copy
 import pandas as _pd
 from .commands.particules import Proton as _Proton
@@ -345,17 +345,3 @@ class Sequence:
         except AttributeError:
             return list(), tuple()
         return list(filter(lambda x: reduce(lambda u, v: u or v, [isinstance(x, i) for i in items]), self._line)), items
-
-    def apply(self, f: Callable[[commands.Command], commands.Command]) -> Input:
-        """Apply (map) a function on each command of the input sequence.
-
-        The function must take a single command as unique parameter and return the (modified) command.
-
-        Args:
-            f: the calable function.
-
-        Returns:
-            the input sequence (in place operation).
-        """
-        self._line = list(map(f, self._line))
-        return self
