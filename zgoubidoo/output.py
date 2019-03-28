@@ -36,13 +36,13 @@ def read_fai_file(filename: str = 'zgoubi.fai', path: str = '.') -> pd.DataFrame
     # Header line from the Zgoubi .fai file
     with open(os.path.join(path, filename)) as file:
         headers = list(map(lambda s: s.strip(' '), file.read().split('\n')[2].split(',')))
-    return pd.read_table(os.path.join(path, filename),
-                         skiprows=4,
-                         names=headers,
-                         sep=r'\s+',
-                         skipinitialspace=True,
-                         quotechar='\''
-                         )
+    return pd.read_csv(os.path.join(path, filename),
+                       skiprows=4,
+                       names=headers,
+                       sep=r'\s+',
+                       skipinitialspace=True,
+                       quotechar='\''
+                       )
 
 
 def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> pd.DataFrame:
@@ -70,13 +70,13 @@ def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> pd.DataFrame
     # Header line from the Zgoubi .plt file
     with open(os.path.join(path, filename)) as file:
         headers = list(map(lambda s: s.strip(' '), file.read().split('\n')[2].split(',')))
-    df = pd.read_table(os.path.join(path, filename),
-                       skiprows=4,
-                       names=headers,
-                       sep=r'\s+',
-                       skipinitialspace=True,
-                       quotechar='\''
-                       )
+    df = pd.read_csv(os.path.join(path, filename),
+                     skiprows=4,
+                     names=headers,
+                     sep=r'\s+',
+                     skipinitialspace=True,
+                     quotechar='\''
+                     )
     df['LABEL1'] = df['LABEL1'].map(lambda x: x.strip())
     df['X'] *= 1e-2
     df['S'] *= 1e-2
@@ -156,13 +156,13 @@ def read_srloss_file(filename: str = 'zgoubi.SRLOSS.out', path: str = '.') -> pd
         'E_RMS_PHOTON',
     ]
 
-    df = pd.read_table(os.path.join(path, filename),
-                       skiprows=4,
-                       names=headers,
-                       sep=r'\s+',
-                       skipinitialspace=True,
-                       quotechar='\''
-                       )
+    df = pd.read_csv(os.path.join(path, filename),
+                     skiprows=4,
+                     names=headers,
+                     sep=r'\s+',
+                     skipinitialspace=True,
+                     quotechar='\''
+                     )
 
     return df
 
@@ -212,13 +212,13 @@ def read_matrix_file(filename: str = 'zgoubi.MATRIX.out', path: str = '.') -> pd
         'ALE'
     ]
 
-    df = pd.read_table(os.path.join(path, filename),
-                       skiprows=2,
-                       names=headers,
-                       sep=r'\s+',
-                       skipinitialspace=True,
-                       quotechar='\''
-                       )
+    df = pd.read_csv(os.path.join(path, filename),
+                     skiprows=2,
+                     names=headers,
+                     sep=r'\s+',
+                     skipinitialspace=True,
+                     quotechar='\''
+                     )
 
     df['ALPHA11'] = df['ALFY']
     df['BETA11'] = df['BETY']
