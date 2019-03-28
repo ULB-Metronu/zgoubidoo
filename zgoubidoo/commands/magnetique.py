@@ -59,6 +59,7 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
         """
         self.field_map = field_map
         self._field_profile_model = None
+        self._field_profile_fit = None
 
     @property
     def field_map(self) -> _FieldMap:
@@ -76,6 +77,11 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
             self._field_profile_model = _EngeModel()
         return self._field_profile_model
 
+    @property
+    def field_profile_fit(self):
+        """The fitted field profile model."""
+        return self._field_profile_fit
+
     def fit_field_profile(self, model: Optional[lmfit.Model] = None) -> lmfit.model.ModelResult:
         """
 
@@ -92,6 +98,7 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
             s=_np.linalg.norm(self.reference_trajectory() - self.reference_trajectory()[0], axis=1),
         )
         self.process_fit_field_profile(fit)
+        self._field_profile_fit = fit
         return fit
     
     def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
@@ -125,6 +132,7 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
             ),
             'bo',
         )
+        fit = fit or self.field_profile_fit
         if fit is not None:
             ax.plot(
                 _np.linalg.norm(self.reference_trajectory() - self.reference_trajectory()[0], axis=1),
