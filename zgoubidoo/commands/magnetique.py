@@ -1835,9 +1835,9 @@ class Multipole(CartesianMagnet):
 
     PARAMETERS = {
             'IL': (2, 'Print field and coordinates along trajectories', 1),
-            'XL': (0 * _ureg.centimeter, 'Magnet length'),
-            'R0': (1.0 * _ureg.meter, 'Radius of the pole tips'),
-            'B1': (0 * _ureg.tesla, 'Field at pole tip for dipolar component.', 4),
+            'XL': (0 * _ureg.centimeter, 'Magnet length', 2),
+            'R0': (1.0 * _ureg.meter, 'Radius of the pole tips', 3),
+            'B1': (0 * _ureg.kilogauss, 'Field at pole tip for dipolar component.', 4),
             'B2': (0 * _ureg.tesla, 'Field at pole tip for quadrupolar component.', 5),
             'B3': (0 * _ureg.tesla, 'Field at pole tip for sextupolar component.', 6),
             'B4': (0 * _ureg.tesla, 'Field at pole tip for octupolar component.', 7),

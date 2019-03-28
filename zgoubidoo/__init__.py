@@ -55,3 +55,4 @@ from .survey import survey
 from .frame import Frame, ZgoubidooFrameException
 from .polarity import HorizontalPolarity, VerticalPolarity
 from .loaders import *
+from .kinematics import *

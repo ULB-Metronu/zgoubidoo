@@ -337,7 +337,6 @@ class SMY(_Multipole):
     """
     PARAMETERS = {
         'XL': 0.15221715277508374 * _ureg.m,
-        'B1': 0.1 * _ureg.tesla,
         'R1': 90 * _ureg.degree,
         'REFERENCE_FIELD_COMPONENT': 'BY',
         'LAM_E': 0.037857895089871904 * _ureg.m,
