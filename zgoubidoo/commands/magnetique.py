@@ -124,13 +124,17 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
                 field_component=self.REFERENCE_FIELD_COMPONENT
             ),
             'bo',
+            markersize=3,
+            label='Field map data points',
         )
         if fit is not None:
             ax.plot(
                 _np.linalg.norm(self.reference_trajectory() - self.reference_trajectory()[0], axis=1),
                 fit.best_fit,
-                'r-'
+                'r-',
+                label='Enge fit'
             )
+        ax.legend()
 
 
 class CartesianMagnetType(MagnetType):
