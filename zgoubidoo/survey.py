@@ -30,7 +30,7 @@ def survey(beamline: Input, reference_frame: Optional[Frame] = None) -> Input:
     Returns:
         a Zgoubidoo Input object
     """
-    surveyed_line: Input = Input(name=beamline.name, line=beamline.line.copy())
+    surveyed_line: Input = Input(name=beamline.name, line=beamline.line.copy(), with_survey=False)
     frame: Frame = reference_frame or Frame()
     for e in beamline[Patchable].line:
         e.place(frame)

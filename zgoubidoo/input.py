@@ -141,13 +141,17 @@ class Input:
         >>> zi()
     """
 
-    def __init__(self, name: str = 'beamline', line: Optional[Sequence[commands.Command]] = None):
+    def __init__(self, name: str = 'beamline',
+                 line: Optional[Sequence[commands.Command]] = None,
+                 with_survey: bool = True):
         self._name: str = name
         if line is None:
             line = []
         self._line: List[commands.Command] = line
         self._paths: PathsListType = list()
         self._optical_length: _Q = 0 * _ureg.m
+        if with_survey:
+            zgoubidoo.survey(beamline=self)
 
     def __del__(self):
         _logger.info(f"Input object for paths {self.paths} is being destroyed.")
@@ -317,7 +321,8 @@ class Input:
                          .replace("(", '')
                          .replace(")", '')
                          .rstrip('_'),
-                         line=l
+                         line=l,
+                         with_survey=False,
                          )
 
     def __getattr__(self, item: str) -> commands.Command:

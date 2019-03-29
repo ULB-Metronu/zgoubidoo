@@ -314,10 +314,10 @@ def load_madx_twiss_table(filename: str = 'twiss.outx', path: str = '.', columns
     Args:
         filename: name of the Twiss table file
         path: path to the Twiss table file
-        columns:
+        columns: the list of columns in the Twiss file
 
     Returns:
-
+        A DataFrame representing the Twiss table.
     """
     columns = columns or MADX_TWISS_HEADERS
     _: pd.DataFrame = pd \
@@ -346,7 +346,7 @@ def from_madx_twiss(filename: str = 'twiss.outx',
     Args:
         filename: name of the Twiss table file
         path: path to the Twiss table file
-        columns:
+        columns: the list of columns in the Twiss file
         options:
         converters:
 

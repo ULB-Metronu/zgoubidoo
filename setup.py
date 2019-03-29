@@ -28,7 +28,7 @@ setup(
     description='Zgoubidoo: a Python interface for Zgoubi.',
     long_description=readme,
     author='Cédric Hernaslteens',
-    author_email='cedric.hernalsteens@iba-group.com',
+    author_email='cedric.hernalsteens@ulb.ac.be',
     url='https://github.com/chernals/zgoubidoo',
     license=lic,
     packages=find_packages(exclude=('tests', 'docs', 'examples')),

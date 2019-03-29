@@ -20,8 +20,9 @@ Example:
 from typing import Tuple, Optional
 import numpy as np
 import pandas as pd
-from .commands import Patchable, PolarMagnet
-from .input import Input
+from .commands import Patchable as _Patchable
+from .commands import PolarMagnet as _PolarMagnet
+from .input import Input as _Input
 
 
 def compute_alpha_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1) -> pd.Series:
@@ -298,10 +299,10 @@ def align_tracks(tracks: pd.DataFrame,
     return data, ref
 
 
-def compute_transfer_matrix(beamline: Input, tracks: pd.DataFrame, align_on: str = 'X') -> pd.DataFrame:
+def compute_transfer_matrix(beamline: _Input, tracks: pd.DataFrame, align_on: str = 'X') -> pd.DataFrame:
     """
     Constructs the step-by-step transfer matrix from tracking data (finite differences). The approximation
-    uses the O(3) formula (not just the O(1) formula) and therefore makes use of all the particles.
+    uses the O(3) formula (not just the O(1) formula) and therefore makes use of all the 11 particles.
 
     Args:
         beamline: the Zgoubidoo Input beamline
@@ -315,7 +316,7 @@ def compute_transfer_matrix(beamline: Input, tracks: pd.DataFrame, align_on: str
         Here is a typical example to call ``compute_transfer_matrix``:
 
         >>> tracks = zgoubidoo.read_plt_file()
-        >>> zi = zgoubidoo.Input()
+        >>> zi = zgoubidoo._Input()
         >>> matrix = zgoubidoo.twiss.compute_transfer_matrix(zi, tracks, align_on='X')
     """
     elements = tracks.LABEL1.unique()
@@ -323,7 +324,7 @@ def compute_transfer_matrix(beamline: Input, tracks: pd.DataFrame, align_on: str
     matrix = pd.DataFrame()
     for e in beamline.line:
         if e.LABEL1 not in elements:
-            if isinstance(e, Patchable):
+            if isinstance(e, _Patchable):
                 offset += (e.exit.x - e.entry.x).to('m').magnitude if align_on != 'S' else 0.0
             continue
         t = tracks[tracks.LABEL1 == e.LABEL1]
@@ -341,7 +342,7 @@ def compute_transfer_matrix(beamline: Input, tracks: pd.DataFrame, align_on: str
                 for j in range(0, n_dimensions)
             }
         )
-        if isinstance(e, PolarMagnet):
+        if isinstance(e, _PolarMagnet):
             m['X'] = ref[align_on].values * 100 * e.radius.to('m').magnitude + offset
             m['S'] = ref[align_on].values * 100 * e.radius.to('m').magnitude + offset
         else:
@@ -349,7 +350,7 @@ def compute_transfer_matrix(beamline: Input, tracks: pd.DataFrame, align_on: str
             m['S'] = ref[align_on].values + offset
         m['LABEL1'] = e.LABEL1
         matrix = matrix.append(m)
-        if isinstance(e, PolarMagnet):
+        if isinstance(e, _PolarMagnet):
             offset += e.length.to('m').magnitude if align_on != 'S' else 0.0
         else:
             offset += ref[align_on].max() if align_on != 'S' else 0.0

@@ -2,7 +2,7 @@
 
 """
 from __future__ import annotations
-from typing import Optional, List, Union, Callable
+from typing import Optional, List, Union
 import copy
 import pandas as _pd
 from .commands.particules import Proton as _Proton

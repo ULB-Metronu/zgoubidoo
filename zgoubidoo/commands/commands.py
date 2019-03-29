@@ -285,15 +285,19 @@ class Command(metaclass=CommandType):
         """
 
     def __copy__(self):
-        """
-        TODO  - also change the label generation
-        Returns:
-
-        """
+        """Object (instance) copy operation."""
         label1 = f"{self.LABEL1}_COPY"
         if len(label1) > ZGOUBI_LABEL_LENGTH:
             label1 = str(uuid.uuid4().hex)[:ZGOUBI_LABEL_LENGTH]
         return self.__class__(label1=label1, label2=self.LABEL2, **self.attributes)
+
+    def __deepcopy__(self, *args):
+        """Object (instance) deep copy operation."""
+        return self.__copy__()
+
+    def __eq__(self, other):
+        """Comparison based on string representation in the Zgoubi format."""
+        return str(self) == str(other)
 
     @property
     def attributes(self) -> Dict[str, _ureg.Quantity]:

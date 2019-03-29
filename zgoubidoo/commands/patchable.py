@@ -13,9 +13,7 @@ class Patchable:
     """
 
     def __init__(self):
-        """
-        TODO
-        """
+        """Initializes a un-patched patchable element."""
         self._entry: Optional[_Frame] = None
         self._entry_patched: Optional[_Frame] = None
         self._exit: Optional[_Frame] = None

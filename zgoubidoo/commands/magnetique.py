@@ -731,6 +731,8 @@ class Aimant(PolarMagnet):
 class Bend(CartesianMagnet):
     """Bending magnet, Cartesian frame.
 
+    .. note:: This is mostly a **sector bend** element defined in cartesian coordinates.
+
     .. rubric:: Zgoubi manual description
 
     TODO
@@ -827,17 +829,17 @@ class Decapole(CartesianMagnet):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
 
-    def __str__(s):
+    def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        {int(s.IL):d}
-        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B0):.12e}
-        {_cm(s.XE):.12e} {_cm(s.LAM_E):.12e}
-        6 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
-        {_cm(s.XS):.12e} {_cm(s.LAM_S):.12e}
-        6 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
-        {_cm(s.XPAS)}
-        {int(s.KPOS):d} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
+        {int(self.IL):d}
+        {_cm(self.XL):.12e} {_cm(self.R0):.12e} {_kilogauss(self.B0):.12e}
+        {_cm(self.XE):.12e} {_cm(self.LAM_E):.12e}
+        6 {self.C0:.12e} {self.C1:.12e} {self.C2:.12e} {self.C3:.12e} {self.C4:.12e} {self.C5:.12e}
+        {_cm(self.XS):.12e} {_cm(self.LAM_S):.12e}
+        6 {self.C0:.12e} {self.C1:.12e} {self.C2:.12e} {self.C3:.12e} {self.C4:.12e} {self.C5:.12e}
+        {_cm(self.XPAS)}
+        {int(self.KPOS):d} {_cm(self.XCE):.12e} {_cm(self.YCE):.12e} {_radian(self.ALE):.12e}
         """
 
 
