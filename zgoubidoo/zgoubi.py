@@ -279,16 +279,6 @@ class Zgoubi:
         self._futures: Dict[str, _Future] = dict()
         self._pool: _ThreadPoolExecutor = _ThreadPoolExecutor(max_workers=self._n_procs)
 
-    def cleanup(self):
-        """
-
-        Returns:
-
-        """
-        self.wait()
-        self._futures = dict()
-        return self
-
     @property
     def executable(self) -> str:
         """Provides the full path to the Zgoubi executable.
@@ -358,6 +348,16 @@ class Zgoubi:
         futures = [self._futures[p] for p in paths]
         self.wait()
         return ZgoubiResults(results=[_.result() for _ in futures])
+
+    def cleanup(self):
+        """
+
+        Returns:
+
+        """
+        self.wait()
+        self._futures = dict()
+        return self
 
     def _execute_zgoubi(self,
                         mapping: _MappedParametersType,

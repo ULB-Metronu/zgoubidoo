@@ -929,6 +929,14 @@ class CGTR:
         """
         return self.zi
 
+    @property
+    def gantry_angle(self):
+        """Gantry angle (in IBA reference system)."""
+
+    @gantry_angle.setter
+    def gantry_angle(self, angle):
+        pass
+
     def fit_dipoles(self, boro: _Q, dipoles: Optional[List[DipoleIBA]] = None):
         """Adjusts the main field of the dipoles according to the beam energy.
 
@@ -947,44 +955,51 @@ class CGTR:
     def run(self,
             zgoubi: zgoubidoo.Zgoubi,
             identifier: _MappedParametersType,
-            fit: zgoubidoo.commands.Fit = None,
-            debug: bool = False
-            ) -> Optional[Union[_Input, zgoubidoo.commands.Fit]]:
+            ):
         """
 
         Args:
             zgoubi: TODO
             identifier: TODO
-            fit:
-            debug:
 
         Returns:
 
         """
-        if fit is not None:
-            self.beam.REFERENCE = 1
-            self.zi += fit
+        zgoubi(zgoubi_input=self.zi, identifier=identifier)
+        self.zi.cleanup()
 
-            def attach_output_to_fit(f):
-                """Helper callback function to attach a run's output to a fit object."""
-                r = f.result()['result']
-                if debug:
-                    print(r)
-                fit.attach_output(outputs=_Zgoubi.find_labeled_output(r, fit.LABEL1),
-                                  zgoubi_input=self.zi,
-                                  parameters=identifier,
-                                  )
-            zgoubi(zgoubi_input=self.zi, identifier=identifier, cb=attach_output_to_fit)
-            self.zi -= fit
-            self.zi.cleanup()
-            self.beam.REFERENCE = 0
-            return fit
-        else:
-            if debug:
-                return self.zi
-            zgoubi(zgoubi_input=self.zi, identifier=identifier)
-            self.zi.cleanup()
-        return None
+    def fit(self,
+            zgoubi: zgoubidoo.Zgoubi,
+            identifier: _MappedParametersType,
+            fit: zgoubidoo.commands.Fit = None
+            ) -> zgoubidoo.commands.Fit:
+        """
+
+        Args:
+            zgoubi:
+            identifier:
+            fit:
+
+        Returns:
+
+        """
+        self.beam.REFERENCE = 1
+        self.zi.IL = 0
+        self.zi += fit
+
+        def attach_output_to_fit(f):
+            """Helper callback function to attach a run's output to a fit object."""
+            r = f.result()['result']
+            fit.attach_output(outputs=_Zgoubi.find_labeled_output(r, fit.LABEL1),
+                              zgoubi_input=self.zi,
+                              parameters=identifier,
+                              )
+
+        zgoubi(zgoubi_input=self.zi, identifier=identifier, cb=attach_output_to_fit)
+        self.zi -= fit
+        self.zi.cleanup()
+        self.beam.REFERENCE = 0
+        return fit
 
     def shoot(self,
               x: float = 0.0,
@@ -1003,7 +1018,7 @@ class CGTR:
             debug:
 
         Returns:
-
+            The Fit command (instance object) with the results of the fit.
         """
         z = zgoubi or _Zgoubi()
         fit = fit_type(
@@ -1017,11 +1032,11 @@ class CGTR:
                 _Fit.EqualityConstraint(line=self.zi, place='ISO', variable=_Fit.FitCoordinates.Z, value=y),
             ]
         )
-        return self.run(zgoubi=z,
-                        identifier={'SPOT_X': x, 'SPOT_Y': y},
-                        fit=fit,
-                        debug=debug
-                        )
+        fit = self.fit(zgoubi=z,
+                       identifier={'SPOT_X': x, 'SPOT_Y': y},
+                       fit=fit,
+                       )
+        return fit
 
     def spots(self,
               spots: Iterable[Tuple[float, float]],

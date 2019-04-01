@@ -13,7 +13,7 @@ from .patchable import Patchable as _Patchable
 from .. import ureg as _ureg
 from .. import _Q
 from ..frame import Frame as _Frame
-from ..units import _radian, _degree, _m, _cm, _mm
+from ..units import _radian, _degree, _m, _cm
 from ..utils import fortran_float
 import zgoubidoo
 
@@ -127,6 +127,22 @@ class Command(metaclass=CommandType):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
+    class CommandResult:
+        """TODO"""
+        def __init__(self, success: bool, results: _pd.DataFrame):
+            self._success: bool = success
+            self._results: _pd.DataFrame = results
+
+        @property
+        def success(self) -> bool:
+            """TODO"""
+            return self._success
+
+        @property
+        def results(self):
+            """TODO"""
+            return self._results
+
     def __init__(self, label1: str = '', label2: str = '', *params, **kwargs):
         """
         TODO
@@ -137,7 +153,7 @@ class Command(metaclass=CommandType):
             **kwargs:
         """
         self._output: List[Tuple[Mapping[str, Union[_Q, float]], List[str]]] = list()
-        self._results: List[Tuple[Mapping[str, Union[_Q, float]], _pd.DataFrame]] = list()
+        self._results: List[Tuple[Mapping[str, Union[_Q, float]], Command.CommandResult]] = list()
         self._attributes = {}
         for d in (Command.PARAMETERS, ) + params:
             self._attributes = dict(self._attributes, **{k: v[0] for k, v in d.items()})
@@ -995,8 +1011,11 @@ class Fit(Command, metaclass=FitType):
             return None
 
         grab: bool = False
+        status: list = []
         data: list = []
         for l in output:
+            if l.strip().startswith('Lmnt'):
+                status.append(l)
             if l.strip().startswith('LMNT'):
                 grab = True
                 continue
@@ -1021,27 +1040,30 @@ class Fit(Command, metaclass=FitType):
                     d['label2'] = values[10]
                 data.append(d)
 
-        if len(data) == 0:
-            return False
+        if len(data) == 0 or len(status) > 0:
+            success = False
         else:
-            self._results.append((parameters, _pd.DataFrame(data).set_index('variable_id')))
-            return True
+            success = True
+        self._results.append(
+            (
+                parameters,
+                Command.CommandResult(success=success, results=_pd.DataFrame(data).set_index('variable_id'))
+            )
+        )
+        return success
 
 
 class Fit2(Fit, metaclass=FitType):
     """Fitting procedure.
 
-    TODO
+    Alternative fitting procedure implemented in Zgoubi, see manual.
     """
     KEYWORD = 'FIT2'
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class Focale(Command):
-    """Particle coordinates and horizontal beam size at distance XL.
-
-    TODO
-    """
+    """Particle coordinates and horizontal beam size at distance XL."""
     KEYWORD = 'FOCALE'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -1059,10 +1081,7 @@ class Focale(Command):
 
 
 class FocaleZ(Command):
-    """Particle coordinates and vertical beam size at distance XL.
-
-    TODO
-    """
+    """Particle coordinates and vertical beam size at distance XL."""
     KEYWORD = 'FOCALEZ'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -1084,7 +1103,8 @@ class GasScattering(Command):
 
     Modification of particle momentum and velocity vector, performed at each integration step, under the effect of
     scattering by residual gas.
-    **Implementation is to be completed in Zgoubi**.
+
+    .. note:: Implementation is to be completed in Zgoubi.
     """
     KEYWORD = 'GASCAT'
     """Keyword of the command used for the Zgoubi input data."""

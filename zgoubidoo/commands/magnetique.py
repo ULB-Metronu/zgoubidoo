@@ -13,6 +13,7 @@ from .commands import CommandType as _CommandType
 from .commands import FitType as _FitType
 from .commands import Command as _Command
 from .commands import Marker as _Marker
+from .commands import Fit as _Fit
 from .commands import Fit2 as _Fit2
 from .commands import ZgoubidooException as _ZgoubidooException
 from .objet import Objet2 as _Objet2
@@ -748,21 +749,21 @@ class Bend(CartesianMagnet):
         'X_E': (0.0 * _ureg.centimeter, "Integration zone extension (entrance face)"),
         'LAM_E': (0.0 * _ureg.centimeter, "Fringe field extension (entrance face)"),
         'W_E': (0.0 * _ureg.radian, "Wedge angle (entrance face)"),
-        'C0_E': 0.0,
-        'C1_E': 1.0,
-        'C2_E': 0.0,
-        'C3_E': 0.0,
-        'C4_E': 0.0,
-        'C5_E': 0.0,
+        'C0_E': (0.0, 'Fringe field coefficient C0'),
+        'C1_E': (1.0, 'Fringe field coefficient C1'),
+        'C2_E': (0.0, 'Fringe field coefficient C2'),
+        'C3_E': (0.0, 'Fringe field coefficient C3'),
+        'C4_E': (0.0, 'Fringe field coefficient C4'),
+        'C5_E': (0.0, 'Fringe field coefficient C5'),
         'X_S': (0.0 * _ureg.centimeter, "Integration zone extension (exit face)"),
         'LAM_S': (0.0 * _ureg.centimeter, "Fringe field extension (exit face)"),
         'W_S': (0.0 * _ureg.radian, "Wedge angle (exit face)"),
-        'C0_S': 0.0,
-        'C1_S': 1.0,
-        'C2_S': 0.0,
-        'C3_S': 0.0,
-        'C4_S': 0.0,
-        'C5_S': 0.0,
+        'C0_S': (0.0, 'Fringe field coefficient C0'),
+        'C1_S': (1.0, 'Fringe field coefficient C1'),
+        'C2_S': (0.0, 'Fringe field coefficient C2'),
+        'C3_S': (0.0, 'Fringe field coefficient C3'),
+        'C4_S': (0.0, 'Fringe field coefficient C4'),
+        'C5_S': (0.0, 'Fringe field coefficient C5'),
         'XPAS': (1.0 * _ureg.millimeter, "Integration step"),
         'KPOS': (2, "Alignment parameter"),
         'XCE': 0.0 * _ureg.centimeter,
@@ -1077,23 +1078,15 @@ class Dipole(PolarMagnet):
         fit = method('FIT',
                      PENALTY=1e-12,
                      PARAMS=[
-                         {
-                             'IR': 4,  # B1
-                             'IP': 5,
-                             'XC': 0,
-                             'DV': 10,
-                         },
+                         _Fit.Parameter(line=di, place=self.LABEL1, parameter=Dipole.B0_),
                      ],
                      CONSTRAINTS=[
-                         {
-                             'IC': 3,  # Constraint type
-                             'I': 1,  # Particle #1
-                             'J': 2,  # Y
-                             'IR': 5,  # END
-                             'V': exit_coordinate,
-                             'WV': 1.0,
-                             'NP': 0,
-                         },
+                         _Fit.EqualityConstraint(
+                             line=di,
+                             place='END',
+                             variable=_Fit.FitCoordinates.Y,
+                             value=exit_coordinate
+                         ),
                      ]
                      )
         di += fit
@@ -1101,11 +1094,11 @@ class Dipole(PolarMagnet):
         def cb(f):
             """Post execution callback."""
             r = f.result()
-            if len(fit.results) == 0:
+            if not fit.results[0][1].success:
                 raise _ZgoubidooException(f"Unable to fit {self.__class__.__name__}.")
             if debug:
                 print('\n'.join(r['result']))
-            self.B0 = fit.results[0][1].at[1, 'final']
+            self.B0 = fit.results[0][1].results.at[1, 'final']
             self._fit = fit
 
         z(di(), cb=cb)
