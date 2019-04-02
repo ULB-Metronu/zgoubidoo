@@ -26,7 +26,6 @@ from ..vis import ZgoubiPlot as _ZgoubiPlot
 from .patchable import Patchable as _Patchable
 from .plotable import Plotable as _Plotable
 from ..fieldmaps import FieldMap as _FieldMap
-from ..fieldmaps import EngeModel as _EngeModel
 from ..units import _cm, _radian, _kilogauss, _degree
 import zgoubidoo
 
@@ -60,7 +59,6 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
         """
         self.field_map = field_map
         self._field_profile_model = None
-        self._field_profile_fit = None
 
     @property
     def field_map(self) -> _FieldMap:
@@ -74,33 +72,7 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
     @property
     def field_profile_model(self):
         """A model for the field profile."""
-        if self._field_profile_model is None:
-            self._field_profile_model = _EngeModel()
         return self._field_profile_model
-
-    @property
-    def field_profile_fit(self):
-        """The fitted field profile model."""
-        return self._field_profile_fit
-
-    def fit_field_profile(self, model: Optional[lmfit.Model] = None) -> lmfit.model.ModelResult:
-        """
-
-        Returns:
-
-        """
-        if self.field_map is None:
-            raise Exception("Define a field map!")
-
-        model = model or self.field_profile_model
-        fit = model.fit(
-            -self.field_map.sample(self.reference_trajectory(), field_component=self.REFERENCE_FIELD_COMPONENT),
-            model.params,
-            s=_np.linalg.norm(self.reference_trajectory() - self.reference_trajectory()[0], axis=1),
-        )
-        self.process_fit_field_profile(fit)
-        self._field_profile_fit = fit
-        return fit
     
     def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
         """
@@ -113,35 +85,6 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
         """
         pass
 
-    def plot_field_profile(self, ax, fit: Optional[lmfit.model.ModelResult] = None):
-        """
-
-        Args:
-            ax:
-            fit:
-
-        Returns:
-
-        """
-        if self.field_map is None:
-            raise Exception("Define a field map!")
-        ax.plot(
-            _np.linalg.norm(self.reference_trajectory() - self.reference_trajectory()[0], axis=1),
-            -self.field_map.sample(
-                self.reference_trajectory(),
-                field_component=self.REFERENCE_FIELD_COMPONENT
-            ),
-            'bo',
-        )
-        fit = fit or self.field_profile_fit
-        if fit is not None:
-            ax.plot(
-                _np.linalg.norm(self.reference_trajectory() - self.reference_trajectory()[0], axis=1),
-                fit.best_fit,
-                'r-'
-            )
-
-
 class CartesianMagnetType(MagnetType):
     """Type for cartesian magnets."""
     pass
@@ -153,8 +96,8 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
     TODO
     """
     PARAMETERS = {
-        'WIDTH': (50 * _ureg.cm, ''),
-        'COLOR': ('blue', ''),
+        'WIDTH': (50 * _ureg.cm, 'Width of the magnetic poles (used for plotting only).'),
+        'COLOR': ('blue', 'Magnet color for plotting.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
@@ -232,34 +175,6 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
                 self._exit_patched = _Frame(self.entry)
                 self._exit_patched.translate_x(self.XL or 0.0 * _ureg.cm)
         return self._exit_patched
-
-    def reference_trajectory(self,
-                             infer: bool = True,
-                             lower_bound: Optional[float] = None,
-                             upper_bound: Optional[float] = None,
-                             steps: int = 100) -> _np.array:
-        """
-
-        Args:
-            infer:
-            lower_bound:
-            upper_bound:
-            steps:
-
-        Returns:
-
-        """
-        if infer:
-            sampling, length_sampling = self.field_map.sampling_x
-        else:
-            lower_bound = lower_bound or -self.XE - self.XL / 2
-            upper_bound = upper_bound or self.XS + self.XL / 2
-            sampling = _np.linspace(lower_bound, upper_bound, steps)
-            length_sampling = len(sampling)
-        return _np.stack([sampling,
-                          _np.zeros(length_sampling),
-                          _np.zeros(length_sampling)
-                          ]).T
 
     def plot(self, artist=None):
         """

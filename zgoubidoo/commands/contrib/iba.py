@@ -61,6 +61,31 @@ class DipoleIBA(_Dipole):
                                                     magnet_angle=self.AT,
                                                     poles_angle=self.OMEGA_E - self.OMEGA_S)
 
+    def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
+        """
+
+        Args:
+            fit:
+
+        Returns:
+
+        """
+        self.LAM_E = fit.best_values['lam_e'] * _ureg.m
+        self.LAM_S = fit.best_values['lam_s'] * _ureg.m
+        self.C0_E = fit.best_values['ce_0']
+        self.C1_E = fit.best_values['ce_1']
+        self.C2_E = fit.best_values['ce_2']
+        self.C3_E = fit.best_values['ce_3']
+        self.C4_E = fit.best_values['ce_4']
+        self.C5_E = fit.best_values['ce_5']
+        self.C0_S = fit.best_values['cs_0']
+        self.C1_S = fit.best_values['cs_1']
+        self.C2_S = fit.best_values['cs_2']
+        self.C3_S = fit.best_values['cs_3']
+        self.C4_S = fit.best_values['cs_4']
+        self.C5_S = fit.best_values['cs_5']
+        #self.XL = (fit.best_values['offset_s'] - fit.best_values['offset_e']) * _ureg.m
+
 
 class B1G(DipoleIBA):
     """Proteus One 40 degree dipole.
@@ -119,6 +144,25 @@ class B1G(DipoleIBA):
         self.TS = -_PolarMagnet.efb_angle_from_polar(magnet_angle=magnet_opening,
                                                      poles_angle=poles_opening
                                                      )
+        self._field_profile_model = _EngeModel()
+        self._field_profile_model.params['ce_0'].set(vary=True)
+        self._field_profile_model.params['ce_1'].set(vary=False)
+        self._field_profile_model.params['ce_2'].set(vary=True)
+        self._field_profile_model.params['ce_3'].set(vary=True)
+        self._field_profile_model.params['ce_4'].set(vary=True)
+        self._field_profile_model.params['ce_5'].set(vary=True)
+        self._field_profile_model.params['cs_0'].set(vary=True)
+        self._field_profile_model.params['cs_1'].set(vary=False)
+        self._field_profile_model.params['cs_2'].set(vary=True)
+        self._field_profile_model.params['cs_3'].set(vary=True)
+        self._field_profile_model.params['cs_4'].set(vary=True)
+        self._field_profile_model.params['cs_5'].set(vary=True)
+        self._field_profile_model.params['offset_e'].set(value=134, min=0, max=400)
+        self._field_profile_model.params['offset_s'].set(value=1302, min=1000, max=1400)
+        self._field_profile_model.params['lam_e'].set(value=99)
+        self._field_profile_model.params['lam_s'].set(value=75)
+        self._field_profile_model.params['amplitude'].set(value=-2.0)
+        self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
 
 
 class B2G(DipoleIBA):
@@ -176,6 +220,25 @@ class B2G(DipoleIBA):
         self.TS = -_PolarMagnet.efb_angle_from_polar(magnet_angle=magnet_opening,
                                                      poles_angle=poles_opening
                                                      )
+        self._field_profile_model = _EngeModel()
+        self._field_profile_model.params['ce_0'].set(vary=True)
+        self._field_profile_model.params['ce_1'].set(vary=False)
+        self._field_profile_model.params['ce_2'].set(vary=True)
+        self._field_profile_model.params['ce_3'].set(vary=True)
+        self._field_profile_model.params['ce_4'].set(vary=True)
+        self._field_profile_model.params['ce_5'].set(vary=True)
+        self._field_profile_model.params['cs_0'].set(vary=True)
+        self._field_profile_model.params['cs_1'].set(vary=False)
+        self._field_profile_model.params['cs_2'].set(vary=True)
+        self._field_profile_model.params['cs_3'].set(vary=True)
+        self._field_profile_model.params['cs_4'].set(vary=True)
+        self._field_profile_model.params['cs_5'].set(vary=True)
+        self._field_profile_model.params['offset_e'].set(value=400, min=0, max=500)
+        self._field_profile_model.params['offset_s'].set(value=2000, min=1500, max=2300)
+        self._field_profile_model.params['lam_e'].set(value=50)
+        self._field_profile_model.params['lam_s'].set(value=50)
+        self._field_profile_model.params['amplitude'].set(value=-2.0)
+        self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
 
 
 class B3G(DipoleIBA):
@@ -253,6 +316,25 @@ class B3G(DipoleIBA):
         self.TS = -_PolarMagnet.efb_angle_from_polar(magnet_angle=magnet_opening,
                                                      poles_angle=poles_opening
                                                      )
+        self._field_profile_model = _EngeModel()
+        self._field_profile_model.params['ce_0'].set(vary=True)
+        self._field_profile_model.params['ce_1'].set(vary=False)
+        self._field_profile_model.params['ce_2'].set(vary=True)
+        self._field_profile_model.params['ce_3'].set(vary=True)
+        self._field_profile_model.params['ce_4'].set(vary=True)
+        self._field_profile_model.params['ce_5'].set(vary=True)
+        self._field_profile_model.params['cs_0'].set(vary=True)
+        self._field_profile_model.params['cs_1'].set(vary=False)
+        self._field_profile_model.params['cs_2'].set(vary=True)
+        self._field_profile_model.params['cs_3'].set(vary=True)
+        self._field_profile_model.params['cs_4'].set(vary=True)
+        self._field_profile_model.params['cs_5'].set(vary=True)
+        self._field_profile_model.params['offset_e'].set(value=400, min=0, max=500)
+        self._field_profile_model.params['offset_s'].set(value=2000, min=1500, max=2300)
+        self._field_profile_model.params['lam_e'].set(value=50)
+        self._field_profile_model.params['lam_s'].set(value=50)
+        self._field_profile_model.params['amplitude'].set(value=-2.0)
+        self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
 
 
 class SMX(_Multipole):
@@ -338,7 +420,6 @@ class SMY(_Multipole):
     PARAMETERS = {
         'XL': 0.15221715277508374 * _ureg.m,
         'R1': 90 * _ureg.degree,
-        'REFERENCE_FIELD_COMPONENT': 'BY',
         'LAM_E': 0.037857895089871904 * _ureg.m,
         'C0_E': 0.1999859299335233,
         'C2_E': 0.08542911466613756,
@@ -409,7 +490,7 @@ class SMY(_Multipole):
         self.XL = (fit.best_values['offset_s'] - fit.best_values['offset_e']) * _ureg.m
 
 
-class T1G(_Bend):
+class T1G(_Multipole):
     """Proteus One steering magnet.
 
     """
@@ -429,7 +510,7 @@ class T1G(_Bend):
         self.LABEL1 = self.__class__.__name__
 
 
-class T2G(_Bend):
+class T2G(_Multipole):
     """Proteus One steering magnet.
 
     """
