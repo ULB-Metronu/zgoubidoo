@@ -295,6 +295,9 @@ class FieldMap:
                                     lower: Optional[float] = None,
                                     upper: Optional[float] = None,
                                     samples: Optional[int] = None,
+                                    offset_x: float = 0.0,
+                                    offset_y: float = 0.0,
+                                    offset_z: float = 0.0,
                                     ):
         """
         TODO: support arbitrary rotations
@@ -304,6 +307,9 @@ class FieldMap:
             lower:
             upper:
             samples:
+            offset_x:
+            offset_y:
+            offset_z:
 
         Returns:
 
@@ -313,7 +319,17 @@ class FieldMap:
         upper = upper or np.max(self.mesh_sampling_along_axis(axis)[0])
         sampling = np.linspace(lower, upper, length_sampling)
         zeros = np.zeros(length_sampling)
-        v = list(itertools.permutations([sampling, zeros, zeros]))[:-1][axis*2]
+        if axis == 'X':
+            v = [sampling, zeros, zeros]
+        elif axis == 'Y':
+            v = [zeros, sampling, zeros]
+        elif axis == 'Z':
+            v = [zeros, zeros, sampling]
+        else:
+            raise ValueError("Invalid value for 'axis'.")
+        v[0] += offset_x
+        v[1] += offset_y
+        v[2] += offset_z
         self._reference_trajectory = np.stack(v).T
         return self
 
@@ -363,41 +379,45 @@ class FieldMap:
 
     def fit_field_profile(self,
                           model: Optional[lmfit.Model] = None,
-                          field_component: str=  'MOD') -> lmfit.model.ModelResult:
+                          field_component: str = 'MOD',
+                          sampling_method: str = 'nearest') -> lmfit.model.ModelResult:
         """
 
         Args:
             model:
             field_component:
+            sampling_method:
 
         Returns:
 
         """
         model = model or EngeModel()
         fit = model.fit(
-            -self.sample(self._reference_trajectory, field_component=field_component),
+            self.sample(self.reference_trajectory, field_component=field_component, method=sampling_method),
             model.params,
-            s=np.linalg.norm(self._reference_trajectory - self._reference_trajectory[0], axis=1),
+            s=np.linalg.norm(self.reference_trajectory - self.reference_trajectory[0], axis=1),
         )
         self._field_profile_fit = fit
         return fit
 
-    def plot_field_profile(self, ax, field_component: str = 'MOD'):
+    def plot_field_profile(self, ax, field_component: str = 'MOD', sampling_method: str = 'nearest'):
         """
 
         Args:
             ax:
             field_component:
+            sampling_method:
 
         Returns:
 
         """
-        ax.plot(
-            np.linalg.norm(self._reference_trajectory - self._reference_trajectory[0], axis=1),
-            -self.sample(self._reference_trajectory, field_component=field_component),
-            'bo',
-            ms=1,
-        )
+        if self.reference_trajectory is not None:
+            ax.plot(
+                np.linalg.norm(self.reference_trajectory - self.reference_trajectory[0], axis=1),
+                self.sample(self.reference_trajectory, field_component=field_component, method=sampling_method),
+                'bo',
+                ms=1,
+            )
         if self.field_profile_fit is not None:
             ax.plot(
                 np.linalg.norm(self._reference_trajectory - self._reference_trajectory[0], axis=1),
@@ -405,19 +425,22 @@ class FieldMap:
                 'r-',
             )
 
-    def plot_field_map(self, ax, field_component: str):
+    def plot_field_map(self, ax, field_component: str, plane1: int = 0, plane2: int = 2, bins: int = 50):
         """
 
         Args:
             ax:
             field_component:
+            plane1:
+            plane2:
+            bins:
 
         Returns:
 
         """
-        ax.hist2d(self.data[:, 0], self.data[:, 2], weights=self.df[field_component], bins=50)
+        ax.hist2d(self.data[:, plane1], self.data[:, plane2], weights=self.df[field_component], bins=bins)
         if self.reference_trajectory is not None:
-            ax.plot(self.reference_trajectory[:, 0], self.reference_trajectory[:, 2], linewidth=5)
+            ax.plot(self.reference_trajectory[:, plane1], self.reference_trajectory[:, plane2], linewidth=5)
 
     def export_for_bdsim(self, method: str = 'nearest'):
         """

@@ -806,6 +806,38 @@ class Q3G(QShort):
         'POLARITY': _HorizontalPolarity,
     }
 
+    def post_init(self,
+                  **kwargs,
+                  ):
+        """
+        TODO
+        Args:
+            **kwargs:
+
+        Example:
+            >>> q3g = Q3G()
+
+        """
+        self._field_profile_model = _EngeModel()
+        self._field_profile_model.params['ce_0'].set(vary=True)
+        self._field_profile_model.params['ce_1'].set(vary=False)
+        self._field_profile_model.params['ce_2'].set(vary=True)
+        self._field_profile_model.params['ce_3'].set(vary=True)
+        self._field_profile_model.params['ce_4'].set(vary=True)
+        self._field_profile_model.params['ce_5'].set(vary=True)
+        self._field_profile_model.params['cs_0'].set(vary=True)
+        self._field_profile_model.params['cs_1'].set(vary=False)
+        self._field_profile_model.params['cs_2'].set(vary=True)
+        self._field_profile_model.params['cs_3'].set(vary=True)
+        self._field_profile_model.params['cs_4'].set(vary=True)
+        self._field_profile_model.params['cs_5'].set(vary=True)
+        self._field_profile_model.params['offset_e'].set(value=100, min=0, max=200)
+        self._field_profile_model.params['offset_s'].set(value=400, min=300, max=500)
+        self._field_profile_model.params['lam_e'].set(value=50)
+        self._field_profile_model.params['lam_s'].set(value=50)
+        self._field_profile_model.params['amplitude'].set(value=0.2)
+        self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
+
 
 class Q4G(QShort):
     """Proteus One 'Q4G' gantry quadrupole.
@@ -815,6 +847,38 @@ class Q4G(QShort):
         'LABEL1': 'Q4G',
         'POLARITY': _VerticalPolarity,
     }
+
+    def post_init(self,
+                  **kwargs,
+                  ):
+        """
+        TODO
+        Args:
+            **kwargs:
+
+        Example:
+            >>> q4g = Q4G()
+
+        """
+        self._field_profile_model = _EngeModel()
+        self._field_profile_model.params['ce_0'].set(vary=True)
+        self._field_profile_model.params['ce_1'].set(vary=False)
+        self._field_profile_model.params['ce_2'].set(vary=True)
+        self._field_profile_model.params['ce_3'].set(vary=True)
+        self._field_profile_model.params['ce_4'].set(vary=True)
+        self._field_profile_model.params['ce_5'].set(vary=True)
+        self._field_profile_model.params['cs_0'].set(vary=True)
+        self._field_profile_model.params['cs_1'].set(vary=False)
+        self._field_profile_model.params['cs_2'].set(vary=True)
+        self._field_profile_model.params['cs_3'].set(vary=True)
+        self._field_profile_model.params['cs_4'].set(vary=True)
+        self._field_profile_model.params['cs_5'].set(vary=True)
+        self._field_profile_model.params['offset_e'].set(value=100, min=0, max=200)
+        self._field_profile_model.params['offset_s'].set(value=400, min=300, max=500)
+        self._field_profile_model.params['lam_e'].set(value=50)
+        self._field_profile_model.params['lam_s'].set(value=50)
+        self._field_profile_model.params['amplitude'].set(value=0.2)
+        self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
 
 
 class Q5G(QLong):
@@ -826,6 +890,38 @@ class Q5G(QLong):
         'POLARITY': _HorizontalPolarity,
     }
 
+    def post_init(self,
+                  **kwargs,
+                  ):
+        """
+        TODO
+        Args:
+            **kwargs:
+
+        Example:
+            >>> q5g = Q5G()
+
+        """
+        self._field_profile_model = _EngeModel()
+        self._field_profile_model.params['ce_0'].set(vary=True)
+        self._field_profile_model.params['ce_1'].set(vary=False)
+        self._field_profile_model.params['ce_2'].set(vary=True)
+        self._field_profile_model.params['ce_3'].set(vary=True)
+        self._field_profile_model.params['ce_4'].set(vary=True)
+        self._field_profile_model.params['ce_5'].set(vary=True)
+        self._field_profile_model.params['cs_0'].set(vary=True)
+        self._field_profile_model.params['cs_1'].set(vary=False)
+        self._field_profile_model.params['cs_2'].set(vary=True)
+        self._field_profile_model.params['cs_3'].set(vary=True)
+        self._field_profile_model.params['cs_4'].set(vary=True)
+        self._field_profile_model.params['cs_5'].set(vary=True)
+        self._field_profile_model.params['offset_e'].set(value=275, min=100, max=350)
+        self._field_profile_model.params['offset_s'].set(value=883, min=700, max=950)
+        self._field_profile_model.params['lam_e'].set(value=100)
+        self._field_profile_model.params['lam_s'].set(value=100)
+        self._field_profile_model.params['amplitude'].set(value=-0.25)
+        self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
+
 
 class Q6G(QShort):
     """Proteus One 'Q6G' gantry quadrupole.
@@ -836,6 +932,38 @@ class Q6G(QShort):
         'POLARITY': _VerticalPolarity,
     }
 
+    def post_init(self,
+                  **kwargs,
+                  ):
+        """
+        TODO
+        Args:
+            **kwargs:
+
+        Example:
+            >>> q6g = Q6G()
+
+        """
+        self._field_profile_model = _EngeModel()
+        self._field_profile_model.params['ce_0'].set(vary=True)
+        self._field_profile_model.params['ce_1'].set(vary=False)
+        self._field_profile_model.params['ce_2'].set(vary=True)
+        self._field_profile_model.params['ce_3'].set(vary=True)
+        self._field_profile_model.params['ce_4'].set(vary=True)
+        self._field_profile_model.params['ce_5'].set(vary=True)
+        self._field_profile_model.params['cs_0'].set(vary=True)
+        self._field_profile_model.params['cs_1'].set(vary=False)
+        self._field_profile_model.params['cs_2'].set(vary=True)
+        self._field_profile_model.params['cs_3'].set(vary=True)
+        self._field_profile_model.params['cs_4'].set(vary=True)
+        self._field_profile_model.params['cs_5'].set(vary=True)
+        self._field_profile_model.params['offset_e'].set(value=100, min=0, max=200)
+        self._field_profile_model.params['offset_s'].set(value=400, min=300, max=500)
+        self._field_profile_model.params['lam_e'].set(value=50)
+        self._field_profile_model.params['lam_s'].set(value=50)
+        self._field_profile_model.params['amplitude'].set(value=0.2)
+        self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
+
 
 class Q7G(QShort):
     """Proteus One 'Q7G' gantry quadrupole.
@@ -845,6 +973,38 @@ class Q7G(QShort):
         'LABEL1': 'Q7G',
         'POLARITY': _HorizontalPolarity,
     }
+
+    def post_init(self,
+                  **kwargs,
+                  ):
+        """
+        TODO
+        Args:
+            **kwargs:
+
+        Example:
+            >>> q7g = Q7G()
+
+        """
+        self._field_profile_model = _EngeModel()
+        self._field_profile_model.params['ce_0'].set(vary=True)
+        self._field_profile_model.params['ce_1'].set(vary=False)
+        self._field_profile_model.params['ce_2'].set(vary=True)
+        self._field_profile_model.params['ce_3'].set(vary=True)
+        self._field_profile_model.params['ce_4'].set(vary=True)
+        self._field_profile_model.params['ce_5'].set(vary=True)
+        self._field_profile_model.params['cs_0'].set(vary=True)
+        self._field_profile_model.params['cs_1'].set(vary=False)
+        self._field_profile_model.params['cs_2'].set(vary=True)
+        self._field_profile_model.params['cs_3'].set(vary=True)
+        self._field_profile_model.params['cs_4'].set(vary=True)
+        self._field_profile_model.params['cs_5'].set(vary=True)
+        self._field_profile_model.params['offset_e'].set(value=100, min=0, max=200)
+        self._field_profile_model.params['offset_s'].set(value=400, min=300, max=500)
+        self._field_profile_model.params['lam_e'].set(value=50)
+        self._field_profile_model.params['lam_s'].set(value=50)
+        self._field_profile_model.params['amplitude'].set(value=0.2)
+        self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
 
 
 class HorizontalSlits(_Collimator):
