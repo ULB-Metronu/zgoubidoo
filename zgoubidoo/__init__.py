@@ -14,6 +14,11 @@ supported, as well as multiple other features, such as spin tracking. It is main
 Design goals
 ------------
 
+.. image:: _static/zgoubi_logo.png
+   :width: 150 px
+   :alt: Zgoubi's logo
+   :align: right
+
 - **Fully featured interface to Zgoubi**: all functionalities of Zgoubi are supported through the Python interface;
 - **Ease of use**: a simple tracking study and its visualization can be set up in just a few lines of code;
 - Written in **high-quality Python 3 with type-hints**;
