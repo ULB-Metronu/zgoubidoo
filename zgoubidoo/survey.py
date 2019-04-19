@@ -1,5 +1,7 @@
 """Zgoubidoo survey module.
 
+The module performs a 3D global survey of the beamline. Zgoubi is *not* used for this purpose, the positionning is
+infered by Zgoubidoo based on the inputs.
 """
 from typing import Optional
 from .input import Input

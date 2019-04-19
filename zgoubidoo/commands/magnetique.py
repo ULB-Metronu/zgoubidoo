@@ -85,6 +85,7 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
         """
         pass
 
+
 class CartesianMagnetType(MagnetType):
     """Type for cartesian magnets."""
     pass

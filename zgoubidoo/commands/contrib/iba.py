@@ -9,7 +9,6 @@ import pandas as _pd
 import lmfit
 from ..magnetique import Dipole as _Dipole
 from ..magnetique import PolarMagnet as _PolarMagnet
-from ..magnetique import Bend as _Bend
 from ..magnetique import Multipole as _Multipole
 from ..magnetique import Quadrupole as _Quadrupole
 from ..magnetique import FakeDrift as _FakeDrift

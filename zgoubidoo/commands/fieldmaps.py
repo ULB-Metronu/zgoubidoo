@@ -168,75 +168,33 @@ class Tosca(_Command):
         'MOD2': (0, 'Format reading sub-mode.'),
         'FNAME': ('TOSCA', 'File names.'),
         'ID': (0, 'Integration boundary.'),
-        'A': (),
-        'B': (),
-        'C': (),
+        'A': (1,),
+        'B': (1,),
+        'C': (1,),
         'IORDRE': (25, 'Degree of interpolation polynomial.'),
         'XPAS': (1 * _ureg.mm, 'Integration step.'),
-        'KPOS': (),
-        'XCE': (),
-        'YCE': (),
-        'ALE': (),
-        'RE': (),
-        'TE': (),
-        'RS': (),
-        'TS': (),
+        'KPOS': (2, "Alignment parameter"),
+        'XCE': (0,),
+        'YCE': (0,),
+        'ALE': (0,),
+        'RE': (0,),
+        'TE': (0,),
+        'RS': (0,),
+        'TS': (0,),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
 
     def __str__(s) -> str:
-        """Provides the Zgoubi input format representation of the command.
-
-        Returns:
-            a string to be used as Zgoubi input format.
+        return f"""
+        {super().__str__().rstrip()}
+        {s.IC:d} {s.IL:d}
+        {s.BNORM:.12e} {s.XN:.12e} {s.YN:.12e} {s.ZN:.12e}
+        {s.TITL}
+        {s.IX:d} {s.IY:d} {s.IZ:d} {s.MOD:d}.{s.MOD2:d}
+        {s.FNAME}
+        {s.ID:d} {s.A:.12e} {s.B:.12e} {s.C:.12e}
+        {s.IORDRE:d}
+        {_cm(s.XPAS):.12e}
+        {s.KPOS:d} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
         """
-        command = []
-        c = f"""
-                {super().__str__().rstrip()}
-                {s.IL}
-                {s.AT.to('degree').magnitude:.12e} {s.RM.to('centimeter').magnitude:.12e}
-                {s.ACENT.to('degree').magnitude:.12e} {s.B0.to(
-            'kilogauss').magnitude:.12e} {s.N:.12e} {s.B:.12e} {s.G:.12e}
-                {s.LAM_E.to('centimeter').magnitude:.12e} 0.0
-                6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e} {s.SHIFT_E.to(
-            'centimeter').magnitude:.12e}
-                {s.OMEGA_E.to('degree').magnitude:.12e} {s.THETA_E:.12e} {s.R1_E.to(
-            'centimeter').magnitude:.12e} {s.U1_E.to('centimeter').magnitude:.12e} {s.U2_E.to(
-            'centimeter').magnitude:.12e} {s.R2_E.to('centimeter').magnitude:.12e}
-                {s.LAM_S.to('centimeter').magnitude:.12e} 0.0
-                6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e} {_s.SHIFT_S.to(
-            'centimeter').magnitude:.12e}
-                {s.OMEGA_S.to('degree').magnitude:.12e} {s.THETA_S:.12e} {s.R1_S.to(
-            'centimeter').magnitude:.12e} {s.U1_S.to('centimeter').magnitude:.12e} {s.U2_S.to(
-            'centimeter').magnitude:.12e} {s.R2_S.to('centimeter').magnitude:.12e}
-                {s.LAM_L.to('centimeter').magnitude:.12e} {s.XI_L}
-                6 {s.C0_L:.12e} {s.C1_L:.12e} {s.C2_L:.12e} {s.C3_L:.12e} {s.C4_L:.12e} {s.C5_L:.12e} {s.SHIFT_L.to(
-            'centimeter').magnitude:.12e}
-                {s.OMEGA_L.to('degree').magnitude:.12e} {s.THETA_L:.12e} {s.R1_L.to(
-            'centimeter').magnitude:.12e} {s.U1_L.to('centimeter').magnitude:.12e} {s.U2_L.to(
-            'centimeter').magnitude:.12e} {s.R2_L.to('centimeter').magnitude:.12e} {s.RM3.to(
-            'centimeter').magnitude:.12e}
-                {s.IORDRE} {s.RESOL:.12e}
-                {s.XPAS.to('centimeter').magnitude}"""
-        command.append(c)
-
-        if s.KPOS == 2:
-            if s.RE == 0:
-                s.RE = s.RM
-            if s.RS == 0:
-                s.RS = s.RM
-            c = f"""
-                {s.KPOS}
-                {s.RE.to('centimeter').magnitude:.12e} {s.TE.to('radian').magnitude:.12e} {s.RS.to(
-                'centimeter').magnitude:.12e} {s.TS.to('radian').magnitude:.12e}
-                        """
-            command.append(c)
-        elif s.KPOS == 1:
-            c = f"""
-                {s.KPOS}
-                {s.DP:.12e} 0.0 0.0 0.0
-                        """
-            command.append(c)
-
-        return ''.join(map(lambda _: _.rstrip(), command))

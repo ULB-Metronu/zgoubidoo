@@ -1355,7 +1355,17 @@ class Target(Command):
 
 
 class TransferMatrix(Command):
-    """Transfer matrix."""
+    """Transfer matrix.
+
+    .. rubric:: Zgoubi manual description
+
+    TRANSMAT performs a second order transport of the particle coordinates using R and T. [Rij] ([Tijk]) is the first
+    order (second order) transfer matrix as usually involved in second order beam optics [28]. Second order transfer
+    is optional. The length of the element represented by the matrix may be introduced for the purpose of path length
+    updating.
+
+    .. Note:: MATRIX delivers [Rij] and [Tijk] matrices in a format suitable for straightforward use with TRANSMAT.
+    """
     KEYWORD = 'TRANSMAT'
     """Keyword of the command used for the Zgoubi input data."""
 
