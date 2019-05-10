@@ -23,9 +23,8 @@ import pandas as _pd
 from .input import Input
 from .input import MappedParametersType as _MappedParametersType
 from .input import MappedParametersListType as _MappedParametersListType
-from .input import PathsListType as _PathListType
 from .input import ZGOUBI_INPUT_FILENAME as _ZGOUBI_INPUT_FILENAME
-from .output import read_plt_file, read_matrix_file, read_srloss_file
+from .output.zgoubi import read_plt_file, read_matrix_file, read_srloss_file
 
 __all__ = ['ZgoubiException', 'ZgoubiResults', 'Zgoubi']
 _logger = logging.getLogger(__name__)

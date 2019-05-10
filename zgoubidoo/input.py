@@ -141,7 +141,8 @@ class Input:
         >>> zi()
     """
 
-    def __init__(self, name: str = 'beamline',
+    def __init__(self,
+                 name: str = 'beamline',
                  line: Optional[Sequence[commands.Command]] = None,
                  with_survey: bool = True):
         self._name: str = name

@@ -57,4 +57,3 @@ def intersperse(lst: List, item: Any) -> List:
     result = [item] * (len(lst) * 2 - 1)
     result[0::2] = lst
     return result
-

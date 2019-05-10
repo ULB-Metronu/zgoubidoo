@@ -282,9 +282,9 @@ def align_tracks(tracks: pd.DataFrame,
     particules: list = ['O', 'A', 'C', 'E', 'G', 'I', 'B', 'D', 'F', 'H', 'J']  # Keep it in this order
     assert set(particules) == set(tracks[identifier].unique()), "Required particles not found (are you using Objet5?)."
     ref: pd.DataFrame = tracks.query(f"{identifier} == '{reference_track}'")[coordinates + [align_on, 'LABEL1']]
-    alignment_values = ref[align_on].values
-    assert np.all(np.diff(alignment_values) >= 0), "The reference alignment values are not monotonously increasing"
-    data = np.zeros((len(particules), alignment_values.shape[0], len(coordinates)))
+    ref_alignment_values = ref[align_on].values
+    assert np.all(np.diff(ref_alignment_values) >= 0), "The reference alignment values are not monotonously increasing"
+    data = np.zeros((len(particules), ref_alignment_values.shape[0], len(coordinates)))
     data[0, :, :] = ref[coordinates].values
     for i, p in enumerate(particules[1:]):
         particule = tracks.query(f"{identifier} == '{p}'")
@@ -292,7 +292,7 @@ def align_tracks(tracks: pd.DataFrame,
             try:
                 assert np.all(np.diff(particule[align_on].values) >= 0), \
                     "The alignment values are not monotonously increasing"
-                data[i+1, :, j] = np.interp(alignment_values, particule[align_on].values, particule[c].values)
+                data[i+1, :, j] = np.interp(ref_alignment_values, particule[align_on].values, particule[c].values)
             except ValueError:
                 pass
     assert data.ndim == 3, "The aligned tracks do not form a homogenous array."
