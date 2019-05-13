@@ -183,7 +183,13 @@ class Twiss(MadCommand):
     """
     TODO
     """
-    pass
+    KEYWORD = 'TWISS'
+    """Keyword of the command used for the MAD-X input data."""
+
+    PARAMETERS = {
+        '': ('', ''),
+    }
+    """Parameters of the command, with their default value and their description."""
 
 
 class Use(MadCommand):

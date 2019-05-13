@@ -23,14 +23,73 @@ class MadElementCommand(_Command, metaclass=MadElementCommandType):
 
         Returns:
             The string representation.
-
         """
         cmd = f"{self.LABEL1}: {self.KEYWORD}, "
-        for p in self.attributes.keys():
+        for p, v in self.PARAMETERS.items():
             if p is not 'LABEL1':
-                cmd += f"{p}={getattr(self, p)}, " if getattr(self, p) else ''
+                try:
+                    value = getattr(self, p).m_as(v[0].units)
+                except (ValueError, AttributeError):
+                    value = getattr(self, p)
+                cmd += f"{p}={value}, " if getattr(self, p) else ''
         cmd = cmd.rstrip(', ')
         cmd += ';'
+        return cmd
+
+
+class MadClass(_Command, metaclass=MadElementCommandType):
+    """A class is the name of an element (or basic type) from which other elements have been derived."""
+    PARAMETERS = {
+        'BASE': ('', '')
+    }
+
+    def __str__(self) -> str:
+        """
+        Provides the string representation of the command in the MAD-X input format.
+
+        Returns:
+            The string representation.
+        """
+        return f"{self.LABEL1}: {self.BASE};"
+
+
+class Sequence(MadElementCommand):
+    """A MAD-X sequence."""
+    KEYWORD = 'SEQUENCE'
+    """Keyword of the command used for the MAD-X input data."""
+
+    PARAMETERS = {
+        'L': (0 * _ureg.m, 'The total length of the sequence in meters.'),
+    }
+    """Parameters of the command, with their default value and their description."""
+
+    def post_init(self, elements=None, **kwargs):
+        """Post-initialization of the sequence"""
+        self._elements = elements or []
+
+    def add(self, element):
+        """Add an element or a class to the sequence."""
+        self._elements.append(element)
+        return self
+
+    def __iadd__(self, other):
+        self.add(other)
+        return self
+
+    def __str__(self) -> str:
+        cmd = f"{self.LABEL1}: {self.KEYWORD}"
+        for p, v in self.PARAMETERS.items():
+            if p is not 'LABEL1':
+                try:
+                    value = getattr(self, p).m_as(v[0].units)
+                except (ValueError, AttributeError):
+                    value = getattr(self, p)
+                cmd += f"{p}={value}, " if getattr(self, p) else ''
+        cmd = cmd.rstrip(', ')
+        cmd += ';\n'
+        for e in self._elements:
+            cmd += '    ' + str(e) + '\n'
+        cmd += 'ENDSEQUENCE;'
         return cmd
 
 

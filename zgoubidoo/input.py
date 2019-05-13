@@ -717,7 +717,7 @@ class MadInput(Input):
         extra_end = None
         if len(line) == 0 or not isinstance(line[-1], zgoubidoo.commands.madx.Stop):
             extra_end = [zgoubidoo.commands.madx.Stop()]
-        return ''.join(map(str, (line or []) + (extra_end or [])))
+        return '\n'.join(map(str, (line or []) + (extra_end or [])))
 
 
 class InputValidator:
