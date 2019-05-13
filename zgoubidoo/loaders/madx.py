@@ -1,5 +1,8 @@
 """MAD-X loaders and converters.
 
+Special methods prefixed with *create_madx* are meant and understood to be conversion methods, to convert from a given
+MAD command name.
+
 Examples:
     >>> fodo = zgoubidoo.loaders.from_madx_twiss(
     filename='twiss.outx',
@@ -25,7 +28,7 @@ from ..commands import particules
 from ..units import _m
 
 MADX_TWISS_TABLE_HEADER_ROWS = 47
-"""MAD-X Twiss table header rows (to be skipped when reading the table's content."""
+"""MAD-X Twiss table header rows (lines to be skipped when reading the table's content."""
 
 MADX_TWISS_HEADERS = [
     'NAME',

@@ -2,11 +2,13 @@
 
 """
 from __future__ import annotations
-from typing import Optional, List, Union
+from typing import Optional, List, Union, Iterable, Tuple, Any
+import itertools
 import copy
 import pandas as _pd
 from .commands.particules import Proton as _Proton
 from .commands.particules import ParticuleType as _ParticuleType
+from .commands.commands import CommandType as _CommandType
 from .commands.commands import Command as _Command
 from .kinematics import Kinematics as _Kinematics
 from zgoubidoo import ureg as _ureg
@@ -131,7 +133,7 @@ class Sequence:
 
         return True
 
-    def repeat_sequence(self, periods: int = 1):
+    def repeat(self, periods: int = 2):
         """
         Repeat the physics, assuming a periodic physics.
 
@@ -183,15 +185,15 @@ class Sequence:
         return artist
 
     def __len__(self) -> int:
-        """Length of the input sequence.
+        """Length of the sequence.
 
         Returns:
             the number of elements in the sequence.
 
         """
-        return len(self._line)
+        return len(self._sequence)
 
-    def __iadd__(self, command: commands.Command) -> Input:
+    def __iadd__(self, command: _Command) -> Sequence:
         """Append a command at the end of the input sequence.
 
         Args:
@@ -201,10 +203,10 @@ class Sequence:
             the input sequence (in-place operation).
 
         """
-        self._line.append(command)
+        self._sequence.append(command)
         return self
 
-    def __isub__(self, other: Union[str, commands.Command]) -> Input:
+    def __isub__(self, other: Union[str, _Command]) -> Sequence:
         """Remove a command from the input sequence.
 
         Args:
@@ -214,9 +216,9 @@ class Sequence:
             the `Input` itself (in-place operation).
         """
         if isinstance(other, str):
-            self._line = [c for c in self._line if c.LABEL1 != other]
+            self._sequence = [c for c in self._sequence if c.LABEL1 != other]
         else:
-            self._line = [c for c in self._line if c != other]
+            self._sequence = [c for c in self._sequence if c != other]
         return self
 
     def __getitem__(self,
@@ -224,10 +226,10 @@ class Sequence:
                                  int,
                                  float,
                                  str,
-                                 CommandType,
+                                 _CommandType,
                                  type,
-                                 Iterable[Union[CommandType, type, str]]]
-                    ) -> Union[zgoubidoo.commands.Command, Input]:
+                                 Iterable[Union[_CommandType, type, str]]]
+                    ) -> Union[_Command, List[_Command]]:
         """Multi-purpose dictionnary-like elements access and filtering.
 
         A triple interafce is provided:
@@ -254,7 +256,7 @@ class Sequence:
         """
         # Behave like element access
         if isinstance(items, (int, float)):
-            return self._line[int(items)]
+            return self._sequence[int(items)]
 
         # Behave like slicing
         if isinstance(items, slice):
@@ -265,28 +267,16 @@ class Sequence:
             if isinstance(items.stop, (zgoubidoo.commands.Command, str)):
                 end = self.index(items.stop)
             slicing = slice(start, end, items.step)
-            return Input(name=f"{self._name}_sliced_from_{getattr(items.start, 'LABEL1', items.start)}"
-                              f"_to_{getattr(items.stop, 'LABEL1', items.stop)}",
-                         line=self._line[slicing]
-                         )
+            return self._sequence[slicing]
 
         else:
             # Behave like a filtering
             if not isinstance(items, (tuple, list)):
                 items = (items,)
             l, i = self._filter(items)
-            items = tuple(map(lambda x: x.__name__ if isinstance(x, type) else x, items))
-            return Input(name=f"{self._name}_filtered_by_{items}"
-                         .replace(',', '_')
-                         .replace(' ', '')
-                         .replace("'", '')
-                         .replace("(", '')
-                         .replace(")", '')
-                         .rstrip('_'),
-                         line=l
-                         )
+            return l
 
-    def __getattr__(self, item: str) -> commands.Command:
+    def __getattr__(self, item: str) -> _Command:
         """
 
         Args:
@@ -295,7 +285,7 @@ class Sequence:
         Returns:
 
         """
-        for e in self._line:
+        for e in self._sequence:
             if e.LABEL1 == item:
                 return e
         raise AttributeError
@@ -317,7 +307,7 @@ class Sequence:
                 if getattr(e, key) is not None:
                     setattr(e, key, value)
 
-    def __contains__(self, items: Union[str, CommandType, Tuple[Union[str, CommandType]]]) -> int:
+    def __contains__(self, items: Union[str, _CommandType, Tuple[Union[str, _CommandType]]]) -> int:
         """
 
         Args:
@@ -331,7 +321,7 @@ class Sequence:
         l, i = self._filter(items)
         return len(l)
 
-    def _filter(self, items: Union[str, CommandType, Tuple[Union[str, CommandType]]]) -> tuple:
+    def _filter(self, items: Union[str, _CommandType, Tuple[Union[str, _CommandType]]]) -> tuple:
         """
 
         Args:
@@ -341,7 +331,10 @@ class Sequence:
 
         """
         try:
-            items = tuple(map(lambda x: getattr(commands, x) if isinstance(x, str) else x, items))
+            items = tuple(map(lambda x: getattr(zgoubidoo.commands, x) if isinstance(x, str) else x, items))
         except AttributeError:
             return list(), tuple()
-        return list(filter(lambda x: reduce(lambda u, v: u or v, [isinstance(x, i) for i in items]), self._line)), items
+        return list(filter(
+            lambda x: itertools.reduce(lambda u, v: u or v, [isinstance(x, i) for i in items]),
+            self._line
+        )), items

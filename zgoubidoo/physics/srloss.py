@@ -11,6 +11,7 @@ from .results import PhysicsResults as _PhysicsResults
 from ..input import Input as _Input
 from .. import ureg as _ureg
 
+
 @dataclass
 class SynchrotronRadiationLosses(_PhysicsResults):
     """
@@ -25,9 +26,9 @@ def srloss(sequence: _Sequence, bunch=None, statistics: int = 1000, debug: bool 
     """
 
     Args:
-        sequence: the input physics
+        sequence: the input sequence
         bunch:
-        statistics:
+        statistics: the number of particles to tracks to collect enough statistics
         debug: verbose output on the results of the Zgoubi run
 
     Returns:
@@ -45,8 +46,8 @@ def srloss(sequence: _Sequence, bunch=None, statistics: int = 1000, debug: bool 
                  sequence.particle,
                  SRLoss(),
              ] + sequence.sequence + [
-            srprint,
-            _Marker('__END__'),
+                 srprint,
+                 _Marker('__END__'),
              ]
     )
     zi.XPAS = 1 * _ureg.cm
