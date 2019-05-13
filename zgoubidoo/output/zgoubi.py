@@ -51,8 +51,15 @@ def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> pd.DataFrame
     Reads the content of a Zgoubi .plt file ('plot' file) and formats it as a valid Pandas DataFrame with headers.
 
     Notes:
-        each coordinate is converted from the Zgoubi internal unit system onto the SI system. This means, in particular
+        each coordinate is converted from the Zgoubi internal unit system onto the SI system. This means, in particular,
         that the positions are in meters and the angles in mrad.
+
+    The special columns have the following meaning:
+        - *LET*: one character string (for tagging (groups of) particles)
+        - *IREP* is an index which indicates a symmetry with respect to the median plane. For instance,
+        if Z(I + 1) = −Z(I), then normally IREP(I + 1) = IREP(I ). Consequently the coordinates of particle I + 1
+        will not be obtained from ray-tracing but instead deduced from those of particle I by simple symmetry.
+        This saves on computing time.
 
     Example:
         >>> read_plt_file()

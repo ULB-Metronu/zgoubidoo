@@ -1307,9 +1307,9 @@ class CGTR:
         self.zi.IL = 2 if with_tracks else 0
         for f in fits:
             for p, r in f.results:
-                self.zi.update(r)
+                self.zi.update(r.results)
                 self.run(zgoubi=z,
-                         identifier={**p, **{'SMX.B1': r.at[1, 'final'], 'SMY.B1': r.at[2, 'final']}},
+                         identifier={**p, **{'SMX.B1': r.results.at[1, 'final'], 'SMY.B1': r.results.at[2, 'final']}},
                          )
         self.results = z.collect()
         tracks = self.results.tracks

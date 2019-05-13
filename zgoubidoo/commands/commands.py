@@ -139,7 +139,7 @@ class Command(metaclass=CommandType):
             return self._success
 
         @property
-        def results(self):
+        def results(self) -> _pd.DataFrame:
             """TODO"""
             return self._results
 

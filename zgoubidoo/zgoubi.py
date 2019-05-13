@@ -19,6 +19,7 @@ import multiprocessing
 from concurrent.futures import ThreadPoolExecutor as _ThreadPoolExecutor
 from concurrent.futures import Future as _Future
 import subprocess as sub
+import numpy as _np
 import pandas as _pd
 from .input import Input
 from .input import MappedParametersType as _MappedParametersType
@@ -101,6 +102,7 @@ class ZgoubiResults:
         if self._tracks is not None and parameters is None and force_reload is False:
             return self._tracks
         tracks = list()
+        particle_id = 0
         for k, r in self.results:
             if parameters is None or k in parameters:
                 try:
@@ -109,6 +111,8 @@ class ZgoubiResults:
                     except AttributeError:
                         p = r['path']
                     tracks.append(read_plt_file(path=p))
+                    tracks[-1]['IT'] += particle_id
+                    particle_id = _np.max(tracks[-1]['IT'])
                     for kk, vv in k.items():
                         tracks[-1][f"{kk}"] = vv
                 except FileNotFoundError:

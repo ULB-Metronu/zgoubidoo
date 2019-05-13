@@ -170,7 +170,7 @@ class Beam(_Command, metaclass=BeamType):
         return self._distribution
 
     @property
-    def particle(self) -> ParticuleType:
+    def particle(self) -> _ParticuleType:
         """The beam's particle type."""
         return self._particle
 
