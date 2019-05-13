@@ -1,3 +1,3 @@
 from . commands import *
-from . magnetic import *
+from . elements import *
 from . ptc import *
