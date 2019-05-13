@@ -78,8 +78,7 @@ class Beam(MadCommand):
                            'this default beam. When updating a beam with a corresponding sequence name, tye sequence '
                            'name must always be mentioned.')
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
-        commands (e.g. fit)."""
+    """Parameters of the command, with their default value and their description."""
 
 
 class Call(MadCommand):
@@ -209,5 +208,4 @@ sequence without this side effect of the USE command is provided with the SET, S
         'SURVEY': (None, 'Option to plug the survey data into the sequence elements nodes on the first pass '
                          '(see SURVEY).'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
-        commands (e.g. fit)."""
+    """Parameters of the command, with their default value and their description."""

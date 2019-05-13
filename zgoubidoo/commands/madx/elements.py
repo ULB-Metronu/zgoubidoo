@@ -46,8 +46,7 @@ class Drift(MadElementCommand):
     PARAMETERS = {
         'L': (0 * _ureg.m, 'The drift length (Default: 0 m).'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
-        commands (e.g. fit)."""
+    """Parameters of the command, with their default value and their description."""
 
 
 class Marker(MadElementCommand):
@@ -112,8 +111,7 @@ class Bend(MadElementCommand, metaclass=BendType):
         'KILL_EXT_FRINGE': (None, 'If this logical flag is set to true the fringe fields on the exit of the element '
                                   'are not taken into account (not calculated). (Deefault: false).')
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
-        commands (e.g. fit)."""
+    """Parameters of the command, with their default value and their description."""
 
 
 class RBend(Bend):
@@ -134,3 +132,38 @@ class SBend(Bend):
     """
     KEYWORD = 'SBEND'
     """Keyword of the command used for the MAD-X input data."""
+
+
+class DipEdge(MadElementCommand):
+    """
+    A thin element describing the edge focusing of a dipole has been introduced in order to make it possible to track
+    trajectories in the presence of dipoles with pole face angles. Only linear terms are considered since the higher
+    order terms would make the tracking non-symplectic. The transformation of the machine elements into thin lenses
+    leaves dipole edge (DIPEDGE) elements untouched and splits correctly the SBEND’s.
+
+    It does not make sense to use a DIPEDGE alone. It can be specified at the entrance and the exit of a SBEND.
+    """
+    KEYWORD = 'DIPEDGE'
+    """Keyword of the command used for the MAD-X input data."""
+
+
+class Quadrupole(MadElementCommand):
+    """A magnetic quadrupole."""
+    KEYWORD = 'QUADRUPOLE'
+    """Keyword of the command used for the MAD-X input data."""
+
+    PARAMETERS = {
+        'L': (0 * _ureg.m, 'The quadrupole length (default: 0 m).'),
+        'K1': (0, 'The normal quadrupole coefficient: K1 = 1/(Bρ)(∂By/∂x). The default is 0 m−2. A positive normal '
+                  'quadrupole strength implies horizontal focussing, irrespective of the charge of the particles.'),
+        'K1S': (0, 'The skew quadrupole coefficient K1s = 1/(2Bρ)(∂Bx/∂x − ∂By/∂y) where (x,y) is now a coordinate '
+                   'system rotated by −45◦ around s with respect to the normal one. The default is 0 m−2. '
+                   'A positive skew quadrupole strength implies defocussing, irrespective of the charge of the '
+                   'particles, in the (x,s) plane rotated by 45◦ around s (particles in this plane have x = y > 0).'),
+        'TILT': (None, 'The roll angle about the longitudinal axis (default: 0 rad, i.e. a normal quadrupole). A '
+                       'positive angle represents a clockwise rotation. A TILT=pi/4 turns a positive normal quadrupole '
+                       'into a negative skew quadrupole.'),
+        'THICK': (None, 'If this logical flag is set to true the quadrupole is tracked through as a thick- element, '
+                        'instead of being converted into thin-lenses. (Default: false).')
+    }
+    """Parameters of the command, with their default value and their description."""
