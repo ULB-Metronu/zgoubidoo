@@ -1,8 +1,19 @@
 """TODO"""
 from ..commands import Command as _Command
+from ..commands import CommandType as _CommandType
 
 
-class MadCommand(_Command):
+class MadCommandType(_CommandType):
+    """
+    Dark magic.
+    Be careful.
+
+    TODO
+    """
+    pass
+
+
+class MadCommand(_Command, metaclass=MadCommandType):
     """MAD Command.
 
     """
