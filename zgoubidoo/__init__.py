@@ -68,9 +68,10 @@ from . import physics
 from . import vis
 from . import twiss
 from . import physics
-from .input import Input, InputValidator, ZgoubiInputException, ParametricMapping
+from .input import Input, MadInput, InputValidator, ZgoubiInputException, ParametricMapping
 from .output.zgoubi import read_fai_file, read_plt_file, read_matrix_file, read_srloss_file
 from .zgoubi import Zgoubi, ZgoubiResults, ZgoubiException
+from .madx import Mad, MadResults, MadException
 from .survey import survey
 from .frame import Frame, ZgoubidooFrameException
 from .polarity import HorizontalPolarity, VerticalPolarity

@@ -23,6 +23,7 @@ from . import _Q
 from .commands import *
 from .frame import Frame as _Frame
 import zgoubidoo.commands
+import zgoubidoo.commands.madx
 
 _logger = logging.getLogger(__name__)
 ParametersMappingType = Mapping[str, Sequence[Union[_Q, float]]]
@@ -166,7 +167,7 @@ class Input:
         Returns:
             a valid Zgoubi input stream as a string.
         """
-        return Input.build(self._name, self._line)
+        return self.build(self._name, self._line)
 
     def __repr__(self) -> str:
         return str(self)
@@ -695,6 +696,28 @@ class Input:
             line=[getattr(zgoubidoo.commands, _parse.search("'{KEYWORD}'", c)['KEYWORD'].capitalize()).build(c, debug)
                   for c in "\n".join([_.strip() for _ in stream.split('\n')]).strip('\n').split('\n\n')]
         )
+
+
+class MadInput(Input):
+    """MAD-X input sequence with correct grammer."""
+
+    @staticmethod
+    def build(name: str = 'beamline', line: Optional[List[zgoubidoo.commands.Command]] = None) -> str:
+        """Build a string representing the complete input.
+
+        A string is built based on the MAD-X serialization of all elements (commands) of the input sequence.
+
+        Args:
+            name: the name of the resulting Zgoubi input.
+            line: the input sequence.
+
+        Returns:
+            a string in a valid Zgoubi input format.
+        """
+        extra_end = None
+        if len(line) == 0 or not isinstance(line[-1], zgoubidoo.commands.madx.Stop):
+            extra_end = [zgoubidoo.commands.madx.Stop()]
+        return ''.join(map(str, (line or []) + (extra_end or [])))
 
 
 class InputValidator:
