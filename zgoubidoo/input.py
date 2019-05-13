@@ -44,6 +44,9 @@ PathsListType = List[Tuple[MappedParametersType, Union[str, tempfile.TemporaryDi
 ZGOUBI_INPUT_FILENAME: str = 'zgoubi.dat'
 """File name for Zgoubi input data."""
 
+MAD_INPUT_FILENAME: str = 'input.mad'
+"""File name for MAD-X input data."""
+
 ZGOUBI_IMAX: int = 10000
 """Maximum number of particles that a Zgoubi objet can contain."""
 
@@ -141,6 +144,7 @@ class Input:
         'test_beamline'
         >>> zi()
     """
+
 
     def __init__(self,
                  name: str = 'beamline',
@@ -700,6 +704,8 @@ class Input:
 
 class MadInput(Input):
     """MAD-X input sequence with correct grammer."""
+    ZGOUBI_INPUT_FILENAME: str = 'input.mad'
+    """File name for input data."""
 
     @staticmethod
     def build(name: str = 'beamline', line: Optional[List[zgoubidoo.commands.Command]] = None) -> str:

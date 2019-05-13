@@ -36,8 +36,9 @@ class MadCommand(_Command, metaclass=MadCommandType):
 
         """
         cmd = f"{self.KEYWORD}, "
-        for p in Beam.PARAMETERS.keys():
-            cmd += f"{p}={getattr(self, p)}, " if getattr(self, p) else ''
+        for p in self.PARAMETERS.keys():
+            if p is not 'LABEL1':
+                cmd += f"{p}={getattr(self, p)}, " if getattr(self, p) else ''
         cmd = cmd.rstrip(', ')
         cmd += ';'
         return cmd
@@ -187,7 +188,7 @@ class Twiss(MadCommand):
     """Keyword of the command used for the MAD-X input data."""
 
     PARAMETERS = {
-        '': ('', ''),
+        'FILE': ('twiss.outx', 'Filename.'),
     }
     """Parameters of the command, with their default value and their description."""
 

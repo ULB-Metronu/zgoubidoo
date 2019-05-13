@@ -117,6 +117,12 @@ class Mad(Executable):
     EXECUTABLE_NAME: str = 'madx'
     """Default name of the MAD-X executable."""
 
+    INPUT_FILENAME: str = 'input.mad'
+    """Name of the input file for the executable."""
+
+    COMMAND_ARGUMENT: bool = True
+    """A flag to indicate if the input file name must be used as an argument to the command."""
+
     def __init__(self, executable: str = EXECUTABLE_NAME, path: str = None, n_procs: Optional[int] = None):
         """
         `Mad` is responsible for running the MAD-X executable within Zgoubidoo. It will run MAD-X as a subprocess

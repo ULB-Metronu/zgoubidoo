@@ -16,7 +16,6 @@ from concurrent.futures import Future as _Future
 import subprocess as sub
 from .input import Input
 from .input import MappedParametersType as _MappedParametersType
-from .input import ZGOUBI_INPUT_FILENAME as _ZGOUBI_INPUT_FILENAME
 
 __all__ = ['Executable', 'ResultsType']
 _logger = logging.getLogger(__name__)
@@ -41,6 +40,11 @@ class ExecutableResults(metaclass=ResultsType):
 
 class Executable:
     """High level interface to run Zgoubi from Python."""
+    INPUT_FILENAME: str = ''
+    """Name of the input file for the executable."""
+
+    COMMAND_ARGUMENT: bool = False
+    """A flag to indicate if the input file name must be used as an argument to the command."""
 
     def __init__(self, executable: str, results_type: ResultsType, path: str = None, n_procs: Optional[int] = None):
         """
@@ -75,7 +79,7 @@ class Executable:
                  mappings: _MappedParametersType = None,
                  debug: bool = False,
                  cb: Callable = None,
-                 filename: str = _ZGOUBI_INPUT_FILENAME,
+                 filename: str = None,
                  path: Optional[str] = None,
                  ) -> Executable:
         """
@@ -97,6 +101,7 @@ class Executable:
         mappings = mappings or [{}]
         identifier = identifier or {}
         mappings = [{**m, **identifier} for m in mappings]
+        filename = filename or self.INPUT_FILENAME
         for m, path in code_input(mappings=mappings, filename=filename, path=path).paths:
             print(f"Calling execute for mapping {m}")
             _logger.info(f"Starting Zgoubi in {path}.")
@@ -167,7 +172,7 @@ class Executable:
             p = path.name  # Path from a TemporaryDirectory
         except AttributeError:
             p = path  # p is a string
-        proc = sub.Popen([self.executable],
+        proc = sub.Popen([self.executable, self.INPUT_FILENAME if self.COMMAND_ARGUMENT else None],
                          stdin=sub.PIPE,
                          stdout=sub.PIPE,
                          stderr=sub.STDOUT,

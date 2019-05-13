@@ -37,10 +37,10 @@ class MadElementCommand(_Command, metaclass=MadElementCommandType):
         return cmd
 
 
-class MadClass(_Command, metaclass=MadElementCommandType):
+class MadInstance(_Command, metaclass=MadElementCommandType):
     """A class is the name of an element (or basic type) from which other elements have been derived."""
     PARAMETERS = {
-        'BASE': ('', '')
+        'CLASS': ('', '')
     }
 
     def __str__(self) -> str:
@@ -50,7 +50,7 @@ class MadClass(_Command, metaclass=MadElementCommandType):
         Returns:
             The string representation.
         """
-        return f"{self.LABEL1}: {self.BASE};"
+        return f"{self.LABEL1}: {self.CLASS};"
 
 
 class Sequence(MadElementCommand):
@@ -67,17 +67,13 @@ class Sequence(MadElementCommand):
         """Post-initialization of the sequence"""
         self._elements = elements or []
 
-    def add(self, element):
+    def add(self, element, at):
         """Add an element or a class to the sequence."""
-        self._elements.append(element)
-        return self
-
-    def __iadd__(self, other):
-        self.add(other)
+        self._elements.append((element, at))
         return self
 
     def __str__(self) -> str:
-        cmd = f"{self.LABEL1}: {self.KEYWORD}"
+        cmd = f"{self.LABEL1}: {self.KEYWORD}, "
         for p, v in self.PARAMETERS.items():
             if p is not 'LABEL1':
                 try:
@@ -88,7 +84,7 @@ class Sequence(MadElementCommand):
         cmd = cmd.rstrip(', ')
         cmd += ';\n'
         for e in self._elements:
-            cmd += '    ' + str(e) + '\n'
+            cmd += f"    {str(e[0]).rstrip(';')}, AT={e[1].m_as('m')};\n"
         cmd += 'ENDSEQUENCE;'
         return cmd
 

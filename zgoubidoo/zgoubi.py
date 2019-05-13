@@ -248,6 +248,9 @@ class Zgoubi(Executable):
     EXECUTABLE_NAME: str = 'zgoubi'
     """Default name of the Zgoubi executable."""
 
+    INPUT_FILENAME: str = 'zgoubi.dat'
+    """Name of the input file for the executable."""
+
     RESULT_FILE: str = 'zgoubi.res'
     """Default name of the Zgoubi result '.res' file."""
 
