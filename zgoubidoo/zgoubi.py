@@ -36,9 +36,9 @@ class ZgoubiResults:
     """Results from a Zgoubi executable run."""
     def __init__(self, results: List[Mapping]):
         """
-        `ZgoubiResults` is used to store results and outputs from a single or multiple Zgoubi runs. It is instanciated from
-        a list of dictionnaries containing the results (each one being a mapping between `MappedParameters` (to identify
-        from which run the results are from) and the results themselves (also a dictionnary)).
+        `ZgoubiResults` is used to store results and outputs from a single or multiple Zgoubi runs. It is instanciated
+        from a list of dictionnaries containing the results (each one being a mapping between `MappedParameters`
+        (to identify from which run the results are from) and the results themselves (also a dictionnary)).
 
         Methods and properties of `ZgoubiResults` are used to access and process individual or multiple results. In
         particular it is possible to extract a set of tracks from the results.

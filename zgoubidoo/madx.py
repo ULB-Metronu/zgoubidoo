@@ -11,11 +11,11 @@ from __future__ import annotations
 from typing import List, Mapping, Optional, Tuple, Union
 import logging
 import tempfile
-from io import IOBase as _IOBase
 import pandas as _pd
 from .executable import Executable
-from .input import Input as _Input
 from .input import MappedParametersType as _MappedParametersType
+from .input import MappedParametersListType as _MappedParametersListType
+from .output.madx import load_madx_twiss_table, load_madx_twiss_headers
 
 __all__ = ['MadException', 'MadResults', 'Mad']
 _logger = logging.getLogger(__name__)
@@ -46,7 +46,8 @@ class MadResults:
             results: a list of dictionnaries structure with the Zgoubi run information and errors.
         """
         self._results: List[Mapping] = results
-        self._tracks: Optional[_pd.DataFrame] = None
+        self._twiss: Optional[_pd.DataFrame] = None
+        self._twiss_header: Optional[_pd.Series] = None
         self._matrix: Optional[_pd.DataFrame] = None
         self._srloss: Optional[_pd.DataFrame] = None
 
@@ -73,6 +74,58 @@ class MadResults:
     def __getitem__(self, item: int):
         """Retrieve results from the list using a numeric index."""
         return self._results[item]
+
+    def get_twiss(self,
+                  parameters: Optional[_MappedParametersListType] = None,
+                  force_reload: bool = False
+                  ) -> _pd.DataFrame:
+        """
+        Collects all Twiss data from the different MAD-X instances matching the given parameters list
+        in the results and concatenate them.
+
+        Args:
+            parameters:
+            force_reload:
+
+        Returns:
+            A concatenated DataFrame with all the Twiss data in the result matching the parameters list.
+        """
+        if self._twiss is not None and parameters is None and force_reload is False:
+            return self._twiss
+        twiss = list()
+        for k, r in self.results:
+            if parameters is None or k in parameters:
+                try:
+                    try:
+                        p = r['path'].name
+                    except AttributeError:
+                        p = r['path']
+                    twiss.append(load_madx_twiss_table(path=p))
+                    for kk, vv in k.items():
+                        twiss[-1][f"{kk}"] = vv
+                except FileNotFoundError:
+                    _logger.warning(
+                        f"Unable to read and load the Twiss files required to collect the Twiss data for path "
+                        "{r['path']}."
+                    )
+                    continue
+        if len(twiss) > 0:
+            twiss = _pd.concat(twiss)
+        else:
+            twiss = _pd.DataFrame()
+        if parameters is None:
+            self._twiss = twiss
+        return twiss
+
+    @property
+    def twiss(self) -> _pd.DataFrame:
+        """
+        Collects all tracks from the different Zgoubi instances in the results and concatenate them.
+
+        Returns:
+            A concatenated DataFrame with all the tracks in the result.
+        """
+        return self.get_twiss()
 
     @property
     def results(self) -> List[Tuple[_MappedParametersType, Mapping]]:
