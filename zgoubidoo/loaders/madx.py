@@ -68,35 +68,27 @@ def create_madx_rbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dic
     Returns:
 
     """
-    return [options.get('command', Bend)(twiss_row.name[0:8],
-                                         XL=twiss_row['L'] * _ureg.meter,
-                                         B0=kinematics.brho / (twiss_row['L'] / twiss_row['ANGLE'] * _ureg.meter),
-                                         )]
-
-
-def create_madx_sbend_with_multipole(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> List[Command]:
-    """
-
-    Args:
-        twiss_row:
-        kinematics:
-        options:
-
-    Returns:
-
-    """
     bore_radius = options.get('R0', 10 * _ureg.cm)
-    return [
-        Multipole(
-            XL=twiss_row['L'] * _ureg.meter,
-            R0=bore_radius,
-            B1=kinematics.brho / (twiss_row['L'] / twiss_row['ANGLE'] * _ureg.m),
-            B2=twiss_row['K1L'] / twiss_row['L'] * kinematics.brho_ * _m(bore_radius) * _ureg.tesla,
-            R1=twiss_row['TILT'] * _ureg.radian,
-            R2=twiss_row['TILT'] * _ureg.radian,
-            KPOS=3,  # MAD-X convention
-        ).generate_label(prefix=twiss_row.name[0:8]),
-    ]
+    m = Multipole(
+        XL=twiss_row['L'] * _ureg.meter,
+        R0=bore_radius,
+        B1=kinematics.brho / (twiss_row['L'] / twiss_row['ANGLE'] * _ureg.m),
+        B2=twiss_row['K1L'] / twiss_row['L'] * kinematics.brho_ * bore_radius.m_as('m') * _ureg.tesla,
+        R1=twiss_row['TILT'] * _ureg.radian,
+        R2=twiss_row['TILT'] * _ureg.radian,
+        KPOS=0,  # MAD-X convention
+    ).generate_label(prefix=twiss_row.name[0:8])
+
+    if twiss_row['ANGLE'] > 0:
+        return [
+            Ymy(),
+            m,
+            Ymy(),
+        ]
+    else:
+        return [
+            m
+        ]
 
 
 def create_madx_sbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> List[Command]:
@@ -110,31 +102,24 @@ def create_madx_sbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dic
     Returns:
 
     """
-    if options.get('command', Dipole) is Multipole:
-        return create_madx_sbend_with_multipole(twiss_row, kinematics, options)
+    b = options.get('command', Bend)(twiss_row.name[0:8],
+                                     XL=twiss_row['L'] * _ureg.meter,
+                                     B1=kinematics.brho / (twiss_row['L'] / twiss_row['ANGLE'] * _ureg.meter),
+                                     KPOS=3,
+                                     )
+    if twiss_row['ANGLE'] > 0:
+        return [
+            ChangeRef(TRANSFORMATIONS=[['XR', float(twiss_row['TILT']) * _ureg.radian]]),
+            Ymy(),
+            b,
+            Ymy(),
+            ChangeRef(TRANSFORMATIONS=[['XR', float(twiss_row['TILT']) * _ureg.radian]]),
+
+        ]
     else:
-        radius = np.abs(twiss_row['L'] / twiss_row['ANGLE']) * _ureg.meter
-        b0 = kinematics.brho / radius
-        d = Dipole(AT=np.abs(twiss_row['ANGLE']) * _ureg.radian,
-                   RM=radius,
-                   B0=b0,
-                   THETA_E=-twiss_row['E1'] * _ureg.radian,
-                   THETA_S=-twiss_row['E2'] * _ureg.radian,
-                   ).generate_label(prefix=twiss_row.name[0:8])
-        if twiss_row['ANGLE'] < 0:
-            return [
-                ChangeRef(TRANSFORMATIONS=[['XR', float(twiss_row['TILT']) * _ureg.radian]]),
-                Ymy(),
-                d,
-                Ymy(),
-                ChangeRef(TRANSFORMATIONS=[['XR', -float(twiss_row['TILT']) * _ureg.radian]]),
-            ]
-        else:
-            return [
-                ChangeRef(TRANSFORMATIONS=[['XR', float(twiss_row['TILT']) * _ureg.radian]]),
-                d,
-                ChangeRef(TRANSFORMATIONS=[['XR', -float(twiss_row['TILT']) * _ureg.radian]]),
-            ]
+        return [
+            b
+        ]
 
 
 def create_madx_quadrupole(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> List[Command]:
@@ -153,7 +138,11 @@ def create_madx_quadrupole(twiss_row: pd.Series, kinematics: Kinematics, options
     return [Quadrupole(XL=twiss_row['L'] * _ureg.meter,
                        R0=bore_radius,
                        B0=twiss_row['K1L'] / twiss_row['L'] * kinematics.brho_* _m(bore_radius) * _ureg.tesla,
-                       ).generate_label(prefix=twiss_row.name[0:8])
+                       XE=0 * _ureg.cm,
+                       LAM_E=0 * _ureg.cm,
+                       XS=0 * _ureg.cm,
+                       LAM_S=0 * _ureg.cm,
+                       ).generate_label(prefix=twiss_row.name[0:8]),
             ]
 
 
@@ -189,7 +178,9 @@ def from_madx_twiss(filename: str = 'twiss.outx',
                     path: str = '.',
                     columns: List = None,
                     options: Optional[dict] = None,
-                    converters: Optional[dict] = None) -> _Sequence:
+                    converters: Optional[dict] = None,
+                    from_element: str = None,
+                    to_element: str = None,) -> _Sequence:
     """
     TODO
     Args:
@@ -198,17 +189,22 @@ def from_madx_twiss(filename: str = 'twiss.outx',
         columns: the list of columns in the Twiss file
         options:
         converters:
+        from_element:
+        to_element:
 
     Returns:
 
+    Examples:
+        >>> lhec = zgoubidoo.from_madx_twiss(filename='lhec.outx', path='.')
     """
     madx_converters = {k.split('_')[2].upper(): getattr(sys.modules[__name__], k)
                        for k in globals().keys() if k.startswith('create_madx')}
     conversion_functions = {**madx_converters, **(converters or {})}
     options = options or {}
     twiss_headers = load_madx_twiss_headers(filename, path)
-    twiss_table = load_madx_twiss_table(filename, path, columns)
-    p = getattr(particules, twiss_headers['PARTICLE'].capitalize())
+    twiss_table = load_madx_twiss_table(filename, path, columns).loc[from_element:to_element]
+    particle_name = twiss_headers['PARTICLE'].capitalize()
+    p = getattr(particules, particle_name if particle_name != 'Default' else 'Proton')
     k = Kinematics(float(twiss_headers['PC']) * _ureg.GeV_c, particle=p)
     converted_table: list = list(
         twiss_table.apply(
