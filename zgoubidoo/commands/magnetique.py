@@ -151,7 +151,7 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
             self._entry_patched.translate_x(-(self.X_E or 0.0 * _ureg.cm))
             self._entry_patched.translate_x(self.x_offset)
             self._entry_patched.translate_y(self.y_offset)
-            self._entry_patched.rotate_z(-self.rotation)
+            self._entry_patched.rotate_z(-self.rotation)  # Is this sign correct?
         return self._entry_patched
 
     @property
@@ -1830,7 +1830,7 @@ Multipol = Multipole
 
 
 class FakeDrift(Multipole):
-    """A fake drift (bend with almost vanishing field) to allow plotting trajectories through drift spaces."""
+    """A fake drift (multipole with almost vanishing field) to allow plotting trajectories through drift spaces."""
     PARAMETERS = {
         'B1': 1e-6 * _ureg.gauss,
         'COLOR': 'black',
@@ -1935,15 +1935,15 @@ class PS170(Magnet):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
-    def __str__(s) -> str:
-        if s.KPOS not in (0, 1, 2):
+    def __str__(self) -> str:
+        if self.KPOS not in (0, 1, 2):
             raise _ZgoubidooException("KPOS must be in (0, 1, 2)")
         return f"""
         {super().__str__().rstrip()}
-        {int(s.IL):d}
-        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B0):.12e}
-        {_cm(s.XPAS):.12e}  
-        {int(s.KPOS):d} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
+        {int(self.IL):d}
+        {_cm(self.XL):.12e} {_cm(self.R0):.12e} {_kilogauss(self.B0):.12e}
+        {_cm(self.XPAS):.12e}  
+        {int(self.KPOS):d} {_cm(self.XCE):.12e} {_cm(self.YCE):.12e} {_radian(self.ALE):.12e}
         """
 
 

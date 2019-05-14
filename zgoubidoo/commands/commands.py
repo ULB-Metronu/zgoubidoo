@@ -593,7 +593,7 @@ class ChangRef(Command, _Patchable):
         return c
 
     @property
-    def entry_patched(self) -> _Frame:
+    def exit_patched(self) -> _Frame:
         """
 
         Returns:

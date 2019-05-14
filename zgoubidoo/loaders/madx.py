@@ -17,11 +17,10 @@ Examples:
 from typing import Optional, Dict, List
 import sys
 import pandas as pd
-import numpy as np
 import itertools
 from .. import ureg as _ureg
 from ..sequence import Sequence as _Sequence
-from ..commands import Dipole, Quadrupole, Sextupole, Octupole, Command, Marker, Drift, Bend, Ymy, ChangeRef, Multipole
+from ..commands import Quadrupole, Sextupole, Octupole, Command, Marker, Drift, Bend, Ymy, ChangeRef, Multipole
 from ..kinematics import Kinematics
 from ..commands import particules
 from ..units import _m
@@ -76,7 +75,7 @@ def create_madx_rbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dic
         B2=twiss_row['K1L'] / twiss_row['L'] * kinematics.brho_ * bore_radius.m_as('m') * _ureg.tesla,
         R1=twiss_row['TILT'] * _ureg.radian,
         R2=twiss_row['TILT'] * _ureg.radian,
-        KPOS=0,  # MAD-X convention
+        KPOS=3,
     ).generate_label(prefix=twiss_row.name[0:8])
 
     if twiss_row['ANGLE'] > 0:
@@ -105,16 +104,14 @@ def create_madx_sbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dic
     b = options.get('command', Bend)(twiss_row.name[0:8],
                                      XL=twiss_row['L'] * _ureg.meter,
                                      B1=kinematics.brho / (twiss_row['L'] / twiss_row['ANGLE'] * _ureg.meter),
+                                     SK=twiss_row['TILT'] * _ureg.radian,
                                      KPOS=3,
                                      )
     if twiss_row['ANGLE'] > 0:
         return [
-            ChangeRef(TRANSFORMATIONS=[['XR', float(twiss_row['TILT']) * _ureg.radian]]),
             Ymy(),
             b,
             Ymy(),
-            ChangeRef(TRANSFORMATIONS=[['XR', float(twiss_row['TILT']) * _ureg.radian]]),
-
         ]
     else:
         return [

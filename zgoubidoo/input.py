@@ -144,8 +144,6 @@ class Input:
         'test_beamline'
         >>> zi()
     """
-
-
     def __init__(self,
                  name: str = 'beamline',
                  line: Optional[Sequence[commands.Command]] = None,
@@ -311,7 +309,8 @@ class Input:
             slicing = slice(start, end, items.step)
             return Input(name=f"{self._name}_sliced_from_{getattr(items.start, 'LABEL1', items.start)}"
                               f"_to_{getattr(items.stop, 'LABEL1', items.stop)}",
-                         line=self._line[slicing]
+                         line=self._line[slicing],
+                         with_survey=False,
                          )
 
         else:
@@ -619,6 +618,7 @@ class Input:
              artist: zgoubidoo.vis.ZgoubiPlot = None,
              start: Optional[Union[str, zgoubidoo.commands.Command]] = None,
              stop: Optional[Union[str, zgoubidoo.commands.Command]] = None,
+             z_rotation: Optional[_.Q] = 0 * _ureg.radian,
              ) -> zgoubidoo.vis.ZgoubiPlot:
         """Plot the input sequence.
 
@@ -630,8 +630,9 @@ class Input:
             artist: an artist object for the rendering
             start: first element of the beamline to be plotted
             stop: last element of the beamline to be plotted
+            z_rotation:
         """
-        zgoubidoo.survey(beamline=self)
+        zgoubidoo.survey(beamline=self, reference_frame=_Frame().rotate_z(z_rotation))
 
         if artist is None:
             artist = zgoubidoo.vis.ZgoubiMpl(ax=ax)

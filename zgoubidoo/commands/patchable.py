@@ -37,7 +37,7 @@ class Patchable:
         self._entry = None
         self._entry_patched = None
         self._exit = None
-        self._entry_patched = None
+        self._exit_patched = None
         self._center = None
 
     @property
