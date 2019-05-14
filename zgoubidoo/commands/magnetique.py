@@ -704,16 +704,6 @@ class Bend(CartesianMagnet):
         """
 
 
-class FakeDrift(Bend):
-    """A fake drift (bend with almost vanishing field) to allow plotting trajectories through drift spaces."""
-    PARAMETERS = {
-        'B1': 1e-6 * _ureg.gauss,
-        'COLOR': 'gray',
-    }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
-        commands (e.g. fit)."""
-
-
 class Decapole(CartesianMagnet):
     """Decapole magnet.
 
@@ -1815,6 +1805,8 @@ class Multipole(CartesianMagnet):
             'XCE': (0 * _ureg.cm, ''),
             'YCE': (0 * _ureg.cm, ''),
             'ALE': (0 * _ureg.radian, ''),
+            'COLOR': ('red', 'Magnet color for plotting.'),
+
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
@@ -1835,6 +1827,16 @@ class Multipole(CartesianMagnet):
 
 
 Multipol = Multipole
+
+
+class FakeDrift(Multipole):
+    """A fake drift (bend with almost vanishing field) to allow plotting trajectories through drift spaces."""
+    PARAMETERS = {
+        'B1': 1e-6 * _ureg.gauss,
+        'COLOR': 'black',
+    }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+        commands (e.g. fit)."""
 
 
 class Octupole(CartesianMagnet):
@@ -2034,6 +2036,7 @@ class Quadrupole(CartesianMagnet):
         'XCE': (0 * _ureg.centimeter, 'x offset'),
         'YCE': (0 * _ureg.centimeter, 'y offset'),
         'ALE': 0 * _ureg.radian,
+        'COLOR': ('blue', 'Magnet color for plotting.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""

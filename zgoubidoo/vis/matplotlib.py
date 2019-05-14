@@ -301,7 +301,7 @@ class ZgoubiMpl(ZgoubiPlot):
                 ),
                 _m(magnet.length),
                 0.1,
-                alpha=0.5,
+                alpha=1.0,
                 facecolor=self._palette.get(magnet.COLOR, 'gray'),
                 edgecolor=self._palette.get(magnet.COLOR, 'gray'),
                 linewidth=0,
