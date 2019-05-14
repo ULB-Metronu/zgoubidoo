@@ -188,7 +188,38 @@ class Twiss(MadCommand):
     """Keyword of the command used for the MAD-X input data."""
 
     PARAMETERS = {
-        'FILE': ('twiss.outx', 'Filename.'),
+        'SEQUENCE': (None, 'The name of a valid sequence for which the calculation of optical functions should be '
+                           'performed. SEQUENCE and LINE are mutually exclusive. (Default: sequence or beam line '
+                           'defined in the latest USE command)'),
+        'LINE': (None, 'the name of a valid beamline for which the calculation of optical functions should be '
+                       'performed. SEQUENCE and LINE are mutually exclusive. (Default: sequence or beam line defined '
+                       'in the latest USE command)'),
+        'RANGE': (None, '(Default: #S/#E). The TWISS calculation is restricted to the specified range.'),
+        'DELTAP': (None, 'The relative energy error DELTAP may be entered in one of the two forms above. The first '
+                         'form lists several numbers, which may be general expressions, sepa- rated by commas. The '
+                         'second form specifies an initial value, a final value, and a step, which must be constant '
+                         'expressions, separated by colons. For example, DELTAP=0.001 defines a single value, '
+                         'DELTAP=0.001,0.005 de- fines two values and DELTAP=0.001:0.007:0.002 defines four values.'),
+        'CHROM': (None, 'A logical flag to trigger computation of the chromatic functions as well as the radiation '
+                        'synchrotron integrals.'),
+        'CENTRE': (None, 'A logical flag to enforce the calculation of the linear lattice functions at the center of '
+                         'the element instead of the end of the element. The values in the tables and in the output '
+                         'files are affected by this flag. (Default: false)'),
+        'TOLERANCE': (None, 'The maximum closed orbit error, for all six orbit components, that can be tolerated '
+                            'during the closed orbit search. The value given in the TWISS command is only valid for '
+                            'the current calculation; the COGUESS command allows to change the default value for '
+                            'all subsequent closed orbit search calculations. (Default: 1.e-6)'),
+        'FILE': ('twiss.outx', 'Causes MAD-X to write a TFS Twiss table to the file specified. (Default: “twiss”) '
+                               'The columns of the table can be selected using the SELECT command with the '
+                               'FLAG=twiss attribute.'),
+        'TABLE': (None, 'The name of the table where linear lattice functions as well as chromatic functions are '
+                        'stored. (Default: “twiss”)'),
+        'NOTABLE': (None, 'Logical flag to prevent the creation of the internal twiss table. Consequently, no output '
+                          'file is created either.'),
+        'RMATRIX': (None, 'If this flag is used the the one-turn map at the location of every element is calculated '
+                          'and prepared for storage in the twiss table. Using the SELECT command and using the column '
+                          'RE, RE11 ...RE16 ...RE61 ...RE66 these components will be added to the twiss table, i.e. '
+                          'with "COLUMN, RE" and "COLUMN, REij" one gets all or the component ”ij” respectively.'),
     }
     """Parameters of the command, with their default value and their description."""
 
