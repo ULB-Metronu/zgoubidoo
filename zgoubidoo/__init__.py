@@ -67,7 +67,7 @@ from . import commands
 from . import physics
 from . import vis
 from . import twiss
-from . import physics
+from .sequence import Sequence, ZgoubidooSequenceException
 from .input import Input, MadInput, InputValidator, ZgoubiInputException, ParametricMapping
 from .output.zgoubi import read_fai_file, read_plt_file, read_matrix_file, read_srloss_file
 from .zgoubi import Zgoubi, ZgoubiResults, ZgoubiException
