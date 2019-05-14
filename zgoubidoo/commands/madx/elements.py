@@ -222,3 +222,22 @@ class Quadrupole(MadElementCommand):
                         'instead of being converted into thin-lenses. (Default: false).')
     }
     """Parameters of the command, with their default value and their description."""
+
+
+class Sextupole(MadElementCommand):
+    """A magnetic sextupole"""
+    KEYWORD = 'SEXTUPOLE'
+    """Keyword of the command used for the MAD-X input data."""
+
+    PARAMETERS = {
+        'L': (0 * _ureg.m, 'The sextupole length (default: 0 m).'),
+        'K2': (0, 'The normal sextupole coefficient K2 = 1 (∂2By/∂x2). (default: 0 m−3).'),
+        'K2S': (0, 'The skew sextupole coefficient K2S = 1 (∂2Bx/∂x2) Bρ where (x,y) is now a coordinate system '
+                   'rotated by −30◦ around s with respect to the normal one. (default: 0 m−3). A positive skew '
+                   'sextupole strength implies defocussing (!) irrespective of the charge of the particles, in the '
+                   '(x,s) plane rotated by 30◦ around s (particles in this plane have x > 0, y > 0).'),
+        'TILT': (None, 'The roll angle about the longitudinal axis (default: 0 rad, i.e. a normal sex- tupole). A '
+                       'positive angle represents a clockwise rotation. A TILT = pi/6 turns a positive normal '
+                       'sextupole into a negative skew sextupole.')
+    }
+    """Parameters of the command, with their default value and their description."""
