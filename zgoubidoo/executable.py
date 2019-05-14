@@ -172,7 +172,9 @@ class Executable:
             p = path.name  # Path from a TemporaryDirectory
         except AttributeError:
             p = path  # p is a string
-        proc = sub.Popen([self.executable, self.INPUT_FILENAME if self.COMMAND_ARGUMENT else None],
+        proc = sub.Popen([x for x in
+                          [self.executable, self.INPUT_FILENAME if self.COMMAND_ARGUMENT else None] if x is not None
+                          ],
                          stdin=sub.PIPE,
                          stdout=sub.PIPE,
                          stderr=sub.STDOUT,
