@@ -357,6 +357,7 @@ class ZgoubiMpl(ZgoubiPlot):
                   ms=10
                   )
 
+        # Synchrotron radiation fan plot, to be moved or removed
         d = tracks['T'].values
         d[:] -= Frame(magnet.entry_patched).rotate_z(2 * magnet.entry_patched.tx)._get_ty()
 
