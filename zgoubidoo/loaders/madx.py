@@ -21,7 +21,7 @@ import pandas as pd
 import itertools
 from .. import ureg as _ureg
 from ..sequence import Sequence as _Sequence
-from ..commands import Quadrupole, Sextupole, Octupole, Command, Marker, Drift, Bend, Ymy, ChangeRef, Multipole
+from ..commands import Quadrupole, Sextupole, Octupole, Command, Marker, Drift, Bend, ChangeRef, Multipole, Cavity
 from ..kinematics import Kinematics
 from ..commands import particules
 from ..units import _m
@@ -130,7 +130,8 @@ def create_madx_quadrupole(twiss_row: pd.Series, kinematics: Kinematics, options
     """
 
     bore_radius = options.get('R0', 10 * _ureg.cm)
-    return [Quadrupole(XL=twiss_row['L'] * _ureg.meter,
+    return [Quadrupole(twiss_row.name[0:8],
+                       XL=twiss_row['L'] * _ureg.meter,
                        R0=bore_radius,
                        B0=twiss_row['K1L'] / twiss_row['L'] * kinematics.brho_ * _m(bore_radius) * _ureg.tesla,
                        XE=0 * _ureg.cm,
@@ -167,6 +168,24 @@ def create_madx_octupole(twiss_row: pd.Series, kinematics: Kinematics, options: 
 
     """
     return [Octupole(twiss_row.name[0:8], XL=twiss_row['L'] * _ureg.meter)]
+
+
+def create_madx_twcavity(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> List[Command]:
+    """
+
+    Args:
+        twiss_row:
+        kinematics:
+        options:
+
+    Returns:
+
+    """
+    cavity = Cavity(
+        twiss_row.name[0:8],
+
+    )
+    return []
 
 
 def from_madx_twiss(filename: str = 'twiss.outx',

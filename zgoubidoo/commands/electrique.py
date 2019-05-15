@@ -2,6 +2,7 @@
 
 More details here.
 """
+from .. import ureg as _ureg
 from .commands import Command as _Command
 
 
@@ -10,12 +11,23 @@ class Cavite(_Command):
     KEYWORD = 'CAVITE'
     """Keyword of the command used for the Zgoubi input data."""
 
-    def __str__(self):
+    PARAMETERS = {
+        'IOPT': (0, ""),
+        'FREQ': (0.0 * _ureg.Hz, ""),
+        'V': (0.0 * _ureg.volt, ""),
+        'PHI_S': (0.0 * _ureg.radian, ""),
+        'COLOR': 'yellow',
+    }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+        commands (e.g. fit)."""
+
+    def __str__(s):
         return f"""
-        {super().__str__()}
-        A B
-        C D
-        """
+            {super().__str__().rstrip()}
+            {int(s.IOPT):d}.1
+            0.0 {s.FREQ.to('Hz').magnitude:.12e}
+            {s.V.m_as('volt'):.12e} {s.PHI_S.m_as('radian'):.12e}
+            """
 
 
 # Alias
