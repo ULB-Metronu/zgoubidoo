@@ -16,6 +16,7 @@ Examples:
 """
 from typing import Optional, Dict, List
 import sys
+import numpy as _np
 import pandas as pd
 import itertools
 from .. import ureg as _ureg
@@ -78,16 +79,9 @@ def create_madx_rbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dic
         KPOS=3,
     ).generate_label(prefix=twiss_row.name[0:8])
 
-    if twiss_row['ANGLE'] > 0:
-        return [
-            Ymy(),
-            m,
-            Ymy(),
-        ]
-    else:
-        return [
-            m
-        ]
+    return [
+        m
+    ]
 
 
 def create_madx_sbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> List[Command]:
@@ -103,19 +97,23 @@ def create_madx_sbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dic
     """
     b = options.get('command', Bend)(twiss_row.name[0:8],
                                      XL=twiss_row['L'] * _ureg.meter,
-                                     B1=kinematics.brho / (twiss_row['L'] / twiss_row['ANGLE'] * _ureg.meter),
-                                     SK=twiss_row['TILT'] * _ureg.radian,
+                                     B1=kinematics.brho / (twiss_row['L'] / _np.abs(twiss_row['ANGLE']) * _ureg.meter),
                                      KPOS=3,
+                                     W_E=twiss_row['E1'] * _ureg.radian * _np.sign(twiss_row['ANGLE']),
+                                     W_S=twiss_row['E2'] * _ureg.radian * _np.sign(twiss_row['ANGLE']),
                                      )
-    if twiss_row['ANGLE'] > 0:
+    if twiss_row['ANGLE'] < 0:
         return [
-            Ymy(),
+            ChangeRef(TRANSFORMATIONS=[['XR', (-twiss_row['TILT'] + _np.pi) * _ureg.radian]]),
             b,
-            Ymy(),
+            ChangeRef(TRANSFORMATIONS=[['XR', -(-twiss_row['TILT'] + _np.pi) * _ureg.radian]]),
         ]
     else:
         return [
-            b
+            ChangeRef(TRANSFORMATIONS=[['XR', -twiss_row['TILT'] * _ureg.radian]]),
+            b,
+            ChangeRef(TRANSFORMATIONS=[['XR', twiss_row['TILT'] * _ureg.radian]])
+
         ]
 
 
@@ -134,7 +132,7 @@ def create_madx_quadrupole(twiss_row: pd.Series, kinematics: Kinematics, options
     bore_radius = options.get('R0', 10 * _ureg.cm)
     return [Quadrupole(XL=twiss_row['L'] * _ureg.meter,
                        R0=bore_radius,
-                       B0=twiss_row['K1L'] / twiss_row['L'] * kinematics.brho_* _m(bore_radius) * _ureg.tesla,
+                       B0=twiss_row['K1L'] / twiss_row['L'] * kinematics.brho_ * _m(bore_radius) * _ureg.tesla,
                        XE=0 * _ureg.cm,
                        LAM_E=0 * _ureg.cm,
                        XS=0 * _ureg.cm,

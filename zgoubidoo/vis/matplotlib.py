@@ -326,8 +326,15 @@ class ZgoubiMpl(ZgoubiPlot):
                   '.',
                   markeredgecolor=self._tracks_color,
                   markerfacecolor=self._tracks_color,
-                  ms=1
+                  ms=10
                   )
+
+        d = tracks['T'].values
+        d[:] -= Frame(magnet.entry_patched).rotate_z(2 * magnet.entry_patched.tx)._get_ty()
+
+        for x, y, t in zip(tracks_x, tracks_y, d):
+            arrow = patches.Arrow(x, y, 2000*_np.cos(t), 2000*_np.sin(t), width=5.0, color='green', alpha=0.3)
+            self.ax.add_patch(arrow)
 
     def tracks_polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet, tracks):
         """Plot tracks for a polar magnet.

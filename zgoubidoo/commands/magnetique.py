@@ -685,7 +685,7 @@ class Bend(CartesianMagnet):
         'XCE': 0.0 * _ureg.centimeter,
         'YCE': 0.0 * _ureg.centimeter,
         'ALE': 0.0 * _ureg.radian,
-        'COLOR': 'yellow',
+        'COLOR': 'red',
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
