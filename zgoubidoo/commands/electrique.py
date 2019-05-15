@@ -4,9 +4,12 @@ More details here.
 """
 from .. import ureg as _ureg
 from .commands import Command as _Command
+from .plotable import Plotable as _Plotable
+from .patchable import Patchable as _Patchable
+from ..vis.zgoubiplot import ZgoubiPlot as _ZgoubiPlot
 
 
-class Cavite(_Command):
+class Cavite(_Command, _Patchable, _Plotable):
     """Accelerating cavity."""
     KEYWORD = 'CAVITE'
     """Keyword of the command used for the Zgoubi input data."""
@@ -28,6 +31,20 @@ class Cavite(_Command):
             0.0 {s.FREQ.to('Hz').magnitude:.12e}
             {s.V.m_as('volt'):.12e} {s.PHI_S.m_as('radian'):.12e}
             """
+
+    def plot_cartouche(self, s_location, artist: _ZgoubiPlot):
+        """
+
+        Args:
+            s_location:
+            artist:
+
+        Returns:
+
+        """
+        getattr(artist,
+                f"cartouche_{self.__class__.__name__.lower()}"
+                )(s_location, self)
 
 
 # Alias

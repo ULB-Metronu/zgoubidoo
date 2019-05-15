@@ -619,6 +619,8 @@ class Input:
              start: Optional[Union[str, zgoubidoo.commands.Command]] = None,
              stop: Optional[Union[str, zgoubidoo.commands.Command]] = None,
              z_rotation: Optional[_.Q] = 0 * _ureg.radian,
+             with_frames: bool = True,
+             with_elements: bool = True,
              ) -> zgoubidoo.vis.ZgoubiPlot:
         """Plot the input sequence.
 
@@ -631,17 +633,20 @@ class Input:
             start: first element of the beamline to be plotted
             stop: last element of the beamline to be plotted
             z_rotation:
+            with_frames:
+            with_elements:
         """
         zgoubidoo.survey(beamline=self, reference_frame=_Frame().rotate_z(z_rotation))
 
         if artist is None:
-            artist = zgoubidoo.vis.ZgoubiMpl(ax=ax)
+            artist = zgoubidoo.vis.ZgoubiMpl(ax=ax, with_frames=with_frames)
         if ax is not None:
             artist.ax = ax
 
         zgoubidoo.vis.beamline(line=self[start:stop],
                                tracks=tracks,
                                artist=artist,
+                               with_elements=with_elements,
                                )
 
         artist.ax.set_aspect('equal', 'datalim')

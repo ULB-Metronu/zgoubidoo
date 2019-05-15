@@ -309,6 +309,34 @@ class ZgoubiMpl(ZgoubiPlot):
             )
         )
 
+    def cartouche_cavite(self, s_location, cavite: zgoubidoo.commands.Cavite):
+        """
+
+        Args:
+            s_location:
+            cavite:
+
+        Returns:
+
+        """
+        offset = 1.1
+        self._ax2.hlines(offset, _m(s_location), _m(s_location) + _m(cavite.length), clip_on=False)
+        self._ax2.add_patch(
+            patches.Rectangle(
+                (
+                    _m(s_location),
+                    offset - 0.05,
+                ),
+                1,
+                0.1,
+                alpha=1.0,
+                facecolor=self._palette.get(cavite.COLOR, 'gray'),
+                edgecolor=self._palette.get(cavite.COLOR, 'gray'),
+                linewidth=0,
+                clip_on=False,
+            )
+        )
+
     def tracks_cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet, tracks: _pd.DataFrame):
         """Plot tracks for a cartesian magnet.
 

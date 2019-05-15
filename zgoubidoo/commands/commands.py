@@ -1341,6 +1341,21 @@ class Scaling(Command):
     KEYWORD = 'SCALING'
     """Keyword of the command used for the Zgoubi input data."""
 
+    PARAMETERS = {
+    }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
+
+    def __str__(self):
+        return f"""
+        {super().__str__().rstrip()}
+        1 1
+        QUADRUPO
+        -1
+        1
+        1
+        """
+
 
 class Separa(Command):
     """Wien Filter - analytical simulation."""

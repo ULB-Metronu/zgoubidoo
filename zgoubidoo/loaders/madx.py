@@ -21,7 +21,7 @@ import pandas as pd
 import itertools
 from .. import ureg as _ureg
 from ..sequence import Sequence as _Sequence
-from ..commands import Quadrupole, Sextupole, Octupole, Command, Marker, Drift, Bend, ChangeRef, Multipole, Cavity
+from ..commands import Quadrupole, Sextupole, Octupole, Command, Marker, Drift, Bend, ChangeRef, Multipole, Cavite
 from ..kinematics import Kinematics
 from ..commands import particules
 from ..units import _m
@@ -181,11 +181,17 @@ def create_madx_twcavity(twiss_row: pd.Series, kinematics: Kinematics, options: 
     Returns:
 
     """
-    cavity = Cavity(
-        twiss_row.name[0:8],
-
-    )
-    return []
+    cavity = Cavite(
+        IOPT=3,
+        FREQ=twiss_row['FREQ'] * _ureg.MHz,
+        V=twiss_row['VOLT'] * _ureg.MV * _np.sign(kinematics.brho),
+        PHI_S=(twiss_row['LAG'] + _np.pi / 2) * _ureg.radian,
+    ).generate_label(prefix=twiss_row.name[0:8])
+    return [
+        Drift(XL=twiss_row['L'] / 2 * _ureg.meter),
+        cavity,
+        Drift(XL=twiss_row['L'] / 2 * _ureg.meter),
+    ]
 
 
 def from_madx_twiss(filename: str = 'twiss.outx',
