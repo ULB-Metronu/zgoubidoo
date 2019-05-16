@@ -15,10 +15,12 @@ class Cavite(_Command, _Patchable, _Plotable):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IOPT': (0, ""),
-        'FREQ': (0.0 * _ureg.Hz, ""),
-        'V': (0.0 * _ureg.volt, ""),
-        'PHI_S': (0.0 * _ureg.radian, ""),
+        'IOPT': (0, "Model."),
+        'FREQ': (0.0 * _ureg.Hz, "RF frequency"),
+        'V': (0.0 * _ureg.volt, "RF voltage"),
+        'PHI_S': (0.0 * _ureg.radian, "Phase"),
+        'XL': (0.0 * _ureg.cm, "Cavity length"),
+        'CHAMBERS': ('+1', "Use Chambers' model."),
         'COLOR': 'yellow',
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
@@ -27,9 +29,9 @@ class Cavite(_Command, _Patchable, _Plotable):
     def __str__(s):
         return f"""
             {super().__str__().rstrip()}
-            {int(s.IOPT):d}.1
-            0.0 {s.FREQ.to('Hz').magnitude:.12e}
-            {s.V.m_as('volt'):.12e} {s.PHI_S.m_as('radian'):.12e}
+            {int(s.IOPT):d}   PRINT
+            {s.XL.m_as('m'):.12e} {s.FREQ.to('Hz').magnitude:.12e}
+            {s.V.m_as('volt'):.12e} {s.PHI_S.m_as('radian'):.12e} {s.CHAMBERS}
             """
 
     def plot_cartouche(self, s_location, artist: _ZgoubiPlot):
