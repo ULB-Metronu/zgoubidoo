@@ -24,6 +24,7 @@ from .commands import *
 from .frame import Frame as _Frame
 import zgoubidoo.commands
 import zgoubidoo.commands.madx
+from .commands.commands import ZgoubidooException as _ZgoubidooException
 
 _logger = logging.getLogger(__name__)
 ParametersMappingType = Mapping[str, Sequence[Union[_Q, float]]]
@@ -358,8 +359,10 @@ class Input:
             self.__dict__[key] = value
         else:
             for e in self._line:
-                if getattr(e, key, None) is not None:
+                try:
                     setattr(e, key, value)
+                except _ZgoubidooException:
+                    pass
 
     def __contains__(self, items: Union[str, CommandType, Tuple[Union[str, CommandType]]]) -> int:
         """
@@ -385,7 +388,9 @@ class Input:
 
         """
         try:
-            items = tuple(map(lambda x: getattr(zgoubidoo.commands, x) if isinstance(x, str) else x, items))
+            items = tuple(map(
+                lambda x: getattr(zgoubidoo.commands, x.capitalize()) if isinstance(x, str) else x, items
+            ))
         except AttributeError:
             return list(), tuple()
         return list(filter(lambda x: reduce(lambda u, v: u or v, [isinstance(x, i) for i in items]), self._line)), items
@@ -618,9 +623,12 @@ class Input:
              artist: zgoubidoo.vis.ZgoubiPlot = None,
              start: Optional[Union[str, zgoubidoo.commands.Command]] = None,
              stop: Optional[Union[str, zgoubidoo.commands.Command]] = None,
-             z_rotation: Optional[_.Q] = 0 * _ureg.radian,
+             z_rotation: _.Q = 0.0 * _ureg.radian,
+             x_offset: _.Q = 0.0 * _ureg.m,
+             y_offset: _.Q = 0.0 * _ureg.m,
              with_frames: bool = True,
              with_elements: bool = True,
+             set_equal_aspect: bool = True,
              ) -> zgoubidoo.vis.ZgoubiPlot:
         """Plot the input sequence.
 
@@ -633,10 +641,15 @@ class Input:
             start: first element of the beamline to be plotted
             stop: last element of the beamline to be plotted
             z_rotation:
+            x_offset:
+            y_offset:
             with_frames:
             with_elements:
+            set_equal_aspect:
         """
-        zgoubidoo.survey(beamline=self, reference_frame=_Frame().rotate_z(z_rotation))
+        zgoubidoo.survey(beamline=self,
+                         reference_frame=_Frame().rotate_z(z_rotation).translate_x(x_offset).translate_y(y_offset)
+                         )
 
         if artist is None:
             artist = zgoubidoo.vis.ZgoubiMpl(ax=ax, with_frames=with_frames)
@@ -648,8 +661,8 @@ class Input:
                                artist=artist,
                                with_elements=with_elements,
                                )
-
-        artist.ax.set_aspect('equal', 'datalim')
+        if set_equal_aspect:
+            artist.ax.set_aspect('equal', 'datalim')
 
         return artist
 

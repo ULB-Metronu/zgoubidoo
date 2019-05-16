@@ -19,7 +19,7 @@ from .executable import Executable
 from .input import Input as _Input
 from .input import MappedParametersType as _MappedParametersType
 from .input import MappedParametersListType as _MappedParametersListType
-from .output.zgoubi import read_plt_file, read_matrix_file, read_srloss_file
+from .output.zgoubi import read_plt_file, read_matrix_file, read_srloss_file, read_srloss_steps_file
 
 __all__ = ['ZgoubiException', 'ZgoubiResults', 'Zgoubi']
 _logger = logging.getLogger(__name__)
@@ -53,6 +53,7 @@ class ZgoubiResults:
         self._tracks: Optional[_pd.DataFrame] = None
         self._matrix: Optional[_pd.DataFrame] = None
         self._srloss: Optional[_pd.DataFrame] = None
+        self._srloss_steps: Optional[_pd.DataFrame] = None
 
     @classmethod
     def merge(cls, *results: ZgoubiResults):
@@ -179,6 +180,53 @@ class ZgoubiResults:
 
         """
         return self.get_srloss()
+
+    def get_srloss_steps(self,
+                         parameters: Optional[_MappedParametersListType] = None,
+                         force_reload: bool = False) -> _pd.DataFrame:
+        """
+
+        Args:
+            parameters:
+            force_reload:
+
+        Returns:
+
+        """
+        if self._srloss_steps is not None and parameters is None and force_reload is False:
+            return self._srloss_steps
+        srloss_steps = list()
+        for k, r in self.results:
+            if parameters is None or k in parameters:
+                try:
+                    try:
+                        p = r['path'].name
+                    except AttributeError:
+                        p = r['path']
+                    srloss_steps.append(read_srloss_steps_file(path=p))
+                    for kk, vv in k.items():
+                        srloss_steps[-1][f"{kk}"] = vv
+                except FileNotFoundError:
+                    _logger.warning(
+                        "Unable to read and load the Zgoubi SRLOSS files required to collect the SRLOSS data."
+                    )
+                    continue
+        if len(srloss_steps) > 0:
+            srloss_steps = _pd.concat(srloss_steps)
+        else:
+            srloss_steps = _pd.DataFrame()
+        if parameters is None:
+            self._srloss_steps = srloss_steps
+        return srloss_steps
+
+    @property
+    def srloss_steps(self) -> _pd.DataFrame:
+        """
+
+        Returns:
+
+        """
+        return self.get_srloss_steps()
 
     @property
     def matrix(self) -> Optional[_pd.DataFrame]:

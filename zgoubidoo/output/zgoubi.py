@@ -174,6 +174,44 @@ def read_srloss_file(filename: str = 'zgoubi.SRLOSS.out', path: str = '.') -> pd
     return df
 
 
+def read_srloss_steps_file(filename: str = 'zgoubi.SRLOSS.STEPS.out', path: str = '.') -> pd.DataFrame:
+    """Read Zgoubi SRLOSS STEPS files to a DataFrame.
+
+    Reads the content of a Zgoubi SRLOSS STEPS (synchrotron radiation losses for each integration steps) file
+    (produced with SRPrint) and formats it as a valid Pandas DataFrame with headers.
+
+    Example:
+        >>> read_srloss_steps_file()
+
+    Args:
+        filename: the name of the file
+        path: the path to the SRLOSS STEPS file
+
+    Returns:
+        a Pandas DataFrame with the SRLOSS STEPS file content.
+
+    Raises:
+        a FileNotFoundException in case the file is not found.
+    """
+    headers = [
+        'LABEL1',
+        'NOEL',
+        'IT',
+        'K',
+        'E',
+        'DS',
+    ]
+
+    df = pd.read_csv(os.path.join(path, filename),
+                     skiprows=0,
+                     names=headers,
+                     sep=r'\s+',
+                     skipinitialspace=False,
+                     quotechar='\''
+                     )
+    return df
+
+
 def read_matrix_file(filename: str = 'zgoubi.MATRIX.out', path: str = '.') -> pd.DataFrame:
     """Read Zgoubi MATRIX files to a DataFrame.
 
