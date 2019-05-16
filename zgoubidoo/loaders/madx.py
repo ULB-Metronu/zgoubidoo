@@ -182,15 +182,15 @@ def create_madx_twcavity(twiss_row: pd.Series, kinematics: Kinematics, options: 
 
     """
     cavity = Cavite(
-        IOPT=3,
+        IOPT=10,
+        XL=1 * _ureg.m,
         FREQ=twiss_row['FREQ'] * _ureg.MHz,
         V=twiss_row['VOLT'] * _ureg.MV * _np.sign(kinematics.brho),
         PHI_S=(twiss_row['LAG'] + _np.pi / 2) * _ureg.radian,
     ).generate_label(prefix=twiss_row.name[0:8])
     return [
-        Drift(XL=twiss_row['L'] / 2 * _ureg.meter),
+        Drift(XL=1 * _ureg.mm),
         cavity,
-        Drift(XL=twiss_row['L'] / 2 * _ureg.meter),
     ]
 
 
@@ -199,6 +199,7 @@ def from_madx_twiss(filename: str = 'twiss.outx',
                     columns: List = None,
                     options: Optional[dict] = None,
                     converters: Optional[dict] = None,
+                    elements_database: Optional[dict] = None,
                     from_element: str = None,
                     to_element: str = None,) -> _Sequence:
     """
@@ -209,6 +210,7 @@ def from_madx_twiss(filename: str = 'twiss.outx',
         columns: the list of columns in the Twiss file
         options:
         converters:
+        elements_database:
         from_element:
         to_element:
 
@@ -220,6 +222,7 @@ def from_madx_twiss(filename: str = 'twiss.outx',
     madx_converters = {k.split('_')[2].upper(): getattr(sys.modules[__name__], k)
                        for k in globals().keys() if k.startswith('create_madx')}
     conversion_functions = {**madx_converters, **(converters or {})}
+    elements_database = elements_database or {}
     options = options or {}
     twiss_headers = load_madx_twiss_headers(filename, path)
     twiss_table = load_madx_twiss_table(filename, path, columns).loc[from_element:to_element]
@@ -228,8 +231,10 @@ def from_madx_twiss(filename: str = 'twiss.outx',
     k = Kinematics(float(twiss_headers['PC']) * _ureg.GeV_c, particle=p)
     converted_table: list = list(
         twiss_table.apply(
-            lambda _: conversion_functions.get(_['KEYWORD'], lambda _, __, ___: None)
-            (_, k, options.get(_['KEYWORD'], {})),
+            lambda _: elements_database.get(_.name,
+                                            conversion_functions.get(_['KEYWORD'], lambda _, __, ___: None)
+                                            (_, k, options.get(_['KEYWORD'], {}))
+                                            ),
             axis=1
         ).values
     )
