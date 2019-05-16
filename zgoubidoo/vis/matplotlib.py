@@ -344,26 +344,25 @@ class ZgoubiMpl(ZgoubiPlot):
             magnet: the magnet to which the tracks are attached
             tracks: a dataframe containing the tracks
         """
-        v = 100 * tracks[['X', 'Y-DY', 'Z']].values
-        m = Frame(magnet.entry_patched).rotate_z(2 * magnet.entry_patched.tx).get_rotation_matrix()
-        _ = _np.dot(v, m)
-        tracks_x = _cm(magnet.entry_patched.x) + _[:, 0]
-        tracks_y = _cm(magnet.entry_patched.y) + _[:, 1]
+        rotation = _np.linalg.inv(magnet.entry_patched.get_rotation_matrix())
+        v = _np.dot(100 * tracks[['X', 'Y-DY', 'Z']].values, rotation)
+        tracks_x = _cm(magnet.entry_patched.x) + v[:, 0]
+        tracks_y = _cm(magnet.entry_patched.y) + v[:, 1]
         self.plot(tracks_x,
                   tracks_y,
                   '.',
                   markeredgecolor=self._tracks_color,
                   markerfacecolor=self._tracks_color,
-                  ms=10
+                  ms=1
                   )
 
         # Synchrotron radiation fan plot, to be moved or removed
-        d = tracks['T'].values
-        d[:] -= Frame(magnet.entry_patched).rotate_z(2 * magnet.entry_patched.tx)._get_ty()
-
-        for x, y, t in zip(tracks_x, tracks_y, d):
-            arrow = patches.Arrow(x, y, 2000*_np.cos(t), 2000*_np.sin(t), width=5.0, color='green', alpha=0.3)
-            self.ax.add_patch(arrow)
+        # d = tracks['T'].values
+        # d[:] -= Frame(magnet.entry_patched).rotate_z(2 * magnet.entry_patched.tx)._get_ty()
+        #
+        # for x, y, t in zip(tracks_x, tracks_y, d):
+        #     arrow = patches.Arrow(x, y, 2000*_np.cos(t), 2000*_np.sin(t), width=5.0, color='green', alpha=0.3)
+        #     self.ax.add_patch(arrow)
 
     def tracks_polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet, tracks):
         """Plot tracks for a polar magnet.
