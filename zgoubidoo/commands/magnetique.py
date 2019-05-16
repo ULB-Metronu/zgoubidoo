@@ -42,7 +42,8 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
     """
     PARAMETERS = {
         'HEIGHT': (20 * _ureg.cm, 'Height of the magnet (distance between poles), used by plotting functions.'),
-        'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)')
+        'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'),
+        'KINEMATICS': (None, 'A kinematics object.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
@@ -148,14 +149,25 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
         """
         if self._entry_patched is None:
             self._entry_patched = _Frame(self.entry)
-            self._entry_patched.translate_x(-(self.X_E or 0.0 * _ureg.cm))
-            self._entry_patched.translate_x(self.x_offset)
-            self._entry_patched.translate_y(self.y_offset)
-            self._entry_patched.rotate_z(-self.rotation)  # Is this sign correct?
+            if self.KPOS in (0, 1, 2):
+                self._entry_patched.translate_x(-(self.X_E or 0.0 * _ureg.cm))
+                self._entry_patched.translate_x(self.x_offset)
+                self._entry_patched.translate_y(self.y_offset)
+                self._entry_patched.rotate_z(-self.rotation)  # Is this sign correct?
+            elif self.KPOS == 3:
+                self._entry_patched.rotate_z(
+                    -_np.arcsin(
+                        (self.XL * self.B1) / (2 * self.KINEMATICS.brho)) * _ureg.radian
+                )
         return self._entry_patched
 
     @property
     def exit(self) -> _Frame:
+        """
+
+        Returns:
+
+        """
         if self._exit is None:
             self._exit = _Frame(self.entry_patched)
             self._exit.translate_x(self.length + (self.X_E or 0.0 * _ureg.cm) + (self.X_S or 0.0 * _ureg.cm))
@@ -175,6 +187,12 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
             elif self.KPOS == 0 or self.KPOS == 2:
                 self._exit_patched = _Frame(self.entry)
                 self._exit_patched.translate_x(self.XL or 0.0 * _ureg.cm)
+            elif self.KPOS == 3:
+                self._exit_patched = _Frame(self.exit)
+                self._exit_patched.rotate_z(
+                    -_np.arcsin(
+                        (self.XL * self.B1) / (2 * self.KINEMATICS.brho)) * _ureg.radian
+                )
         return self._exit_patched
 
     def plot(self, artist=None):
@@ -2214,7 +2232,7 @@ class Sextupole(CartesianMagnet):
         return ''.join(map(lambda _: _.rstrip(), command))
 
 
-class Solenoid(Magnet):
+class Solenoid(CartesianMagnet):
     """Solenoid.
 
     .. rubric:: Zgoubi manual description

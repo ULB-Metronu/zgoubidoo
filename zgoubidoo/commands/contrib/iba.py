@@ -1246,7 +1246,6 @@ class CGTR:
               y: float = 0.0,
               zgoubi: zgoubidoo.Zgoubi = None,
               fit_type: _FitType = _Fit,
-              debug: bool = False
               ) -> zgoubidoo.commands.Fit:
         """
 
