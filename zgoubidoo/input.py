@@ -500,6 +500,32 @@ class Input:
                     return i + 1
         raise ValueError(f"Element {obj} not found.")
 
+    def replace(self, element, other):
+        """
+
+        Args:
+            element:
+            other:
+
+        Returns:
+
+        """
+        idx = self.line.index(element)
+        self.line[idx] = other
+
+    def insert_before(self, element, other):
+        """
+
+        Args:
+            element:
+            other:
+
+        Returns:
+
+        """
+        idx = self.line.index(element)
+        self.line.insert(idx, other)
+
     def get_attributes(self, attribute: str = "LABEL1") -> List[str]:
         """List a given command attribute in the input sequence.
 
