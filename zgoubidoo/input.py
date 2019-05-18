@@ -156,7 +156,7 @@ class Input:
         self._paths: PathsListType = list()
         self._optical_length: _Q = 0 * _ureg.m
         if with_survey:
-            zgoubidoo.survey(beamline=self)
+            self.survey()
 
     def __del__(self):
         _logger.info(f"Input object for paths {self.paths} is being destroyed.")
@@ -526,6 +526,17 @@ class Input:
         idx = self.line.index(element)
         self.line.insert(idx, other)
 
+    def remove(self, prefix: str):
+        """
+
+        Args:
+            prefix:
+
+        Returns:
+
+        """
+        self._line = list(filter(lambda _: not (_.LABEL1 == prefix or _.LABEL1.startswith(prefix + '_')), self.line))
+
     def get_attributes(self, attribute: str = "LABEL1") -> List[str]:
         """List a given command attribute in the input sequence.
 
@@ -632,6 +643,14 @@ class Input:
         """
         self._optical_length += l
 
+    def reset_optical_lenght(self):
+        """
+
+        Returns:
+
+        """
+        self._optical_length = 0 * _ureg.m
+
     def survey(self, reference_frame: _Frame = None) -> Input:
         """Perform a survey on the input sequence.
 
@@ -641,6 +660,7 @@ class Input:
         Returns:
             the surveyed input sequence.
         """
+        reference_frame = reference_frame or _Frame()
         return zgoubidoo.survey(self, reference_frame)
 
     def plot(self,
