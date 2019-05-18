@@ -54,8 +54,9 @@ def load_opera_fieldmap_with_mesh(field_file: str, mesh_file: str, path: str = '
         A Numpy array containing the mesh points and the associated field values.
     """
     x, y, z = [c.reshape((np.prod(c.shape),)) for c in load_mesh_data(file=mesh_file, path=path)]
+    print(x,y,z)
     f = load_field_data(file=field_file, path=path).values.T.reshape((4, np.prod(x.shape)))
-    return pd.concat([x, y, z, *f])
+    return pd.DataFrame(np.array([x, y, z, *f]).T,columns=['X', 'Y', 'Z', 'BX', 'BY', 'BZ', 'MATCODE'],)
 
 
 def load_opera_fieldmap(file: str, path: str = '.') -> pd.DataFrame:
