@@ -6,6 +6,7 @@ TODO
 from __future__ import annotations
 from typing import Any, Tuple, Dict, Mapping, List, Union, Iterable
 import uuid
+import numpy as _np
 import pandas as _pd
 import parse as _parse
 from pint import UndefinedUnitError as _UndefinedUnitError
@@ -206,7 +207,10 @@ class Command(metaclass=CommandType):
 
         """
         if self._attributes.get(a) is None:
-            return None
+            try:
+                return super().__getattribute__(a)
+            except AttributeError:
+                return None
         attr = self._attributes[a]
         if not isinstance(attr, str) and not isinstance(attr, _Q):
             try:
@@ -591,6 +595,15 @@ class ChangRef(Command, _Patchable):
             else:
                 raise ZgoubidooException("Incorrect dimensionality in CHANGEREF.")
         return c
+
+    @property
+    def length(self) -> _Q:
+        """
+
+        Returns:
+
+        """
+        return _np.linalg.norm((self.exit_patched._get_origin() - self.entry._get_origin())) * _ureg.cm
 
     @property
     def exit_patched(self) -> _Frame:
