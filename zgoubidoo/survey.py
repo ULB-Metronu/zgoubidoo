@@ -30,12 +30,12 @@ def survey(beamline: _Input, reference_frame: Optional[_Frame] = None) -> _Input
         reference_frame: a Zgoubidoo Frame object acting as the global reference frame
 
     Returns:
-        a Zgoubidoo Input object
+        the surveyed line.
     """
-    surveyed_line: _Input = _Input(name=beamline.name, line=beamline.line.copy(), with_survey=False)
     frame: _Frame = reference_frame or _Frame()
-    for e in beamline[_Patchable].line:
+    beamline.reset_optical_lenght()
+    for e in beamline[_Patchable]:
         e.place(frame)
-        surveyed_line.increase_optical_length(e.length)
+        beamline.increase_optical_length(e.length)
         frame = e.exit_patched
-    return surveyed_line
+    return beamline
