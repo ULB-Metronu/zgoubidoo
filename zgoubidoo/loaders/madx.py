@@ -77,7 +77,7 @@ def create_madx_rbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dic
         R1=twiss_row['TILT'] * _ureg.radian,
         R2=twiss_row['TILT'] * _ureg.radian,
         KPOS=3,
-    ).generate_label(prefix=twiss_row.name[0:8])
+    ).generate_label(prefix=twiss_row.name)
 
     return [
         m
@@ -104,16 +104,23 @@ def create_madx_sbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dic
                                      )
     if twiss_row['ANGLE'] < 0:
         return [
-            ChangeRef(TRANSFORMATIONS=[['XR', (-twiss_row['TILT'] + _np.pi) * _ureg.radian]]),
+            ChangeRef(TRANSFORMATIONS=[['XR', (-twiss_row['TILT'] + _np.pi) * _ureg.radian]]).generate_label(
+                prefix=twiss_row.name + '_CRL'
+            ),
             b,
-            ChangeRef(TRANSFORMATIONS=[['XR', -(-twiss_row['TILT'] + _np.pi) * _ureg.radian]]),
+            ChangeRef(TRANSFORMATIONS=[['XR', -(-twiss_row['TILT'] + _np.pi) * _ureg.radian]]).generate_label(
+                prefix=twiss_row.name + '_CRR'
+            ),
         ]
     else:
         return [
-            ChangeRef(TRANSFORMATIONS=[['XR', -twiss_row['TILT'] * _ureg.radian]]),
+            ChangeRef(TRANSFORMATIONS=[['XR', -twiss_row['TILT'] * _ureg.radian]]).generate_label(
+                prefix=twiss_row.name + '_CRL'
+            ),
             b,
-            ChangeRef(TRANSFORMATIONS=[['XR', twiss_row['TILT'] * _ureg.radian]])
-
+            ChangeRef(TRANSFORMATIONS=[['XR', twiss_row['TILT'] * _ureg.radian]]).generate_label(
+                prefix=twiss_row.name + '_CRR'
+            )
         ]
 
 

@@ -309,6 +309,35 @@ class ZgoubiMpl(ZgoubiPlot):
             )
         )
 
+    def cartouche_solenoid(self, s_location, magnet: zgoubidoo.commands.CartesianMagnet):
+        """
+
+        Args:
+            s_location:
+            magnet:
+
+        Returns:
+
+        """
+        offset = 1.1
+        self._ax2.hlines(offset, _m(s_location), _m(s_location) + _m(magnet.length), clip_on=False)
+        self._ax2.add_patch(
+            patches.Rectangle(
+                (
+                    _m(s_location),
+                    offset - 0.075,
+                ),
+                _m(magnet.length),
+                0.15,
+                alpha=0.5,
+                facecolor=self._palette.get(magnet.COLOR, 'gray'),
+                edgecolor=self._palette.get(magnet.COLOR, 'gray'),
+                linewidth=0,
+                clip_on=False,
+                zorder=10,
+            ),
+        )
+
     def cartouche_cavite(self, s_location, cavite: zgoubidoo.commands.Cavite):
         """
 

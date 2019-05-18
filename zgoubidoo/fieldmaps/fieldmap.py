@@ -1,7 +1,6 @@
 """Field map module."""
 from typing import Optional, Union, Tuple
 import os
-import itertools
 import lmfit
 import numpy as np
 import pandas as pd
@@ -56,7 +55,10 @@ def load_opera_fieldmap_with_mesh(field_file: str, mesh_file: str, path: str = '
     x, y, z = [c.reshape((np.prod(c.shape),)) for c in load_mesh_data(file=mesh_file, path=path)]
     print(x,y,z)
     f = load_field_data(file=field_file, path=path).values.T.reshape((4, np.prod(x.shape)))
-    return pd.DataFrame(np.array([x, y, z, *f]).T,columns=['X', 'Y', 'Z', 'BX', 'BY', 'BZ', 'MATCODE'],)
+    return pd.DataFrame(
+        np.array([x, y, z, *f]).T,
+        columns=['X', 'Y', 'Z', 'BX', 'BY', 'BZ', 'MATCODE'],
+    )
 
 
 def load_opera_fieldmap(file: str, path: str = '.') -> pd.DataFrame:
