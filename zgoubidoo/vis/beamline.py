@@ -3,7 +3,6 @@
 This module provides high-level functions for the rendering of beamlines (Zgoubi `Input`s).
 """
 from __future__ import annotations
-from typing import Optional
 from .zgoubiplot import ZgoubiPlot
 import zgoubidoo
 from zgoubidoo import ureg as _ureg

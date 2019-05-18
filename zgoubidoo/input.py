@@ -23,6 +23,8 @@ from . import _Q
 from .commands import *
 from .frame import Frame as _Frame
 import zgoubidoo.commands
+import zgoubidoo.commands.madx
+from .commands.commands import ZgoubidooException as _ZgoubidooException
 
 _logger = logging.getLogger(__name__)
 ParametersMappingType = Mapping[str, Sequence[Union[_Q, float]]]
@@ -42,6 +44,9 @@ PathsListType = List[Tuple[MappedParametersType, Union[str, tempfile.TemporaryDi
 
 ZGOUBI_INPUT_FILENAME: str = 'zgoubi.dat'
 """File name for Zgoubi input data."""
+
+MAD_INPUT_FILENAME: str = 'input.mad'
+"""File name for MAD-X input data."""
 
 ZGOUBI_IMAX: int = 10000
 """Maximum number of particles that a Zgoubi objet can contain."""
@@ -140,14 +145,18 @@ class Input:
         'test_beamline'
         >>> zi()
     """
-
-    def __init__(self, name: str = 'beamline', line: Optional[Sequence[commands.Command]] = None):
+    def __init__(self,
+                 name: str = 'beamline',
+                 line: Optional[Sequence[commands.Command]] = None,
+                 with_survey: bool = True):
         self._name: str = name
         if line is None:
             line = []
         self._line: List[commands.Command] = line
         self._paths: PathsListType = list()
         self._optical_length: _Q = 0 * _ureg.m
+        if with_survey:
+            zgoubidoo.survey(beamline=self)
 
     def __del__(self):
         _logger.info(f"Input object for paths {self.paths} is being destroyed.")
@@ -161,7 +170,7 @@ class Input:
         Returns:
             a valid Zgoubi input stream as a string.
         """
-        return Input.build(self._name, self._line)
+        return self.build(self._name, self._line)
 
     def __repr__(self) -> str:
         return str(self)
@@ -301,7 +310,8 @@ class Input:
             slicing = slice(start, end, items.step)
             return Input(name=f"{self._name}_sliced_from_{getattr(items.start, 'LABEL1', items.start)}"
                               f"_to_{getattr(items.stop, 'LABEL1', items.stop)}",
-                         line=self._line[slicing]
+                         line=self._line[slicing],
+                         with_survey=False,
                          )
 
         else:
@@ -317,7 +327,8 @@ class Input:
                          .replace("(", '')
                          .replace(")", '')
                          .rstrip('_'),
-                         line=l
+                         line=l,
+                         with_survey=False,
                          )
 
     def __getattr__(self, item: str) -> commands.Command:
@@ -348,8 +359,10 @@ class Input:
             self.__dict__[key] = value
         else:
             for e in self._line:
-                if getattr(e, key, None) is not None:
+                try:
                     setattr(e, key, value)
+                except _ZgoubidooException:
+                    pass
 
     def __contains__(self, items: Union[str, CommandType, Tuple[Union[str, CommandType]]]) -> int:
         """
@@ -375,7 +388,9 @@ class Input:
 
         """
         try:
-            items = tuple(map(lambda x: getattr(zgoubidoo.commands, x) if isinstance(x, str) else x, items))
+            items = tuple(map(
+                lambda x: getattr(zgoubidoo.commands, x.capitalize()) if isinstance(x, str) else x, items
+            ))
         except AttributeError:
             return list(), tuple()
         return list(filter(lambda x: reduce(lambda u, v: u or v, [isinstance(x, i) for i in items]), self._line)), items
@@ -608,6 +623,12 @@ class Input:
              artist: zgoubidoo.vis.ZgoubiPlot = None,
              start: Optional[Union[str, zgoubidoo.commands.Command]] = None,
              stop: Optional[Union[str, zgoubidoo.commands.Command]] = None,
+             z_rotation: _.Q = 0.0 * _ureg.radian,
+             x_offset: _.Q = 0.0 * _ureg.m,
+             y_offset: _.Q = 0.0 * _ureg.m,
+             with_frames: bool = True,
+             with_elements: bool = True,
+             set_equal_aspect: bool = True,
              ) -> zgoubidoo.vis.ZgoubiPlot:
         """Plot the input sequence.
 
@@ -619,20 +640,29 @@ class Input:
             artist: an artist object for the rendering
             start: first element of the beamline to be plotted
             stop: last element of the beamline to be plotted
+            z_rotation:
+            x_offset:
+            y_offset:
+            with_frames:
+            with_elements:
+            set_equal_aspect:
         """
-        zgoubidoo.survey(beamline=self)
+        zgoubidoo.survey(beamline=self,
+                         reference_frame=_Frame().rotate_z(z_rotation).translate_x(x_offset).translate_y(y_offset)
+                         )
 
         if artist is None:
-            artist = zgoubidoo.vis.ZgoubiMpl(ax=ax)
+            artist = zgoubidoo.vis.ZgoubiMpl(ax=ax, with_frames=with_frames)
         if ax is not None:
             artist.ax = ax
 
         zgoubidoo.vis.beamline(line=self[start:stop],
                                tracks=tracks,
                                artist=artist,
+                               with_elements=with_elements,
                                )
-
-        artist.ax.set_aspect('equal', 'datalim')
+        if set_equal_aspect:
+            artist.ax.set_aspect('equal', 'datalim')
 
         return artist
 
@@ -689,6 +719,30 @@ class Input:
             line=[getattr(zgoubidoo.commands, _parse.search("'{KEYWORD}'", c)['KEYWORD'].capitalize()).build(c, debug)
                   for c in "\n".join([_.strip() for _ in stream.split('\n')]).strip('\n').split('\n\n')]
         )
+
+
+class MadInput(Input):
+    """MAD-X input sequence with correct grammer."""
+    ZGOUBI_INPUT_FILENAME: str = 'input.mad'
+    """File name for input data."""
+
+    @staticmethod
+    def build(name: str = 'beamline', line: Optional[List[zgoubidoo.commands.Command]] = None) -> str:
+        """Build a string representing the complete input.
+
+        A string is built based on the MAD-X serialization of all elements (commands) of the input sequence.
+
+        Args:
+            name: the name of the resulting Zgoubi input.
+            line: the input sequence.
+
+        Returns:
+            a string in a valid Zgoubi input format.
+        """
+        extra_end = None
+        if len(line) == 0 or not isinstance(line[-1], zgoubidoo.commands.madx.Stop):
+            extra_end = [zgoubidoo.commands.madx.Stop()]
+        return '\n'.join(map(str, (line or []) + (extra_end or [])))
 
 
 class InputValidator:

@@ -1,13 +1,15 @@
 """Zgoubidoo survey module.
 
+The module performs a 3D global survey of the beamline. Zgoubi is *not* used for this purpose, the positionning is
+infered by Zgoubidoo based on the inputs.
 """
 from typing import Optional
-from .input import Input
-from .frame import Frame
-from .commands.patchable import Patchable
+from .input import Input as _Input
+from .frame import Frame as _Frame
+from .commands.patchable import Patchable as _Patchable
 
 
-def survey(beamline: Input, reference_frame: Optional[Frame] = None) -> Input:
+def survey(beamline: _Input, reference_frame: Optional[_Frame] = None) -> _Input:
     """
     Survey a Zgoubidoo input and provides a line with all the elements being placed in space.
 
@@ -30,9 +32,9 @@ def survey(beamline: Input, reference_frame: Optional[Frame] = None) -> Input:
     Returns:
         a Zgoubidoo Input object
     """
-    surveyed_line: Input = Input(name=beamline.name, line=beamline.line.copy())
-    frame: Frame = reference_frame or Frame()
-    for e in beamline[Patchable].line:
+    surveyed_line: _Input = _Input(name=beamline.name, line=beamline.line.copy(), with_survey=False)
+    frame: _Frame = reference_frame or _Frame()
+    for e in beamline[_Patchable].line:
         e.place(frame)
         surveyed_line.increase_optical_length(e.length)
         frame = e.exit_patched

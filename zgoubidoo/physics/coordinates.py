@@ -1,5 +1,6 @@
-"""
+"""This module provides a clean interface to the Zgoubi coordinates system (Y-T-Z-P-X-D).
 
+A dataclass is used for the implementation but conversions to common formats are also provided.
 """
 from dataclasses import dataclass as _dataclass
 import numpy as _np
@@ -36,6 +37,12 @@ class Coordinates:
 
     def __getitem__(self, item: int):
         return getattr(self, list(self.__dataclass_fields__.keys())[item])
+
+    def __len__(self) -> int:
+        return len(self.list)
+
+    def __eq__(self, other) -> bool:
+        return self.list == other.list
 
     @property
     def array(self) -> _np.array:

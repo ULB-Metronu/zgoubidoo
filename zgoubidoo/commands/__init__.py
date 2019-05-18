@@ -4,6 +4,7 @@ Zgoubi commands.
 TODO
 """
 from .magnetique import *
+from .electrique import *
 from .commands import *
 from .mcobjet import *
 from .objet import *

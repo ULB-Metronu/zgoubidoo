@@ -9,7 +9,6 @@ import pandas as _pd
 import lmfit
 from ..magnetique import Dipole as _Dipole
 from ..magnetique import PolarMagnet as _PolarMagnet
-from ..magnetique import Bend as _Bend
 from ..magnetique import Multipole as _Multipole
 from ..magnetique import Quadrupole as _Quadrupole
 from ..magnetique import FakeDrift as _FakeDrift
@@ -60,6 +59,31 @@ class DipoleIBA(_Dipole):
         return _PolarMagnet.drift_length_from_polar(radius=self.radius,
                                                     magnet_angle=self.AT,
                                                     poles_angle=self.OMEGA_E - self.OMEGA_S)
+
+    def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
+        """
+
+        Args:
+            fit:
+
+        Returns:
+
+        """
+        self.LAM_E = fit.best_values['lam_e'] * _ureg.m
+        self.LAM_S = fit.best_values['lam_s'] * _ureg.m
+        self.C0_E = fit.best_values['ce_0']
+        self.C1_E = fit.best_values['ce_1']
+        self.C2_E = fit.best_values['ce_2']
+        self.C3_E = fit.best_values['ce_3']
+        self.C4_E = fit.best_values['ce_4']
+        self.C5_E = fit.best_values['ce_5']
+        self.C0_S = fit.best_values['cs_0']
+        self.C1_S = fit.best_values['cs_1']
+        self.C2_S = fit.best_values['cs_2']
+        self.C3_S = fit.best_values['cs_3']
+        self.C4_S = fit.best_values['cs_4']
+        self.C5_S = fit.best_values['cs_5']
+        #self.XL = (fit.best_values['offset_s'] - fit.best_values['offset_e']) * _ureg.m
 
 
 class B1G(DipoleIBA):
@@ -119,6 +143,25 @@ class B1G(DipoleIBA):
         self.TS = -_PolarMagnet.efb_angle_from_polar(magnet_angle=magnet_opening,
                                                      poles_angle=poles_opening
                                                      )
+        self._field_profile_model = _EngeModel()
+        self._field_profile_model.params['ce_0'].set(vary=True)
+        self._field_profile_model.params['ce_1'].set(vary=False)
+        self._field_profile_model.params['ce_2'].set(vary=True)
+        self._field_profile_model.params['ce_3'].set(vary=True)
+        self._field_profile_model.params['ce_4'].set(vary=True)
+        self._field_profile_model.params['ce_5'].set(vary=True)
+        self._field_profile_model.params['cs_0'].set(vary=True)
+        self._field_profile_model.params['cs_1'].set(vary=False)
+        self._field_profile_model.params['cs_2'].set(vary=True)
+        self._field_profile_model.params['cs_3'].set(vary=True)
+        self._field_profile_model.params['cs_4'].set(vary=True)
+        self._field_profile_model.params['cs_5'].set(vary=True)
+        self._field_profile_model.params['offset_e'].set(value=134, min=0, max=400)
+        self._field_profile_model.params['offset_s'].set(value=1302, min=1000, max=1400)
+        self._field_profile_model.params['lam_e'].set(value=99)
+        self._field_profile_model.params['lam_s'].set(value=75)
+        self._field_profile_model.params['amplitude'].set(value=-2.0)
+        self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
 
 
 class B2G(DipoleIBA):
@@ -176,6 +219,25 @@ class B2G(DipoleIBA):
         self.TS = -_PolarMagnet.efb_angle_from_polar(magnet_angle=magnet_opening,
                                                      poles_angle=poles_opening
                                                      )
+        self._field_profile_model = _EngeModel()
+        self._field_profile_model.params['ce_0'].set(vary=True)
+        self._field_profile_model.params['ce_1'].set(vary=False)
+        self._field_profile_model.params['ce_2'].set(vary=True)
+        self._field_profile_model.params['ce_3'].set(vary=True)
+        self._field_profile_model.params['ce_4'].set(vary=True)
+        self._field_profile_model.params['ce_5'].set(vary=True)
+        self._field_profile_model.params['cs_0'].set(vary=True)
+        self._field_profile_model.params['cs_1'].set(vary=False)
+        self._field_profile_model.params['cs_2'].set(vary=True)
+        self._field_profile_model.params['cs_3'].set(vary=True)
+        self._field_profile_model.params['cs_4'].set(vary=True)
+        self._field_profile_model.params['cs_5'].set(vary=True)
+        self._field_profile_model.params['offset_e'].set(value=400, min=0, max=500)
+        self._field_profile_model.params['offset_s'].set(value=2000, min=1500, max=2300)
+        self._field_profile_model.params['lam_e'].set(value=50)
+        self._field_profile_model.params['lam_s'].set(value=50)
+        self._field_profile_model.params['amplitude'].set(value=-2.0)
+        self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
 
 
 class B3G(DipoleIBA):
@@ -253,6 +315,25 @@ class B3G(DipoleIBA):
         self.TS = -_PolarMagnet.efb_angle_from_polar(magnet_angle=magnet_opening,
                                                      poles_angle=poles_opening
                                                      )
+        self._field_profile_model = _EngeModel()
+        self._field_profile_model.params['ce_0'].set(vary=True)
+        self._field_profile_model.params['ce_1'].set(vary=False)
+        self._field_profile_model.params['ce_2'].set(vary=True)
+        self._field_profile_model.params['ce_3'].set(vary=True)
+        self._field_profile_model.params['ce_4'].set(vary=True)
+        self._field_profile_model.params['ce_5'].set(vary=True)
+        self._field_profile_model.params['cs_0'].set(vary=True)
+        self._field_profile_model.params['cs_1'].set(vary=False)
+        self._field_profile_model.params['cs_2'].set(vary=True)
+        self._field_profile_model.params['cs_3'].set(vary=True)
+        self._field_profile_model.params['cs_4'].set(vary=True)
+        self._field_profile_model.params['cs_5'].set(vary=True)
+        self._field_profile_model.params['offset_e'].set(value=400, min=0, max=500)
+        self._field_profile_model.params['offset_s'].set(value=2000, min=1500, max=2300)
+        self._field_profile_model.params['lam_e'].set(value=50)
+        self._field_profile_model.params['lam_s'].set(value=50)
+        self._field_profile_model.params['amplitude'].set(value=-2.0)
+        self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
 
 
 class SMX(_Multipole):
@@ -338,7 +419,6 @@ class SMY(_Multipole):
     PARAMETERS = {
         'XL': 0.15221715277508374 * _ureg.m,
         'R1': 90 * _ureg.degree,
-        'REFERENCE_FIELD_COMPONENT': 'BY',
         'LAM_E': 0.037857895089871904 * _ureg.m,
         'C0_E': 0.1999859299335233,
         'C2_E': 0.08542911466613756,
@@ -409,7 +489,7 @@ class SMY(_Multipole):
         self.XL = (fit.best_values['offset_s'] - fit.best_values['offset_e']) * _ureg.m
 
 
-class T1G(_Bend):
+class T1G(_Multipole):
     """Proteus One steering magnet.
 
     """
@@ -430,7 +510,7 @@ class T1G(_Bend):
         self.LABEL1 = self.__class__.__name__
 
 
-class T2G(_Bend):
+class T2G(_Multipole):
     """Proteus One steering magnet.
 
     """
@@ -727,6 +807,38 @@ class Q3G(QShort):
         'POLARITY': _HorizontalPolarity,
     }
 
+    def post_init(self,
+                  **kwargs,
+                  ):
+        """
+        TODO
+        Args:
+            **kwargs:
+
+        Example:
+            >>> q3g = Q3G()
+
+        """
+        self._field_profile_model = _EngeModel()
+        self._field_profile_model.params['ce_0'].set(vary=True)
+        self._field_profile_model.params['ce_1'].set(vary=False)
+        self._field_profile_model.params['ce_2'].set(vary=True)
+        self._field_profile_model.params['ce_3'].set(vary=True)
+        self._field_profile_model.params['ce_4'].set(vary=True)
+        self._field_profile_model.params['ce_5'].set(vary=True)
+        self._field_profile_model.params['cs_0'].set(vary=True)
+        self._field_profile_model.params['cs_1'].set(vary=False)
+        self._field_profile_model.params['cs_2'].set(vary=True)
+        self._field_profile_model.params['cs_3'].set(vary=True)
+        self._field_profile_model.params['cs_4'].set(vary=True)
+        self._field_profile_model.params['cs_5'].set(vary=True)
+        self._field_profile_model.params['offset_e'].set(value=100, min=0, max=200)
+        self._field_profile_model.params['offset_s'].set(value=400, min=300, max=500)
+        self._field_profile_model.params['lam_e'].set(value=50)
+        self._field_profile_model.params['lam_s'].set(value=50)
+        self._field_profile_model.params['amplitude'].set(value=0.2)
+        self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
+
 
 class Q4G(QShort):
     """Proteus One 'Q4G' gantry quadrupole.
@@ -736,6 +848,38 @@ class Q4G(QShort):
         'LABEL1': 'Q4G',
         'POLARITY': _VerticalPolarity,
     }
+
+    def post_init(self,
+                  **kwargs,
+                  ):
+        """
+        TODO
+        Args:
+            **kwargs:
+
+        Example:
+            >>> q4g = Q4G()
+
+        """
+        self._field_profile_model = _EngeModel()
+        self._field_profile_model.params['ce_0'].set(vary=True)
+        self._field_profile_model.params['ce_1'].set(vary=False)
+        self._field_profile_model.params['ce_2'].set(vary=True)
+        self._field_profile_model.params['ce_3'].set(vary=True)
+        self._field_profile_model.params['ce_4'].set(vary=True)
+        self._field_profile_model.params['ce_5'].set(vary=True)
+        self._field_profile_model.params['cs_0'].set(vary=True)
+        self._field_profile_model.params['cs_1'].set(vary=False)
+        self._field_profile_model.params['cs_2'].set(vary=True)
+        self._field_profile_model.params['cs_3'].set(vary=True)
+        self._field_profile_model.params['cs_4'].set(vary=True)
+        self._field_profile_model.params['cs_5'].set(vary=True)
+        self._field_profile_model.params['offset_e'].set(value=100, min=0, max=200)
+        self._field_profile_model.params['offset_s'].set(value=400, min=300, max=500)
+        self._field_profile_model.params['lam_e'].set(value=50)
+        self._field_profile_model.params['lam_s'].set(value=50)
+        self._field_profile_model.params['amplitude'].set(value=0.2)
+        self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
 
 
 class Q5G(QLong):
@@ -747,6 +891,38 @@ class Q5G(QLong):
         'POLARITY': _HorizontalPolarity,
     }
 
+    def post_init(self,
+                  **kwargs,
+                  ):
+        """
+        TODO
+        Args:
+            **kwargs:
+
+        Example:
+            >>> q5g = Q5G()
+
+        """
+        self._field_profile_model = _EngeModel()
+        self._field_profile_model.params['ce_0'].set(vary=True)
+        self._field_profile_model.params['ce_1'].set(vary=False)
+        self._field_profile_model.params['ce_2'].set(vary=True)
+        self._field_profile_model.params['ce_3'].set(vary=True)
+        self._field_profile_model.params['ce_4'].set(vary=True)
+        self._field_profile_model.params['ce_5'].set(vary=True)
+        self._field_profile_model.params['cs_0'].set(vary=True)
+        self._field_profile_model.params['cs_1'].set(vary=False)
+        self._field_profile_model.params['cs_2'].set(vary=True)
+        self._field_profile_model.params['cs_3'].set(vary=True)
+        self._field_profile_model.params['cs_4'].set(vary=True)
+        self._field_profile_model.params['cs_5'].set(vary=True)
+        self._field_profile_model.params['offset_e'].set(value=275, min=100, max=350)
+        self._field_profile_model.params['offset_s'].set(value=883, min=700, max=950)
+        self._field_profile_model.params['lam_e'].set(value=100)
+        self._field_profile_model.params['lam_s'].set(value=100)
+        self._field_profile_model.params['amplitude'].set(value=-0.25)
+        self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
+
 
 class Q6G(QShort):
     """Proteus One 'Q6G' gantry quadrupole.
@@ -757,6 +933,38 @@ class Q6G(QShort):
         'POLARITY': _VerticalPolarity,
     }
 
+    def post_init(self,
+                  **kwargs,
+                  ):
+        """
+        TODO
+        Args:
+            **kwargs:
+
+        Example:
+            >>> q6g = Q6G()
+
+        """
+        self._field_profile_model = _EngeModel()
+        self._field_profile_model.params['ce_0'].set(vary=True)
+        self._field_profile_model.params['ce_1'].set(vary=False)
+        self._field_profile_model.params['ce_2'].set(vary=True)
+        self._field_profile_model.params['ce_3'].set(vary=True)
+        self._field_profile_model.params['ce_4'].set(vary=True)
+        self._field_profile_model.params['ce_5'].set(vary=True)
+        self._field_profile_model.params['cs_0'].set(vary=True)
+        self._field_profile_model.params['cs_1'].set(vary=False)
+        self._field_profile_model.params['cs_2'].set(vary=True)
+        self._field_profile_model.params['cs_3'].set(vary=True)
+        self._field_profile_model.params['cs_4'].set(vary=True)
+        self._field_profile_model.params['cs_5'].set(vary=True)
+        self._field_profile_model.params['offset_e'].set(value=100, min=0, max=200)
+        self._field_profile_model.params['offset_s'].set(value=400, min=300, max=500)
+        self._field_profile_model.params['lam_e'].set(value=50)
+        self._field_profile_model.params['lam_s'].set(value=50)
+        self._field_profile_model.params['amplitude'].set(value=0.2)
+        self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
+
 
 class Q7G(QShort):
     """Proteus One 'Q7G' gantry quadrupole.
@@ -766,6 +974,38 @@ class Q7G(QShort):
         'LABEL1': 'Q7G',
         'POLARITY': _HorizontalPolarity,
     }
+
+    def post_init(self,
+                  **kwargs,
+                  ):
+        """
+        TODO
+        Args:
+            **kwargs:
+
+        Example:
+            >>> q7g = Q7G()
+
+        """
+        self._field_profile_model = _EngeModel()
+        self._field_profile_model.params['ce_0'].set(vary=True)
+        self._field_profile_model.params['ce_1'].set(vary=False)
+        self._field_profile_model.params['ce_2'].set(vary=True)
+        self._field_profile_model.params['ce_3'].set(vary=True)
+        self._field_profile_model.params['ce_4'].set(vary=True)
+        self._field_profile_model.params['ce_5'].set(vary=True)
+        self._field_profile_model.params['cs_0'].set(vary=True)
+        self._field_profile_model.params['cs_1'].set(vary=False)
+        self._field_profile_model.params['cs_2'].set(vary=True)
+        self._field_profile_model.params['cs_3'].set(vary=True)
+        self._field_profile_model.params['cs_4'].set(vary=True)
+        self._field_profile_model.params['cs_5'].set(vary=True)
+        self._field_profile_model.params['offset_e'].set(value=100, min=0, max=200)
+        self._field_profile_model.params['offset_s'].set(value=400, min=300, max=500)
+        self._field_profile_model.params['lam_e'].set(value=50)
+        self._field_profile_model.params['lam_s'].set(value=50)
+        self._field_profile_model.params['amplitude'].set(value=0.2)
+        self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
 
 
 class HorizontalSlits(_Collimator):
@@ -999,6 +1239,14 @@ class CGTR:
         """
         return self.zi
 
+    @property
+    def gantry_angle(self):
+        """Gantry angle (in IBA reference system)."""
+
+    @gantry_angle.setter
+    def gantry_angle(self, angle):
+        pass
+
     def fit_dipoles(self, boro: _Q, dipoles: Optional[List[DipoleIBA]] = None):
         """Adjusts the main field of the dipoles according to the beam energy.
 
@@ -1017,51 +1265,57 @@ class CGTR:
     def run(self,
             zgoubi: zgoubidoo.Zgoubi,
             identifier: _MappedParametersType,
-            fit: zgoubidoo.commands.Fit = None,
-            debug: bool = False
-            ) -> Optional[Union[_Input, zgoubidoo.commands.Fit]]:
+            ):
         """
 
         Args:
             zgoubi: TODO
             identifier: TODO
-            fit:
-            debug:
 
         Returns:
 
         """
-        if fit is not None:
-            self.beam.REFERENCE = 1
-            self.zi += fit
+        zgoubi(zgoubi_input=self.zi, identifier=identifier)
+        self.zi.cleanup()
 
-            def attach_output_to_fit(f):
-                """Helper callback function to attach a run's output to a fit object."""
-                r = f.result()['result']
-                if debug:
-                    print(r)
-                fit.attach_output(outputs=_Zgoubi.find_labeled_output(r, fit.LABEL1),
-                                  zgoubi_input=self.zi,
-                                  parameters=identifier,
-                                  )
-            zgoubi(zgoubi_input=self.zi, identifier=identifier, cb=attach_output_to_fit)
-            self.zi -= fit
-            self.zi.cleanup()
-            self.beam.REFERENCE = 0
-            return fit
-        else:
-            if debug:
-                return self.zi
-            zgoubi(zgoubi_input=self.zi, identifier=identifier)
-            self.zi.cleanup()
-        return None
+    def fit(self,
+            zgoubi: zgoubidoo.Zgoubi,
+            identifier: _MappedParametersType,
+            fit: zgoubidoo.commands.Fit = None
+            ) -> zgoubidoo.commands.Fit:
+        """
+
+        Args:
+            zgoubi:
+            identifier:
+            fit:
+
+        Returns:
+
+        """
+        self.beam.REFERENCE = 1
+        self.zi.IL = 0
+        self.zi += fit
+
+        def attach_output_to_fit(f):
+            """Helper callback function to attach a run's output to a fit object."""
+            r = f.result()['result']
+            fit.attach_output(outputs=_Zgoubi.find_labeled_output(r, fit.LABEL1),
+                              zgoubi_input=self.zi,
+                              parameters=identifier,
+                              )
+
+        zgoubi(zgoubi_input=self.zi, identifier=identifier, cb=attach_output_to_fit)
+        self.zi -= fit
+        self.zi.cleanup()
+        self.beam.REFERENCE = 0
+        return fit
 
     def shoot(self,
               x: float = 0.0,
               y: float = 0.0,
               zgoubi: zgoubidoo.Zgoubi = None,
               fit_type: _FitType = _Fit,
-              debug: bool = False
               ) -> zgoubidoo.commands.Fit:
         """
 
@@ -1073,7 +1327,7 @@ class CGTR:
             debug:
 
         Returns:
-
+            The Fit command (instance object) with the results of the fit.
         """
         z = zgoubi or _Zgoubi()
         fit = fit_type(
@@ -1087,11 +1341,11 @@ class CGTR:
                 _Fit.EqualityConstraint(line=self.zi, place='ISO', variable=_Fit.FitCoordinates.Z, value=y),
             ]
         )
-        return self.run(zgoubi=z,
-                        identifier={'SPOT_X': x, 'SPOT_Y': y},
-                        fit=fit,
-                        debug=debug
-                        )
+        fit = self.fit(zgoubi=z,
+                       identifier={'SPOT_X': x, 'SPOT_Y': y},
+                       fit=fit,
+                       )
+        return fit
 
     def spots(self,
               spots: Iterable[Tuple[float, float]],
@@ -1122,9 +1376,9 @@ class CGTR:
         self.zi.IL = 2 if with_tracks else 0
         for f in fits:
             for p, r in f.results:
-                self.zi.update(r)
+                self.zi.update(r.results)
                 self.run(zgoubi=z,
-                         identifier={**p, **{'SMX.B1': r.at[1, 'final'], 'SMY.B1': r.at[2, 'final']}},
+                         identifier={**p, **{'SMX.B1': r.results.at[1, 'final'], 'SMY.B1': r.results.at[2, 'final']}},
                          )
         self.results = z.collect()
         tracks = self.results.tracks

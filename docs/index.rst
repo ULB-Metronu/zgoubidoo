@@ -14,6 +14,7 @@ Zgoubidoo's documentation
 
    news
    installation
+   gettingstarted
    zgoubi
    commands
    contrib

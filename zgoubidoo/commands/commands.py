@@ -13,7 +13,7 @@ from .patchable import Patchable as _Patchable
 from .. import ureg as _ureg
 from .. import _Q
 from ..frame import Frame as _Frame
-from ..units import _radian, _degree, _m, _cm, _mm
+from ..units import _radian, _degree, _m, _cm
 from ..utils import fortran_float
 import zgoubidoo
 
@@ -127,6 +127,22 @@ class Command(metaclass=CommandType):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
+    class CommandResult:
+        """TODO"""
+        def __init__(self, success: bool, results: _pd.DataFrame):
+            self._success: bool = success
+            self._results: _pd.DataFrame = results
+
+        @property
+        def success(self) -> bool:
+            """TODO"""
+            return self._success
+
+        @property
+        def results(self) -> _pd.DataFrame:
+            """TODO"""
+            return self._results
+
     def __init__(self, label1: str = '', label2: str = '', *params, **kwargs):
         """
         TODO
@@ -137,7 +153,7 @@ class Command(metaclass=CommandType):
             **kwargs:
         """
         self._output: List[Tuple[Mapping[str, Union[_Q, float]], List[str]]] = list()
-        self._results: List[Tuple[Mapping[str, Union[_Q, float]], _pd.DataFrame]] = list()
+        self._results: List[Tuple[Mapping[str, Union[_Q, float]], Command.CommandResult]] = list()
         self._attributes = {}
         for d in (Command.PARAMETERS, ) + params:
             self._attributes = dict(self._attributes, **{k: v[0] for k, v in d.items()})
@@ -285,15 +301,19 @@ class Command(metaclass=CommandType):
         """
 
     def __copy__(self):
-        """
-        TODO  - also change the label generation
-        Returns:
-
-        """
+        """Object (instance) copy operation."""
         label1 = f"{self.LABEL1}_COPY"
         if len(label1) > ZGOUBI_LABEL_LENGTH:
             label1 = str(uuid.uuid4().hex)[:ZGOUBI_LABEL_LENGTH]
         return self.__class__(label1=label1, label2=self.LABEL2, **self.attributes)
+
+    def __deepcopy__(self, *args):
+        """Object (instance) deep copy operation."""
+        return self.__copy__()
+
+    def __eq__(self, other):
+        """Comparison based on string representation in the Zgoubi format."""
+        return str(self) == str(other)
 
     @property
     def attributes(self) -> Dict[str, _ureg.Quantity]:
@@ -573,7 +593,7 @@ class ChangRef(Command, _Patchable):
         return c
 
     @property
-    def entry_patched(self) -> _Frame:
+    def exit_patched(self) -> _Frame:
         """
 
         Returns:
@@ -991,8 +1011,11 @@ class Fit(Command, metaclass=FitType):
             return None
 
         grab: bool = False
+        status: list = []
         data: list = []
         for l in output:
+            if l.strip().startswith('Lmnt'):
+                status.append(l)
             if l.strip().startswith('LMNT'):
                 grab = True
                 continue
@@ -1017,27 +1040,30 @@ class Fit(Command, metaclass=FitType):
                     d['label2'] = values[10]
                 data.append(d)
 
-        if len(data) == 0:
-            return False
+        if len(data) == 0 or len(status) > 0:
+            success = False
         else:
-            self._results.append((parameters, _pd.DataFrame(data).set_index('variable_id')))
-            return True
+            success = True
+        self._results.append(
+            (
+                parameters,
+                Command.CommandResult(success=success, results=_pd.DataFrame(data).set_index('variable_id'))
+            )
+        )
+        return success
 
 
 class Fit2(Fit, metaclass=FitType):
     """Fitting procedure.
 
-    TODO
+    Alternative fitting procedure implemented in Zgoubi, see manual.
     """
     KEYWORD = 'FIT2'
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class Focale(Command):
-    """Particle coordinates and horizontal beam size at distance XL.
-
-    TODO
-    """
+    """Particle coordinates and horizontal beam size at distance XL."""
     KEYWORD = 'FOCALE'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -1055,10 +1081,7 @@ class Focale(Command):
 
 
 class FocaleZ(Command):
-    """Particle coordinates and vertical beam size at distance XL.
-
-    TODO
-    """
+    """Particle coordinates and vertical beam size at distance XL."""
     KEYWORD = 'FOCALEZ'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -1080,7 +1103,8 @@ class GasScattering(Command):
 
     Modification of particle momentum and velocity vector, performed at each integration step, under the effect of
     scattering by residual gas.
-    **Implementation is to be completed in Zgoubi**.
+
+    .. note:: Implementation is to be completed in Zgoubi.
     """
     KEYWORD = 'GASCAT'
     """Keyword of the command used for the Zgoubi input data."""
@@ -1317,6 +1341,21 @@ class Scaling(Command):
     KEYWORD = 'SCALING'
     """Keyword of the command used for the Zgoubi input data."""
 
+    PARAMETERS = {
+    }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
+
+    def __str__(self):
+        return f"""
+        {super().__str__().rstrip()}
+        1 1
+        QUADRUPO
+        -1
+        1
+        1
+        """
+
 
 class Separa(Command):
     """Wien Filter - analytical simulation."""
@@ -1331,7 +1370,17 @@ class Target(Command):
 
 
 class TransferMatrix(Command):
-    """Transfer matrix."""
+    """Transfer matrix.
+
+    .. rubric:: Zgoubi manual description
+
+    TRANSMAT performs a second order transport of the particle coordinates using R and T. [Rij] ([Tijk]) is the first
+    order (second order) transfer matrix as usually involved in second order beam optics [28]. Second order transfer
+    is optional. The length of the element represented by the matrix may be introduced for the purpose of path length
+    updating.
+
+    .. Note:: MATRIX delivers [Rij] and [Tijk] matrices in a format suitable for straightforward use with TRANSMAT.
+    """
     KEYWORD = 'TRANSMAT'
     """Keyword of the command used for the Zgoubi input data."""
 

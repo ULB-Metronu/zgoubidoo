@@ -93,7 +93,12 @@ class SynchrotronRadiationPrint(_Command):
         Returns:
 
         """
-        self._results[parameters] = _pd.DataFrame()
+        self._results.append(
+            (
+                parameters,
+                _Command.CommandResult(success=True, results=_pd.DataFrame())
+            )
+        )
         return True
 
 

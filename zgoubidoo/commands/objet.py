@@ -134,9 +134,7 @@ class Objet2(Objet):
         if isinstance(self._PARTICULES, list):
             self._PARTICULES = _np.array(self._PARTICULES).reshape(1, 7)
         if self._PARTICULES is None:
-            self._PARTICULES = _np.zeros((1, 7))
-            self._PARTICULES[:, 5] = 1.0  # D = 1
-            self._PARTICULES[:, 6] = 1.0  # IEX
+            self.add_references()
         return self._PARTICULES
 
     def clear(self):
@@ -167,20 +165,37 @@ class Objet2(Objet):
                 p['D'] += 1.0
                 self._PARTICULES = p[['Y', 'T', 'Z', 'P', 'X', 'D', 'IEX']].values
         else:
+            print("here")
             self._PARTICULES = _np.append(self._PARTICULES, p, axis=0)
         return self
 
-    def __str__(s) -> str:
+    def add_references(self, n: int = 1):
+        """
+        Add a reference particle to the Objet.
+
+        Args:
+            n: the number of reference particles to add
+
+        Returns:
+            the object itself.
+        """
+        p = _np.zeros((n, 7))
+        p[:, 5] = 1.0  # D = 1
+        p[:, 6] = 1.0  # IEX
+        self.add(p)
+        return self
+
+    def __str__(self) -> str:
         c = f"""
         {super().__str__().rstrip()}
-        {s.KOBJ}.0{s.K2}
-        {s.IMAX} {s.IDMAX}
+        {self.KOBJ}.0{self.K2}
+        {self.IMAX} {self.IDMAX}
         """
-        for p in s.PARTICULES[:, 0:6]:
+        for p in self.PARTICULES[:, 0:6]:
             c += f"""
         {p[0]:.12e} {p[1]:.12e} {p[2]:.12e} {p[3]:.12e} {p[4]:.12e} {p[5]:.12e} A
         """.lstrip()
-        c += " ".join(map(lambda x: f"{int(x):d}", s.IEX)) + "\n"
+        c += " ".join(map(lambda x: f"{int(x):d}", self.IEX)) + "\n"
         return c
 
 

@@ -60,6 +60,9 @@ class Kinematics:
         else:
             raise ZgoubiKinematicsException("Invalid kinematic quantity.")
 
+    def __repr__(self):
+        return str(self)
+
     def __str__(self):
         return f"""
         {self._p.__name__}
@@ -67,7 +70,7 @@ class Kinematics:
         Kinetic energy: {self.ekin}
         Momentum: {self.momentum}
         Magnetic rigidity: {self.brho.to('tesla meter')}
-        Range in water (protons only): {self.range}
+        Range in water (protons only): {self.range if self._p == _Proton else _np.nan}
         Relativistic beta: {self.beta}
         Relativistic gamma: {self.gamma}
         """
@@ -503,7 +506,7 @@ def momentum_to_beta(p: _Q, particle: _ParticuleType = _Proton) -> float:
     :param particle: the particle type (default: proton)
     :return:
     """
-    return float(ekin_to_range(momentum_to_ekin(p, particle), particle))
+    return float(ekin_to_beta(momentum_to_ekin(p, particle), particle))
 
 
 def momentum_to_gamma(p: _Q, particle: _ParticuleType = _Proton) -> float:
@@ -517,7 +520,7 @@ def momentum_to_gamma(p: _Q, particle: _ParticuleType = _Proton) -> float:
     :param particle: the particle type (default: proton)
     :return:
     """
-    return (ekin_to_range(momentum_to_ekin(p, particle), particle))
+    return (ekin_to_gamma(momentum_to_ekin(p, particle), particle))
 
 
 def brho_to_ekin(brho: _Q, particle: _ParticuleType = _Proton) -> _Q:

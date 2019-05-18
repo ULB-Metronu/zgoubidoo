@@ -301,9 +301,37 @@ class ZgoubiMpl(ZgoubiPlot):
                 ),
                 _m(magnet.length),
                 0.1,
-                alpha=0.5,
+                alpha=1.0,
                 facecolor=self._palette.get(magnet.COLOR, 'gray'),
                 edgecolor=self._palette.get(magnet.COLOR, 'gray'),
+                linewidth=0,
+                clip_on=False,
+            )
+        )
+
+    def cartouche_cavite(self, s_location, cavite: zgoubidoo.commands.Cavite):
+        """
+
+        Args:
+            s_location:
+            cavite:
+
+        Returns:
+
+        """
+        offset = 1.1
+        self._ax2.hlines(offset, _m(s_location), _m(s_location) + _m(cavite.length), clip_on=False)
+        self._ax2.add_patch(
+            patches.Rectangle(
+                (
+                    _m(s_location),
+                    offset - 0.05,
+                ),
+                1,
+                0.1,
+                alpha=1.0,
+                facecolor=self._palette.get(cavite.COLOR, 'gray'),
+                edgecolor=self._palette.get(cavite.COLOR, 'gray'),
                 linewidth=0,
                 clip_on=False,
             )
@@ -316,11 +344,10 @@ class ZgoubiMpl(ZgoubiPlot):
             magnet: the magnet to which the tracks are attached
             tracks: a dataframe containing the tracks
         """
-        v = 100 * tracks[['X', 'Y-DY', 'Z']].values
-        m = Frame(magnet.entry_patched).rotate_z(2 * magnet.entry_patched.tx).get_rotation_matrix()
-        _ = _np.dot(v, m)
-        tracks_x = _cm(magnet.entry_patched.x) + _[:, 0]
-        tracks_y = _cm(magnet.entry_patched.y) + _[:, 1]
+        rotation = _np.linalg.inv(magnet.entry_patched.get_rotation_matrix())
+        v = _np.dot(100 * tracks[['X', 'Y-DY', 'Z']].values, rotation)
+        tracks_x = _cm(magnet.entry_patched.x) + v[:, 0]
+        tracks_y = _cm(magnet.entry_patched.y) + v[:, 1]
         self.plot(tracks_x,
                   tracks_y,
                   '.',
@@ -328,6 +355,14 @@ class ZgoubiMpl(ZgoubiPlot):
                   markerfacecolor=self._tracks_color,
                   ms=1
                   )
+
+        # Synchrotron radiation fan plot, to be moved or removed
+        # d = tracks['T'].values
+        # d[:] -= Frame(magnet.entry_patched).rotate_z(2 * magnet.entry_patched.tx)._get_ty()
+        #
+        # for x, y, t in zip(tracks_x, tracks_y, d):
+        #     arrow = patches.Arrow(x, y, 2000*_np.cos(t), 2000*_np.sin(t), width=5.0, color='green', alpha=0.3)
+        #     self.ax.add_patch(arrow)
 
     def tracks_polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet, tracks):
         """Plot tracks for a polar magnet.

@@ -22,6 +22,10 @@ def fortran_float(input_string: str) -> float:
 
     Raises:
         ValueError: in case it is not possible to convert the input string.
+
+    Example:
+        >>> fortran_float('0.31674-103')
+        3.1674e-104
     """
     try:
         fl = float(input_string)
@@ -37,15 +41,19 @@ def fortran_float(input_string: str) -> float:
 
 def intersperse(lst: List, item: Any) -> List:
     """
+    Inserts an item in-between every element of a list.
 
     Args:
-        lst:
-        item:
+        lst: the list of elements
+        item: the item to be interspersed
 
     Returns:
+        A new list list with the interspersed items.
 
+    Example:
+        >>> intersperse([1,2,3], 'a')
+        [1, 'a', 2, 'a', 3]
     """
     result = [item] * (len(lst) * 2 - 1)
     result[0::2] = lst
     return result
-

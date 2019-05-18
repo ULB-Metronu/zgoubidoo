@@ -13,6 +13,7 @@ from .commands import CommandType as _CommandType
 from .commands import FitType as _FitType
 from .commands import Command as _Command
 from .commands import Marker as _Marker
+from .commands import Fit as _Fit
 from .commands import Fit2 as _Fit2
 from .commands import ZgoubidooException as _ZgoubidooException
 from .objet import Objet2 as _Objet2
@@ -25,7 +26,6 @@ from ..vis import ZgoubiPlot as _ZgoubiPlot
 from .patchable import Patchable as _Patchable
 from .plotable import Plotable as _Plotable
 from ..fieldmaps import FieldMap as _FieldMap
-from ..fieldmaps import EngeModel as _EngeModel
 from ..units import _cm, _radian, _kilogauss, _degree
 import zgoubidoo
 
@@ -42,7 +42,8 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
     """
     PARAMETERS = {
         'HEIGHT': (20 * _ureg.cm, 'Height of the magnet (distance between poles), used by plotting functions.'),
-        'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)')
+        'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'),
+        'KINEMATICS': (None, 'A kinematics object.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
@@ -72,27 +73,7 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
     @property
     def field_profile_model(self):
         """A model for the field profile."""
-        if self._field_profile_model is None:
-            self._field_profile_model = _EngeModel()
         return self._field_profile_model
-
-    def fit_field_profile(self, model: Optional[lmfit.Model] = None) -> lmfit.model.ModelResult:
-        """
-
-        Returns:
-
-        """
-        if self.field_map is None:
-            raise Exception("Define a field map!")
-
-        model = model or self.field_profile_model
-        fit = model.fit(
-            -self.field_map.sample(self.reference_trajectory(), field_component=self.REFERENCE_FIELD_COMPONENT),
-            model.params,
-            s=_np.linalg.norm(self.reference_trajectory() - self.reference_trajectory()[0], axis=1),
-        )
-        self.process_fit_field_profile(fit)
-        return fit
     
     def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
         """
@@ -104,37 +85,6 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
 
         """
         pass
-
-    def plot_field_profile(self, ax, fit: Optional[lmfit.model.ModelResult] = None):
-        """
-
-        Args:
-            ax:
-            fit:
-
-        Returns:
-
-        """
-        if self.field_map is None:
-            raise Exception("Define a field map!")
-        ax.plot(
-            _np.linalg.norm(self.reference_trajectory() - self.reference_trajectory()[0], axis=1),
-            -self.field_map.sample(
-                self.reference_trajectory(),
-                field_component=self.REFERENCE_FIELD_COMPONENT
-            ),
-            'bo',
-            markersize=3,
-            label='Field map data points',
-        )
-        if fit is not None:
-            ax.plot(
-                _np.linalg.norm(self.reference_trajectory() - self.reference_trajectory()[0], axis=1),
-                fit.best_fit,
-                'r-',
-                label='Enge fit'
-            )
-        ax.legend()
 
 
 class CartesianMagnetType(MagnetType):
@@ -148,8 +98,8 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
     TODO
     """
     PARAMETERS = {
-        'WIDTH': (50 * _ureg.cm, ''),
-        'COLOR': ('blue', ''),
+        'WIDTH': (50 * _ureg.cm, 'Width of the magnetic poles (used for plotting only).'),
+        'COLOR': ('blue', 'Magnet color for plotting.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
@@ -199,14 +149,25 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
         """
         if self._entry_patched is None:
             self._entry_patched = _Frame(self.entry)
-            self._entry_patched.translate_x(-(self.X_E or 0.0 * _ureg.cm))
-            self._entry_patched.translate_x(self.x_offset)
-            self._entry_patched.translate_y(self.y_offset)
-            self._entry_patched.rotate_z(-self.rotation)
+            if self.KPOS in (0, 1, 2):
+                self._entry_patched.translate_x(-(self.X_E or 0.0 * _ureg.cm))
+                self._entry_patched.translate_x(self.x_offset)
+                self._entry_patched.translate_y(self.y_offset)
+                self._entry_patched.rotate_z(-self.rotation)  # Is this sign correct?
+            elif self.KPOS == 3:
+                self._entry_patched.rotate_z(
+                    -_np.arcsin(
+                        (self.XL * self.B1) / (2 * self.KINEMATICS.brho)) * _ureg.radian
+                )
         return self._entry_patched
 
     @property
     def exit(self) -> _Frame:
+        """
+
+        Returns:
+
+        """
         if self._exit is None:
             self._exit = _Frame(self.entry_patched)
             self._exit.translate_x(self.length + (self.X_E or 0.0 * _ureg.cm) + (self.X_S or 0.0 * _ureg.cm))
@@ -226,35 +187,13 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
             elif self.KPOS == 0 or self.KPOS == 2:
                 self._exit_patched = _Frame(self.entry)
                 self._exit_patched.translate_x(self.XL or 0.0 * _ureg.cm)
+            elif self.KPOS == 3:
+                self._exit_patched = _Frame(self.exit)
+                self._exit_patched.rotate_z(
+                    -_np.arcsin(
+                        (self.XL * self.B1) / (2 * self.KINEMATICS.brho)) * _ureg.radian
+                )
         return self._exit_patched
-
-    def reference_trajectory(self,
-                             infer: bool = True,
-                             lower_bound: Optional[float] = None,
-                             upper_bound: Optional[float] = None,
-                             steps: int = 100) -> _np.array:
-        """
-
-        Args:
-            infer:
-            lower_bound:
-            upper_bound:
-            steps:
-
-        Returns:
-
-        """
-        if infer:
-            sampling, length_sampling = self.field_map.sampling_x
-        else:
-            lower_bound = lower_bound or -self.XE - self.XL / 2
-            upper_bound = upper_bound or self.XS + self.XL / 2
-            sampling = _np.linspace(lower_bound, upper_bound, steps)
-            length_sampling = len(sampling)
-        return _np.stack([sampling,
-                          _np.zeros(length_sampling),
-                          _np.zeros(length_sampling)
-                          ]).T
 
     def plot(self, artist=None):
         """
@@ -727,6 +666,8 @@ class Aimant(PolarMagnet):
 class Bend(CartesianMagnet):
     """Bending magnet, Cartesian frame.
 
+    .. note:: This is mostly a **sector bend** element defined in cartesian coordinates.
+
     .. rubric:: Zgoubi manual description
 
     TODO
@@ -742,27 +683,27 @@ class Bend(CartesianMagnet):
         'X_E': (0.0 * _ureg.centimeter, "Integration zone extension (entrance face)"),
         'LAM_E': (0.0 * _ureg.centimeter, "Fringe field extension (entrance face)"),
         'W_E': (0.0 * _ureg.radian, "Wedge angle (entrance face)"),
-        'C0_E': 0.0,
-        'C1_E': 1.0,
-        'C2_E': 0.0,
-        'C3_E': 0.0,
-        'C4_E': 0.0,
-        'C5_E': 0.0,
+        'C0_E': (0.0, 'Fringe field coefficient C0'),
+        'C1_E': (1.0, 'Fringe field coefficient C1'),
+        'C2_E': (0.0, 'Fringe field coefficient C2'),
+        'C3_E': (0.0, 'Fringe field coefficient C3'),
+        'C4_E': (0.0, 'Fringe field coefficient C4'),
+        'C5_E': (0.0, 'Fringe field coefficient C5'),
         'X_S': (0.0 * _ureg.centimeter, "Integration zone extension (exit face)"),
         'LAM_S': (0.0 * _ureg.centimeter, "Fringe field extension (exit face)"),
         'W_S': (0.0 * _ureg.radian, "Wedge angle (exit face)"),
-        'C0_S': 0.0,
-        'C1_S': 1.0,
-        'C2_S': 0.0,
-        'C3_S': 0.0,
-        'C4_S': 0.0,
-        'C5_S': 0.0,
+        'C0_S': (0.0, 'Fringe field coefficient C0'),
+        'C1_S': (1.0, 'Fringe field coefficient C1'),
+        'C2_S': (0.0, 'Fringe field coefficient C2'),
+        'C3_S': (0.0, 'Fringe field coefficient C3'),
+        'C4_S': (0.0, 'Fringe field coefficient C4'),
+        'C5_S': (0.0, 'Fringe field coefficient C5'),
         'XPAS': (1.0 * _ureg.millimeter, "Integration step"),
         'KPOS': (2, "Alignment parameter"),
         'XCE': 0.0 * _ureg.centimeter,
         'YCE': 0.0 * _ureg.centimeter,
         'ALE': 0.0 * _ureg.radian,
-        'COLOR': 'yellow',
+        'COLOR': 'red',
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
@@ -779,16 +720,6 @@ class Bend(CartesianMagnet):
         {_cm(s.XPAS):.12e}
         {int(s.KPOS):d} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
         """
-
-
-class FakeDrift(Bend):
-    """A fake drift (bend with almost vanishing field) to allow plotting trajectories through drift spaces."""
-    PARAMETERS = {
-        'B1': 1e-6 * _ureg.gauss,
-        'COLOR': 'gray',
-    }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
-        commands (e.g. fit)."""
 
 
 class Decapole(CartesianMagnet):
@@ -823,17 +754,17 @@ class Decapole(CartesianMagnet):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
 
-    def __str__(s):
+    def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        {int(s.IL):d}
-        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B0):.12e}
-        {_cm(s.XE):.12e} {_cm(s.LAM_E):.12e}
-        6 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
-        {_cm(s.XS):.12e} {_cm(s.LAM_S):.12e}
-        6 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
-        {_cm(s.XPAS)}
-        {int(s.KPOS):d} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
+        {int(self.IL):d}
+        {_cm(self.XL):.12e} {_cm(self.R0):.12e} {_kilogauss(self.B0):.12e}
+        {_cm(self.XE):.12e} {_cm(self.LAM_E):.12e}
+        6 {self.C0:.12e} {self.C1:.12e} {self.C2:.12e} {self.C3:.12e} {self.C4:.12e} {self.C5:.12e}
+        {_cm(self.XS):.12e} {_cm(self.LAM_S):.12e}
+        6 {self.C0:.12e} {self.C1:.12e} {self.C2:.12e} {self.C3:.12e} {self.C4:.12e} {self.C5:.12e}
+        {_cm(self.XPAS)}
+        {int(self.KPOS):d} {_cm(self.XCE):.12e} {_cm(self.YCE):.12e} {_radian(self.ALE):.12e}
         """
 
 
@@ -1071,23 +1002,15 @@ class Dipole(PolarMagnet):
         fit = method('FIT',
                      PENALTY=1e-12,
                      PARAMS=[
-                         {
-                             'IR': 4,  # B1
-                             'IP': 5,
-                             'XC': 0,
-                             'DV': 10,
-                         },
+                         _Fit.Parameter(line=di, place=self.LABEL1, parameter=Dipole.B0_),
                      ],
                      CONSTRAINTS=[
-                         {
-                             'IC': 3,  # Constraint type
-                             'I': 1,  # Particle #1
-                             'J': 2,  # Y
-                             'IR': 5,  # END
-                             'V': exit_coordinate,
-                             'WV': 1.0,
-                             'NP': 0,
-                         },
+                         _Fit.EqualityConstraint(
+                             line=di,
+                             place='END',
+                             variable=_Fit.FitCoordinates.Y,
+                             value=exit_coordinate
+                         ),
                      ]
                      )
         di += fit
@@ -1095,11 +1018,11 @@ class Dipole(PolarMagnet):
         def cb(f):
             """Post execution callback."""
             r = f.result()
-            if len(fit.results) == 0:
+            if not fit.results[0][1].success:
                 raise _ZgoubidooException(f"Unable to fit {self.__class__.__name__}.")
             if debug:
                 print('\n'.join(r['result']))
-            self.B0 = fit.results[0][1].at[1, 'final']
+            self.B0 = fit.results[0][1].results.at[1, 'final']
             self._fit = fit
 
         z(di(), cb=cb)
@@ -1900,6 +1823,8 @@ class Multipole(CartesianMagnet):
             'XCE': (0 * _ureg.cm, ''),
             'YCE': (0 * _ureg.cm, ''),
             'ALE': (0 * _ureg.radian, ''),
+            'COLOR': ('red', 'Magnet color for plotting.'),
+
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
@@ -1920,6 +1845,16 @@ class Multipole(CartesianMagnet):
 
 
 Multipol = Multipole
+
+
+class FakeDrift(Multipole):
+    """A fake drift (multipole with almost vanishing field) to allow plotting trajectories through drift spaces."""
+    PARAMETERS = {
+        'B1': 1e-6 * _ureg.gauss,
+        'COLOR': 'black',
+    }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+        commands (e.g. fit)."""
 
 
 class Octupole(CartesianMagnet):
@@ -2018,15 +1953,15 @@ class PS170(Magnet):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
-    def __str__(s) -> str:
-        if s.KPOS not in (0, 1, 2):
+    def __str__(self) -> str:
+        if self.KPOS not in (0, 1, 2):
             raise _ZgoubidooException("KPOS must be in (0, 1, 2)")
         return f"""
         {super().__str__().rstrip()}
-        {int(s.IL):d}
-        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B0):.12e}
-        {_cm(s.XPAS):.12e}  
-        {int(s.KPOS):d} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
+        {int(self.IL):d}
+        {_cm(self.XL):.12e} {_cm(self.R0):.12e} {_kilogauss(self.B0):.12e}
+        {_cm(self.XPAS):.12e}  
+        {int(self.KPOS):d} {_cm(self.XCE):.12e} {_cm(self.YCE):.12e} {_radian(self.ALE):.12e}
         """
 
 
@@ -2119,6 +2054,7 @@ class Quadrupole(CartesianMagnet):
         'XCE': (0 * _ureg.centimeter, 'x offset'),
         'YCE': (0 * _ureg.centimeter, 'y offset'),
         'ALE': 0 * _ureg.radian,
+        'COLOR': ('blue', 'Magnet color for plotting.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
@@ -2296,7 +2232,7 @@ class Sextupole(CartesianMagnet):
         return ''.join(map(lambda _: _.rstrip(), command))
 
 
-class Solenoid(Magnet):
+class Solenoid(CartesianMagnet):
     """Solenoid.
 
     .. rubric:: Zgoubi manual description

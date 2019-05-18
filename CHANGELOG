@@ -1,5 +1,5 @@
 2019.3 - Coherent support of the high-level 'sequence' API and synchrotron radiation
-    -
+    - [FEATURE] Now supports running MAD-X as well, with all the same nice functionalities
 
 2019.2 - Brand new support for concurrent execution of multiple Zgoubi's instances
     - Full support for concurrent multiprocessing execution is provided

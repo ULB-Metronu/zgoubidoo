@@ -98,6 +98,11 @@ class Beam(_Command, metaclass=BeamType):
         if self._distribution.shape[0] == 0:
             raise ZgoubidooBeamException("Trying to initialize a beam distribution with invalid number of particles.")
 
+    def create_statistics(self, n: int = 1):
+        o = self.objet.clear().add_references(n)
+        self._distribution = np.array(o.PARTICULES)
+        return self
+
     def clear(self) -> Beam:
         """
 
@@ -127,12 +132,11 @@ class Beam(_Command, metaclass=BeamType):
 
         """
         try:
-            n_tot = len(self._distribution)
+            n_tot = self._distribution.shape[0]
         except TypeError:
             return None
-        n_slices = int(np.floor(n_tot / self._slices))
-        d = self._distribution.iloc[self.SLICE * n_slices:(self.SLICE + 1) * n_slices]
-        d.columns = ['Y', 'T', 'Z', 'P', 'D']
+        n_per_slices = int(np.floor(n_tot / self._slices))
+        d = self._distribution[self.SLICE * n_per_slices:(self.SLICE + 1) * n_per_slices]
         if len(d) == 0:
             return None
         else:
@@ -170,7 +174,7 @@ class Beam(_Command, metaclass=BeamType):
         return self._distribution
 
     @property
-    def particle(self) -> ParticuleType:
+    def particle(self) -> _ParticuleType:
         """The beam's particle type."""
         return self._particle
 
