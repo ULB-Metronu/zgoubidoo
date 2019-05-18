@@ -283,6 +283,8 @@ class FieldMap:
         Returns:
 
         """
+        if points is None:
+            raise ValueError("The sampling points are not defined (`points is None`).")
         # The lambda trick is used so that the modulus is only computed if needed
         field_components = {
             'BX': lambda: self.data[:, 3],
@@ -393,6 +395,8 @@ class FieldMap:
         Returns:
 
         """
+        if self.reference_trajectory is None:
+            raise ValueError("The reference trajectory is not defined.")
         model = model or EngeModel()
         fit = model.fit(
             self.sample(self.reference_trajectory, field_component=field_component, method=sampling_method),
