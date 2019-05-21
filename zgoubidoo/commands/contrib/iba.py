@@ -1281,7 +1281,6 @@ class CGTR:
               spots: Iterable[Tuple[float, float]],
               fit_type: _FitType = _Fit,
               with_tracks: bool = False,
-              debug: bool = False,
               debug_fit: bool = False
               ) -> Union[_pd.DataFrame, List[_Fit]]:
         """
@@ -1298,7 +1297,7 @@ class CGTR:
         """
         z = _Zgoubi()
         fits = [
-            self.shoot(x=float(spot[0]), y=float(spot[1]), zgoubi=z, fit_type=fit_type, debug=debug) for spot in spots
+            self.shoot(x=float(spot[0]), y=float(spot[1]), zgoubi=z, fit_type=fit_type) for spot in spots
         ]
         if debug_fit:
             return fits
