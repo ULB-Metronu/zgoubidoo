@@ -5,7 +5,6 @@ This module provides high-level functions for the rendering of beamlines (Zgoubi
 from __future__ import annotations
 from .zgoubiplot import ZgoubiPlot
 import zgoubidoo
-from zgoubidoo import ureg as _ureg
 
 
 def beamline(line: zgoubidoo.Input,
@@ -42,16 +41,15 @@ def cartouche(line: zgoubidoo.Input,
               artist: ZgoubiPlot,
               ) -> None:
     """
+    Use a `ZgoubiPlot` artist to display the beamline at the top of other plots; similarly to the MAD-X plots.
 
     Args:
-        line:
-        artist:
-
-    Returns:
-
+        line: the beamline to be rendered
+        artist: the artist (ZgoubiPlot) for the rendering
     """
     line = line[zgoubidoo.commands.Patchable][zgoubidoo.commands.Plotable].line
-    s = 0 * _ureg.cm
     for e in line:
-        e.plot_cartouche(s_location=s, artist=artist)
-        s += e.length
+        try:
+            e.plot_cartouche(s_location=e.entry.s, artist=artist)
+        except AttributeError
+            e.plot_cartouche(s_location=e.entry.x, artist=artist)
