@@ -11,7 +11,6 @@ import matplotlib.transforms as transforms
 from .. import ureg as _ureg
 from .zgoubiplot import ZgoubiPlot
 from ..units import _m, _cm, _degree, _radian
-from ..frame import Frame
 import zgoubidoo.commands
 
 
@@ -118,11 +117,7 @@ class ZgoubiMpl(ZgoubiPlot):
         """
 
         def do_frame() -> None:
-            """
-
-            Returns:
-
-            """
+            """Plot the coordinates of each frames of the magnet."""
             self.plot(_cm(magnet.entry.x), _cm(magnet.entry.y), 'gv', ms=5)
             self.plot(_cm(magnet.entry_patched.x), _cm(magnet.entry_patched.y), 'bs', ms=5)
             self.plot(_cm(magnet.exit.x), _cm(magnet.exit.y), 'k^', ms=5)
@@ -131,11 +126,7 @@ class ZgoubiMpl(ZgoubiPlot):
                 self.plot(_cm(magnet.center.x), _cm(magnet.center.y), 'r.', ms=5)
 
         def do_box() -> None:
-            """
-
-            Returns:
-
-            """
+            """Plot the core of the magnet."""
             if _np.cos(_radian(magnet.entry_patched.tz)) > 0:
                 theta1 = 90 - _degree(magnet.entry_patched.tx + magnet.angular_opening)
                 theta2 = 90 - _degree(magnet.entry_patched.tx)
@@ -228,12 +219,14 @@ class ZgoubiMpl(ZgoubiPlot):
         """
 
         def do_frame():
+            """Plot the coordinates of each frames of the magnet."""
             self.plot(_cm(magnet.entry.x), _cm(magnet.entry.y), 'gv', ms=5)
             self.plot(_cm(magnet.entry_patched.x), _cm(magnet.entry_patched.y), 'bs', ms=5)
             self.plot(_cm(magnet.exit.x), _cm(magnet.exit.y), 'k^', ms=5)
             self.plot(_cm(magnet.exit_patched.x), _cm(magnet.exit_patched.y), 'r>', ms=5)
 
         def do_box():
+            """Plot the core of the magnet."""
             angle = -magnet.entry_patched.tx
             tr = transforms.Affine2D().rotate_deg_around(
                 _cm(magnet.entry_patched.x),
@@ -384,14 +377,6 @@ class ZgoubiMpl(ZgoubiPlot):
                   markerfacecolor=self._tracks_color,
                   ms=1
                   )
-
-        # Synchrotron radiation fan plot, to be moved or removed
-        # d = tracks['T'].values
-        # d[:] -= Frame(magnet.entry_patched).rotate_z(2 * magnet.entry_patched.tx)._get_ty()
-        #
-        # for x, y, t in zip(tracks_x, tracks_y, d):
-        #     arrow = patches.Arrow(x, y, 2000*_np.cos(t), 2000*_np.sin(t), width=5.0, color='green', alpha=0.3)
-        #     self.ax.add_patch(arrow)
 
     def tracks_polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet, tracks):
         """Plot tracks for a polar magnet.
