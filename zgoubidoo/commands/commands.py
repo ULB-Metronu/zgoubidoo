@@ -822,7 +822,7 @@ class Fit(Command, metaclass=FitType):
                 parameter:
                 range:
             """
-            self.IR: int = line.index(place)
+            self.IR: int = line.zgoubi_index(place)
             try:
                 self.IP: int = parameter[2]
             except TypeError:
@@ -876,7 +876,7 @@ class Fit(Command, metaclass=FitType):
             self.IC: float = 3
             self.I: int = particle
             self.J: int = variable
-            self.IR: int = line.index(place)
+            self.IR: int = line.zgoubi_index(place)
             self.V: float = value
             self.WV: float = weight
             self.NP: int = 0

@@ -70,8 +70,8 @@ class ParametricMapping:
     mapping. It also accounts for "coupled" variables.
 
     Note:
-        TODO FIX Using the special value "LABEL" for the first element of the mapping's label deactivate the sequence adjustment
-        mechanism.
+        TODO FIX Using the special value "LABEL" for the first element of the mapping's label deactivate the sequence
+        adjustment mechanism.
 
     See also:
         for implementation details, see also https://codereview.stackexchange.com/q/211121/52027 .
@@ -197,14 +197,16 @@ class Input:
                   filename: str = ZGOUBI_INPUT_FILENAME,
                   path: Optional[str] = None,
                   ) -> PathsListType:
-        """Writes the string representation of the object onto a file (Zgoubi input file).
+        """Writes the string representation of the object onto files (Zgoubi input files).
 
         Args:
             mappings: TODO
             filename: the Zgoubi input file name (default: zgoubi.dat)
-            path: an optional path for the temporary directories that will be created for the input files
+            path: an optional path for the temporary directories that will be created for the input files (default:
+            uses temporary paths)
 
-        Raises:
+        Return:
+
 
         """
         paths: PathsListType = list()
@@ -212,10 +214,11 @@ class Input:
         if len(self.beam_mappings) > 0:
             mappings = list(map(lambda _: {**_[0], **_[1]}, itertools.product(mappings, self.beam_mappings)))
         initial_state: MappedParametersType = {}
-        existing_mappings = [p[0] for p in self._paths]
         for mapping in mappings:
-            if mapping in existing_mappings:
-                continue
+            if mapping in self.mappings:  # Prevent duplicate entries but allows existing paths to be regenerated
+                for i, p in enumerate(self._paths):
+                    if p[0] == mapping:
+                        del self._paths[i]
             previous_state = self.adjust(mapping)
             if initial_state is None:
                 initial_state = previous_state
@@ -230,7 +233,6 @@ class Input:
 
         Returns:
             the number of elements in the sequence.
-
         """
         return len(self._line)
 
@@ -242,7 +244,6 @@ class Input:
 
         Returns:
             the input sequence (in-place operation).
-
         """
         self._line.append(command)
         return self
@@ -304,9 +305,9 @@ class Input:
             start = items.start
             end = items.stop
             if isinstance(items.start, (zgoubidoo.commands.Command, str)):
-                start = self.index(items.start) - 1
+                start = self.index(items.start)
             if isinstance(items.stop, (zgoubidoo.commands.Command, str)):
-                end = self.index(items.stop)
+                end = self.index(items.stop) + 1
             slicing = slice(start, end, items.step)
             return Input(name=f"{self._name}_sliced_from_{getattr(items.start, 'LABEL1', items.start)}"
                               f"_to_{getattr(items.stop, 'LABEL1', items.stop)}",
@@ -424,7 +425,7 @@ class Input:
         """
         for p in self._paths:
             try:
-                p.cleanup()
+                p[1].cleanup()
             except AttributeError:
                 pass
         self._paths = dict()
@@ -470,15 +471,44 @@ class Input:
         """
         initial_values = {}
         for k, v in mapping.items():
-            _ = k.split('.')
+            try:
+                _ = k.split('.')
+            except AttributeError:
+                _ = k
             if len(_) > 1:
                 assert len(_) == 2, "Parametric mapping labels must be a tuple of 2 strings."
-                initial_values[k] = getattr(getattr(self, _[0]), _[1].rstrip('_'))
-                setattr(getattr(self, _[0]), _[1], v)
+                if _[0] == 'ALL_LINE':
+                    initial_values[k] = None
+                    setattr(self, _[1], v)
+                else:
+                    initial_values[k] = getattr(getattr(self, _[0]), _[1].rstrip('_'))
+                    setattr(getattr(self, _[0]), _[1], v)
         return initial_values
 
     def index(self, obj: Union[str, commands.Command]) -> int:
         """Index of an object in the sequence.
+
+        Provides an index for a given object within a sequence.
+
+        Args:
+            obj: the object; can be an instance of a Zgoubidoo Command or a string representing the element's LABEL1.
+
+        Returns:
+            the index of the object in the input sequence.
+
+        Raises:
+            ValueError if the object is not present in the input sequence.
+        """
+        if isinstance(obj, zgoubidoo.commands.Command):
+            return self.line.index(obj)
+        elif isinstance(obj, str):
+            for i, e in enumerate(self.line):
+                if e.LABEL1 == obj:
+                    return i
+        raise ValueError(f"Element {obj} not found.")
+
+    def zgoubi_index(self, obj: Union[str, commands.Command]) -> int:
+        """Index of an object in the sequence (following Zgoubi elements numbering).
 
         Provides an index for a given object within a sequence. This index is a valid Zgoubi command numbering index
         and can be used as such, for example, as a parameter to the Fit command.
@@ -492,15 +522,9 @@ class Input:
         Raises:
             ValueError if the object is not present in the input sequence.
         """
-        if isinstance(obj, zgoubidoo.commands.Command):
-            return self.line.index(obj) + 1
-        elif isinstance(obj, str):
-            for i, e in enumerate(self.line):
-                if e.LABEL1 == obj:
-                    return i + 1
-        raise ValueError(f"Element {obj} not found.")
+        return self.index(obj) + 1
 
-    def replace(self, element, other):
+    def replace(self, element, other) -> Input:
         """
 
         Args:
@@ -510,10 +534,10 @@ class Input:
         Returns:
 
         """
-        idx = self.line.index(element)
-        self.line[idx] = other
+        self.line[self.index(element)] = other
+        return self
 
-    def insert_before(self, element, other):
+    def insert_before(self, element, other) -> Input:
         """
 
         Args:
@@ -523,8 +547,20 @@ class Input:
         Returns:
 
         """
-        idx = self.line.index(element)
-        self.line.insert(idx, other)
+        self.line.insert(self.index(element), other)
+        return self
+
+    def insert_after(self, element, other) -> Input:
+        """
+
+        Args:
+            element:
+            other:
+
+        Returns:
+
+        """
+        pass
 
     def remove(self, prefix: str):
         """
@@ -576,6 +612,11 @@ class Input:
             a list of paths.
         """
         return self._paths
+
+    @property
+    def mappings(self) -> List[MappedParametersType]:
+        """List of mappings existing for the input sequence."""
+        return [p[0] for p in self.paths]
 
     @property
     def keywords(self) -> List[str]:
