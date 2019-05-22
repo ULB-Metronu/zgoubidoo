@@ -1210,7 +1210,7 @@ class CGTR:
     def fit(self,
             zgoubi: zgoubidoo.Zgoubi,
             identifier: _MappedParametersType,
-            fit: zgoubidoo.commands.Fit = None
+            fit: zgoubidoo.commands.Fit,
             ) -> zgoubidoo.commands.Fit:
         """
 

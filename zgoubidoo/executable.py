@@ -102,18 +102,22 @@ class Executable:
         identifier = identifier or {}
         mappings = [{**m, **identifier} for m in mappings]
         filename = filename or self.INPUT_FILENAME
-        for m, path in code_input(mappings=mappings, filename=filename, path=path).paths:
-            print(f"Calling execute {self.__class__.__name__} for mapping {m}")
-            _logger.info(f"Starting Zgoubi in {path}.")
+        paths = code_input(mappings=mappings, filename=filename, path=path).paths
+        for i, path in enumerate(paths):
+            if path[2] is True:
+                continue
+            print(f"Calling execute {self.__class__.__name__} for mapping {path[0]}")
+            _logger.info(f"Starting Zgoubi in {path[1]}.")
             future = self._pool.submit(
                 self._execute,
-                m,
+                path[0],
                 code_input,
-                path,
+                path[1],
             )
             if cb is not None:
                 future.add_done_callback(cb)
-            self._futures[path] = future
+            self._futures[path[1]] = future
+            paths[i] = (path[0], path[1], True)  # Mark that path as already executed
         return self
 
     def wait(self):

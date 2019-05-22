@@ -39,7 +39,7 @@ MappedParametersType = Mapping[str, Union[_Q, float]]
 MappedParametersListType = List[MappedParametersType]
 """Type alias for a list of mapped parameters."""
 
-PathsListType = List[Tuple[MappedParametersType, Union[str, tempfile.TemporaryDirectory]]]
+PathsListType = List[Tuple[MappedParametersType, Union[str, tempfile.TemporaryDirectory], bool]]
 """Type alias for a list of parametric keys and paths values."""
 
 ZGOUBI_INPUT_FILENAME: str = 'zgoubi.dat'
@@ -223,7 +223,7 @@ class Input:
             if initial_state is None:
                 initial_state = previous_state
             target_dir = tempfile.TemporaryDirectory(prefix=path)
-            paths.append((mapping, target_dir))
+            paths.append((mapping, target_dir, False))
             Input.write(self, filename, path=target_dir.name)
         self.adjust(initial_state)
         return paths
