@@ -43,6 +43,8 @@ def cartouche(line: zgoubidoo.Input,
     """
     Use a `ZgoubiPlot` artist to display the beamline at the top of other plots; similarly to the MAD-X plots.
 
+    TODO note about the use of S or X coordinate
+
     Args:
         line: the beamline to be rendered
         artist: the artist (ZgoubiPlot) for the rendering
@@ -51,5 +53,5 @@ def cartouche(line: zgoubidoo.Input,
     for e in line:
         try:
             e.plot_cartouche(s_location=e.entry.s, artist=artist)
-        except AttributeError
+        except AttributeError:
             e.plot_cartouche(s_location=e.entry.x, artist=artist)

@@ -1,6 +1,8 @@
 """
 
 """
+import numpy as _np
+import pandas as _pd
 from ..commands.commands import Fit as _Fit
 from ..commands.commands import FitType as _FitType
 from ..commands.commands import Marker as _Marker
@@ -35,6 +37,7 @@ class BothPlanes(HorizontalPlane, VerticalPlane):
         >>> issubclass(Sequence.HorizontalPlane, Sequence.HorizontalPlane)
     """
     pass
+
 
 def find_closed_orbit(self,
                       brho: _Q,
@@ -97,6 +100,7 @@ def find_closed_orbit(self,
     assert _np.linalg.norm(co - co1) ** 2 < tolerance, f"Inconsistency detected during closed orbit search {co} {co1}."
     self._closed_orbit = co
     return self._closed_orbit
+
 
 def track_closed_orbit(self, brho: _Q) -> _pd.DataFrame:
         """Track closed orbit.

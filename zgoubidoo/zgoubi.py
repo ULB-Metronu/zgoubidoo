@@ -117,7 +117,7 @@ class ZgoubiResults:
                     )
                     continue
         if len(tracks) > 0:
-            tracks = _pd.concat(tracks)
+            tracks = _pd.concat(tracks, sort=False)
         else:
             tracks = _pd.DataFrame()
         if parameters is None:

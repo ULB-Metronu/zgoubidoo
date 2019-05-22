@@ -215,7 +215,7 @@ class Input:
             mappings = list(map(lambda _: {**_[0], **_[1]}, itertools.product(mappings, self.beam_mappings)))
         initial_state: MappedParametersType = {}
         for mapping in mappings:
-            if mapping in self.mappings:  # Prevent duplicate entries but allows existing paths to be regenerated
+            if mapping in self.mappings:  # Prevent duplicate entries but allows existing mappings to be regenerated
                 for i, p in enumerate(self._paths):
                     if p[0] == mapping:
                         del self._paths[i]

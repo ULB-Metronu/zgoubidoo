@@ -944,4 +944,3 @@ class Frame:
         self._q: _np.quaternion = _np.quaternion(1, 0, 0, 0)
         self._o: _np.ndarray = _np.zeros(3)
         return self
-

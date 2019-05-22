@@ -103,7 +103,7 @@ class Executable:
         mappings = [{**m, **identifier} for m in mappings]
         filename = filename or self.INPUT_FILENAME
         for m, path in code_input(mappings=mappings, filename=filename, path=path).paths:
-            print(f"Calling execute for mapping {m}")
+            print(f"Calling execute {self.__class__.__name__} for mapping {m}")
             _logger.info(f"Starting Zgoubi in {path}.")
             future = self._pool.submit(
                 self._execute,

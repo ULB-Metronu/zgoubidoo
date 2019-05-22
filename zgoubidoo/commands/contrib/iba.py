@@ -1205,8 +1205,7 @@ class CGTR:
         Returns:
 
         """
-        zgoubi(zgoubi_input=self.zi, identifier=identifier)
-        self.zi.cleanup()
+        zgoubi(code_input=self.zi, identifier=identifier)
 
     def fit(self,
             zgoubi: zgoubidoo.Zgoubi,
@@ -1235,9 +1234,8 @@ class CGTR:
                               parameters=identifier,
                               )
 
-        zgoubi(zgoubi_input=self.zi, identifier=identifier, cb=attach_output_to_fit)
+        zgoubi(code_input=self.zi, identifier=identifier, cb=attach_output_to_fit)
         self.zi -= fit
-        self.zi.cleanup()
         self.beam.REFERENCE = 0
         return fit
 
@@ -1254,7 +1252,6 @@ class CGTR:
             y:
             zgoubi: TODO
             fit_type:
-            debug:
 
         Returns:
             The Fit command (instance object) with the results of the fit.
@@ -1289,7 +1286,6 @@ class CGTR:
             spots:
             fit_type:
             with_tracks:
-            debug:
             debug_fit:
 
         Returns:
@@ -1299,9 +1295,10 @@ class CGTR:
         fits = [
             self.shoot(x=float(spot[0]), y=float(spot[1]), zgoubi=z, fit_type=fit_type) for spot in spots
         ]
+        z.cleanup()
+        self.zi.cleanup()
         if debug_fit:
             return fits
-        z.cleanup()
         self.zi.IL = 2 if with_tracks else 0
         for f in fits:
             for p, r in f.results:
