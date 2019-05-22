@@ -1311,6 +1311,7 @@ class CGTR:
         if len(tracks) == 0:
             return tracks
         self.tracks = tracks
+        self.zi.cleanup()
         return tracks
 
     def plot(self,
