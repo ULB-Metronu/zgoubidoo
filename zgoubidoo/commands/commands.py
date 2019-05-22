@@ -1057,10 +1057,14 @@ class Fit(Command, metaclass=FitType):
             success = False
         else:
             success = True
+        try:
+            data = _pd.DataFrame(data).set_index('variable_id')
+        except KeyError:
+            pass
         self._results.append(
             (
                 parameters,
-                Command.CommandResult(success=success, results=_pd.DataFrame(data).set_index('variable_id'))
+                Command.CommandResult(success=success, results=data)
             )
         )
         return success

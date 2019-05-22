@@ -99,6 +99,14 @@ class Beam(_Command, metaclass=BeamType):
             raise ZgoubidooBeamException("Trying to initialize a beam distribution with invalid number of particles.")
 
     def create_statistics(self, n: int = 1):
+        """
+
+        Args:
+            n:
+
+        Returns:
+
+        """
         o = self.objet.clear().add_references(n)
         self._distribution = np.array(o.PARTICULES)
         return self
@@ -137,6 +145,7 @@ class Beam(_Command, metaclass=BeamType):
             return None
         n_per_slices = int(np.floor(n_tot / self._slices))
         d = self._distribution[self.SLICE * n_per_slices:(self.SLICE + 1) * n_per_slices]
+        d.columns = ['Y', 'T', 'Z', 'P', 'D']
         if len(d) == 0:
             return None
         else:
