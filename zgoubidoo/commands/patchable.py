@@ -1,5 +1,6 @@
 """Patchable elements module."""
 from typing import Optional
+import pandas as _pd
 from .. import ureg as _ureg
 from .. import _Q
 from ..frame import Frame as _Frame
@@ -19,6 +20,7 @@ class Patchable:
         self._exit: Optional[_Frame] = None
         self._exit_patched: Optional[_Frame] = None
         self._center: Optional[_Frame] = None
+        self._reference_trajectory: Optional[_pd.DataFrame] = None
 
     def place(self, frame: _Frame):
         """Place the element with a reference frame.
@@ -101,3 +103,24 @@ class Patchable:
         if self._center is None:
             self._center = _Frame(self.entry)
         return self._center
+
+    @property
+    def reference_trajectory(self) -> _pd.DataFrame:
+        """
+
+        Returns:
+
+        """
+        return self._reference_trajectory
+
+    @reference_trajectory.setter
+    def reference_trajectory(self, ref):
+        """
+
+        Args:
+            ref:
+
+        Returns:
+
+        """
+        self._reference_trajectory = ref
