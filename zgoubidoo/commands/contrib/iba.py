@@ -383,7 +383,7 @@ class SMX(_Multipole):
         self._field_profile_model.params['offset_s'].set(value=0.5, min=0.35, max=0.55)
         self._field_profile_model.params['lam_e'].set(value=0.03)
         self._field_profile_model.params['lam_s'].set(value=0.03)
-        self._field_profile_model.params['amplitude'].set(value=0.82, min=0.75, max=0.9)
+        self._field_profile_model.params['amplitude'].set(value=-0.82, min=-0.9, max=-0.75)
         self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
 
     def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
@@ -456,11 +456,11 @@ class SMY(_Multipole):
         self._field_profile_model.params['cs_3'].set(vary=True)
         self._field_profile_model.params['cs_4'].set(vary=True)
         self._field_profile_model.params['cs_5'].set(vary=True)
-        self._field_profile_model.params['offset_e'].set(value=0.545, min=0.4, max=0.6)
-        self._field_profile_model.params['offset_s'].set(value=0.7, min=0.6, max=0.8)
+        self._field_profile_model.params['offset_e'].set(value=0.1, min=0.1, max=0.4)
+        self._field_profile_model.params['offset_s'].set(value=0.7, min=0.4, max=0.8)
         self._field_profile_model.params['lam_e'].set(value=0.035)
         self._field_profile_model.params['lam_s'].set(value=0.035)
-        self._field_profile_model.params['amplitude'].set(value=0.52, min=0.3, max=0.6)
+        self._field_profile_model.params['amplitude'].set(value=-0.4, min=-0.6, max=-0.3)
         self._field_profile_model.params['field_offset'].set(value=0.0, min=-1e-3, max=1e-3)
 
     def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
