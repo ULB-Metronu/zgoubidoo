@@ -199,11 +199,12 @@ def read_srloss_steps_file(filename: str = 'zgoubi.SRLOSS.STEPS.out', path: str 
         'IT',
         'K',
         'E',
-        'DS',
         'S',
         'X',
         'Y',
         'Z',
+        'T',
+        'P',
     ]
 
     df = pd.read_csv(os.path.join(path, filename),
