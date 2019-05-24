@@ -43,10 +43,7 @@ class Beam(_Command, metaclass=BeamType):
     commands (e.g. fit)."""
 
     def __str__(self) -> str:
-        if self.REFERENCE == 1:
-            return str(self.objet.clear())
-        else:
-            return str(self.objet)
+        return str(self.objet)
 
     def post_init(self,
                   distribution: Optional[pd.DataFrame] = None,
@@ -127,18 +124,12 @@ class Beam(_Command, metaclass=BeamType):
 
     @slices.setter
     def slices(self, n):
+        """(Re)set the number of slices."""
         self._slices = n
 
     @property
     def active_slice(self):
-        """
-
-        Args:
-            n:
-
-        Returns:
-
-        """
+        """The index of the active (current) slice."""
         try:
             n_tot = self._distribution.shape[0]
         except TypeError:
@@ -160,7 +151,8 @@ class Beam(_Command, metaclass=BeamType):
 
         """
         _ = self._objet(self.LABEL1, BORO=self._kinematics.brho)
-        _.add(self.active_slice)
+        if self.REFERENCE == 0:
+            _.add(self.active_slice)
         return _
 
     @property
@@ -174,6 +166,9 @@ class Beam(_Command, metaclass=BeamType):
                     {
                         f"{self.LABEL1}.SLICE": list(range(0, self._slices))
                     },
+                    {
+                        f"{self.LABEL1}.REFERENCE": [0]
+                    }
                 ]
             ).combinations
 

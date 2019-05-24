@@ -1224,10 +1224,8 @@ class CGTR:
 
         """
         zi = _Input(name=f"FIT_{fit.LABEL1}", line=self.zi.line + [fit])
-        self.beam.REFERENCE = 1
         zi.IL = 0
         zgoubi(code_input=zi, identifier=identifier)
-        self.beam.REFERENCE = 0
         return fit
 
     def shoot(self,
@@ -1281,6 +1279,8 @@ class CGTR:
         Returns:
 
         """
+        self.zi.cleanup()
+        self.beam.REFERENCE = 1
         z = _Zgoubi()
         fits = [
             self.shoot(x=float(spot[0]), y=float(spot[1]), zgoubi=z, fit_type=fit_type) for spot in spots
@@ -1289,6 +1289,7 @@ class CGTR:
         if debug_fit:
             return fits
         self.zi.IL = 2 if with_tracks else 0
+        self.beam.REFERENCE = 0
         for f in fits:
             for p, r in f.results:
                 self.zi.update(r.results)

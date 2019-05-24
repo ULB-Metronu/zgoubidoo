@@ -165,7 +165,6 @@ class Objet2(Objet):
                 p['D'] += 1.0
                 self._PARTICULES = p[['Y', 'T', 'Z', 'P', 'X', 'D', 'IEX']].values
         else:
-            print("here")
             self._PARTICULES = _np.append(self._PARTICULES, p, axis=0)
         return self
 
