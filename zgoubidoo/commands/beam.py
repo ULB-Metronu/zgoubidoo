@@ -115,6 +115,7 @@ class Beam(_Command, metaclass=BeamType):
 
         """
         self._distribution = None
+        self._slices = 1
         return self
 
     @property
