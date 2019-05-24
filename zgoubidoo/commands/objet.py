@@ -106,9 +106,22 @@ class Objet2(Objet):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
-    def post_init(self, **kwargs):
+    def post_init(self,
+                  reference_y: float = 0.0,
+                  reference_t: float = 0.0,
+                  reference_z: float = 0.0,
+                  reference_p: float = 0.0,
+                  reference_x: float = 0.0,
+                  reference_d: float = 1.0,
+                  **kwargs):
         """Post initialization routine."""
         self._PARTICULES = None
+        self._reference_y = reference_y
+        self._reference_t = reference_t
+        self._reference_z = reference_z
+        self._reference_p = reference_p
+        self._reference_x = reference_x
+        self._reference_d = reference_d
 
     @property
     def IMAX(self):
@@ -131,8 +144,6 @@ class Objet2(Objet):
     @property
     def PARTICULES(self):
         """The particles list."""
-        if isinstance(self._PARTICULES, list):
-            self._PARTICULES = _np.array(self._PARTICULES).reshape(1, 7)
         if self._PARTICULES is None:
             self.add_references()
         return self._PARTICULES
@@ -155,15 +166,27 @@ class Objet2(Objet):
         Returns:
 
         """
+        if p is None:
+            return self
+        assert isinstance(p, _np.ndarray), "The particles container must be a numpy array."
         if self._PARTICULES is None:
-            if not hasattr(p, 'columns'):
+            assert p.ndim == 2, "Invalid dimensions for the array of particles."
+            if p.shape[1] == 4:  # Y T Z P
+                x = _np.zeros((p.shape[0], 1))
+                d = _np.ones((p.shape[0], 1))
+                iex = _np.ones((p.shape[0], 1))
+                self._PARTICULES = _np.concatenate((p, x, d, iex), axis=1)
+            elif p.shape[1] == 5: # Y T Z P D
+                x = _np.zeros((p.shape[0], 1))
+                iex = _np.ones((p.shape[0], 1))
+                self._PARTICULES = _np.concatenate((p[:, :-1], x, p[:, :-1], iex), axis=1)
+            elif p.shape[1] == 6: # Y T Z P X D
+                iex = _np.ones((p.shape[0], 1))
+                self._PARTICULES = _np.concatenate((p, iex), axis=1)
+            elif p.shape[1] == 7: # Y T Z P X D IEX
                 self._PARTICULES = p
-            elif list(p.columns) == ['Y', 'T', 'Z', 'P', 'D']:
-                p = p.copy()
-                p['X'] = 0.0
-                p['IEX'] = 1.0
-                p['D'] += 1.0
-                self._PARTICULES = p[['Y', 'T', 'Z', 'P', 'X', 'D', 'IEX']].values
+            else:
+                raise _ZgoubidooException("Invalid dimensions for particles vectors.")
         else:
             self._PARTICULES = _np.append(self._PARTICULES, p, axis=0)
         return self
@@ -179,7 +202,12 @@ class Objet2(Objet):
             the object itself.
         """
         p = _np.zeros((n, 7))
-        p[:, 5] = 1.0  # D = 1
+        p[:, 0] = self._reference_y
+        p[:, 1] = self._reference_t
+        p[:, 2] = self._reference_z
+        p[:, 3] = self._reference_p
+        p[:, 4] = self._reference_x
+        p[:, 5] = self._reference_d
         p[:, 6] = 1.0  # IEX
         self.add(p)
         return self

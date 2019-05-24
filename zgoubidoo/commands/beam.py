@@ -35,7 +35,6 @@ class Beam(_Command, metaclass=BeamType):
     Beam
     """
     PARAMETERS = {
-        'OBJET': ('Objet2', 'Active objet representation.'),
         'SLICE': (0, "Active slice identifier. Note: this is the number of slices, but the active slice number."),
         'REFERENCE': (0, ""),
     }
@@ -43,12 +42,12 @@ class Beam(_Command, metaclass=BeamType):
     commands (e.g. fit)."""
 
     def __str__(self) -> str:
-        return str(self.objet)
+        return str(self.generate_object())
 
     def post_init(self,
                   distribution: Optional[pd.DataFrame] = None,
                   particle: _ParticuleType = _Proton,
-                  objet: _ObjetType = _Objet2,
+                  objet_type: _ObjetType = _Objet2,
                   kinematics: Union[_Kinematics, float, _Q] = None,
                   slices: int = 1,
                   *args,
@@ -58,7 +57,7 @@ class Beam(_Command, metaclass=BeamType):
         Args:
             distribution:
             particle:
-            objet:
+            objet_type:
             kinematics:
             slices:
             *args:
@@ -68,55 +67,38 @@ class Beam(_Command, metaclass=BeamType):
 
         """
         self._particle: _ParticuleType = particle
-        self._objet: _ObjetType = objet
+        self._objet_type: _ObjetType = objet_type
         if not isinstance(kinematics, _Kinematics):
             kinematics = _Kinematics(kinematics)
         self._kinematics: _Kinematics = kinematics
         self._slices: int = slices
-        self._distribution: Optional[pd.DataFrame] = None
+        self._distribution: Optional[Union[pd.DataFrame, np.array]] = None
         self._initialize_distribution(distribution, *args, **kwargs)
 
-    def _initialize_distribution(self, distribution: pd.DataFrame = None, *args, **kwargs):
+    def _initialize_distribution(self, distribution: Union[pd.DataFrame, np.array] = None, *args, **kwargs):
         """Try setting the internal pandas.DataFrame with a distribution.
 
         Args:
             distribution:
         """
         if distribution is not None:
-            self._distribution = distribution
+            try:
+                self._distribution = distribution.values
+            except AttributeError:
+                self._distribution = distribution
         else:
             try:
-                self._distribution = pd.DataFrame(args[0])
+                try:
+                    self._distribution = distribution.values
+                except AttributeError:
+                    self._distribution = distribution
             except (IndexError, ValueError):
                 if kwargs.get("filename") is not None:
                     self._distribution = Beam.generate_from_file(kwargs.get('filename'), path=kwargs.get('path', '.'))
                 else:
                     return
-        if self._distribution.shape[0] == 0:
+        if self._distribution is not None and self._distribution.shape[0] == 0:
             raise ZgoubidooBeamException("Trying to initialize a beam distribution with invalid number of particles.")
-
-    def create_statistics(self, n: int = 1):
-        """
-
-        Args:
-            n:
-
-        Returns:
-
-        """
-        o = self.objet.clear().add_references(n)
-        self._distribution = np.array(o.PARTICULES)
-        return self
-
-    def clear(self) -> Beam:
-        """
-
-        Returns:
-
-        """
-        self._distribution = None
-        self._slices = 1
-        return self
 
     @property
     def slices(self):
@@ -137,21 +119,19 @@ class Beam(_Command, metaclass=BeamType):
             return None
         n_per_slices = int(np.floor(n_tot / self._slices))
         d = self._distribution[self.SLICE * n_per_slices:(self.SLICE + 1) * n_per_slices]
-        d.columns = ['Y', 'T', 'Z', 'P', 'D']
         if len(d) == 0:
             return None
         else:
             return d
 
-    @property
-    def objet(self):
+    def generate_object(self):
         """
         TODO
 
         Return:
 
         """
-        _ = self._objet(self.LABEL1, BORO=self._kinematics.brho)
+        _ = self._objet_type(self.LABEL1, BORO=self._kinematics.brho)
         if self.REFERENCE == 0:
             _.add(self.active_slice)
         return _
@@ -188,6 +168,29 @@ class Beam(_Command, metaclass=BeamType):
         """The beam's kinematics properties."""
         return self._kinematics
 
+    def create_statistics(self, n: int = 1):
+        """
+
+        Args:
+            n:
+
+        Returns:
+
+        """
+        o = self.generate_object().clear().add_references(n)
+        self._distribution = np.array(o.PARTICULES)
+        return self
+
+    def clear(self) -> Beam:
+        """
+
+        Returns:
+
+        """
+        self._distribution = None
+        self._slices = 1
+        return self
+
     def from_file(self, file: str, n: int = None, path: str = '.') -> Beam:
         """
 
@@ -214,7 +217,7 @@ class Beam(_Command, metaclass=BeamType):
 
         """
         distribution = Beam.generate_from_5d_sigma_matrix(n, **kwargs)
-        self._initialize_distribution(pd.DataFrame(distribution))
+        self._initialize_distribution(distribution)
         return self
 
     def from_twiss_parameters(self, n, **kwargs) -> Beam:

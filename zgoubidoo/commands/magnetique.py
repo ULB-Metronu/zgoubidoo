@@ -970,7 +970,7 @@ class Dipole(PolarMagnet):
     def fit(self,
             boro: _Q,
             particle: _ParticuleType = _Proton,
-            entry_coordinates: List = None,
+            entry_coordinates: _np.array = None,
             exit_coordinate: float = 0.0,
             method: _FitType = _Fit2,
             zgoubi: Optional[_Zgoubi] = None,
@@ -990,11 +990,11 @@ class Dipole(PolarMagnet):
             the `Dipole` itself (allows method chaining).
         """
         if entry_coordinates is None:
-            entry_coordinates = [0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]
+            entry_coordinates = _np.array([[0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]])
 
         z = zgoubi or _Zgoubi()
         zi = zgoubidoo.Input(f"FIT_{self.LABEL1}_MAGNET", with_survey=False)
-        zi += _Objet2('BUNCH', BORO=boro).add([entry_coordinates])
+        zi += _Objet2('BUNCH', BORO=boro).add(entry_coordinates)
         zi += particle()
         zi += _Marker('START')
         zi += self
