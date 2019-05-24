@@ -110,8 +110,7 @@ class Executable:
         for i, path in enumerate(paths):
             if path[2] is True:
                 continue  # Do not re-execute a path marked as executed
-            print(f"Calling execute {self.__class__.__name__} for mapping {path[0]}")
-            _logger.info(f"Starting Zgoubi in {path[1]}.")
+            _logger.info(f"Calling execute {self.__class__.__name__} for mapping {path[0]} in path {path[1]}")
             future = self._pool.submit(
                 self._execute,
                 path[0],
@@ -190,7 +189,7 @@ class Executable:
                          )
 
         # Run
-        _logger.warn(f"Zgoubi process in {path} has started.")
+        _logger.info(f"Zgoubi process in {path} has started for mapping {mapping}.")
         output = proc.communicate()
 
         # Collect STDERR
@@ -209,7 +208,7 @@ class Executable:
                 cputime = float(re.search(r"\d+\.\d+[E|e]?[+|-]?\d+", lines[0]).group())
         if debug:
             print(output[0].decode())
-        _logger.warn(f"Zgoubi process in {path} finished in {mapping} s.")
+        _logger.info(f"Zgoubi process in {path} for mapping {mapping} finished in {cputime} s.")
         return {
             'stdout': output[0].decode().split('\n'),
             'stderr': stderr,

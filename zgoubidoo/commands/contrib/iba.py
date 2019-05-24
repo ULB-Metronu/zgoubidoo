@@ -1223,20 +1223,10 @@ class CGTR:
         Returns:
 
         """
+        zi = _Input(name=f"FIT_{fit.LABEL1}", line=self.zi.line + [fit])
         self.beam.REFERENCE = 1
-        self.zi.IL = 0
-        self.zi += fit
-
-        def attach_output_to_fit(f):
-            """Helper callback function to attach a run's output to a fit object."""
-            r = f.result()['result']
-            fit.attach_output(outputs=_Zgoubi.find_labeled_output(r, fit.LABEL1),
-                              zgoubi_input=self.zi,
-                              parameters=identifier,
-                              )
-
-        zgoubi(code_input=self.zi, identifier=identifier).collect()#, cb=attach_output_to_fit)
-        self.zi -= fit
+        zi.IL = 0
+        zgoubi(code_input=zi, identifier=identifier)
         self.beam.REFERENCE = 0
         return fit
 
@@ -1296,7 +1286,6 @@ class CGTR:
             self.shoot(x=float(spot[0]), y=float(spot[1]), zgoubi=z, fit_type=fit_type) for spot in spots
         ]
         z.cleanup()
-
         if debug_fit:
             return fits
         self.zi.IL = 2 if with_tracks else 0
@@ -1308,7 +1297,6 @@ class CGTR:
                          )
         self.results = z.collect()
         tracks = self.results.tracks
-        self.zi.cleanup()
         if len(tracks) == 0:
             return tracks
         self.tracks = tracks

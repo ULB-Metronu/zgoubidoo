@@ -1067,17 +1067,14 @@ class Fit(Command, metaclass=FitType):
         success = False if len(data) == 0 or len(status) > 0 else True
         try:
             _ = _pd.DataFrame(data).set_index('variable_id')
-        except KeyError:
-            pass
-        try:
             self._results.append(
                 (
                     parameters,
                     Command.CommandResult(success=success, results=_)
                 )
             )
-        except UnboundLocalError:
-            raise Exception(f"Parameters: {parameters}, output={output}")
+        except KeyError:
+            raise ZgoubidooException(f"Results from fit {self.LABEL1} could not be processed.")
         return success
 
 
