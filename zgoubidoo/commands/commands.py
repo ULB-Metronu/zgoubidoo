@@ -370,6 +370,17 @@ class Command(metaclass=CommandType):
         """
         return self._results
 
+    def clean_output_and_results(self):
+        """
+        Clears the output attached to the command.
+
+        Returns:
+            the command itself (for method chaining, etc.)
+        """
+        self._output = list()
+        self._results = list()
+        return self
+
     def attach_output(self,
                       outputs: List[str],
                       parameters: Mapping[str, Union[_Q, float]],
@@ -967,7 +978,8 @@ class Fit(Command, metaclass=FitType):
         """)
         return ''.join(map(lambda x: x.rstrip(), command))
 
-    def process_output(self, output: List[str],
+    def process_output(self,
+                       output: List[str],
                        parameters: dict,
                        zgoubi_input: zgoubidoo.Input
                        ) -> bool:
@@ -1052,21 +1064,20 @@ class Fit(Command, metaclass=FitType):
                     d['label1'] = values[9]
                     d['label2'] = values[10]
                 data.append(d)
-
-        if len(data) == 0 or len(status) > 0:
-            success = False
-        else:
-            success = True
+        success = False if len(data) == 0 or len(status) > 0 else True
         try:
-            data = _pd.DataFrame(data).set_index('variable_id')
+            _ = _pd.DataFrame(data).set_index('variable_id')
         except KeyError:
             pass
-        self._results.append(
-            (
-                parameters,
-                Command.CommandResult(success=success, results=data)
+        try:
+            self._results.append(
+                (
+                    parameters,
+                    Command.CommandResult(success=success, results=_)
+                )
             )
-        )
+        except UnboundLocalError:
+            raise Exception(f"Parameters: {parameters}, output={output}")
         return success
 
 

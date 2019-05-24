@@ -993,27 +993,27 @@ class Dipole(PolarMagnet):
             entry_coordinates = [0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]
 
         z = zgoubi or _Zgoubi()
-        di = zgoubidoo.Input(f"FIT_{self.LABEL1}_MAGNET")
-        di += _Objet2('BUNCH', BORO=boro).add([entry_coordinates])
-        di += particle()
-        di += _Marker('START')
-        di += self
-        di += _Marker('END')
-        fit = method('FIT',
+        zi = zgoubidoo.Input(f"FIT_{self.LABEL1}_MAGNET", with_survey=False)
+        zi += _Objet2('BUNCH', BORO=boro).add([entry_coordinates])
+        zi += particle()
+        zi += _Marker('START')
+        zi += self
+        zi += _Marker('END')
+        fit = method(f"FIT_{self.LABEL1}",
                      PENALTY=1e-12,
                      PARAMS=[
-                         _Fit.Parameter(line=di, place=self.LABEL1, parameter=Dipole.B0_),
+                         _Fit.Parameter(line=zi, place=self.LABEL1, parameter=Dipole.B0_),
                      ],
                      CONSTRAINTS=[
                          _Fit.EqualityConstraint(
-                             line=di,
+                             line=zi,
                              place='END',
                              variable=_Fit.FitCoordinates.Y,
                              value=exit_coordinate
                          ),
                      ]
                      )
-        di += fit
+        zi += fit
 
         def cb(f):
             """Post execution callback."""
@@ -1025,8 +1025,7 @@ class Dipole(PolarMagnet):
             self.B0 = fit.results[0][1].results.at[1, 'final']
             self._fit = fit
 
-        z(di(), cb=cb)
-
+        z(zi, identifier={'FITTING': self.LABEL1}, cb=cb)
         return self
 
 

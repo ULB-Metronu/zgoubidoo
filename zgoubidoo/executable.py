@@ -16,6 +16,7 @@ from concurrent.futures import Future as _Future
 import subprocess as sub
 from .input import Input
 from .input import MappedParametersType as _MappedParametersType
+from .input import MappedParametersListType as _MappedParametersListType
 
 __all__ = ['Executable', 'ResultsType']
 _logger = logging.getLogger(__name__)
@@ -51,7 +52,7 @@ class Executable:
 
 
         Args:
-            - executable: name of the Zgoubi executable
+            - executable: name of the executable
             - results_type:
             - path: path to the Zgoubi executable
             - n_procs: maximum number of Zgoubi simulations to be started in parallel
@@ -63,6 +64,9 @@ class Executable:
         self._path: Optional[str] = path
         self._futures: Dict[str, _Future] = dict()
         self._pool: _ThreadPoolExecutor = _ThreadPoolExecutor(max_workers=self._n_procs)
+
+    def __del__(self):
+        self._pool.shutdown()
 
     @property
     def executable(self) -> str:
@@ -76,7 +80,7 @@ class Executable:
     def __call__(self,
                  code_input: Input,
                  identifier: _MappedParametersType = None,
-                 mappings: _MappedParametersType = None,
+                 mappings: _MappedParametersListType = None,
                  debug: bool = False,
                  cb: Callable = None,
                  filename: str = None,
@@ -105,7 +109,7 @@ class Executable:
         paths = code_input(mappings=mappings, filename=filename, path=path).paths
         for i, path in enumerate(paths):
             if path[2] is True:
-                continue
+                continue  # Do not re-execute a path marked as executed
             print(f"Calling execute {self.__class__.__name__} for mapping {path[0]}")
             _logger.info(f"Starting Zgoubi in {path[1]}.")
             future = self._pool.submit(
@@ -186,7 +190,7 @@ class Executable:
                          )
 
         # Run
-        _logger.info(f"Zgoubi process in {path} has started.")
+        _logger.warn(f"Zgoubi process in {path} has started.")
         output = proc.communicate()
 
         # Collect STDERR
@@ -205,7 +209,7 @@ class Executable:
                 cputime = float(re.search(r"\d+\.\d+[E|e]?[+|-]?\d+", lines[0]).group())
         if debug:
             print(output[0].decode())
-        _logger.info(f"Zgoubi process in {path} finished in {cputime} s.")
+        _logger.warn(f"Zgoubi process in {path} finished in {mapping} s.")
         return {
             'stdout': output[0].decode().split('\n'),
             'stderr': stderr,

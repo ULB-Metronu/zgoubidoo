@@ -323,12 +323,12 @@ class Zgoubi(Executable):
         """
         super().__init__(executable=executable, results_type=ZgoubiResults, path=path, n_procs=n_procs)
 
-    def _extract_output(self, path, code_input: _Input, mapping) -> Optional[_IOBase]:
+    def _extract_output(self, path, code_input: _Input, mapping) -> List[str]:
         """Extract element by element output"""
         try:
             result = open(os.path.join(path, self.RESULT_FILE)).read().split('\n')
         except FileNotFoundError:
-            raise ZgoubiException("Zgoubi execution ended but result '.res' file not found.")
+            raise ZgoubiException(f"Zgoubi execution ended but result '{self.RESULT_FILE}' file not found.")
 
         for e in code_input.line:
             e.attach_output(outputs=Zgoubi.find_labeled_output(result, e.LABEL1),

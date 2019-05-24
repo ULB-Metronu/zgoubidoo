@@ -1156,9 +1156,9 @@ class CGTR:
             self.iso,
         ],
                                  )
+        self.kinematics = kinematics
         self.tracks: Optional[_pd.DataFrame] = None
         self.results: Optional[_ZgoubiResults] = None
-        zgoubidoo.survey(beamline=self.line)
 
     @property
     def line(self) -> _Input:
@@ -1172,6 +1172,7 @@ class CGTR:
     @property
     def gantry_angle(self):
         """Gantry angle (in IBA reference system)."""
+        pass
 
     @gantry_angle.setter
     def gantry_angle(self, angle):
@@ -1234,15 +1235,15 @@ class CGTR:
                               parameters=identifier,
                               )
 
-        zgoubi(code_input=self.zi, identifier=identifier, cb=attach_output_to_fit)
+        zgoubi(code_input=self.zi, identifier=identifier).collect()#, cb=attach_output_to_fit)
         self.zi -= fit
         self.beam.REFERENCE = 0
         return fit
 
     def shoot(self,
-              x: float = 0.0,
-              y: float = 0.0,
-              zgoubi: zgoubidoo.Zgoubi = None,
+              x: float,
+              y: float,
+              zgoubi: zgoubidoo.Zgoubi,
               fit_type: _FitType = _Fit,
               ) -> zgoubidoo.commands.Fit:
         """
@@ -1256,7 +1257,6 @@ class CGTR:
         Returns:
             The Fit command (instance object) with the results of the fit.
         """
-        z = zgoubi or _Zgoubi()
         fit = fit_type(
             PENALTY=1e-8,
             PARAMS=[
@@ -1268,7 +1268,7 @@ class CGTR:
                 _Fit.EqualityConstraint(line=self.zi, place='ISO', variable=_Fit.FitCoordinates.Z, value=y),
             ]
         )
-        fit = self.fit(zgoubi=z,
+        fit = self.fit(zgoubi=zgoubi or _Zgoubi(),
                        identifier={'SPOT_X': x, 'SPOT_Y': y},
                        fit=fit,
                        )
@@ -1296,7 +1296,7 @@ class CGTR:
             self.shoot(x=float(spot[0]), y=float(spot[1]), zgoubi=z, fit_type=fit_type) for spot in spots
         ]
         z.cleanup()
-        self.zi.cleanup()
+
         if debug_fit:
             return fits
         self.zi.IL = 2 if with_tracks else 0
@@ -1308,10 +1308,10 @@ class CGTR:
                          )
         self.results = z.collect()
         tracks = self.results.tracks
+        self.zi.cleanup()
         if len(tracks) == 0:
             return tracks
         self.tracks = tracks
-        self.zi.cleanup()
         return tracks
 
     def plot(self,

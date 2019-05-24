@@ -33,7 +33,7 @@ ParametersMappingType = Mapping[str, Sequence[Union[_Q, float]]]
 ParametersMappingListType = List[ParametersMappingType]
 """Type alias for a list of parametric mappings."""
 
-MappedParametersType = Mapping[str, Union[_Q, float]]
+MappedParametersType = Mapping[str, Union[_Q, float, str]]
 """Type alias for a dictionnary of parametric keys and values."""
 
 MappedParametersListType = List[MappedParametersType]
@@ -150,16 +150,14 @@ class Input:
                  line: Optional[Sequence[commands.Command]] = None,
                  with_survey: bool = True):
         self._name: str = name
-        if line is None:
-            line = []
-        self._line: List[commands.Command] = line
+        self._line: List[commands.Command] = line or []
         self._paths: PathsListType = list()
         self._optical_length: _Q = 0 * _ureg.m
         if with_survey:
             self.survey()
 
     def __del__(self):
-        _logger.info(f"Input object for paths {self.paths} is being destroyed.")
+        _logger.debug(f"Input object '{self.name }' for paths {self.paths} is being destroyed.")
 
     def __str__(self) -> str:
         """Provides the string representation, a valid Zgoubi input stream.
@@ -189,7 +187,7 @@ class Input:
         Returns:
 
         """
-        self._paths = [*self.paths, *self._generate(mappings=mappings, filename=filename, path=path)]
+        self._paths = self.paths + self._generate(mappings=mappings, filename=filename, path=path)
         return self
 
     def _generate(self,
@@ -210,7 +208,7 @@ class Input:
 
         """
         paths: PathsListType = list()
-        mappings = mappings or []
+        mappings = mappings or [{}]
         if len(self.beam_mappings) > 0:
             mappings = list(map(lambda _: {**_[0], **_[1]}, itertools.product(mappings, self.beam_mappings)))
         initial_state: MappedParametersType = {}
@@ -222,6 +220,8 @@ class Input:
             previous_state = self.adjust(mapping)
             if initial_state is None:
                 initial_state = previous_state
+            if path is not None:
+                path = path.rstrip('/') + '/'
             target_dir = tempfile.TemporaryDirectory(prefix=path)
             paths.append((mapping, target_dir, False))
             Input.write(self, filename, path=target_dir.name)
@@ -428,7 +428,8 @@ class Input:
                 p[1].cleanup()
             except AttributeError:
                 pass
-        self._paths = dict()
+        self.apply(lambda _: _.clean_output_and_results())
+        self._paths = []
 
     def validate(self, validators: Optional[List[Callable]]) -> bool:
         """
