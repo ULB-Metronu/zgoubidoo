@@ -31,10 +31,10 @@ class Patchable:
         Args:
             frame: the reference frame for the placement of the entrance frame.
         """
-        self._clear_placement()
+        self.clear_placement()
         self._entry = _Frame(frame)
 
-    def _clear_placement(self):
+    def clear_placement(self):
         """Clears all the frames."""
         self._entry = None
         self._entry_patched = None

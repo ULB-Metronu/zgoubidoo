@@ -99,7 +99,11 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
     """
     PARAMETERS = {
         'WIDTH': (50 * _ureg.cm, 'Width of the magnetic poles (used for plotting only).'),
-        'COLOR': ('blue', 'Magnet color for plotting.'),
+        'APERTURE_LEFT': (10 * _ureg.cm, 'Aperture size of the magnet, left side (used for plotting only).'),
+        'APERTURE_RIGHT': (10 * _ureg.cm, 'Aperture size of the magnet, right side (used for plotting only).'),
+        'APERTURE_TOP': (10 * _ureg.cm, 'Aperture size of the magnet, top side (used for plotting only).'),
+        'APERTURE_BOTTOM': (10 * _ureg.cm, 'Aperture size of the magnet, bottom side (used for plotting only).'),
+        'COLOR': ('black', 'Magnet color for plotting.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
@@ -195,18 +199,19 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
                 )
         return self._exit_patched
 
-    def plot(self, artist=None):
+    def plot(self, artist: _ZgoubiPlot=None, apertures: bool = False):
         """
 
         Args:
             artist:
+            apertures:
 
         Returns:
 
         """
         if artist is None:
             return
-        getattr(artist, CartesianMagnet.__name__.lower())(self)
+        getattr(artist, CartesianMagnet.__name__.lower())(self, apertures=apertures)
 
     def plot_cartouche(self, s_location, artist: _ZgoubiPlot):
         """
@@ -360,16 +365,17 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
             self._exit_patched.rotate_z(self.TS or 0 * _ureg.degree)
         return self._exit_patched
 
-    def plot(self, artist: _ZgoubiPlot):
+    def plot(self, artist: _ZgoubiPlot, apertures: bool = False):
         """
 
         Args:
             artist:
+            apertures
 
         Returns:
 
         """
-        getattr(artist, PolarMagnet.__name__.lower())(self)
+        getattr(artist, PolarMagnet.__name__.lower())(self, apertures)
 
     def plot_tracks(self, artist=None, tracks=None):
         """
@@ -1406,11 +1412,10 @@ class Drift(CartesianMagnet):
 
     PARAMETERS = {
         'XL': 0 * _ureg.centimeter,
+        'COLOR': (None, 'Color used when plotting the element.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
-
-    COLOR = 'yellow'
 
     def __str__(s):
         return f"""
@@ -1418,18 +1423,19 @@ class Drift(CartesianMagnet):
         {_cm(s.XL):.12e}
         """
 
-    def plot(self, artist=None):
+    def plot(self, artist=None, apertures: bool = False):
         """
 
         Args:
             artist:
+            apertures:
 
         Returns:
 
         """
         if artist is None or not artist.with_drifts:
             return
-        super().plot(artist)
+        super().plot(artist, apertures)
 
     @classmethod
     def parse(cls, stream: str):
@@ -1439,6 +1445,21 @@ class Drift(CartesianMagnet):
         {XL_:.12e}
         """
         return _parse.parse(' '.join(template.split()), ' '.join(stream.split()))
+
+    def plot(self, artist: _ZgoubiPlot = None, apertures: bool = False):
+        """
+
+        Args:
+            artist:
+            apertures:
+
+        Returns:
+
+        """
+        if artist is None:
+            return
+        if self.COLOR is not None:
+            getattr(artist, CartesianMagnet.__name__.lower())(self, apertures)
 
 
 class Emma(CartesianMagnet):
@@ -1850,10 +1871,25 @@ class FakeDrift(Multipole):
     """A fake drift (multipole with almost vanishing field) to allow plotting trajectories through drift spaces."""
     PARAMETERS = {
         'B1': 1e-6 * _ureg.gauss,
-        'COLOR': 'black',
+        'COLOR': (None, 'Color used when plotting the element.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
+
+    def plot(self, artist: _ZgoubiPlot = None, apertures: bool = False):
+        """
+
+        Args:
+            artist:
+            apertures:
+
+        Returns:
+
+        """
+        if artist is None:
+            return
+        if self.COLOR is not None:
+            getattr(artist, CartesianMagnet.__name__.lower())(self, apertures)
 
 
 class Octupole(CartesianMagnet):

@@ -72,7 +72,7 @@ from .input import Input, MadInput, InputValidator, ZgoubiInputException, Parame
 from .output.zgoubi import read_fai_file, read_plt_file, read_matrix_file, read_srloss_file
 from .zgoubi import Zgoubi, ZgoubiResults, ZgoubiException
 from .madx import Mad, MadResults, MadException
-from .survey import survey, survey_reference_trajectory
+from .surveys import survey, survey_reference_trajectory, clear_survey, transform_tracks
 from .frame import Frame, ZgoubidooFrameException
 from .polarity import HorizontalPolarity, VerticalPolarity
 from .loaders import *

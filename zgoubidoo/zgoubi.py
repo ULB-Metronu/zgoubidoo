@@ -12,7 +12,6 @@ from typing import List, Mapping, Iterable, Optional, Tuple, Union
 import logging
 import tempfile
 import os
-from io import IOBase as _IOBase
 import numpy as _np
 import pandas as _pd
 from .executable import Executable
@@ -20,6 +19,7 @@ from .input import Input as _Input
 from .input import MappedParametersType as _MappedParametersType
 from .input import MappedParametersListType as _MappedParametersListType
 from .output.zgoubi import read_plt_file, read_matrix_file, read_srloss_file, read_srloss_steps_file
+import zgoubidoo
 
 __all__ = ['ZgoubiException', 'ZgoubiResults', 'Zgoubi']
 _logger = logging.getLogger(__name__)
@@ -81,7 +81,8 @@ class ZgoubiResults:
 
     def get_tracks(self,
                    parameters: Optional[_MappedParametersListType] = None,
-                   force_reload: bool = False
+                   force_reload: bool = False,
+                   with_survey: bool = True,
                    ) -> _pd.DataFrame:
         """
         Collects all tracks from the different Zgoubi instances matching the given parameters list
@@ -90,6 +91,7 @@ class ZgoubiResults:
         Args:
             parameters:
             force_reload:
+            with_survey:
 
         Returns:
             A concatenated DataFrame with all the tracks in the result matching the parameters list.
@@ -122,6 +124,10 @@ class ZgoubiResults:
             tracks = _pd.DataFrame()
         if parameters is None:
             self._tracks = tracks
+        if with_survey:
+            zgoubidoo.surveys.transform_tracks(beamline=self.results[0][1]['input'],
+                                               tracks=tracks,
+                                               )
         return tracks
 
     @property
@@ -183,12 +189,16 @@ class ZgoubiResults:
 
     def get_srloss_steps(self,
                          parameters: Optional[_MappedParametersListType] = None,
-                         force_reload: bool = False) -> _pd.DataFrame:
+                         force_reload: bool = False,
+                         with_survey: bool = True) -> _pd.DataFrame:
         """
 
         Args:
             parameters:
-            force_reload:
+            force_reload: the data are cached in most cases to allow multiple calls, this flag will force the data to
+            be reloaded.
+            with_survey: performs the transformation of the coordinates using the survey information (this is
+            basically a transformation from the local coordinates of the element to the global reference frame).
 
         Returns:
 
@@ -208,7 +218,8 @@ class ZgoubiResults:
                         srloss_steps[-1][f"{kk}"] = vv
                 except FileNotFoundError:
                     _logger.warning(
-                        "Unable to read and load the Zgoubi SRLOSS files required to collect the SRLOSS data."
+                        "Unable to read and load the Zgoubi SRLOSS_STEPS files required to collect "
+                        "the SRLOSS STEPS data."
                     )
                     continue
         if len(srloss_steps) > 0:
@@ -217,6 +228,10 @@ class ZgoubiResults:
             srloss_steps = _pd.DataFrame()
         if parameters is None:
             self._srloss_steps = srloss_steps
+        if with_survey:
+            zgoubidoo.surveys.transform_tracks(beamline=self.results[0][1]['input'],
+                                               tracks=srloss_steps,
+                                               with_rays=True)
         return srloss_steps
 
     @property

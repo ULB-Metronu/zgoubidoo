@@ -87,7 +87,8 @@ def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> pd.DataFrame
     df['LABEL1'] = df['LABEL1'].map(lambda x: x.strip())
     df['X'] *= 1e-2
     df['S'] *= 1e-2
-    df['Y-DY'] *= 1e-2
+    df['Y'] = 1e-2 * df['Y-DY']
+    del df['Y-DY']
     df['T'] *= 1e-3
     df['Z'] *= 1e-2
     df['P'] *= 1e-3
@@ -216,6 +217,11 @@ def read_srloss_steps_file(filename: str = 'zgoubi.SRLOSS.STEPS.out', path: str 
                      skipinitialspace=False,
                      quotechar='\''
                      )
+    df['S'] *= 1e-2
+    df['X'] *= 1e-2
+    df['Y'] *= 1e-2
+    df['Z'] *= 1e-2
+
     return df
 
 

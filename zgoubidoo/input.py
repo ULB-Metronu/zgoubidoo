@@ -148,13 +148,12 @@ class Input:
     def __init__(self,
                  name: str = 'beamline',
                  line: Optional[Sequence[commands.Command]] = None,
-                 with_survey: bool = True):
+                 ):
         self._name: str = name
         self._line: List[commands.Command] = line or []
         self._paths: PathsListType = list()
         self._optical_length: _Q = 0 * _ureg.m
-        if with_survey:
-            self.survey()
+        self._reference_frame: Optional[_Frame] = None
 
     def __del__(self):
         _logger.debug(f"Input object '{self.name }' for paths {self.paths} is being destroyed.")
@@ -312,7 +311,6 @@ class Input:
             return Input(name=f"{self._name}_sliced_from_{getattr(items.start, 'LABEL1', items.start)}"
                               f"_to_{getattr(items.stop, 'LABEL1', items.stop)}",
                          line=self._line[slicing],
-                         with_survey=False,
                          )
 
         else:
@@ -329,7 +327,6 @@ class Input:
                          .replace(")", '')
                          .rstrip('_'),
                          line=l,
-                         with_survey=False,
                          )
 
     def __getattr__(self, item: str) -> commands.Command:
@@ -647,6 +644,16 @@ class Input:
         return self._optical_length
 
     @property
+    def valid_survey(self) -> bool:
+        """Boolean indicating if the line has been surveyed."""
+        return self._reference_frame is not None
+
+    @property
+    def survey_reference_frame(self) -> _Frame:
+        """Provides the reference frame which was used for the prior survey of the line."""
+        return self._reference_frame
+
+    @property
     def beam(self) -> Optional[zgoubidoo.commands.Beam]:
         """
 
@@ -693,17 +700,27 @@ class Input:
         """
         self._optical_length = 0 * _ureg.m
 
-    def survey(self, reference_frame: _Frame = None) -> Input:
+    def survey(self, reference_frame: _Frame = None, output: bool = False) -> _pd.DataFrame:
         """Perform a survey on the input sequence.
 
         Args:
             reference_frame: a Zgoubidoo Frame object acting as the global reference frame.
+            output:
 
         Returns:
             the surveyed input sequence.
         """
-        reference_frame = reference_frame or _Frame()
-        return zgoubidoo.survey(self, reference_frame)
+        self._reference_frame = reference_frame or _Frame()
+        return zgoubidoo.survey(self, reference_frame=reference_frame, output=output)
+
+    def clear_survey(self):
+        """
+
+        Returns:
+
+        """
+        zgoubidoo.clear_survey(self)
+        self._reference_frame = None
 
     def plot(self,
              ax=None,
@@ -711,11 +728,9 @@ class Input:
              artist: zgoubidoo.vis.ZgoubiPlot = None,
              start: Optional[Union[str, zgoubidoo.commands.Command]] = None,
              stop: Optional[Union[str, zgoubidoo.commands.Command]] = None,
-             z_rotation: _.Q = 0.0 * _ureg.radian,
-             x_offset: _.Q = 0.0 * _ureg.m,
-             y_offset: _.Q = 0.0 * _ureg.m,
              with_frames: bool = True,
              with_elements: bool = True,
+             with_apertures: bool = False,
              set_equal_aspect: bool = True,
              ) -> zgoubidoo.vis.ZgoubiPlot:
         """Plot the input sequence.
@@ -728,17 +743,13 @@ class Input:
             artist: an artist object for the rendering
             start: first element of the beamline to be plotted
             stop: last element of the beamline to be plotted
-            z_rotation:
-            x_offset:
-            y_offset:
             with_frames:
             with_elements:
+            with_apertures:
             set_equal_aspect:
         """
-        zgoubidoo.survey(beamline=self,
-                         reference_frame=_Frame().rotate_z(z_rotation).translate_x(x_offset).translate_y(y_offset)
-                         )
-
+        if self._reference_frame is None:
+            raise ZgoubiInputException("The input must be surveyed explicitely before plotting.")
         if artist is None:
             artist = zgoubidoo.vis.ZgoubiMpl(ax=ax, with_frames=with_frames)
         if ax is not None:
@@ -748,10 +759,11 @@ class Input:
                                tracks=tracks,
                                artist=artist,
                                with_elements=with_elements,
+                               with_apertures=with_apertures,
                                )
+        ax.autoscale_view()
         if set_equal_aspect:
             artist.ax.set_aspect('equal', 'datalim')
-
         return artist
 
     @staticmethod

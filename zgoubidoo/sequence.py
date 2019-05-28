@@ -6,6 +6,7 @@ from typing import Optional, List, Union, Iterable, Tuple, Any
 import itertools
 import copy
 import pandas as _pd
+from .commands.commands import ZgoubidooException as _ZgoubidooException
 from .commands.particules import Proton as _Proton
 from .commands.particules import ParticuleType as _ParticuleType
 from .commands.commands import CommandType as _CommandType
@@ -75,7 +76,12 @@ class Sequence:
             self.repeat_sequence(periods)
         self._particle = particle()
         self._z: zgoubidoo.Zgoubi = zgoubidoo.Zgoubi()
-        self.validate()
+        if self.validate():
+            for _ in self._sequence:
+                try:
+                    _.KINEMATICS = self.kinematics
+                except _ZgoubidooException:
+                    pass
 
     @property
     def name(self) -> str:
@@ -89,7 +95,7 @@ class Sequence:
 
     @property
     def table(self) -> _pd.DataFrame:
-        """Provide the associated (twiss) table."""
+        """Provide the associated table."""
         return self._table
 
     @property
@@ -149,40 +155,6 @@ class Sequence:
 
         """
         self._sequence = copy.copy(self._sequence)[::-1]
-
-    def plot(self,
-             ax=None,
-             tracks=None,
-             artist: zgoubidoo.vis.ZgoubiPlot = None,
-             start: Optional[Union[str, zgoubidoo.commands.Command]] = None,
-             stop: Optional[Union[str, zgoubidoo.commands.Command]] = None,
-             ) -> zgoubidoo.vis.ZgoubiPlot:
-        """Plot the input sequence.
-
-        TODO
-
-        Args:
-            ax: an optional matplotlib axis to draw on
-            tracks: TODO
-            artist: an artist object for the rendering
-            start: first element of the beamline to be plotted
-            stop: last element of the beamline to be plotted
-        """
-        zgoubidoo.survey(beamline=self)
-
-        if artist is None:
-            artist = zgoubidoo.vis.ZgoubiMpl(ax=ax)
-        if ax is not None:
-            artist.ax = ax
-
-        zgoubidoo.vis.beamline(line=self.sequence[start:stop],
-                               tracks=tracks,
-                               artist=artist,
-                               )
-
-        artist.ax.set_aspect('equal', 'datalim')
-
-        return artist
 
     def __len__(self) -> int:
         """Length of the sequence.

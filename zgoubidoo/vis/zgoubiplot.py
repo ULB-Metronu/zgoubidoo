@@ -41,10 +41,12 @@ class ZgoubiPlot:
 
     @property
     def with_drifts(self) -> bool:
+        """"""
         return self._with_drifts
 
     @property
     def reference_frame(self):
+        """"""
         return self._reference_frame
 
     @reference_frame.setter

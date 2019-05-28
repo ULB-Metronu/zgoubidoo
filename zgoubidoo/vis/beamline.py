@@ -12,6 +12,7 @@ def beamline(line: zgoubidoo.Input,
              tracks=None,
              tracks_color: str = 'b',
              with_elements: bool = True,
+             with_apertures: bool = False,
              with_tracks: bool = True,
              ) -> None:
     """
@@ -32,7 +33,9 @@ def beamline(line: zgoubidoo.Input,
         artist.tracks_color = tracks_color
     for e in line:
         if with_elements:
-            e.plot(artist=artist)
+            e.plot(artist=artist, apertures=with_apertures)
+        if with_apertures:
+            e.plot(artist=artist, apertures=True)
         if tracks is not None and with_tracks:
             e.plot_tracks(artist=artist, tracks=tracks.query(f"LABEL1 == '{e.LABEL1}'"))
 

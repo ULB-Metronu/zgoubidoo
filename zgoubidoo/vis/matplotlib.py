@@ -209,13 +209,14 @@ class ZgoubiMpl(ZgoubiPlot):
         if self._with_frames:
             do_frame()
 
-    def cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet):
+    def cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet, apertures: bool = False):
         """Rendering of magnets in cartesian coordinates.
 
         Plot magnets in cartesian coordinates using rectangles.
 
         Args:
             magnet: the magnet to be rendered.
+            apertures:
         """
 
         def do_frame():
@@ -254,8 +255,59 @@ class ZgoubiMpl(ZgoubiPlot):
                 )
             )
 
-        if self._with_boxes:
+        def do_apertures():
+            """Plot the core of the magnet."""
+            angle = -magnet.entry_patched.tx
+            tr = transforms.Affine2D().rotate_deg_around(
+                _cm(magnet.entry_patched.x),
+                _cm(magnet.entry_patched.y),
+                _degree(angle)
+            ) + self._ax.transData
+            self._ax.add_patch(
+                patches.Rectangle(
+                    (
+                        _cm(magnet.entry_patched.x),
+                        _cm(magnet.entry_patched.y - magnet.APERTURE_RIGHT - magnet.WIDTH)
+                    ),
+                    _np.linalg.norm(
+                        _np.array([
+                            _cm(magnet.exit.x - magnet.entry_patched.x),
+                            _cm(magnet.exit.y - magnet.entry_patched.y)
+                        ]).astype(float)
+                    ),
+                    _cm(magnet.WIDTH),
+                    alpha=0.2,
+                    facecolor=self._palette.get(magnet.COLOR, 'gray'),
+                    edgecolor=self._palette.get(magnet.COLOR, 'gray'),
+                    linewidth=2,
+                    transform=tr,
+                )
+            )
+            self._ax.add_patch(
+                patches.Rectangle(
+                    (
+                        _cm(magnet.entry_patched.x),
+                        _cm(magnet.entry_patched.y + 1 * magnet.APERTURE_LEFT)
+                    ),
+                    _np.linalg.norm(
+                        _np.array([
+                            _cm(magnet.exit.x - magnet.entry_patched.x),
+                            _cm(magnet.exit.y - magnet.entry_patched.y)
+                        ]).astype(float)
+                    ),
+                    _cm(magnet.WIDTH),
+                    alpha=0.2,
+                    facecolor=self._palette.get(magnet.COLOR, 'gray'),
+                    edgecolor=self._palette.get(magnet.COLOR, 'gray'),
+                    linewidth=2,
+                    transform=tr,
+                )
+            )
+
+        if self._with_boxes and not apertures:
             do_box()
+        if self._with_boxes and apertures:
+            do_apertures()
         if self._with_frames:
             do_frame()
 
@@ -366,12 +418,8 @@ class ZgoubiMpl(ZgoubiPlot):
             magnet: the magnet to which the tracks are attached
             tracks: a dataframe containing the tracks
         """
-        rotation = _np.linalg.inv(magnet.entry_patched.get_rotation_matrix())
-        v = _np.dot(100 * tracks[['X', 'Y-DY', 'Z']].values, rotation)
-        tracks_x = _cm(magnet.entry_patched.x) + v[:, 0]
-        tracks_y = _cm(magnet.entry_patched.y) + v[:, 1]
-        self.plot(tracks_x,
-                  tracks_y,
+        self.plot(100 * tracks['X1'],
+                  100 * tracks['Y1'],
                   '.',
                   markeredgecolor=self._tracks_color,
                   markerfacecolor=self._tracks_color,

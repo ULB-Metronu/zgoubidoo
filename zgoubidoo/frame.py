@@ -736,7 +736,7 @@ class Frame:
 
         """
         if axis.lower() not in "xyz" or len(axis) > 1:
-            raise ZgoubidooFrameException("Invalid rotation axis for 'translate_axis'")
+            raise ZgoubidooFrameException("Invalid rotation axis for 'rotate_axis'")
         return getattr(self, f"rotate_{axis.lower()}")(angle)
 
     def __add__(self, offset: List[_ureg.Quantity]) -> Frame:

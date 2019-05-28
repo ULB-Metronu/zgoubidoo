@@ -278,10 +278,11 @@ def align_tracks(tracks: pd.DataFrame,
     Returns:
         aligned data and reference data
     """
-    coordinates: list = ['Y-DY', 'T', 'Z', 'P', 'D-1', 'Yo', 'To', 'Zo', 'Po', 'Do-1']  # Keep it in this order
+    coordinates: list = ['Y', 'T', 'Z', 'P', 'D-1', 'Yo', 'To', 'Zo', 'Po', 'Do-1']  # Keep it in this order
     particules: list = ['O', 'A', 'C', 'E', 'G', 'I', 'B', 'D', 'F', 'H', 'J']  # Keep it in this order
     assert set(particules) == set(tracks[identifier].unique()), "Required particles not found (are you using Objet5?)."
-    ref: pd.DataFrame = tracks.query(f"{identifier} == '{reference_track}'")[coordinates + [align_on, 'LABEL1']]
+    ref: pd.DataFrame = tracks.query(f"{identifier} == '{reference_track}'")[coordinates +
+                                                                             [align_on, 'LABEL1', 'X1', 'Y1', 'Z1']]
     ref_alignment_values = ref[align_on].values
     assert np.all(np.diff(ref_alignment_values) >= 0), "The reference alignment values are not monotonously increasing"
     data = np.zeros((len(particules), ref_alignment_values.shape[0], len(coordinates)))
@@ -343,5 +344,9 @@ def compute_transfer_matrix(beamline: _Input, tracks: pd.DataFrame) -> pd.DataFr
         else:
             m['S'] = ref['S'].values
         m['LABEL1'] = e.LABEL1
+        m['X1'] = ref['X1'].values
+        m['Y1'] = ref['Y1'].values
+        m['Z1'] = ref['Z1'].values
         matrix = matrix.append(m)
+    matrix['S'] += tracks['X1'].min()
     return matrix.reset_index()
