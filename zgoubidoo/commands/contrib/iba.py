@@ -1195,7 +1195,7 @@ class CGTR:
 
     def run(self,
             zgoubi: zgoubidoo.Zgoubi,
-            identifier: _MappedParametersType,
+            identifier: Optional[_MappedParametersType] = None,
             ):
         """
 
@@ -1206,7 +1206,7 @@ class CGTR:
         Returns:
 
         """
-        zgoubi(code_input=self.zi, identifier=identifier)
+        zgoubi(code_input=self.zi, identifier=identifier or {})
 
     def fit(self,
             zgoubi: zgoubidoo.Zgoubi,
