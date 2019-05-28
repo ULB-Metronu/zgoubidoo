@@ -5,6 +5,7 @@ TODO
 """
 from .magnetique import *
 from .electrique import *
+from .electromagnetic import *
 from .commands import *
 from .mcobjet import *
 from .objet import *

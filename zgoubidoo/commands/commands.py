@@ -1462,15 +1462,6 @@ class Twiss(Command):
         """
 
 
-class WienFilter(Command):
-    """Wien filter.
-
-    TODO
-    """
-    KEYWORD = 'WIENFILT'
-    """Keyword of the command used for the Zgoubi input data."""
-
-
 class Ymy(Command, _Patchable):
     """Reverse signs of Y and Z reference axes, equivalent to a 180 degree rotation around the X axis.
 
