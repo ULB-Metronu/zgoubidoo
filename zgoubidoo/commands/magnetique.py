@@ -2206,7 +2206,7 @@ class Sextupole(CartesianMagnet):
 
     PARAMETERS = {
         'IL': 2,
-        'XL': 0,
+        'XL': 0 * _ureg.meter,
         'R0': 0,
         'B0': 0,
         'X_E': 0,
@@ -2241,7 +2241,7 @@ class Sextupole(CartesianMagnet):
         c = f"""
                 {super().__str__().rstrip()}
                 {s.IL}
-                {s.XL:.12e} {s.R0:.12e} {s.B0:.12e}
+                {s.XL.m_as('m'):.12e} {s.R0:.12e} {s.B0:.12e}
                 {s.X_E:.12e} {s.LAM_E:.12e}
                 {s.NCE} {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
                 {s.X_S:.12e} {s.LAM_S:.12e}

@@ -228,7 +228,7 @@ class ZgoubiResults:
             srloss_steps = _pd.DataFrame()
         if parameters is None:
             self._srloss_steps = srloss_steps
-        if with_survey:
+        if with_survey and not srloss_steps.empty:
             zgoubidoo.surveys.transform_tracks(beamline=self.results[0][1]['input'],
                                                tracks=srloss_steps,
                                                with_rays=True)

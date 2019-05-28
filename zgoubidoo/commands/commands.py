@@ -402,7 +402,8 @@ class Command(metaclass=CommandType):
         self._output.append((parameters, outputs))
         self.process_output(outputs, parameters, zgoubi_input)
 
-    def process_output(self, output: List[str],
+    def process_output(self,
+                       output: List[str],
                        parameters: Mapping[str, Union[_Q, float]],
                        zgoubi_input: zgoubidoo.Input
                        ) -> bool:
@@ -453,6 +454,8 @@ class Fake(Command):
 
     This command can be used to add an arbitrary input command in a Zgoubi input sequence. The `INPUT` parameter is
     formatted before being printed, and uses the OPTIONS command attributes list for that purpose (see examples below).
+
+    This can also be used to implement new commands easily by using formatted INPUT together with OPTIONS.
     
     Examples:
         >>> c = Fake('FAKE1', INPUT="'COMMAND_NAME' {LABEL1} 1.0 2.0 3.0")
