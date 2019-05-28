@@ -22,3 +22,5 @@ dependencies:
   - mypy
   - pyarrow
   - lmfit
+  - quaternion
+  - numba
