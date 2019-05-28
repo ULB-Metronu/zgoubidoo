@@ -257,6 +257,11 @@ class Command(metaclass=CommandType):
             default = self._retrieve_default_parameter_value(k_)
             if isinstance(v, (int, float)) and k.endswith('_'):
                 v = _ureg.Quantity(v, _ureg.Quantity(default).units)
+            elif isinstance(v, str) and default is not None and not isinstance(default, str):
+                try:
+                    v = _ureg.Quantity(v)
+                except _UndefinedUnitError:
+                    pass
             try:
                 dimension = v.dimensionality
             except AttributeError:
@@ -265,7 +270,7 @@ class Command(metaclass=CommandType):
                 if default is not None and dimension != _ureg.Quantity(default).dimensionality:
                     raise ZgoubidooException(f"Invalid dimension ({dimension} "
                                              f"instead of {_ureg.Quantity(default).dimensionality}) "
-                                             f"for parameter {k_}={v}."
+                                             f"for parameter {k_}={v} of {self.__class__.__name__}."
                                              )
             except (ValueError, TypeError, _UndefinedUnitError):
                 pass
