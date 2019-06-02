@@ -23,4 +23,4 @@ dependencies:
   - pyarrow
   - lmfit
   - quaternion
-  - numba
+  - plotly
