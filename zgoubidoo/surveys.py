@@ -137,13 +137,12 @@ def survey_reference_trajectory(beamline: _Input,
     return beamline
 
 
-def transform_tracks(beamline: _Input, tracks: _pd.DataFrame, with_rays: bool = False):
+def transform_tracks(beamline: _Input, tracks: _pd.DataFrame):
     """
 
     Args:
         beamline:
         tracks:
-        with_rays:
     """
     tracks['X1'] = 0.0
     tracks['Y1'] = 0.0
@@ -154,18 +153,17 @@ def transform_tracks(beamline: _Input, tracks: _pd.DataFrame, with_rays: bool = 
     for label in tracks.LABEL1.unique():
         coordinates = tracks.query(f"LABEL1 == '{label}'")
 
-        if with_rays:
-            q1 = _np.zeros((coordinates.shape[0], 3))
-            q1[:, 2] = -coordinates['T'].values
-            q1 = quaternion.from_rotation_vector(q1)
-            q2 = _np.zeros((coordinates.shape[0], 3))
-            q2[:, 1] = coordinates['P'].values
-            q2 = quaternion.from_rotation_vector(q2)
-            q = q2 * q1
-            end_points = _np.matmul(_np.linalg.inv(quaternion.as_rotation_matrix(q)), _np.array([1.0, 0.0, 0.0]))
-            tracks.loc[tracks.LABEL1 == label, 'X2'] = coordinates['X'] + end_points[:, 0]
-            tracks.loc[tracks.LABEL1 == label, 'Y2'] = coordinates['Y'] + end_points[:, 1]
-            tracks.loc[tracks.LABEL1 == label, 'Z2'] = coordinates['Z'] + end_points[:, 2]
+        _ = _np.zeros((coordinates.shape[0], 3))
+        _[:, 2] = -coordinates['T'].values
+        q1 = quaternion.from_rotation_vector(_)
+        _[:, 2] = 0
+        _[:, 1] = coordinates['P'].values
+        q2 = quaternion.from_rotation_vector(_)
+        q = q2 * q1
+        end_points = _np.matmul(_np.linalg.inv(quaternion.as_rotation_matrix(q)), _np.array([1.0, 0.0, 0.0]))
+        tracks.loc[tracks.LABEL1 == label, 'X2'] = coordinates['X'] + end_points[:, 0]
+        tracks.loc[tracks.LABEL1 == label, 'Y2'] = coordinates['Y'] + end_points[:, 1]
+        tracks.loc[tracks.LABEL1 == label, 'Z2'] = coordinates['Z'] + end_points[:, 2]
 
         element_rotation = _np.linalg.inv(getattr(beamline, label).entry_patched.get_rotation_matrix())
         v = _np.dot(coordinates[['X', 'Y', 'Z']].values, element_rotation)
@@ -174,8 +172,9 @@ def transform_tracks(beamline: _Input, tracks: _pd.DataFrame, with_rays: bool = 
         tracks.loc[tracks.LABEL1 == label, 'Y1'] = v[:, 1] + origin[1].m_as('m')
         tracks.loc[tracks.LABEL1 == label, 'Z1'] = v[:, 2] + origin[2].m_as('m')
 
-        if with_rays:
-            v = _np.dot(tracks.query(f"LABEL1 == '{label}'")[['X2', 'Y2', 'Z2']].values, element_rotation)
-            tracks.loc[tracks.LABEL1 == label, 'X2'] = v[:, 0] + origin[0].m_as('m')
-            tracks.loc[tracks.LABEL1 == label, 'Y2'] = v[:, 1] + origin[1].m_as('m')
-            tracks.loc[tracks.LABEL1 == label, 'Z2'] = v[:, 2] + origin[2].m_as('m')
+        w = _np.dot(tracks.query(f"LABEL1 == '{label}'")[['X2', 'Y2', 'Z2']].values, element_rotation)
+        tracks.loc[tracks.LABEL1 == label, 'X2'] = w[:, 0] + origin[0].m_as('m')
+        tracks.loc[tracks.LABEL1 == label, 'Y2'] = w[:, 1] + origin[1].m_as('m')
+        tracks.loc[tracks.LABEL1 == label, 'Z2'] = w[:, 2] + origin[2].m_as('m')
+        tracks.loc[tracks.LABEL1 == label, 'T2'] = _np.arcsin(end_points[:, 1])
+        tracks.loc[tracks.LABEL1 == label, 'P2'] = _np.arcsin(end_points[:, 2])

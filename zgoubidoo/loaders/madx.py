@@ -104,21 +104,21 @@ def create_madx_sbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dic
                                      )
     if twiss_row['ANGLE'] < 0:
         return [
-            ChangeRef(TRANSFORMATIONS=[['XR', (-twiss_row['TILT'] + _np.pi) * _ureg.radian]]).generate_label(
+            ChangeRef(TRANSFORMATIONS=[['XR', -(-twiss_row['TILT'] + _np.pi) * _ureg.radian]]).generate_label(
                 prefix=twiss_row.name + '_CRL'
             ),
             b,
-            ChangeRef(TRANSFORMATIONS=[['XR', -(-twiss_row['TILT'] + _np.pi) * _ureg.radian]]).generate_label(
+            ChangeRef(TRANSFORMATIONS=[['XR', (-twiss_row['TILT'] + _np.pi) * _ureg.radian]]).generate_label(
                 prefix=twiss_row.name + '_CRR'
             ),
         ]
     else:
         return [
-            ChangeRef(TRANSFORMATIONS=[['XR', -twiss_row['TILT'] * _ureg.radian]]).generate_label(
+            ChangeRef(TRANSFORMATIONS=[['XR', twiss_row['TILT'] * _ureg.radian]]).generate_label(
                 prefix=twiss_row.name + '_CRL'
             ),
             b,
-            ChangeRef(TRANSFORMATIONS=[['XR', twiss_row['TILT'] * _ureg.radian]]).generate_label(
+            ChangeRef(TRANSFORMATIONS=[['XR', -twiss_row['TILT'] * _ureg.radian]]).generate_label(
                 prefix=twiss_row.name + '_CRR'
             )
         ]
