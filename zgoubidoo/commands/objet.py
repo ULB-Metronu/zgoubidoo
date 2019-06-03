@@ -293,7 +293,7 @@ class Objet4(Objet):
         'XF': 0,
         'DF': 0,
         'TF': 0,
-        'TAG': '*', # No effect if '*'
+        'TAG': '*',  # No effect if '*'
         'YR': 0,
         'TR': 0,
         'ZR': 0,
@@ -302,7 +302,7 @@ class Objet4(Objet):
         'DR': 0,
         'TR': 0,
         'InitC': 0,
-        'FNAME': 'zgoubi.fai', #(NN in KOBJ=3.NN determines storage FORMAT)
+        'FNAME': 'zgoubi.fai',  # (NN in KOBJ=3.NN determines storage FORMAT)
     }
 
     def __str__(s) -> str:
