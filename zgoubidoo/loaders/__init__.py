@@ -12,5 +12,5 @@ follow.
 
 
 """
-from .madx import load_madx_twiss_headers, load_madx_twiss_table, from_madx_twiss
+from .madx import load_madx_twiss_headers, load_madx_twiss_table, from_madx_twiss, get_twiss_values
 from .transport import load_transport_input, from_transport_input

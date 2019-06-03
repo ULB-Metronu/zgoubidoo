@@ -25,7 +25,7 @@ from ..commands import Quadrupole, Sextupole, Octupole, Command, Marker, Drift, 
 from ..kinematics import Kinematics
 from ..commands import particules
 from ..units import _m
-from ..output.madx import load_madx_twiss_headers, load_madx_twiss_table
+from ..output.madx import load_madx_twiss_headers, load_madx_twiss_table, get_twiss_values
 
 
 def create_madx_marker(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> List[Command]:
@@ -250,4 +250,5 @@ def from_madx_twiss(filename: str = 'twiss.outx',
                      metadata=twiss_headers,
                      particle=p,
                      table=twiss_table,
+                     initial_twiss=get_twiss_values(twiss_table),
                      )

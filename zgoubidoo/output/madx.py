@@ -158,3 +158,28 @@ def load_madx_twiss_table(filename: str = 'twiss.outx', path: str = '.', columns
             pass
     return _.set_index('NAME')
 
+
+def get_twiss_values(table: _pd.DataFrame, location: int = 0) -> _pd.Series:
+    """Extract the initial Twiss parameters from a Twiss table
+
+    Args:
+        table: a MAD-X twiss table read as a DataFrame
+        location: the location at which the parameters need to be extracted
+
+    Returns:
+        A Pandas Series containing the extracted Twiss parameters.
+    """
+    return _pd.Series({
+        'MU1': 0,
+        'MU2': 0,
+        'BETA11': table.iloc[location]['BETX'],
+        'BETA22': table.iloc[location]['BETY'],
+        'ALPHA11': table.iloc[location]['ALFX'],
+        'ALPHA22': table.iloc[location]['ALFY'],
+        'GAMMA11': (1 + table.iloc[location]['ALFX']) ** 2 / table.iloc[location]['BETX'],
+        'GAMMA22': (1 + table.iloc[location]['ALFY']) ** 2 / table.iloc[location]['BETY'],
+        'DY': table.iloc[location]['DX'],
+        'DYP': table.iloc[location]['DPX'],
+        'DZ': table.iloc[location]['DY'],
+        'DZP': table.iloc[location]['DPY'],
+    })

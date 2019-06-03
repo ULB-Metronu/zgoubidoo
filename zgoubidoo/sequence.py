@@ -36,6 +36,7 @@ class Sequence:
                  kinematics: Optional[_Kinematics] = None,
                  particle: _ParticuleType = _Proton,
                  table: Optional[_pd.DataFrame] = None,
+                 initial_twiss: Optional[_pd.Series] = None,
                  periods: int = 1,
                  ):
         """
@@ -51,6 +52,10 @@ class Sequence:
         """
         self._name = name
         self._table = table
+        if initial_twiss is not None:
+            self._initial_twiss: _pd.Series = initial_twiss
+        else:
+            self._initial_twiss: _pd.Series = _pd.Series()
         if metadata is not None:
             self._metadata: _pd.Series = metadata
         else:
@@ -102,6 +107,11 @@ class Sequence:
     def metadata(self) -> _pd.Series:
         """Provide the metadata associated with the physics."""
         return self._metadata
+
+    @property
+    def initial_twiss(self) -> _pd.Series:
+        """Provide the associated initial Twiss values"""
+        return self._initial_twiss
 
     @property
     def kinematics(self) -> _Kinematics:
