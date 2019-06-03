@@ -33,7 +33,7 @@ setup(
     license=lic,
     packages=find_packages(exclude=('tests', 'docs', 'examples')),
     install_requires=[
-        'lmfit'
+        'lmfit',
         'matplotlib',
         'mypy',
         'numpy>=1.14.0',

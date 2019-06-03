@@ -116,6 +116,7 @@ class Executable:
                 path[0],
                 code_input,
                 path[1],
+                debug,
             )
             if cb is not None:
                 future.add_done_callback(cb)

@@ -343,6 +343,7 @@ class Zgoubi(Executable):
         try:
             result = open(os.path.join(path, self.RESULT_FILE)).read().split('\n')
         except FileNotFoundError:
+            # TODO add debug mechanism in this case
             raise ZgoubiException(f"Zgoubi execution ended but result '{self.RESULT_FILE}' file not found.")
 
         for e in code_input.line:
