@@ -472,6 +472,22 @@ class Fake(Command):
         return self.INPUT.format(**self.OPTIONS)
 
 
+class Comment(Command):
+    """Fake comment allowing to insert comments in the Zgoubi input.
+
+    Examples:
+        >>> c = Comment(COMMENT="A very long comment.")
+    """
+    PARAMETERS = {
+        'COMMENT': ('', 'A long comment.'),
+    }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
+
+    def __str__(self):
+        return f"! {self.COMMENT}"
+
+
 class AutoRef(Command):
     """Automatic transformation to a new reference frame.
 
