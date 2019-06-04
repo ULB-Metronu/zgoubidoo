@@ -29,6 +29,22 @@ class ZgoubidooException(Exception):
         self.message = m
 
 
+class Comment:
+    """Fake comment allowing to insert comments in the Zgoubi input.
+
+    Examples:
+        >>> c = Comment(COMMENT="A very long comment.")
+    """
+    def __init__(self, comment: str = ''):
+        self.COMMENT = comment
+
+    def __str__(self):
+        return f"! {self.COMMENT}"
+    
+    def __repr__(self):
+        return str(self)
+
+
 class CommandType(type):
     """
     Dark magic.
@@ -470,22 +486,6 @@ class Fake(Command):
 
     def __str__(self):
         return self.INPUT.format(**self.OPTIONS)
-
-
-class Comment(Command):
-    """Fake comment allowing to insert comments in the Zgoubi input.
-
-    Examples:
-        >>> c = Comment(COMMENT="A very long comment.")
-    """
-    PARAMETERS = {
-        'COMMENT': ('', 'A long comment.'),
-    }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
-    commands (e.g. fit)."""
-
-    def __str__(self):
-        return f"! {self.COMMENT}"
 
 
 class AutoRef(Command):
