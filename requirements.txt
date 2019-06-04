@@ -1,6 +1,7 @@
 lmfit
 matplotlib
 mypy
+numba
 numpy
 numpy-quaternion
 numpy-stl

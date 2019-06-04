@@ -36,6 +36,7 @@ setup(
         'lmfit',
         'matplotlib',
         'mypy',
+        'numba',
         'numpy>=1.14.0',
         'numpy-quaternion',
         'numpy-stl',
