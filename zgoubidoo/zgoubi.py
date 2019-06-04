@@ -18,7 +18,7 @@ from .executable import Executable
 from .input import Input as _Input
 from .input import MappedParametersType as _MappedParametersType
 from .input import MappedParametersListType as _MappedParametersListType
-from .output.zgoubi import read_plt_file, read_matrix_file, read_srloss_file, read_srloss_steps_file
+from .output.zgoubi import read_plt_file, read_matrix_file, read_srloss_file, read_srloss_steps_file, read_optics_file
 import zgoubidoo
 
 __all__ = ['ZgoubiException', 'ZgoubiResults', 'Zgoubi']
@@ -34,7 +34,7 @@ class ZgoubiException(Exception):
 
 class ZgoubiResults:
     """Results from a Zgoubi executable run."""
-    def __init__(self, results: List[Mapping]):
+    def __init__(self, results: List[Mapping], options: Optional[Mapping] = None):
         """
         `ZgoubiResults` is used to store results and outputs from a single or multiple Zgoubi runs. It is instanciated
         from a list of dictionnaries containing the results (each one being a mapping between `MappedParameters`
@@ -48,10 +48,13 @@ class ZgoubiResults:
 
         Args:
             results: a list of dictionnaries structure with the Zgoubi run information and errors.
+            options:
         """
+        self._options: Mapping = options or {}
         self._results: List[Mapping] = results
         self._tracks: Optional[_pd.DataFrame] = None
         self._matrix: Optional[_pd.DataFrame] = None
+        self._optics: Optional[_pd.DataFrame] = None
         self._srloss: Optional[_pd.DataFrame] = None
         self._srloss_steps: Optional[_pd.DataFrame] = None
 
@@ -82,6 +85,7 @@ class ZgoubiResults:
     def get_tracks(self,
                    parameters: Optional[_MappedParametersListType] = None,
                    force_reload: bool = False,
+                   with_rays: bool = True,
                    with_survey: bool = True,
                    ) -> _pd.DataFrame:
         """
@@ -91,6 +95,7 @@ class ZgoubiResults:
         Args:
             parameters:
             force_reload:
+            with_rays:
             with_survey:
 
         Returns:
@@ -124,6 +129,8 @@ class ZgoubiResults:
             tracks = _pd.DataFrame()
         if parameters is None:
             self._tracks = tracks
+        if with_rays:
+            zgoubidoo.surveys.construct_rays(tracks=tracks)
         if with_survey:
             zgoubidoo.surveys.transform_tracks(beamline=self.results[0][1]['input'],
                                                tracks=tracks,
@@ -269,6 +276,31 @@ class ZgoubiResults:
         return self._matrix
 
     @property
+    def optics(self) -> Optional[_pd.DataFrame]:
+        """
+        Collects all optics data from the different Zgoubi instances in the results and concatenate them.
+
+        Returns:
+            A concatenated DataFrame with all the optics information from the previous run.
+        """
+        if self._optics is None:
+            try:
+                m = list()
+                for r in self._results:
+                    try:
+                        p = r['path'].name
+                    except AttributeError:
+                        p = r['path']
+                    m.append(read_optics_file(path=p))
+                self._optics = _pd.concat(m)
+            except FileNotFoundError:
+                _logger.warning(
+                    "Unable to read and load the Zgoubi OPTICS files required to collect the matrix data."
+                )
+                return None
+        return self._optics
+
+    @property
     def results(self) -> List[Tuple[_MappedParametersType, Mapping]]:
         """Raw information from the Zgoubi run.
 
@@ -296,6 +328,10 @@ class ZgoubiResults:
             a list of parametric mappings.
         """
         return [m for m, r in self.results]
+
+    def save(self):
+        """Save files."""
+        pass
 
     def print(self, what: str = 'result'):
         """Helper function to print the raw results from a Zgoubi run."""

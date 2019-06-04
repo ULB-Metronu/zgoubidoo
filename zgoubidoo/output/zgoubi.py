@@ -228,7 +228,7 @@ def read_srloss_steps_file(filename: str = 'zgoubi.SRLOSS.STEPS.out', path: str 
 def read_matrix_file(filename: str = 'zgoubi.MATRIX.out', path: str = '.') -> pd.DataFrame:
     """Read Zgoubi MATRIX files to a DataFrame.
 
-    Reads the content of a Zgoubi matrix file (output from a Twiss or Optics command) and formats it as a valid Pandas
+    Reads the content of a Zgoubi matrix file (output from a Twiss command) and formats it as a valid Pandas
     DataFrame with headers.
 
     Notes:
@@ -239,10 +239,10 @@ def read_matrix_file(filename: str = 'zgoubi.MATRIX.out', path: str = '.') -> pd
 
     Args:
         filename: the name of the file
-        path: the path to the .plt file
+        path: the path to the zgoubi.MATRIX.out file
 
     Returns:
-        a Pandas DataFrame with the .plt file content.
+        a Pandas DataFrame with the zgoubi.MATRIX.out file content.
 
     Raises:
         a FileNotFoundError in case the file is not found.
@@ -285,4 +285,49 @@ def read_matrix_file(filename: str = 'zgoubi.MATRIX.out', path: str = '.') -> pd
     df['BETA22'] = df['BETZ']
     df['GAMMA22'] = (1 + df['ALPHA22']**2) / df['BETA22']
 
+    return df
+
+
+def read_optics_file(filename: str = 'zgoubi.OPTICS.out', path: str = '.') -> pd.DataFrame:
+    """Read Zgoubi OPTICS files to a DataFrame.
+
+    Reads the content of a Zgoubi optics file (output from a Optics) and formats it as a valid Pandas
+    DataFrame with headers.
+
+    Notes:
+        the resulting DataFrame uses SI units.
+
+    Example:
+        >>> read_optcs_file()
+
+    Args:
+        filename: the name of the file
+        path: the path to the zgoubi.OPTICS.out file
+
+    Returns:
+        a Pandas DataFrame with the zgoubi.OPTICS.out file content.
+
+    Raises:
+        a FileNotFoundError in case the file is not found.
+    """
+    # Cleaned up header lines
+    headers = [
+        'alfx', 'btx', 'alfx', 'bty', 'alfl', 'btl',
+        'Dx', 'Dxp', 'Dy', 'Dyp', 'phix/2pi', 'phiy/2pi',
+        'cumul_s/m', '#lmnt', 'x/m', 'xp/rad', 'y/m', 'yp/rad',
+        'KEYWORD', 'label1', 'label2', 'FO', 'K0', 'K1',
+        'K2', 'C', 'r', '!', 'iptimpf', 'IPASS', 'frac', 'int', 'R11', 'R12', 'R13', 'R14', 'R15',
+    'R16', 'R21', 'R22', 'R23', 'R24', 'R25', 'R26', 'R31', 'R32', 'R33', 'R34', 'R35', 'R36',
+    'R41', 'R42', 'R43', 'R44', 'R45','R46',
+    'R51', 'R52', 'R53', 'R54', 'R55','R56',
+    'path', 'S', 'AL', 'D'
+    ]
+
+    df = pd.read_csv(os.path.join(path, filename),
+                     skiprows=3,
+                     names=headers,
+                     sep=r'\s+',
+                     skipinitialspace=True,
+                     quotechar='\''
+                     )
     return df
