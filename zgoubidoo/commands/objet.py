@@ -343,14 +343,14 @@ class Objet5(Objet):
         'XR': 0,
         'DR': 1,
         'ALPHA_Y': 0,
-        'BETA_Y': 0,
+        'BETA_Y': 1 * _ureg.m,
         'ALPHA_Z': 0,
-        'BETA_Z': 0,
+        'BETA_Z': 1 * _ureg.m,
         'ALPHA_X': 0,
-        'BETA_X': 0,
-        'D_Y': 0,
+        'BETA_X': 1 * _ureg.m,
+        'D_Y': 0 * _ureg.m,
         'D_YP': 0,
-        'D_Z': 0,
+        'D_Z': 0 * _ureg.m,
         'D_ZP': 0,
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
@@ -367,8 +367,7 @@ class Objet5(Objet):
         command.append(c)
         if s.NN == 1:
             c = f"""
-            {s.ALPHA_Y:.12e} {s.BETA_Y:.12e} {s.ALPHA_Z:.12e} {s.BETA_Z:.12e} {s.ALPHA_X:.12e} {s.BETA_X:.12e}
-            {s.D_Y:.12e} {s.D_YP:.12e} {s.D_Z:.12e} {s.D_ZP:.12e}
+            {s.ALPHA_Y:.12e} {s.BETA_Y.m_as('m'):.12e} {s.ALPHA_Z:.12e} {s.BETA_Z.m_as('m'):.12e} {s.ALPHA_X:.12e} {s.BETA_X.m_as('m'):.12e} {s.D_Y.m_as('m'):.12e} {s.D_YP:.12e} {s.D_Z.m_as('m'):.12e} {s.D_ZP:.12e}
             """
             command.append(c)
         elif s.NN in range(2, 99):
