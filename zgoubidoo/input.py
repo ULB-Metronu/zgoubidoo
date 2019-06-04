@@ -558,7 +558,7 @@ class Input:
         Returns:
 
         """
-        pass
+        self.line.insert(self.index(element)+1, other)
 
     def remove(self, prefix: str):
         """
