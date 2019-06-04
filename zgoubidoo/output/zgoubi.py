@@ -1,13 +1,4 @@
-"""Module for handling of affine geometry transformations (rotations and translations).
-
-This module provides support for affine geometry transformations, mainly through the `Frame` class.
-
-Example:
-    example
-
-    >>> 1 + 1 # TODO
-    2
-
+"""TODO
 
 """
 import os
