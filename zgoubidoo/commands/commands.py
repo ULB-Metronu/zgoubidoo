@@ -5,6 +5,7 @@ TODO
 """
 from __future__ import annotations
 from typing import Any, Tuple, Dict, Mapping, List, Union, Iterable
+import inspect
 import uuid
 import numpy as _np
 import pandas as _pd
@@ -39,7 +40,9 @@ class Comment:
         self.COMMENT = comment
 
     def __str__(self):
-        return f"! {self.COMMENT}"
+        return f"""
+        ! {self.COMMENT}
+    """
     
     def __repr__(self):
         return str(self)
@@ -57,7 +60,14 @@ class CommandType(type):
         if '__init__' not in dct:
             def default_init(self, label1: str = '', label2: str = '', *params, **kwargs):
                 """Default initializer for all Commands."""
-                bases[0].__init__(self, label1, label2, dct.get('PARAMETERS', {}), *params, **kwargs)
+                defaults = {}
+                if 'post_init' in dct:
+                    defaults = {
+                        _: __.default
+                        for _, __ in inspect.signature(dct['post_init']).parameters.items()
+                        if __.default is not inspect.Parameter.empty
+                    }
+                bases[0].__init__(self, label1, label2, dct.get('PARAMETERS', {}), *params, **{**defaults, **kwargs})
                 if 'post_init' in dct:
                     dct['post_init'](self, **kwargs)
             dct['__init__'] = default_init
@@ -66,7 +76,7 @@ class CommandType(type):
         if '_POST_INIT' not in dct:
             dct['_POST_INIT'] = {}
         if 'post_init' in dct and len(bases) > 0:
-            dct['_POST_INIT'] = [*getattr(bases[0], '_POST_INIT', {}), *dct['post_init'].__code__.co_varnames]
+            dct['_POST_INIT'] = {*getattr(bases[0], '_POST_INIT', {}), *dct['post_init'].__code__.co_varnames}
 
         # Add a default keyword
         if 'KEYWORD' not in dct:
