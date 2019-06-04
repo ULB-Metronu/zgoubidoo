@@ -359,7 +359,7 @@ class Objet5(Objet):
     def __str__(s) -> str:
         command = []
         c = f"""
-        {super().__str__().rstrip()}
+        {super().__str__().strip()}
         {s.KOBJ}.0{s.NN}
         {s.PY:.12e} {s.PT:.12e} {s.PZ:.12e} {s.PP:.12e} {s.PX:.12e} {s.PD:.12e}
         {s.YR:.12e} {s.TR:.12e} {s.ZR:.12e} {s.PR:.12e} {s.XR:.12e} {s.DR:.12e}

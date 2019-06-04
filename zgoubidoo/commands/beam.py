@@ -41,8 +41,8 @@ class Beam(_Command, metaclass=BeamType):
     """
     def __str__(self) -> str:
         return str(_Comment(f"Definition of {self.__class__.__name__}")) \
-               + str(self._particle) \
-               + str(self.generate_object())
+               + str(self.generate_object()) \
+               + str(self._particle)
 
     def post_init(self,
                   objet_type: _ObjetType,
@@ -206,6 +206,28 @@ class BeamZgoubiDistribution(Beam):
                                 I2=randint(0, 1e6),
                                 I3=randint(0, 1e6),
                                 )
+
+
+class BeamTwiss(Beam):
+    """
+    A beam to be used for transfer map and Twiss computations.
+    """
+    def post_init(self,
+                  objet_type: _ObjetType = _Objet5,
+                  *args,
+                  **kwargs):
+        """
+
+        Args:
+            objet_type:
+            slices:
+            *args:
+            **kwargs:
+
+        Returns:
+
+        """
+        pass
 
 
 class BeamDistribution(Beam):
