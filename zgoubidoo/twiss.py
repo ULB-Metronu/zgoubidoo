@@ -223,7 +223,10 @@ def compute_periodic_twiss(matrix: pd.DataFrame) -> pd.Series:
     return pd.Series(twiss)
 
 
-def compute_twiss(matrix: pd.DataFrame, twiss_init: Optional[pd.Series] = None) -> pd.DataFrame:
+def compute_twiss(matrix: pd.DataFrame,
+                  twiss_init: Optional[pd.Series] = None,
+                  with_phase_unrolling: bool = True
+                  ) -> pd.DataFrame:
     """
     Uses a step-by-step transfer matrix to compute the Twiss parameters (uncoupled). The phase advance and the
     determinants of the jacobians are computed as well.
@@ -232,6 +235,7 @@ def compute_twiss(matrix: pd.DataFrame, twiss_init: Optional[pd.Series] = None) 
         matrix: the input step-by-step transfer matrix
         twiss_init: the initial values for the Twiss computation (if None, periodic conditions are assumed and the
         Twiss parameters are computed from the transfer matrix).
+        with_phase_unrolling: TODO
 
     Returns:
         the same DataFrame as the input, but with added columns for the computed quantities.
@@ -245,14 +249,36 @@ def compute_twiss(matrix: pd.DataFrame, twiss_init: Optional[pd.Series] = None) 
     matrix['ALPHA22'] = compute_alpha_from_matrix(matrix, twiss_init, plane=2)
     matrix['GAMMA11'] = compute_gamma_from_matrix(matrix, twiss_init)
     matrix['GAMMA22'] = compute_gamma_from_matrix(matrix, twiss_init, plane=2)
-    matrix['MU1'] = compute_mu_from_matrix(matrix, twiss_init, beta=matrix['BETA11'])
-    matrix['MU2'] = compute_mu_from_matrix(matrix, twiss_init, plane=2, beta=matrix['BETA22'])
+    matrix['MU1'] = compute_mu_from_matrix(matrix, twiss_init)
+    matrix['MU2'] = compute_mu_from_matrix(matrix, twiss_init, plane=2)
     matrix['DET1'] = compute_jacobian_from_matrix(matrix)
     matrix['DET2'] = compute_jacobian_from_matrix(matrix, plane=2)
     matrix['DISP1'] = compute_dispersion_from_matrix(matrix, twiss_init)
     matrix['DISP2'] = compute_dispersion_prime_from_matrix(matrix, twiss_init)
     matrix['DISP3'] = compute_dispersion_from_matrix(matrix, twiss_init, plane=2)
     matrix['DISP4'] = compute_dispersion_prime_from_matrix(matrix, twiss_init, plane=2)
+
+    def phase_unrolling(phi):
+        """TODO"""
+        if phi[0] < 0:
+            phi[0] += 2 * np.pi
+        for i in range(1, phi.shape[0] - 1):
+            if phi[i] < 0:
+                phi[i] += 2 * np.pi
+            if phi[i - 1] - phi[i] > 0.5:
+                phi[i:] += 2 * np.pi
+        return phi
+
+    try:
+        from numba import njit
+        phase_unrolling = njit(phase_unrolling)
+    except ModuleNotFoundError:
+        pass
+
+    if with_phase_unrolling:
+        matrix['MU1'] = phase_unrolling(matrix['MU1'].values)
+        matrix['MU2'] = phase_unrolling(matrix['MU2'].values)
+
     return matrix
 
 
