@@ -97,14 +97,13 @@ def compute_gamma_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1)
     return np.square(r21) * beta - 2.0 * r21 * r22 * alpha + np.square(r22) * gamma
 
 
-def compute_mu_from_matrix(m: pd.DataFrame, twiss: pd.Series, beta=None, plane: int = 1) -> pd.Series:
+def compute_mu_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1) -> pd.Series:
     """
     Computes the phase advance values at every steps of the input step-by-step transfer matrix.
 
     Args:
         m: the step-by-step transfer matrix for which the beta values should be computed
         twiss: the initial Twiss values
-        beta: pre-computed step-by-step beta values (to improve effiency if already compyted)
         plane: an integer representing the plane (1 or 2)
 
     Returns:
@@ -116,9 +115,7 @@ def compute_mu_from_matrix(m: pd.DataFrame, twiss: pd.Series, beta=None, plane: 
     r12: pd.Series = m[f"R{p}{p+1}"]
     alpha0 = twiss[f"ALPHA{v}{v}"]
     beta0 = twiss[f"BETA{v}{v}"]
-    if beta is None:
-        beta = compute_beta_from_matrix(m, twiss, plane)
-    return np.arccos(np.power(beta0 / beta, 0.5) * r11 - alpha0 * r12 / np.power(beta * beta0, 0.5))
+    return np.arctan2(r12, r11 * beta0 - r12 * alpha0)
 
 
 def compute_jacobian_from_matrix(m: pd.DataFrame, plane: int = 1) -> pd.Series:
