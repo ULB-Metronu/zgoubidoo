@@ -42,11 +42,10 @@ def compute_alpha_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1)
     r11: pd.Series = m[f"R{p}{p}"]
     r12: pd.Series = m[f"R{p}{p+1}"]
     r21: pd.Series = m[f"R{p+1}{p}"]
-    r22: pd.Series = m[f"R{p+1}{p+1}"]
     alpha: float = twiss[f"ALPHA{v}{v}"]
     beta: float = twiss[f"BETA{v}{v}"]
     gamma: float = twiss[f"GAMMA{v}{v}"]
-    return -r11 * r21 * beta + (r11 * r22 + r12 * r21) * alpha - r12 * r22 * gamma
+    return -r11 * r21 * beta + r12 * r21 * alpha + r11 * r12 * gamma
 
 
 def compute_beta_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1, strict: bool = False) -> pd.Series:
