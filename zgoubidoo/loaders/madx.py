@@ -95,13 +95,19 @@ def create_madx_sbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dic
     Returns:
 
     """
+    if twiss_row['ANGLE'] == 0.0:  # Avoid division by zero
+        b1 = 0 * _ureg.tesla
+    else:
+        b1 = kinematics.brho / (twiss_row['L'] / _np.abs(twiss_row['ANGLE']) * _ureg.meter)
     b = options.get('command', Bend)(twiss_row.name[0:8],
                                      XL=twiss_row['L'] * _ureg.meter,
-                                     B1=kinematics.brho / (twiss_row['L'] / _np.abs(twiss_row['ANGLE']) * _ureg.meter),
+                                     B1=b1,
                                      KPOS=3,
                                      W_E=twiss_row['E1'] * _ureg.radian * _np.sign(twiss_row['ANGLE']),
                                      W_S=twiss_row['E2'] * _ureg.radian * _np.sign(twiss_row['ANGLE']),
                                      )
+    if twiss_row['TILT'] != 0:
+        b.COLOR = 'orange'
     if twiss_row['ANGLE'] < 0:
         return [
             ChangeRef(TRANSFORMATIONS=[['XR', -(-twiss_row['TILT'] + _np.pi) * _ureg.radian]]).generate_label(
