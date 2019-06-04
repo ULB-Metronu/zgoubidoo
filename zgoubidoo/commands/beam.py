@@ -4,18 +4,23 @@
 from __future__ import annotations
 from typing import Optional, Union
 import os
+from random import randint
 import numpy as np
 import pandas as pd
 from zgoubidoo import _Q
 from zgoubidoo.commands import CommandType as _CommandType
 from zgoubidoo.commands import Command as _Command
+from zgoubidoo.commands import Comment as _Comment
 from zgoubidoo.commands import ParticuleType as _ParticuleType
 from zgoubidoo.commands import Proton as _Proton
 from zgoubidoo.commands import Objet2 as _Objet2
+from zgoubidoo.commands import Objet5 as _Objet5
+from zgoubidoo.commands import MCObjet3 as _MCObjet3
 from zgoubidoo.commands import ObjetType as _ObjetType
 from zgoubidoo.kinematics import Kinematics as _Kinematics
 from ..input import ParametricMapping as _ParametricMapping
 from ..input import MappedParametersListType as _MappedParametersListType
+from .. import ureg as _ureg
 
 
 class ZgoubidooBeamException(Exception):
@@ -34,21 +39,189 @@ class Beam(_Command, metaclass=BeamType):
     """
     Beam
     """
+    def __str__(self) -> str:
+        return str(_Comment(f"Definition of {self.__class__.__name__}")) \
+               + str(self._particle) \
+               + str(self.generate_object())
+
+    def post_init(self,
+                  objet_type: _ObjetType,
+                  kinematics: Union[_Kinematics, float, _Q],
+                  particle: _ParticuleType = _Proton,
+                  *args,
+                  **kwargs):
+        """
+
+        Args:
+            objet_type:
+            kinematics:
+            particle:
+            *args:
+            **kwargs:
+
+        Returns:
+
+        """
+        self._particle: _ParticuleType = particle
+        self._objet_type: _ObjetType = objet_type
+        if not isinstance(kinematics, _Kinematics):
+            kinematics = _Kinematics(kinematics)
+        self._kinematics: _Kinematics = kinematics
+
+    @property
+    def particle(self) -> _ParticuleType:
+        """The beam's particle type."""
+        return self._particle
+
+    @property
+    def kinematics(self):
+        """The beam's kinematics properties."""
+        return self._kinematics
+
+    @property
+    def mappings(self) -> _MappedParametersListType:
+        """TODO"""
+        return [{}]
+
+    def generate_object(self):
+        """
+        TODO
+
+        Return:
+
+        """
+        return self._objet_type(self.LABEL1, BORO=self._kinematics.brho)
+
+
+class BeamZgoubiDistribution(Beam):
+    """
+    TODO
+    """
     PARAMETERS = {
-        'SLICE': (0, "Active slice identifier. Note: this is the number of slices, but the active slice number."),
+        'SLICE': (0, "Active slice identifier. Note: this is not the number of slices, but the active slice number."),
+        'ALPHA_Y': (0.0, 'Horizontal (Y) alpha function'),
+        'BETA_Y': (1.0 * _ureg.m, 'Horizontal (Y) beta function'),
+        'EMIT_Y': (1e-9 * _ureg.m * _ureg.radian, 'Horizontal (Y) normalized emittance'),
+        'DY': (0.0 * _ureg.m, 'Horizontal (Y) dispersion'),
+        'DPY': (0.0, 'Horizontal (Y) dispersion prime'),
+        'N_CUTOFF_Y': (10, 'Cut-off value for the horizontal distribution'),
+        'N_CUTOFF2_Y': (0, 'Secondary cut-off value for the horizontal distribution'),
+        'ALPHA_Z': (0.0, 'Vertical (Z) alpha function'),
+        'BETA_Z': (1.0 * _ureg.m, 'Vertical (Z) beta function'),
+        'EMIT_Z': (1e-9 * _ureg.m * _ureg.radian, 'Vertical (Z) normalized emittance'),
+        'DZ': (0.0 * _ureg.m, 'Vertical (Z) dispersion'),
+        'DPZ': (0.0, 'Vertical (Z) dispersion prime'),
+        'N_CUTOFF_Z': (10, 'Cut-off value for the vertical distribution'),
+        'N_CUTOFF2_Z': (0, 'Secondary cut-off value for the vertical distribution'),
+        'ALPHA_X': (0.0, 'Longitudinal (X) alpha function'),
+        'BETA_X': (1.0 * _ureg.m, 'Longitudinal (X) beta function'),
+        'EMIT_X': (1e-9 * _ureg.m * _ureg.radian, 'Longitudinal (X) normalized emittance'),
+        'N_CUTOFF_X': (10, 'Cut-off value for the longitudinal distribution'),
+        'N_CUTOFF2_X': (0, 'Secondary cut-off value for the longitudinal distribution'),
+    }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
+
+    def post_init(self,
+                  objet_type: _ObjetType = _MCObjet3,
+                  slices: int = 1,
+                  *args,
+                  **kwargs):
+        """
+
+        Args:
+            objet_type:
+            slices:
+            *args:
+            **kwargs:
+
+        Returns:
+
+        """
+        self._slices: int = slices
+
+    @property
+    def slices(self):
+        """Number of slices."""
+        return self._slices
+
+    @slices.setter
+    def slices(self, n):
+        """(Re)set the number of slices."""
+        self._slices = n
+
+    @property
+    def active_slice(self):
+        """The index of the active (current) slice."""
+        try:
+            n_tot = self._distribution.shape[0]
+        except TypeError:
+            return None
+        n_per_slices = int(np.floor(n_tot / self._slices))
+        d = self._distribution[self.SLICE * n_per_slices:(self.SLICE + 1) * n_per_slices]
+        if len(d) == 0:
+            return None
+        else:
+            return d
+
+    @property
+    def mappings(self) -> _MappedParametersListType:
+        """TODO"""
+        return _ParametricMapping(
+            [
+                {
+                    f"{self.LABEL1}.SLICE": list(range(0, self._slices))
+                }
+            ]
+        ).combinations
+
+    def generate_object(self):
+        """
+        TODO
+
+        Return:
+
+        """
+        return self._objet_type(self.LABEL1,
+                                BORO=self._kinematics.brho,
+                                IMAX=10,
+                                KY=2,
+                                KT=2,
+                                KZ=2,
+                                KP=2,
+                                ALPHA_Y=self.ALPHA_Y,
+                                BETA_Y=self.BETA_Y,
+                                DY=self.DY,
+                                DPY=self.DPY,
+                                EMIT_Y=self.EMIT_Z,
+                                ALPHA_Z=self.ALPHA_Z,
+                                BETA_Z=self.BETA_Z,
+                                DZ=self.DZ,
+                                DPZ=self.DPZ,
+                                EMIT_Z=self.EMIT_Z,
+                                ALPHA_X=self.ALPHA_X,
+                                BETA_X=self.BETA_X,
+                                EMIT_X=self.EMIT_X,
+                                I1=randint(0, 1e6),
+                                I2=randint(0, 1e6),
+                                I3=randint(0, 1e6),
+                                )
+
+
+class BeamDistribution(Beam):
+    """
+    A beam using an explicit beam distribution.
+    """
+
+    PARAMETERS = {
+        'SLICE': (0, "Active slice identifier. Note: this is not the number of slices, but the active slice number."),
         'REFERENCE': (0, ""),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
-    def __str__(self) -> str:
-        return str(self.generate_object())
-
     def post_init(self,
                   distribution: Optional[pd.DataFrame] = None,
-                  particle: _ParticuleType = _Proton,
-                  objet_type: _ObjetType = _Objet2,
-                  kinematics: Union[_Kinematics, float, _Q] = None,
                   slices: int = 1,
                   *args,
                   **kwargs):
@@ -66,16 +239,11 @@ class Beam(_Command, metaclass=BeamType):
         Returns:
 
         """
-        self._particle: _ParticuleType = particle
-        self._objet_type: _ObjetType = objet_type
-        if not isinstance(kinematics, _Kinematics):
-            kinematics = _Kinematics(kinematics)
-        self._kinematics: _Kinematics = kinematics
         self._slices: int = slices
         self._distribution: Optional[Union[pd.DataFrame, np.array]] = None
-        self._initialize_distribution(distribution, *args, **kwargs)
+        self._initialize_distribution(distribution, **kwargs)
 
-    def _initialize_distribution(self, distribution: Union[pd.DataFrame, np.array] = None, *args, **kwargs):
+    def _initialize_distribution(self, distribution: Union[pd.DataFrame, np.array] = None, **kwargs):
         """Try setting the internal pandas.DataFrame with a distribution.
 
         Args:
@@ -157,16 +325,6 @@ class Beam(_Command, metaclass=BeamType):
     def distribution(self) -> pd.DataFrame:
         """The beam distribution."""
         return self._distribution
-
-    @property
-    def particle(self) -> _ParticuleType:
-        """The beam's particle type."""
-        return self._particle
-
-    @property
-    def kinematics(self):
-        """The beam's kinematics properties."""
-        return self._kinematics
 
     def create_statistics(self, n: int = 1):
         """

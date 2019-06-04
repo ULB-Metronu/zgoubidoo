@@ -3,10 +3,11 @@
 More details here.
 """
 from .commands import Command as _Command
+from .objet import ObjetType as _ObjetType
 from .. import ureg as _ureg
 
 
-class MCObjet(_Command):
+class MCObjet(_Command, metaclass=_ObjetType):
     """Monte-Carlo generation of a 6-D object."""
     KEYWORD = 'MCOBJET'
     """Keyword of the command used for the Zgoubi input data."""

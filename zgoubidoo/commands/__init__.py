@@ -14,4 +14,4 @@ from .radiation import *
 from .fieldmaps import *
 from .patchable import Patchable
 from .plotable import Plotable
-from .beam import BeamType, Beam
+from .beam import BeamType, Beam, ZgoubidooBeamException, BeamDistribution, BeamZgoubiDistribution

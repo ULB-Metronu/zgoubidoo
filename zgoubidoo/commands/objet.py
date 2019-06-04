@@ -214,7 +214,7 @@ class Objet2(Objet):
 
     def __str__(self) -> str:
         c = f"""
-        {super().__str__().rstrip()}
+        {super().__str__().strip()}
         {self.KOBJ}.0{self.K2}
         {self.IMAX} {self.IDMAX}
         """
