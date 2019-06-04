@@ -1321,6 +1321,20 @@ class Optics(Command):
     KEYWORD = 'OPTICS'
     """Keyword of the command used for the Zgoubi input data."""
 
+    PARAMETERS = {
+        'IOPT': 1,
+        'LABEL': ('all', 'If IFOC=11, periodic parameters (single pass)'),
+        'IMP': 1,
+    }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
+
+    def __str__(self):
+        return f"""
+        {super().__str__().strip()}
+        {self.IOPT} {self.LABEL} {self.IMP}
+        """
+
 
 class Ordre(Command):
     """Taylor expansions order."""
