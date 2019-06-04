@@ -126,7 +126,7 @@ def create_madx_sbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dic
             b,
             ChangeRef(TRANSFORMATIONS=[['XR', -twiss_row['TILT'] * _ureg.radian]]).generate_label(
                 prefix=twiss_row.name + '_CRR'
-            )
+            ),
         ]
 
 

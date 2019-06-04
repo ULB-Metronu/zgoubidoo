@@ -383,27 +383,28 @@ class Zgoubi(Executable):
             raise ZgoubiException(f"Zgoubi execution ended but result '{self.RESULT_FILE}' file not found.")
 
         for e in code_input.line:
-            e.attach_output(outputs=Zgoubi.find_labeled_output(result, e.LABEL1),
+            e.attach_output(outputs=Zgoubi.find_labeled_output(result, e.LABEL1, e.KEYWORD),
                             zgoubi_input=code_input,
                             parameters=mapping,
                             )
         return result
 
     @staticmethod
-    def find_labeled_output(out: Iterable[str], label: str) -> List[str]:
+    def find_labeled_output(out: Iterable[str], label: str, keyword: str) -> List[str]:
         """
         Process the Zgoubi output and retrieves output data for a particular labeled element.
 
         Args:
             - out: the Zgoubi output
             - label: the label of the element to be retrieved
+            - keyword:
 
         Returns:
             the output of the given label
         """
         data: List[str] = []
         for l in out:
-            if label in l and 'Keyword' in l:
+            if ' ' + label + ' ' in l and 'Keyword' in l and keyword in l:
                 data.append(l)
                 continue
             if len(data) > 0:
