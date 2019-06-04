@@ -66,10 +66,10 @@ def compute_beta_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1, 
     v = 1 if plane == 1 else 2
     r11: pd.Series = m[f"R{p}{p}"]
     r12: pd.Series = m[f"R{p}{p+1}"]
-    alpha: float = twiss[f"ALPHA{v}{v}"]
-    beta: float = twiss[f"BETA{v}{v}"]
-    gamma: float = twiss[f"GAMMA{v}{v}"]
-    _ = np.square(r11) * beta - 2.0 * r11 * r12 * alpha + np.square(r12) * gamma
+    alpha0: float = twiss[f"ALPHA{v}{v}"]
+    beta0: float = twiss[f"BETA{v}{v}"]
+    gamma0: float = twiss[f"GAMMA{v}{v}"]
+    _ = r11**2 * beta0 - 2.0 * r11 * r12 * alpha0 + r12**2 * gamma0
     if strict:
         assert (_ > 0).all(), "Not all computed beta are positive."
     return _
