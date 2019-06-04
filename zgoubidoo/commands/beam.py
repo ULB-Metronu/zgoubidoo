@@ -98,7 +98,7 @@ class BeamZgoubiDistribution(Beam):
     TODO
     """
     PARAMETERS = {
-        'SLICE': (0, "Active slice identifier. Note: this is not the number of slices, but the active slice number."),
+        'SLICE': (0, "Active slice identifier. *Note*: this is not the number of slices, but the active slice number."),
         'ALPHA_Y': (0.0, 'Horizontal (Y) alpha function'),
         'BETA_Y': (1.0 * _ureg.m, 'Horizontal (Y) beta function'),
         'EMIT_Y': (1e-9 * _ureg.m * _ureg.radian, 'Horizontal (Y) normalized emittance'),
@@ -212,6 +212,19 @@ class BeamTwiss(Beam):
     """
     A beam to be used for transfer map and Twiss computations.
     """
+    PARAMETERS = {
+        'ALPHA_Y': 0.0,
+        'BETA_Y': 1.0 * _ureg.m,
+        'ALPHA_Z': 0.0,
+        'BETA_Z': 1.0 * _ureg.m,
+        'ALPHA_X': 0.0,
+        'BETA_X': 1.0 * _ureg.m,
+        'D_Y': 0 * _ureg.m,
+        'D_YP': 0,
+        'D_Z': 0 * _ureg.m,
+        'D_ZP': 0,
+    }
+
     def post_init(self,
                   objet_type: _ObjetType = _Objet5,
                   *args,
@@ -220,7 +233,6 @@ class BeamTwiss(Beam):
 
         Args:
             objet_type:
-            slices:
             *args:
             **kwargs:
 
@@ -228,6 +240,27 @@ class BeamTwiss(Beam):
 
         """
         pass
+
+    def generate_object(self):
+        """
+        TODO
+
+        Return:
+
+        """
+        return self._objet_type(self.LABEL1,
+                                BORO=self._kinematics.brho,
+                                ALPHA_Y=self.ALPHA_Y,
+                                BETA_Y=self.BETA_Y,
+                                ALPHA_Z=self.ALPHA_Z,
+                                BETA_Z=self.BETA_Z,
+                                ALPHA_X=self.ALPHA_X,
+                                BETA_X=self.BETA_X,
+                                D_Y=self.D_Y,
+                                D_YP=self.D_YP,
+                                D_Z=self.D_Z,
+                                D_ZP=self.D_ZP,
+                                )
 
 
 class BeamDistribution(Beam):
