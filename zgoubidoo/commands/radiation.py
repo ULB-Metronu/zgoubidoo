@@ -5,12 +5,12 @@ TODO
 """
 from typing import List, Mapping, Union
 import pandas as _pd
-from .commands import Command as _Command
+from .commands import Action as _Action
 from ..input import Input as _Input
 from .. import _Q
 
 
-class SynchrotronRadiationLosses(_Command):
+class SynchrotronRadiationLosses(_Action):
     """Synchrotron radiation loss.
 
     .. rubric:: Zgoubi manual description
@@ -72,7 +72,7 @@ class SynchrotronRadiationLosses(_Command):
 SRLoss = SynchrotronRadiationLosses
 
 
-class SynchrotronRadiationPrint(_Command):
+class SynchrotronRadiationPrint(_Action):
     """Print SR loss statistics.
 
     """
@@ -96,7 +96,7 @@ class SynchrotronRadiationPrint(_Command):
         self._results.append(
             (
                 parameters,
-                _Command.CommandResult(success=True, results=_pd.DataFrame())
+                _Action.CommandResult(success=True, results=_pd.DataFrame())
             )
         )
         return True
@@ -105,7 +105,7 @@ class SynchrotronRadiationPrint(_Command):
 SRPrint = SynchrotronRadiationPrint
 
 
-class SynchrotronRadiation(_Command):
+class SynchrotronRadiationSpectral(_Action):
     """Synchrotron radiation spectral-angular densities.
 
     """

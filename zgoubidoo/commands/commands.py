@@ -475,6 +475,16 @@ class Command(metaclass=CommandType):
         return _parse.search("'{}' {label1:w}", ' '.join(stream.split()))
 
 
+class ActionType(CommandType):
+    """TODO"""
+    pass
+
+
+class Action(Command, metaclass=ActionType):
+    """TODO"""
+    pass
+
+
 class Fake(Command):
     """Fake command for Zgoubi input.
 

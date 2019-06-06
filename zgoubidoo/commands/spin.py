@@ -2,29 +2,29 @@
 
 More details here.
 """
-from .commands import Command as _Command
+from .commands import Action as _Action
 from .commands import ZgoubidooException as _ZgoubidooException
 
 
-class SpinRotation(_Command):
+class SpinRotation(_Action):
     """Spin rotation."""
     KEYWORD = 'SPINR'
     """Keyword of the command used for the Zgoubi input data."""
 
 
-class Spnprnl(_Command):
+class Spnprnl(_Action):
     """Store spin coordinates into file FNAME."""
     KEYWORD = 'SPNPRNL'
     """Keyword of the command used for the Zgoubi input data."""
 
 
-class SpinStore(_Command):
+class SpinStore(_Action):
     """Store spin coordinates every IP other pass at labeled elements."""
     KEYWORD = 'SPNSTORE'
     """Keyword of the command used for the Zgoubi input data."""
 
 
-class SpnPrt(_Command):
+class SpnPrt(_Action):
     """Print spin coordinates."""
     KEYWORD = 'SPNPRT'
     """Keyword of the command used for the Zgoubi input data."""
@@ -33,7 +33,7 @@ class SpnPrt(_Command):
 SpinPrint = SpnPrt
 
 
-class SpnTrk(_Command):
+class SpnTrk(_Action):
     """Spin tracking."""
     KEYWORD = 'SPNTRK'
     """Keyword of the command used for the Zgoubi input data."""
