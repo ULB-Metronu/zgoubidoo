@@ -15,6 +15,7 @@ import itertools
 from functools import partial, reduce
 import tempfile
 import logging
+import shutil
 import os
 import pandas as _pd
 import parse as _parse
@@ -765,6 +766,37 @@ class Input:
         if set_equal_aspect:
             artist.ax.set_aspect('equal', 'datalim')
         return artist
+
+    def save(self, destination: str = '.',
+             what: Optional[List[str]] = None,
+             executed_only: bool = True):
+        """Save input and/or output Zgoubi files to a user specified directory.
+
+        This is essentially a functionality allowing the user to save data files for further (external) post-processing.
+
+        Args:
+            destination: path to the destination where the files will be saved
+            what: a list of files to be saved (default: only zgoubi.dat)
+            executed_only: if True, will save only the files for the paths that have been executed by Zgoubi
+        """
+
+        files = what or [
+            ZGOUBI_INPUT_FILENAME,
+        ]
+        for m, p, e in self.paths:
+            if e is not executed_only:
+                continue
+            mapping_string = ''
+            for k, v in m.items():
+                if len(mapping_string) != 0:
+                    mapping_string += '__'
+                mapping_string += f"{k}_{v}"
+            mapped_destination = os.path.join(destination, mapping_string)
+            os.mkdir(mapped_destination)
+            for f in files:
+                shutil.copyfile(os.path.join(p.name, f),
+                                os.path.join(mapped_destination, f)
+                                )
 
     @staticmethod
     def write(_: Input,

@@ -15,6 +15,7 @@ import os
 import numpy as _np
 import pandas as _pd
 from .executable import Executable
+from .input import ZGOUBI_INPUT_FILENAME as _ZGOUBI_INPUT_FILENAME
 from .input import Input as _Input
 from .input import MappedParametersType as _MappedParametersType
 from .input import MappedParametersListType as _MappedParametersListType
@@ -333,9 +334,18 @@ class ZgoubiResults:
         """
         return [m for m, r in self.results]
 
-    def save(self):
-        """Save files."""
-        pass
+    def save(self, destination: str = '.', what: Optional[List[str]] = None):
+        """Save files.
+
+        Args:
+            destination:
+            what:
+        """
+        files = what or [
+            _ZGOUBI_INPUT_FILENAME,
+            Zgoubi.RESULT_FILE,
+        ]
+        self.results[0][1]['input'].save(destination=destination, what=files)
 
     def print(self, what: str = 'result'):
         """Helper function to print the raw results from a Zgoubi run."""
@@ -351,8 +361,8 @@ class Zgoubi(Executable):
     EXECUTABLE_NAME: str = 'zgoubi'
     """Default name of the Zgoubi executable."""
 
-    INPUT_FILENAME: str = 'zgoubi.dat'
-    """Name of the input file for the executable."""
+    INPUT_FILENAME: str = _ZGOUBI_INPUT_FILENAME
+    """Name of the input file (typically zgoubi.dat)."""
 
     RESULT_FILE: str = 'zgoubi.res'
     """Default name of the Zgoubi result '.res' file."""
@@ -408,7 +418,7 @@ class Zgoubi(Executable):
         """
         data: List[str] = []
         for l in out:
-            if ' ' + label + ' ' in l and 'Keyword' in l and keyword in l:
+            if ' ' + label + ' ' in l and 'Keyword' in l and keyword in l:  # This might be a bit fragile
                 data.append(l)
                 continue
             if len(data) > 0:
