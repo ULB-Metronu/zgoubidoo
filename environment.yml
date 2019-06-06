@@ -13,14 +13,13 @@ channels:
   # Default distribution from Continuum/Anaconda
   - default
 dependencies:
-  - anaconda
   - python=3.7
-  - pint
-  - quaternion
+  - anaconda
+  - lmfit
+  - mypy
   - numpy-stl
   - parse
-  - mypy
-  - pyarrow
-  - lmfit
-  - quaternion
+  - pint
   - plotly
+  - pyarrow
+  - quaternion
