@@ -20,7 +20,8 @@ PALETTE = {
                    'violet':  '#6c71c4',
                    'blue':    '#268bd2',
                    'cyan':    '#2aa198',
-                   'green':   '#859900'
+                   'green':   '#859900',
+                   'goldenrod': '#fac205',
                    }
 }
 """Default color palette."""

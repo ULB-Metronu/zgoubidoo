@@ -26,6 +26,7 @@ def beamline(line: zgoubidoo.Input,
         tracks: the tracks dataset
         tracks_color: color for the rendering of the tracks
         with_elements: plot the beamline elements
+        with_apertures:
         with_tracks: plot the beam tracks
     """
     line = line[zgoubidoo.commands.Patchable][zgoubidoo.commands.Plotable].line
@@ -34,7 +35,7 @@ def beamline(line: zgoubidoo.Input,
     for e in line:
         if with_elements:
             e.plot(artist=artist, apertures=with_apertures)
-        if with_apertures:
+        if not with_elements and with_apertures:
             e.plot(artist=artist, apertures=True)
         if tracks is not None and with_tracks:
             e.plot_tracks(artist=artist, tracks=tracks.query(f"LABEL1 == '{e.LABEL1}'"))

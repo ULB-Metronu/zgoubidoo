@@ -19,6 +19,7 @@ from .input import Input as _Input
 from .input import MappedParametersType as _MappedParametersType
 from .input import MappedParametersListType as _MappedParametersListType
 from .output.zgoubi import read_plt_file, read_matrix_file, read_srloss_file, read_srloss_steps_file, read_optics_file
+from . import ureg as _ureg
 import zgoubidoo
 
 __all__ = ['ZgoubiException', 'ZgoubiResults', 'Zgoubi']
@@ -116,7 +117,10 @@ class ZgoubiResults:
                     tracks[-1]['IT'] += particle_id
                     particle_id = _np.max(tracks[-1]['IT'])
                     for kk, vv in k.items():
-                        tracks[-1][f"{kk}"] = vv
+                        try:
+                            tracks[-1][f"{kk.replace('.', '__')}"] = _ureg.Quantity(vv).to_base_units().m
+                        except _ureg.UndefinedUnitError:
+                            tracks[-1][f"{kk}"] = vv
                 except FileNotFoundError:
                     _logger.warning(
                         f"Unable to read and load the Zgoubi .plt files required to collect the tracks for path "

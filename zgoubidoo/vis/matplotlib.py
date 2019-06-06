@@ -354,6 +354,38 @@ class ZgoubiMpl(ZgoubiPlot):
             )
         )
 
+    def cartouche_quadrupole(self, s_location, magnet: zgoubidoo.commands.CartesianMagnet):
+        """
+
+        Args:
+            s_location:
+            magnet:
+
+        Returns:
+
+        """
+        offset = 1.1
+        if magnet.B0.m > 0:
+            baseline = -0.05
+        else:
+            baseline = 0.0
+        self._ax2.hlines(offset, _m(s_location), _m(s_location) + _m(magnet.length), clip_on=False)
+        self._ax2.add_patch(
+            patches.Rectangle(
+                (
+                    _m(s_location),
+                    offset + baseline,
+                ),
+                _m(magnet.length),
+                0.05,
+                alpha=1.0,
+                facecolor=self._palette.get(magnet.COLOR, 'gray'),
+                edgecolor=self._palette.get(magnet.COLOR, 'gray'),
+                linewidth=0,
+                clip_on=False,
+            )
+        )
+
     def cartouche_solenoid(self, s_location, magnet: zgoubidoo.commands.CartesianMagnet):
         """
 

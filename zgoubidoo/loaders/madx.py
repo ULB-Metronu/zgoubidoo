@@ -107,7 +107,7 @@ def create_madx_sbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dic
                                      W_S=twiss_row['E2'] * _ureg.radian * _np.sign(twiss_row['ANGLE']),
                                      )
     if twiss_row['TILT'] != 0:
-        b.COLOR = 'orange'
+        b.COLOR = 'goldenrod'
     if twiss_row['ANGLE'] < 0:
         return [
             ChangeRef(TRANSFORMATIONS=[['XR', -(-twiss_row['TILT'] + _np.pi) * _ureg.radian]]).generate_label(
