@@ -2138,6 +2138,21 @@ class Quadrupole(CartesianMagnet):
         self.ALE = 0.0 * _ureg.radians
         return self
 
+    def plot_cartouche(self, s_location, artist: _ZgoubiPlot):
+        """
+
+        Args:
+            s_location:
+            artist:
+
+        Returns:
+
+        """
+        getattr(artist,
+                f"cartouche_{self.__class__.__name__.lower()}",
+                getattr(artist, f"cartouche_{CartesianMagnet.__name__.lower()}")
+                )(s_location, self)
+
 
 class SexQuad(CartesianMagnet):
     """Sharp edge magnetic multipole.
