@@ -99,6 +99,7 @@ class BeamZgoubiDistribution(Beam):
     """
     PARAMETERS = {
         'SLICE': (0, "Active slice identifier. *Note*: this is not the number of slices, but the active slice number."),
+        'IMAX': (1, 'Number of particles to be generated'),
         'ALPHA_Y': (0.0, 'Horizontal (Y) alpha function'),
         'BETA_Y': (1.0 * _ureg.m, 'Horizontal (Y) beta function'),
         'EMIT_Y': (1e-9 * _ureg.m * _ureg.radian, 'Horizontal (Y) normalized emittance'),
@@ -151,20 +152,6 @@ class BeamZgoubiDistribution(Beam):
         self._slices = n
 
     @property
-    def active_slice(self):
-        """The index of the active (current) slice."""
-        try:
-            n_tot = self._distribution.shape[0]
-        except TypeError:
-            return None
-        n_per_slices = int(np.floor(n_tot / self._slices))
-        d = self._distribution[self.SLICE * n_per_slices:(self.SLICE + 1) * n_per_slices]
-        if len(d) == 0:
-            return None
-        else:
-            return d
-
-    @property
     def mappings(self) -> _MappedParametersListType:
         """TODO"""
         return _ParametricMapping(
@@ -184,7 +171,7 @@ class BeamZgoubiDistribution(Beam):
         """
         return self._objet_type(self.LABEL1,
                                 BORO=self._kinematics.brho,
-                                IMAX=10,
+                                IMAX=self.IMAX / self.slices,
                                 KY=2,
                                 KT=2,
                                 KZ=2,
