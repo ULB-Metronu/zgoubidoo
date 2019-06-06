@@ -858,14 +858,14 @@ class Fit(Command, metaclass=FitType):
                      line: zgoubidoo.Input,
                      place: Union[str, Command],
                      parameter: Union[int, Iterable],
-                     range: Tuple[float] = None):
+                     parameter_range: Tuple[float] = None):
             """
 
             Args:
                 line:
                 place:
                 parameter:
-                range:
+                parameter_range:
             """
             self.IR: int = line.zgoubi_index(place)
             try:
@@ -873,7 +873,7 @@ class Fit(Command, metaclass=FitType):
             except TypeError:
                 self.IP: int = parameter
             self.XC: int = 0
-            self.DV: Tuple[float] = range if range is not None else [-100.0, 100.0]
+            self.DV: Tuple[float] = parameter_range if parameter_range is not None else [-100.0, 100.0]
 
         def __getitem__(self, item):
             return getattr(self, item)
@@ -885,7 +885,31 @@ class Fit(Command, metaclass=FitType):
 
     class SigmaMatrixConstraint(Constraint):
         """Constraint on the coefficients of the sigma matrix."""
-        pass
+        def __init__(self,
+                     line: zgoubidoo.Input,
+                     place: Union[str, Command],
+                     i: int,
+                     j: int,
+                     value: float = 0.0,
+                     weight: float = 1.0,
+                     ):
+            """
+
+            Args:
+                line:
+                place:
+                i:
+                j:
+                value:
+                weight:
+            """
+            self.IC: float = 0
+            self.I: int = i
+            self.J: int = j
+            self.IR: int = line.zgoubi_index(place)
+            self.V: float = value
+            self.WV: float = weight
+            self.NP: int = 0
 
     class FirstOrderTransportCoefficientsConstraint(Constraint):
         """Constraint on the coefficients of the transfer matrix."""
@@ -1039,7 +1063,7 @@ class Fit(Command, metaclass=FitType):
 
             """
             k = None
-            for k, v in zgoubi_input[command - 1].__class__.PARAMETERS.items():
+            for k, v in zgoubi_input[command - (1 if zgoubi_input.beam is None else 0)].__class__.PARAMETERS.items():
                 if v is None:
                     continue
                 try:
@@ -1268,7 +1292,7 @@ class Marker(Command, _Patchable):
 
     def __str__(self):
         return f"""
-        {super().__str__().rstrip()}
+        {super().__str__().strip()}
         """
 
 

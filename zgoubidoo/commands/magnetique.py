@@ -2064,12 +2064,12 @@ class Quadrupole(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (2, 'Print field and coordinates along trajectories'),
-        'XL': (0 * _ureg.centimeter, 'Magnet length'),
-        'R0': (1.0 * _ureg.centimeter, 'Radius of the pole tips'),
-        'B0': (0 * _ureg.kilogauss, 'Field at pole tips'),
-        'XE': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field'),
-        'LAM_E': (0 * _ureg.centimeter, 'Entrance face fringe field extent'),
+        'IL': (2, 'Print field and coordinates along trajectories', 1),
+        'XL': (0 * _ureg.centimeter, 'Magnet length', 10),
+        'R0': (1.0 * _ureg.centimeter, 'Radius of the pole tips', 11),
+        'B0': (0 * _ureg.kilogauss, 'Field at pole tips', 12),
+        'XE': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 20),
+        'LAM_E': (0 * _ureg.centimeter, 'Entrance face fringe field extent', 21),
         'C0_E': 0,
         'C1_E': 1,
         'C2_E': 0,
@@ -2084,10 +2084,10 @@ class Quadrupole(CartesianMagnet):
         'C3_S': 0,
         'C4_S': 0,
         'C5_S': 0,
-        'XPAS': (0.1 * _ureg.centimeter, 'Integration step'),
-        'KPOS': (1, 'Misalignment type'),
-        'XCE': (0 * _ureg.centimeter, 'x offset'),
-        'YCE': (0 * _ureg.centimeter, 'y offset'),
+        'XPAS': (0.1 * _ureg.centimeter, 'Integration step', 60),
+        'KPOS': (1, 'Misalignment type', 70),
+        'XCE': (0 * _ureg.centimeter, 'x offset', 71),
+        'YCE': (0 * _ureg.centimeter, 'y offset', 72),
         'ALE': 0 * _ureg.radian,
         'COLOR': ('blue', 'Magnet color for plotting.'),
     }

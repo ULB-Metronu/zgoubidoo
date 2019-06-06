@@ -151,7 +151,7 @@ def create_madx_quadrupole(twiss_row: pd.Series, kinematics: Kinematics, options
                        LAM_E=0 * _ureg.cm,
                        XS=0 * _ureg.cm,
                        LAM_S=0 * _ureg.cm,
-                       ).generate_label(prefix=twiss_row.name[0:8]),
+                       ),
             ]
 
 

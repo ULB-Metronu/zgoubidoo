@@ -499,11 +499,11 @@ class Input:
             ValueError if the object is not present in the input sequence.
         """
         if isinstance(obj, zgoubidoo.commands.Command):
-            return self.line.index(obj)
+            return self.line.index(obj) + 1 if self.beam is not None else 0
         elif isinstance(obj, str):
             for i, e in enumerate(self.line):
                 if e.LABEL1 == obj:
-                    return i
+                    return i + 1 if self.beam is not None else 0
         raise ValueError(f"Element {obj} not found.")
 
     def zgoubi_index(self, obj: Union[str, commands.Command]) -> int:
@@ -792,7 +792,8 @@ class Input:
                     mapping_string += '__'
                 mapping_string += f"{k}_{v}"
             mapped_destination = os.path.join(destination, mapping_string)
-            os.mkdir(mapped_destination)
+            if m != {}:
+                os.mkdir(mapped_destination)
             for f in files:
                 shutil.copyfile(os.path.join(p.name, f),
                                 os.path.join(mapped_destination, f)
