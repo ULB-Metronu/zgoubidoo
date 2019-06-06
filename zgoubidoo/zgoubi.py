@@ -350,9 +350,11 @@ class ZgoubiResults:
     def print(self, what: str = 'result'):
         """Helper function to print the raw results from a Zgoubi run."""
         for m, r in self.results:
-            print(f"Results for mapping {m}")
+            print(f"Results for mapping {m}\n")
             print('\n'.join(r[what]))
-            print("========================")
+            print("================================================================================================")
+            print("================================================================================================")
+            print("================================================================================================")
 
 
 class Zgoubi(Executable):
