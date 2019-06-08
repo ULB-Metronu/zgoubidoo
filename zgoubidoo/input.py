@@ -71,8 +71,7 @@ class ParametricMapping:
     mapping. It also accounts for "coupled" variables.
 
     Note:
-        TODO FIX Using the special value "LABEL" for the first element of the mapping's label deactivate the sequence
-        adjustment mechanism.
+        TODO FIX Using the special value "LABEL" for the first element of the mapping's label deactivate the sequence adjustment mechanism.
 
     See also:
         for implementation details, see also https://codereview.stackexchange.com/q/211121/52027 .

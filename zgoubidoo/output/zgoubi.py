@@ -302,7 +302,7 @@ def read_optics_file(filename: str = 'zgoubi.OPTICS.out', path: str = '.') -> pd
         a FileNotFoundError in case the file is not found.
     """
     # Cleaned up header lines
-    headers = [
+    headers = [ # TODO fix format this is wrong
         'alfx', 'btx', 'alfx', 'bty', 'alfl', 'btl',
         'Dx', 'Dxp', 'Dy', 'Dyp', 'phix/2pi', 'phiy/2pi',
         'cumul_s/m', '#lmnt', 'x/m', 'xp/rad', 'y/m', 'yp/rad',
