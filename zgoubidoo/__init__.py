@@ -67,7 +67,7 @@ from . import commands
 from . import physics
 from . import vis
 from . import twiss
-from .sequence import Sequence, ZgoubidooSequenceException
+from .sequences import Sequence, SequenceMetadata, ZgoubidooSequenceException, Element
 from .input import Input, MadInput, InputValidator, ZgoubiInputException, ParametricMapping
 from .output.zgoubi import read_fai_file, read_plt_file, read_matrix_file, read_srloss_file
 from .zgoubi import Zgoubi, ZgoubiResults, ZgoubiException
@@ -75,5 +75,5 @@ from .madx import Mad, MadResults, MadException
 from .surveys import survey, survey_reference_trajectory, clear_survey, transform_tracks
 from .frame import Frame, ZgoubidooFrameException
 from .polarity import HorizontalPolarity, VerticalPolarity
-from .loaders import *
+from .converters import *
 from .kinematics import *

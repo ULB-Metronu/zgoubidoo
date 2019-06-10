@@ -1,10 +1,1 @@
-def twiss(self):
-    """
-
-    Returns:
-
-    """
-    pass
-
-
-
+"""Twiss."""

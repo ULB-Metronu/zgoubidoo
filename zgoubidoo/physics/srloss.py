@@ -6,10 +6,9 @@ import pandas as _pd
 from ..commands.radiation import SRLoss, SRPrint
 from ..commands.commands import Marker as _Marker
 from ..commands.objet import Objet2 as _Objet2
-from ..sequence import Sequence as _Sequence
+from ..sequences.sequence import Sequence as _Sequence
 from .results import PhysicsResults as _PhysicsResults
 from ..input import Input as _Input
-from ..zgoubi import ZgoubiResults as _ZgoubiResults
 from .. import ureg as _ureg
 
 
