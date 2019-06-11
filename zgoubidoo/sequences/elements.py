@@ -81,6 +81,20 @@ class Element(UserDict, metaclass=ElementClass):
         """
         if bases is None:
             bases = cls
-        return cls._metaclass(name, bases, dct, **kwargs)
+        return cls.metaclass(name, bases, dct, **kwargs)
 
     subclass = make_subclass
+
+
+Element.make_subclass('Marker')
+Element.make_subclass('Drift')
+Element.make_subclass('Quadrupole')
+Element.make_subclass('Sextupole')
+Element.make_subclass('Octupole')
+Element.make_subclass('Decapole')
+Element.make_subclass('Multipole')
+Element.make_subclass('Dipole')
+Element.make_subclass('Bend')
+Element.make_subclass('RBend')
+Element.make_subclass('SBend')
+Element.make_subclass('Cavity')

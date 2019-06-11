@@ -10,6 +10,7 @@ from ..commands.particules import ParticuleType as _ParticuleType
 from ..commands.particules import Proton as _Proton
 from ..kinematics import Kinematics as _Kinematics
 from .elements import Element as _Element
+from .elements import ElementClass as _ElementClass
 from .. import ureg as _ureg
 
 __all__ = ['ZgoubidooSequenceException',
@@ -145,7 +146,59 @@ class Sequence:
         ats = locals()
         if at is not None:
             ats[f"at_{self._reference_placement.lower()}"] = at
+
+        def compute(d):
+            """Compute placement quantities."""
+            if d['at_entry'] is None:
+                if d['at_center'] is not None:
+                    d['at_entry'] = d['at_center'] - element_or_sequence.data[self._element_keys['L']] / 2.0
+                elif d['at_exit'] is not None:
+                    d['at_entry'] = d['at_exit'] - element_or_sequence.data[self._element_keys['L']]
+            if d['at_center'] is None:
+                if d['at_entry'] is not None:
+                    d['at_center'] = d['at_entry'] + element_or_sequence.data[self._element_keys['L']] / 2.0
+                elif d['at_exit'] is not None:
+                    d['at_center'] = d['at_exit'] - element_or_sequence.data[self._element_keys['L']] / 2.0
+            if d['at_exit'] is None:
+                if d['at_entry'] is not None:
+                    d['at_exit'] = d['at_entry'] + element_or_sequence.data[self._element_keys['L']]
+                elif d['at_center'] is not None:
+                    d['at_exit'] = d['at_center'] + element_or_sequence.data[self._element_keys['L']] / 2.0
+            return d
+
+        tmp = ats
+        tmp2 = tmp
+        while True:
+            _ = compute(tmp)
+            tmp, tmp2 = tmp2, _
+            if tmp == tmp2:
+                break  # Fixed point
+        ats = tmp2
         self._data.append((element_or_sequence, ats['at_entry'], ats['at_center'], ats['at_exit']))
+
+    def expand(self, drift_element: _ElementClass = _Element.Drift):
+        """
+        TODO Use namedtuples
+
+        Args:
+            drift_element:
+
+        Returns:
+
+        """
+        at = 0 * _ureg.m
+        expanded = []
+        for e in self._data:
+            length = (e[1] - at).m_as('m')
+            if length > 1e-6:
+                expanded.append((drift_element(L=length * _ureg.m),
+                                 at,
+                                 at + length * _ureg.m / 2,
+                                 at + length * _ureg.m,
+                                 ))
+            expanded.append(e)
+            at = e[3]
+        self._data = expanded
 
     @classmethod
     def from_madx_twiss(cls,
