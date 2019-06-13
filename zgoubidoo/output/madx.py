@@ -1,6 +1,7 @@
 from typing import List
 import os
 import pandas as _pd
+from .. import ureg as _ureg
 
 MADX_TWISS_TABLE_HEADER_ROWS = 47
 """MAD-X Twiss table header rows (lines to be skipped when reading the table's content."""
@@ -156,6 +157,11 @@ def load_madx_twiss_table(filename: str = 'twiss.outx', path: str = '.', columns
             _[c] = _[c].apply(float)
         except ValueError:
             pass
+    _['L'] = _['L'].apply(lambda e: e * _ureg.m)
+    _['E1'] = _['E1'].apply(lambda e: e * _ureg.radian)
+    _['E2'] = _['E2'].apply(lambda e: e * _ureg.radian)
+    _['ANGLE'] = _['ANGLE'].apply(lambda e: e * _ureg.radian)
+    _['K1L'] = _['K1L'].apply(lambda e: e / _ureg.m)
     return _.set_index('NAME')
 
 

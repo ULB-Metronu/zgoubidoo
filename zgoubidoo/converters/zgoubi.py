@@ -142,7 +142,6 @@ def quadrupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Di
     Returns:
 
     """
-
     bore_radius = options.get('R0', 10 * _ureg.cm)
     if element.get('K1') is None and element.get('K1L') is None:
         gradient = 0 / _ureg.m**2
