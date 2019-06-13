@@ -46,7 +46,7 @@ class MadCommand(_Command, metaclass=MadCommandType):
 
 class Beam(MadCommand):
     """
-
+    TODO
     """
     KEYWORD = 'BEAM'
     """Keyword of the command used for the MAD-X input data."""

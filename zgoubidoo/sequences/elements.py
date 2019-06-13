@@ -39,7 +39,7 @@ class ElementClass(ABCMeta):
         super().__init__(name, bases, {**dct, **kwargs})
         if name != 'Element':
             for b in bases:
-                cls._parameters = {**{'KEYWORD': cls.__name__.upper()}, **b.parameters, **dct, **kwargs}
+                cls.parameters = {**{'KEYWORD': cls.__name__.upper()}, **b.parameters, **dct, **kwargs}
 
 
 class Element(UserDict, metaclass=ElementClass):

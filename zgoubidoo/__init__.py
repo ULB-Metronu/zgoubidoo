@@ -64,16 +64,17 @@ ureg.define('electronvolt_per_c = eV / c = eV_c')
 ureg.define('electronvolt_per_c2 = eV / c**2 = eV_c2')
 
 from . import commands
+from . import converters
+from . import fieldmaps
+from . import output
 from . import physics
+from . import sequences
+from .sequences import ZgoubidooSequenceException, SequenceMetadata, Sequence, Element
 from . import vis
 from . import twiss
-from .sequences import Sequence, SequenceMetadata, ZgoubidooSequenceException, Element
 from .input import Input, MadInput, InputValidator, ZgoubiInputException, ParametricMapping
-from .output.zgoubi import read_fai_file, read_plt_file, read_matrix_file, read_srloss_file
 from .zgoubi import Zgoubi, ZgoubiResults, ZgoubiException
-from .madx import Mad, MadResults, MadException
 from .surveys import survey, survey_reference_trajectory, clear_survey, transform_tracks
 from .frame import Frame, ZgoubidooFrameException
 from .polarity import HorizontalPolarity, VerticalPolarity
-from .converters import *
-from .kinematics import *
+from .kinematics import ZgoubiKinematicsException, Kinematics
