@@ -643,6 +643,8 @@ class ChangRef(Command, _Patchable):
         {super().__str__().rstrip()}
         """
         for t in self.TRANSFORMATIONS:
+            if t[0] is None or t[1] is None:
+                continue
             if t[1].dimensionality == _ureg.cm.dimensionality:
                 c += f"{t[0]} {_cm(t[1])} "
             elif t[1].dimensionality == _ureg.radian.dimensionality:
