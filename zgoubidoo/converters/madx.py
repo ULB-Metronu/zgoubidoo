@@ -1,62 +1,55 @@
 """MAD-X converters.
 
-Special methods prefixed with *create_madx* are meant and understood to be conversion methods, to convert from a given
+Special methods prefixed with *to_zgoubi* are meant and understood to be conversion methods, to convert from a given
 MAD command name.
 
 Examples:
-    >>> fodo = zgoubidoo.converters.from_madx_twiss(
-    filename='twiss.outx',
-    path='/Users/chernals/Downloads',
-    options={'DRIFT': {'command': FakeDrift}})
-    >>> zi = zgoubidoo.Input(line=[
-    Objet5(BORO=fodo.kinematics.brho),
-    fodo.particle,
-    ] + fodo.sequence)
-    >>> zi.XPAS = 1 * _.cm
+    TODO
 """
-from typing import Dict, List
+from __future__ import annotations
+from typing import TYPE_CHECKING, Dict, List
 import numpy as _np
-import pandas as pd
 from .. import ureg as _ureg
 from ..commands import Quadrupole, Sextupole, Octupole, Command, Marker, Drift, Bend, ChangeRef, Multipole, Cavite
-from ..kinematics import Kinematics
-from ..units import _m
+if TYPE_CHECKING:
+    from ..kinematics import Kinematics as _Kinematics
+    from ..sequences import Element as _Element
 
 
-def create_madx_marker(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> List[Command]:
+def marker_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:
     """
     Create a Marker command from the equivalent MAD-X marker keyword.
 
     Args:
-        twiss_row:
+        element:
         kinematics: kinematic quantities (used for field normalization)
         options: options for the creation of the command
 
     Returns:
 
     """
-    return [options.get('command', Marker)().generate_label(prefix=twiss_row.name[0:8])]
+    return [options.get('command', Marker)().generate_label(prefix=element.name[0:8])]
 
 
-def create_madx_drift(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> List[Command]:
+def drift_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:
     """
 
     Args:
-        twiss_row:
+        element:
         kinematics:
         options:
 
     Returns:
 
     """
-    return [options.get('command', Drift)(XL=twiss_row['L'] * _ureg.meter).generate_label(prefix=twiss_row.name[0:8])]
+    return [options.get('command', Drift)(XL=element['L']).generate_label(prefix=element.name[0:8])]
 
 
-def create_madx_rbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> List[Command]:
+def rbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:
     """
 
     Args:
-        twiss_row:
+        element:
         kinematics:
         options:
 
@@ -65,71 +58,84 @@ def create_madx_rbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dic
     """
     bore_radius = options.get('R0', 10 * _ureg.cm)
     m = Multipole(
-        XL=twiss_row['L'] * _ureg.meter,
+        XL=element['L'] * _ureg.meter,
         R0=bore_radius,
-        B1=kinematics.brho / (twiss_row['L'] / twiss_row['ANGLE'] * _ureg.m),
-        B2=twiss_row['K1L'] / twiss_row['L'] * kinematics.brho_ * bore_radius.m_as('m') * _ureg.tesla,
-        R1=twiss_row['TILT'] * _ureg.radian,
-        R2=twiss_row['TILT'] * _ureg.radian,
+        B1=kinematics.brho / (element['L'] / element['ANGLE'] * _ureg.m),
+        B2=element['K1L'] / element['L'] * kinematics.brho_ * bore_radius.m_as('m') * _ureg.tesla,
+        R1=element['TILT'] * _ureg.radian,
+        R2=element['TILT'] * _ureg.radian,
         KPOS=3,
-    ).generate_label(prefix=twiss_row.name)
+    ).generate_label(prefix=element.name)
 
     return [
         m
     ]
 
 
-def create_madx_sbend(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> List[Command]:
+def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:
     """
 
     Args:
-        twiss_row:
+        element:
         kinematics:
         options:
 
     Returns:
 
     """
-    if twiss_row['ANGLE'] == 0.0:  # Avoid division by zero
+    if element['ANGLE'] == 0.0:  # Avoid division by zero
         b1 = 0 * _ureg.tesla
     else:
-        b1 = kinematics.brho / (twiss_row['L'] / _np.abs(twiss_row['ANGLE']) * _ureg.meter)
-    b = options.get('command', Bend)(twiss_row.name[0:8],
-                                     XL=twiss_row['L'] * _ureg.meter,
+        b1 = kinematics.brho / (element['L'] / _np.abs(element['ANGLE']))
+    if _np.isnan(element['E1']):
+        we = 0.0 * _ureg.radian
+    else:
+        we = element['E1']
+    if _np.isnan(element['E2']):
+        ws = 0.0 * _ureg.radian
+    else:
+        ws = element['E2']
+    b = options.get('command', Bend)(element.name[0:8],
+                                     XL=element['L'],
                                      B1=b1,
                                      KPOS=3,
-                                     W_E=twiss_row['E1'] * _ureg.radian * _np.sign(twiss_row['ANGLE']),
-                                     W_S=twiss_row['E2'] * _ureg.radian * _np.sign(twiss_row['ANGLE']),
+                                     W_E=we * _np.sign(element['ANGLE']),
+                                     W_S=ws * _np.sign(element['ANGLE']),
                                      )
-    if twiss_row['TILT'] != 0:
+    if element['TILT'] != 0:
         b.COLOR = 'goldenrod'
-    if twiss_row['ANGLE'] < 0:
+    if element['ANGLE'] < 0:
         return [
-            ChangeRef(TRANSFORMATIONS=[['XR', -(-twiss_row['TILT'] + _np.pi) * _ureg.radian]]).generate_label(
-                prefix=twiss_row.name + '_CRL'
+            ChangeRef(TRANSFORMATIONS=[['XR', -(-element['TILT'] + _np.pi * _ureg.radian)]]).generate_label(
+                prefix=element.name + '_CRL'
             ),
             b,
-            ChangeRef(TRANSFORMATIONS=[['XR', (-twiss_row['TILT'] + _np.pi) * _ureg.radian]]).generate_label(
-                prefix=twiss_row.name + '_CRR'
+            ChangeRef(TRANSFORMATIONS=[['XR', (-element['TILT'] + _np.pi * _ureg.radian)]]).generate_label(
+                prefix=element.name + '_CRR'
             ),
         ]
     else:
-        return [
-            ChangeRef(TRANSFORMATIONS=[['XR', twiss_row['TILT'] * _ureg.radian]]).generate_label(
-                prefix=twiss_row.name + '_CRL'
-            ),
-            b,
-            ChangeRef(TRANSFORMATIONS=[['XR', -twiss_row['TILT'] * _ureg.radian]]).generate_label(
-                prefix=twiss_row.name + '_CRR'
-            ),
-        ]
+        if _np.isnan(element['TILT']):
+            return [
+                b
+            ]
+        else:
+            return [
+                ChangeRef(TRANSFORMATIONS=[['XR', element['TILT']]]).generate_label(
+                    prefix=element.name + '_CRL'
+                ),
+                b,
+                ChangeRef(TRANSFORMATIONS=[['XR', -element['TILT']]]).generate_label(
+                    prefix=element.name + '_CRR'
+                ),
+            ]
 
 
-def create_madx_quadrupole(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> List[Command]:
+def quadrupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:
     """
 
     Args:
-        twiss_row:
+        element:
         kinematics:
         options:
 
@@ -138,10 +144,18 @@ def create_madx_quadrupole(twiss_row: pd.Series, kinematics: Kinematics, options
     """
 
     bore_radius = options.get('R0', 10 * _ureg.cm)
-    return [Quadrupole(twiss_row.name[0:8],
-                       XL=twiss_row['L'] * _ureg.meter,
+    if element.get('K1') is None and element.get('K1L') is None:
+        gradient = 0 / _ureg.m**2
+    elif element.get('K1L') is not None:
+        gradient = element['K1L'] / element['L']
+    elif element.get('K1') is not None:
+        gradient = element['K1']
+    else:
+        raise KeyError("K1 and K1L cannot be defined at the same time.")
+    return [Quadrupole(element.name[0:8],
+                       XL=element['L'],
                        R0=bore_radius,
-                       B0=twiss_row['K1L'] / twiss_row['L'] * kinematics.brho_ * _m(bore_radius) * _ureg.tesla,
+                       B0=gradient * kinematics.brho * bore_radius,
                        XE=0 * _ureg.cm,
                        LAM_E=0 * _ureg.cm,
                        XS=0 * _ureg.cm,
@@ -150,39 +164,39 @@ def create_madx_quadrupole(twiss_row: pd.Series, kinematics: Kinematics, options
             ]
 
 
-def create_madx_sextupole(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> List[Command]:
+def sextupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:
     """
 
     Args:
-        twiss_row:
+        element:
         kinematics:
         options:
 
     Returns:
 
     """
-    return [Sextupole(twiss_row.name[0:8], XL=twiss_row['L'] * _ureg.meter)]
+    return [Sextupole(element.name[0:8], XL=element['L'] * _ureg.meter)]
 
 
-def create_madx_octupole(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> List[Command]:
+def octupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:
     """
 
     Args:
-        twiss_row:
+        element:
         kinematics:
         options:
 
     Returns:
 
     """
-    return [Octupole(twiss_row.name[0:8], XL=twiss_row['L'] * _ureg.meter)]
+    return [Octupole(element.name[0:8], XL=element['L'] * _ureg.meter)]
 
 
-def create_madx_twcavity(twiss_row: pd.Series, kinematics: Kinematics, options: Dict) -> List[Command]:
+def twcavity_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:
     """
 
     Args:
-        twiss_row:
+        element:
         kinematics:
         options:
 
@@ -192,10 +206,10 @@ def create_madx_twcavity(twiss_row: pd.Series, kinematics: Kinematics, options: 
     cavity = Cavite(
         IOPT=10,
         XL=1 * _ureg.m,
-        FREQ=twiss_row['FREQ'] * _ureg.MHz,
-        V=twiss_row['VOLT'] * _ureg.MV * _np.sign(kinematics.brho),
-        PHI_S=(twiss_row['LAG'] + _np.pi / 2) * _ureg.radian,
-    ).generate_label(prefix=twiss_row.name[0:8])
+        FREQ=element['FREQ'] * _ureg.MHz,
+        V=element['VOLT'] * _ureg.MV * _np.sign(kinematics.brho),
+        PHI_S=(element['LAG'] + _np.pi / 2) * _ureg.radian,
+    ).generate_label(prefix=element.name[0:8])
     return [
         Drift(XL=1 * _ureg.mm),
         cavity,
