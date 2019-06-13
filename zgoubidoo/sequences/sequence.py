@@ -2,7 +2,7 @@
 
 """
 from __future__ import annotations
-from typing import Optional, List, Tuple, Mapping, Union
+from typing import Optional, Any, List, Tuple, Mapping, Union
 from dataclasses import dataclass
 import pandas as _pd
 from ..commands import particules
@@ -11,11 +11,14 @@ from ..commands.particules import Proton as _Proton
 from ..kinematics import Kinematics as _Kinematics
 from .elements import Element as _Element
 from .elements import ElementClass as _ElementClass
+from ..output.madx import load_madx_twiss_headers, load_madx_twiss_table
 from .. import ureg as _ureg
 
 __all__ = ['ZgoubidooSequenceException',
            'SequenceMetadata',
            'Sequence',
+           'PlacementSequence',
+           'TwissSequence',
            ]
 
 
@@ -26,8 +29,13 @@ class ZgoubidooSequenceException(Exception):
         self.message = m
 
 
+class SequenceType(type):
+    """TODO"""
+    pass
+
+
 @dataclass
-class SequenceMetadata:
+class SequenceMetadata(metaclass=SequenceType):
     """TODO"""
     data: _pd.Series = None
     kinematics: _Kinematics = None
@@ -35,6 +43,8 @@ class SequenceMetadata:
 
     def __post_init__(self):
         # Try to infer the particle type from the metadata
+        if self.data is None:
+            return
         try:
             self.particle = self.particle or getattr(particules, str(self.data['PARTICLE'].capitalize()))
         except KeyError:
@@ -64,27 +74,20 @@ class Sequence:
     """
     def __init__(self,
                  name: str = '',
-                 data: Optional[List[Tuple[_Element,
-                                           _ureg.Quantity,
-                                           _ureg.Quantity,
-                                           _ureg.Quantity]]] = None,
+                 data = None,
                  metadata: Optional[SequenceMetadata] = None,
-                 reference_placement: str = 'ENTRY',
                  element_keys: Optional[Mapping[str, str]] = None,
                  ):
         """
 
         Args:
             name: the name of the physics
-            data: the list of commands composing the physics
             metadata:
-            reference_placement:
             element_keys:
         """
         self._name: str = name
-        self._data: List[Tuple[_Element, _ureg.Quantity, _ureg.Quantity, _ureg.Quantity]] = data or []
-        self._metadata = metadata
-        self._reference_placement = reference_placement
+        self._data: Any = data
+        self._metadata = metadata or SequenceMetadata()
         self._element_keys = element_keys or {
             k: k for k in [
                 'L',
@@ -114,6 +117,72 @@ class Sequence:
         """Provides the particle type associated with the sequence metadata."""
         return self.metadata.particle
 
+    def apply(self, func, axis=0):
+        """
+
+        Args:
+            func:
+            axis:
+
+        Returns:
+
+        """
+        return self.df.apply(func, axis)
+
+    @staticmethod
+    def from_madx_twiss(filename: str = 'twiss.outx',
+                        path: str = '.',
+                        columns: List = None,
+                        from_element: str = None,
+                        to_element: str = None, ) -> Sequence:
+        """
+        TODO
+        Args:
+            filename: name of the Twiss table file
+            path: path to the Twiss table file
+            columns: the list of columns in the Twiss file
+            from_element:
+            to_element:
+
+        Returns:
+
+        Examples:
+            TODO
+        """
+        return TwissSequence(filename=filename,
+                             path=path,
+                             columns=columns,
+                             from_element=from_element,
+                             to_element=to_element,
+                             )
+
+
+class PlacementSequence(Sequence):
+    """Placement Sequence.
+
+    """
+    def __init__(self,
+                 name: str = '',
+                 data: Optional[List[Tuple[_Element,
+                                           _ureg.Quantity,
+                                           _ureg.Quantity,
+                                           _ureg.Quantity]]] = None,
+                 metadata: Optional[SequenceMetadata] = None,
+                 reference_placement: str = 'ENTRY',
+                 element_keys: Optional[Mapping[str, str]] = None,
+                 ):
+        """
+
+        Args:
+            name: the name of the physics
+            data: the list of commands composing the physics
+            metadata:
+            reference_placement:
+            element_keys:
+        """
+        super().__init__(name=name, data=data or [], metadata=metadata, element_keys=element_keys)
+        self._reference_placement = reference_placement
+
     def to_df(self) -> _pd.DataFrame:
         """TODO"""
         df = _pd.DataFrame([{**e[0].data, **{
@@ -122,7 +191,10 @@ class Sequence:
             'AT_EXIT': e[3]
         }} for e in self._data])
         df.name = self.name
+        df.set_index('NAME')
         return df
+
+    df = property(to_df)
 
     def place(self,
               element_or_sequence: Union[_Element, Sequence],
@@ -130,6 +202,7 @@ class Sequence:
               at_entry: Optional[_ureg.Quantity] = None,
               at_center: Optional[_ureg.Quantity] = None,
               at_exit: Optional[_ureg.Quantity] = None,
+              following: Optional[str] = None,
               ):
         """
 
@@ -139,13 +212,20 @@ class Sequence:
             at_center:
             at_entry:
             at_exit:
+            following:
 
         Returns:
 
         """
         ats = locals()
-        if at is not None:
-            ats[f"at_{self._reference_placement.lower()}"] = at
+        if following is not None:
+            for e in self._data:
+                if e[0]['NAME'] == following:
+                    for k in ats:
+                        if k.startswith('at') and ats[k] is not None:
+                            ats[k] += e[3]
+        if ats['at'] is not None:
+            ats[f"at_{self._reference_placement.lower()}"] = ats['at']
 
         def compute(d):
             """Compute placement quantities."""
@@ -191,7 +271,7 @@ class Sequence:
         for e in self._data:
             length = (e[1] - at).m_as('m')
             if length > 1e-6:
-                expanded.append((drift_element(L=length * _ureg.m),
+                expanded.append((drift_element(f"DRIFT_{e[0].NAME}", L=length * _ureg.m),
                                  at,
                                  at + length * _ureg.m / 2,
                                  at + length * _ureg.m,
@@ -199,57 +279,45 @@ class Sequence:
             expanded.append(e)
             at = e[3]
         self._data = expanded
+        return self
 
-    @classmethod
-    def from_madx_twiss(cls,
-                        filename: str = 'twiss.outx',
-                        path: str = '.',
-                        columns: List = None,
-                        options: Optional[dict] = None,
-                        converters: Optional[dict] = None,
-                        elements_database: Optional[dict] = None,
-                        from_element: str = None,
-                        to_element: str = None,) -> Sequence:
+
+class TwissSequence(Sequence):
+    """
+    TODO
+    """
+
+    def __init__(self,
+                 filename: str = 'twiss.outx',
+                 path: str = '.',
+                 columns: List = None,
+                 from_element: str = None,
+                 to_element: str = None,
+                 element_keys: Optional[Mapping[str, str]] = None,
+                 ):
         """
-        TODO
+
         Args:
-            filename: name of the Twiss table file
-            path: path to the Twiss table file
-            columns: the list of columns in the Twiss file
-            options:
-            converters:
-            elements_database:
+            filename: the name of the physics
+            path:
+            columns:
             from_element:
             to_element:
-
-        Returns:
-
-        Examples:
-            >>> lhec = zgoubidoo.from_madx_twiss(filename='lhec.outx', path='.')
+            element_keys:
         """
-        madx_converters = {k.split('_')[2].upper(): getattr(sys.modules[__name__], k)
-                           for k in globals().keys() if k.startswith('create_madx')}
-        conversion_functions = {**madx_converters, **(converters or {})}
-        elements_database = elements_database or {}
-        options = options or {}
         twiss_headers = load_madx_twiss_headers(filename, path)
         twiss_table = load_madx_twiss_table(filename, path, columns).loc[from_element:to_element]
         particle_name = twiss_headers['PARTICLE'].capitalize()
         p = getattr(particules, particle_name if particle_name != 'Default' else 'Proton')
-        k = Kinematics(float(twiss_headers['PC']) * _ureg.GeV_c, particle=p)
-        converted_table: list = list(
-            twiss_table.apply(
-                lambda _: elements_database.get(_.name,
-                                                conversion_functions.get(_['KEYWORD'], lambda _, __, ___: None)
-                                                (_, k, options.get(_['KEYWORD'], {}))
-                                                ),
-                axis=1
-            ).values
-        )
-        return cls(name=twiss_headers['NAME'],
-                         sequence=list(itertools.chain.from_iterable(converted_table)),
-                         metadata=twiss_headers,
-                         particle=p,
-                         table=twiss_table,
-                         initial_twiss=get_twiss_values(twiss_table),
+        k = _Kinematics(float(twiss_headers['PC']) * _ureg.GeV_c, particle=p)
+        super().__init__(name=twiss_headers['NAME'],
+                         data=twiss_table,
+                         metadata=SequenceMetadata(data=twiss_headers, kinematics=k, particle=p),
+                         element_keys=element_keys
                          )
+
+    def to_df(self) -> _pd.DataFrame:
+        """TODO"""
+        return self._data
+
+    df = property(to_df)
