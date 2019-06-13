@@ -8,20 +8,21 @@
 
 """
 from __future__ import annotations
-from typing import List, Mapping, Iterable, Optional, Tuple, Union
+from typing import TYPE_CHECKING, List, Mapping, Iterable, Optional, Tuple, Union
 import logging
 import tempfile
 import os
 import numpy as _np
 import pandas as _pd
 from .executable import Executable
-from .input import ZGOUBI_INPUT_FILENAME as _ZGOUBI_INPUT_FILENAME
-from .input import Input as _Input
-from .input import MappedParametersType as _MappedParametersType
-from .input import MappedParametersListType as _MappedParametersListType
 from .output.zgoubi import read_plt_file, read_matrix_file, read_srloss_file, read_srloss_steps_file, read_optics_file
 from . import ureg as _ureg
 import zgoubidoo
+from .constants import ZGOUBI_INPUT_FILENAME as _ZGOUBI_INPUT_FILENAME
+if TYPE_CHECKING:
+    from .input import Input as _Input
+    from .input import MappedParametersType as _MappedParametersType
+    from .input import MappedParametersListType as _MappedParametersListType
 
 __all__ = ['ZgoubiException', 'ZgoubiResults', 'Zgoubi']
 _logger = logging.getLogger(__name__)
