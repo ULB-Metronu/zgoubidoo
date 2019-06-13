@@ -23,7 +23,7 @@ import parse as _parse
 from . import ureg as _ureg
 from . import _Q
 from .frame import Frame as _Frame
-import zgoubidoo.converters.madx as _madx_converters
+import zgoubidoo.converters.zgoubi as _zgoubi_converters
 import zgoubidoo.commands
 import zgoubidoo.commands.madx
 from .commands.commands import ZgoubidooException as _ZgoubidooException
@@ -812,7 +812,7 @@ class Input:
 
         """
         madx_converters = {k.split('_')[0].upper(): v
-                           for k, v in getmembers(_madx_converters, isfunction) if k.endswith('to_zgoubi')}
+                           for k, v in getmembers(_zgoubi_converters, isfunction) if k.endswith('to_zgoubi')}
         conversion_functions = {**madx_converters, **(converters or {})}
         elements_database = elements_database or {}
         options = options or {}
