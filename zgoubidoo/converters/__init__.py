@@ -2,7 +2,6 @@
 
 The `converters` module is a collection of
 
-- **converters**: read external data table (e.g. a MAD-X Twiss table) onto a standard Pandas format (DataFrame or Series);
 - **converters**: convert 'commands' to Zgoubidoo commands (e.g. read a MAD-X drift and convert it to Zgoubidoo).
 
 This module is meant to be extensible to handle a wide variety of formats. To allow for maximal flexibility and to

@@ -8,7 +8,7 @@ from scipy import interpolate
 from lmfit import Model as _Model
 
 
-def load_mesh_data(file: str, path: str = '.'): # -> List[np.array]:
+def load_mesh_data(file: str, path: str = '.'):  # -> List[np.array]:
     """
     Load a mesh data file and creates a complete mesh grid using numpy.
 

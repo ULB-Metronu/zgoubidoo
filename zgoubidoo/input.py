@@ -9,9 +9,10 @@ to provide a parametric mapping (combinations of the variations of one or more p
 input files.
 """
 from __future__ import annotations
-from typing import Callable, Sequence, Mapping, Union, List, Tuple
+from typing import TYPE_CHECKING, Optional, Callable, Sequence, Mapping, Union, List, Tuple
 from dataclasses import dataclass, field
 import itertools
+from inspect import getmembers, isfunction
 from functools import partial, reduce
 import tempfile
 import logging
@@ -21,11 +22,14 @@ import pandas as _pd
 import parse as _parse
 from . import ureg as _ureg
 from . import _Q
-from .commands import *
 from .frame import Frame as _Frame
+import zgoubidoo.converters.madx as _madx_converters
 import zgoubidoo.commands
 import zgoubidoo.commands.madx
 from .commands.commands import ZgoubidooException as _ZgoubidooException
+from .constants import ZGOUBI_IMAX, ZGOUBI_INPUT_FILENAME
+if TYPE_CHECKING:
+    import zgoubidoo.sequences
 
 _logger = logging.getLogger(__name__)
 ParametersMappingType = Mapping[str, Sequence[Union[_Q, float]]]
@@ -42,15 +46,6 @@ MappedParametersListType = List[MappedParametersType]
 
 PathsListType = List[Tuple[MappedParametersType, Union[str, tempfile.TemporaryDirectory], bool]]
 """Type alias for a list of parametric keys and paths values."""
-
-ZGOUBI_INPUT_FILENAME: str = 'zgoubi.dat'
-"""File name for Zgoubi input data."""
-
-MAD_INPUT_FILENAME: str = 'input.mad'
-"""File name for MAD-X input data."""
-
-ZGOUBI_IMAX: int = 10000
-"""Maximum number of particles that a Zgoubi objet can contain."""
 
 flatten = itertools.chain.from_iterable
 """Helper function to flatten an iterable."""
@@ -797,6 +792,43 @@ class Input:
                 shutil.copyfile(os.path.join(p.name, f),
                                 os.path.join(mapped_destination, f)
                                 )
+
+    @classmethod
+    def from_sequence(cls,
+                      sequence: zgoubidoo.sequences.Sequence,
+                      options: Optional[dict] = None,
+                      converters: Optional[dict] = None,
+                      elements_database: Optional[dict] = None,
+                      ):
+        """
+
+        Args:
+            sequence:
+            options:
+            converters:
+            elements_database:
+
+        Returns:
+
+        """
+        madx_converters = {k.split('_')[0].upper(): v
+                           for k, v in getmembers(_madx_converters, isfunction) if k.endswith('to_zgoubi')}
+        conversion_functions = {**madx_converters, **(converters or {})}
+        elements_database = elements_database or {}
+        options = options or {}
+        converted_sequence: list = list(
+            sequence.apply(
+                lambda _: elements_database.get(_.name,
+                                                conversion_functions.get(_['KEYWORD'], lambda _, __, ___: None)
+                                                (_, sequence.kinematics, options.get(_['KEYWORD'], {}))
+                                                ),
+                axis=1
+            ).values
+        )
+        return cls(
+            name=sequence.name,
+            line=list(itertools.chain.from_iterable(converted_sequence)),
+        )
 
     @staticmethod
     def write(_: Input,
