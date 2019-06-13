@@ -3,11 +3,13 @@ Commands controlling Zgoubi's control flow, geometry, tracking options, etc.
 
 TODO
 """
-from typing import List, Mapping, Union
+from __future__ import annotations
+from typing import TYPE_CHECKING, List, Mapping, Union
 import pandas as _pd
 from .commands import Action as _Action
-from ..input import Input as _Input
 from .. import _Q
+if TYPE_CHECKING:
+    from ..input import Input as _Input
 
 
 class SynchrotronRadiationLosses(_Action):

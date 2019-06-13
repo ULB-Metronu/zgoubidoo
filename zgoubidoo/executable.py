@@ -2,7 +2,7 @@
 
 """
 from __future__ import annotations
-from typing import Dict, List, Optional, Callable, Union
+from typing import TYPE_CHECKING, Dict, List, Optional, Callable, Union
 import logging
 import shutil
 import tempfile
@@ -14,9 +14,10 @@ import multiprocessing
 from concurrent.futures import ThreadPoolExecutor as _ThreadPoolExecutor
 from concurrent.futures import Future as _Future
 import subprocess as sub
-from .input import Input
-from .input import MappedParametersType as _MappedParametersType
-from .input import MappedParametersListType as _MappedParametersListType
+if TYPE_CHECKING:
+    from .input import Input
+    from .input import MappedParametersType as _MappedParametersType
+    from .input import MappedParametersListType as _MappedParametersListType
 
 __all__ = ['Executable', 'ResultsType']
 _logger = logging.getLogger(__name__)

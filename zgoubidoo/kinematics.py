@@ -9,13 +9,15 @@ Examples:
     TODO
 
 """
-from typing import Union, Optional
+from __future__ import annotations
+from typing import TYPE_CHECKING, Union, Optional
 from functools import partial as _partial
 import numpy as _np
 from . import ureg as _ureg
 from . import _Q
-from .commands import ParticuleType as _ParticuleType
 from .commands import Proton as _Proton
+if TYPE_CHECKING:
+    from .commands import ParticuleType as _ParticuleType
 
 
 class ZgoubiKinematicsException(Exception):
