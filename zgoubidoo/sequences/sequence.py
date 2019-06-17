@@ -222,7 +222,7 @@ class PlacementSequence(Sequence):
               at_center: Optional[_ureg.Quantity] = None,
               at_exit: Optional[_ureg.Quantity] = None,
               following: Optional[str] = None,
-              ):
+              ) -> PlacementSequence:
         """
 
         Args:
@@ -274,8 +274,9 @@ class PlacementSequence(Sequence):
                 break  # Fixed point
         ats = tmp2
         self._data.append((element_or_sequence, ats['at_entry'], ats['at_center'], ats['at_exit']))
+        return self
 
-    def expand(self, drift_element: _ElementClass = _Element.Drift):
+    def expand(self, drift_element: _ElementClass = _Element.Drift) -> PlacementSequence:
         """
         TODO Use namedtuples
 
@@ -298,6 +299,19 @@ class PlacementSequence(Sequence):
             expanded.append(e)
             at = e[3]
         self._data = expanded
+        return self
+
+    def reverse(self) -> PlacementSequence:
+        """
+
+        Returns:
+
+        """
+        length = self._data[-1][3]
+        self._data = self._data[::-1]
+        self._data = [
+            (e, length-at_entry, length-at_center, length-at_exit) for e, at_entry, at_center, at_exit in self._data
+        ]
         return self
 
 
