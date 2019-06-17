@@ -2,17 +2,21 @@
 
 """
 from __future__ import annotations
-from typing import Optional, Any, List, Tuple, Mapping, Union
+from typing import TYPE_CHECKING, Optional, Any, List, Tuple, Mapping, Union
 from dataclasses import dataclass
 import pandas as _pd
 from ..commands import particules
-from ..commands.particules import ParticuleType as _ParticuleType
+from ..commands.beam import BeamTwiss as _BeamTwiss
 from ..commands.particules import Proton as _Proton
 from ..kinematics import Kinematics as _Kinematics
 from .elements import Element as _Element
 from .elements import ElementClass as _ElementClass
+from .betablock import BetaBlock as _BetaBlock
 from ..output.madx import load_madx_twiss_headers, load_madx_twiss_table
 from .. import ureg as _ureg
+if TYPE_CHECKING:
+    from ..commands.particules import ParticuleType as _ParticuleType
+    from ..commands.beam import Beam as _Beam
 
 __all__ = ['ZgoubidooSequenceException',
            'SequenceMetadata',
@@ -29,13 +33,8 @@ class ZgoubidooSequenceException(Exception):
         self.message = m
 
 
-class SequenceType(type):
-    """TODO"""
-    pass
-
-
 @dataclass
-class SequenceMetadata(metaclass=SequenceType):
+class SequenceMetadata:
     """TODO"""
     data: _pd.Series = None
     kinematics: _Kinematics = None
@@ -68,13 +67,19 @@ class SequenceMetadata(metaclass=SequenceType):
             pass
 
 
-class Sequence:
+class SequenceType(type):
+    """TODO"""
+    pass
+
+
+class Sequence(metaclass=SequenceType):
     """Sequence.
 
     """
     def __init__(self,
                  name: str = '',
-                 data = None,
+                 data=None,
+                 beam: Optional[_Beam] = None,
                  metadata: Optional[SequenceMetadata] = None,
                  element_keys: Optional[Mapping[str, str]] = None,
                  ):
@@ -82,11 +87,14 @@ class Sequence:
 
         Args:
             name: the name of the physics
+            data:
+            beam:
             metadata:
             element_keys:
         """
         self._name: str = name
         self._data: Any = data
+        self._beam: Optional[_Beam] = beam
         self._metadata = metadata or SequenceMetadata()
         self._element_keys = element_keys or {
             k: k for k in [
@@ -116,6 +124,17 @@ class Sequence:
     def particle(self) -> _ParticuleType:
         """Provides the particle type associated with the sequence metadata."""
         return self.metadata.particle
+
+    @property
+    def beam(self) -> _Beam:
+        """Provides the beam associated with the sequence."""
+        return self._beam
+
+    def to_df(self) -> _pd.DataFrame:
+        """TODO"""
+        return _pd.DataFrame(self._data)
+
+    df = property(to_df)
 
     def apply(self, func, axis=0):
         """
@@ -290,6 +309,7 @@ class TwissSequence(Sequence):
     def __init__(self,
                  filename: str = 'twiss.outx',
                  path: str = '.',
+                 *,
                  columns: List = None,
                  from_element: str = None,
                  to_element: str = None,
@@ -315,6 +335,40 @@ class TwissSequence(Sequence):
                          metadata=SequenceMetadata(data=twiss_headers, kinematics=k, particle=p),
                          element_keys=element_keys
                          )
+        self._beam = _BeamTwiss(
+            kinematics=k,
+            particle_name=p,
+            betablock=self.betablock
+        ),
+
+    @property
+    def betablock(self) -> _BetaBlock:
+        """TODO"""
+        try:
+            return _BetaBlock(
+                beta11=self.df.iloc[0]['BETA11'],
+                alpha11=self.df.iloc[0]['ALPHA11'],
+                beta22=self.df.iloc[0]['BETA22'],
+                alpha22=self.df.iloc[0]['ALPHA22'],
+                disp1=self.df.iloc[0]['DISP1'],
+                disp2=self.df.iloc[0]['DISP2'],
+                disp3=self.df.iloc[0]['DISP3'],
+                disp4=self.df.iloc[0]['DISP4'],
+            )
+        except KeyError:
+            try:
+                return _BetaBlock(
+                    beta11=self.df.iloc[0]['BETX'],
+                    alpha11=self.df.iloc[0]['ALFX'],
+                    beta22=self.df.iloc[0]['BETY'],
+                    alpha22=self.df.iloc[0]['ALFY'],
+                    disp1=self.df.iloc[0]['DX'],
+                    disp2=self.df.iloc[0]['DPX'],
+                    disp3=self.df.iloc[0]['DY'],
+                    disp4=self.df.iloc[0]['DPY'],
+                )
+            except KeyError:
+                return _BetaBlock()
 
     def to_df(self) -> _pd.DataFrame:
         """TODO"""

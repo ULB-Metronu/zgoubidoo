@@ -22,10 +22,28 @@ import numpy as np
 import pandas as pd
 from .commands import PolarMagnet as _PolarMagnet
 from .input import Input as _Input
+from .sequences.betablock import BetaBlock as _BetaBlock
 import zgoubidoo
 
 
-def compute_alpha_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1) -> pd.Series:
+def _get_parameters(m: pd.DataFrame, twiss: Optional[_BetaBlock], plane: int = 1) -> Tuple:
+    """Extract parameters from the DataFrame."""
+    p = 1 if plane == 1 else 3
+    v = 1 if plane == 1 else 2
+    r11: pd.Series = m[f"R{p}{p}"]
+    r12: pd.Series = m[f"R{p}{p+1}"]
+    r21: pd.Series = m[f"R{p+1}{p}"]
+    r22: pd.Series = m[f"R{p+1}{p+1}"]
+    if twiss is not None:
+        alpha: float = twiss[f"ALPHA{v}{v}"]
+        beta: float = twiss[f"BETA{v}{v}"]
+        gamma: float = twiss[f"GAMMA{v}{v}"]
+        return r11, r12, r21, r22, alpha, beta, gamma
+    else:
+        return r11, r12, r21, r22
+
+
+def compute_alpha_from_matrix(m: pd.DataFrame, twiss: _BetaBlock, plane: int = 1) -> pd.Series:
     """
     Computes the Twiss alpha values at every steps of the input step-by-step transfer matrix.
 
@@ -37,18 +55,11 @@ def compute_alpha_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1)
     Returns:
         a Pandas Series with the alpha values computed at all steps of the input step-by-step transfer matrix
     """
-    p = 1 if plane == 1 else 3
-    v = 1 if plane == 1 else 2
-    r11: pd.Series = m[f"R{p}{p}"]
-    r12: pd.Series = m[f"R{p}{p+1}"]
-    r21: pd.Series = m[f"R{p+1}{p}"]
-    alpha: float = twiss[f"ALPHA{v}{v}"]
-    beta: float = twiss[f"BETA{v}{v}"]
-    gamma: float = twiss[f"GAMMA{v}{v}"]
+    r11, r12, r21, r22, alpha, beta, gamma = _get_parameters(m, twiss, plane)
     return -r11 * r21 * beta + r12 * r21 * alpha + r11 * r12 * gamma
 
 
-def compute_beta_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1, strict: bool = False) -> pd.Series:
+def compute_beta_from_matrix(m: pd.DataFrame, twiss: _BetaBlock, plane: int = 1, strict: bool = False) -> pd.Series:
     """
     Computes the Twiss beta values at every steps of the input step-by-step transfer matrix.
 
@@ -61,20 +72,14 @@ def compute_beta_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1, 
     Returns:
         a Pandas Series with the beta values computed at all steps of the input step-by-step transfer matrix
     """
-    p = 1 if plane == 1 else 3
-    v = 1 if plane == 1 else 2
-    r11: pd.Series = m[f"R{p}{p}"]
-    r12: pd.Series = m[f"R{p}{p+1}"]
-    alpha0: float = twiss[f"ALPHA{v}{v}"]
-    beta0: float = twiss[f"BETA{v}{v}"]
-    gamma0: float = twiss[f"GAMMA{v}{v}"]
-    _ = r11**2 * beta0 - 2.0 * r11 * r12 * alpha0 + r12**2 * gamma0
+    r11, r12, r21, r22, alpha, beta, gamma = _get_parameters(m, twiss, plane)
+    _ = r11**2 * beta - 2.0 * r11 * r12 * alpha + r12**2 * gamma
     if strict:
         assert (_ > 0).all(), "Not all computed beta are positive."
     return _
 
 
-def compute_gamma_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1) -> pd.Series:
+def compute_gamma_from_matrix(m: pd.DataFrame, twiss: _BetaBlock, plane: int = 1) -> pd.Series:
     """
     Computes the Twiss gamma values at every steps of the input step-by-step transfer matrix.
 
@@ -86,17 +91,11 @@ def compute_gamma_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1)
     Returns:
         a Pandas Series with the gamma values computed at all steps of the input step-by-step transfer matrix
     """
-    p = 1 if plane == 1 else 3
-    v = 1 if plane == 1 else 2
-    r21: pd.Series = m[f"R{p+1}{p}"]
-    r22: pd.Series = m[f"R{p+1}{p+1}"]
-    alpha: float = twiss[f"ALPHA{v}{v}"]
-    beta: float = twiss[f"BETA{v}{v}"]
-    gamma: float = twiss[f"GAMMA{v}{v}"]
-    return np.square(r21) * beta - 2.0 * r21 * r22 * alpha + np.square(r22) * gamma
+    r11, r12, r21, r22, alpha, beta, gamma = _get_parameters(m, twiss, plane)
+    return r21**2 * beta - 2.0 * r21 * r22 * alpha + r22**2 * gamma
 
 
-def compute_mu_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1) -> pd.Series:
+def compute_mu_from_matrix(m: pd.DataFrame, twiss: _BetaBlock, plane: int = 1) -> pd.Series:
     """
     Computes the phase advance values at every steps of the input step-by-step transfer matrix.
 
@@ -108,13 +107,8 @@ def compute_mu_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1) ->
     Returns:
         a Pandas Series with the phase advance computed at all steps of the input step-by-step transfer matrix
     """
-    p = 1 if plane == 1 else 3
-    v = 1 if plane == 1 else 2
-    r11: pd.Series = m[f"R{p}{p}"]
-    r12: pd.Series = m[f"R{p}{p+1}"]
-    alpha0 = twiss[f"ALPHA{v}{v}"]
-    beta0 = twiss[f"BETA{v}{v}"]
-    return np.arctan2(r12, r11 * beta0 - r12 * alpha0)
+    r11, r12, r21, r22, alpha, beta, gamma = _get_parameters(m, twiss, plane)
+    return np.arctan2(r12, r11 * beta - r12 * alpha)
 
 
 def compute_jacobian_from_matrix(m: pd.DataFrame, plane: int = 1) -> pd.Series:
@@ -128,15 +122,11 @@ def compute_jacobian_from_matrix(m: pd.DataFrame, plane: int = 1) -> pd.Series:
     Returns:
         a Pandas Series with the jacobian computed at all steps of the input step-by-step transfer matrix
     """
-    p = 1 if plane == 1 else 3
-    r11: pd.Series = m[f"R{p}{p}"]
-    r12: pd.Series = m[f"R{p}{p+1}"]
-    r21: pd.Series = m[f"R{p+1}{p}"]
-    r22: pd.Series = m[f"R{p+1}{p+1}"]
+    r11, r12, r21, r22 = _get_parameters(m, None, plane)
     return r11 * r22 - r12 * r21
 
 
-def compute_dispersion_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1) -> pd.Series:
+def compute_dispersion_from_matrix(m: pd.DataFrame, twiss: _BetaBlock, plane: int = 1) -> pd.Series:
     """
     Computes the dispersion function at every steps of the input step-by-step transfer matrix.
 
@@ -151,18 +141,18 @@ def compute_dispersion_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int
     """
     p = 1 if plane == 1 else 3
     if p == 1:
-        d0 = twiss['DY']
-        dp0 = twiss['DYP']
+        d0 = twiss['DISP1']
+        dp0 = twiss['DISP2']
     else:
-        d0 = twiss['DZ']
-        dp0 = twiss['DZP']
+        d0 = twiss['DISP3']
+        dp0 = twiss['DISP4']
     r11: pd.Series = m[f"R{p}{p}"]
     r12: pd.Series = m[f"R{p}{p + 1}"]
     r15: pd.Series = m[f"R{p}5"]
     return d0 * r11 + dp0 * r12 + r15
 
 
-def compute_dispersion_prime_from_matrix(m: pd.DataFrame, twiss: pd.Series, plane: int = 1) -> pd.Series:
+def compute_dispersion_prime_from_matrix(m: pd.DataFrame, twiss: _BetaBlock, plane: int = 1) -> pd.Series:
     """
     Computes the dispersion prime function at every steps of the input step-by-step transfer matrix.
 
@@ -181,11 +171,11 @@ def compute_dispersion_prime_from_matrix(m: pd.DataFrame, twiss: pd.Series, plan
     """
     p = 1 if plane == 1 else 3
     if p == 1:
-        d0 = twiss['DY']
-        dp0 = twiss['DYP']
+        d0 = twiss['DISP1']
+        dp0 = twiss['DISP2']
     else:
-        d0 = twiss['DZ']
-        dp0 = twiss['DZP']
+        d0 = twiss['DISP3']
+        dp0 = twiss['DISP4']
     r21: pd.Series = m[f"R{p + 1}{p}"]
     r22: pd.Series = m[f"R{p + 1}{p + 1}"]
     r25: pd.Series = m[f"R{p + 1}5"]
@@ -219,11 +209,12 @@ def compute_periodic_twiss(matrix: pd.DataFrame) -> pd.Series:
     twiss['DYP'] = m['R25']
     twiss['DZ'] = m['R35']
     twiss['DZP'] = m['R45']
+
     return pd.Series(twiss)
 
 
 def compute_twiss(matrix: pd.DataFrame,
-                  twiss_init: Optional[pd.Series] = None,
+                  twiss_init: Optional[_BetaBlock] = None,
                   with_phase_unrolling: bool = True
                   ) -> pd.DataFrame:
     """
@@ -304,7 +295,7 @@ def align_tracks(tracks: pd.DataFrame,
     particules: list = ['O', 'A', 'C', 'E', 'G', 'I', 'B', 'D', 'F', 'H', 'J']  # Keep it in this order
     assert set(particules) == set(tracks[identifier].unique()), "Required particles not found (are you using Objet5?)."
     ref: pd.DataFrame = tracks.query(f"{identifier} == '{reference_track}'")[coordinates +
-                                                                             [align_on, 'LABEL1', 'X1', 'Y1', 'Z1']]
+                                                                             [align_on, 'LABEL1', 'XG', 'YG', 'ZG']]
     ref_alignment_values = ref[align_on].values
     assert np.all(np.diff(ref_alignment_values) >= 0), "The reference alignment values are not monotonously increasing"
     data = np.zeros((len(particules), ref_alignment_values.shape[0], len(coordinates)))
@@ -366,9 +357,9 @@ def compute_transfer_matrix(beamline: _Input, tracks: pd.DataFrame) -> pd.DataFr
         else:
             m['S'] = ref['S'].values
         m['LABEL1'] = e.LABEL1
-        m['X1'] = ref['X1'].values
-        m['Y1'] = ref['Y1'].values
-        m['Z1'] = ref['Z1'].values
+        m['XG'] = ref['XG'].values
+        m['YG'] = ref['YG'].values
+        m['ZG'] = ref['ZG'].values
         matrix = matrix.append(m)
-    matrix['S'] += tracks['X1'].min()
+    matrix['S'] += tracks['XG'].min()
     return matrix.reset_index()

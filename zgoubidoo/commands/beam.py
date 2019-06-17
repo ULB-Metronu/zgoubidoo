@@ -2,7 +2,7 @@
 
 """
 from __future__ import annotations
-from typing import Optional, Union
+from typing import TYPE_CHECKING, Optional, Union
 import os
 from random import randint
 import numpy as np
@@ -13,7 +13,6 @@ from zgoubidoo.commands import Command as _Command
 from zgoubidoo.commands import Comment as _Comment
 from zgoubidoo.commands import ParticuleType as _ParticuleType
 from zgoubidoo.commands import Proton as _Proton
-from zgoubidoo.commands import Objet2 as _Objet2
 from zgoubidoo.commands import Objet5 as _Objet5
 from zgoubidoo.commands import MCObjet3 as _MCObjet3
 from zgoubidoo.commands import ObjetType as _ObjetType
@@ -21,6 +20,9 @@ from zgoubidoo.kinematics import Kinematics as _Kinematics
 from ..input import ParametricMapping as _ParametricMapping
 from ..input import MappedParametersListType as _MappedParametersListType
 from .. import ureg as _ureg
+if TYPE_CHECKING:
+    from ..sequences.betablock import BetaBlock as _BetaBlock
+    from ..sequences.sequence import TwissSequence as _TwissSequence
 
 
 class ZgoubidooBeamException(Exception):
@@ -91,6 +93,23 @@ class Beam(_Command, metaclass=BeamType):
 
         """
         return self._objet_type(self.LABEL1, BORO=self._kinematics.brho)
+
+    @classmethod
+    def from_sequence(cls, sequence: _TwissSequence):
+        """
+
+        Args:
+            sequence:
+
+        Returns:
+
+        """
+        return cls(
+            particle=sequence.particle,
+            kinematics=sequence.kinematics,
+            betablock=sequence.betablock,
+            objet_type=_Objet5,
+        )
 
 
 class BeamZgoubiDistribution(Beam):
@@ -192,61 +211,6 @@ class BeamZgoubiDistribution(Beam):
                                 I1=randint(0, 1e6),
                                 I2=randint(0, 1e6),
                                 I3=randint(0, 1e6),
-                                )
-
-
-class BeamTwiss(Beam):
-    """
-    A beam to be used for transfer map and Twiss computations.
-    """
-    PARAMETERS = {
-        'ALPHA_Y': 0.0,
-        'BETA_Y': 1.0 * _ureg.m,
-        'ALPHA_Z': 0.0,
-        'BETA_Z': 1.0 * _ureg.m,
-        'ALPHA_X': 0.0,
-        'BETA_X': 1.0 * _ureg.m,
-        'D_Y': 0 * _ureg.m,
-        'D_YP': 0,
-        'D_Z': 0 * _ureg.m,
-        'D_ZP': 0,
-    }
-
-    def post_init(self,
-                  objet_type: _ObjetType = _Objet5,
-                  *args,
-                  **kwargs):
-        """
-
-        Args:
-            objet_type:
-            *args:
-            **kwargs:
-
-        Returns:
-
-        """
-        pass
-
-    def generate_object(self):
-        """
-        TODO
-
-        Return:
-
-        """
-        return self._objet_type(self.LABEL1,
-                                BORO=self._kinematics.brho,
-                                ALPHA_Y=self.ALPHA_Y,
-                                BETA_Y=self.BETA_Y,
-                                ALPHA_Z=self.ALPHA_Z,
-                                BETA_Z=self.BETA_Z,
-                                ALPHA_X=self.ALPHA_X,
-                                BETA_X=self.BETA_X,
-                                D_Y=self.D_Y,
-                                D_YP=self.D_YP,
-                                D_Z=self.D_Z,
-                                D_ZP=self.D_ZP,
                                 )
 
 
@@ -565,3 +529,74 @@ class BeamDistribution(Beam):
                 ]),
                 int(n)
             )
+
+
+class BeamTwiss(Beam):
+    """
+    A beam to be used for transfer map and Twiss computations.
+    """
+    PARAMETERS = {
+        'ALPHA_Y': 0.0,
+        'BETA_Y': 1.0 * _ureg.m,
+        'ALPHA_Z': 0.0,
+        'BETA_Z': 1.0 * _ureg.m,
+        'ALPHA_X': 0.0,
+        'BETA_X': 1.0 * _ureg.m,
+        'D_Y': 0 * _ureg.m,
+        'D_YP': 0,
+        'D_Z': 0 * _ureg.m,
+        'D_ZP': 0,
+    }
+
+    def post_init(self,
+                  betablock: _BetaBlock = None,
+                  sequence: _TwissSequence = None,
+                  objet_type: _ObjetType = _Objet5,
+                  *args,
+                  **kwargs):
+        """
+
+        Args:
+            betablock:
+            sequence:
+            objet_type:
+            *args:
+            **kwargs:
+
+        Returns:
+
+        """
+        if betablock is not None and sequence is not None:
+            raise ZgoubidooBeamException("Provide either betablock or sequence, not both.")
+        if sequence is not None:
+            betablock = sequence.betablock
+        if betablock is not None:
+            self.ALPHA_Y = betablock.alpha11
+            self.BETA_Y = betablock.beta11 * _ureg.m
+            self.ALPHA_Z = betablock.alpha22
+            self.BETA_Z = betablock.beta22 * _ureg.m
+            self.D_Y = betablock.disp1 * _ureg.m
+            self.D_YP = betablock.disp2
+            self.D_Z = betablock.disp3 * _ureg.m
+            self.D_ZP = betablock.disp4
+
+    def generate_object(self):
+        """
+        TODO
+
+        Return:
+
+        """
+        return self._objet_type(self.LABEL1,
+                                BORO=self._kinematics.brho,
+                                ALPHA_Y=self.ALPHA_Y,
+                                BETA_Y=self.BETA_Y,
+                                ALPHA_Z=self.ALPHA_Z,
+                                BETA_Z=self.BETA_Z,
+                                ALPHA_X=self.ALPHA_X,
+                                BETA_X=self.BETA_X,
+                                D_Y=self.D_Y,
+                                D_YP=self.D_YP,
+                                D_Z=self.D_Z,
+                                D_ZP=self.D_ZP,
+                                )

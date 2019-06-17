@@ -302,18 +302,16 @@ def read_optics_file(filename: str = 'zgoubi.OPTICS.out', path: str = '.') -> pd
         a FileNotFoundError in case the file is not found.
     """
     # Cleaned up header lines
-    headers = [ # TODO fix format this is wrong
-        'alfx', 'btx', 'alfx', 'bty', 'alfl', 'btl',
-        'Dx', 'Dxp', 'Dy', 'Dyp', 'phix/2pi', 'phiy/2pi',
-        'cumul_s/m', '#lmnt', 'x/m', 'xp/rad', 'y/m', 'yp/rad',
-        'KEYWORD', 'label1', 'label2', 'FO', 'K0', 'K1',
-        'K2', 'C', 'r', '!', 'iptimpf', 'IPASS', 'frac', 'int', 'R11', 'R12', 'R13', 'R14', 'R15',
-    'R16', 'R21', 'R22', 'R23', 'R24', 'R25', 'R26', 'R31', 'R32', 'R33', 'R34', 'R35', 'R36',
-    'R41', 'R42', 'R43', 'R44', 'R45','R46',
-    'R51', 'R52', 'R53', 'R54', 'R55','R56',
-    'path', 'S', 'AL', 'D'
+    headers = [
+        'ALPHA11', 'BETA11', 'ALPHA22', 'BETA22', 'ALPHA33', 'BETA33',
+        'DISP1', 'DISP2', 'DISP3', 'DISP4',
+        'MU1', 'MU2',
+        'S', 'ELEMENT', 'Y', 'T', 'Z', 'P',
+        'KEYWORD', 'LABEL1', 'LABEL2', 'FO', 'K0', 'K1',
+        'K2', 'C', 'r', '!', 'optimp.f', 'IPASS', 'frac', 'int',
+        'R11', 'R12', 'R21', 'R22', 'R33', 'R34', 'R43', 'R44', 'R51', 'R52', 'R53', 'R54', 'R56',
+        'UNKNOWN1', 'UNKNOWN2', 'UNKNOWN3', 'UNKWOWN4', 'UNKNOWN5', 'UNKNOWN6', 'UNKNOWN7'
     ]
-
     df = pd.read_csv(os.path.join(path, filename),
                      skiprows=3,
                      names=headers,

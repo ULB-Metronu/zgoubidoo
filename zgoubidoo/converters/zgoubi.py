@@ -95,6 +95,10 @@ def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
         ws = 0.0 * _ureg.radian
     else:
         ws = element['E2']
+    if _np.isnan(element['TILT']):
+        tilt = 0.0 * _ureg.radian
+    else:
+        tilt = element['TILT']
     b = options.get('command', Bend)(element.name[0:8],
                                      XL=element['L'],
                                      B1=b1,
@@ -106,11 +110,11 @@ def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
         b.COLOR = 'goldenrod'
     if element['ANGLE'] < 0:
         return [
-            ChangeRef(TRANSFORMATIONS=[['XR', -(-element['TILT'] + _np.pi * _ureg.radian)]]).generate_label(
+            ChangeRef(TRANSFORMATIONS=[['XR', -(-tilt + _np.pi * _ureg.radian)]]).generate_label(
                 prefix=element.name + '_CRL'
             ),
             b,
-            ChangeRef(TRANSFORMATIONS=[['XR', (-element['TILT'] + _np.pi * _ureg.radian)]]).generate_label(
+            ChangeRef(TRANSFORMATIONS=[['XR', (-tilt + _np.pi * _ureg.radian)]]).generate_label(
                 prefix=element.name + '_CRR'
             ),
         ]
@@ -121,11 +125,11 @@ def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
             ]
         else:
             return [
-                ChangeRef(TRANSFORMATIONS=[['XR', element['TILT']]]).generate_label(
+                ChangeRef(TRANSFORMATIONS=[['XR', tilt]]).generate_label(
                     prefix=element.name + '_CRL'
                 ),
                 b,
-                ChangeRef(TRANSFORMATIONS=[['XR', -element['TILT']]]).generate_label(
+                ChangeRef(TRANSFORMATIONS=[['XR', -tilt]]).generate_label(
                     prefix=element.name + '_CRR'
                 ),
             ]

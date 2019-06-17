@@ -9,8 +9,9 @@ to provide a parametric mapping (combinations of the variations of one or more p
 input files.
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, Callable, Sequence, Mapping, Union, List, Tuple
+from typing import TYPE_CHECKING, Optional, Callable, Sequence, Mapping, Union, List, Tuple, Iterable, Any, Deque
 from dataclasses import dataclass, field
+from collections import deque
 import itertools
 from inspect import getmembers, isfunction
 from functools import partial, reduce
@@ -25,13 +26,18 @@ from . import _Q
 from .frame import Frame as _Frame
 import zgoubidoo.converters.zgoubi as _zgoubi_converters
 import zgoubidoo.commands
-import zgoubidoo.commands.madx
 from .commands.commands import ZgoubidooException as _ZgoubidooException
+from zgoubidoo.commands import Command as _Command
+from .commands.commands import End as _End
 from .constants import ZGOUBI_IMAX, ZGOUBI_INPUT_FILENAME
 if TYPE_CHECKING:
     import zgoubidoo.sequences
+    from zgoubidoo.commands import CommandType
+    from .commands.beam import Beam as _Beam
+    import zgoubidoo.commands.madx
 
 _logger = logging.getLogger(__name__)
+
 ParametersMappingType = Mapping[str, Sequence[Union[_Q, float]]]
 """Type alias for a parametric mapping of string keys and values."""
 
@@ -142,10 +148,10 @@ class Input:
     """
     def __init__(self,
                  name: str = 'beamline',
-                 line: Optional[Sequence[commands.Command]] = None,
+                 line: Optional[Sequence[_Command]] = None,
                  ):
         self._name: str = name
-        self._line: List[commands.Command] = line or []
+        self._line: Deque[_Command] = line or deque()
         self._paths: PathsListType = list()
         self._optical_length: _Q = 0 * _ureg.m
         self._reference_frame: Optional[_Frame] = None
@@ -168,6 +174,7 @@ class Input:
         return str(self)
 
     def __call__(self,
+                 *,
                  mappings: Optional[MappedParametersListType] = None,
                  filename: str = ZGOUBI_INPUT_FILENAME,
                  path: Optional[str] = None) -> Input:
@@ -230,7 +237,7 @@ class Input:
         """
         return len(self._line)
 
-    def __iadd__(self, command: commands.Command) -> Input:
+    def __iadd__(self, command: _Command) -> Input:
         """Append a command at the end of the input sequence.
 
         Args:
@@ -242,7 +249,7 @@ class Input:
         self._line.append(command)
         return self
 
-    def __isub__(self, other: Union[str, commands.Command]) -> Input:
+    def __isub__(self, other: Union[str, _Command]) -> Input:
         """Remove a command from the input sequence.
 
         Args:
@@ -265,7 +272,7 @@ class Input:
                                  CommandType,
                                  type,
                                  Iterable[Union[CommandType, type, str]]]
-                    ) -> Union[zgoubidoo.commands.Command, Input]:
+                    ) -> Union[_Command, Input]:
         """Multi-purpose dictionnary-like elements access and filtering.
 
         A triple interafce is provided:
@@ -298,9 +305,9 @@ class Input:
         if isinstance(items, slice):
             start = items.start
             end = items.stop
-            if isinstance(items.start, (zgoubidoo.commands.Command, str)):
+            if isinstance(items.start, (_Command, str)):
                 start = self.index(items.start)
-            if isinstance(items.stop, (zgoubidoo.commands.Command, str)):
+            if isinstance(items.stop, (_Command, str)):
                 end = self.index(items.stop) + 1
             slicing = slice(start, end, items.step)
             return Input(name=f"{self._name}_sliced_from_{getattr(items.start, 'LABEL1', items.start)}"
@@ -324,7 +331,7 @@ class Input:
                          line=l,
                          )
 
-    def __getattr__(self, item: str) -> commands.Command:
+    def __getattr__(self, item: str) -> _Command:
         """
 
         Args:
@@ -388,7 +395,7 @@ class Input:
             return list(), tuple()
         return list(filter(lambda x: reduce(lambda u, v: u or v, [isinstance(x, i) for i in items]), self._line)), items
 
-    def apply(self, f: Callable[[commands.Command], commands.Command]) -> Input:
+    def apply(self, f: Callable[[_Command], _Command]) -> Input:
         """Apply (map) a function on each command of the input sequence.
 
         The function must take a single command as unique parameter and return the (modified) command.
@@ -478,7 +485,7 @@ class Input:
                     setattr(getattr(self, _[0]), _[1], v)
         return initial_values
 
-    def index(self, obj: Union[str, commands.Command]) -> int:
+    def index(self, obj: Union[str, _Command]) -> int:
         """Index of an object in the sequence.
 
         Provides an index for a given object within a sequence.
@@ -492,15 +499,15 @@ class Input:
         Raises:
             ValueError if the object is not present in the input sequence.
         """
-        if isinstance(obj, zgoubidoo.commands.Command):
-            return self.line.index(obj) + 1 if self.beam is not None else 0
+        if isinstance(obj, _Command):
+            return self.line.index(obj)
         elif isinstance(obj, str):
             for i, e in enumerate(self.line):
                 if e.LABEL1 == obj:
-                    return i + 1 if self.beam is not None else 0
+                    return i
         raise ValueError(f"Element {obj} not found.")
 
-    def zgoubi_index(self, obj: Union[str, commands.Command]) -> int:
+    def zgoubi_index(self, obj: Union[str, _Command]) -> int:
         """Index of an object in the sequence (following Zgoubi elements numbering).
 
         Provides an index for a given object within a sequence. This index is a valid Zgoubi command numbering index
@@ -515,7 +522,7 @@ class Input:
         Raises:
             ValueError if the object is not present in the input sequence.
         """
-        return self.index(obj) + 1
+        return self.index(obj) + 3 if self.beam is not None else 1
 
     def replace(self, element, other) -> Input:
         """
@@ -554,8 +561,9 @@ class Input:
 
         """
         self.line.insert(self.index(element)+1, other)
+        return self
 
-    def remove(self, prefix: str):
+    def remove(self, prefix: str) -> Input:
         """
 
         Args:
@@ -565,6 +573,7 @@ class Input:
 
         """
         self._line = list(filter(lambda _: not (_.LABEL1 == prefix or _.LABEL1.startswith(prefix + '_')), self.line))
+        return self
 
     def get_attributes(self, attribute: str = "LABEL1") -> List[str]:
         """List a given command attribute in the input sequence.
@@ -621,7 +630,7 @@ class Input:
         return [e.KEYWORD for e in self._line]
 
     @property
-    def line(self) -> List[zgoubidoo.commands.Command]:
+    def line(self) -> Deque[_Command]:
         """
 
         Returns:
@@ -649,7 +658,7 @@ class Input:
         return self._reference_frame
 
     @property
-    def beam(self) -> Optional[zgoubidoo.commands.Beam]:
+    def beam(self) -> Optional[_Beam]:
         """
 
         Returns:
@@ -658,7 +667,7 @@ class Input:
             TODO
 
         """
-        _ = self[zgoubidoo.commands.Beam]
+        _ = self['BEAM']
         if len(_) > 1:
             raise ZgoubiInputException("Multiple beams found in input.")
         else:
@@ -721,8 +730,8 @@ class Input:
              ax=None,
              tracks=None,
              artist: zgoubidoo.vis.ZgoubiPlot = None,
-             start: Optional[Union[str, zgoubidoo.commands.Command]] = None,
-             stop: Optional[Union[str, zgoubidoo.commands.Command]] = None,
+             start: Optional[Union[str, _Command]] = None,
+             stop: Optional[Union[str, _Command]] = None,
              with_frames: bool = True,
              with_elements: bool = True,
              with_apertures: bool = False,
@@ -799,6 +808,7 @@ class Input:
                       options: Optional[dict] = None,
                       converters: Optional[dict] = None,
                       elements_database: Optional[dict] = None,
+                      with_beam: bool = True,
                       ):
         """
 
@@ -807,6 +817,7 @@ class Input:
             options:
             converters:
             elements_database:
+            with_beam:
 
         Returns:
 
@@ -816,7 +827,7 @@ class Input:
         conversion_functions = {**madx_converters, **(converters or {})}
         elements_database = elements_database or {}
         options = options or {}
-        converted_sequence: list = list(
+        converted_sequence = deque(
             sequence.apply(
                 lambda _: elements_database.get(_.name,
                                                 conversion_functions.get(_['KEYWORD'], lambda _, __, ___: None)
@@ -825,6 +836,7 @@ class Input:
                 axis=1
             ).values
         )
+        converted_sequence.appendleft(sequence.beam)
         return cls(
             name=sequence.name,
             line=list(itertools.chain.from_iterable(converted_sequence)),
@@ -851,7 +863,7 @@ class Input:
             return f.write(str(_))
 
     @staticmethod
-    def build(name: str = 'beamline', line: Optional[List[zgoubidoo.commands.Command]] = None) -> str:
+    def build(name: str = 'beamline', line: Optional[Deque[_Command]] = None) -> str:
         """Build a string representing the complete input.
 
         A string is built based on the Zgoubi serialization of all elements (commands) of the input sequence.
@@ -864,8 +876,8 @@ class Input:
             a string in a valid Zgoubi input format.
         """
         extra_end = None
-        if len(line) == 0 or not isinstance(line[-1], zgoubidoo.commands.End):
-            extra_end = [zgoubidoo.commands.End()]
+        if len(line) == 0 or not isinstance(line[-1], _End):
+            extra_end = [_End()]
         return ''.join(map(str, [name] + (line or []) + (extra_end or [])))
 
     @classmethod
@@ -891,7 +903,7 @@ class MadInput(Input):
     """File name for input data."""
 
     @staticmethod
-    def build(name: str = 'beamline', line: Optional[List[zgoubidoo.commands.Command]] = None) -> str:
+    def build(name: str = 'beamline', line: Optional[Deque[_Command]] = None) -> str:
         """Build a string representing the complete input.
 
         A string is built based on the MAD-X serialization of all elements (commands) of the input sequence.
@@ -909,7 +921,7 @@ class MadInput(Input):
         return '\n'.join(map(str, (line or []) + (extra_end or [])))
 
 
-class InputValidator:
+class ZgoubiInputValidator:
     """Validation methods for Zgoubi Input.
 
     Follows the rules as defined in the Zgoubi code and manual.

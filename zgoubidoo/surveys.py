@@ -7,7 +7,6 @@ from typing import Optional, Union
 import numpy as _np
 import pandas as _pd
 import quaternion
-import zgoubidoo.kinematics
 import zgoubidoo.zgoubi
 from .input import Input as _Input
 from .frame import Frame as _Frame
@@ -16,7 +15,7 @@ from .commands.objet import Objet2 as _Objet2
 from .commands.particules import Particule as _Particule
 from .commands.particules import ParticuleType as _ParticuleType
 from .commands.particules import Proton as _Proton
-
+from .kinematics import Kinematics as _Kinematics
 
 def clear_survey(beamline: _Input):
     """
@@ -35,7 +34,7 @@ def clear_survey(beamline: _Input):
 def survey(beamline: _Input,
            reference_frame: Optional[_Frame] = None,
            reference_particle: Optional[_Objet2] = None,
-           reference_kinematics: Optional[zgoubidoo.kinematics.Kinematics] = None,
+           reference_kinematics: Optional[_Kinematics] = None,
            output: bool = False) -> Optional[_pd.DataFrame]:
     """
     Survey a Zgoubidoo input and provides a line with all the elements being placed in space.
@@ -109,7 +108,7 @@ def survey_output(beamline: _Input) -> _pd.DataFrame:
 
 
 def survey_reference_trajectory(beamline: _Input,
-                                reference_kinematics: zgoubidoo.kinematics.Kinematics,
+                                reference_kinematics: _Kinematics,
                                 reference_particle: Optional[Union[_Particule, _ParticuleType]] = None,
                                 ):
     """
@@ -137,19 +136,16 @@ def survey_reference_trajectory(beamline: _Input,
     return beamline
 
 
-def transform_tracks(beamline: _Input, tracks: _pd.DataFrame):
+def construct_rays(tracks: _pd.DataFrame, length: float = 1.0):
     """
 
     Args:
-        beamline:
         tracks:
+        length:
+
+    Returns:
+
     """
-    tracks['X1'] = 0.0
-    tracks['Y1'] = 0.0
-    tracks['Z1'] = 0.0
-    tracks['X2'] = 0.0
-    tracks['Y2'] = 0.0
-    tracks['Z2'] = 0.0
     for label in tracks.LABEL1.unique():
         coordinates = tracks.query(f"LABEL1 == '{label}'")
 
@@ -161,20 +157,35 @@ def transform_tracks(beamline: _Input, tracks: _pd.DataFrame):
         q2 = quaternion.from_rotation_vector(_)
         q = q2 * q1
         end_points = _np.matmul(_np.linalg.inv(quaternion.as_rotation_matrix(q)), _np.array([1.0, 0.0, 0.0]))
-        tracks.loc[tracks.LABEL1 == label, 'X2'] = coordinates['X'] + end_points[:, 0]
-        tracks.loc[tracks.LABEL1 == label, 'Y2'] = coordinates['Y'] + end_points[:, 1]
-        tracks.loc[tracks.LABEL1 == label, 'Z2'] = coordinates['Z'] + end_points[:, 2]
+        tracks.loc[tracks.LABEL1 == label, 'XR'] = coordinates['X'] + length * end_points[:, 0]
+        tracks.loc[tracks.LABEL1 == label, 'YR'] = coordinates['Y'] + length * end_points[:, 1]
+        tracks.loc[tracks.LABEL1 == label, 'ZR'] = coordinates['Z'] + length * end_points[:, 2]
 
+
+def transform_tracks(beamline: _Input, tracks: _pd.DataFrame):
+    """
+
+    Args:
+        beamline:
+        tracks:
+    """
+    for label in tracks.LABEL1.unique():
         element_rotation = _np.linalg.inv(getattr(beamline, label).entry_patched.get_rotation_matrix())
-        v = _np.dot(coordinates[['X', 'Y', 'Z']].values, element_rotation)
-        origin = getattr(beamline, label).entry_patched.origin
-        tracks.loc[tracks.LABEL1 == label, 'X1'] = v[:, 0] + origin[0].m_as('m')
-        tracks.loc[tracks.LABEL1 == label, 'Y1'] = v[:, 1] + origin[1].m_as('m')
-        tracks.loc[tracks.LABEL1 == label, 'Z1'] = v[:, 2] + origin[2].m_as('m')
 
-        w = _np.dot(tracks.query(f"LABEL1 == '{label}'")[['X2', 'Y2', 'Z2']].values, element_rotation)
-        tracks.loc[tracks.LABEL1 == label, 'X2'] = w[:, 0] + origin[0].m_as('m')
-        tracks.loc[tracks.LABEL1 == label, 'Y2'] = w[:, 1] + origin[1].m_as('m')
-        tracks.loc[tracks.LABEL1 == label, 'Z2'] = w[:, 2] + origin[2].m_as('m')
-        tracks.loc[tracks.LABEL1 == label, 'T2'] = _np.arcsin(end_points[:, 1])
-        tracks.loc[tracks.LABEL1 == label, 'P2'] = _np.arcsin(end_points[:, 2])
+        # Transform (rotate and translate) all particle coordinates to the global reference frame
+        v = _np.dot(tracks.query(f"LABEL1 == '{label}'")[['X', 'Y', 'Z']].values, element_rotation)
+        origin = getattr(beamline, label).entry_patched.origin
+        tracks.loc[tracks.LABEL1 == label, 'XG'] = v[:, 0] + origin[0].m_as('m')
+        tracks.loc[tracks.LABEL1 == label, 'YG'] = v[:, 1] + origin[1].m_as('m')
+        tracks.loc[tracks.LABEL1 == label, 'ZG'] = v[:, 2] + origin[2].m_as('m')
+
+        # Transform (rotate and translate) all rays coordinates to the global reference frame
+        w = _np.dot(tracks.query(f"LABEL1 == '{label}'")[['XR', 'YR', 'ZR']].values, element_rotation)
+        tracks.loc[tracks.LABEL1 == label, 'XRG'] = w[:, 0] + origin[0].m_as('m')
+        tracks.loc[tracks.LABEL1 == label, 'YRG'] = w[:, 1] + origin[1].m_as('m')
+        tracks.loc[tracks.LABEL1 == label, 'ZRG'] = w[:, 2] + origin[2].m_as('m')
+
+        # Transform the angles in the global reference frame
+        u = w - v
+        tracks.loc[tracks.LABEL1 == label, 'TG'] = _np.arcsin(u[:, 1])
+        tracks.loc[tracks.LABEL1 == label, 'PG'] = _np.arcsin(u[:, 2])

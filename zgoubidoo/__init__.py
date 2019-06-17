@@ -72,7 +72,7 @@ from . import sequences
 from .sequences import ZgoubidooSequenceException, SequenceMetadata, Sequence, Element
 from . import vis
 from . import twiss
-from .input import Input, MadInput, InputValidator, ZgoubiInputException, ParametricMapping
+from .input import Input, MadInput, ZgoubiInputValidator, ZgoubiInputException, ParametricMapping
 from .zgoubi import Zgoubi, ZgoubiResults, ZgoubiException
 from .surveys import survey, survey_reference_trajectory, clear_survey, transform_tracks
 from .frame import Frame, ZgoubidooFrameException

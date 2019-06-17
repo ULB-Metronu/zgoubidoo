@@ -281,30 +281,43 @@ class ZgoubiResults:
                 return None
         return self._matrix
 
-    @property
-    def optics(self) -> Optional[_pd.DataFrame]:
+    def get_optics(self,
+                   force_reload: bool = False,
+                   ) -> Optional[_pd.DataFrame]:
         """
         Collects all optics data from the different Zgoubi instances in the results and concatenate them.
 
+        Args:
+            force_reload:
         Returns:
             A concatenated DataFrame with all the optics information from the previous run.
         """
-        if self._optics is None:
-            try:
-                m = list()
-                for r in self._results:
-                    try:
-                        p = r['path'].name
-                    except AttributeError:
-                        p = r['path']
-                    m.append(read_optics_file(path=p))
-                self._optics = _pd.concat(m)
-            except FileNotFoundError:
-                _logger.warning(
+        if self._optics is not None and force_reload is False:
+            return self._optics
+        try:
+            m = list()
+            for r in self._results:
+                try:
+                    p = r['path'].name
+                except AttributeError:
+                    p = r['path']
+                m.append(read_optics_file(path=p))
+            self._optics = _pd.concat(m)
+        except FileNotFoundError:
+            _logger.warning(
                     "Unable to read and load the Zgoubi OPTICS files required to collect the matrix data."
                 )
-                return None
+            return None
         return self._optics
+
+    @property
+    def optics(self) -> _pd.DataFrame:
+        """
+
+        Returns:
+
+        """
+        return self.get_optics()
 
     @property
     def results(self) -> List[Tuple[_MappedParametersType, Mapping]]:

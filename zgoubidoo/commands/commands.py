@@ -731,7 +731,7 @@ class Cible(Command):
     """Keyword of the command used for the Zgoubi input data."""
 
 
-class End(Command):
+class End(Action):
     """End of input data list.
 
     .. rubric:: Zgoubi manual description
@@ -752,7 +752,7 @@ class ESL(Command):
     """??? Field free drift space."""
 
 
-class Faisceau(Command):
+class Faisceau(Action):
     """Print coordinates.
 
     .. rubric:: Zgoubi manual description
@@ -763,7 +763,7 @@ class Faisceau(Command):
     """Keyword of the command used for the Zgoubi input data."""
 
 
-class Faiscnl(Command):
+class Faiscnl(Action):
     """Store coordinates in file.
 
     .. rubric:: Zgoubi manual description
@@ -817,7 +817,7 @@ class FaiStore(Command):
         """
 
 
-class Fin(Command):
+class Fin(Action):
     """End of input data list.
 
     The end of a problem, or of a set of several problems stacked in the data file, should be stated by means of the
@@ -832,12 +832,12 @@ class Fin(Command):
     """Keyword of the command used for the Zgoubi input data."""
 
 
-class FitType(CommandType):
+class FitType(ActionType):
     """Type for fit commands."""
     pass
 
 
-class Fit(Command, metaclass=FitType):
+class Fit(Action, metaclass=FitType):
     """Fitting procedure.
 
     TODO
