@@ -836,7 +836,8 @@ class Input:
                 axis=1
             ).values
         )
-        converted_sequence.appendleft(sequence.beam)
+        if with_beam and sequence.beam is not None:
+            converted_sequence.appendleft(sequence.beam)
         return cls(
             name=sequence.name,
             line=list(itertools.chain.from_iterable(converted_sequence)),

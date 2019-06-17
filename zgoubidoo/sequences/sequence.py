@@ -210,7 +210,7 @@ class PlacementSequence(Sequence):
             'AT_EXIT': e[3]
         }} for e in self._data])
         df.name = self.name
-        df.set_index('NAME')
+        df.set_index('NAME', inplace=True)
         return df
 
     df = property(to_df)

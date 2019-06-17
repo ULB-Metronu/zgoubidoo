@@ -96,5 +96,10 @@ Element.make_subclass('Multipole')
 Element.make_subclass('Dipole')
 Element.make_subclass('Bend')
 Element.make_subclass('RBend')
-Element.make_subclass('SBend')
+Element.make_subclass('SBend',
+                      E1=0.0 * _ureg.radian,
+                      E2=0.0 * _ureg.radian,
+                      ANGLE=0.0 * _ureg.radian,
+                      TILT=0.0 * _ureg.radian,
+                      )
 Element.make_subclass('Cavity')
