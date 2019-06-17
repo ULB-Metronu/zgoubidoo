@@ -642,16 +642,20 @@ class ChangRef(Command, _Patchable):
         c = f"""
         {super().__str__().rstrip()}
         """
+        cc = ""
         for t in self.TRANSFORMATIONS:
-            if t[0] is None or t[1] is None:
+            if t[0] is None or t[1] is None or _np.isclose(t[1].magnitude, 0.0):
                 continue
             if t[1].dimensionality == _ureg.cm.dimensionality:
-                c += f"{t[0]} {_cm(t[1])} "
+                cc += f"{t[0]} {_cm(t[1])} "
             elif t[1].dimensionality == _ureg.radian.dimensionality:
-                c += f"{t[0]} {_degree(t[1])} "
+                cc += f"{t[0]} {_degree(t[1])} "
             else:
-                raise ZgoubidooException("Incorrect dimensionality in CHANGEREF.")
-        return c
+                raise ZgoubidooException(f"Incorrect dimensionality in {self.__class__.__name__}.")
+        if cc != '':
+            return c + cc
+        else:
+            return ''
 
     @property
     def length(self) -> _Q:
