@@ -367,12 +367,12 @@ class Objet5(Objet):
         command.append(c)
         if s.NN == 1:
             c = f"""
-            {s.ALPHA_Y:.12e} {s.BETA_Y.m_as('m'):.12e} {s.ALPHA_Z:.12e} {s.BETA_Z.m_as('m'):.12e} {s.ALPHA_X:.12e} {s.BETA_X.m_as('m'):.12e} {s.D_Y.m_as('m'):.12e} {s.D_YP:.12e} {s.D_Z.m_as('m'):.12e} {s.D_ZP:.12e}
+        {s.ALPHA_Y:.12e} {s.BETA_Y.m_as('m'):.12e} {s.ALPHA_Z:.12e} {s.BETA_Z.m_as('m'):.12e} {s.ALPHA_X:.12e} {s.BETA_X.m_as('m'):.12e} {s.D_Y.m_as('m'):.12e} {s.D_YP:.12e} {s.D_Z.m_as('m'):.12e} {s.D_ZP:.12e}
             """
             command.append(c)
         elif s.NN in range(2, 99):
             c = f"""
-            {s.YR:.12e} {s.TR:.12e} {s.ZR:.12e} {s.PR:.12e} {s.XR:.12e} {s.DR:.12e}
+        {s.YR:.12e} {s.TR:.12e} {s.ZR:.12e} {s.PR:.12e} {s.XR:.12e} {s.DR:.12e}
             """
             command.append(c)
 
