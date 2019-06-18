@@ -221,32 +221,32 @@ class ZgoubiMpl(ZgoubiPlot):
 
         def do_frame():
             """Plot the coordinates of each frames of the magnet."""
-            self.plot(_cm(magnet.entry.x), _cm(magnet.entry.y), 'gv', ms=5)
-            self.plot(_cm(magnet.entry_patched.x), _cm(magnet.entry_patched.y), 'bs', ms=5)
-            self.plot(_cm(magnet.exit.x), _cm(magnet.exit.y), 'k^', ms=5)
-            self.plot(_cm(magnet.exit_patched.x), _cm(magnet.exit_patched.y), 'r>', ms=5)
+            self.plot(_m(magnet.entry.x), _m(magnet.entry.y), 'gv', ms=5)
+            self.plot(_m(magnet.entry_patched.x), _m(magnet.entry_patched.y), 'bs', ms=5)
+            self.plot(_m(magnet.exit.x), _m(magnet.exit.y), 'k^', ms=5)
+            self.plot(_m(magnet.exit_patched.x), _m(magnet.exit_patched.y), 'r>', ms=5)
 
         def do_box():
             """Plot the core of the magnet."""
             angle = -magnet.entry_patched.tx
             tr = transforms.Affine2D().rotate_deg_around(
-                _cm(magnet.entry_patched.x),
-                _cm(magnet.entry_patched.y),
+                _m(magnet.entry_patched.x),
+                _m(magnet.entry_patched.y),
                 _degree(angle)
             ) + self._ax.transData
             self._ax.add_patch(
                 patches.Rectangle(
                     (
-                        _cm(magnet.entry_patched.x),
-                        _cm(magnet.entry_patched.y - magnet.WIDTH / 2)
+                        _m(magnet.entry_patched.x),
+                        _m(magnet.entry_patched.y - magnet.WIDTH / 2)
                     ),
                     _np.linalg.norm(
                         _np.array([
-                            _cm(magnet.exit.x - magnet.entry_patched.x),
-                            _cm(magnet.exit.y - magnet.entry_patched.y)
+                            _m(magnet.exit.x - magnet.entry_patched.x),
+                            _m(magnet.exit.y - magnet.entry_patched.y)
                         ]).astype(float)
                     ),
-                    _cm(magnet.WIDTH),
+                    _m(magnet.WIDTH),
                     alpha=0.2,
                     facecolor=self._palette.get(magnet.COLOR, 'gray'),
                     edgecolor=self._palette.get(magnet.COLOR, 'gray'),
@@ -259,23 +259,23 @@ class ZgoubiMpl(ZgoubiPlot):
             """Plot the core of the magnet."""
             angle = -magnet.entry_patched.tx
             tr = transforms.Affine2D().rotate_deg_around(
-                _cm(magnet.entry_patched.x),
-                _cm(magnet.entry_patched.y),
+                _m(magnet.entry_patched.x),
+                _m(magnet.entry_patched.y),
                 _degree(angle)
             ) + self._ax.transData
             self._ax.add_patch(
                 patches.Rectangle(
                     (
-                        _cm(magnet.entry_patched.x),
-                        _cm(magnet.entry_patched.y - magnet.APERTURE_RIGHT - magnet.WIDTH)
+                        _m(magnet.entry_patched.x),
+                        _m(magnet.entry_patched.y - magnet.APERTURE_RIGHT - magnet.WIDTH)
                     ),
                     _np.linalg.norm(
                         _np.array([
-                            _cm(magnet.exit.x - magnet.entry_patched.x),
-                            _cm(magnet.exit.y - magnet.entry_patched.y)
+                            _m(magnet.exit.x - magnet.entry_patched.x),
+                            _m(magnet.exit.y - magnet.entry_patched.y)
                         ]).astype(float)
                     ),
-                    _cm(magnet.WIDTH),
+                    _m(magnet.WIDTH),
                     alpha=0.2,
                     facecolor=self._palette.get(magnet.COLOR, 'gray'),
                     edgecolor=self._palette.get(magnet.COLOR, 'gray'),
@@ -286,16 +286,16 @@ class ZgoubiMpl(ZgoubiPlot):
             self._ax.add_patch(
                 patches.Rectangle(
                     (
-                        _cm(magnet.entry_patched.x),
-                        _cm(magnet.entry_patched.y + 1 * magnet.APERTURE_LEFT)
+                        _m(magnet.entry_patched.x),
+                        _m(magnet.entry_patched.y + 1 * magnet.APERTURE_LEFT)
                     ),
                     _np.linalg.norm(
                         _np.array([
-                            _cm(magnet.exit.x - magnet.entry_patched.x),
-                            _cm(magnet.exit.y - magnet.entry_patched.y)
+                            _m(magnet.exit.x - magnet.entry_patched.x),
+                            _m(magnet.exit.y - magnet.entry_patched.y)
                         ]).astype(float)
                     ),
-                    _cm(magnet.WIDTH),
+                    _m(magnet.WIDTH),
                     alpha=0.2,
                     facecolor=self._palette.get(magnet.COLOR, 'gray'),
                     edgecolor=self._palette.get(magnet.COLOR, 'gray'),
@@ -450,8 +450,8 @@ class ZgoubiMpl(ZgoubiPlot):
             magnet: the magnet to which the tracks are attached
             tracks: a dataframe containing the tracks
         """
-        self.plot(100 * tracks['X1'],
-                  100 * tracks['Y1'],
+        self.plot(tracks['XG'],
+                  tracks['YG'],
                   '.',
                   markeredgecolor=self._tracks_color,
                   markerfacecolor=self._tracks_color,

@@ -215,6 +215,20 @@ class PlacementSequence(Sequence):
 
     df = property(to_df)
 
+    def add(self,
+            element_or_sequence: Union[_Element, Sequence]):
+        """
+
+        Args:
+            element_or_sequence:
+
+        Returns:
+
+        """
+        self.place(element_or_sequence,
+                   at_entry=0,
+                   following=self._data[-1][0])
+
     def place(self,
               element_or_sequence: Union[_Element, Sequence],
               at: Optional[_ureg.Quantity] = None,
@@ -313,6 +327,21 @@ class PlacementSequence(Sequence):
             (e, length-at_entry, length-at_center, length-at_exit) for e, at_entry, at_center, at_exit in self._data
         ]
         return self
+
+    def sort(self, reverse: bool = False) -> PlacementSequence:
+        """
+
+        Args:
+            reverse:
+
+        Returns:
+
+        """
+        self._data.sort(key=lambda e: e[2], reverse=reverse)
+        return self
+
+    def join(self, other):
+        pass
 
 
 class TwissSequence(Sequence):

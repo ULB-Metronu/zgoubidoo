@@ -151,7 +151,8 @@ class Input:
                  line: Optional[Sequence[_Command]] = None,
                  ):
         self._name: str = name
-        self._line: Deque[_Command] = line or deque()
+        line = line or list()
+        self._line: Deque[_Command] = deque(line)
         self._paths: PathsListType = list()
         self._optical_length: _Q = 0 * _ureg.m
         self._reference_frame: Optional[_Frame] = None
@@ -309,10 +310,9 @@ class Input:
                 start = self.index(items.start)
             if isinstance(items.stop, (_Command, str)):
                 end = self.index(items.stop) + 1
-            slicing = slice(start, end, items.step)
             return Input(name=f"{self._name}_sliced_from_{getattr(items.start, 'LABEL1', items.start)}"
                               f"_to_{getattr(items.stop, 'LABEL1', items.stop)}",
-                         line=self._line[slicing],
+                         line=list(itertools.islice(self._line, start, end, items.step)),
                          )
 
         else:
@@ -765,7 +765,7 @@ class Input:
                                with_elements=with_elements,
                                with_apertures=with_apertures,
                                )
-        ax.autoscale_view()
+        artist.ax.autoscale_view()
         if set_equal_aspect:
             artist.ax.set_aspect('equal', 'datalim')
         return artist
@@ -879,7 +879,7 @@ class Input:
         extra_end = None
         if len(line) == 0 or not isinstance(line[-1], _End):
             extra_end = [_End()]
-        return ''.join(map(str, [name] + (line or []) + (extra_end or [])))
+        return ''.join(map(str, [name] + (list(line) or []) + (extra_end or [])))
 
     @classmethod
     def parse(cls, stream: str, debug: bool = False) -> Input:
