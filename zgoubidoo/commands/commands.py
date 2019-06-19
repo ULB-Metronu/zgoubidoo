@@ -505,7 +505,7 @@ class Fake(Command):
     commands (e.g. fit)."""
 
     def __str__(self):
-        return self.INPUT.format(**self.OPTIONS)
+        return self.INPUT.format(**{**self.OPTIONS, **self.attributes})
 
 
 class AutoRef(Command):
