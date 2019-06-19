@@ -82,7 +82,7 @@ class MCObjet3(MCObjet):
         '{s.KEYWORD}' {s.LABEL1} {s.LABEL2}
         {s.BORO.m_as('kilogauss m'):.12e}
         3
-        {s.IMAX}
+        {int(s.IMAX):d}
         {s.KY} {s.KT} {s.KZ} {s.KP} {s.KX} {s.KD}
         {s.Y0.m_as('cm'):.12e} {s.T0.m_as('radian'):.12e} {s.Z0.m_as("cm"):.12e} {s.P0.m_as('radian'):.12e} {s.X0.m_as('cm'):.12e} {s.D0:.12e}
         {s.ALPHA_Y:.12e} {s.BETA_Y.m_as('m'):.12e} {s.EMIT_Y.m_as('m radian'):.12e} {s.N_CUTOFF_Y} {s.N_CUTOFF2_Y if s.N_CUTOFF_Y < 0 else ''} {s.DY.m_as('m'):.12e} {s.DPY:.12e}
