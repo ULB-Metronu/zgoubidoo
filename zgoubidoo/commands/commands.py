@@ -17,10 +17,8 @@ from .. import _Q
 from ..frame import Frame as _Frame
 from ..units import _radian, _degree, _m, _cm
 from ..utils import fortran_float
+from ..constants import ZGOUBI_LABEL_LENGTH as _ZGOUBI_LABEL_LENGTH
 import zgoubidoo
-
-ZGOUBI_LABEL_LENGTH: int = 10
-"""Maximum length for the Zgoubi command labels. Used to be 8 on older versions."""
 
 
 class ZgoubidooException(Exception):
@@ -188,11 +186,11 @@ class Command(metaclass=CommandType):
             if k not in self._POST_INIT:
                 setattr(self, k, v)
         if label1:
-            if len(label1) > ZGOUBI_LABEL_LENGTH:
+            if len(label1) > _ZGOUBI_LABEL_LENGTH:
                 raise ZgoubidooException(f"LABEL1 '{label1}' for element {self.KEYWORD} is too long.")
             self._attributes['LABEL1'] = label1
         if label2:
-            if len(label2) > ZGOUBI_LABEL_LENGTH:
+            if len(label2) > _ZGOUBI_LABEL_LENGTH:
                 raise ZgoubidooException(f"LABEL2 '{label2}' for element {label1} ({self.KEYWORD}) is too long.")
             self._attributes['LABEL2'] = label2
         if not self._attributes['LABEL1']:
@@ -211,7 +209,7 @@ class Command(metaclass=CommandType):
         self._attributes['LABEL1'] = '_'.join(filter(None, [
             prefix,
             str(uuid.uuid4().hex)
-        ]))[:ZGOUBI_LABEL_LENGTH]
+        ]))[:_ZGOUBI_LABEL_LENGTH]
         return self
 
     def post_init(self, **kwargs):  # -> NoReturn:
@@ -338,8 +336,8 @@ class Command(metaclass=CommandType):
     def __copy__(self):
         """Object (instance) copy operation."""
         label1 = f"{self.LABEL1}_COPY"
-        if len(label1) > ZGOUBI_LABEL_LENGTH:
-            label1 = str(uuid.uuid4().hex)[:ZGOUBI_LABEL_LENGTH]
+        if len(label1) > _ZGOUBI_LABEL_LENGTH:
+            label1 = str(uuid.uuid4().hex)[:_ZGOUBI_LABEL_LENGTH]
         return self.__class__(label1=label1, label2=self.LABEL2, **self.attributes)
 
     def __deepcopy__(self, *args):
