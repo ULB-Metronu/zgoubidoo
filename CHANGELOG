@@ -1,3 +1,6 @@
+2019.4 - What will it be?
+    - Surprise.
+
 2019.3 - Coherent support of the high-level 'sequence' API and synchrotron radiation
     - [FEATURE] A brand new 'sequence' API (see the 'sequences' module) supporting lattice description that are
     code independent. They can be automatically loaded and converted from MAD-X Twiss files onto Zgoubi or MAD-X inputs;
