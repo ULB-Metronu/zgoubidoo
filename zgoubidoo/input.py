@@ -594,7 +594,7 @@ class Input:
     labels1 = property(get_attributes)
     """Same as ``labels``."""
 
-    labels2 = property(partial(get_attributes, label='LABEL2'))
+    labels2 = property(partial(get_attributes, attribute='LABEL2'))
     """List of the LABEL2 property of each element of the input sequence."""
 
     @property

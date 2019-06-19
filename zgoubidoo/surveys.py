@@ -17,6 +17,7 @@ from .commands.particules import ParticuleType as _ParticuleType
 from .commands.particules import Proton as _Proton
 from .kinematics import Kinematics as _Kinematics
 
+
 def clear_survey(beamline: _Input):
     """
 
