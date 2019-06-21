@@ -45,6 +45,7 @@ class PlotlyArtist(Artist):
                 'linecolor': 'black',
                 'linewidth': 1,
                 'mirror': True,
+                'type': 'log',
             },
         }
         self._shapes = []

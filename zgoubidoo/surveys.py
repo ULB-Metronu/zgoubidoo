@@ -181,12 +181,13 @@ def transform_tracks(beamline: _Input, tracks: _pd.DataFrame):
         tracks.loc[tracks.LABEL1 == label, 'ZG'] = v[:, 2] + origin[2].m_as('m')
 
         # Transform (rotate and translate) all rays coordinates to the global reference frame
-        w = _np.dot(tracks.query(f"LABEL1 == '{label}'")[['XR', 'YR', 'ZR']].values, element_rotation)
-        tracks.loc[tracks.LABEL1 == label, 'XRG'] = w[:, 0] + origin[0].m_as('m')
-        tracks.loc[tracks.LABEL1 == label, 'YRG'] = w[:, 1] + origin[1].m_as('m')
-        tracks.loc[tracks.LABEL1 == label, 'ZRG'] = w[:, 2] + origin[2].m_as('m')
+        if ('XR', 'YR', 'ZR') in tracks.columns:
+            w = _np.dot(tracks.query(f"LABEL1 == '{label}'")[['XR', 'YR', 'ZR']].values, element_rotation)
+            tracks.loc[tracks.LABEL1 == label, 'XRG'] = w[:, 0] + origin[0].m_as('m')
+            tracks.loc[tracks.LABEL1 == label, 'YRG'] = w[:, 1] + origin[1].m_as('m')
+            tracks.loc[tracks.LABEL1 == label, 'ZRG'] = w[:, 2] + origin[2].m_as('m')
 
-        # Transform the angles in the global reference frame
-        u = w - v
-        tracks.loc[tracks.LABEL1 == label, 'TG'] = _np.arcsin(u[:, 1])
-        tracks.loc[tracks.LABEL1 == label, 'PG'] = _np.arcsin(u[:, 2])
+            # Transform the angles in the global reference frame
+            u = w - v
+            tracks.loc[tracks.LABEL1 == label, 'TG'] = _np.arcsin(u[:, 1])
+            tracks.loc[tracks.LABEL1 == label, 'PG'] = _np.arcsin(u[:, 2])

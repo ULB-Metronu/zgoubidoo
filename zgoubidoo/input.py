@@ -777,7 +777,7 @@ class Input:
         if beam is not None:
             b = beam(
                 kinematics=sequence.kinematics,
-                particle_name=sequence.particle,
+                particle=sequence.particle,
                 betablock=sequence.betablock
             )
             if isinstance(b, _MCObjet):
