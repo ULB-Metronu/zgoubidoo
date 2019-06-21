@@ -747,6 +747,7 @@ class Input:
                       converters: Optional[dict] = None,
                       elements_database: Optional[dict] = None,
                       beam: Optional[_BeamType] = _BeamTwiss,
+                      with_survey: bool = True,
                       ):
         """
 
@@ -756,6 +757,7 @@ class Input:
             converters:
             elements_database:
             beam:
+            with_survey:
 
         Returns:
 
@@ -786,10 +788,14 @@ class Input:
             converted_sequence.appendleft(
                 (b, )  # Note the tuple here
             )
-        return cls(
+        _ = cls(
             name=sequence.name,
             line=list(_flatten(converted_sequence)),
         )
+        _.KINEMATICS = sequence.kinematics
+        if with_survey:
+            _.survey()
+        return _
 
     @staticmethod
     def write(_: Input,
