@@ -4,17 +4,17 @@ More details here.
 TODO
 """
 
-from typing import List, Optional
+from typing import Optional
 import numpy as _np
 import parse as _parse
 import lmfit
 from .particules import ParticuleType as _ParticuleType
 from .commands import CommandType as _CommandType
-from .commands import FitType as _FitType
+from .actions import FitType as _FitType
 from .commands import Command as _Command
 from .commands import Marker as _Marker
-from .commands import Fit as _Fit
-from .commands import Fit2 as _Fit2
+from .actions import Fit as _Fit
+from .actions import Fit2 as _Fit2
 from .commands import ZgoubidooException as _ZgoubidooException
 from .objet import Objet2 as _Objet2
 from .particules import Proton as _Proton
@@ -22,7 +22,6 @@ from .. import ureg as _ureg
 from .. import _Q
 from ..zgoubi import Zgoubi as _Zgoubi
 from ..frame import Frame as _Frame
-from ..vis import ZgoubiPlot as _ZgoubiPlot
 from .patchable import Patchable as _Patchable
 from .plotable import Plotable as _Plotable
 from ..fieldmaps import FieldMap as _FieldMap
@@ -199,49 +198,6 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
                 )
         return self._exit_patched
 
-    def plot(self, artist: _ZgoubiPlot=None, apertures: bool = False):
-        """
-
-        Args:
-            artist:
-            apertures:
-
-        Returns:
-
-        """
-        if artist is None:
-            return
-        getattr(artist, CartesianMagnet.__name__.lower())(self, apertures=apertures)
-
-    def plot_cartouche(self, s_location, artist: _ZgoubiPlot):
-        """
-
-        Args:
-            s_location:
-            artist:
-
-        Returns:
-
-        """
-        getattr(artist,
-                f"cartouche_{self.__class__.__name__.lower()}",
-                getattr(artist, f"cartouche_{CartesianMagnet.__name__.lower()}")
-                )(s_location, self)
-
-    def plot_tracks(self, artist=None, tracks=None):
-        """
-
-        Args:
-            artist:
-            tracks:
-
-        Returns:
-
-        """
-        if artist is None or tracks is None:
-            return
-        getattr(artist, f"tracks_{CartesianMagnet.__name__.lower()}")(self, tracks)
-
 
 class PolarMagnetType(MagnetType):
     """Type for polar magnets."""
@@ -364,32 +320,6 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
             self._exit_patched.translate_y((self.RS or 0 * _ureg.cm) - self.radius)
             self._exit_patched.rotate_z(self.TS or 0 * _ureg.degree)
         return self._exit_patched
-
-    def plot(self, artist: _ZgoubiPlot, apertures: bool = False):
-        """
-
-        Args:
-            artist:
-            apertures
-
-        Returns:
-
-        """
-        getattr(artist, PolarMagnet.__name__.lower())(self, apertures)
-
-    def plot_tracks(self, artist=None, tracks=None):
-        """
-
-        Args:
-            artist:
-            tracks:
-
-        Returns:
-
-        """
-        if artist is None or tracks is None:
-            return
-        getattr(artist, f"tracks_{PolarMagnet.__name__.lower()}")(self, tracks)
 
     @staticmethod
     def drift_length_from_polar(radius: _Q, magnet_angle: _Q, poles_angle: _Q) -> _Q:
@@ -682,7 +612,7 @@ class Bend(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (2, "Print field and coordinates along trajectories", 1),
+        'IL': (0, "Print field and coordinates along trajectories", 1),
         'XL': (0.0 * _ureg.centimeter, "Magnet length (straight reference frame)", 10),
         'SK': (0.0 * _ureg.radian, "Skew angle", 11),
         'B1': (0.0 * _ureg.kilogauss, "Dipole field", 12),
@@ -709,7 +639,7 @@ class Bend(CartesianMagnet):
         'XCE': 0.0 * _ureg.centimeter,
         'YCE': 0.0 * _ureg.centimeter,
         'ALE': 0.0 * _ureg.radian,
-        'COLOR': 'red',
+        'COLOR': '#4169E1',
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
@@ -737,7 +667,7 @@ class Decapole(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': 2,
+        'IL': 0,
         'XL': 0 * _ureg.centimeter,
         'R0': 1.0 * _ureg.centimeter,
         'B0': 0 * _ureg.kilogauss,
@@ -846,7 +776,7 @@ class Dipole(PolarMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (2, 'Print field and coordinates along trajectories', 1),
+        'IL': (0, 'Print field and coordinates along trajectories', 1),
         'AT': (0 * _ureg.degree, 'Total angular extent of the dipole (positive value in all cases)', 2),
         'RM': (0 * _ureg.centimeter, 'Reference radius', 3),
         'ACENT': (0 * _ureg.degree, 'Azimuth for positioning of EFBs', 4),
@@ -1251,7 +1181,7 @@ class Dipoles(PolarMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (2, 'Print field and coordinates along trajectories'),
+        'IL': (0, 'Print field and coordinates along trajectories'),
         'N': (1, 'Number of magnets (maximum 5).'),
         'AT': (0 * _ureg.degree, 'Total angular extent of the N dipoles.'),
         'RM': (0 * _ureg.cm, 'Reference radius.'),
@@ -1361,7 +1291,7 @@ class Dodecapole(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': 2,
+        'IL': 0,
         'XL': 0 * _ureg.centimeter,
         'R0': 1.0 * _ureg.centimeter,
         'B0': 0 * _ureg.kilogauss,
@@ -1411,31 +1341,19 @@ class Drift(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'XL': 0 * _ureg.centimeter,
+        'IL': (0, ''),
+        'XL': (0 * _ureg.centimeter, 'Drift length'),
+        'SPLITS': (1, 'If SPLITS > 1, the drift will be split in multiple elements.'),
         'COLOR': (None, 'Color used when plotting the element.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
-    def __str__(s):
+    def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        {_cm(s.XL):.12e}
+        {_cm(self.XL):.12e} split {self.SPLITS} {self.IL}
         """
-
-    def plot(self, artist=None, apertures: bool = False):
-        """
-
-        Args:
-            artist:
-            apertures:
-
-        Returns:
-
-        """
-        if artist is None or not artist.with_drifts:
-            return
-        super().plot(artist, apertures)
 
     @classmethod
     def parse(cls, stream: str):
@@ -1445,21 +1363,6 @@ class Drift(CartesianMagnet):
         {XL_:.12e}
         """
         return _parse.parse(' '.join(template.split()), ' '.join(stream.split()))
-
-    def plot(self, artist: _ZgoubiPlot = None, apertures: bool = False):
-        """
-
-        Args:
-            artist:
-            apertures:
-
-        Returns:
-
-        """
-        if artist is None:
-            return
-        if self.COLOR is not None:
-            getattr(artist, CartesianMagnet.__name__.lower())(self, apertures)
 
 
 class Emma(CartesianMagnet):
@@ -1480,11 +1383,10 @@ class FFAG(PolarMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-            'IL': 2,
+            'IL': 0,
             'N': 1,
             'AT': 0,
             'RM': 0,
-
             'ACN': [0, ],
             'DELTA_RM': [0, ],
             'BZ0': [0, ],
@@ -1617,7 +1519,7 @@ class FFAGSpirale(PolarMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': 2,
+        'IL': 0,
         'N': 1,
         'AT': 0,
         'RM': 0,
@@ -1781,7 +1683,7 @@ class Multipole(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-            'IL': (2, 'Print field and coordinates along trajectories', 1),
+            'IL': (0, 'Print field and coordinates along trajectories', 1),
             'XL': (0 * _ureg.centimeter, 'Magnet length', 2),
             'R0': (1.0 * _ureg.meter, 'Radius of the pole tips', 3),
             'B1': (0 * _ureg.kilogauss, 'Field at pole tip for dipolar component.', 4),
@@ -1867,31 +1769,6 @@ class Multipole(CartesianMagnet):
 Multipol = Multipole
 
 
-class FakeDrift(Multipole):
-    """A fake drift (multipole with almost vanishing field) to allow plotting trajectories through drift spaces."""
-    PARAMETERS = {
-        'B1': 1e-6 * _ureg.gauss,
-        'COLOR': (None, 'Color used when plotting the element.'),
-    }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
-        commands (e.g. fit)."""
-
-    def plot(self, artist: _ZgoubiPlot = None, apertures: bool = False):
-        """
-
-        Args:
-            artist:
-            apertures:
-
-        Returns:
-
-        """
-        if artist is None:
-            return
-        if self.COLOR is not None:
-            getattr(artist, CartesianMagnet.__name__.lower())(self, apertures)
-
-
 class Octupole(CartesianMagnet):
     """Octupole magnet.
 
@@ -1901,7 +1778,7 @@ class Octupole(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-            'IL': 2,
+            'IL': 0,
             'XL': 0,
             'R0': 0,
             'B0': 0,
@@ -1975,7 +1852,7 @@ class PS170(Magnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (2, 'print field and coordinates along trajectories'),
+        'IL': (0, 'print field and coordinates along trajectories'),
         'XL': (1 * _ureg.m, 'Length of the element'),
         'R0': (1 * _ureg.m, ', radius of the circular dipole'),
         'B0': (0 * _ureg.tesla, 'field'),
@@ -2009,7 +1886,7 @@ class Quadisex(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': 2,
+        'IL': 0,
         'XL': 0,
         'R0': 0,
         'B0': 0,
@@ -2064,7 +1941,7 @@ class Quadrupole(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (2, 'Print field and coordinates along trajectories', 1),
+        'IL': (0, 'Print field and coordinates along trajectories', 1),
         'XL': (0 * _ureg.centimeter, 'Magnet length', 10),
         'R0': (1.0 * _ureg.centimeter, 'Radius of the pole tips', 11),
         'B0': (0 * _ureg.kilogauss, 'Field at pole tips', 12),
@@ -2089,7 +1966,7 @@ class Quadrupole(CartesianMagnet):
         'XCE': (0 * _ureg.centimeter, 'x offset', 71),
         'YCE': (0 * _ureg.centimeter, 'y offset', 72),
         'ALE': 0 * _ureg.radian,
-        'COLOR': ('blue', 'Magnet color for plotting.'),
+        'COLOR': ('#FF0000', 'Magnet color for plotting.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
@@ -2138,21 +2015,6 @@ class Quadrupole(CartesianMagnet):
         self.ALE = 0.0 * _ureg.radians
         return self
 
-    def plot_cartouche(self, s_location, artist: _ZgoubiPlot):
-        """
-
-        Args:
-            s_location:
-            artist:
-
-        Returns:
-
-        """
-        getattr(artist,
-                f"cartouche_{self.__class__.__name__.lower()}",
-                getattr(artist, f"cartouche_{CartesianMagnet.__name__.lower()}")
-                )(s_location, self)
-
 
 class SexQuad(CartesianMagnet):
     """Sharp edge magnetic multipole.
@@ -2163,7 +2025,7 @@ class SexQuad(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': 2,
+        'IL': 0,
         'XL': 0,
         'R0': 0,
         'N': 0,
@@ -2220,7 +2082,7 @@ class Sextupole(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': 2,
+        'IL': 0,
         'XL': 0 * _ureg.meter,
         'R0': 0,
         'B0': 0,
@@ -2296,7 +2158,7 @@ class Solenoid(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (2, 'Print field and coordinates along trajectories'),
+        'IL': (0, 'Print field and coordinates along trajectories'),
         'XL': (0 * _ureg.centimeter, 'Magnet length'),
         'R0': (1.0 * _ureg.centimeter, 'Radius'),
         'B0': (0 * _ureg.kilogauss, 'Asymptotic field'),
@@ -2340,7 +2202,7 @@ class Venus(Magnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (2, ),
+        'IL': (0, ),
         'XL': (100 * _ureg.centimeter,),
         'YL': (100 * _ureg.centimeter,),
         'B0': (10 * _ureg.kilogauss,),

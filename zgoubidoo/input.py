@@ -26,9 +26,10 @@ from . import _Q
 from .frame import Frame as _Frame
 import zgoubidoo.converters.zgoubi as _zgoubi_converters
 import zgoubidoo.commands
+from .zgoubi import Zgoubi as _Zgoubi
 from .commands.commands import ZgoubidooException as _ZgoubidooException
 from zgoubidoo.commands import Command as _Command
-from .commands.commands import End as _End
+from .commands.actions import End as _End
 from .constants import ZGOUBI_IMAX, ZGOUBI_INPUT_FILENAME
 if TYPE_CHECKING:
     import zgoubidoo.sequences
@@ -726,17 +727,25 @@ class Input:
         zgoubidoo.clear_survey(self)
         self._reference_frame = None
 
+    def execute(self):
+        """
+
+        Returns:
+
+        """
+        return _Zgoubi()(self).collect()
+
     def plot(self,
              ax=None,
              tracks=None,
-             artist: zgoubidoo.vis.ZgoubiPlot = None,
+             artist: zgoubidoo.vis.Artist = None,
              start: Optional[Union[str, _Command]] = None,
              stop: Optional[Union[str, _Command]] = None,
              with_frames: bool = True,
              with_elements: bool = True,
              with_apertures: bool = False,
              set_equal_aspect: bool = True,
-             ) -> zgoubidoo.vis.ZgoubiPlot:
+             ) -> zgoubidoo.vis.Artist:
         """Plot the input sequence.
 
         TODO

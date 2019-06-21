@@ -2,6 +2,6 @@
 
 TODO
 """
-from .zgoubiplot import ZgoubiPlot
-from .matplotlib import ZgoubiMpl
-from .beamline import beamline, cartouche
+from .artist import Artist
+from .matplotlib import MatplotlibArtist, MplArtist
+from .plotly import PlotlyArtist

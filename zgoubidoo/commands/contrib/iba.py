@@ -1305,7 +1305,7 @@ class CGTR:
 
     def plot(self,
              ax=None,
-             artist: zgoubidoo.vis.ZgoubiPlot = None,
+             artist: zgoubidoo.vis.Artist = None,
              start: Optional[Union[str, zgoubidoo.commands.Command]] = None,
              stop: Optional[Union[str, zgoubidoo.commands.Command]] = None,
              crosshair: bool = True):

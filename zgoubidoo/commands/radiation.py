@@ -6,7 +6,7 @@ TODO
 from __future__ import annotations
 from typing import TYPE_CHECKING, List, Mapping, Union
 import pandas as _pd
-from .commands import Action as _Action
+from .actions import Action as _Action
 from .. import _Q
 if TYPE_CHECKING:
     from ..input import Input as _Input

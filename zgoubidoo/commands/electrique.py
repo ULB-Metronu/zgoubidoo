@@ -6,7 +6,6 @@ from .. import ureg as _ureg
 from .commands import Command as _Command
 from .plotable import Plotable as _Plotable
 from .patchable import Patchable as _Patchable
-from ..vis.zgoubiplot import ZgoubiPlot as _ZgoubiPlot
 
 
 class Cavite(_Command, _Patchable, _Plotable):
@@ -33,20 +32,6 @@ class Cavite(_Command, _Patchable, _Plotable):
             {s.XL.m_as('m'):.12e} {s.FREQ.to('Hz').magnitude:.12e}
             {s.V.m_as('volt'):.12e} {s.PHI_S.m_as('radian'):.12e} {s.CHAMBERS}
             """
-
-    def plot_cartouche(self, s_location, artist: _ZgoubiPlot):
-        """
-
-        Args:
-            s_location:
-            artist:
-
-        Returns:
-
-        """
-        getattr(artist,
-                f"cartouche_{self.__class__.__name__.lower()}"
-                )(s_location, self)
 
 
 # Alias

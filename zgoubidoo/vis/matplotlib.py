@@ -9,12 +9,12 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import matplotlib.transforms as transforms
 from .. import ureg as _ureg
-from .zgoubiplot import ZgoubiPlot
+from .artist import Artist
 from ..units import _m, _cm, _degree, _radian
 import zgoubidoo.commands
 
 
-class ZgoubiMpl(ZgoubiPlot):
+class MatplotlibArtist(Artist):
     """A matplotlib implementation of a `ZgoubiPlot` artist."""
     def __init__(self,
                  ax=None,
@@ -480,3 +480,5 @@ class ZgoubiMpl(ZgoubiPlot):
                   markerfacecolor=self._tracks_color,
                   ms=1
                   )
+
+MplArtist = MatplotlibArtist

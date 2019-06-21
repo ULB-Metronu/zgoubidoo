@@ -312,6 +312,8 @@ class Frame:
         """
         return self._get_origin(ref)[_X]
 
+    x_ = property(_get_x)
+
     def get_x(self, ref: Optional[Frame] = None) -> _ureg.Quantity:
         """X axis offset with respect to a reference frame.
 
@@ -362,6 +364,8 @@ class Frame:
             frame.
         """
         return self._get_origin(ref)[_Y]
+
+    y_ = property(_get_y)
 
     def get_y(self, ref: Optional[Frame] = None) -> _ureg.Quantity:
         """Y axis offset with respect to a reference frame.
@@ -415,6 +419,8 @@ class Frame:
             frame.
         """
         return self._get_origin(ref)[_Z]
+
+    z_ = property(_get_z)
 
     def get_z(self, ref: Optional[Frame] = None) -> _ureg.Quantity:
         """

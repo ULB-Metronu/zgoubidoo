@@ -16,7 +16,7 @@ class WienFilter(_Command):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (2, 'Print field and coordinates along trajectories'),
+        'IL': (0, 'Print field and coordinates along trajectories'),
         'XL': (0 * _ureg.centimeter, 'Element length'),
         'E': (1.0 * _ureg.volt / _ureg.meter, 'Electric field'),
         'B': (1.0 * _ureg.tesla, 'Magnetic field'),

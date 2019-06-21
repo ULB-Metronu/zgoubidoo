@@ -35,10 +35,10 @@ class Particule(_Command, metaclass=ParticuleType):
             label1 = self.__class__.__name__.upper()
         super().__init__(label1, label2, Particule.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
-    def __str__(s) -> str:
+    def __str__(self) -> str:
         return f"""
         {super().__str__().strip()}
-        {s.M.to('MeV_c2').magnitude:.12e} {s.Q.to('coulomb').magnitude:.12e} {s.G:.12e} {s.tau:.12e} 0.0
+        {self.M.m_as('MeV_c2'):.12e} {self.Q.m_as('coulomb'):.12e} {self.G:.12e} {self.tau:.12e} 0.0
         """
 
     @property
@@ -56,8 +56,31 @@ class Particule(_Command, metaclass=ParticuleType):
         """Lifetime constant of the particle."""
         return self.tau
 
+    @property
+    def gyro(self):
+        """Gyromagnetic factor of the particle."""
+        return self.G
 
-class Electron(Particule):
+
+class NativeParticule(Particule):
+    """
+    TODO
+    """
+    PARAMETERS = {
+        'NATIVE': (True, ''),
+    }
+
+    def __str__(self) -> str:
+        if self.NATIVE:
+            return f"""
+            {_Command.__str__(self).strip()}
+            {self.__class__.__name__.upper()}
+            """
+        else:
+            return super().__str__()
+
+
+class Electron(NativeParticule):
     """An electron particle."""
     PARAMETERS = {
         'M': (0.5109989461 * _ureg.MeV_c2, 'Mass of the particle.'),
@@ -119,7 +142,7 @@ class Pion(Particule):
     }
 
 
-class Proton(Particule):
+class Proton(NativeParticule):
     """A proton particle."""
     PARAMETERS = {
         'M': (938.27203 * _ureg.MeV_c2, 'Mass of the particle.'),

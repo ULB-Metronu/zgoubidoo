@@ -1,18 +1,52 @@
-import numpy as np
-import math
-import plotly.offline as py
+"""
+TODO
+"""
+from __future__ import annotations
+from typing import TYPE_CHECKING, Optional, Mapping
+import plotly.offline
 import plotly.graph_objs as go
-from .zgoubiplot import ZgoubiPlot
+from zgoubidoo.vis import Artist
+from ..commands import Plotable as _Plotable
+from ..commands import Patchable as _Patchable
+from ..commands import Quadrupole as _Quadrupole
+from ..commands import Bend as _Bend
+if TYPE_CHECKING:
+    from ..input import Input as _Input
 
 
-class ZgoubiPlotly(ZgoubiPlot):
+class PlotlyArtist(Artist):
     """
     TODO
     """
-    def __init__(self, with_boxes=True, with_frames=True, **kwargs):
-        super().__init__(with_boxes, with_frames, **kwargs)
+
+    def __init__(self, config: Optional[Mapping] = None, **kwargs):
+        """
+
+        Args:
+            config:
+            **kwargs:
+        """
+        super().__init__(**kwargs)
         self._data = []
-        self._layout = {}
+        self._config = config or {
+            'showLink': False,
+            'scrollZoom': True,
+            'displayModeBar': False,
+            'editable': False,
+        }
+        self._layout = {
+            'xaxis': {
+                'showgrid': True,
+                'linecolor': 'black',
+                'linewidth': 1,
+                'mirror': True,
+            },
+            'yaxis': {
+                'linecolor': 'black',
+                'linewidth': 1,
+                'mirror': True,
+            },
+        }
         self._shapes = []
 
     def _init_plot(self):
@@ -20,278 +54,153 @@ class ZgoubiPlotly(ZgoubiPlot):
 
     @property
     def fig(self):
-        """TODO
+        """Provides the plotly figure."""
+        return {
+            'data': self.data,
+            'layout': self.layout,
+        }
+
+    @property
+    def config(self):
+        return self._config
+
+    @property
+    def data(self):
+        return self._data
+
+    @property
+    def layout(self):
+        self._layout['shapes'] = self._shapes
+        return self._layout
+
+    @property
+    def shapes(self):
+        return self._shapes
+
+    def __iadd__(self, other):
+        """Add a trace to the figure."""
+        self._data.append(other)
+        return self
+
+    def add_secondary_axis(self):
+        self.layout['yaxis2'] = {
+            'title': 'yaxis2 title',
+            'titlefont': dict(
+                color='rgb(148, 103, 189)'
+            ),
+            'tickfont': dict(
+                color='rgb(148, 103, 189)'
+            ),
+            'overlaying': 'y',
+            'side': 'right',
+        }
+
+    def render(self):
+        plotly.offline.iplot(self.fig, config=self.config)
+
+    def scatter(self, *args, **kwargs):
+        """A proxy for plotly.graph_objs.Scatter ."""
+        self._data.append(go.Scatter(*args, **kwargs))
+
+    def plot_cartouche(self,
+                       beamline: _Input,
+                       vertical_position: float = 1.2,
+                       ):
+        """
+
+        Args:
+            beamline:
+            vertical_position:
 
         Returns:
 
         """
-        return {
-            'data': self.data,
-            'layout': self.layout,
-        }
-
-    @property
-    def config(self):
-        return {
-            'showLink': False,
-            'scrollZoom': True,
-            'displayModeBar': True,
-            'editable': False,
-        }
-
-    @property
-    def data(self):
-        return self._data
-
-    @property
-    def layout(self):
-        return {
-            'xaxis': {
-                'range': [0, 250],
-                'showgrid': True,
-                'linecolor': 'black',
-                'linewidth': 1,
-                'mirror': True,
-            },
-            'yaxis': {
-                'range': [-75, 75],
-                'linecolor': 'black',
-                'linewidth': 1,
-                'mirror': True,
-            },
-            'shapes': self._shapes,
-        }
-
-    def __iadd__(self, other):
-        self._data.append(other)
-        return self
-
-    def render(self):
-        py.iplot(self.fig, config=self.config)
-
-    def polarmagnet(self, magnet):
-        pass
-
-    def cartesianmagnet(self, entry, sortie, rotation, width, color='gray'):
-        def do_frame():
-            pass
-
-        def do_box():
-            self._data.append(
-                go.Scatter(
-                    x=[1.5, 3],
-                    y=[2.5, 2.5],
-                    showlegend=False,
-                )
-            )
-            self._shapes.append(
-                {
-                    'type': 'rect',
-                    'xref': 'x',
-                    'yref': 'y',
-                    'x0': entry[0].to('cm').magnitude,
-                    'y0': (entry[1] - width / 2).to('cm').magnitude,
-                    'x1': sortie[0].to('cm').magnitude,
-                    'y1': (sortie[1] + width / 2).to('cm').magnitude,
-                    'line': {
-                        'color': 'rgb(55, 128, 191)',
-                        'width': 1,
-                    },
-                    'fillcolor': 'rgba(55, 128, 191, 0.6)',
+        self.shapes.append(
+            {
+                'type': 'line',
+                'xref': 'paper',
+                'yref': 'paper',
+                'x0': 0,
+                'y0': vp,
+                'x1': 1,
+                'y1': vp,
+                'line': {
+                    'color': 'rgb(150, 150, 150)',
+                    'width': 2,
                 },
-            )
-
-        if self._with_boxes:
-            do_box()
-        if self._with_frames:
-            do_frame()
-
-
-class ZgoubiPlotly3d(ZgoubiPlot):
-    def __init__(self, with_boxes=True, with_frames=True, **kwargs):
-        super().__init__(with_boxes, with_frames, **kwargs)
-        self._data = []
-        self._layout = {}
-        self._shapes = []
-
-    def _init_plot(self):
-        pass
-
-    @property
-    def fig(self):
-        return {
-            'data': self.data,
-            'layout': self.layout,
-        }
-
-    @property
-    def config(self):
-        return {
-            'showLink': False,
-            'scrollZoom': True,
-            'displayModeBar': True,
-            'editable': False,
-        }
-
-    @property
-    def data(self):
-        return self._data
-
-    @property
-    def layout(self):
-        return {
-            'xaxis': {
-                'range': [0, 250],
-                'showgrid': True,
-                'linecolor': 'black',
-                'linewidth': 1,
-                'mirror': True,
             },
-            'yaxis': {
-                'range': [-75, 75],
-                'linecolor': 'black',
-                'linewidth': 1,
-                'mirror': True,
-            },
-            'shapes': self._shapes,
-        }
-
-    def __iadd__(self, other):
-        self._data.append(other)
-        return self
-
-    def render(self):
-        py.iplot(self.fig, config=self.config)
-
-    def polarmagnet(self, magnet):
-        def build_vertices(m):
-            x = []
-            y = []
-            z = []
-            u = np.linspace(0, m.AT.to('radian').magnitude, m.AT.to('radian').magnitude*180/math.pi)
-            for elem in u:
-                x.append(m.RM.to('meter').magnitude * math.cos(elem+m.entry[5].to('radians').magnitude) + m.center[0].to('meter').magnitude)
-                y.append(m.RM.to('meter').magnitude * math.sin(elem+m.entry[5].to('radians').magnitude) + m.center[1].to('meter').magnitude)
-                z.append(0)
-
-                x.append((m.RM.to('meter').magnitude + m.WIDTH.to('meter').magnitude) * math.cos(elem+m.entry[5].to('radians').magnitude) + m.center[0].to('meter').magnitude)
-                y.append((m.RM.to('meter').magnitude + m.WIDTH.to('meter').magnitude) * math.sin(elem+m.entry[5].to('radians').magnitude) + m.center[1].to('meter').magnitude)
-                z.append(0)
-
-            for elem in u:
-                x.append(m.RM.to('meter').magnitude * math.cos(elem+m.entry[5].to('radians').magnitude) + m.center[0].to('meter').magnitude)
-                y.append(m.RM.to('meter').magnitude * math.sin(elem+m.entry[5].to('radians').magnitude) + m.center[1].to('meter').magnitude)
-                z.append(m.HEIGHT.to('meter').magnitude)
-
-                x.append((m.RM.to('meter').magnitude + m.WIDTH.to('meter').magnitude) * math.cos(elem+m.entry[5].to('radians').magnitude) + m.center[0].to('meter').magnitude)
-                y.append((m.RM.to('meter').magnitude + m.WIDTH.to('meter').magnitude) * math.sin(elem+m.entry[5].to('radians').magnitude) + m.center[1].to('meter').magnitude)
-                z.append(m.HEIGHT.to('meter').magnitude)
-
-            return x, y, z
-
-        def build_indices(x):
-            # --- Filling the arrays containing the indices of the coordinates relative to the x,y,z arrays ---
-            # {i[m],j[m],k[m]} completely define the mth vertex. i[m] = n where (x[n],y[n],z[n]) are the coordinates of the first
-            # vertex of the mth triangle. j[m] = n where (x[n],y[n],z[n]) are the coordinates of the second vertex of the mth
-            # triangle. k[m] = n where (x[n],y[n],z[n]) are the coordinates of the third vertex of the mth triangle.
-            un = []
-            deux = []
-            trois = []
-            # --- bottom face---
-            for i in range(0, int(len(x) / 2 - 2)):
-                un.append(i)
-                deux.append(i + 1)
-                trois.append(i + 2)
-            # --- top face---
-            for i in range(0, int(len(x) / 2 - 2)):
-                un.append(i + int(len(x) / 2))
-                deux.append(i + 1 + int(len(x) / 2))
-                trois.append(i + 2 + int(len(x) / 2))
-
-            # Outer lateral face
-            for i in range(0, int(len(x) / 2 - 2)):
-                if i % 2 == 0:  # even i
-                    un.append(i + int(len(x) / 2) + 1)
-                    deux.append(i + 1)
-                    trois.append(i + int(len(x) / 2) + 3)
-                else:  # odd i
-                    un.append(i)
-                    deux.append(i + int(len(x) / 2) + 2)
-                    trois.append(i + 2)
-
-            # Inner lateral face
-            for i in range(0, int(len(x) / 2 - 2)):
-                if i % 2 == 0:  # even i
-                    un.append(i + int(len(x) / 2))
-                    deux.append(i)
-                    trois.append(i + int(len(x) / 2) + 2)
-                else:  # odd i
-                    un.append(i - 1)
-                    deux.append(i + int(len(x) / 2) + 1)
-                    trois.append(i + 1)
-            # --- external face 1---
-            un.append(0)
-            deux.append(int(len(x) / 2))
-            trois.append(1)
-            un.append(1)
-            deux.append(int(len(x) / 2))
-            trois.append(int(len(x) / 2) + 1)
-            # --- external face 2---
-            un.append(int(len(x)) - 1)
-            deux.append(int(len(x)) - 2)
-            trois.append(int(len(x) / 2) - 1)
-            un.append(int(len(x) / 2) - 1)
-            deux.append(int(len(x) / 2) - 2)
-            trois.append(int(len(x)) - 2)
-
-            return un, deux, trois
-
-        x, y, z = build_vertices(magnet)
-        i, j, k = build_indices(x)
-        my_data = go.Mesh3d(
-                x=x,
-                y=y,
-                z=z,
-
-                i=i,
-                j=j,
-                k=k,
-                showscale=True,
-                opacity=0.3,
-                color=magnet.COLOR,
-            )
-        self._data.append(my_data)
-
-    def cartesianmagnet(self, entry, sortie, rotation, width, color='gray'):
-        def do_frame():
-            pass
-
-        def do_box():
-            self._data.append(
-                go.Scatter(
-                    x=[1.5, 3],
-                    y=[2.5, 2.5],
-                    showlegend=False,
-                )
-            )
-            self._shapes.append(
-                {
-                    'type': 'rect',
-                    'xref': 'x',
-                    'yref': 'y',
-                    'x0': entry[0].to('cm').magnitude,
-                    'y0': (entry[1] - width / 2).to('cm').magnitude,
-                    'x1': sortie[0].to('cm').magnitude,
-                    'y1': (sortie[1] + width / 2).to('cm').magnitude,
-                    'line': {
-                        'color': 'rgb(55, 128, 191)',
-                        'width': 1,
+        )
+        for e in beamline:
+            if not isinstance(e, _Patchable) and not isinstance(e, _Plotable):
+                continue
+            if isinstance(e, _Quadrupole):
+                self.shapes.append(
+                    {
+                        'type': 'rect',
+                        'xref': 'x',
+                        'yref': 'paper',
+                        'x0': e.entry_patched.x.m_as('m'),
+                        'y0': vertical_position if e.B0.magnitude > 0 else 1.1,
+                        'x1': e.exit.x.m_as('m'),
+                        'y1': 1.3 if e.B0.magnitude > 0 else vertical_position,
+                        'line': {
+                            'width': 0,
+                        },
+                        'fillcolor': e.COLOR,
                     },
-                    'fillcolor': 'rgba(55, 128, 191, 0.6)',
-                },
-            )
+                )
+            if isinstance(e, _Bend):
+                path = f"M{e.entry_patched.x_},1.3 " \
+                       f"H{e.exit.x_} " \
+                       f"L{e.exit.x_ - 0.1 * e.length.m_as('m')},1.1 " \
+                       f"H{e.exit.x_ - 0.9 * e.length.m_as('m')} " \
+                       f"Z"
+                path = f"M{e.entry_patched.x_},1.3 " \
+                       f"H{e.exit.x_} " \
+                       f"L{e.exit.x_ - 0.1 * e.length.m_as('m')},1.1 " \
+                       f"H{e.exit.x_ - 0.9 * e.length.m_as('m')} " \
+                       f"Z"
+                self.shapes.append(
+                    {
+                        'type': 'path',
+                        'xref': 'x',
+                        'yref': 'paper',
+                        'path': path,
+                        'line': {
+                            'width': 0,
+                        },
+                        'fillcolor': '#4169E1',
+                    },
+                )
 
-        if self._with_boxes:
-            do_box()
-        if self._with_frames:
-            do_frame()
+    def plot_beamline(self,
+                      beamline: _Input,
+                      tracks=None,
+                      tracks_color: str = 'b',
+                      with_elements: bool = True,
+                      with_apertures: bool = False,
+                      with_tracks: bool = True,
+                      ) -> None:
+        """
+        Use a `ZgoubiPlot` artist to perform the rendering of the beamline with elements and tracks.
+
+        The `Input` must be surveyed first so that all the placements are taken into account for the plotting.
+
+        Args:
+            beamline:
+            tracks: the tracks dataset
+            tracks_color: color for the rendering of the tracks
+            with_elements: plot the beamline elements
+            with_apertures:
+            with_tracks: plot the beam tracks
+        """
+        line = line[_Patchable][_Plotable].line
+        if getattr(artist, 'tracks_color'):
+            artist.tracks_color = tracks_color
+        for e in line:
+            if with_elements:
+                e.plot(artist=artist, apertures=with_apertures)
+            if not with_elements and with_apertures:
+                e.plot(artist=artist, apertures=True)
+            if tracks is not None and with_tracks:
+                e.plot_tracks(artist=artist, tracks=tracks.query(f"LABEL1 == '{e.LABEL1}'"))
