@@ -62,7 +62,21 @@ class Particule(_Command, metaclass=ParticuleType):
         return self.G
 
 
-class NativeParticule(Particule):
+class NativeParticuleType(ParticuleType):
+    """
+    TODO
+    """
+    def __str__(cls):
+        if cls.NATIVE:
+            return f"""
+        '{cls.KEYWORD}' {cls.__name__.upper()}
+        {cls.__name__.upper()}
+            """
+        else:
+            return super().__str__()
+
+
+class NativeParticule(Particule, metaclass=NativeParticuleType):
     """
     TODO
     """
@@ -73,8 +87,8 @@ class NativeParticule(Particule):
     def __str__(self) -> str:
         if self.NATIVE:
             return f"""
-            {_Command.__str__(self).strip()}
-            {self.__class__.__name__.upper()}
+        {_Command.__str__(self).strip()}
+        {self.__class__.__name__.upper()}
             """
         else:
             return super().__str__()
