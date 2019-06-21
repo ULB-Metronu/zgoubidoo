@@ -27,6 +27,11 @@ class ZgoubidooException(Exception):
         self.message = m
 
 
+class ZgoubidooAttributeException(ZgoubidooException):
+    """Exception raised for errors in the Zgoubidoo commands module."""
+    pass
+
+
 class Comment:
     """Fake comment allowing to insert comments in the Zgoubi input.
 
@@ -186,11 +191,11 @@ class Command(metaclass=CommandType):
                 setattr(self, k, v)
         if label1:
             if len(label1) > _ZGOUBI_LABEL_LENGTH:
-                raise ZgoubidooException(f"LABEL1 '{label1}' for element {self.KEYWORD} is too long.")
+                raise ZgoubidooAttributeException(f"LABEL1 '{label1}' for element {self.KEYWORD} is too long.")
             self._attributes['LABEL1'] = label1
         if label2:
             if len(label2) > _ZGOUBI_LABEL_LENGTH:
-                raise ZgoubidooException(f"LABEL2 '{label2}' for element {label1} ({self.KEYWORD}) is too long.")
+                raise ZgoubidooAttributeException(f"LABEL2 '{label2}' for element {label1} ({self.KEYWORD}) is too long.")
             self._attributes['LABEL2'] = label2
         if not self._attributes['LABEL1']:
             self.generate_label()
@@ -275,7 +280,8 @@ class Command(metaclass=CommandType):
         else:
             k_ = k.rstrip('_')
             if k_ not in self._attributes.keys():
-                raise ZgoubidooException(f"The parameter {k_} is not part of the {self.__class__.__name__} definition.")
+                raise ZgoubidooAttributeException(f"The parameter {k_} is not part of the {self.__class__.__name__} "
+                                                  f"definition.")
 
             default = self._retrieve_default_parameter_value(k_)
             try:  # Avoid a bug in pint where a string starting with '#' cannot be parsed
@@ -295,10 +301,10 @@ class Command(metaclass=CommandType):
                 dimension = _ureg.Quantity(1).dimensionality  # No dimension
             try:
                 if default is not None and dimension != _ureg.Quantity(default).dimensionality:
-                    raise ZgoubidooException(f"Invalid dimension ({dimension} "
-                                             f"instead of {_ureg.Quantity(default).dimensionality}) "
-                                             f"for parameter {k_}={v} of {self.__class__.__name__}."
-                                             )
+                    raise ZgoubidooAttributeException(f"Invalid dimension ({dimension} "
+                                                      f"instead of {_ureg.Quantity(default).dimensionality}) "
+                                                      f"for parameter {k_}={v} of {self.__class__.__name__}."
+                                                      )
             except (ValueError, TypeError, _UndefinedUnitError):
                 pass
             self._attributes[k_] = v

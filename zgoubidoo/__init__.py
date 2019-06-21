@@ -52,7 +52,7 @@ Publications
 - Coming soon.
 
 """
-__version__ = "2019.3"
+__version__ = "2019.4"
 
 # Manipulation of physical quantities (with units, etc.)
 # https://pint.readthedocs.io/en/latest/
@@ -72,7 +72,8 @@ from . import sequences
 from .sequences import ZgoubidooSequenceException, SequenceMetadata, Sequence, Element
 from . import vis
 from . import twiss
-from .input import Input, MadInput, ZgoubiInputValidator, ZgoubiInputException, ParametricMapping
+from .input import Input, MadInput, ZgoubiInputValidator, ZgoubiInputException
+from .mappings import ParametricMapping
 from .zgoubi import Zgoubi, ZgoubiResults, ZgoubiException
 from .surveys import survey, survey_reference_trajectory, clear_survey, transform_tracks
 from .frame import Frame, ZgoubidooFrameException

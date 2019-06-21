@@ -22,6 +22,9 @@ class BetaBlock(metaclass=BetaBlockType):
     disp2: float = 0.0
     disp3: float = 0.0
     disp4: float = 0.0
+    emit1: float = 1E-9
+    emit2: float = 1E-9
+    emit3: float = 1E-9
 
     def __post_init__(self):
         if self.gamma11 is None:

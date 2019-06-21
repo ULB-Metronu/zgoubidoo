@@ -54,15 +54,15 @@ class MCObjet3(MCObjet):
         'ALPHA_Y': (0.0, 'Horizontal (Y) alpha function'),
         'BETA_Y': (1.0 * _ureg.m, 'Horizontal (Y) beta function'),
         'EMIT_Y': (1e-9 * _ureg.m * _ureg.radian, 'Horizontal (Y) normalized emittance'),
-        'DY': (0.0 * _ureg.m, 'Horizontal (Y) dispersion'),
-        'DPY': (0.0, 'Horizontal (Y) dispersion prime'),
+        'D_Y': (0.0 * _ureg.m, 'Horizontal (Y) dispersion'),
+        'D_YP': (0.0, 'Horizontal (Y) dispersion prime'),
         'N_CUTOFF_Y': (10, 'Cut-off value for the horizontal distribution'),
         'N_CUTOFF2_Y': (0, 'Secondary cut-off value for the horizontal distribution'),
         'ALPHA_Z': (0.0, 'Vertical (Z) alpha function'),
         'BETA_Z': (1.0 * _ureg.m, 'Vertical (Z) beta function'),
         'EMIT_Z': (1e-9 * _ureg.m * _ureg.radian, 'Vertical (Z) normalized emittance'),
-        'DZ': (0.0 * _ureg.m, 'Vertical (Z) dispersion'),
-        'DPZ': (0.0, 'Vertical (Z) dispersion prime'),
+        'D_Z': (0.0 * _ureg.m, 'Vertical (Z) dispersion'),
+        'D_ZP': (0.0, 'Vertical (Z) dispersion prime'),
         'N_CUTOFF_Z': (10, 'Cut-off value for the vertical distribution'),
         'N_CUTOFF2_Z': (0, 'Secondary cut-off value for the vertical distribution'),
         'ALPHA_X': (0.0, 'Longitudinal (X) alpha function'),
@@ -85,8 +85,8 @@ class MCObjet3(MCObjet):
         {int(s.IMAX):d}
         {s.KY} {s.KT} {s.KZ} {s.KP} {s.KX} {s.KD}
         {s.Y0.m_as('cm'):.12e} {s.T0.m_as('radian'):.12e} {s.Z0.m_as("cm"):.12e} {s.P0.m_as('radian'):.12e} {s.X0.m_as('cm'):.12e} {s.D0:.12e}
-        {s.ALPHA_Y:.12e} {s.BETA_Y.m_as('m'):.12e} {s.EMIT_Y.m_as('m radian'):.12e} {s.N_CUTOFF_Y} {s.N_CUTOFF2_Y if s.N_CUTOFF_Y < 0 else ''} {s.DY.m_as('m'):.12e} {s.DPY:.12e}
-        {s.ALPHA_Z:.12e} {s.BETA_Z.m_as('m'):.12e} {s.EMIT_Z.m_as('m radian'):.12e} {s.N_CUTOFF_Z} {s.N_CUTOFF2_Z if s.N_CUTOFF_Z < 0 else ''} {s.DZ.m_as('m'):.12e} {s.DPZ:.12e}
+        {s.ALPHA_Y:.12e} {s.BETA_Y.m_as('m'):.12e} {s.EMIT_Y.m_as('m radian'):.12e} {s.N_CUTOFF_Y} {s.N_CUTOFF2_Y if s.N_CUTOFF_Y < 0 else ''} {s.D_Y.m_as('m'):.12e} {s.D_YP:.12e}
+        {s.ALPHA_Z:.12e} {s.BETA_Z.m_as('m'):.12e} {s.EMIT_Z.m_as('m radian'):.12e} {s.N_CUTOFF_Z} {s.N_CUTOFF2_Z if s.N_CUTOFF_Z < 0 else ''} {s.D_Z.m_as('m'):.12e} {s.D_ZP:.12e}
         {s.ALPHA_X:.12e} {s.BETA_X.m_as('m'):.12e} {s.EMIT_X.m_as('m radian'):.12e} {s.N_CUTOFF_X} {s.N_CUTOFF2_X if s.N_CUTOFF_X < 0 else ''}
         {s.I1} {s.I2} {s.I3}
     """

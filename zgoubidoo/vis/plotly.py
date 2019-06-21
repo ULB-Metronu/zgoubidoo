@@ -98,6 +98,12 @@ class PlotlyArtist(Artist):
     def render(self):
         plotly.offline.iplot(self.fig, config=self.config)
 
+    def save(self, file: str, format: str = 'png'):
+        plotly.io.write_image(self.fig, file=file, format=format)
+
+    def save_html(self, file: str):
+        return plotly.offline.plot(self.fig, config=self.config, auto_open=False, filename=file)
+
     def scatter(self, *args, **kwargs):
         """A proxy for plotly.graph_objs.Scatter ."""
         self._data.append(go.Scatter(*args, **kwargs))
@@ -121,9 +127,9 @@ class PlotlyArtist(Artist):
                 'xref': 'paper',
                 'yref': 'paper',
                 'x0': 0,
-                'y0': vp,
+                'y0': vertical_position,
                 'x1': 1,
-                'y1': vp,
+                'y1': vertical_position,
                 'line': {
                     'color': 'rgb(150, 150, 150)',
                     'width': 2,

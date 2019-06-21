@@ -1,4 +1,4 @@
-"""High-level interface for Zgoubi using sequences and beams.
+"""High-level interface for Zgoubi using sequences.
 
 """
 from __future__ import annotations
@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING, Optional, Any, List, Tuple, Mapping, Union
 from dataclasses import dataclass
 import pandas as _pd
 from ..commands import particules
-from ..commands.beam import BeamTwiss as _BeamTwiss
 from ..commands.particules import Proton as _Proton
 from ..kinematics import Kinematics as _Kinematics
 from .elements import Element as _Element
@@ -16,7 +15,6 @@ from ..output.madx import load_madx_twiss_headers, load_madx_twiss_table
 from .. import ureg as _ureg
 if TYPE_CHECKING:
     from ..commands.particules import ParticuleType as _ParticuleType
-    from ..commands.beam import Beam as _Beam
 
 __all__ = ['ZgoubidooSequenceException',
            'SequenceMetadata',
@@ -39,6 +37,9 @@ class SequenceMetadata:
     data: _pd.Series = None
     kinematics: _Kinematics = None
     particle: _ParticuleType = None
+
+    def __getitem__(self, item):
+        return self.data[item]
 
     def __post_init__(self):
         # Try to infer the particle type from the metadata
@@ -79,7 +80,6 @@ class Sequence(metaclass=SequenceType):
     def __init__(self,
                  name: str = '',
                  data=None,
-                 beam: Optional[_Beam] = None,
                  metadata: Optional[SequenceMetadata] = None,
                  element_keys: Optional[Mapping[str, str]] = None,
                  ):
@@ -88,13 +88,11 @@ class Sequence(metaclass=SequenceType):
         Args:
             name: the name of the physics
             data:
-            beam:
             metadata:
             element_keys:
         """
         self._name: str = name
         self._data: Any = data
-        self._beam: Optional[_Beam] = beam
         self._metadata = metadata or SequenceMetadata()
         self._element_keys = element_keys or {
             k: k for k in [
@@ -126,9 +124,9 @@ class Sequence(metaclass=SequenceType):
         return self.metadata.particle
 
     @property
-    def beam(self) -> _Beam:
-        """Provides the beam associated with the sequence."""
-        return self._beam
+    def betablock(self) -> _BetaBlock:
+        """TODO"""
+        return _BetaBlock()
 
     def to_df(self) -> _pd.DataFrame:
         """TODO"""
@@ -378,11 +376,6 @@ class TwissSequence(Sequence):
                          metadata=SequenceMetadata(data=twiss_headers, kinematics=k, particle=p),
                          element_keys=element_keys
                          )
-        self._beam = _BeamTwiss(
-            kinematics=k,
-            particle_name=p,
-            betablock=self.betablock
-        ),
 
     @property
     def betablock(self) -> _BetaBlock:
@@ -397,6 +390,9 @@ class TwissSequence(Sequence):
                 disp2=self.df.iloc[0]['DISP2'],
                 disp3=self.df.iloc[0]['DISP3'],
                 disp4=self.df.iloc[0]['DISP4'],
+                emit1=self.metadata['EX'],
+                emit2=self.metadata['EY'],
+                emit3=self.metadata['ET'],
             )
         except KeyError:
             try:
@@ -409,6 +405,9 @@ class TwissSequence(Sequence):
                     disp2=self.df.iloc[0]['DPX'],
                     disp3=self.df.iloc[0]['DY'],
                     disp4=self.df.iloc[0]['DPY'],
+                    emit1=self.metadata['EX'],
+                    emit2=self.metadata['EY'],
+                    emit3=self.metadata['ET'],
                 )
             except KeyError:
                 return _BetaBlock()

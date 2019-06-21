@@ -9,8 +9,7 @@ to provide a parametric mapping (combinations of the variations of one or more p
 input files.
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, Callable, Sequence, Mapping, Union, List, Tuple, Iterable, Any, Deque
-from dataclasses import dataclass, field
+from typing import TYPE_CHECKING, Optional, Callable, Sequence, Union, List, Tuple, Iterable, Any, Deque
 from collections import deque
 import itertools
 from inspect import getmembers, isfunction
@@ -30,32 +29,23 @@ from .zgoubi import Zgoubi as _Zgoubi
 from .commands.commands import ZgoubidooException as _ZgoubidooException
 from zgoubidoo.commands import Command as _Command
 from .commands.actions import End as _End
+from .commands.beam import Beam as _Beam
+from .commands.beam import BeamTwiss as _BeamTwiss
+from .commands.mcobjet import MCObjet as _MCObjet
 from .constants import ZGOUBI_IMAX, ZGOUBI_INPUT_FILENAME
+from .mappings import MappedParametersType as _MappedParametersType
+from .mappings import MappedParametersListType as _MappedParametersListType
+from .mappings import flatten as _flatten
 if TYPE_CHECKING:
     import zgoubidoo.sequences
     from zgoubidoo.commands import CommandType
-    from .commands.beam import Beam as _Beam
+    from .commands.beam import BeamType as _BeamType
     import zgoubidoo.commands.madx
 
 _logger = logging.getLogger(__name__)
 
-ParametersMappingType = Mapping[str, Sequence[Union[_Q, float]]]
-"""Type alias for a parametric mapping of string keys and values."""
-
-ParametersMappingListType = List[ParametersMappingType]
-"""Type alias for a list of parametric mappings."""
-
-MappedParametersType = Mapping[str, Union[_Q, float, str]]
-"""Type alias for a dictionnary of parametric keys and values."""
-
-MappedParametersListType = List[MappedParametersType]
-"""Type alias for a list of mapped parameters."""
-
-PathsListType = List[Tuple[MappedParametersType, Union[str, tempfile.TemporaryDirectory], bool]]
+PathsListType = List[Tuple[_MappedParametersType, Union[str, tempfile.TemporaryDirectory], bool]]
 """Type alias for a list of parametric keys and paths values."""
-
-flatten = itertools.chain.from_iterable
-"""Helper function to flatten an iterable."""
 
 
 class ZgoubiInputException(Exception):
@@ -63,67 +53,6 @@ class ZgoubiInputException(Exception):
 
     def __init__(self, m):
         self.message = m
-
-
-@dataclass
-class ParametricMapping:
-    """Abstraction for multi-dimensional parametric mappings.
-
-    Main feature is to compute the complete "cross product" of the different parameters to support multi-dimensional
-    mapping. It also accounts for "coupled" variables.
-
-    Note:
-        TODO FIX Using the special value "LABEL" for the first element of the mapping's label deactivate the sequence adjustment mechanism.
-
-    See also:
-        for implementation details, see also https://codereview.stackexchange.com/q/211121/52027 .
-
-    Examples:
-        >>> pm = ParametricMapping([{('B3G', 'B1'): [1.0, 2.0], ('B1G', 'B1'): [11.0, 12.0]}, {('B2G', 'B1'): [1.5, 2.5, 3.5]}])
-        >>> pm.combinations
-        [{('B3G', 'B1'): 1.0, ('B1G', 'B1'): 11.0, ('B2G', 'B1'): 1.5},
-         {('B3G', 'B1'): 1.0, ('B1G', 'B1'): 11.0, ('B2G', 'B1'): 2.5},
-         {('B3G', 'B1'): 1.0, ('B1G', 'B1'): 11.0, ('B2G', 'B1'): 3.5},
-         {('B3G', 'B1'): 2.0, ('B1G', 'B1'): 12.0, ('B2G', 'B1'): 1.5},
-         {('B3G', 'B1'): 2.0, ('B1G', 'B1'): 12.0, ('B2G', 'B1'): 2.5},
-         {('B3G', 'B1'): 2.0, ('B1G', 'B1'): 12.0, ('B2G', 'B1'): 3.5}]
-    """
-    mappings: ParametersMappingListType = field(default_factory=lambda: [{}])
-
-    @property
-    def labels(self) -> Tuple[str]:
-        """List of labels of the parametric mapping."""
-        return tuple(flatten(self.mappings))
-
-    @property
-    def pools(self) -> List[List[Sequence[Union[_Q, float]]]]:
-        """All combinations of values for the parametric mapping."""
-        return [list(map(tuple, zip(*arg.values()))) for arg in self.mappings]
-
-    @property
-    def combinations(self) -> MappedParametersListType:
-        """Cartesian product adapted to work with dictionaries, roughly similar to `itertools.product`.
-
-        Returns:
-            a list of the cartesian product of the mappings.
-
-        See also:
-
-            - https://docs.python.org/3/library/itertools.html#itertools.product
-            - https://codereview.stackexchange.com/q/211121/52027
-        """
-        pool_values = [flatten(term) for term in itertools.product(*self.pools)]
-        return [dict(zip(self.labels, v)) for v in pool_values] or [{}]
-
-    def __add__(self, other):
-        """TODO might need to be adapted or with iadd also ?"""
-        if len(self.labels) == 0:
-            self.mappings = other.mappings
-        elif len(other.labels) == 0:
-            return self
-        else:
-            self.mappings += other.mappings
-        return self
 
 
 class Input:
@@ -177,7 +106,7 @@ class Input:
 
     def __call__(self,
                  *,
-                 mappings: Optional[MappedParametersListType] = None,
+                 mappings: Optional[_MappedParametersListType] = None,
                  filename: str = ZGOUBI_INPUT_FILENAME,
                  path: Optional[str] = None) -> Input:
         """
@@ -194,7 +123,7 @@ class Input:
         return self
 
     def _generate(self,
-                  mappings: Optional[MappedParametersListType] = None,
+                  mappings: Optional[_MappedParametersListType] = None,
                   filename: str = ZGOUBI_INPUT_FILENAME,
                   path: Optional[str] = None,
                   ) -> PathsListType:
@@ -214,7 +143,7 @@ class Input:
         mappings = mappings or [{}]
         if len(self.beam_mappings) > 0:
             mappings = list(map(lambda _: {**_[0], **_[1]}, itertools.product(mappings, self.beam_mappings)))
-        initial_state: MappedParametersType = {}
+        initial_state: _MappedParametersType = {}
         for mapping in mappings:
             if mapping in self.mappings:  # Prevent duplicate entries but allows existing mappings to be regenerated
                 for i, p in enumerate(self._paths):
@@ -461,7 +390,7 @@ class Input:
             setattr(self[r['element_id'] - 1], r['parameter'], r['final'])
         return self
 
-    def adjust(self, mapping: MappedParametersType) -> MappedParametersType:
+    def adjust(self, mapping: _MappedParametersType) -> _MappedParametersType:
         """
 
         Args:
@@ -617,7 +546,7 @@ class Input:
         return self._paths
 
     @property
-    def mappings(self) -> List[MappedParametersType]:
+    def mappings(self) -> List[_MappedParametersType]:
         """List of mappings existing for the input sequence."""
         return [p[0] for p in self.paths]
 
@@ -668,14 +597,14 @@ class Input:
             TODO
 
         """
-        _ = self['BEAM']
+        _ = self[_Beam]
         if len(_) > 1:
             raise ZgoubiInputException("Multiple beams found in input.")
         else:
             return next(iter(_), None)
 
     @property
-    def beam_mappings(self) -> MappedParametersListType:
+    def beam_mappings(self) -> _MappedParametersListType:
         """
 
         Returns:
@@ -817,7 +746,7 @@ class Input:
                       options: Optional[dict] = None,
                       converters: Optional[dict] = None,
                       elements_database: Optional[dict] = None,
-                      with_beam: bool = True,
+                      beam: Optional[_BeamType] = _BeamTwiss,
                       ):
         """
 
@@ -826,7 +755,7 @@ class Input:
             options:
             converters:
             elements_database:
-            with_beam:
+            beam:
 
         Returns:
 
@@ -845,11 +774,21 @@ class Input:
                 axis=1
             ).values
         )
-        if with_beam and sequence.beam is not None:
-            converted_sequence.appendleft(sequence.beam)
+        if beam is not None:
+            b = beam(
+                kinematics=sequence.kinematics,
+                particle_name=sequence.particle,
+                betablock=sequence.betablock
+            )
+            if isinstance(b, _MCObjet):
+                b.EMIT_Y = sequence.betablock.emit1
+                b.EMIT_Z = sequence.betablock.emit2
+            converted_sequence.appendleft(
+                (b, )  # Note the tuple here
+            )
         return cls(
             name=sequence.name,
-            line=list(itertools.chain.from_iterable(converted_sequence)),
+            line=list(_flatten(converted_sequence)),
         )
 
     @staticmethod

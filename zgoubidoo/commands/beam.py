@@ -17,8 +17,8 @@ from zgoubidoo.commands import Objet5 as _Objet5
 from zgoubidoo.commands import MCObjet3 as _MCObjet3
 from zgoubidoo.commands import ObjetType as _ObjetType
 from zgoubidoo.kinematics import Kinematics as _Kinematics
-from ..input import ParametricMapping as _ParametricMapping
-from ..input import MappedParametersListType as _MappedParametersListType
+from ..mappings import ParametricMapping as _ParametricMapping
+from ..mappings import MappedParametersListType as _MappedParametersListType
 from .. import ureg as _ureg
 if TYPE_CHECKING:
     from ..sequences.betablock import BetaBlock as _BetaBlock
@@ -94,6 +94,16 @@ class Beam(_Command, metaclass=BeamType):
         """
         return self._objet_type(self.LABEL1, BORO=self._kinematics.brho)
 
+    def _set_from_betablock(self, betablock: _BetaBlock):
+        self.ALPHA_Y = betablock.alpha11
+        self.BETA_Y = betablock.beta11 * _ureg.m
+        self.ALPHA_Z = betablock.alpha22
+        self.BETA_Z = betablock.beta22 * _ureg.m
+        self.D_Y = betablock.disp1 * _ureg.m
+        self.D_YP = betablock.disp2
+        self.D_Z = betablock.disp3 * _ureg.m
+        self.D_ZP = betablock.disp4
+
     @classmethod
     def from_sequence(cls, sequence: _TwissSequence):
         """
@@ -122,15 +132,15 @@ class BeamZgoubiDistribution(Beam):
         'ALPHA_Y': (0.0, 'Horizontal (Y) alpha function'),
         'BETA_Y': (1.0 * _ureg.m, 'Horizontal (Y) beta function'),
         'EMIT_Y': (1e-9 * _ureg.m * _ureg.radian, 'Horizontal (Y) normalized emittance'),
-        'DY': (0.0 * _ureg.m, 'Horizontal (Y) dispersion'),
-        'DPY': (0.0, 'Horizontal (Y) dispersion prime'),
+        'D_Y': (0.0 * _ureg.m, 'Horizontal (Y) dispersion'),
+        'D_YP': (0.0, 'Horizontal (Y) dispersion prime'),
         'N_CUTOFF_Y': (10, 'Cut-off value for the horizontal distribution'),
         'N_CUTOFF2_Y': (0, 'Secondary cut-off value for the horizontal distribution'),
         'ALPHA_Z': (0.0, 'Vertical (Z) alpha function'),
         'BETA_Z': (1.0 * _ureg.m, 'Vertical (Z) beta function'),
         'EMIT_Z': (1e-9 * _ureg.m * _ureg.radian, 'Vertical (Z) normalized emittance'),
-        'DZ': (0.0 * _ureg.m, 'Vertical (Z) dispersion'),
-        'DPZ': (0.0, 'Vertical (Z) dispersion prime'),
+        'D_Z': (0.0 * _ureg.m, 'Vertical (Z) dispersion'),
+        'D_ZP': (0.0, 'Vertical (Z) dispersion prime'),
         'N_CUTOFF_Z': (10, 'Cut-off value for the vertical distribution'),
         'N_CUTOFF2_Z': (0, 'Secondary cut-off value for the vertical distribution'),
         'ALPHA_X': (0.0, 'Longitudinal (X) alpha function'),
@@ -144,6 +154,7 @@ class BeamZgoubiDistribution(Beam):
 
     def post_init(self,
                   objet_type: _ObjetType = _MCObjet3,
+                  betablock: _BetaBlock = None,
                   slices: int = 1,
                   *args,
                   **kwargs):
@@ -151,6 +162,7 @@ class BeamZgoubiDistribution(Beam):
 
         Args:
             objet_type:
+            betablock:
             slices:
             *args:
             **kwargs:
@@ -159,6 +171,8 @@ class BeamZgoubiDistribution(Beam):
 
         """
         self._slices: int = slices
+        if betablock is not None:
+            self._set_from_betablock(betablock)
 
     @property
     def slices(self):
@@ -197,13 +211,13 @@ class BeamZgoubiDistribution(Beam):
                                 KP=2,
                                 ALPHA_Y=self.ALPHA_Y,
                                 BETA_Y=self.BETA_Y,
-                                DY=self.DY,
-                                DPY=self.DPY,
+                                D_Y=self.D_Y,
+                                D_YP=self.D_YP,
                                 EMIT_Y=self.EMIT_Z,
                                 ALPHA_Z=self.ALPHA_Z,
                                 BETA_Z=self.BETA_Z,
-                                DZ=self.DZ,
-                                DPZ=self.DPZ,
+                                D_Z=self.D_Z,
+                                D_ZP=self.D_ZP,
                                 EMIT_Z=self.EMIT_Z,
                                 ALPHA_X=self.ALPHA_X,
                                 BETA_X=self.BETA_X,
@@ -571,14 +585,7 @@ class BeamTwiss(Beam):
         if sequence is not None:
             betablock = sequence.betablock
         if betablock is not None:
-            self.ALPHA_Y = betablock.alpha11
-            self.BETA_Y = betablock.beta11 * _ureg.m
-            self.ALPHA_Z = betablock.alpha22
-            self.BETA_Z = betablock.beta22 * _ureg.m
-            self.D_Y = betablock.disp1 * _ureg.m
-            self.D_YP = betablock.disp2
-            self.D_Z = betablock.disp3 * _ureg.m
-            self.D_ZP = betablock.disp4
+            self._set_from_betablock(betablock)
 
     def generate_object(self):
         """
