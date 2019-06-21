@@ -45,7 +45,7 @@ class PlotlyArtist(Artist):
                 'linecolor': 'black',
                 'linewidth': 1,
                 'mirror': True,
-                'type': 'log',
+                #'type': 'log',
             },
         }
         self._shapes = []
@@ -151,7 +151,7 @@ class PlotlyArtist(Artist):
                         'x1': e.exit.x.m_as('m'),
                         'y1': 1.3 if e.B0.magnitude > 0 else vertical_position,
                         'line': {
-                            'width': 0,
+                            'width': 1,
                         },
                         'fillcolor': e.COLOR,
                     },
@@ -174,7 +174,7 @@ class PlotlyArtist(Artist):
                         'yref': 'paper',
                         'path': path,
                         'line': {
-                            'width': 0,
+                            'width': 1,
                         },
                         'fillcolor': '#4169E1',
                     },
@@ -182,11 +182,6 @@ class PlotlyArtist(Artist):
 
     def plot_beamline(self,
                       beamline: _Input,
-                      tracks=None,
-                      tracks_color: str = 'b',
-                      with_elements: bool = True,
-                      with_apertures: bool = False,
-                      with_tracks: bool = True,
                       ) -> None:
         """
         Use a `ZgoubiPlot` artist to perform the rendering of the beamline with elements and tracks.
@@ -195,19 +190,23 @@ class PlotlyArtist(Artist):
 
         Args:
             beamline:
-            tracks: the tracks dataset
-            tracks_color: color for the rendering of the tracks
-            with_elements: plot the beamline elements
-            with_apertures:
-            with_tracks: plot the beam tracks
         """
-        line = line[_Patchable][_Plotable].line
-        if getattr(artist, 'tracks_color'):
-            artist.tracks_color = tracks_color
-        for e in line:
-            if with_elements:
-                e.plot(artist=artist, apertures=with_apertures)
-            if not with_elements and with_apertures:
-                e.plot(artist=artist, apertures=True)
-            if tracks is not None and with_tracks:
-                e.plot_tracks(artist=artist, tracks=tracks.query(f"LABEL1 == '{e.LABEL1}'"))
+        for e in beamline:
+            if not isinstance(e, _Patchable) and not isinstance(e, _Plotable):
+                continue
+            if isinstance(e, _Quadrupole):
+                self.shapes.append(
+                    {
+                        'type': 'rect',
+                        'xref': 'x',
+                        'yref': 'y',
+                        'x0': e.entry_patched.x_,
+                        'y0': e.entry_patched.y_,
+                        'x1': e.exit.x_,
+                        'y1': e.exit.y_,
+                        'line': {
+                            'width': 1,
+                        },
+                        'fillcolor': e.COLOR,
+                    },
+                )
