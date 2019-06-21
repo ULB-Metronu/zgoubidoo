@@ -80,7 +80,7 @@ class MCObjet3(MCObjet):
     def __str__(s) -> str:
         return f"""
         '{s.KEYWORD}' {s.LABEL1} {s.LABEL2}
-        {s.BORO.m_as('kilogauss m'):.12e}
+        {s.BORO.m_as('kilogauss cm'):.12e}
         3
         {int(s.IMAX):d}
         {s.KY} {s.KT} {s.KZ} {s.KP} {s.KX} {s.KD}
