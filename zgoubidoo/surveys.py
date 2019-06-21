@@ -90,6 +90,8 @@ def survey_output(beamline: _Input) -> _pd.DataFrame:
         element_exit_patched = e.exit_patched.o_
         _.append(
             {
+                'LABEL1': e.LABEL1,
+                'KEYWORD': e.KEYWORD,
                 'entry_x': element_entry[0],
                 'entry_y': element_entry[1],
                 'entry_z': element_entry[2],
