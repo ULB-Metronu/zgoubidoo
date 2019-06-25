@@ -1,6 +1,7 @@
 lmfit
 matplotlib
 mypy
+nbstripout
 numba
 numpy
 numpy-quaternion

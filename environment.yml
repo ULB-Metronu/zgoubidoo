@@ -17,6 +17,7 @@ dependencies:
   - anaconda
   - lmfit
   - mypy
+  - nbstripout
   - numpy-stl
   - parse
   - pint
