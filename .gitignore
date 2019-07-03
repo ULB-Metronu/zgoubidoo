@@ -1,4 +1,5 @@
 .idea/
+.ipynb_checkpoints/
 *.pyc
 tests/__pycache__/
 zgoubidoo/__pycache__/
