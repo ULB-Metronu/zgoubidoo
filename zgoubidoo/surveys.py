@@ -66,7 +66,7 @@ def survey(beamline: _Input,
     beamline.reset_optical_lenght()
     for e in beamline[_Patchable]:
         e.place(frame)
-        beamline.increase_optical_length(e.length)
+        #beamline.increase_optical_length(e.length) # TODO
         frame = e.exit_patched
     if output:
         return survey_output(beamline)

@@ -1343,7 +1343,7 @@ class Drift(CartesianMagnet):
     PARAMETERS = {
         'IL': (0, ''),
         'XL': (0 * _ureg.centimeter, 'Drift length'),
-        'SPLITS': (1, 'If SPLITS > 1, the drift will be split in multiple elements.'),
+        'SPLITS': (10, 'If SPLITS > 1, the drift will be split in multiple elements.'),
         'COLOR': (None, 'Color used when plotting the element.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
@@ -1352,7 +1352,7 @@ class Drift(CartesianMagnet):
     def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        {_cm(self.XL):.12e} split {self.SPLITS} {self.IL}
+        {self.XL.m_as('cm'):.12e} split {self.SPLITS} {self.IL}
         """
 
     @classmethod
@@ -1363,6 +1363,11 @@ class Drift(CartesianMagnet):
         {XL_:.12e}
         """
         return _parse.parse(' '.join(template.split()), ' '.join(stream.split()))
+
+
+class ESL(Drift):
+    """Field free drift space."""
+    pass
 
 
 class Emma(CartesianMagnet):

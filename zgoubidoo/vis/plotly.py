@@ -83,9 +83,9 @@ class PlotlyArtist(Artist):
         self._data.append(other)
         return self
 
-    def add_secondary_axis(self):
+    def add_secondary_axis(self, title: str = ''):
         self.layout['yaxis2'] = {
-            'title': 'yaxis2 title',
+            'title': title,
             'titlefont': dict(
                 color='rgb(148, 103, 189)'
             ),
@@ -108,6 +108,10 @@ class PlotlyArtist(Artist):
     def scatter(self, *args, **kwargs):
         """A proxy for plotly.graph_objs.Scatter ."""
         self._data.append(go.Scatter(*args, **kwargs))
+
+    def scatter3d(self, *args, **kwargs):
+        """A proxy for plotly.graph_objs.Scatter3d ."""
+        self._data.append(go.Scatter3d(*args, **kwargs))
 
     def plot_cartouche(self,
                        beamline: _Input,
@@ -147,9 +151,9 @@ class PlotlyArtist(Artist):
                         'xref': 'x',
                         'yref': 'paper',
                         'x0': e.entry_patched.x.m_as('m'),
-                        'y0': vertical_position if e.B0.magnitude > 0 else 1.1,
+                        'y0': vertical_position if e.B0.magnitude > 0 else vertical_position - 0.1,
                         'x1': e.exit.x.m_as('m'),
-                        'y1': 1.3 if e.B0.magnitude > 0 else vertical_position,
+                        'y1': vertical_position + 0.1 if e.B0.magnitude > 0 else vertical_position,
                         'line': {
                             'width': 1,
                         },
@@ -157,11 +161,6 @@ class PlotlyArtist(Artist):
                     },
                 )
             if isinstance(e, _Bend):
-                path = f"M{e.entry_patched.x_},1.3 " \
-                       f"H{e.exit.x_} " \
-                       f"L{e.exit.x_ - 0.1 * e.length.m_as('m')},1.1 " \
-                       f"H{e.exit.x_ - 0.9 * e.length.m_as('m')} " \
-                       f"Z"
                 path = f"M{e.entry_patched.x_},1.3 " \
                        f"H{e.exit.x_} " \
                        f"L{e.exit.x_ - 0.1 * e.length.m_as('m')},1.1 " \
@@ -208,5 +207,23 @@ class PlotlyArtist(Artist):
                             'width': 1,
                         },
                         'fillcolor': e.COLOR,
+                    },
+                )
+            if isinstance(e, _Bend):
+                path = f"M{e.entry_patched.x_},{e.entry_patched.y_} " \
+                       f"H{e.exit.x_} " \
+                       f"L{e.exit.x_ - 0.1 * e.length.m_as('m')},1.1 " \
+                       f"H{e.exit.x_ - 0.9 * e.length.m_as('m')} " \
+                       f"Z"
+                self.shapes.append(
+                    {
+                        'type': 'path',
+                        'xref': 'x',
+                        'yref': 'paper',
+                        'path': path,
+                        'line': {
+                            'width': 1,
+                        },
+                        'fillcolor': '#4169E1',
                     },
                 )

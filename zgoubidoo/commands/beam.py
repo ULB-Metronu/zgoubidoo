@@ -586,6 +586,7 @@ class BeamTwiss(Beam):
             betablock = sequence.betablock
         if betablock is not None:
             self._set_from_betablock(betablock)
+        super().post_init(objet_type=objet_type, **kwargs)
 
     def generate_object(self):
         """

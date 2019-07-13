@@ -88,14 +88,18 @@ class Element(UserDict, metaclass=ElementClass):
 
 Element.make_subclass('Marker')
 Element.make_subclass('Drift')
-Element.make_subclass('Quadrupole')
+Element.make_subclass('Quadrupole',
+                      K1L=0.0 * _ureg.m**-1
+                      )
 Element.make_subclass('Sextupole')
 Element.make_subclass('Octupole')
 Element.make_subclass('Decapole')
 Element.make_subclass('Multipole')
 Element.make_subclass('Dipole')
 Element.make_subclass('Bend')
-Element.make_subclass('RBend')
+Element.make_subclass('RBend',
+                      TILT=0.0 * _ureg.radian,
+                      )
 Element.make_subclass('SBend',
                       E1=0.0 * _ureg.radian,
                       E2=0.0 * _ureg.radian,

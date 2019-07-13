@@ -16,9 +16,9 @@ Example:
 
 """
 from __future__ import annotations
+from typing import Optional, List, NoReturn, Mapping
 import numpy as _np
 import quaternion as _quaternion
-from typing import Optional, List, NoReturn
 from . import ureg as _ureg
 from .units import _m, _radian
 
@@ -81,6 +81,7 @@ class Frame:
         self._r: Optional[Frame] = reference
         self._q: _np.quaternion = _np.quaternion(1, 0, 0, 0)
         self._o: _np.ndarray = _np.zeros(3)
+        self._cache: Mapping = dict()
 
     def __eq__(self, o: Frame) -> bool:
         """
@@ -212,13 +213,17 @@ class Frame:
             quaternion(0.996194..., 0.087155..., 0, 0)
         """
         ref = ref or self._r
+        if ref is None and self._cache.get('q'):
+            return self._cache['q']
         if self._p is ref:
-            return self._q
+            q = self._q
         elif ref is self:
-            return _np.quaternion(1, 0, 0, 0)  # Identity rotation with respect to oneself
+            q = _np.quaternion(1, 0, 0, 0)  # Identity rotation with respect to oneself
         else:
             # Caution: this one DOES NOT commute
-            return self._p.get_quaternion(ref) * self._q   # Recursion
+            q = self._p.get_quaternion(ref) * self._q   # Recursion
+        self._cache['q'] = q
+        return q
 
     quaternion = property(get_quaternion)
     q = property(get_quaternion)

@@ -77,6 +77,11 @@ class Kinematics:
         Relativistic gamma: {self.gamma}
         """
 
+    @property
+    def particule(self):
+        """Associated particle type."""
+        return self._p
+
     def to(self, quantity: str) -> Union[float, _Q]:
         """
 

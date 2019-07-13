@@ -36,7 +36,7 @@ class SequenceMetadata:
     """TODO"""
     data: _pd.Series = None
     kinematics: _Kinematics = None
-    particle: _ParticuleType = None
+    particle: _ParticuleType = _Proton
 
     def __getitem__(self, item):
         return self.data[item]
@@ -199,6 +199,15 @@ class PlacementSequence(Sequence):
         """
         super().__init__(name=name, data=data or [], metadata=metadata, element_keys=element_keys)
         self._reference_placement = reference_placement
+        self._betablock: Optional[_BetaBlock] = None
+
+    @property
+    def betablock(self) -> _BetaBlock:
+        return self._betablock
+
+    @betablock.setter
+    def betablock(self, betablock: _BetaBlock):
+        self._betablock = betablock
 
     def to_df(self) -> _pd.DataFrame:
         """TODO"""
@@ -225,7 +234,7 @@ class PlacementSequence(Sequence):
         """
         self.place(element_or_sequence,
                    at_entry=0,
-                   following=self._data[-1][0])
+                   after=self._data[-1][0])
 
     def place(self,
               element_or_sequence: Union[_Element, Sequence],
@@ -233,7 +242,8 @@ class PlacementSequence(Sequence):
               at_entry: Optional[_ureg.Quantity] = None,
               at_center: Optional[_ureg.Quantity] = None,
               at_exit: Optional[_ureg.Quantity] = None,
-              following: Optional[str] = None,
+              after: Optional[str] = None,
+              before: Optional[str] = None,
               ) -> PlacementSequence:
         """
 
@@ -243,18 +253,28 @@ class PlacementSequence(Sequence):
             at_center:
             at_entry:
             at_exit:
-            following:
+            after:
+            before:
 
         Returns:
 
         """
+        if before is not None and after is not None:
+            raise ZgoubidooSequenceException("'preceeding' and 'following' cannot be defined at the same time.")
         ats = locals()
-        if following is not None:
+        if after is not None:
             for e in self._data:
-                if e[0]['NAME'] == following:
+                if e[0]['NAME'] == after:
                     for k in ats:
                         if k.startswith('at') and ats[k] is not None:
                             ats[k] += e[3]
+        if before is not None:
+            for e in self._data:
+                if e[0]['NAME'] == before:
+                    for k in ats:
+                        if k.startswith('at') and ats[k] is not None:
+                            ats[k] *= -1
+                            ats[k] += e[1] - element_or_sequence.data['L']
         if ats['at'] is not None:
             ats[f"at_{self._reference_placement.lower()}"] = ats['at']
 
@@ -288,6 +308,76 @@ class PlacementSequence(Sequence):
         self._data.append((element_or_sequence, ats['at_entry'], ats['at_center'], ats['at_exit']))
         return self
 
+    def place_after_last(self,
+                         element_or_sequence: Union[_Element, Sequence],
+                         at: Optional[_ureg.Quantity] = None,
+                         at_entry: Optional[_ureg.Quantity] = None,
+                         at_center: Optional[_ureg.Quantity] = None,
+                         at_exit: Optional[_ureg.Quantity] = None,
+                         ) -> PlacementSequence:
+        """
+
+        Args:
+            element_or_sequence:
+            at:
+            at_center:
+            at_entry:
+            at_exit:
+
+        Returns:
+
+        """
+        self._data.sort(key=lambda _: _[1])
+        offset = self._data[-1][3]
+        if at is not None:
+            at += offset
+        if at_entry is not None:
+            at_entry += offset
+        if at_center is not None:
+            at_center += offset
+        if at_exit is not None:
+            at_exit += offset
+        return self.place(element_or_sequence=element_or_sequence,
+                          at=at,
+                          at_entry=at_entry,
+                          at_center=at_center,
+                          at_exit=at_exit)
+
+    def place_before_first(self,
+                         element_or_sequence: Union[_Element, Sequence],
+                         at: Optional[_ureg.Quantity] = None,
+                         at_entry: Optional[_ureg.Quantity] = None,
+                         at_center: Optional[_ureg.Quantity] = None,
+                         at_exit: Optional[_ureg.Quantity] = None,
+                         ) -> PlacementSequence:
+        """
+
+        Args:
+            element_or_sequence:
+            at:
+            at_center:
+            at_entry:
+            at_exit:
+
+        Returns:
+
+        """
+        self._data.sort(key=lambda _: _[1])
+        offset = self._data[0][1]
+        if at is not None:
+            at = offset - at - element_or_sequence.data['L']
+        if at_entry is not None:
+            at_entry = offset - at_entry - element_or_sequence['L']
+        if at_center is not None:
+            at_center = offset - at_center - element_or_sequence['L']
+        if at_exit is not None:
+            at_exit = offset - at_exit - element_or_sequence['L']
+        return self.place(element_or_sequence=element_or_sequence,
+                          at=at,
+                          at_entry=at_entry,
+                          at_center=at_center,
+                          at_exit=at_exit)
+
     def expand(self, drift_element: _ElementClass = _Element.Drift) -> PlacementSequence:
         """
         TODO Use namedtuples
@@ -298,12 +388,13 @@ class PlacementSequence(Sequence):
         Returns:
 
         """
+        self._data.sort(key=lambda _: _[1])
         at = 0 * _ureg.m
         expanded = []
         for e in self._data:
             length = (e[1] - at).m_as('m')
             if length > 1e-6:
-                expanded.append((drift_element(f"DRIFT_{e[0].NAME}", L=length * _ureg.m),
+                expanded.append((drift_element(f"D_{e[0].NAME}", L=length * _ureg.m),
                                  at,
                                  at + length * _ureg.m / 2,
                                  at + length * _ureg.m,

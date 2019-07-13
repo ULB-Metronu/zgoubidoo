@@ -21,8 +21,8 @@ import zgoubidoo
 from .constants import ZGOUBI_INPUT_FILENAME as _ZGOUBI_INPUT_FILENAME
 if TYPE_CHECKING:
     from .input import Input as _Input
-    from .input import MappedParametersType as _MappedParametersType
-    from .input import MappedParametersListType as _MappedParametersListType
+    from .mappings import MappedParametersType as _MappedParametersType
+    from .mappings import MappedParametersListType as _MappedParametersListType
 
 __all__ = ['ZgoubiException', 'ZgoubiResults', 'Zgoubi']
 _logger = logging.getLogger(__name__)

@@ -732,11 +732,6 @@ class Cible(Command):
     """Keyword of the command used for the Zgoubi input data."""
 
 
-class ESL(Command):
-    """??? Field free drift space."""
-    pass
-
-
 class FaiStore(Command):
     """Store coordinates at labeled elements.
 

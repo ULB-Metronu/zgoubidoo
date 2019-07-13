@@ -8,8 +8,10 @@ numpy-quaternion
 numpy-stl
 pandas
 parse
+pip
 pint
 plotly
 pyarrow
 pyyaml
 scipy
+typed-ast

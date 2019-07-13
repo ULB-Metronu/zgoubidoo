@@ -43,6 +43,22 @@ class EBMult(_Command):
     KEYWORD = 'EBMULT'
     """Keyword of the command used for the Zgoubi input data."""
 
+    PARAMETERS = {
+        'IL': (0, ""),
+        'XL': (),
+        'R0': (),
+        'E1': (),
+        'E2': (),
+        'E3': (),
+        'E4': (),
+        'E5': (),
+        'E6': (),
+        'E7': (),
+        'E8': (),
+        'E9': (),
+        'E10': (),
+    }
+
 
 # Aliases
 EBMultipole = EBMult

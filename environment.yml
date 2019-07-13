@@ -20,7 +20,9 @@ dependencies:
   - nbstripout
   - numpy-stl
   - parse
+  - pip
   - pint
   - plotly
   - pyarrow
   - quaternion
+  - typed-ast

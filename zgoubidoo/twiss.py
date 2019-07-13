@@ -275,7 +275,8 @@ def compute_twiss(matrix: pd.DataFrame,
 def align_tracks(tracks: pd.DataFrame,
                  align_on: str = 'S',
                  identifier: str = 'LET',
-                 reference_track: str = 'O') -> Tuple[np.array, pd.DataFrame]:
+                 reference_track: str = 'O',
+                 global_frame: bool = True) -> Tuple[np.array, pd.DataFrame]:
     """
     Align the tracks to obtain a homegenous array with all coordinates given at the same location.
 
@@ -287,15 +288,22 @@ def align_tracks(tracks: pd.DataFrame,
         align_on: coordinates on which the tracks are aligned (typically 'X' or 'S')
         identifier: identifier of the column used for the particles indexing
         reference_track:
+        global_frame:
 
     Returns:
         aligned data and reference data
     """
-    coordinates: list = ['Y', 'T', 'Z', 'P', 'D-1', 'Yo', 'To', 'Zo', 'Po', 'Do-1']  # Keep it in this order
+    if global_frame:
+        coordinates: list = ['YG', 'TG', 'ZG', 'PG', 'D-1', 'Yo', 'To', 'Zo', 'Po', 'Do-1']  # Keep it in this order
+    else:
+        coordinates: list = ['Y', 'T', 'Z', 'P', 'D-1', 'Yo', 'To', 'Zo', 'Po', 'Do-1']  # Keep it in this order
     particules: list = ['O', 'A', 'C', 'E', 'G', 'I', 'B', 'D', 'F', 'H', 'J']  # Keep it in this order
     assert set(particules) == set(tracks[identifier].unique()), "Required particles not found (are you using Objet5?)."
     ref: pd.DataFrame = tracks.query(f"{identifier} == '{reference_track}'")[coordinates +
-                                                                             [align_on, 'LABEL1', 'XG', 'YG', 'ZG']]
+                                                                             [align_on,
+                                                                              'LABEL1',
+                                                                              'XG' if global_frame else 'X'
+                                                                              ]]
     ref_alignment_values = ref[align_on].values
     assert np.all(np.diff(ref_alignment_values) >= 0), "The reference alignment values are not monotonously increasing"
     data = np.zeros((len(particules), ref_alignment_values.shape[0], len(coordinates)))
@@ -313,7 +321,7 @@ def align_tracks(tracks: pd.DataFrame,
     return data, ref
 
 
-def compute_transfer_matrix(beamline: _Input, tracks: pd.DataFrame) -> pd.DataFrame:
+def compute_transfer_matrix(beamline: _Input, tracks: pd.DataFrame, global_frame: bool = True) -> pd.DataFrame:
     """
     Constructs the step-by-step transfer matrix from tracking data (finite differences). The approximation
     uses the O(3) formula (not just the O(1) formula) and therefore makes use of all the 11 particles.
@@ -321,6 +329,7 @@ def compute_transfer_matrix(beamline: _Input, tracks: pd.DataFrame) -> pd.DataFr
     Args:
         beamline: the Zgoubidoo Input beamline
         tracks: tracking data
+        global_frame:
 
     Returns:
         a Panda DataFrame representing the transfer matrix
@@ -338,7 +347,7 @@ def compute_transfer_matrix(beamline: _Input, tracks: pd.DataFrame) -> pd.DataFr
         if e.LABEL1 not in elements:
             continue
         t = tracks[tracks.LABEL1 == e.LABEL1]
-        data, ref = align_tracks(t)
+        data, ref = align_tracks(t, global_frame=global_frame)
         n_dimensions: int = 5
         normalization = [2 * (data[i + 1, :, i + n_dimensions] - data[0, :, i + n_dimensions])
                          for i in range(0, n_dimensions)
@@ -357,9 +366,15 @@ def compute_transfer_matrix(beamline: _Input, tracks: pd.DataFrame) -> pd.DataFr
         else:
             m['S'] = ref['S'].values
         m['LABEL1'] = e.LABEL1
-        m['XG'] = ref['XG'].values
-        m['YG'] = ref['YG'].values
-        m['ZG'] = ref['ZG'].values
+        if global_frame:
+            m['X'] = ref['XG'].values
+            m['Y'] = ref['YG'].values
+            m['Z'] = ref['ZG'].values
+        else:
+            m['X'] = ref['X'].values
+            m['Y'] = ref['Y'].values
+            m['Z'] = ref['Z'].values
         matrix = matrix.append(m)
-    matrix['S'] += tracks['XG'].min()
+    if global_frame:
+        matrix['S'] += tracks['XG'].min()  # Global adjustment
     return matrix.reset_index()
