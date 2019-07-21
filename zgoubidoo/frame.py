@@ -50,7 +50,7 @@ class Frame:
     'quaternion-numpy' module with the base units being radians and meters. This is transparent to the public interface
     which can use arbitrary units for the representations of lengths and angles.
 
-    Frame handles quaternion rotations via `quaternion-numpy`: https://github.com/moble/quaternion .
+    `Frame` handles quaternion rotations via `quaternion-numpy`: https://github.com/moble/quaternion .
 
     >>> f1 = Frame()
     >>> f1.translate_y(10 * _ureg.cm) #doctest: +ELLIPSIS
@@ -251,13 +251,17 @@ class Frame:
             array([0., 1., 0.])
         """
         ref = ref or self._r
+        if ref is None and self._cache.get('o') is not None:
+            return self._cache['o']
         if self._p is ref:
             return self._o
         elif ref is self:
             return _np.zeros(3)  # Identity translation with respect to oneself
         else:
             m = _quaternion.as_rotation_matrix(self.get_quaternion(ref))
-            return self._p._get_origin(ref) + _np.matmul(m, self._o)
+            o = self._p._get_origin(ref) + _np.matmul(m, self._o)
+        self._cache['o'] = o
+        return o
 
     o_ = property(_get_origin)
     origin_ = property(_get_origin)

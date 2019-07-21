@@ -22,7 +22,7 @@ import numpy as np
 import pandas as pd
 from .commands import PolarMagnet as _PolarMagnet
 from .input import Input as _Input
-from .sequences.betablock import BetaBlock as _BetaBlock
+from georges_core.sequences import BetaBlock as _BetaBlock
 import zgoubidoo
 
 

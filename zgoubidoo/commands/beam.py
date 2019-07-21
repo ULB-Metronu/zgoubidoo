@@ -7,7 +7,7 @@ import os
 from random import randint
 import numpy as np
 import pandas as pd
-from zgoubidoo import _Q
+from zgoubidoo import Q_ as _Q
 from zgoubidoo.commands import CommandType as _CommandType
 from zgoubidoo.commands import Command as _Command
 from zgoubidoo.commands import Comment as _Comment
@@ -16,13 +16,13 @@ from zgoubidoo.commands import Proton as _Proton
 from zgoubidoo.commands import Objet5 as _Objet5
 from zgoubidoo.commands import MCObjet3 as _MCObjet3
 from zgoubidoo.commands import ObjetType as _ObjetType
-from zgoubidoo.kinematics import Kinematics as _Kinematics
+from .. import Kinematics as _Kinematics
 from ..mappings import ParametricMapping as _ParametricMapping
 from ..mappings import MappedParametersListType as _MappedParametersListType
 from .. import ureg as _ureg
 if TYPE_CHECKING:
-    from ..sequences.betablock import BetaBlock as _BetaBlock
-    from ..sequences.sequence import TwissSequence as _TwissSequence
+    from georges.sequences import BetaBlock as _BetaBlock
+    from georges.sequences import TwissSequence as _TwissSequence
 
 
 class ZgoubidooBeamException(Exception):

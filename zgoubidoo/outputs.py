@@ -1,11 +1,12 @@
 """TODO
 
 """
+from typing import List
 import os
-import pandas as pd
+import pandas as _pd
 
 
-def read_fai_file(filename: str = 'zgoubi.fai', path: str = '.') -> pd.DataFrame:
+def read_fai_file(filename: str = 'zgoubi.fai', path: str = '.') -> _pd.DataFrame:
     """Function to read Zgoubi .fai files.
 
     Reads the content of a Zgoubi .fai file ('faisceau', 'beam' file) and formats it as a valid Pandas DataFrame with
@@ -27,7 +28,7 @@ def read_fai_file(filename: str = 'zgoubi.fai', path: str = '.') -> pd.DataFrame
     # Header line from the Zgoubi .fai file
     with open(os.path.join(path, filename)) as file:
         headers = list(map(lambda s: s.strip(' '), file.read().split('\n')[2].split(',')))
-    return pd.read_csv(os.path.join(path, filename),
+    return _pd.read_csv(os.path.join(path, filename),
                        skiprows=4,
                        names=headers,
                        sep=r'\s+',
@@ -36,7 +37,7 @@ def read_fai_file(filename: str = 'zgoubi.fai', path: str = '.') -> pd.DataFrame
                        )
 
 
-def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> pd.DataFrame:
+def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> _pd.DataFrame:
     """Function to read Zgoubi .plt files.
 
     Reads the content of a Zgoubi .plt file ('plot' file) and formats it as a valid Pandas DataFrame with headers.
@@ -68,13 +69,13 @@ def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> pd.DataFrame
     # Header line from the Zgoubi .plt file
     with open(os.path.join(path, filename)) as file:
         headers = list(map(lambda s: s.strip(' '), file.read().split('\n')[2].split(',')))
-    df = pd.read_csv(os.path.join(path, filename),
-                     skiprows=4,
-                     names=headers,
-                     sep=r'\s+',
-                     skipinitialspace=True,
-                     quotechar='\''
-                     )
+    df = _pd.read_csv(os.path.join(path, filename),
+                      skiprows=4,
+                      names=headers,
+                      sep=r'\s+',
+                      skipinitialspace=True,
+                      quotechar='\''
+                      )
     df['LABEL1'] = df['LABEL1'].map(lambda x: x.strip())
     df['X'] *= 1e-2
     df['S'] *= 1e-2
@@ -95,7 +96,7 @@ def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> pd.DataFrame
     return df
 
 
-def read_srloss_file(filename: str = 'zgoubi.SRLOSS.out', path: str = '.') -> pd.DataFrame:
+def read_srloss_file(filename: str = 'zgoubi.SRLOSS.out', path: str = '.') -> _pd.DataFrame:
     """Read Zgoubi SRLOSS files to a DataFrame.
 
     Reads the content of a Zgoubi SRLOSS (synchrotron radiation losses) file (produced with SRPrint) and formats it as a
@@ -114,7 +115,7 @@ def read_srloss_file(filename: str = 'zgoubi.SRLOSS.out', path: str = '.') -> pd
     Raises:
         a FileNotFoundException in case the file is not found.
     """
-    headers = [
+    headers: List[str] = [
         'KLE',
         'LABEL1',
         'LABEL2',
@@ -157,18 +158,18 @@ def read_srloss_file(filename: str = 'zgoubi.SRLOSS.out', path: str = '.') -> pd
         'E_RMS_PHOTON',
     ]
 
-    df = pd.read_csv(os.path.join(path, filename),
-                     skiprows=4,
-                     names=headers,
-                     sep=r'\s+',
-                     skipinitialspace=True,
-                     quotechar='\''
-                     )
+    df = _pd.read_csv(os.path.join(path, filename),
+                      skiprows=4,
+                      names=headers,
+                      sep=r'\s+',
+                      skipinitialspace=True,
+                      quotechar='\''
+                      )
 
     return df
 
 
-def read_srloss_steps_file(filename: str = 'zgoubi.SRLOSS.STEPS.out', path: str = '.') -> pd.DataFrame:
+def read_srloss_steps_file(filename: str = 'zgoubi.SRLOSS.STEPS.out', path: str = '.') -> _pd.DataFrame:
     """Read Zgoubi SRLOSS STEPS files to a DataFrame.
 
     Reads the content of a Zgoubi SRLOSS STEPS (synchrotron radiation losses for each integration steps) file
@@ -187,7 +188,7 @@ def read_srloss_steps_file(filename: str = 'zgoubi.SRLOSS.STEPS.out', path: str 
     Raises:
         a FileNotFoundException in case the file is not found.
     """
-    headers = [
+    headers: List[str] = [
         'LABEL1',
         'NOEL',
         'IT',
@@ -201,13 +202,13 @@ def read_srloss_steps_file(filename: str = 'zgoubi.SRLOSS.STEPS.out', path: str 
         'P',
     ]
 
-    df = pd.read_csv(os.path.join(path, filename),
-                     skiprows=0,
-                     names=headers,
-                     sep=r'\s+',
-                     skipinitialspace=False,
-                     quotechar='\''
-                     )
+    df = _pd.read_csv(os.path.join(path, filename),
+                      skiprows=0,
+                      names=headers,
+                      sep=r'\s+',
+                      skipinitialspace=False,
+                      quotechar='\''
+                      )
     df['S'] *= 1e-2
     df['X'] *= 1e-2
     df['Y'] *= 1e-2
@@ -216,7 +217,7 @@ def read_srloss_steps_file(filename: str = 'zgoubi.SRLOSS.STEPS.out', path: str 
     return df
 
 
-def read_matrix_file(filename: str = 'zgoubi.MATRIX.out', path: str = '.') -> pd.DataFrame:
+def read_matrix_file(filename: str = 'zgoubi.MATRIX.out', path: str = '.') -> _pd.DataFrame:
     """Read Zgoubi MATRIX files to a DataFrame.
 
     Reads the content of a Zgoubi matrix file (output from a Twiss command) and formats it as a valid Pandas
@@ -239,7 +240,7 @@ def read_matrix_file(filename: str = 'zgoubi.MATRIX.out', path: str = '.') -> pd
         a FileNotFoundError in case the file is not found.
     """
     # Cleaned up header lines
-    headers = [
+    headers: List[str] = [
         'R11', 'R12', 'R13', 'R14', 'R15', 'R16',
         'R21', 'R22', 'R23', 'R24', 'R25', 'R26',
         'R31', 'R32', 'R33', 'R34', 'R35', 'R36',
@@ -261,13 +262,13 @@ def read_matrix_file(filename: str = 'zgoubi.MATRIX.out', path: str = '.') -> pd
         'ALE'
     ]
 
-    df = pd.read_csv(os.path.join(path, filename),
-                     skiprows=2,
-                     names=headers,
-                     sep=r'\s+',
-                     skipinitialspace=True,
-                     quotechar='\''
-                     )
+    df = _pd.read_csv(os.path.join(path, filename),
+                      skiprows=2,
+                      names=headers,
+                      sep=r'\s+',
+                      skipinitialspace=True,
+                      quotechar='\''
+                      )
 
     df['ALPHA11'] = df['ALFY']
     df['BETA11'] = df['BETY']
@@ -279,7 +280,7 @@ def read_matrix_file(filename: str = 'zgoubi.MATRIX.out', path: str = '.') -> pd
     return df
 
 
-def read_optics_file(filename: str = 'zgoubi.OPTICS.out', path: str = '.') -> pd.DataFrame:
+def read_optics_file(filename: str = 'zgoubi.OPTICS.out', path: str = '.') -> _pd.DataFrame:
     """Read Zgoubi OPTICS files to a DataFrame.
 
     Reads the content of a Zgoubi optics file (output from a Optics) and formats it as a valid Pandas
@@ -302,7 +303,7 @@ def read_optics_file(filename: str = 'zgoubi.OPTICS.out', path: str = '.') -> pd
         a FileNotFoundError in case the file is not found.
     """
     # Cleaned up header lines
-    headers = [
+    headers: List[str] = [
         'ALPHA11', 'BETA11', 'ALPHA22', 'BETA22', 'ALPHA33', 'BETA33',
         'DISP1', 'DISP2', 'DISP3', 'DISP4',
         'MU1', 'MU2',
@@ -312,11 +313,11 @@ def read_optics_file(filename: str = 'zgoubi.OPTICS.out', path: str = '.') -> pd
         'R11', 'R12', 'R21', 'R22', 'R33', 'R34', 'R43', 'R44', 'R51', 'R52', 'R53', 'R54', 'R56',
         'UNKNOWN1', 'UNKNOWN2', 'UNKNOWN3', 'UNKWOWN4', 'UNKNOWN5', 'UNKNOWN6', 'UNKNOWN7'
     ]
-    df = pd.read_csv(os.path.join(path, filename),
-                     skiprows=3,
-                     names=headers,
-                     sep=r'\s+',
-                     skipinitialspace=True,
-                     quotechar='\''
-                     )
+    df = _pd.read_csv(os.path.join(path, filename),
+                      skiprows=3,
+                      names=headers,
+                      sep=r'\s+',
+                      skipinitialspace=True,
+                      quotechar='\''
+                      )
     return df

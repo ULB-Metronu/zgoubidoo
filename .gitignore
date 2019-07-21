@@ -1,5 +1,6 @@
 .idea/
 *.pyc
+.DS_Store
 tests/__pycache__/
 zgoubidoo/__pycache__/
 zgoubidoo/commands/__pycache__/

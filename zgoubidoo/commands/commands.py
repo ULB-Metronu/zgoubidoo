@@ -4,7 +4,7 @@ Commands controlling Zgoubi's control flow, geometry, tracking options, etc.
 TODO
 """
 from __future__ import annotations
-from typing import Any, Tuple, Dict, Mapping, List, Union, Iterable
+from typing import Any, Tuple, Dict, Mapping, List, Union
 import inspect
 import uuid
 import numpy as _np
@@ -13,7 +13,7 @@ import parse as _parse
 from pint import UndefinedUnitError as _UndefinedUnitError
 from .patchable import Patchable as _Patchable
 from .. import ureg as _ureg
-from .. import _Q
+from .. import Q_ as _Q
 from ..frame import Frame as _Frame
 from ..units import _radian, _degree, _m, _cm
 from ..constants import ZGOUBI_LABEL_LENGTH as _ZGOUBI_LABEL_LENGTH

@@ -54,28 +54,42 @@ Publications
 """
 __version__ = "2019.4"
 
-# Manipulation of physical quantities (with units, etc.)
-# https://pint.readthedocs.io/en/latest/
-from pint import UnitRegistry
-ureg = UnitRegistry()
-_Q = ureg.Quantity
-ureg.define('electronvolt = e * volt = eV')
-ureg.define('electronvolt_per_c = eV / c = eV_c')
-ureg.define('electronvolt_per_c2 = eV / c**2 = eV_c2')
+try:
+    from georges_core import ureg, Q_
+except ModuleNotFoundError:
+    # TODO error handling
+    # Manipulation of physical quantities (with units, etc.)
+    # https://pint.readthedocs.io/en/latest/
+    from pint import UnitRegistry
+    ureg = UnitRegistry()
+    _Q = ureg.Quantity
+    ureg.define('electronvolt = e * volt = eV')
+    ureg.define('electronvolt_per_c = eV / c = eV_c')
+    ureg.define('electronvolt_per_c2 = eV / c**2 = eV_c2')
+
+try:
+    from georges_core import sequences
+except ModuleNotFoundError:
+    # TODO error handling
+    pass
+
+try:
+    from georges_core import Kinematics, ZgoubiKinematicsException
+except ModuleNotFoundError:
+    # TODO error handling
+    pass
 
 from . import commands
 from . import converters
 from . import fieldmaps
-from . import output
 from . import physics
-from . import sequences
-from .sequences import ZgoubidooSequenceException, SequenceMetadata, Sequence, Element
 from . import vis
 from . import twiss
-from .input import Input, MadInput, ZgoubiInputValidator, ZgoubiInputException
-from .mappings import ParametricMapping
+from .input import Input, ZgoubiInputValidator, ZgoubiInputException
+from .outputs import read_fai_file, read_matrix_file, read_optics_file, read_plt_file, read_srloss_file, \
+    read_srloss_steps_file
+from .mappings import ParametricMapping, ParametersMappingType
 from .zgoubi import Zgoubi, ZgoubiResults, ZgoubiException
-from .surveys import survey, survey_reference_trajectory, clear_survey, transform_tracks
+from .surveys import survey, clear_survey, transform_tracks
 from .frame import Frame, ZgoubidooFrameException
 from .polarity import HorizontalPolarity, VerticalPolarity
-from .kinematics import ZgoubiKinematicsException, Kinematics

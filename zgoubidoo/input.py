@@ -21,9 +21,9 @@ import os
 import pandas as _pd
 import parse as _parse
 from . import ureg as _ureg
-from . import _Q
+from . import Q_ as _Q
 from .frame import Frame as _Frame
-import zgoubidoo.converters.zgoubi as _zgoubi_converters
+import zgoubidoo.converters as _zgoubi_converters
 import zgoubidoo.commands
 from .zgoubi import Zgoubi as _Zgoubi
 from .commands.commands import ZgoubidooException as _ZgoubidooException
@@ -37,7 +37,7 @@ from .mappings import MappedParametersType as _MappedParametersType
 from .mappings import MappedParametersListType as _MappedParametersListType
 from .mappings import flatten as _flatten
 if TYPE_CHECKING:
-    import zgoubidoo.sequences
+    import georges.sequences
     from zgoubidoo.commands import CommandType
     from .commands.beam import BeamType as _BeamType
     import zgoubidoo.commands.madx
@@ -742,7 +742,7 @@ class Input:
 
     @classmethod
     def from_sequence(cls,
-                      sequence: zgoubidoo.sequences.Sequence,
+                      sequence: georges.sequences.Sequence,
                       options: Optional[dict] = None,
                       converters: Optional[dict] = None,
                       elements_database: Optional[dict] = None,
@@ -850,30 +850,6 @@ class Input:
             line=[getattr(zgoubidoo.commands, _parse.search("'{KEYWORD}'", c)['KEYWORD'].capitalize()).build(c, debug)
                   for c in "\n".join([_.strip() for _ in stream.split('\n')]).strip('\n').split('\n\n')]
         )
-
-
-class MadInput(Input):
-    """MAD-X input sequence with correct grammer."""
-    ZGOUBI_INPUT_FILENAME: str = 'input.mad'
-    """File name for input data."""
-
-    @staticmethod
-    def build(name: str = 'beamline', line: Optional[Deque[_Command]] = None) -> str:
-        """Build a string representing the complete input.
-
-        A string is built based on the MAD-X serialization of all elements (commands) of the input sequence.
-
-        Args:
-            name: the name of the resulting Zgoubi input.
-            line: the input sequence.
-
-        Returns:
-            a string in a valid Zgoubi input format.
-        """
-        extra_end = None
-        if len(line) == 0 or not isinstance(line[-1], zgoubidoo.commands.madx.Stop):
-            extra_end = [zgoubidoo.commands.madx.Stop()]
-        return '\n'.join(map(str, (line or []) + (extra_end or [])))
 
 
 class ZgoubiInputValidator:

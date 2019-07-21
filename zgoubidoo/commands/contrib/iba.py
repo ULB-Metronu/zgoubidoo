@@ -15,8 +15,8 @@ from ..magnetique import FakeDrift as _FakeDrift
 from ..commands import Collimator as _Collimator
 from ..commands import Marker as _Marker
 from ..commands import Ymy as _Ymy
-from ..commands import Fit as _Fit
-from ..commands import FitType as _FitType
+from ..actions import Fit as _Fit
+from ..actions import FitType as _FitType
 from ..commands import Chamber as _Chamber
 from ..particules import Proton as _Proton
 from ..commands import ChangeRef as _ChangeRef
@@ -24,8 +24,8 @@ from ..beam import Beam as _Beam
 from ... import ureg as _ureg
 from ... import _Q
 from ...input import Input as _Input
-from ...input import MappedParametersType as _MappedParametersType
-from ...kinematics import Kinematics as _Kinematics
+from ...mappings import MappedParametersType as _MappedParametersType
+from ... import Kinematics as _Kinematics
 from ...zgoubi import Zgoubi as _Zgoubi
 from ...zgoubi import ZgoubiResults as _ZgoubiResults
 from ...polarity import PolarityType as _PolarityType

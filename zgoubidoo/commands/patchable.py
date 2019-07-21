@@ -2,7 +2,7 @@
 from typing import Optional
 import pandas as _pd
 from .. import ureg as _ureg
-from .. import _Q
+from .. import Q_ as _Q
 from ..frame import Frame as _Frame
 
 

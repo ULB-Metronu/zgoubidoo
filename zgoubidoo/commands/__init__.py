@@ -7,6 +7,7 @@ from .magnetique import *
 from .electrique import *
 from .electromagnetic import *
 from .commands import *
+from .actions import *
 from .mcobjet import *
 from .objet import *
 from .particules import *

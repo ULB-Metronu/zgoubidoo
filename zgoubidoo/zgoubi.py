@@ -15,7 +15,7 @@ import os
 import numpy as _np
 import pandas as _pd
 from .executable import Executable
-from .output.zgoubi import read_plt_file, read_matrix_file, read_srloss_file, read_srloss_steps_file, read_optics_file
+from .outputs import read_plt_file, read_matrix_file, read_srloss_file, read_srloss_steps_file, read_optics_file
 from . import ureg as _ureg
 import zgoubidoo
 from .constants import ZGOUBI_INPUT_FILENAME as _ZGOUBI_INPUT_FILENAME

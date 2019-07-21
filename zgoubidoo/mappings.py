@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Mapping, List, Union, Sequence, Tuple
 from dataclasses import dataclass, field
 import itertools
-from . import _Q
+from . import Q_ as _Q
 
 ParametersMappingType = Mapping[str, Sequence[Union[_Q, float]]]
 """Type alias for a parametric mapping of string keys and values."""

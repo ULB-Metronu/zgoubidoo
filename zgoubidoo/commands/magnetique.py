@@ -19,7 +19,7 @@ from .commands import ZgoubidooException as _ZgoubidooException
 from .objet import Objet2 as _Objet2
 from .particules import Proton as _Proton
 from .. import ureg as _ureg
-from .. import _Q
+from .. import Q_ as _Q
 from ..zgoubi import Zgoubi as _Zgoubi
 from ..frame import Frame as _Frame
 from .patchable import Patchable as _Patchable

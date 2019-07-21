@@ -3,18 +3,29 @@
 Special methods suffixed with *to_zgoubi* are meant and understood to be conversion methods, to convert from a given
 command name.
 
+Loaders and converters for a variety of formats (MAD-X, etc.).
+
+The `converters` module is a collection of
+
+- **converters**: convert 'commands' to Zgoubidoo commands (e.g. read a MAD-X drift and convert it to Zgoubidoo).
+
+This module is meant to be extensible to handle a wide variety of formats. To allow for maximal flexibility and to
+encourage the development of converters even for exotic cases, no specific configuration is in place: we favor convention.
+The MAD-X converters and converters are to be considered as typical examples and conventions that other modules should
+follow.
+
 Examples:
     TODO
 """
 from __future__ import annotations
 from typing import TYPE_CHECKING, Dict, List
 import numpy as _np
-from .. import ureg as _ureg
-from ..commands import Quadrupole, Sextupole, Octupole, Command, Marker, Drift, Bend, ChangeRef, Multipole, Cavite
-from ..constants import ZGOUBI_LABEL_LENGTH as _ZGOUBI_LABEL_LENGTH
+from zgoubidoo import ureg as _ureg
+from zgoubidoo.commands import Quadrupole, Sextupole, Octupole, Command, Marker, Drift, Bend, ChangeRef, Multipole, Cavite
+from zgoubidoo.constants import ZGOUBI_LABEL_LENGTH as _ZGOUBI_LABEL_LENGTH
 if TYPE_CHECKING:
-    from ..kinematics import Kinematics as _Kinematics
-    from ..sequences import Element as _Element
+    from ... import Kinematics as _Kinematics
+    from georges.sequences import Element as _Element
 
 
 def marker_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:

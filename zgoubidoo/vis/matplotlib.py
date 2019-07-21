@@ -33,7 +33,7 @@ class MatplotlibArtist(Artist):
             tracks_color: color for the plotting of tracks
             kwargs: forwarded to `ZgoubiPlot` and to `init_plot`.
         """
-        super().__init__(with_boxes, with_frames, **kwargs)
+        super().__init__(with_boxes, **kwargs)
         self._with_centers = with_centers
         self._tracks_color = tracks_color
         if ax is None:

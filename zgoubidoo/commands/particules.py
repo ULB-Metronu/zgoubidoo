@@ -103,7 +103,7 @@ class Electron(NativeParticule):
     }
 
 
-class Positron(Particule):
+class Positron(NativeParticule):
     """A positron particle."""
     PARAMETERS = {
         'M': (0.5109989461 * _ureg.MeV_c2, 'Mass of the particle.'),
