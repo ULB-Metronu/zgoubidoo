@@ -21,8 +21,8 @@ from ..mappings import ParametricMapping as _ParametricMapping
 from ..mappings import MappedParametersListType as _MappedParametersListType
 from .. import ureg as _ureg
 if TYPE_CHECKING:
-    from georges.sequences import BetaBlock as _BetaBlock
-    from georges.sequences import TwissSequence as _TwissSequence
+    from georges_core.sequences import BetaBlock as _BetaBlock
+    from georges_core.sequences import TwissSequence as _TwissSequence
 
 
 class ZgoubidooBeamException(Exception):

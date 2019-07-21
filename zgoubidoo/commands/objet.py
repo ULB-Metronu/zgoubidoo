@@ -170,20 +170,21 @@ class Objet2(Objet):
             return self
         assert isinstance(p, _np.ndarray), "The particles container must be a numpy array."
         if self._PARTICULES is None:
-            assert p.ndim == 2, "Invalid dimensions for the array of particles."
+            assert p.ndim == 2, "Invalid dimensions for the array of particles (must be 2)."
             if p.shape[1] == 4:  # Y T Z P
                 x = _np.zeros((p.shape[0], 1))
                 d = _np.ones((p.shape[0], 1))
                 iex = _np.ones((p.shape[0], 1))
                 self._PARTICULES = _np.concatenate((p, x, d, iex), axis=1)
-            elif p.shape[1] == 5: # Y T Z P D
+            elif p.shape[1] == 5:  # Y T Z P D
                 x = _np.zeros((p.shape[0], 1))
                 iex = _np.ones((p.shape[0], 1))
+                ### TODO this doesn't work
                 self._PARTICULES = _np.concatenate((p[:, :-1], x, p[:, :-1], iex), axis=1)
-            elif p.shape[1] == 6: # Y T Z P X D
+            elif p.shape[1] == 6:  # Y T Z P X D
                 iex = _np.ones((p.shape[0], 1))
                 self._PARTICULES = _np.concatenate((p, iex), axis=1)
-            elif p.shape[1] == 7: # Y T Z P X D IEX
+            elif p.shape[1] == 7:  # Y T Z P X D IEX
                 self._PARTICULES = p
             else:
                 raise _ZgoubidooException("Invalid dimensions for particles vectors.")
