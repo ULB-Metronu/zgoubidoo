@@ -1343,17 +1343,24 @@ class Drift(CartesianMagnet):
     PARAMETERS = {
         'IL': (0, ''),
         'XL': (0 * _ureg.centimeter, 'Drift length'),
-        'SPLITS': (10, 'If SPLITS > 1, the drift will be split in multiple elements.'),
+        'SPLIT': (True, 'Split the drift in multiple steps.'),
+        'SPLITS': (10, 'If SPLITS > 1, the drift will be split in multiple steps.'),
         'COLOR': (None, 'Color used when plotting the element.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):
-        return f"""
+        if self.SPLIT:
+            return f"""
         {super().__str__().rstrip()}
         {self.XL.m_as('cm'):.12e} split {self.SPLITS} {self.IL}
-        """
+            """
+        else:
+            return f"""
+        {super().__str__().rstrip()}
+        {self.XL.m_as('cm'):.12e}
+            """
 
     @classmethod
     def parse(cls, stream: str):
