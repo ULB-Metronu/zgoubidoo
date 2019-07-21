@@ -13,7 +13,6 @@ examples/*.dat
 examples/zgoubi.log
 examples/zgoubi.MATRIX.out
 examples/.ipynb_checkpoints
-zgoubidoo.egg-info
 tests/zgoubi*
 .mypy_cache
 .ipynb_checkpoints
