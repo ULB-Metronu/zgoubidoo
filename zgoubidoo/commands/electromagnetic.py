@@ -6,6 +6,29 @@ from .. import ureg as _ureg
 from .commands import Command as _Command
 
 
+class Betatron(_Command):
+    """Betatron core.
+
+
+    `BETATRON` simulates a betatron yoke, for instance for slow extraction.
+    It just imparts the particle a momentum kick, normally small.
+    """
+    KEYWORD = 'BETATRON'
+    """Keyword of the command used for the Zgoubi input data."""
+
+    PARAMETERS = {
+        'KICK': (0.0, 'Momentum kick, relative to particle momentum.')
+    }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
+
+    def __str__(self):
+        return f"""
+        {super().__str__().rstrip()}
+        {self.KICK}
+    """
+
+
 class WienFilter(_Command):
     """Wien filter.
 
