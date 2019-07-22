@@ -8,6 +8,7 @@ from .commands import CommandType as _CommandType
 from .commands import Command as _Command
 from .commands import ZgoubidooException as _ZgoubidooException
 from ..utils import fortran_float
+from .. import Q_ as _Q
 if TYPE_CHECKING:
     from ..input import Input as _Input
 
@@ -106,7 +107,7 @@ class Fit(Action, metaclass=FitType):
     PARAMETERS = {
         'PARAMS': ([], 'Physical parameters to be varied'),
         'CONSTRAINTS': ([], 'Constraints'),
-        'PENALTY': (1.0e-8, 'Penalty'),
+        'PENALTY': (1.0e-10, 'Penalty'),
         'ITERATIONS': (50000, 'Iterations'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
@@ -183,11 +184,59 @@ class Fit(Action, metaclass=FitType):
 
     class FirstOrderTransportCoefficientsConstraint(Constraint):
         """Constraint on the coefficients of the transfer matrix."""
-        pass
+        def __init__(self,
+                     line: _Input,
+                     place: Union[str, _Command],
+                     i: int,
+                     j: int,
+                     value: float = 0.0,
+                     weight: float = 1.0,
+                     ):
+            """
+
+            Args:
+                line:
+                place:
+                i:
+                j:
+                value:
+                weight:
+            """
+            self.IC: float = 1
+            self.I: int = i
+            self.J: int = j
+            self.IR: int = line.zgoubi_index(place)
+            self.V: float = value
+            self.WV: float = weight
+            self.NP: int = 0
 
     class SecondOrderTransportCoefficientsConstraint(Constraint):
         """Constraint on the coefficients of the second-order transport tensor."""
-        pass
+        def __init__(self,
+                     line: _Input,
+                     place: Union[str, _Command],
+                     i: int,
+                     j: int,
+                     value: float = 0.0,
+                     weight: float = 1.0,
+                     ):
+            """
+
+            Args:
+                line:
+                place:
+                i:
+                j:
+                value:
+                weight:
+            """
+            self.IC: float = 2
+            self.I: int = i
+            self.J: int = j
+            self.IR: int = line.zgoubi_index(place)
+            self.V: float = value
+            self.WV: float = weight
+            self.NP: int = 0
 
     class EllipseParametersConstraint(Constraint):
         """Constraint on the beam ellipse."""
@@ -278,7 +327,7 @@ class Fit(Action, metaclass=FitType):
         command = list()
         command.append(super().__str__().rstrip())
         command.append(f"""
-        {len(self.PARAMS) - list(self.PARAMS).count(None)}
+        {len(self.PARAMS) - list(self.PARAMS).count(None)} save
         """)
         for p in self.PARAMS:
             if p is None:
@@ -296,7 +345,7 @@ class Fit(Action, metaclass=FitType):
         {p['IR']} {ip} {p['XC']} {p['DV']}
         """)
         command.append(f"""
-        {len(self.CONSTRAINTS) - list(self.PARAMS).count(None)} {self.PENALTY:.12e} {self.ITERATIONS}
+        {len(self.CONSTRAINTS) - list(self.PARAMS).count(None)} {self.PENALTY:.12e} {int(self.ITERATIONS):d}
         """)
         for c in self.CONSTRAINTS:
             if c is None:
