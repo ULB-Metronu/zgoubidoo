@@ -481,4 +481,5 @@ class MatplotlibArtist(Artist):
                   ms=1
                   )
 
+
 MplArtist = MatplotlibArtist
