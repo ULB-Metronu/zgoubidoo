@@ -123,7 +123,7 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
         Returns:
 
         """
-        return self.XL or 0.0 * _ureg.cm
+        return self.XL
 
     @property
     def x_offset(self) -> _Q:
@@ -812,8 +812,8 @@ class Dipole(PolarMagnet):
         'U1_S': (1e9 * _ureg.centimeter, 'Exit EFB linear extent', 36),
         'U2_S': (1e9 * _ureg.centimeter, 'Exit EFB linear extent', 37),
         'R2_S': (1e9 * _ureg.centimeter, 'Exit EFB radius', 38),
-        'LAM_L': (0 * _ureg.centimeter, 'Lateral fringe field extent (normally ≃ gap size)', 39),
-        'XI_L': (0.0, 'Flag to activate/deactivate the lateral EFB (0 to deactivate)', 40),
+        'LAM_L': (0.0 * _ureg.centimeter, 'Lateral fringe field extent (normally ≃ gap size)', 39),
+        'XI_L': (0, 'Flag to activate/deactivate the lateral EFB (0 to deactivate)', 40),
         'C0_L': (0, 'Fringe field coefficient C0', 41),
         'C1_L': (1, 'Fringe field coefficient C1', 42),
         'C2_L': (0, 'Fringe field coefficient C2', 43),
@@ -1696,18 +1696,18 @@ class Multipole(CartesianMagnet):
 
     PARAMETERS = {
             'IL': (0, 'Print field and coordinates along trajectories', 1),
-            'XL': (0 * _ureg.centimeter, 'Magnet length', 2),
-            'R0': (1.0 * _ureg.meter, 'Radius of the pole tips', 3),
+            'XL': (0 * _ureg.cm, 'Magnet length', 2),
+            'R0': (10.0 * _ureg.cm, 'Radius of the pole tips', 3),
             'B1': (0 * _ureg.kilogauss, 'Field at pole tip for dipolar component.', 4),
-            'B2': (0 * _ureg.tesla, 'Field at pole tip for quadrupolar component.', 5),
-            'B3': (0 * _ureg.tesla, 'Field at pole tip for sextupolar component.', 6),
-            'B4': (0 * _ureg.tesla, 'Field at pole tip for octupolar component.', 7),
-            'B5': (0 * _ureg.tesla, 'Field at pole tip for decapolar component.', 8),
-            'B6': (0 * _ureg.tesla, 'Field at pole tip for dodecapolar component.', 9),
-            'B7': (0 * _ureg.tesla, 'Field at pole tip for 14-polar component.', 10),
-            'B8': (0 * _ureg.tesla, 'Field at pole tip for 16-polar component.', 11),
-            'B9': (0 * _ureg.tesla, 'Field at pole tip for 18-polar component.', 12),
-            'B10': (0 * _ureg.tesla, 'Field at pole tip for 20-polar component.', 13),
+            'B2': (0 * _ureg.kilogauss, 'Field at pole tip for quadrupolar component.', 5),
+            'B3': (0 * _ureg.kilogauss, 'Field at pole tip for sextupolar component.', 6),
+            'B4': (0 * _ureg.kilogauss, 'Field at pole tip for octupolar component.', 7),
+            'B5': (0 * _ureg.kilogauss, 'Field at pole tip for decapolar component.', 8),
+            'B6': (0 * _ureg.kilogauss, 'Field at pole tip for dodecapolar component.', 9),
+            'B7': (0 * _ureg.kilogauss, 'Field at pole tip for 14-polar component.', 10),
+            'B8': (0 * _ureg.kilogauss, 'Field at pole tip for 16-polar component.', 11),
+            'B9': (0 * _ureg.kilogauss, 'Field at pole tip for 18-polar component.', 12),
+            'B10': (0 * _ureg.kilogauss, 'Field at pole tip for 20-polar component.', 13),
             'X_E': (0 * _ureg.cm, 'Entrance face integration zone for the fringe field.'),
             'LAM_E': (0 * _ureg.cm, 'Entrance face fringe field extent'),
             'E2': (1, 'Quadrupole entrance fringe field extent (E_2 * LAM_E).'),
@@ -1752,12 +1752,12 @@ class Multipole(CartesianMagnet):
             'R8': (0 * _ureg.degree, 'Skew angle of the 16-polar component'),
             'R9': (0 * _ureg.degree, 'Skew angle of the 18-polar component'),
             'R10': (0 * _ureg.degree, 'Skew angle of the 20-polar component'),
-            'XPAS': (0.1 * _ureg.cm, 'Integration step.'),
+            'XPAS': (1.0 * _ureg.cm, 'Integration step.'),
             'KPOS': (1, ''),
             'XCE': (0 * _ureg.cm, ''),
             'YCE': (0 * _ureg.cm, ''),
             'ALE': (0 * _ureg.radian, ''),
-            'COLOR': ('red', 'Magnet color for plotting.'),
+            'COLOR': ('green', 'Magnet color for plotting.'),
 
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
@@ -1767,13 +1767,13 @@ class Multipole(CartesianMagnet):
         return f"""
         {super().__str__().rstrip()}
         {s.IL}
-        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B1):.12e} {_kilogauss(s.B2):.12e} {_kilogauss(s.B3):.12e} {_kilogauss(s.B4):.12e} {_kilogauss(s.B5):.12e} {_kilogauss(s.B6):.12e} {_kilogauss(s.B7):.12e} {_kilogauss(s.B8):.12e} {_kilogauss(s.B9):.12e} {_kilogauss(s.B10):.12e}
+        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {s.B1.m_as('kilogauss'):.12e} {s.B2.m_as('kilogauss'):.12e} {s.B3.m_as('kilogauss'):.12e} {s.B4.m_as('kilogauss'):.12e} {s.B5.m_as('kilogauss'):.12e} {s.B6.m_as('kilogauss'):.12e} {s.B7.m_as('kilogauss'):.12e} {s.B8.m_as('kilogauss'):.12e} {s.B9.m_as('kilogauss'):.12e} {s.B10.m_as('kilogauss'):.12e}
         {_cm(s.X_E):.12e} {_cm(s.LAM_E):.12e} {s.E2:.12e} {s.E3:.12e} {s.E4:.12e} {s.E5:.12e} {s.E6:.12e} {s.E7:.12e} {s.E8:.12e} {s.E9:.12e} {s.E10:.12e}
         6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
         {_cm(s.X_S):.12e} {_cm(s.LAM_S):.12e} {s.S2:.12e} {s.S3:.12e} {s.S4:.12e} {s.S5:.12e} {s.S6:.12e} {s.S7:.12e} {s.S8:.12e} {s.S9:.12e} {s.S10:.12e}
         6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
         {_radian(s.R1):.12e} {_radian(s.R2):.12e} {_radian(s.R3):.12e} {_radian(s.R4):.12e} {_radian(s.R5):.12e} {_radian(s.R6):.12e} {_radian(s.R7):.12e} {_radian(s.R8):.12e} {_radian(s.R9):.12e} {_radian(s.R10):.12e}
-        {_cm(s.XPAS)}
+        {s.XPAS.m_as('cm')}
         {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
         """
 
@@ -2094,66 +2094,48 @@ class Sextupole(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': 0,
-        'XL': 0 * _ureg.meter,
-        'R0': 0,
-        'B0': 0,
-        'X_E': 0,
-        'LAM_E': 0,
-        'NCE': 0,
+        'IL': (0, 'Print field and coordinates along trajectories', 1),
+        'XL': (0 * _ureg.centimeter, 'Magnet length', 10),
+        'R0': (1.0 * _ureg.centimeter, 'Radius of the pole tips', 11),
+        'B0': (0 * _ureg.kilogauss, 'Field at pole tips', 12),
+        'XE': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 20),
+        'LAM_E': (0 * _ureg.centimeter, 'Entrance face fringe field extent', 21),
         'C0_E': 0,
-        'C1_E': 0,
+        'C1_E': 1,
         'C2_E': 0,
         'C3_E': 0,
         'C4_E': 0,
         'C5_E': 0,
-        'X_S': 0,
-        'LAM_S': 0,
-        'NCS': 0,
+        'XS': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field'),
+        'LAM_S': (0 * _ureg.centimeter, 'Exit face fringe field extent'),
         'C0_S': 0,
-        'C1_S': 0,
+        'C1_S': 1,
         'C2_S': 0,
         'C3_S': 0,
         'C4_S': 0,
         'C5_S': 0,
-        'XPAS': 0.1,
-        'KPOS': 1,
-        'XCE': 0,
-        'YCE': 0,
-        'ALE': 0,
+        'XPAS': (1.0 * _ureg.centimeter, 'Integration step', 60),
+        'KPOS': (1, 'Misalignment type', 70),
+        'XCE': (0 * _ureg.centimeter, 'x offset', 71),
+        'YCE': (0 * _ureg.centimeter, 'y offset', 72),
+        'ALE': 0 * _ureg.radian,
+        'COLOR': ('#00FF00', 'Magnet color for plotting.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(s):
-        command = []
-        c = f"""
-                {super().__str__().rstrip()}
-                {s.IL}
-                {s.XL.m_as('m'):.12e} {s.R0:.12e} {s.B0:.12e}
-                {s.X_E:.12e} {s.LAM_E:.12e}
-                {s.NCE} {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
-                {s.X_S:.12e} {s.LAM_S:.12e}
-                {s.NCS} {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
-                {s.XPAS:.12e}  
-                """
-        command.append(c)
-
-        if s.KPOS not in (1, 2):
-            raise _ZgoubidooException("KPOS must be equal to 1 or 2")
-
-        if s.KPOS == 1:  # XCE, YCE and ALE set to 0 and unused
-            c = f"""
-                {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
-                """
-            command.append(c)
-        elif s.KPOS == 2:  # Elements are misaligned
-            c = f"""
-                {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
-                """
-            command.append(c)
-
-        return ''.join(map(lambda _: _.rstrip(), command))
+        return f"""
+        {super().__str__().rstrip()}
+        {s.IL}
+        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B0):.12e}
+        {_cm(s.XE):.12e} {_cm(s.LAM_E):.12e}
+        6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
+        {_cm(s.XS):.12e} {_cm(s.LAM_S):.12e}
+        6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
+        {_cm(s.XPAS)}
+        {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
+        """
 
 
 class Solenoid(CartesianMagnet):
