@@ -17,7 +17,7 @@ Example:
     _ = zgoubidoo.ureg
 
 """
-from typing import Tuple, Optional
+from typing import Tuple, Optional, Union
 import numpy as np
 import pandas as pd
 from .commands import PolarMagnet as _PolarMagnet
@@ -182,17 +182,21 @@ def compute_dispersion_prime_from_matrix(m: pd.DataFrame, twiss: _BetaBlock, pla
     return d0 * r21 + dp0 * r22 + r25
 
 
-def compute_periodic_twiss(matrix: pd.DataFrame) -> pd.Series:
+def compute_periodic_twiss(matrix: pd.DataFrame, end: Union[int, str] = -1) -> pd.Series:
     """
     Compute twiss parameters from a transfer matrix which is assumed to be a periodic transfer matrix.
 
     Args:
         matrix: the (periodic) transfer matrix
+        end:
 
     Returns:
         a Series object with the values of the periodic Twiss parameters.
     """
-    m = matrix.iloc[-1]
+    if isinstance(end, int):
+        m = matrix.iloc[end]
+    elif isinstance(end, str):
+        m = matrix[matrix.LABEL1 == end].iloc[-1]
     twiss = dict({
         'CMU1': (m['R11'] + m['R22'])/2.0,
         'CMU2': (m['R33'] + m['R44'])/2.0,
@@ -201,14 +205,24 @@ def compute_periodic_twiss(matrix: pd.DataFrame) -> pd.Series:
     twiss['MU2'] = np.arccos(twiss['CMU2'])
     twiss['BETA11'] = m['R12'] / np.sin(twiss['MU1'])
     twiss['BETA22'] = m['R34'] / np.sin(twiss['MU2'])
-    twiss['ALPHA11'] = (m['R11'] - m['R22']) / 2.0 / np.sin(twiss['MU1'])
-    twiss['ALPHA22'] = (m['R33'] - m['R44']) / 2.0 / np.sin(twiss['MU2'])
+    twiss['ALPHA11'] = (m['R11'] - m['R22']) / (2.0 * np.sin(twiss['MU1']))
+    twiss['ALPHA22'] = (m['R33'] - m['R44']) / (2.0 * np.sin(twiss['MU2']))
     twiss['GAMMA11'] = -m['R21'] / np.sin(twiss['MU1'])
     twiss['GAMMA22'] = -m['R43'] / np.sin(twiss['MU2'])
-    twiss['DY'] = m['R15']
-    twiss['DYP'] = m['R25']
-    twiss['DZ'] = m['R35']
-    twiss['DZP'] = m['R45']
+    m44 = m[['R11', 'R12', 'R13', 'R14',
+             'R21', 'R22', 'R23', 'R24',
+             'R31', 'R32', 'R33', 'R34',
+             'R41', 'R42', 'R43', 'R44']].apply(float).values.reshape(4, 4)
+    r6 = m[['R15', 'R25', 'R35', 'R45']].apply(float).values.reshape(4, 1)
+    disp = np.dot(np.linalg.inv(np.identity(4) - m44), r6).reshape(4)
+    twiss['DY'] = disp[0]
+    twiss['DYP'] = disp[1]
+    twiss['DZ'] = disp[2]
+    twiss['DZP'] = disp[3]
+    twiss['DISP1'] = disp[0]
+    twiss['DISP2'] = disp[1]
+    twiss['DISP3'] = disp[2]
+    twiss['DISP4'] = disp[3]
 
     return pd.Series(twiss)
 
