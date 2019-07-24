@@ -2,7 +2,7 @@
 TODO
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING, List, Union, Tuple, Iterable
+from typing import TYPE_CHECKING, List, Union, Tuple, Iterable, Mapping
 import pandas as _pd
 from .commands import CommandType as _CommandType
 from .commands import Command as _Command
@@ -357,7 +357,7 @@ class Fit(Action, metaclass=FitType):
 
     def process_output(self,
                        output: List[str],
-                       parameters: dict,
+                       parameters: Mapping[str, Union[_Q, float]],
                        zgoubi_input: _Input
                        ) -> bool:
         """
@@ -443,7 +443,10 @@ class Fit(Action, metaclass=FitType):
                 data.append(d)
         success = False if len(data) == 0 or len(status) > 0 else True
         try:
-            _ = _pd.DataFrame(data).set_index('variable_id')
+            try:
+                _ = _pd.DataFrame(data).set_index('variable_id')
+            except KeyError:
+                _ = _pd.DataFrame(data)
             self._results.append(
                 (
                     parameters,
