@@ -16,8 +16,8 @@ from concurrent.futures import Future as _Future
 import subprocess as sub
 if TYPE_CHECKING:
     from .input import Input
-    from .input import MappedParametersType as _MappedParametersType
-    from .input import MappedParametersListType as _MappedParametersListType
+    from .mappings import MappedParametersType as _MappedParametersType
+    from .mappings import MappedParametersListType as _MappedParametersListType
 
 __all__ = ['Executable', 'ResultsType']
 _logger = logging.getLogger(__name__)
@@ -239,12 +239,12 @@ class Executable:
         if self._path is not None:
             executable: Optional[str] = os.path.join(self._path, self._executable)
         elif sys.platform in ('win32', 'win64'):
-            executable: Optional[str] = shutil.which(self._executable)
+            executable = shutil.which(self._executable)
         else:
             if os.path.isfile(f"{sys.prefix}/bin/{self._executable}"):
-                executable: Optional[str] = f"{sys.prefix}/bin/{self._executable}"
+                executable = f"{sys.prefix}/bin/{self._executable}"
             else:
-                executable: Optional[str] = shutil.which(self._executable, path=os.path.join(os.environ['PATH'], path))
+                executable = shutil.which(self._executable, path=os.path.join(os.environ['PATH'], path))
         if executable is None:
             raise ExecutableException("Unable to locate the executable.")
         return executable
