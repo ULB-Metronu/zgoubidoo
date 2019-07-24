@@ -106,6 +106,11 @@ class Objet2(Objet):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
+    Y_ = 30
+    T_ = 31
+    Z_ = 32
+    P_ = 33
+
     def post_init(self,
                   reference_y: float = 0.0,
                   reference_t: float = 0.0,
@@ -219,7 +224,11 @@ class Objet2(Objet):
         {self.KOBJ}.0{self.K2}
         {self.IMAX} {self.IDMAX}
         """
-        for p in self.PARTICULES[:, 0:6]:
+        p = self.PARTICULES[0, 0:6]
+        c += f"""
+        {p[0]:.12e} {p[1]:.12e} {p[2]:.12e} {p[3]:.12e} {p[4]:.12e} {p[5]:.12e} O
+        """.lstrip()
+        for p in self.PARTICULES[1:, 0:6]:
             c += f"""
         {p[0]:.12e} {p[1]:.12e} {p[2]:.12e} {p[3]:.12e} {p[4]:.12e} {p[5]:.12e} A
         """.lstrip()
@@ -329,20 +338,20 @@ class Objet5(Objet):
     """
 
     PARAMETERS = {
-        'KOBJ': 5,
-        'NN': 1,
+        'KOBJ': (5, 'Generation of groups 11 particles.'),
+        'NN': (1, 'Number of groups of 11 particles'),
         'PY': 1e-3,
         'PT': 1e-3,
         'PZ': 1e-3,
         'PP': 1e-3,
         'PX': 1e-3,
         'PD': 1e-3,
-        'YR': 0,
-        'TR': 0,
-        'ZR': 0,
-        'PR': 0,
-        'XR': 0,
-        'DR': 1,
+        'YR': ([0, ], 'Y-coordinate of the reference trajectory'),
+        'TR': ([0, ], 'T-coordinate of the reference trajectory'),
+        'ZR': ([0, ], 'Z-coordinate of the reference trajectory'),
+        'PR': ([0, ], 'P-coordinate of the reference trajectory'),
+        'XR': ([0, ], 'X-coordinate of the reference trajectory'),
+        'DR': ([1, ], 'D-coordinate of the reference trajectory'),
         'ALPHA_Y': 0,
         'BETA_Y': 1 * _ureg.m,
         'ALPHA_Z': 0,
@@ -358,12 +367,13 @@ class Objet5(Objet):
     commands (e.g. fit)."""
 
     def __str__(s) -> str:
+        assert len(s.YR) == len(s.TR) == len(s.ZR) == len(s.PR) == len(s.XR) == len(s.DR) == s.NN, 'Invalid lengths'
         command = []
         c = f"""
         {super().__str__().strip()}
         {s.KOBJ}.0{s.NN}
         {s.PY:.12e} {s.PT:.12e} {s.PZ:.12e} {s.PP:.12e} {s.PX:.12e} {s.PD:.12e}
-        {s.YR:.12e} {s.TR:.12e} {s.ZR:.12e} {s.PR:.12e} {s.XR:.12e} {s.DR:.12e}
+        {s.YR[0]:.12e} {s.TR[0]:.12e} {s.ZR[0]:.12e} {s.PR[0]:.12e} {s.XR[0]:.12e} {s.DR[0]:.12e}
         """
         command.append(c)
         if s.NN == 1:
@@ -371,10 +381,11 @@ class Objet5(Objet):
         {s.ALPHA_Y:.12e} {s.BETA_Y.m_as('m'):.12e} {s.ALPHA_Z:.12e} {s.BETA_Z.m_as('m'):.12e} {s.ALPHA_X:.12e} {s.BETA_X.m_as('m'):.12e} {s.D_Y.m_as('m'):.12e} {s.D_YP:.12e} {s.D_Z.m_as('m'):.12e} {s.D_ZP:.12e}
             """
             command.append(c)
-        elif s.NN in range(2, 99):
-            c = f"""
-        {s.YR:.12e} {s.TR:.12e} {s.ZR:.12e} {s.PR:.12e} {s.XR:.12e} {s.DR:.12e}
-            """
+        elif 1 < s.NN < 99:
+            for i in range(1, s.NN):
+                c = f"""
+        {s.YR[i]:.12e} {s.TR[i]:.12e} {s.ZR[i]:.12e} {s.PR[i]:.12e} {s.XR[i]:.12e} {s.DR[i]:.12e}
+                    """
             command.append(c)
 
         return ''.join(map(lambda _: _.rstrip(), command)) + '\n'
@@ -388,32 +399,30 @@ class Objet6(Objet):
     """
 
     PARAMETERS = {
-        'KOBJ': 6,
-        'NN': 1,
+        'KOBJ': (6, 'Generation of groups 61 particles.'),
         'PY': 1e-3,
         'PT': 1e-3,
         'PZ': 1e-3,
         'PP': 1e-3,
         'PX': 1e-3,
         'PD': 1e-3,
-        'YR': 6,
-        'TR': 6,
-        'ZR': 6,
-        'PR': 6,
-        'XR': 6,
-        'DR': 1,
+        'YR': (0.0, 'Y-coordinate of the reference trajectory'),
+        'TR': (0.0, 'T-coordinate of the reference trajectory'),
+        'ZR': (0.0, 'Z-coordinate of the reference trajectory'),
+        'PR': (0.0, 'P-coordinate of the reference trajectory'),
+        'XR': (0.0, 'X-coordinate of the reference trajectory'),
+        'DR': (1.0, 'D-coordinate of the reference trajectory'),
     }
 
-    def __str__(s) -> str:
+    def __str__(self) -> str:
         command = []
         c = f"""
         {super().__str__().rstrip()}
-        {s.KOBJ}.0{s.NN}
-        {s.PY:.12e} {s.PT:.12e} {s.PZ:.12e} {s.PP:.12e} {s.PX:.12e} {s.PD:.12e}
-        {s.YR:.12e} {s.TR:.12e} {s.ZR:.12e} {s.PR:.12e} {s.XR:.12e} {s.DR:.12e}
+        {self.KOBJ}
+        {self.PY:.12e} {self.PT:.12e} {self.PZ:.12e} {self.PP:.12e} {self.PX:.12e} {self.PD:.12e}
+        {self.YR:.12e} {self.TR:.12e} {self.ZR:.12e} {self.PR:.12e} {self.XR:.12e} {self.DR:.12e}
         """
         command.append(c)
-
         return ''.join(map(lambda _: _.rstrip(), command)) + '\n'
 
 
