@@ -344,10 +344,7 @@ class Command(metaclass=CommandType):
 
     def __copy__(self):
         """Object (instance) copy operation."""
-        label1 = f"{self.LABEL1}_COPY"
-        if len(label1) > _ZGOUBI_LABEL_LENGTH:
-            label1 = str(uuid.uuid4().hex)[:_ZGOUBI_LABEL_LENGTH]
-        return self.__class__(label1=label1, label2=self.LABEL2, **self.attributes)
+        return self.__class__(label2=self.LABEL2, **self.attributes).generate_label(prefix=self.LABEL1)
 
     def __deepcopy__(self, *args):
         """Object (instance) deep copy operation."""
@@ -902,7 +899,7 @@ class Marker(Command, _Patchable):
     KEYWORD = 'MARKER'
     """Keyword of the command used for the Zgoubi input data."""
 
-    def __init__(self, label1='', label2='', *params, with_plt=False, **kwargs):
+    def __init__(self, label1='', label2='', *params, with_plt=True, **kwargs):
         super().__init__(label1, label2, self.PARAMETERS, *params, **kwargs)
         if self.LABEL2 == '':
             self.LABEL2 = '.plt' if with_plt else ''
