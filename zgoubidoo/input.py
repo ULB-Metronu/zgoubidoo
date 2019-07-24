@@ -452,7 +452,7 @@ class Input:
         Raises:
             ValueError if the object is not present in the input sequence.
         """
-        return self.index(obj) + 3 if self.beam is not None else 1
+        return self.index(obj) + (3 if self.beam is not None else 1)
 
     def replace(self, element, other) -> Input:
         """
