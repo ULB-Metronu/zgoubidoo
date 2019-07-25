@@ -24,8 +24,8 @@ from zgoubidoo import ureg as _ureg
 from zgoubidoo.commands import Quadrupole, Sextupole, Octupole, Command, Marker, Drift, Bend, ChangeRef, Multipole, Cavite
 from zgoubidoo.constants import ZGOUBI_LABEL_LENGTH as _ZGOUBI_LABEL_LENGTH
 if TYPE_CHECKING:
-    from ... import Kinematics as _Kinematics
-    from georges.sequences import Element as _Element
+    from georges_core import Kinematics as _Kinematics
+    from georges_core.sequences import Element as _Element
 
 
 def marker_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:
