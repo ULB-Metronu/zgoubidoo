@@ -3,13 +3,20 @@ TODO
 """
 from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, Mapping
+import numpy as _np
 import plotly.offline
 import plotly.graph_objs as go
 from zgoubidoo.vis import Artist
 from ..commands import Plotable as _Plotable
 from ..commands import Patchable as _Patchable
+from ..commands import PolarMagnet as _PolarMagnet
+from ..commands import CartesianMagnet as _CartesianMagnet
+from ..commands import Drift as _Drift
 from ..commands import Quadrupole as _Quadrupole
+from ..commands import Sextupole as _Sextupole
+from ..commands import Multipole as _Multipole
 from ..commands import Bend as _Bend
+
 if TYPE_CHECKING:
     from ..input import Input as _Input
 
@@ -29,23 +36,22 @@ class PlotlyArtist(Artist):
         super().__init__(**kwargs)
         self._data = []
         self._config = config or {
-            'showLink': False,
-            'scrollZoom': True,
+            'showLink'      : False,
+            'scrollZoom'    : True,
             'displayModeBar': False,
-            'editable': False,
+            'editable'      : False,
         }
         self._layout = {
             'xaxis': {
-                'showgrid': True,
+                'showgrid' : True,
                 'linecolor': 'black',
                 'linewidth': 1,
-                'mirror': True,
+                'mirror'   : True,
             },
             'yaxis': {
                 'linecolor': 'black',
                 'linewidth': 1,
-                'mirror': True,
-                #'type': 'log',
+                'mirror'   : True,
             },
         }
         self._shapes = []
@@ -57,7 +63,7 @@ class PlotlyArtist(Artist):
     def fig(self):
         """Provides the plotly figure."""
         return {
-            'data': self.data,
+            'data'  : self.data,
             'layout': self.layout,
         }
 
@@ -85,22 +91,24 @@ class PlotlyArtist(Artist):
 
     def add_secondary_axis(self, title: str = ''):
         self.layout['yaxis2'] = {
-            'title': title,
-            'titlefont': dict(
+            'title'     : title,
+            'titlefont' : dict(
                 color='rgb(148, 103, 189)'
             ),
-            'tickfont': dict(
+            'tickfont'  : dict(
                 color='rgb(148, 103, 189)'
             ),
             'overlaying': 'y',
-            'side': 'right',
+            'side'      : 'right',
         }
 
     def render(self):
+        if len(self._data) == 0:
+            self._data.append(go.Scatter(x=[0.0], y=[0.0]))
         plotly.offline.iplot(self.fig, config=self.config)
 
-    def save(self, file: str, format: str = 'png'):
-        plotly.io.write_image(self.fig, file=file, format=format)
+    def save(self, file: str, file_format: str = 'png'):
+        plotly.io.write_image(self.fig, file=file, format=file_format)
 
     def save_html(self, file: str):
         return plotly.offline.plot(self.fig, config=self.config, auto_open=False, filename=file)
@@ -144,7 +152,7 @@ class PlotlyArtist(Artist):
         for e in beamline:
             if not isinstance(e, _Patchable) and not isinstance(e, _Plotable):
                 continue
-            if isinstance(e, _Quadrupole):
+            if isinstance(e, (_Quadrupole, _Sextupole)):
                 self.shapes.append(
                     {
                         'type': 'rect',
@@ -154,6 +162,22 @@ class PlotlyArtist(Artist):
                         'y0': vertical_position if e.B0.magnitude > 0 else vertical_position - 0.1,
                         'x1': e.exit.x.m_as('m'),
                         'y1': vertical_position + 0.1 if e.B0.magnitude > 0 else vertical_position,
+                        'line': {
+                            'width': 1,
+                        },
+                        'fillcolor': e.COLOR,
+                    },
+                )
+            if isinstance(e, (_Multipole,)):
+                self.shapes.append(
+                    {
+                        'type': 'rect',
+                        'xref': 'x',
+                        'yref': 'paper',
+                        'x0': e.entry_patched.x.m_as('m'),
+                        'y0': vertical_position - 0.05,
+                        'x1': e.exit.x.m_as('m'),
+                        'y1': vertical_position + 0.05,
                         'line': {
                             'width': 1,
                         },
@@ -181,6 +205,8 @@ class PlotlyArtist(Artist):
 
     def plot_beamline(self,
                       beamline: _Input,
+                      with_drifts: bool = False,
+                      points_in_polar_paths: int = 20,
                       ) -> None:
         """
         Use a `ZgoubiPlot` artist to perform the rendering of the beamline with elements and tracks.
@@ -189,41 +215,68 @@ class PlotlyArtist(Artist):
 
         Args:
             beamline:
+            with_drifts:
+            points_in_polar_paths:
         """
+        def add_svg_path(points):
+            points = points.dot(_np.linalg.inv(e.entry_patched.get_rotation_matrix())) + _np.array([
+                e.entry.x_, e.entry.y_, 0.0
+            ])
+            path = f"M{points[0, 0]},{points[0, 1]} "
+            for p in points[1:]:
+                path += f"L{p[0]},{p[1]} "
+            path += "Z"
+            try:
+                if e.B2.magnitude > 0:
+                    color = 'blue'
+                else:
+                    color = 'red'
+            except AttributeError:
+                color = e.COLOR
+            self.shapes.append(
+                {
+                    'type': 'path',
+                    'xref': 'x',
+                    'yref': 'y',
+                    'path': path,
+                    'line': {
+                        'width': 1,
+                    },
+                    'fillcolor': color,
+                    'opacity': 0.5,
+                },
+            )
+
         for e in beamline:
-            if not isinstance(e, _Patchable) and not isinstance(e, _Plotable):
+            if not isinstance(e, _Plotable):
                 continue
-            if isinstance(e, _Quadrupole):
-                self.shapes.append(
-                    {
-                        'type': 'rect',
-                        'xref': 'x',
-                        'yref': 'y',
-                        'x0': e.entry_patched.x_,
-                        'y0': e.entry_patched.y_,
-                        'x1': e.exit.x_,
-                        'y1': e.exit.y_,
-                        'line': {
-                            'width': 1,
-                        },
-                        'fillcolor': e.COLOR,
-                    },
-                )
-            if isinstance(e, _Bend):
-                path = f"M{e.entry_patched.x_},{e.entry_patched.y_} " \
-                       f"H{e.exit.x_} " \
-                       f"L{e.exit.x_ - 0.1 * e.length.m_as('m')},1.1 " \
-                       f"H{e.exit.x_ - 0.9 * e.length.m_as('m')} " \
-                       f"Z"
-                self.shapes.append(
-                    {
-                        'type': 'path',
-                        'xref': 'x',
-                        'yref': 'paper',
-                        'path': path,
-                        'line': {
-                            'width': 1,
-                        },
-                        'fillcolor': '#4169E1',
-                    },
-                )
+            if not with_drifts and isinstance(e, _Drift):
+                continue
+            if isinstance(e, _PolarMagnet):
+                r = e.RM.m_as('m')
+                pts = []
+                thetas = _np.linspace(0, e.AT.m_as('radian'), points_in_polar_paths)
+                for theta in thetas:
+                    pts.append([(r+0.1) * _np.sin(theta), -r + (r+0.1) * _np.cos(theta), 0.0])
+                for theta in thetas[::-1]:
+                    pts.append([(r+0.2) * _np.sin(theta), -r + (r+0.2) * _np.cos(theta), 0.0])
+                add_svg_path(_np.array(pts))
+                pts = []
+                for theta in thetas:
+                    pts.append([(r - 0.1) * _np.sin(theta), -r + (r - 0.1) * _np.cos(theta), 0.0])
+                for theta in thetas[::-1]:
+                    pts.append([(r - 0.2) * _np.sin(theta), -r + (r - 0.2) * _np.cos(theta), 0.0])
+                add_svg_path(_np.array(pts))
+            else:
+                add_svg_path(_np.array([
+                    [0.0, -e.APERTURE_LEFT.m_as('m') - 0.1, 0.0],
+                    [0.0, -e.APERTURE_LEFT.m_as('m'), 0.0],
+                    [e.length.m_as('m'), -e.APERTURE_LEFT.m_as('m'), 0.0],
+                    [e.length.m_as('m'), -e.APERTURE_LEFT.m_as('m') - 0.1, 0.0],
+                ]))
+                add_svg_path(_np.array([
+                    [0.0, e.APERTURE_LEFT.m_as('m'), 0.0],
+                    [0.0, e.APERTURE_LEFT.m_as('m') + 0.1, 0.0],
+                    [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m') + 0.1, 0.0],
+                    [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m'), 0.0],
+                ]))
