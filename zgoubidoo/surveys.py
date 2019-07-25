@@ -11,6 +11,8 @@ import zgoubidoo.zgoubi
 from .input import Input as _Input
 from .frame import Frame as _Frame
 from .commands.patchable import Patchable as _Patchable
+from .commands.magnetique import PolarMagnet as _PolarMagnet
+from .commands.magnetique import CartesianMagnet as _CartesianMagnet
 from .commands.objet import Objet2 as _Objet2
 from .commands.particules import Particule as _Particule
 from .commands.particules import ParticuleType as _ParticuleType
@@ -173,11 +175,20 @@ def transform_tracks(beamline: _Input, tracks: _pd.DataFrame):
         tracks:
     """
     for label in tracks.LABEL1.unique():
-        element_rotation = _np.linalg.inv(getattr(beamline, label).entry_patched.get_rotation_matrix())
+        e = getattr(beamline, label)
+        if isinstance(getattr(beamline, label), _PolarMagnet):
+            # Convert from polar to cartesian coordinates
+            raw = tracks.query(f"LABEL1 == '{label}'")[['X', 'Y']].values
+            tracks.loc[tracks.LABEL1 == label, 'ANG'] = _np.degrees(100 * raw[:, 0])
+            tracks.loc[tracks.LABEL1 == label, 'X'] = raw[:, 1] * _np.sin(100 * raw[:, 0])
+            tracks.loc[tracks.LABEL1 == label, 'Y'] = raw[:, 1] * _np.cos(100 * raw[:, 0]) - e.RM.m_as('m')
 
-        # Transform (rotate and translate) all particle coordinates to the global reference frame
+        # Rotate all particle coordinates to the global reference frame
+        element_rotation = _np.linalg.inv(e.entry_patched.get_rotation_matrix())
         v = _np.dot(tracks.query(f"LABEL1 == '{label}'")[['X', 'Y', 'Z']].values, element_rotation)
-        origin = getattr(beamline, label).entry_patched.origin
+
+        # Translate all particle coordinates to the global reference frame
+        origin = e.entry_patched.origin
         tracks.loc[tracks.LABEL1 == label, 'XG'] = v[:, 0] + origin[0].m_as('m')
         tracks.loc[tracks.LABEL1 == label, 'YG'] = v[:, 1] + origin[1].m_as('m')
         tracks.loc[tracks.LABEL1 == label, 'ZG'] = v[:, 2] + origin[2].m_as('m')
