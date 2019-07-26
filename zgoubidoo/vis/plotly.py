@@ -207,6 +207,7 @@ class PlotlyArtist(Artist):
                       beamline: _Input,
                       with_drifts: bool = False,
                       points_in_polar_paths: int = 20,
+                      opacity: float = 0.5,
                       ) -> None:
         """
         Use a `ZgoubiPlot` artist to perform the rendering of the beamline with elements and tracks.
@@ -243,7 +244,7 @@ class PlotlyArtist(Artist):
                         'width': 1,
                     },
                     'fillcolor': color,
-                    'opacity': 0.5,
+                    'opacity': opacity,
                 },
             )
 
