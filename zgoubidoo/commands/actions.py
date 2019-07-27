@@ -410,7 +410,7 @@ class Fit(Action, metaclass=FitType):
                         return _Q(v[0]).units
                 except (TypeError, IndexError):
                     continue
-            return None
+            return _Q(1)
 
         grab: bool = False
         status: list = []
