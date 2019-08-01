@@ -383,7 +383,7 @@ class SMX(_Multipole):
         self._field_profile_model.params['offset_s'].set(value=0.5, min=0.35, max=0.55)
         self._field_profile_model.params['lam_e'].set(value=0.03)
         self._field_profile_model.params['lam_s'].set(value=0.03)
-        self._field_profile_model.params['amplitude'].set(value=0.82, min=0.75, max=0.9)
+        self._field_profile_model.params['amplitude'].set(value=-0.82, min=-0.9, max=-0.75)
         self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
 
     def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
@@ -456,11 +456,11 @@ class SMY(_Multipole):
         self._field_profile_model.params['cs_3'].set(vary=True)
         self._field_profile_model.params['cs_4'].set(vary=True)
         self._field_profile_model.params['cs_5'].set(vary=True)
-        self._field_profile_model.params['offset_e'].set(value=0.545, min=0.4, max=0.6)
-        self._field_profile_model.params['offset_s'].set(value=0.7, min=0.6, max=0.8)
+        self._field_profile_model.params['offset_e'].set(value=0.1, min=0.1, max=0.4)
+        self._field_profile_model.params['offset_s'].set(value=0.7, min=0.4, max=0.8)
         self._field_profile_model.params['lam_e'].set(value=0.035)
         self._field_profile_model.params['lam_s'].set(value=0.035)
-        self._field_profile_model.params['amplitude'].set(value=0.52, min=0.3, max=0.6)
+        self._field_profile_model.params['amplitude'].set(value=-0.4, min=-0.6, max=-0.3)
         self._field_profile_model.params['field_offset'].set(value=0.0, min=-1e-3, max=1e-3)
 
     def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
@@ -494,7 +494,8 @@ class T1G(_Multipole):
 
     """
     PARAMETERS = {
-        'XL': 100 * _ureg.mm,
+        'XL': 209.1 * _ureg.mm,
+        'B1': 1e-6 * _ureg.gauss,
     }
 
     def post_init(self, **kwargs):
@@ -514,7 +515,8 @@ class T2G(_Multipole):
 
     """
     PARAMETERS = {
-        'XL': 100 * _ureg.mm,
+        'XL': 209.1 * _ureg.mm,
+        'B1': 1e-6 * _ureg.gauss,
     }
 
     def post_init(self, **kwargs):
@@ -1010,14 +1012,77 @@ class HorizontalSlits(_Collimator):
     """Proteus One horizontal slits.
 
     """
-    pass
 
+    PARAMETERS = {
+        'J': 0,
+        'IFORM': 1,
+        'IA': 1,
+    }
+
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        self.LABEL1 = self.__class__.__name__
+
+
+class SL1G(HorizontalSlits):
+    """First vertical collimator
+
+    """
+    PARAMETERS = {
+        'LABEL1': 'SL1G',
+        'C1': 27.5 * _ureg.mm,
+        'C2': 1.5 * _ureg.cm,
+    }
+
+
+class SL3G(HorizontalSlits):
+    """First vertical collimator
+
+    """
+    PARAMETERS = {
+        'LABEL1': 'SL3G',
+        'C1': 27.5 * _ureg.mm,
+        'C2': 0.5 * _ureg.cm,
+    }
 
 class VerticalSlits(_Collimator):
     """Proteus One vertical slits.
 
     """
-    pass
+    PARAMETERS = {
+        'J': 0,
+        'IFORM': 1,
+        'IA': 1,
+    }
+
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        self.LABEL1 = self.__class__.__name__
+
+
+class SL2G(VerticalSlits):
+    """First horizontal collimator
+
+    """
+    PARAMETERS = {
+        'LABEL1': 'SL2G',
+        'C1': 0.6 * _ureg.cm,
+        'C2': 27.5 * _ureg.mm,
+    }
 
 
 class ResearchArea:
@@ -1053,6 +1118,9 @@ class CGTR:
                  q7g: Optional[Q7G] = None,
                  smx: Optional[SMX] = None,
                  smy: Optional[SMY] = None,
+                 sl1g: Optional[SL1G] = None,
+                 sl2g: Optional[SL2G] = None,
+                 sl3g: Optional[SL3G] = None,
                  beam: Optional[_Beam] = None,
                  with_fit: bool = True,
                  ):
@@ -1091,6 +1159,9 @@ class CGTR:
         self.q7g: Q7G = q7g or Q7G()
         self.smx: SMX = smx or SMX()
         self.smy: SMY = smy or SMY()
+        self.sl1g: SL1G = sl1g or SL1G()
+        self.sl2g: SL2G = sl2g or SL2G()
+        self.sl3g: SL3G = sl3g or SL3G()
         self.beam: _Beam = beam or _Beam('BUNCH', slices=1, kinematics=kinematics.brho)
         self.start: _Marker = _Marker('START')
         self.iso: _Marker = _Marker('ISO')
@@ -1102,57 +1173,56 @@ class CGTR:
             self.beam,
             _Proton(),
             self.start,
+            _Collimator('C1G', IA=1, IFORM=2, J=0, C1=5 * _ureg.mm, C2=5 * _ureg.mm),
+            _Chamber('Chamber1', IA=1, IFORM=2, J=0, C1=29.75 * _ureg.mm, C2=29.75 * _ureg.mm),
+            _FakeDrift('C1G_T1G', XL=9.2995 * _ureg.cm),
             #_ChangeRef(),
             _Ymy(),
             self.t1g,
-            _FakeDrift(XL=30 * _ureg.cm),
+            _FakeDrift('T1G_T2G', XL=2.09 * _ureg.cm),
             self.t2g,
-            _FakeDrift(XL=30 * _ureg.cm),
-            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm),
+            _FakeDrift('T2G_Q1G', XL=38.7855 * _ureg.cm),
             self.q1g,
-            _Chamber(IA=2),
-            _FakeDrift(XL=30.3 * _ureg.cm),
-            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm),
+            _FakeDrift('Q1G_Q2G', XL=30.3 * _ureg.cm),
             self.q2g,
+            _FakeDrift('Q2G_SL1G', XL=19.719 * _ureg.cm + 3 * _ureg.cm),
+            self.sl1g,
+            _FakeDrift('SL1G_SL2G', XL=3 * _ureg.cm + 3 * _ureg.cm + 1 * _ureg.cm),
+            self.sl2g,
+            _FakeDrift('SL2G_B1G', XL=39.734 * _ureg.cm + 3 * _ureg.cm - self.b1g.extra_drift),
             _Chamber(IA=2),
-            _FakeDrift(XL=72.42 * _ureg.cm - self.b1g.extra_drift),
-            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm, C3=self.b1g.RM),
+            _Chamber('Chamber2', IA=1, IFORM=1, J=0, C1=2.9 * _ureg.cm, C2=1.29 * _ureg.cm, C3=self.b1g.RM),
             self.b1g,
             _Chamber(IA=2),
             _Ymy(),
-            _FakeDrift(XL=26.4 * _ureg.cm - self.b1g.extra_drift),
-            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm),
+            _Chamber('Chamber3', IA=1, IFORM=2, J=0, C1=29.75 * _ureg.mm, C2=29.75 * _ureg.mm),
+            _FakeDrift('B1G_Q3G', XL=26.44 * _ureg.cm - self.b1g.extra_drift),
             self.q3g,
-            _Chamber(IA=2),
-            _FakeDrift(XL=32.6 * _ureg.cm),
-            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm),
+            _FakeDrift('Q3G_Q4G', XL=32.6 * _ureg.cm),
             self.q4g,
-            _Chamber(IA=2),
-            _FakeDrift(XL=33.4 * _ureg.cm),
-            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm),
+            _FakeDrift('Q4G_Q5G', XL=33.4 * _ureg.cm),
             self.q5g,
-            _Chamber(IA=2),
-            _FakeDrift(XL=33.5 * _ureg.cm),
-            _Chamber(IA=1, IFORM=1, J=0, C1=5 * _ureg.mm, C2=5 * _ureg.cm),
+            _FakeDrift('Q5G_Q6G', XL=33.5 * _ureg.cm),
             self.q6g,
-            _Chamber(IA=2),
-            _FakeDrift(XL=36.0 * _ureg.cm),
-            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm),
+            _FakeDrift('Q6G_Q7G', XL=36.0 * _ureg.cm),
             self.q7g,
+            _FakeDrift('Q7G_SL3G', XL=16.5682507 * _ureg.cm + 3 * _ureg.cm),
+            self.sl3g,
+            _FakeDrift('SL3G_B2G', XL=30.9927502 * _ureg.cm + 3 * _ureg.cm - self.b2g.extra_drift),
             _Chamber(IA=2),
-            _FakeDrift(XL=53.561 * _ureg.cm - self.b2g.extra_drift),
-            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm, C3=self.b2g.RM),
+            _Chamber('Chamber4', IA=1, IFORM=1, J=0, C1=11/2 * _ureg.cm, C2=2.58/2 * _ureg.cm, C3=self.b2g.RM),
             self.b2g,
             _Chamber(IA=2),
-            _FakeDrift(XL=26 * _ureg.cm - self.b2g.extra_drift),
+            _FakeDrift('B2G_SMX', XL=31.77 * _ureg.cm - self.b2g.extra_drift - (self.smx.length - 159 * _ureg.mm)/2),
             self.smx,
-            _FakeDrift(XL=12 * _ureg.cm),
+            _FakeDrift('SMX_SMY', XL=13.04 * _ureg.cm - (self.smx.length - 159 * _ureg.mm)/2 - (self.smy.length - 109 * _ureg.mm)/2),
             self.smy,
-            _FakeDrift(XL=19 * _ureg.cm - self.b3g.extra_drift),
-            _Chamber(IA=1, IFORM=1, J=0, C1=1000 * _ureg.mm, C2=1000 * _ureg.cm, C3=self.b3g.RM),
+            _FakeDrift('SMY_B3G', XL=20.39 * _ureg.cm - self.b3g.extra_drift + self.b3g.extra_drift - (self.smy.length - 109 *_ureg.mm)/2),
+            _Collimator('B3G_ENTRY', IA=1, IFORM=1, J=0, C1=11/2 * _ureg.cm, C2=9/2 * _ureg.cm),
             self.b3g,
-            _Chamber(IA=2),
-            _FakeDrift(XL=1181.071 * _ureg.mm - self.b3g.extra_drift),
+            _Collimator('B3G_EXIT', IA=1, IFORM=1, J=0, C1=13.65/2 * _ureg.cm, C2=9/2 * _ureg.cm),
+            _FakeDrift('FINAL', XL=1101.071 * _ureg.mm - self.b3g.extra_drift +
+                                   self.b3g.extra_drift - 0.20950282594698123 * _ureg.meter),
             self.iso,
         ],
                                  )
@@ -1333,6 +1403,13 @@ class CGTR:
                                )
 
         artist.ax.set_aspect('equal', 'datalim')
+        artist.ax.set_rasterized(True)
+        artist.ax.set_xlabel('X (mm)')
+        artist.ax.set_ylabel('Y (mm)')
+        for item in ([artist.ax.title, artist.ax.xaxis.label, artist.ax.yaxis.label] +
+                     artist.ax.get_xticklabels() + artist.ax.get_yticklabels()):
+            item.set_fontsize(30)
+
         if crosshair:
             artist.ax.hlines(0.0, -10, 1000)
-        return artist.figure
+        #return artist.figure
