@@ -1,3 +1,4 @@
+georges-core
 lmfit
 matplotlib
 mypy

@@ -62,7 +62,7 @@ except ModuleNotFoundError:
     # https://pint.readthedocs.io/en/latest/
     from pint import UnitRegistry
     ureg = UnitRegistry()
-    _Q = ureg.Quantity
+    Q_ = ureg.Quantity
     ureg.define('electronvolt = e * volt = eV')
     ureg.define('electronvolt_per_c = eV / c = eV_c')
     ureg.define('electronvolt_per_c2 = eV / c**2 = eV_c2')
