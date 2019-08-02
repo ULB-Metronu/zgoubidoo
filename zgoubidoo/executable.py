@@ -224,7 +224,7 @@ class Executable:
     def _extract_output(self, path, code_input: Input, mapping) -> Optional[_IOBase]:
         return None
 
-    def _get_exec(self, path: Optional[str] = '/usr/local/bin') -> str:
+    def _get_exec(self, path: Optional[str] = None) -> str:
         """Retrive the path to the Zgoubi executable.
 
         Args:
@@ -244,7 +244,7 @@ class Executable:
             if os.path.isfile(f"{sys.prefix}/bin/{self._executable}"):
                 executable = f"{sys.prefix}/bin/{self._executable}"
             else:
-                executable = shutil.which(self._executable, path=os.path.join(os.environ['PATH'], path))
+                executable = shutil.which(self._executable, path=path)
         if executable is None:
             raise ExecutableException("Unable to locate the executable.")
         return executable
