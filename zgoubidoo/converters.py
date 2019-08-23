@@ -152,11 +152,11 @@ def quadrupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Di
     """
     bore_radius = options.get('R0', 10 * _ureg.cm)
     if element.get('K1') is None and element.get('K1L') is None:
-        gradient = 0 / _ureg.m**2
-    #elif element.get('K1L') is not None and element.get('K1L') == 0 and:
-    #     gradient = element['K1L'] / element['L']
-    if element.get('K1') is not None:
-        gradient = element['K1'] / _ureg.m**2
+        gradient = 0 / _ureg.m ** 2
+    elif element.get('K1L') is not None:
+        gradient = element['K1L'] / element['L']
+    elif element.get('K1') is not None:
+        gradient = element['K1'] / _ureg.m ** 2
     else:
         raise KeyError("K1 and K1L cannot be defined at the same time.")
     return [Quadrupole(element.name[0:_ZGOUBI_LABEL_LENGTH],

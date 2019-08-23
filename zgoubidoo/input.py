@@ -31,16 +31,16 @@ from zgoubidoo.commands import Command as _Command
 from .commands.actions import End as _End
 from .commands.beam import Beam as _Beam
 from .commands.beam import BeamTwiss as _BeamTwiss
+from .commands import particules as _particules
 from .commands.mcobjet import MCObjet as _MCObjet
 from .constants import ZGOUBI_IMAX, ZGOUBI_INPUT_FILENAME
 from .mappings import MappedParametersType as _MappedParametersType
 from .mappings import MappedParametersListType as _MappedParametersListType
 from .mappings import flatten as _flatten
 if TYPE_CHECKING:
-    import georges.sequences
+    import georges_core.sequences
     from zgoubidoo.commands import CommandType
     from .commands.beam import BeamType as _BeamType
-    import zgoubidoo.commands.madx
 
 _logger = logging.getLogger(__name__)
 
@@ -777,9 +777,10 @@ class Input:
             ).values
         )
         if beam is not None:
+            p = getattr(_particules, sequence.particle.__name__)
             b = beam(
                 kinematics=sequence.kinematics,
-                particle=sequence.particle,
+                particle=p,
                 betablock=sequence.betablock
             )
             if isinstance(b, _MCObjet):
