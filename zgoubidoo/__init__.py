@@ -69,12 +69,8 @@ except ModuleNotFoundError:
 
 try:
     from georges_core import sequences
-except ModuleNotFoundError:
-    # TODO error handling
-    pass
-
-try:
     from georges_core import Kinematics, ZgoubiKinematicsException
+    from georges_core.frame import Frame, FrameException
 except ModuleNotFoundError:
     # TODO error handling
     pass
@@ -91,5 +87,4 @@ from .outputs import read_fai_file, read_matrix_file, read_optics_file, read_plt
 from .mappings import ParametricMapping, ParametersMappingType
 from .zgoubi import Zgoubi, ZgoubiResults, ZgoubiException
 from .surveys import survey, clear_survey, transform_tracks
-from .frame import Frame, ZgoubidooFrameException
 from .polarity import HorizontalPolarity, VerticalPolarity

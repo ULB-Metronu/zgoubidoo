@@ -14,7 +14,7 @@ from pint import UndefinedUnitError as _UndefinedUnitError
 from .patchable import Patchable as _Patchable
 from .. import ureg as _ureg
 from .. import Q_ as _Q
-from ..frame import Frame as _Frame
+from georges_core.frame import Frame as _Frame
 from ..units import _radian, _degree, _m, _cm
 from ..constants import ZGOUBI_LABEL_LENGTH as _ZGOUBI_LABEL_LENGTH
 import zgoubidoo

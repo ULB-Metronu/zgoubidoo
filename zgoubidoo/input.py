@@ -22,7 +22,7 @@ import pandas as _pd
 import parse as _parse
 from . import ureg as _ureg
 from . import Q_ as _Q
-from .frame import Frame as _Frame
+from georges_core.frame import Frame as _Frame
 import zgoubidoo.converters as _zgoubi_converters
 import zgoubidoo.commands
 from .zgoubi import Zgoubi as _Zgoubi

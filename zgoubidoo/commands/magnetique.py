@@ -21,7 +21,7 @@ from .particules import Proton as _Proton
 from .. import ureg as _ureg
 from .. import Q_ as _Q
 from ..zgoubi import Zgoubi as _Zgoubi
-from ..frame import Frame as _Frame
+from georges_core.frame import Frame as _Frame
 from .patchable import Patchable as _Patchable
 from .plotable import Plotable as _Plotable
 from ..fieldmaps import FieldMap as _FieldMap
