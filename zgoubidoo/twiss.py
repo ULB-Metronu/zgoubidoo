@@ -380,6 +380,7 @@ def compute_transfer_matrix(beamline: _Input, tracks: pd.DataFrame, global_frame
         else:
             m['S'] = ref['S'].values
         m['LABEL1'] = e.LABEL1
+        m['KEYWORD'] = e.KEYWORD
         if global_frame:
             m['X'] = ref['XG'].values
             m['Y'] = ref['YG'].values

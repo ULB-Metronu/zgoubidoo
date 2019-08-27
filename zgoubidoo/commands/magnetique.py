@@ -1373,7 +1373,7 @@ class Drift(CartesianMagnet):
 
 
 class ESL(Drift):
-    """Field free drift space."""
+    """Field free drift space ("espace libre")."""
     pass
 
 

@@ -127,7 +127,7 @@ def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
             ChangeRef(element.name + '_CRR', TRANSFORMATIONS=[['XR', (-tilt + _np.pi * _ureg.radian)]]),
         ]
     else:
-        if _np.isnan(element['TILT']):
+        if _np.isnan(element['TILT']) or element['TILT'] == 0:
             return [
                 b
             ]
