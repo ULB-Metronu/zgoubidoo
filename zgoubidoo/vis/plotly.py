@@ -10,7 +10,6 @@ from zgoubidoo.vis import Artist
 from ..commands import Plotable as _Plotable
 from ..commands import Patchable as _Patchable
 from ..commands import PolarMagnet as _PolarMagnet
-from ..commands import CartesianMagnet as _CartesianMagnet
 from ..commands import Drift as _Drift
 from ..commands import Quadrupole as _Quadrupole
 from ..commands import Sextupole as _Sextupole
@@ -158,9 +157,9 @@ class PlotlyArtist(Artist):
                         'type': 'rect',
                         'xref': 'x',
                         'yref': 'paper',
-                        'x0': e.entry_patched.x.m_as('m'),
+                        'x0': e.entry_s.m_as('m'),
                         'y0': vertical_position if e.B0.magnitude > 0 else vertical_position - 0.1,
-                        'x1': e.exit.x.m_as('m'),
+                        'x1': e.exit_s.m_as('m'),
                         'y1': vertical_position + 0.1 if e.B0.magnitude > 0 else vertical_position,
                         'line': {
                             'width': 1,
@@ -174,9 +173,9 @@ class PlotlyArtist(Artist):
                         'type': 'rect',
                         'xref': 'x',
                         'yref': 'paper',
-                        'x0': e.entry_patched.x.m_as('m'),
+                        'x0': e.entry_s.m_as('m'),
                         'y0': vertical_position - 0.05,
-                        'x1': e.exit.x.m_as('m'),
+                        'x1': e.exit_s.m_as('m'),
                         'y1': vertical_position + 0.05,
                         'line': {
                             'width': 1,
@@ -218,6 +217,7 @@ class PlotlyArtist(Artist):
             beamline:
             with_drifts:
             points_in_polar_paths:
+            opacity:
         """
         def add_svg_path(points):
             points = points.dot(_np.linalg.inv(e.entry_patched.get_rotation_matrix())) + _np.array([

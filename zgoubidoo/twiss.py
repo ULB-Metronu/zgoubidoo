@@ -390,6 +390,7 @@ def compute_transfer_matrix(beamline: _Input, tracks: pd.DataFrame, global_frame
             m['Y'] = ref['Y'].values
             m['Z'] = ref['Z'].values
         matrix = matrix.append(m)
-    if global_frame:
-        matrix['S'] += tracks['XG'].min()  # Global adjustment
+    # TODO this should most probably disapear
+    # if global_frame:
+    #     matrix['S'] += tracks['XG'].min()  # Global adjustment
     return matrix.reset_index()

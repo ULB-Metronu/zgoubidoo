@@ -7,7 +7,7 @@ import pandas as _pd
 from .commands import CommandType as _CommandType
 from .commands import Command as _Command
 from .commands import ZgoubidooException as _ZgoubidooException
-from ..utils import fortran_float
+from georges_core.utils import fortran_float
 from .. import Q_ as _Q
 if TYPE_CHECKING:
     from ..input import Input as _Input

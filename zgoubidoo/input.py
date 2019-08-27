@@ -20,8 +20,6 @@ import shutil
 import os
 import pandas as _pd
 import parse as _parse
-from . import ureg as _ureg
-from . import Q_ as _Q
 from georges_core.frame import Frame as _Frame
 import zgoubidoo.converters as _zgoubi_converters
 import zgoubidoo.commands
@@ -32,11 +30,14 @@ from .commands.actions import End as _End
 from .commands.beam import Beam as _Beam
 from .commands.beam import BeamTwiss as _BeamTwiss
 from .commands import particules as _particules
+from .commands.particules import Particule as _Particule
+from .commands.particules import ParticuleType as _ParticuleType
 from .commands.mcobjet import MCObjet as _MCObjet
 from .constants import ZGOUBI_IMAX, ZGOUBI_INPUT_FILENAME
 from .mappings import MappedParametersType as _MappedParametersType
 from .mappings import MappedParametersListType as _MappedParametersListType
 from .mappings import flatten as _flatten
+from . import Kinematics as _Kinematics
 if TYPE_CHECKING:
     import georges_core.sequences
     from zgoubidoo.commands import CommandType
@@ -84,7 +85,6 @@ class Input:
         line = line or list()
         self._line: Deque[_Command] = deque(line)
         self._paths: PathsListType = list()
-        self._optical_length: _Q = 0 * _ureg.m
         self._reference_frame: Optional[_Frame] = None
 
     def __del__(self):
@@ -569,15 +569,6 @@ class Input:
         return self._line
 
     @property
-    def optical_length(self) -> _Q:
-        """
-
-        Returns:
-
-        """
-        return self._optical_length
-
-    @property
     def valid_survey(self) -> bool:
         """Boolean indicating if the line has been surveyed."""
         return self._reference_frame is not None
@@ -615,37 +606,32 @@ class Input:
         else:
             return self.beam.mappings
 
-    def increase_optical_length(self, l: _Q):
-        """
-
-        Args:
-            l:
-
-        Returns:
-
-        """
-        self._optical_length += l
-
-    def reset_optical_lenght(self):
-        """
-
-        Returns:
-
-        """
-        self._optical_length = 0 * _ureg.m
-
-    def survey(self, reference_frame: _Frame = None, output: bool = False) -> _pd.DataFrame:
+    def survey(self, reference_frame: _Frame = None,
+               with_reference_trajectory: bool = False,
+               reference_kinematics:Optional[_Kinematics] = None,
+               reference_particle: Optional[Union[_Particule, _ParticuleType]] = None,
+               output: bool = False
+               ) -> _pd.DataFrame:
         """Perform a survey on the input sequence.
 
         Args:
             reference_frame: a Zgoubidoo Frame object acting as the global reference frame.
+            with_reference_trajectory:
+            reference_kinematics:
+            reference_particle:
             output:
 
         Returns:
             the surveyed input sequence.
         """
         self._reference_frame = reference_frame or _Frame()
-        return zgoubidoo.survey(self, reference_frame=reference_frame, output=output)
+        return zgoubidoo.survey(self,
+                                reference_frame=reference_frame,
+                                with_reference_trajectory=with_reference_trajectory,
+                                reference_kinematics=reference_kinematics,
+                                reference_particle=reference_particle,
+                                output=output
+                                )
 
     def clear_survey(self):
         """
@@ -693,7 +679,7 @@ class Input:
         if self._reference_frame is None:
             raise ZgoubiInputException("The input must be surveyed explicitely before plotting.")
         if artist is None:
-            artist = zgoubidoo.vis.ZgoubiMpl(ax=ax, with_frames=with_frames)
+            artist = zgoubidoo.vis.MatplotlibArtist(ax=ax, with_frames=with_frames)
         if ax is not None:
             artist.ax = ax
 
@@ -725,7 +711,7 @@ class Input:
             ZGOUBI_INPUT_FILENAME,
         ]
         for m, p, e in self.paths:
-            if e is not executed_only:
+            if executed_only and not e:
                 continue
             mapping_string = ''
             for k, v in m.items():
@@ -742,12 +728,13 @@ class Input:
 
     @classmethod
     def from_sequence(cls,
-                      sequence: georges.sequences.Sequence,
+                      sequence: georges_core.sequences.Sequence,
                       options: Optional[dict] = None,
                       converters: Optional[dict] = None,
                       elements_database: Optional[dict] = None,
                       beam: Optional[_BeamType] = _BeamTwiss,
                       with_survey: bool = True,
+                      with_survey_reference: bool = True,
                       ):
         """
 
@@ -795,7 +782,7 @@ class Input:
         )
         _.KINEMATICS = sequence.kinematics
         if with_survey:
-            _.survey()
+            _.survey(with_reference_trajectory=with_survey_reference)
         return _
 
     @staticmethod

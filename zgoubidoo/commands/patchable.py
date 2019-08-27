@@ -124,3 +124,39 @@ class Patchable:
 
         """
         self._reference_trajectory = ref
+
+    @property
+    def entry_s(self):
+        """
+
+        Returns:
+
+        """
+        if self.reference_trajectory is not None:
+            return self.reference_trajectory['S'].min() * _ureg.m
+        else:
+            return None
+
+    @property
+    def exit_s(self):
+        """
+
+        Returns:
+
+        """
+        if self.reference_trajectory is not None:
+            return self.reference_trajectory['S'].max() * _ureg.m
+        else:
+            return None
+
+    @property
+    def optical_length(self):
+        """
+
+        Returns:
+
+        """
+        if self.reference_trajectory is not None:
+            return (self.reference_trajectory['S'].max() - self.reference_trajectory['S'].min()) * _ureg.m
+        else:
+            return None
