@@ -25,7 +25,7 @@ class PlotlyArtist(Artist):
     TODO
     """
 
-    def __init__(self, config: Optional[Mapping] = None, **kwargs):
+    def __init__(self, config: Optional[Mapping] = None, layout: Optional[Mapping] = None, **kwargs):
         """
 
         Args:
@@ -40,7 +40,7 @@ class PlotlyArtist(Artist):
             'displayModeBar': False,
             'editable'      : False,
         }
-        self._layout = {
+        self._layout = layout or {
             'xaxis': {
                 'showgrid' : True,
                 'linecolor': 'black',
@@ -50,7 +50,8 @@ class PlotlyArtist(Artist):
             'yaxis': {
                 'linecolor': 'black',
                 'linewidth': 1,
-                'mirror'   : True,
+                'mirror': True,
+                'exponentformat': 'power',
             },
         }
         self._shapes = []
@@ -90,15 +91,17 @@ class PlotlyArtist(Artist):
 
     def add_secondary_axis(self, title: str = ''):
         self.layout['yaxis2'] = {
-            'title'     : title,
-            'titlefont' : dict(
-                color='rgb(148, 103, 189)'
+            'title': title,
+            'titlefont': dict(
+                color='black'
             ),
-            'tickfont'  : dict(
-                color='rgb(148, 103, 189)'
+            'tickfont': dict(
+                color='black'
             ),
+            'linewidth': 1,
+            'exponentformat': 'power',
             'overlaying': 'y',
-            'side'      : 'right',
+            'side': 'right',
         }
 
     def render(self):
