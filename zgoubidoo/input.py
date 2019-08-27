@@ -745,6 +745,7 @@ class Input:
             elements_database:
             beam:
             with_survey:
+            with_survey_reference:
 
         Returns:
 

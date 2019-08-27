@@ -165,7 +165,7 @@ class PlotlyArtist(Artist):
                         'x1': e.exit_s.m_as('m'),
                         'y1': vertical_position + 0.1 if e.B0.magnitude > 0 else vertical_position,
                         'line': {
-                            'width': 1,
+                            'width': 0,
                         },
                         'fillcolor': e.COLOR,
                     },
@@ -181,17 +181,24 @@ class PlotlyArtist(Artist):
                         'x1': e.exit_s.m_as('m'),
                         'y1': vertical_position + 0.05,
                         'line': {
-                            'width': 1,
+                            'width': 0,
                         },
                         'fillcolor': e.COLOR,
                     },
                 )
             if isinstance(e, _Bend):
-                path = f"M{e.entry_patched.x_},1.3 " \
-                       f"H{e.exit.x_} " \
-                       f"L{e.exit.x_ - 0.1 * e.length.m_as('m')},1.1 " \
-                       f"H{e.exit.x_ - 0.9 * e.length.m_as('m')} " \
-                       f"Z"
+                if e.entry_patched.get_rotation_vector()[0] < 0.0:
+                    path = f"M{e.entry_patched.x_},1.3 " \
+                           f"H{e.exit.x_} " \
+                           f"L{e.exit.x_ - 0.1 * e.length.m_as('m')},1.1 " \
+                           f"H{e.exit.x_ - 0.9 * e.length.m_as('m')} " \
+                           f"Z"
+                else:
+                    path = f"M{e.entry_patched.x_ + 0.1 * e.length.m_as('m')},1.3 " \
+                           f"H{e.exit.x_ - 0.1 * e.length.m_as('m')} " \
+                           f"L{e.exit.x_},1.1 " \
+                           f"H{e.entry_patched.x_} " \
+                           f"Z"
                 self.shapes.append(
                     {
                         'type': 'path',
@@ -199,9 +206,9 @@ class PlotlyArtist(Artist):
                         'yref': 'paper',
                         'path': path,
                         'line': {
-                            'width': 1,
+                            'width': 0,
                         },
-                        'fillcolor': '#4169E1',
+                        'fillcolor': e.COLOR,
                     },
                 )
 
