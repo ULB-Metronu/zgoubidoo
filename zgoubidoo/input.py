@@ -9,7 +9,7 @@ to provide a parametric mapping (combinations of the variations of one or more p
 input files.
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, Callable, Sequence, Union, List, Tuple, Iterable, Any, Deque
+from typing import TYPE_CHECKING, Optional, Callable, Sequence, Union, List, Tuple, Iterable, Any, Deque, Mapping
 from collections import deque
 import itertools
 from inspect import getmembers, isfunction
@@ -608,7 +608,7 @@ class Input:
 
     def survey(self, reference_frame: _Frame = None,
                with_reference_trajectory: bool = False,
-               reference_kinematics:Optional[_Kinematics] = None,
+               reference_kinematics: Optional[_Kinematics] = None,
                reference_particle: Optional[Union[_Particule, _ParticuleType]] = None,
                output: bool = False
                ) -> _pd.DataFrame:
@@ -733,6 +733,7 @@ class Input:
                       converters: Optional[dict] = None,
                       elements_database: Optional[dict] = None,
                       beam: Optional[_BeamType] = _BeamTwiss,
+                      beam_options: Optional[Mapping] = None,
                       with_survey: bool = True,
                       with_survey_reference: bool = True,
                       ):
@@ -744,6 +745,7 @@ class Input:
             converters:
             elements_database:
             beam:
+            beam_options:
             with_survey:
             with_survey_reference:
 
@@ -765,17 +767,8 @@ class Input:
             ).values
         )
         if beam is not None:
-            p = getattr(_particules, sequence.particle.__name__)
-            b = beam(
-                kinematics=sequence.kinematics,
-                particle=p,
-                betablock=sequence.betablock
-            )
-            if isinstance(b, _MCObjet):
-                b.EMIT_Y = sequence.betablock.emit1
-                b.EMIT_Z = sequence.betablock.emit2
             converted_sequence.appendleft(
-                (b, )  # Note the tuple here
+                (beam.from_sequence(sequence, **(beam_options or {})), )  # Note the tuple here
             )
         _ = cls(
             name=sequence.name,
@@ -783,7 +776,10 @@ class Input:
         )
         _.KINEMATICS = sequence.kinematics
         if with_survey:
-            _.survey(with_reference_trajectory=with_survey_reference)
+            _.survey(with_reference_trajectory=with_survey_reference,
+                     reference_kinematics=sequence.kinematics,
+                     reference_particle=getattr(_particules, sequence.particle.__name__)
+                     )
         return _
 
     @staticmethod

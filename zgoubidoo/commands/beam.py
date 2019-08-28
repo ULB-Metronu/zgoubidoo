@@ -220,7 +220,7 @@ class BeamZgoubiDistribution(Beam):
                                 )
 
     @classmethod
-    def from_sequence(cls, sequence: _TwissSequence, statistics: Optional[int] = None):
+    def from_sequence(cls, sequence: _TwissSequence, statistics: Optional[int] = None, **kwargs):
         """
 
         Args:
@@ -230,15 +230,16 @@ class BeamZgoubiDistribution(Beam):
         Returns:
 
         """
-        b = cls(
-            particle=getattr(_particules, sequence.particle.__name__),
-            kinematics=sequence.kinematics,
-            betablock=sequence.betablock,
-        )
+        b = cls('BUNCH',
+                particle=getattr(_particules, sequence.particle.__name__),
+                kinematics=sequence.kinematics,
+                betablock=sequence.betablock,
+                **kwargs,
+                )
         b.IMAX = statistics or sequence.metadata.n_particles,
         b._set_from_betablock(sequence.betablock)
         b.EMIT_Y = sequence.metadata['EX'] * _ureg.m * _ureg.radian
-        b.EMIT_Z = sequence.metadata['EX'] * _ureg.m * _ureg.radian
+        b.EMIT_Z = sequence.metadata['EY'] * _ureg.m * _ureg.radian
         return b
 
 
