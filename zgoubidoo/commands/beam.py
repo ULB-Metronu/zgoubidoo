@@ -11,6 +11,7 @@ from zgoubidoo import Q_ as _Q
 from zgoubidoo.commands import CommandType as _CommandType
 from zgoubidoo.commands import Command as _Command
 from zgoubidoo.commands import Comment as _Comment
+from zgoubidoo.commands import particules as _particules
 from zgoubidoo.commands import ParticuleType as _ParticuleType
 from zgoubidoo.commands import Proton as _Proton
 from zgoubidoo.commands import Objet5 as _Objet5
@@ -95,31 +96,22 @@ class Beam(_Command, metaclass=BeamType):
         return self._objet_type(self.LABEL1, BORO=self._kinematics.brho)
 
     def _set_from_betablock(self, betablock: _BetaBlock):
-        self.ALPHA_Y = betablock.alpha11
-        self.BETA_Y = betablock.beta11 * _ureg.m
-        self.ALPHA_Z = betablock.alpha22
-        self.BETA_Z = betablock.beta22 * _ureg.m
-        self.D_Y = betablock.disp1 * _ureg.m
-        self.D_YP = betablock.disp2
-        self.D_Z = betablock.disp3 * _ureg.m
-        self.D_ZP = betablock.disp4
-
-    @classmethod
-    def from_sequence(cls, sequence: _TwissSequence):
         """
 
         Args:
-            sequence:
+            betablock:
 
         Returns:
 
         """
-        return cls(
-            particle=sequence.particle,
-            kinematics=sequence.kinematics,
-            betablock=sequence.betablock,
-            objet_type=_Objet5,
-        )
+        self.ALPHA_Y = betablock.alpha11
+        self.BETA_Y = betablock.beta11
+        self.ALPHA_Z = betablock.alpha22
+        self.BETA_Z = betablock.beta22
+        self.D_Y = betablock.disp1
+        self.D_YP = betablock.disp2
+        self.D_Z = betablock.disp3
+        self.D_ZP = betablock.disp4
 
 
 class BeamZgoubiDistribution(Beam):
@@ -226,6 +218,28 @@ class BeamZgoubiDistribution(Beam):
                                 I2=randint(0, 1e6),
                                 I3=randint(0, 1e6),
                                 )
+
+    @classmethod
+    def from_sequence(cls, sequence: _TwissSequence, statistics: Optional[int] = None):
+        """
+
+        Args:
+            sequence:
+            statistics:
+
+        Returns:
+
+        """
+        b = cls(
+            particle=getattr(_particules, sequence.particle.__name__),
+            kinematics=sequence.kinematics,
+            betablock=sequence.betablock,
+        )
+        b.IMAX = statistics or sequence.metadata.n_particles,
+        b._set_from_betablock(sequence.betablock)
+        b.EMIT_Y = sequence.metadata['EX'] * _ureg.m * _ureg.radian
+        b.EMIT_Z = sequence.metadata['EX'] * _ureg.m * _ureg.radian
+        return b
 
 
 class BeamDistribution(Beam):
@@ -608,3 +622,20 @@ class BeamTwiss(Beam):
                                 D_Z=self.D_Z,
                                 D_ZP=self.D_ZP,
                                 )
+
+    @classmethod
+    def from_sequence(cls, sequence: _TwissSequence):
+        """
+
+        Args:
+            sequence:
+
+        Returns:
+
+        """
+        return cls(
+            particle=getattr(_particules, sequence.particle.__name__),
+            kinematics=sequence.kinematics,
+            betablock=sequence.betablock,
+            objet_type=_Objet5,
+        )
