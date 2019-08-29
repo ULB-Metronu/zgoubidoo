@@ -4,6 +4,7 @@ TODO
 from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, Mapping
 import numpy as _np
+import pandas as _pd
 import plotly.offline
 import plotly.graph_objs as go
 from zgoubidoo.vis import Artist
@@ -35,17 +36,17 @@ class PlotlyArtist(Artist):
         super().__init__(**kwargs)
         self._data = []
         self._config = config or {
-            'showLink'      : False,
-            'scrollZoom'    : True,
+            'showLink': False,
+            'scrollZoom': True,
             'displayModeBar': False,
-            'editable'      : False,
+            'editable': False,
         }
         self._layout = layout or {
             'xaxis': {
-                'showgrid' : True,
+                'showgrid': True,
                 'linecolor': 'black',
                 'linewidth': 1,
-                'mirror'   : True,
+                'mirror': True,
             },
             'yaxis': {
                 'linecolor': 'black',
@@ -55,6 +56,7 @@ class PlotlyArtist(Artist):
             },
         }
         self._shapes = []
+        self._n_y_axis = len([ax for ax in self._layout.keys() if ax.startswith('yaxis')])
 
     def _init_plot(self):
         pass
@@ -89,8 +91,43 @@ class PlotlyArtist(Artist):
         self._data.append(other)
         return self
 
-    def add_secondary_axis(self, title: str = ''):
-        self.layout['yaxis2'] = {
+    def add_axis(self, title: str = '', axis: Optional[Mapping] = None):
+        """
+
+        Args:
+            title:
+            axis:
+
+        Returns:
+
+        """
+        self._n_y_axis += 1
+        self.layout[f"yaxis{self._n_y_axis if self._n_y_axis > 1 else ''}"] = axis or {
+            'title': title,
+            'titlefont': dict(
+                color='black'
+            ),
+            'tickfont': dict(
+                color='black'
+            ),
+            'linewidth': 1,
+            'exponentformat': 'power',
+            'overlaying': 'y',
+            'side': 'left',
+        }
+
+    def add_secondary_axis(self, title: str = '', axis: Optional[Mapping] = None):
+        """
+
+        Args:
+            title:
+            axis:
+
+        Returns:
+
+        """
+        self._n_y_axis += 1
+        self.layout[f"yaxis{self._n_y_axis}"] = axis or {
             'title': title,
             'titlefont': dict(
                 color='black'
@@ -291,3 +328,241 @@ class PlotlyArtist(Artist):
                     [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m') + 0.1, 0.0],
                     [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m'), 0.0],
                 ]))
+
+    @classmethod
+    def plot_twiss(cls,
+                   beamline,
+                   twiss: _pd.DataFrame,
+                   twiss_madx: Optional[_pd.DataFrame],
+                   beta: bool = True,
+                   dispersion: bool = True,
+                   dispersion_prime: bool = False,
+                   alpha: bool = False,
+                   mu: bool = False,
+                   ):
+        """
+
+        Args:
+            beamline:
+            twiss:
+            twiss_madx:
+            beta:
+            dispersion:
+            dispersion_prime:
+            alpha:
+
+        Returns:
+
+        """
+
+        artist = cls(layout={
+            'xaxis': {'title': 'S (m)',
+                      'mirror': True,
+                      'linecolor': 'black',
+                      'linewidth': 1
+                      },
+            'legend': {
+                'bordercolor': '#888',
+                'borderwidth': 1,
+                'xanchor': 'right',
+                'x': 0.98,
+                'yanchor': 'top',
+                'y': 0.98
+            },
+        })
+
+        if beta:
+            artist.add_axis(axis={
+                'title': 'Beta function (m)',
+                'linecolor': 'black',
+                'linewidth': 1,
+                'exponentformat': 'power',
+            })
+            artist.scatter(
+                x=twiss['S'],
+                y=twiss['BETA11'],
+                line={'width': 2, 'color': 'blue'},
+                name='BETA11',
+                mode='lines',
+            )
+
+            artist.scatter(
+                x=twiss['S'],
+                y=twiss['BETA22'],
+                line={'width': 2, 'color': 'FireBrick'},
+                name='BETA22',
+                mode='lines',
+            )
+
+            if twiss_madx is not None:
+                artist.scatter(
+                    x=twiss_madx['S'],
+                    y=twiss_madx['BETX'],
+                    marker={'color': 'blue', 'symbol': 'cross-thin', 'size': 5, 'line': {'width': 1, 'color': 'blue'}},
+                    mode='markers',
+                    showlegend=False,
+                )
+                artist.scatter(
+                    x=twiss_madx['S'],
+                    y=twiss_madx['BETY'],
+                    marker={'color': 'FireBrick', 'symbol': 'cross-thin', 'size': 5,
+                            'line': {'width': 1, 'color': 'FireBrick'}},
+                    mode='markers',
+                    showlegend=False
+                )
+
+        if alpha:
+            artist.add_axis(axis={
+                'title': 'Alpha function',
+                'linecolor': 'black',
+                'linewidth': 1,
+                'exponentformat': 'power',
+            })
+            artist.scatter(
+                x=twiss['S'],
+                y=twiss['ALPHA11'],
+                line={'width': 2, 'color': 'blue'},
+                name='ALPHA11',
+                mode='lines',
+            )
+
+            artist.scatter(
+                x=twiss['S'],
+                y=twiss['ALPHA22'],
+                line={'width': 2, 'color': 'FireBrick'},
+                name='ALPHA22',
+                mode='lines',
+            )
+
+            if twiss_madx is not None:
+                artist.scatter(
+                    x=twiss_madx['S'],
+                    y=twiss_madx['ALFX'],
+                    marker={'color': 'blue', 'symbol': 'cross-thin', 'size': 5, 'line': {'width': 1, 'color': 'blue'}},
+                    mode='markers',
+                    showlegend=False,
+                )
+                artist.scatter(
+                    x=twiss_madx['S'],
+                    y=twiss_madx['ALFY'],
+                    marker={'color': 'FireBrick', 'symbol': 'cross-thin', 'size': 5,
+                            'line': {'width': 1, 'color': 'FireBrick'}},
+                    mode='markers',
+                    showlegend=False
+                )
+
+        if dispersion:
+            artist.add_secondary_axis(title='Dispersion (m)')
+
+            artist.scatter(
+                x=twiss['S'],
+                y=twiss['DISP1'],
+                line={'width': 2, 'color': 'green', 'dash': 'dashdot'},
+                name='DISP1',
+                mode='lines',
+                yaxis='y2',
+            )
+
+            artist.scatter(
+                x=twiss['S'],
+                y=twiss['DISP3'],
+                line={'width': 1, 'color': 'magenta', 'dash': 'dashdot'},
+                name='DISP3',
+                mode='lines',
+                yaxis='y2',
+            )
+
+            if twiss_madx is not None:
+                artist.scatter(
+                    x=twiss_madx['S'],
+                    y=twiss_madx['DX'],
+                    marker={'color': 'green', 'symbol': 'cross-thin', 'size': 5, 'line': {'width': 1, 'color': 'green'}},
+                    mode='markers',
+                    yaxis='y2',
+                    showlegend=False
+                )
+                artist.scatter(
+                    x=twiss_madx['S'],
+                    y=twiss_madx['DY'],
+                    marker={'color': 'magenta', 'symbol': 'cross-thin', 'size': 5,
+                            'line': {'width': 1, 'color': 'magenta'}},
+                    mode='markers',
+                    yaxis='y2',
+                    showlegend=False
+                )
+
+        if dispersion_prime:
+            artist.add_axis(title='Dispersion prime')
+
+            artist.scatter(
+                x=twiss['S'],
+                y=twiss['DISP2'],
+                line={'width': 2, 'color': 'green', 'dash': 'dashdot'},
+                name='DISP2',
+                mode='lines',
+            )
+
+            artist.scatter(
+                x=twiss['S'],
+                y=twiss['DISP4'],
+                line={'width': 1, 'color': 'magenta', 'dash': 'dashdot'},
+                name='DISP4',
+                mode='lines',
+            )
+
+            if twiss_madx is not None:
+                artist.scatter(
+                    x=twiss_madx['S'],
+                    y=twiss_madx['DPX'],
+                    marker={'color': 'green', 'symbol': 'cross-thin', 'size': 5, 'line': {'width': 1, 'color': 'green'}},
+                    mode='markers',
+                    showlegend=False
+                )
+                artist.scatter(
+                    x=twiss_madx['S'],
+                    y=twiss_madx['DPY'],
+                    marker={'color': 'magenta', 'symbol': 'cross-thin', 'size': 5,
+                            'line': {'width': 1, 'color': 'magenta'}},
+                    mode='markers',
+                    showlegend=False
+                )
+
+        if mu:
+            artist.add_axis(title='Phase advance')
+
+            artist.scatter(
+                x=twiss['S'],
+                y=twiss['MU1'] / (2 * _np.pi),
+                line={'width': 2, 'color': 'blue', 'dash': 'dashdot'},
+                name='MU1',
+                mode='lines',
+            )
+
+            artist.scatter(
+                x=twiss['S'],
+                y=twiss['MU2'] / (2 * _np.pi),
+                line={'width': 1, 'color': 'FireBrick', 'dash': 'dashdot'},
+                name='MU2',
+                mode='lines',
+            )
+
+            if twiss_madx is not None:
+                artist.scatter(
+                    x=twiss_madx['S'],
+                    y=twiss_madx['MUX'],
+                    marker={'color': 'blue', 'symbol': 'cross-thin', 'size': 5, 'line': {'width': 1, 'color': 'blue'}},
+                    mode='markers',
+                    showlegend=False
+                )
+                artist.scatter(
+                    x=twiss_madx['S'],
+                    y=twiss_madx['MUY'],
+                    marker={'color': 'FireBrick', 'symbol': 'cross-thin', 'size': 5,
+                            'line': {'width': 1, 'color': 'FireBrick'}},
+                    mode='markers',
+                    showlegend=False
+                )
+
+        artist.plot_cartouche(beamline)
+        artist.render()
+        return artist
