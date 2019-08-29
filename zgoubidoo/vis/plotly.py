@@ -152,6 +152,10 @@ class PlotlyArtist(Artist):
     def save_html(self, file: str):
         return plotly.offline.plot(self.fig, config=self.config, auto_open=False, filename=file)
 
+    def histogram(self, *args, **kwargs):
+        """A proxy for plotly.graph_objs.Histogram"""
+        self._data.append(go.Histogram(*args, **kwargs))
+
     def scatter(self, *args, **kwargs):
         """A proxy for plotly.graph_objs.Scatter ."""
         self._data.append(go.Scatter(*args, **kwargs))
@@ -227,12 +231,12 @@ class PlotlyArtist(Artist):
                 if e.entry_patched.get_rotation_vector()[0] < 0.0:
                     path = f"M{e.entry_patched.x_},1.3 " \
                            f"H{e.exit.x_} " \
-                           f"L{e.exit.x_ - 0.1 * e.length.m_as('m')},1.1 " \
-                           f"H{e.exit.x_ - 0.9 * e.length.m_as('m')} " \
+                           f"L{e.exit.x_ - 0.15 * e.length.m_as('m')},1.1 " \
+                           f"H{e.exit.x_ - 0.85 * e.length.m_as('m')} " \
                            f"Z"
                 else:
-                    path = f"M{e.entry_patched.x_ + 0.1 * e.length.m_as('m')},1.3 " \
-                           f"H{e.exit.x_ - 0.1 * e.length.m_as('m')} " \
+                    path = f"M{e.entry_patched.x_ + 0.15 * e.length.m_as('m')},1.3 " \
+                           f"H{e.exit.x_ - 0.15 * e.length.m_as('m')} " \
                            f"L{e.exit.x_},1.1 " \
                            f"H{e.entry_patched.x_} " \
                            f"Z"
@@ -350,6 +354,7 @@ class PlotlyArtist(Artist):
             dispersion:
             dispersion_prime:
             alpha:
+            mu:
 
         Returns:
 

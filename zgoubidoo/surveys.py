@@ -196,13 +196,18 @@ def construct_rays(tracks: _pd.DataFrame):
             tracks.loc[tracks.LABEL1 == label, cset['ZR']] = end_points[:, 2]
 
 
-def transform_tracks(beamline: _Input, tracks: _pd.DataFrame, ref: str = 'entry_patched'):
+def transform_tracks(beamline: _Input,
+                     tracks: _pd.DataFrame,
+                     ref: str = 'entry_patched',
+                     with_initial_coordinates: bool = True,
+                     ):
     """
 
     Args:
         beamline:
         tracks:
         ref:
+        with_initial_coordinates:
     """
     for label in tracks.LABEL1.unique():
         e = getattr(beamline, label)
@@ -217,15 +222,17 @@ def transform_tracks(beamline: _Input, tracks: _pd.DataFrame, ref: str = 'entry_
         element_rotation = _np.linalg.inv(getattr(e, ref).get_rotation_matrix())
         t = tracks.query(f"LABEL1 == '{label}'")
         u = _np.dot(t[['X', 'Y', 'Z']].values, element_rotation)
-        v = _np.dot(t[['X', 'Yo', 'Zo']].values, element_rotation)
+        if with_initial_coordinates:
+            v = _np.dot(t[['X', 'Yo', 'Zo']].values, element_rotation)
 
         # Translate all particle coordinates to the global reference frame
         origin = getattr(e, ref).origin
         tracks.loc[tracks.LABEL1 == label, 'XG'] = u[:, 0] + origin[0].m_as('m')
         tracks.loc[tracks.LABEL1 == label, 'YG'] = u[:, 1] + origin[1].m_as('m')
         tracks.loc[tracks.LABEL1 == label, 'ZG'] = u[:, 2] + origin[2].m_as('m')
-        tracks.loc[tracks.LABEL1 == label, 'YGo'] = v[:, 1] + origin[1].m_as('m')
-        tracks.loc[tracks.LABEL1 == label, 'ZGo'] = v[:, 2] + origin[2].m_as('m')
+        if with_initial_coordinates:
+            tracks.loc[tracks.LABEL1 == label, 'YGo'] = v[:, 1] + origin[1].m_as('m')
+            tracks.loc[tracks.LABEL1 == label, 'ZGo'] = v[:, 2] + origin[2].m_as('m')
 
         # Transform (rotate and translate) all rays coordinates to the global reference frame
         if 'XR' in tracks.columns and 'YR' in tracks.columns and 'ZR' in tracks.columns:

@@ -244,6 +244,7 @@ class ZgoubiResults:
         if with_survey and not srloss_steps.empty:
             zgoubidoo.surveys.transform_tracks(beamline=self.results[0][1]['input'],
                                                tracks=srloss_steps,
+                                               with_initial_coordinates=False,
                                                )
         return srloss_steps
 
