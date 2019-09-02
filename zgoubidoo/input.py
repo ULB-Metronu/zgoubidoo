@@ -760,7 +760,7 @@ class Input:
         converted_sequence = deque(
             sequence.apply(
                 lambda _: elements_database.get(_.name,
-                                                conversion_functions.get(_['KEYWORD'], lambda _, __, ___: None)
+                                                conversion_functions.get(_['KEYWORD'], lambda _, __, ___: [])
                                                 (_, sequence.kinematics, options.get(_['KEYWORD'], {}))
                                                 ),
                 axis=1
