@@ -158,10 +158,12 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
                 self._entry_patched.translate_y(self.y_offset)
                 self._entry_patched.rotate_z(-self.rotation)  # Is this sign correct?
             elif self.KPOS == 3:
+                self._entry_patched.translate_x(-(self.X_E or 0.0 * _ureg.cm))
                 self._entry_patched.rotate_z(
                     -_np.arcsin(
                         (self.XL * self.B1) / (2 * self.KINEMATICS.brho)) * _ureg.radian
                 )
+
         return self._entry_patched
 
     @property
@@ -173,7 +175,7 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
         """
         if self._exit is None:
             self._exit = _Frame(self.entry_patched)
-            self._exit.translate_x(self.length + (self.X_E or 0.0 * _ureg.cm) + (self.X_S or 0.0 * _ureg.cm))
+            self._exit.translate_x(self.length + (self.X_E or 0.0 * _ureg.cm))
         return self._exit
 
     @property
@@ -190,6 +192,7 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
             elif self.KPOS == 0 or self.KPOS == 2:
                 self._exit_patched = _Frame(self.entry)
                 self._exit_patched.translate_x(self.XL or 0.0 * _ureg.cm)
+                self._exit_patched.translate_x(-(self.X_S or 0.0 * _ureg.cm))
             elif self.KPOS == 3:
                 self._exit_patched = _Frame(self.exit)
                 self._exit_patched.rotate_z(
@@ -211,6 +214,10 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
     """
     PARAMETERS = {
         'WIDTH': 150 * _ureg.cm,
+        'APERTURE_LEFT': (10 * _ureg.cm, 'Aperture size of the magnet, left side (used for plotting only).'),
+        'APERTURE_RIGHT': (10 * _ureg.cm, 'Aperture size of the magnet, right side (used for plotting only).'),
+        'APERTURE_TOP': (10 * _ureg.cm, 'Aperture size of the magnet, top side (used for plotting only).'),
+        'APERTURE_BOTTOM': (10 * _ureg.cm, 'Aperture size of the magnet, bottom side (used for plotting only).'),
         'COLOR': 'red',
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
@@ -644,6 +651,20 @@ class Bend(CartesianMagnet):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
 
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        if self.LAM_S.magnitude == 0:
+            self.X_S = 0.0 * _ureg.cm
+        if self.LAM_E.magnitude == 0:
+            self.X_E = 0.0 * _ureg.cm
+
     def __str__(s):
         return f"""
         {super().__str__().rstrip()}
@@ -837,6 +858,7 @@ class Dipole(PolarMagnet):
         'RS': (0 * _ureg.centimeter, '', 61),
         'TS': (0 * _ureg.radian, '', 62),
         'DP': (0.0, '', 63),
+        'COLOR': '#4169E1',
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
@@ -1953,11 +1975,11 @@ class Quadrupole(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, 'Print field and coordinates along trajectories', 1),
+        'IL': (0, 'Print field and coordinates along trajectories', 0),
         'XL': (0 * _ureg.centimeter, 'Magnet length', 10),
         'R0': (1.0 * _ureg.centimeter, 'Radius of the pole tips', 11),
         'B0': (0 * _ureg.kilogauss, 'Field at pole tips', 12),
-        'XE': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 20),
+        'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 20),
         'LAM_E': (0 * _ureg.centimeter, 'Entrance face fringe field extent', 21),
         'C0_E': 0,
         'C1_E': 1,
@@ -1965,7 +1987,7 @@ class Quadrupole(CartesianMagnet):
         'C3_E': 0,
         'C4_E': 0,
         'C5_E': 0,
-        'XS': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field'),
+        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field'),
         'LAM_S': (0 * _ureg.centimeter, 'Exit face fringe field extent'),
         'C0_S': 0,
         'C1_S': 1,
@@ -1977,7 +1999,7 @@ class Quadrupole(CartesianMagnet):
         'KPOS': (1, 'Misalignment type', 70),
         'XCE': (0 * _ureg.centimeter, 'x offset', 71),
         'YCE': (0 * _ureg.centimeter, 'y offset', 72),
-        'ALE': 0 * _ureg.radian,
+        'ALE': (0 * _ureg.radian, 'misalignment rotation', 73),
         'COLOR': ('#FF0000', 'Magnet color for plotting.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
@@ -1992,9 +2014,9 @@ class Quadrupole(CartesianMagnet):
         Returns:
 
         """
-        if _cm(self.XE) == 0 and _cm(self.R0) != 0:
-            self.XE = 2 * self.R0
-        if _cm(self.XS) == 0 and _cm(self.R0) != 0:
+        if _cm(self.X_E) == 0 and _cm(self.R0) != 0 and self.LAM_E.magnitude != 0:
+            self.X_E = 2 * self.R0
+        if _cm(self.X_S) == 0 and _cm(self.R0) != 0 and self.LAM_S.magnitude != 0:
             self.XS = 2 * self.R0
 
     def __str__(s):
@@ -2002,9 +2024,9 @@ class Quadrupole(CartesianMagnet):
         {super().__str__().rstrip()}
         {s.IL}
         {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B0):.12e}
-        {_cm(s.XE):.12e} {_cm(s.LAM_E):.12e}
+        {_cm(s.X_E):.12e} {_cm(s.LAM_E):.12e}
         6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
-        {_cm(s.XS):.12e} {_cm(s.LAM_S):.12e}
+        {_cm(s.X_S):.12e} {_cm(s.LAM_S):.12e}
         6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
         {_cm(s.XPAS)}
         {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
@@ -2019,13 +2041,6 @@ class Quadrupole(CartesianMagnet):
     def gradient(self, g):
         print("hello")
         self.B0 = g * self.R0
-
-    def align(self, mode=''):
-        self.KPOS = 1
-        self.XCE = 0.0 * _ureg.centimeter
-        self.YCE = 0.0 * _ureg.centimeter
-        self.ALE = 0.0 * _ureg.radians
-        return self
 
 
 class SexQuad(CartesianMagnet):

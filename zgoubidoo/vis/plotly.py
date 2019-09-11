@@ -16,6 +16,7 @@ from ..commands import Quadrupole as _Quadrupole
 from ..commands import Sextupole as _Sextupole
 from ..commands import Multipole as _Multipole
 from ..commands import Bend as _Bend
+from ..commands import Dipole as _Dipole
 
 if TYPE_CHECKING:
     from ..input import Input as _Input
@@ -227,18 +228,19 @@ class PlotlyArtist(Artist):
                         'fillcolor': e.COLOR,
                     },
                 )
-            if isinstance(e, _Bend):
-                if e.entry_patched.get_rotation_vector()[0] < 0.0:
-                    path = f"M{e.entry_patched.x_},1.3 " \
-                           f"H{e.exit.x_} " \
-                           f"L{e.exit.x_ - 0.15 * e.length.m_as('m')},1.1 " \
-                           f"H{e.exit.x_ - 0.85 * e.length.m_as('m')} " \
+            if isinstance(e, (_Bend, _Dipole)):
+                length = (e.exit_s - e.entry_s).m_as('m')
+                if e.entry_patched.get_rotation_vector()[0] >= 0.0:
+                    path = f"M{e.entry_s.m_as('m')},{vertical_position + 0.1} " \
+                           f"H{e.exit_s.m_as('m')} " \
+                           f"L{e.exit_s.m_as('m') - 0.15 * length},{vertical_position - 0.1} " \
+                           f"H{e.exit_s.m_as('m') - 0.85 * length} " \
                            f"Z"
                 else:
-                    path = f"M{e.entry_patched.x_ + 0.15 * e.length.m_as('m')},1.3 " \
-                           f"H{e.exit.x_ - 0.15 * e.length.m_as('m')} " \
-                           f"L{e.exit.x_},1.1 " \
-                           f"H{e.entry_patched.x_} " \
+                    path = f"M{e.entry_s.m_as('m') + 0.15 * e.length.m_as('m')},{vertical_position + 0.1} " \
+                           f"H{e.exit_s.m_as('m') - 0.15 * e.length.m_as('m')} " \
+                           f"L{e.exit_s.m_as('m')},{vertical_position - 0.1} " \
+                           f"H{e.entry_s.m_as('m')} " \
                            f"Z"
                 self.shapes.append(
                     {

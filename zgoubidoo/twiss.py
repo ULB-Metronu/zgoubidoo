@@ -36,8 +36,8 @@ def _get_parameters(m: _pd.DataFrame, twiss: Optional[_BetaBlock], plane: int = 
     r22: _pd.Series = m[f"R{p + 1}{p + 1}"]
     if twiss is not None:
         alpha: float = twiss[f"ALPHA{v}{v}"]
-        beta: float = twiss[f"BETA{v}{v}"]
-        gamma: float = twiss[f"GAMMA{v}{v}"]
+        beta: float = twiss[f"BETA{v}{v}"].m_as('m')
+        gamma: float = twiss[f"GAMMA{v}{v}"].m_as('m**-1')
         return r11, r12, r21, r22, alpha, beta, gamma
     else:
         return r11, r12, r21, r22
@@ -108,7 +108,7 @@ def compute_mu_from_matrix(m: _pd.DataFrame, twiss: _BetaBlock, plane: int = 1) 
         a Pandas Series with the phase advance computed at all steps of the input step-by-step transfer matrix
     """
     r11, r12, r21, r22, alpha, beta, gamma = _get_parameters(m, twiss, plane)
-    return _np.arctan2(r12, r11 * beta.m_as('m') - r12 * alpha)
+    return _np.arctan2(r12, r11 * beta - r12 * alpha)
 
 
 def compute_jacobian_from_matrix(m: _pd.DataFrame, plane: int = 1) -> _pd.Series:
@@ -315,11 +315,12 @@ def align_tracks(tracks: _pd.DataFrame,
     assert set(particules) == set(tracks[identifier].unique()), "Required particles not found (are you using Objet5?)."
     ref: _pd.DataFrame = tracks.query(f"{identifier} == '{reference_track}'")[coordinates +
                                                                               [align_on,
-                                                                              'LABEL1',
-                                                                              'XG' if global_frame else 'X'
-                                                                              ]]
+                                                                               'LABEL1',
+                                                                               'XG' if global_frame else 'X'
+                                                                               ]]
     ref_alignment_values = ref[align_on].values
-    assert _np.all(_np.diff(ref_alignment_values) >= 0), "The reference alignment values are not monotonously increasing"
+    assert _np.all(_np.diff(ref_alignment_values) >= 0), "The reference alignment values " \
+                                                         "are not monotonously increasing"
     data = _np.zeros((len(particules), ref_alignment_values.shape[0], len(coordinates)))
     data[0, :, :] = ref[coordinates].values
     for i, p in enumerate(particules[1:]):
@@ -375,10 +376,7 @@ def compute_transfer_matrix(beamline: _Input, tracks: _pd.DataFrame, global_fram
                 for j in range(0, n_dimensions)
             }
         )
-        if isinstance(e, _PolarMagnet):
-            m['S'] = ref['S'].values * 100 * e.radius.to('m').magnitude
-        else:
-            m['S'] = ref['S'].values
+        m['S'] = ref['S'].values
         m['LABEL1'] = e.LABEL1
         m['KEYWORD'] = e.KEYWORD
         if global_frame:
@@ -389,8 +387,6 @@ def compute_transfer_matrix(beamline: _Input, tracks: _pd.DataFrame, global_fram
             m['X'] = ref['X'].values
             m['Y'] = ref['Y'].values
             m['Z'] = ref['Z'].values
-        matrix = matrix.append(m)
-    # TODO this should most probably disapear
-    # if global_frame:
-    #     matrix['S'] += tracks['XG'].min()  # Global adjustment
+
+        matrix = matrix.append(m[1:-1])
     return matrix.reset_index()

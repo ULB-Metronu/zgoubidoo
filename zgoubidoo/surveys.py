@@ -98,6 +98,8 @@ def survey_output(beamline: _Input) -> _pd.DataFrame:
             {
                 'LABEL1': e.LABEL1,
                 'KEYWORD': e.KEYWORD,
+                'entry_s': e.entry_s,
+                'exit_s': e.exit_s,
                 'entry_x': element_entry[0],
                 'entry_y': element_entry[1],
                 'entry_z': element_entry[2],
@@ -157,7 +159,6 @@ def survey_reference_trajectory(beamline: _Input,
     objet = _Objet2(BORO=reference_kinematics.brho)
     zi = _Input(name='SURVEY_REFERENCE', line=[objet, reference_particle] + list(sequence))
     zi.KINEMATICS = reference_kinematics
-    zi.XPAS = 100 * _ureg.cm
     zi.IL = 2
     z = zgoubidoo.Zgoubi()
     tracks = z(zi, debug=debug).collect().tracks
