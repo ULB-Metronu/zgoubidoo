@@ -275,30 +275,24 @@ class BeamDistribution(Beam):
         """
         self._slices: int = slices
         self._distribution: Optional[Union[pd.DataFrame, np.array]] = None
-        self._initialize_distribution(distribution, **kwargs)
+        self.initialize_distribution(distribution, **kwargs)
 
-    def _initialize_distribution(self, distribution: Union[pd.DataFrame, np.array] = None, **kwargs):
+    def initialize_distribution(self, distribution: Union[pd.DataFrame, np.array] = None, **kwargs):
         """Try setting the internal pandas.DataFrame with a distribution.
 
         Args:
             distribution:
         """
-        if distribution is not None:
+        try:
             try:
                 self._distribution = distribution.values
             except AttributeError:
                 self._distribution = distribution
-        else:
-            try:
-                try:
-                    self._distribution = distribution.values
-                except AttributeError:
-                    self._distribution = distribution
-            except (IndexError, ValueError):
-                if kwargs.get("filename") is not None:
-                    self._distribution = Beam.generate_from_file(kwargs.get('filename'), path=kwargs.get('path', '.'))
-                else:
-                    return
+        except (IndexError, ValueError):
+            if kwargs.get("filename") is not None:
+                self._distribution = Beam.generate_from_file(kwargs.get('filename'), path=kwargs.get('path', '.'))
+            else:
+                return
         if self._distribution is not None and self._distribution.shape[0] == 0:
             raise ZgoubidooBeamException("Trying to initialize a beam distribution with invalid number of particles.")
 
@@ -394,7 +388,7 @@ class BeamDistribution(Beam):
         Returns:
 
         """
-        self._initialize_distribution(Beam.generate_from_file(file, path, n))
+        self.initialize_distribution(Beam.generate_from_file(file, path, n))
         return self
 
     def from_5d_sigma_matrix(self, n, **kwargs) -> Beam:
@@ -409,7 +403,7 @@ class BeamDistribution(Beam):
 
         """
         distribution = Beam.generate_from_5d_sigma_matrix(n, **kwargs)
-        self._initialize_distribution(distribution)
+        self.initialize_distribution(distribution)
         return self
 
     def from_twiss_parameters(self, n, **kwargs) -> Beam:

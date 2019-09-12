@@ -110,6 +110,7 @@ class Objet2(Objet):
     T_ = 31
     Z_ = 32
     P_ = 33
+    # Used for FIT
 
     def post_init(self,
                   reference_y: float = 0.0,
@@ -184,8 +185,7 @@ class Objet2(Objet):
             elif p.shape[1] == 5:  # Y T Z P D
                 x = _np.zeros((p.shape[0], 1))
                 iex = _np.ones((p.shape[0], 1))
-                ### TODO this doesn't work
-                self._PARTICULES = _np.concatenate((p[:, :-1], x, p[:, :-1], iex), axis=1)
+                self._PARTICULES = _np.concatenate((p[:, :-1], x, p[:, -1:], iex), axis=1)
             elif p.shape[1] == 6:  # Y T Z P X D
                 iex = _np.ones((p.shape[0], 1))
                 self._PARTICULES = _np.concatenate((p, iex), axis=1)
