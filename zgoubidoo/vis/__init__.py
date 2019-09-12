@@ -2,6 +2,5 @@
 
 TODO
 """
-from .artist import Artist
 from .matplotlib import MatplotlibArtist, MplArtist
-from .plotly import PlotlyArtist
+from .plotly import ZgoubidooPlotlyArtist
