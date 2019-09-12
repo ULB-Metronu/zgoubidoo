@@ -157,6 +157,10 @@ class PlotlyArtist(Artist):
         """A proxy for plotly.graph_objs.Histogram"""
         self._data.append(go.Histogram(*args, **kwargs))
 
+    def histogram2d(self, *args, **kwargs):
+        """A proxy for plotly.graph_objs.Histogram2d"""
+        self._data.append(go.Histogram2d(*args, **kwargs))
+
     def scatter(self, *args, **kwargs):
         """A proxy for plotly.graph_objs.Scatter ."""
         self._data.append(go.Scatter(*args, **kwargs))
