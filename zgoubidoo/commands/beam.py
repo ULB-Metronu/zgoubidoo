@@ -14,6 +14,7 @@ from zgoubidoo.commands import Comment as _Comment
 from zgoubidoo.commands import particules as _particules
 from zgoubidoo.commands import ParticuleType as _ParticuleType
 from zgoubidoo.commands import Proton as _Proton
+from zgoubidoo.commands import Objet2 as _Objet2
 from zgoubidoo.commands import Objet5 as _Objet5
 from zgoubidoo.commands import MCObjet3 as _MCObjet3
 from zgoubidoo.commands import ObjetType as _ObjetType
@@ -24,6 +25,7 @@ from .. import ureg as _ureg
 if TYPE_CHECKING:
     from georges_core.sequences import BetaBlock as _BetaBlock
     from georges_core.sequences import TwissSequence as _TwissSequence
+    from georges_core.sequences import Sequence as _Sequence
 
 
 class ZgoubidooBeamException(Exception):
@@ -264,9 +266,6 @@ class BeamDistribution(Beam):
 
         Args:
             distribution:
-            particle:
-            objet_type:
-            kinematics:
             slices:
             *args:
             **kwargs:
@@ -450,6 +449,24 @@ class BeamDistribution(Beam):
                                   )
         return self
 
+    @classmethod
+    def from_sequence(cls, sequence: _Sequence, **kwargs):
+        """
+
+        Args:
+            sequence:
+            kwags:
+
+        Returns:
+
+        """
+        return cls(
+            particle=getattr(_particules, sequence.particle.__name__),
+            kinematics=sequence.kinematics,
+            objet_type=_Objet2,
+            **kwargs
+        )
+
     @staticmethod
     def generate_from_file(file: str, path: str = '.', n: Optional[int] = None) -> pd.DataFrame:
         """
@@ -625,11 +642,12 @@ class BeamTwiss(Beam):
                                 )
 
     @classmethod
-    def from_sequence(cls, sequence: _TwissSequence):
+    def from_sequence(cls, sequence: _TwissSequence, **kwargs):
         """
 
         Args:
             sequence:
+            kwargs:
 
         Returns:
 
@@ -639,4 +657,5 @@ class BeamTwiss(Beam):
             kinematics=sequence.kinematics,
             betablock=sequence.betablock,
             objet_type=_Objet5,
+            **kwargs
         )
