@@ -103,9 +103,20 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
         'APERTURE_TOP': (10 * _ureg.cm, 'Aperture size of the magnet, top side (used for plotting only).'),
         'APERTURE_BOTTOM': (10 * _ureg.cm, 'Aperture size of the magnet, bottom side (used for plotting only).'),
         'COLOR': ('black', 'Magnet color for plotting.'),
+        'LENGTH_IS_ARC_LENGTH': (False, ''),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
+
+    def post_init(self, **kwargs):
+        if self.LENGTH_IS_ARC_LENGTH:
+            if self.KINEMATICS is None:
+                raise _ZgoubidooException("Arc length conversion requested but KINEMATICS not provided.")
+            arc_length = self.XL
+            field = self.B0 if self.B1 is None else self.B1
+            rho = self.KINEMATICS.brho / field
+            phi = arc_length / rho
+            self.XL = 2 * rho * _np.sin(phi / 2)
 
     @property
     def rotation(self) -> _Q:
@@ -161,7 +172,7 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
                 self._entry_patched.translate_x(-(self.X_E or 0.0 * _ureg.cm))
                 self._entry_patched.rotate_z(
                     -_np.arcsin(
-                        (self.XL * self.B1) / (2 * self.KINEMATICS.brho)) * _ureg.radian
+                        (self.XL * self.B1) / (2 * self.KINEMATICS.brho))
                 )
 
         return self._entry_patched
@@ -647,6 +658,7 @@ class Bend(CartesianMagnet):
         'YCE': 0.0 * _ureg.centimeter,
         'ALE': 0.0 * _ureg.radian,
         'COLOR': '#4169E1',
+        'LENGTH_IS_ARC_LENGTH': True,
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""

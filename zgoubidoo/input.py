@@ -752,9 +752,9 @@ class Input:
         Returns:
 
         """
-        madx_converters = {k.split('_')[0].upper(): v
-                           for k, v in getmembers(_zgoubi_converters, isfunction) if k.endswith('to_zgoubi')}
-        conversion_functions = {**madx_converters, **(converters or {})}
+        zgoubi_converters = {k.split('_')[0].upper(): v
+                             for k, v in getmembers(_zgoubi_converters, isfunction) if k.endswith('to_zgoubi')}
+        conversion_functions = {**zgoubi_converters, **(converters or {})}
         elements_database = elements_database or {}
         options = options or {}
         converted_sequence = deque(
@@ -768,7 +768,7 @@ class Input:
         )
         if beam is not None:
             converted_sequence.appendleft(
-                (beam.from_sequence(sequence, **(beam_options or {})), )  # Note the tuple here
+                (beam.from_sequence(sequence, **(beam_options or {'LABEL1': 'BEAM'})), )  # Note the tuple here
             )
         _ = cls(
             name=sequence.name,

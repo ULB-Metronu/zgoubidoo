@@ -21,7 +21,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Dict, List
 import numpy as _np
 from zgoubidoo import ureg as _ureg
-from zgoubidoo.commands import Quadrupole, Sextupole, Octupole, Command, Marker, Drift, Bend, ChangeRef, Multipole, Cavite
+from zgoubidoo.commands import Quadrupole, Sextupole, Octupole, Command, Marker, Drift, Bend, ChangeRef, Multipole, \
+    Cavite, Dipole
 from zgoubidoo.constants import ZGOUBI_LABEL_LENGTH as _ZGOUBI_LABEL_LENGTH
 if TYPE_CHECKING:
     from georges_core import Kinematics as _Kinematics
@@ -111,13 +112,23 @@ def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
         tilt = 0.0 * _ureg.radian
     else:
         tilt = element['TILT']
-    b = options.get('command', Bend)(element.name[0:_ZGOUBI_LABEL_LENGTH],
-                                     XL=element['L'],
-                                     B1=b1,
-                                     KPOS=3,
-                                     W_E=we * _np.sign(element['ANGLE']),
-                                     W_S=ws * _np.sign(element['ANGLE']),
-                                     )
+    if options.get('command', Bend) == Bend:
+        b = Bend(element.name[0:_ZGOUBI_LABEL_LENGTH],
+                 XL=element['L'],
+                 B1=b1,
+                 KPOS=3,
+                 W_E=we * _np.sign(element['ANGLE']),
+                 W_S=ws * _np.sign(element['ANGLE']),
+                 KINEMATICS=kinematics,
+                 LENGTH_IS_ARC_LENGTH=options.get('LENGTH_IS_ARC_LENGTH', True)
+                 )
+
+    elif options.get('command') == Dipole:
+        b = Dipole(element.name[0:_ZGOUBI_LABEL_LENGTH],
+                   RM=_np.abs(element.L/element.ANGLE),
+                   AT=_np.abs(element.ANGLE),
+                   B0=b1,
+                   )
     if element['TILT'] != 0:
         b.COLOR = 'goldenrod'
     if element['ANGLE'] < 0:
@@ -165,9 +176,9 @@ def quadrupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Di
                        XL=element['L'],
                        R0=bore_radius,
                        B0=gradient * kinematics.brho * bore_radius,
-                       XE=0 * _ureg.cm,
+                       X_E=0 * _ureg.cm,
                        LAM_E=0 * _ureg.cm,
-                       XS=0 * _ureg.cm,
+                       X_S=0 * _ureg.cm,
                        LAM_S=0 * _ureg.cm,
                        ),
             ]
