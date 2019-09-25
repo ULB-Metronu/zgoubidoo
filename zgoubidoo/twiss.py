@@ -20,7 +20,6 @@ Example:
 from typing import Tuple, Optional, Union
 import numpy as _np
 import pandas as _pd
-from .commands import PolarMagnet as _PolarMagnet
 from .input import Input as _Input
 from georges_core.sequences import BetaBlock as _BetaBlock
 import zgoubidoo

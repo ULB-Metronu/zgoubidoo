@@ -32,7 +32,6 @@ from .commands.beam import BeamTwiss as _BeamTwiss
 from .commands import particules as _particules
 from .commands.particules import Particule as _Particule
 from .commands.particules import ParticuleType as _ParticuleType
-from .commands.mcobjet import MCObjet as _MCObjet
 from .constants import ZGOUBI_IMAX, ZGOUBI_INPUT_FILENAME
 from .mappings import MappedParametersType as _MappedParametersType
 from .mappings import MappedParametersListType as _MappedParametersListType
