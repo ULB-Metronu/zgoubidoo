@@ -29,12 +29,12 @@ def read_fai_file(filename: str = 'zgoubi.fai', path: str = '.') -> _pd.DataFram
     with open(os.path.join(path, filename)) as file:
         headers = list(map(lambda s: s.strip(' '), file.read().split('\n')[2].split(',')))
     return _pd.read_csv(os.path.join(path, filename),
-                       skiprows=4,
-                       names=headers,
-                       sep=r'\s+',
-                       skipinitialspace=True,
-                       quotechar='\''
-                       )
+                        skiprows=4,
+                        names=headers,
+                        sep=r'\s+',
+                        skipinitialspace=True,
+                        quotechar='\''
+                        )
 
 
 def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> _pd.DataFrame:

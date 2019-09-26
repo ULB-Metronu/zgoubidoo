@@ -2029,7 +2029,7 @@ class Quadrupole(CartesianMagnet):
         if _cm(self.X_E) == 0 and _cm(self.R0) != 0 and self.LAM_E.magnitude != 0:
             self.X_E = 2 * self.R0
         if _cm(self.X_S) == 0 and _cm(self.R0) != 0 and self.LAM_S.magnitude != 0:
-            self.XS = 2 * self.R0
+            self.X_S = 2 * self.R0
 
     def __str__(s):
         return f"""
