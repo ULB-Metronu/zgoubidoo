@@ -201,6 +201,7 @@ def transform_tracks(beamline: _Input,
                      tracks: _pd.DataFrame,
                      ref: str = 'entry_patched',
                      with_initial_coordinates: bool = True,
+                     s_rotation_only: bool = False
                      ):
     """
 
@@ -209,6 +210,7 @@ def transform_tracks(beamline: _Input,
         tracks:
         ref:
         with_initial_coordinates:
+        s_rotation_only:
     """
     for label in tracks.LABEL1.unique():
         e = getattr(beamline, label)
@@ -216,12 +218,21 @@ def transform_tracks(beamline: _Input,
             # Convert from polar to cartesian coordinates
             raw = tracks.query(f"LABEL1 == '{label}'")[['X', 'Y']].values
             tracks.loc[tracks.LABEL1 == label, 'ANG'] = _np.degrees(100 * raw[:, 0])
+            tracks.loc[tracks.LABEL1 == label, 'R'] = raw[:, 1]
             tracks.loc[tracks.LABEL1 == label, 'X'] = raw[:, 1] * _np.sin(100 * raw[:, 0])
             tracks.loc[tracks.LABEL1 == label, 'Y'] = raw[:, 1] * _np.cos(100 * raw[:, 0]) - e.RM.m_as('m')
 
         # Rotate all particle coordinates to the global reference frame
-        element_rotation = _np.linalg.inv(getattr(e, ref).get_rotation_matrix())
+        f = getattr(e, ref)
         t = tracks.query(f"LABEL1 == '{label}'")
+        if s_rotation_only:
+            m = zgoubidoo.Frame().rotate_x(f.get_rotation_vector()[0] * _ureg.radians).get_rotation_matrix()
+            if isinstance(getattr(beamline, label), _PolarMagnet):
+                _ = _np.dot(t[['X', 'R', 'Z']].values, _np.linalg.inv(m))
+                tracks.loc[tracks.LABEL1 == label, 'RG'] = _[:, 1]
+        else:
+            m = f.get_rotation_matrix()
+        element_rotation = _np.linalg.inv(m)
         u = _np.dot(t[['X', 'Y', 'Z']].values, element_rotation)
         if with_initial_coordinates:
             v = _np.dot(t[['X', 'Yo', 'Zo']].values, element_rotation)

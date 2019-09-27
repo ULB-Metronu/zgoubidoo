@@ -21,6 +21,7 @@ from typing import Tuple, Optional, Union
 import numpy as _np
 import pandas as _pd
 from .input import Input as _Input
+from .commands.magnetique import PolarMagnet as _PolarMagnet
 from georges_core.sequences import BetaBlock as _BetaBlock
 import zgoubidoo
 
@@ -289,6 +290,7 @@ def align_tracks(tracks: _pd.DataFrame,
                  align_on: str = 'S',
                  identifier: str = 'LET',
                  reference_track: str = 'O',
+                 polar: bool = False,
                  global_frame: bool = True) -> Tuple[_np.array, _pd.DataFrame]:
     """
     Align the tracks to obtain a homegenous array with all coordinates given at the same location.
@@ -301,6 +303,7 @@ def align_tracks(tracks: _pd.DataFrame,
         align_on: coordinates on which the tracks are aligned (typically 'X' or 'S')
         identifier: identifier of the column used for the particles indexing
         reference_track:
+        polar:
         global_frame:
 
     Returns:
@@ -308,6 +311,9 @@ def align_tracks(tracks: _pd.DataFrame,
     """
     if global_frame:
         coordinates: list = ['YG', 'TG', 'ZG', 'PG', 'D-1', 'Yo', 'To', 'Zo', 'Po', 'Do-1']  # Keep it in this order
+        if polar:
+            coordinates[0] = 'RG'
+            coordinates.append('YG')
     else:
         coordinates: list = ['Y', 'T', 'Z', 'P', 'D-1', 'Yo', 'To', 'Zo', 'Po', 'Do-1']  # Keep it in this order
     particules: list = ['O', 'A', 'C', 'E', 'G', 'I', 'B', 'D', 'F', 'H', 'J']  # Keep it in this order
@@ -361,7 +367,7 @@ def compute_transfer_matrix(beamline: _Input, tracks: _pd.DataFrame, global_fram
         if e.LABEL1 not in elements:
             continue
         t = tracks[tracks.LABEL1 == e.LABEL1]
-        data, ref = align_tracks(t, global_frame=global_frame)
+        data, ref = align_tracks(t, global_frame=global_frame, polar=isinstance(e, _PolarMagnet))
         n_dimensions: int = 5
         normalization = [2 * (data[i + 1, :, i + n_dimensions] - data[0, :, i + n_dimensions])
                          for i in range(0, n_dimensions)
