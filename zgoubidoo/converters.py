@@ -96,6 +96,9 @@ def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
     Returns:
 
     """
+    if element.get('ANGLE') == 0.0 and element.get('B') is not None:
+        h = element['B'] / kinematics.brho
+        element['ANGLE'] = element['L'] * h
     if element['ANGLE'] == 0.0:  # Avoid division by zero
         b1 = 0 * _ureg.tesla
     else:
@@ -161,21 +164,30 @@ def quadrupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Di
     Returns:
 
     """
-    bore_radius = options.get('R0', 10 * _ureg.cm)
-    if element.get('K1') is None and element.get('K1L') is None and element.get('K1BRHO') is None:
-        gradient = 0 / _ureg.m ** 2
-    elif element.get('K1L') is not None:
-        gradient = element['K1L'] / element['L']
-    elif element.get('K1') is not None:
-        gradient = element['K1'] / _ureg.m ** 2
-    elif element.get('K1BRHO') is not None:
-        gradient = element['K1BRHO'] / kinematics.brho
+    if element['L'] == 0 * _ureg.m:
+        raise ValueError("Quadrupole length cannot be zero.")
+    if element.get('B1') is not None and element.get('R') is not None:
+        b_field = element['B1']
+        bore_radius = element['R']
     else:
-        raise KeyError("K1, K1L or K1BHRHO cannot be defined at the same time.")
+        bore_radius = options.get('R0', 10 * _ureg.cm)
+        if element.get('K1') is None and element.get('K1L') is None and element.get('K1BRHO') is None:
+            gradient = 0 / _ureg.m ** 2
+        elif element.get('K1') is not None and element.get('K1L') is not None:
+            gradient = max(element['K1'] / _ureg.m ** 2, element['K1L'] / element['L'])
+        elif element.get('K1L') is not None:
+            gradient = element['K1L'] / element['L']
+        elif element.get('K1') is not None:
+            gradient = element['K1'] / _ureg.m ** 2
+        elif element.get('K1BRHO') is not None:
+            gradient = element['K1BRHO'] / kinematics.brho
+        else:
+            raise KeyError("K1, K1L or K1BHRHO cannot be defined at the same time.")
+        b_field = gradient * kinematics.brho * bore_radius
     return [Quadrupole(element.name[0:_ZGOUBI_LABEL_LENGTH],
                        XL=element['L'],
                        R0=bore_radius,
-                       B0=gradient * kinematics.brho * bore_radius,
+                       B0=b_field,
                        X_E=0 * _ureg.cm,
                        LAM_E=0 * _ureg.cm,
                        X_S=0 * _ureg.cm,
