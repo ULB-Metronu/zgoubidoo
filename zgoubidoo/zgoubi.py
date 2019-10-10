@@ -56,10 +56,14 @@ class ZgoubiResults:
         self._options: Mapping = options or {}
         self._results: List[Mapping] = results
         self._tracks: Optional[_pd.DataFrame] = None
+        self._tracks_global: Optional[_pd.DataFrame] = None
+        self._tracks_frenet: Optional[_pd.DataFrame] = None
         self._matrix: Optional[_pd.DataFrame] = None
         self._optics: Optional[_pd.DataFrame] = None
         self._srloss: Optional[_pd.DataFrame] = None
         self._srloss_steps: Optional[_pd.DataFrame] = None
+        self._step_by_step_optics: Optional[_pd.DataFrame] = None
+        self._step_by_step_transfer_matrix: Optional[_pd.DataFrame] = None
 
     @classmethod
     def merge(cls, *results: ZgoubiResults):
@@ -88,8 +92,9 @@ class ZgoubiResults:
     def get_tracks(self,
                    parameters: Optional[_MappedParametersListType] = None,
                    force_reload: bool = False,
-                   with_rays: bool = True,
-                   with_survey: bool = True,
+                   with_rays: bool = False,
+                   with_survey: bool = False,
+                   with_s_rotation_only: bool = False,
                    ) -> _pd.DataFrame:
         """
         Collects all tracks from the different Zgoubi instances matching the given parameters list
@@ -100,6 +105,7 @@ class ZgoubiResults:
             force_reload:
             with_rays:
             with_survey:
+            with_s_rotation_only:
 
         Returns:
             A concatenated DataFrame with all the tracks in the result matching the parameters list.
@@ -140,6 +146,7 @@ class ZgoubiResults:
         if with_survey:
             zgoubidoo.surveys.transform_tracks(beamline=self.results[0][1]['input'],
                                                tracks=tracks,
+                                               s_rotation_only=with_s_rotation_only,
                                                )
         return tracks
 
@@ -152,6 +159,26 @@ class ZgoubiResults:
             A concatenated DataFrame with all the tracks in the result.
         """
         return self.get_tracks()
+
+    @property
+    def tracks_global(self) -> _pd.DataFrame:
+        """
+        Collects all tracks from the different Zgoubi instances in the results and concatenate them.
+
+        Returns:
+            A concatenated DataFrame with all the tracks in the result.
+        """
+        return self.get_tracks(force_reload=True, with_rays=True, with_survey=True, with_s_rotation_only=False)
+
+    @property
+    def tracks_frenet(self) -> _pd.DataFrame:
+        """
+        Collects all tracks from the different Zgoubi instances in the results and concatenate them.
+
+        Returns:
+            A concatenated DataFrame with all the tracks in the result.
+        """
+        return self.get_tracks(force_reload=True, with_rays=True, with_survey=True, with_s_rotation_only=True)
 
     def get_srloss(self,
                    parameters: Optional[_MappedParametersListType] = None,
@@ -319,6 +346,40 @@ class ZgoubiResults:
 
         """
         return self.get_optics()
+
+    def compute_step_by_step_transfer_matrix(self,
+                                             force_reload: bool = False) -> Optional[_pd.DataFrame]:
+        """
+
+        Args:
+            force_reload:
+
+        Returns:
+
+        """
+        if self._step_by_step_transfer_matrix is not None and force_reload is False:
+            return self._step_by_step_transfer_matrix
+        else:
+            tracks = self.get_tracks(force_reload=True,
+                                     with_rays=True,
+                                     with_survey=True,
+                                     with_s_rotation_only=True,
+                                     )
+            self._step_by_step_transfer_matrix = zgoubidoo.twiss.compute_transfer_matrix(
+                beamline=self.results[0][1]['input'],
+                tracks=tracks,
+                global_frame=True
+            )
+            return self._step_by_step_transfer_matrix
+
+    @property
+    def step_by_step_transfer_matrix(self) -> Optional[_pd.DataFrame]:
+        """
+
+        Returns:
+
+        """
+        return self.compute_step_by_step_transfer_matrix()
 
     @property
     def results(self) -> List[Tuple[_MappedParametersType, Mapping]]:
