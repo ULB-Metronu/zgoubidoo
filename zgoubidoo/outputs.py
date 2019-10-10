@@ -5,6 +5,54 @@ from typing import List
 import os
 import pandas as _pd
 
+_ZGOUBI_PLT_HEADERS = ['# KEX',
+                       'Do-1',
+                       'Yo',
+                       'To',
+                       'Zo',
+                       'Po',
+                       'So',
+                       'to',
+                       'D-1',
+                       'Y-DY',
+                       'T',
+                       'Z',
+                       'P',
+                       'S',
+                       'time',
+                       'beta',
+                       'DS',
+                       'KART',
+                       'IT',
+                       'IREP',
+                       'SORT',
+                       'X',
+                       'BX',
+                       'BY',
+                       'BZ',
+                       'RET',
+                       'DPR',
+                       'PS',
+                       'SXo',
+                       'SYo',
+                       'SZo',
+                       'modSo',
+                       'SX',
+                       'SY',
+                       'SZ',
+                       'modS',
+                       'EX',
+                       'EY',
+                       'EZ',
+                       'BORO',
+                       'IPASS',
+                       'NOEL',
+                       'KLEY',
+                       'LABEL1',
+                       'LABEL2',
+                       'LET'
+                       ]
+
 
 def read_fai_file(filename: str = 'zgoubi.fai', path: str = '.') -> _pd.DataFrame:
     """Function to read Zgoubi .fai files.
@@ -67,8 +115,11 @@ def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> _pd.DataFram
         a FileNotFoundError in case the file is not found.
     """
     # Header line from the Zgoubi .plt file
-    with open(os.path.join(path, filename)) as file:
-        headers = list(map(lambda s: s.strip(' '), file.read().split('\n')[2].split(',')))
+    if _ZGOUBI_PLT_HEADERS is not None:
+        headers = _ZGOUBI_PLT_HEADERS
+    else:
+        with open(os.path.join(path, filename)) as file:
+            headers = list(map(lambda s: s.strip(' '), file.read().split('\n')[2].split(',')))
     df = _pd.read_csv(os.path.join(path, filename),
                       skiprows=4,
                       names=headers,
