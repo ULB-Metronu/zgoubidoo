@@ -24,6 +24,7 @@ from .input import Input as _Input
 from .commands.magnetique import PolarMagnet as _PolarMagnet
 from georges_core.sequences import BetaBlock as _BetaBlock
 import zgoubidoo
+from . import ureg as _ureg
 
 
 def _get_parameters(m: _pd.DataFrame, twiss: Optional[_BetaBlock], plane: int = 1) -> Tuple:
@@ -203,21 +204,21 @@ def compute_periodic_twiss(matrix: _pd.DataFrame, end: Union[int, str] = -1) -> 
     })
     twiss['MU1'] = _np.arccos(twiss['CMU1'])
     twiss['MU2'] = _np.arccos(twiss['CMU2'])
-    twiss['BETA11'] = m['R12'] / _np.sin(twiss['MU1'])
-    twiss['BETA22'] = m['R34'] / _np.sin(twiss['MU2'])
+    twiss['BETA11'] = m['R12'] / _np.sin(twiss['MU1']) * _ureg.m
+    twiss['BETA22'] = m['R34'] / _np.sin(twiss['MU2']) * _ureg.m
     twiss['ALPHA11'] = (m['R11'] - m['R22']) / (2.0 * _np.sin(twiss['MU1']))
     twiss['ALPHA22'] = (m['R33'] - m['R44']) / (2.0 * _np.sin(twiss['MU2']))
-    twiss['GAMMA11'] = -m['R21'] / _np.sin(twiss['MU1'])
-    twiss['GAMMA22'] = -m['R43'] / _np.sin(twiss['MU2'])
+    twiss['GAMMA11'] = -m['R21'] / _np.sin(twiss['MU1']) * _ureg.m**-1
+    twiss['GAMMA22'] = -m['R43'] / _np.sin(twiss['MU2']) * _ureg.m**-1
     m44 = m[['R11', 'R12', 'R13', 'R14',
              'R21', 'R22', 'R23', 'R24',
              'R31', 'R32', 'R33', 'R34',
              'R41', 'R42', 'R43', 'R44']].apply(float).values.reshape(4, 4)
     r6 = m[['R15', 'R25', 'R35', 'R45']].apply(float).values.reshape(4, 1)
     disp = _np.dot(_np.linalg.inv(_np.identity(4) - m44), r6).reshape(4)
-    twiss['DY'] = disp[0]
+    twiss['DY'] = disp[0] * _ureg.m
     twiss['DYP'] = disp[1]
-    twiss['DZ'] = disp[2]
+    twiss['DZ'] = disp[2] * _ureg.m
     twiss['DZP'] = disp[3]
     twiss['DISP1'] = disp[0]
     twiss['DISP2'] = disp[1]
