@@ -27,6 +27,7 @@ from .plotable import Plotable as _Plotable
 from ..fieldmaps import FieldMap as _FieldMap
 from ..units import _cm, _radian, _kilogauss, _degree
 import zgoubidoo
+from georges_core.kinematics import Kinematics as _Kinematics
 
 
 class MagnetType(_CommandType):
@@ -938,7 +939,7 @@ class Dipole(PolarMagnet):
         return ''.join(map(lambda _: _.rstrip(), command))
 
     def fit(self,
-            boro: _Q,
+            kinematics: _Kinematics,
             particle: _ParticuleType = _Proton,
             entry_coordinates: _np.array = None,
             exit_coordinate: float = 0.0,
@@ -948,7 +949,7 @@ class Dipole(PolarMagnet):
         """
 
         Args:
-            boro: the reference energy of the magnet
+            kinematics: the reference energy of the magnet
             particle: the particule type
             entry_coordinates: references 6D coordinates at the magnet entry
             exit_coordinate: the coordinate at the magnet exit
@@ -963,8 +964,8 @@ class Dipole(PolarMagnet):
             entry_coordinates = _np.array([[0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]])
 
         z = zgoubi or _Zgoubi()
-        zi = zgoubidoo.Input(f"FIT_{self.LABEL1}_MAGNET", with_survey=False)
-        zi += _Objet2('BUNCH', BORO=boro).add(entry_coordinates)
+        zi = zgoubidoo.Input(f"FIT_{self.LABEL1}_MAGNET")
+        zi += _Objet2('BUNCH', BORO=kinematics.brho).add(entry_coordinates)
         zi += particle()
         zi += _Marker('START')
         zi += self
@@ -1485,7 +1486,6 @@ class FFAG(PolarMagnet):
             'U1_L': [-1e9, ],
             'U2_L': [1e9, ],
             'R2_L': [1e9, ],
-
             'KIRD': 0,
             'Resol': 2,
             'XPAS': 0.1,

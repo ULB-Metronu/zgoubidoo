@@ -158,7 +158,7 @@ class ZgoubiResults:
         Returns:
             A concatenated DataFrame with all the tracks in the result.
         """
-        return self.get_tracks()
+        return self.get_tracks(force_reload=False, with_rays=False, with_survey=False, with_s_rotation_only=False)
 
     @property
     def tracks_global(self) -> _pd.DataFrame:

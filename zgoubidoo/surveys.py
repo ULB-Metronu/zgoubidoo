@@ -239,12 +239,17 @@ def transform_tracks(beamline: _Input,
 
         # Translate all particle coordinates to the global reference frame
         origin = getattr(e, ref).origin
-        tracks.loc[tracks.LABEL1 == label, 'XG'] = u[:, 0] + origin[0].m_as('m')
-        tracks.loc[tracks.LABEL1 == label, 'YG'] = u[:, 1] + origin[1].m_as('m')
-        tracks.loc[tracks.LABEL1 == label, 'ZG'] = u[:, 2] + origin[2].m_as('m')
-        if with_initial_coordinates:
-            tracks.loc[tracks.LABEL1 == label, 'YGo'] = v[:, 1] + origin[1].m_as('m')
-            tracks.loc[tracks.LABEL1 == label, 'ZGo'] = v[:, 2] + origin[2].m_as('m')
+        if s_rotation_only:
+            tracks.loc[tracks.LABEL1 == label, 'XG'] = u[:, 0] + origin[0].m_as('m')
+            tracks.loc[tracks.LABEL1 == label, 'YG'] = u[:, 1]
+            tracks.loc[tracks.LABEL1 == label, 'ZG'] = u[:, 2]
+        else:
+            tracks.loc[tracks.LABEL1 == label, 'XG'] = u[:, 0] + origin[0].m_as('m')
+            tracks.loc[tracks.LABEL1 == label, 'YG'] = u[:, 1] + origin[1].m_as('m')
+            tracks.loc[tracks.LABEL1 == label, 'ZG'] = u[:, 2] + origin[2].m_as('m')
+            if with_initial_coordinates:
+                tracks.loc[tracks.LABEL1 == label, 'YGo'] = v[:, 1] + origin[1].m_as('m')
+                tracks.loc[tracks.LABEL1 == label, 'ZGo'] = v[:, 2] + origin[2].m_as('m')
 
         # Transform (rotate and translate) all rays coordinates to the global reference frame
         if 'XR' in tracks.columns and 'YR' in tracks.columns and 'ZR' in tracks.columns:

@@ -245,7 +245,7 @@ class BeamZgoubiDistribution(Beam):
         return b
 
 
-class BeamDistribution(Beam):
+class BeamInputDistribution(Beam):
     """
     A beam using an explicit beam distribution.
     """
@@ -258,6 +258,7 @@ class BeamDistribution(Beam):
     commands (e.g. fit)."""
 
     def post_init(self,
+                  objet_type: _ObjetType = _Objet2,
                   distribution: Optional[pd.DataFrame] = None,
                   slices: int = 1,
                   *args,
@@ -265,6 +266,9 @@ class BeamDistribution(Beam):
         """
 
         Args:
+            objet_type:
+            kinematics:
+            particle:
             distribution:
             slices:
             *args:
@@ -276,6 +280,7 @@ class BeamDistribution(Beam):
         self._slices: int = slices
         self._distribution: Optional[Union[pd.DataFrame, np.array]] = None
         self.initialize_distribution(distribution, **kwargs)
+        super().post_init(objet_type=objet_type, **kwargs)
 
     def initialize_distribution(self, distribution: Union[pd.DataFrame, np.array] = None, **kwargs):
         """Try setting the internal pandas.DataFrame with a distribution.
@@ -608,7 +613,7 @@ class BeamTwiss(Beam):
         """
         if betablock is not None and sequence is not None:
             raise ZgoubidooBeamException("Provide either betablock or sequence, not both.")
-        if sequence is not None:
+        if sequence is not None and betablock is None:
             betablock = sequence.betablock
         if betablock is not None:
             self._set_from_betablock(betablock)

@@ -311,12 +311,12 @@ def align_tracks(tracks: _pd.DataFrame,
         aligned data and reference data
     """
     if global_frame:
-        coordinates: list = ['YG', 'TG', 'ZG', 'PG', 'D-1', 'Yo', 'To', 'Zo', 'Po', 'Do-1']  # Keep it in this order
+        coordinates: list = ['YG', 'TG', 'ZG', 'PG', 'D-1', 'Yo', 'To', 'Zo', 'Po', 'Do']  # Keep it in this order
         if polar:
             coordinates[0] = 'RG'
             coordinates.append('YG')
     else:
-        coordinates: list = ['Y', 'T', 'Z', 'P', 'D-1', 'Yo', 'To', 'Zo', 'Po', 'Do-1']  # Keep it in this order
+        coordinates: list = ['Y', 'T', 'Z', 'P', 'D-1', 'Yo', 'To', 'Zo', 'Po', 'Do']  # Keep it in this order
     particules: list = ['O', 'A', 'C', 'E', 'G', 'I', 'B', 'D', 'F', 'H', 'J']  # Keep it in this order
     assert set(particules) == set(tracks[identifier].unique()), "Required particles not found (are you using Objet5?)."
     ref: _pd.DataFrame = tracks.query(f"{identifier} == '{reference_track}'")[coordinates +

@@ -52,6 +52,7 @@ _ZGOUBI_PLT_HEADERS = ['# KEX',
                        'LABEL2',
                        'LET'
                        ]
+"""Headers of the Zgoubi .plt files."""
 
 
 def read_fai_file(filename: str = 'zgoubi.fai', path: str = '.') -> _pd.DataFrame:
@@ -140,6 +141,8 @@ def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> _pd.DataFram
     df['Zo'] *= 1e-2
     df['Po'] *= 1e-3
     df['KEX'] = df['# KEX']
+    df['Do'] = df['Do-1']
+    del df['Do-1']
     df['KEYWORD'] = df['KLEY'].apply(str.strip)
     del df['# KEX']
     del df['KLEY']
