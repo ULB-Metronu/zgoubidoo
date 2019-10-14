@@ -67,7 +67,7 @@ class Executable:
         self._pool: _ThreadPoolExecutor = _ThreadPoolExecutor(max_workers=self._n_procs)
 
     def __del__(self):
-        self._pool.shutdown()
+        self._pool.shutdown(wait=False)
 
     @property
     def executable(self) -> str:

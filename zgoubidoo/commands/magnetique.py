@@ -970,8 +970,7 @@ class Dipole(PolarMagnet):
         zi += _Marker('START')
         zi += self
         zi += _Marker('END')
-        fit = method(f"FIT_{self.LABEL1}",
-                     PENALTY=1e-12,
+        fit = method(PENALTY=1e-12,
                      PARAMS=[
                          _Fit.Parameter(line=zi, place=self.LABEL1, parameter=Dipole.B0_),
                      ],
@@ -983,7 +982,7 @@ class Dipole(PolarMagnet):
                              value=exit_coordinate
                          ),
                      ]
-                     )
+                     ).generate_label('FIT_')
         zi += fit
 
         def cb(f):
