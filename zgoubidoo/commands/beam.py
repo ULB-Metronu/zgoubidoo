@@ -18,6 +18,8 @@ from zgoubidoo.commands import Objet2 as _Objet2
 from zgoubidoo.commands import Objet5 as _Objet5
 from zgoubidoo.commands import MCObjet3 as _MCObjet3
 from zgoubidoo.commands import ObjetType as _ObjetType
+from zgoubidoo.commands import ZgoubidooAttributeException as _ZgoubidooAttributeException
+from zgoubidoo.commands import ZgoubidooException as _ZgoubidooException
 from .. import Kinematics as _Kinematics
 from ..mappings import ParametricMapping as _ParametricMapping
 from ..mappings import MappedParametersListType as _MappedParametersListType
@@ -106,14 +108,17 @@ class Beam(_Command, metaclass=BeamType):
         Returns:
 
         """
-        self.ALPHA_Y = betablock.alpha11
-        self.BETA_Y = betablock.beta11
-        self.ALPHA_Z = betablock.alpha22
-        self.BETA_Z = betablock.beta22
-        self.D_Y = betablock.disp1
-        self.D_YP = betablock.disp2
-        self.D_Z = betablock.disp3
-        self.D_ZP = betablock.disp4
+        try:
+            self.ALPHA_Y = betablock.alpha11
+            self.BETA_Y = betablock.beta11
+            self.ALPHA_Z = betablock.alpha22
+            self.BETA_Z = betablock.beta22
+            self.D_Y = betablock.disp1
+            self.D_YP = betablock.disp2
+            self.D_Z = betablock.disp3
+            self.D_ZP = betablock.disp4
+        except _ZgoubidooAttributeException:
+            pass
 
 
 class BeamZgoubiDistribution(Beam):
@@ -164,6 +169,7 @@ class BeamZgoubiDistribution(Beam):
         Returns:
 
         """
+        super().post_init(objet_type=objet_type, **kwargs)
         self._slices: int = slices
         if betablock is not None:
             self._set_from_betablock(betablock)
@@ -252,14 +258,15 @@ class BeamInputDistribution(Beam):
 
     PARAMETERS = {
         'SLICE': (0, "Active slice identifier. Note: this is not the number of slices, but the active slice number."),
-        'REFERENCE': (0, ""),
+        'REFERENCE': (0, "Setting to 1 will produce a beam with only the reference particle (the distribution is not "
+                         "lost"),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
     def post_init(self,
                   objet_type: _ObjetType = _Objet2,
-                  distribution: Optional[pd.DataFrame] = None,
+                  distribution: Optional[Union[pd.DataFrame, np.array, str]] = None,
                   slices: int = 1,
                   *args,
                   **kwargs):
@@ -277,29 +284,72 @@ class BeamInputDistribution(Beam):
         Returns:
 
         """
-        self._slices: int = slices
-        self._distribution: Optional[Union[pd.DataFrame, np.array]] = None
-        self.initialize_distribution(distribution, **kwargs)
         super().post_init(objet_type=objet_type, **kwargs)
+        self._slices: int = slices
+        self._distribution: Optional[np.array] = None
+        self.initialize_distribution(distribution, **kwargs)
 
-    def initialize_distribution(self, distribution: Union[pd.DataFrame, np.array] = None, **kwargs):
+    def initialize_distribution(self, distribution: Optional[Union[pd.DataFrame, np.ndarray, str]] = None, **kwargs):
         """Try setting the internal pandas.DataFrame with a distribution.
 
         Args:
             distribution:
         """
-        try:
-            try:
-                self._distribution = distribution.values
-            except AttributeError:
-                self._distribution = distribution
-        except (IndexError, ValueError):
-            if kwargs.get("filename") is not None:
-                self._distribution = Beam.generate_from_file(kwargs.get('filename'), path=kwargs.get('path', '.'))
+        if isinstance(distribution, str):
+            self.add(
+                BeamInputDistribution.generate_from_file(
+                    distribution,
+                    path=kwargs.get('path', '.')
+                )
+            )
+        elif isinstance(distribution, (np.ndarray, pd.DataFrame)):
+            self.add(distribution)
+        return self
+
+    def add(self, distribution: Union[pd.DataFrame, np.ndarray, str], **kwargs):
+        """
+
+        Args:
+            distribution:
+
+        Returns:
+
+        """
+        distr = None
+        if isinstance(distribution, str):
+            distr = BeamInputDistribution.generate_from_file(
+                distribution,
+                path=kwargs.get('path', '.')
+            )
+        elif isinstance(distribution, pd.DataFrame):
+            distr = distribution.values
+        elif isinstance(distribution, np.ndarray):
+            distr = distribution
+
+        if distr is not None:
+            assert isinstance(distr, np.ndarray), "The distribution container must be a numpy array."
+            assert distr.ndim == 2, "Invalid dimensions for the array of particles (must be 2)."
+            if distr.shape[1] == 4:  # Y T Z P
+                x = np.zeros((distr.shape[0], 1))
+                d = np.ones((distr.shape[0], 1))
+                iex = np.ones((distr.shape[0], 1))
+                distr = np.concatenate((distr, x, d, iex), axis=1)
+            elif distr.shape[1] == 5:  # Y T Z P D
+                x = np.zeros((distr.shape[0], 1))
+                iex = np.ones((distr.shape[0], 1))
+                distr = np.concatenate((distr[:, :-1], x, distr[:, -1:], iex), axis=1)
+            elif distr.shape[1] == 6:  # Y T Z P X D
+                iex = np.ones((distr.shape[0], 1))
+                distr = np.concatenate((distr, iex), axis=1)
+            elif distr.shape[1] == 7:  # Y T Z P X D IEX
+                pass
             else:
-                return
-        if self._distribution is not None and self._distribution.shape[0] == 0:
-            raise ZgoubidooBeamException("Trying to initialize a beam distribution with invalid number of particles.")
+                raise _ZgoubidooException("Invalid dimensions for particles vectors.")
+            if self._distribution is None:
+                self._distribution = distr
+            else:
+                self._distribution = np.append(self._distribution, distr, axis=0)
+        return self
 
     @property
     def slices(self):
@@ -341,7 +391,7 @@ class BeamInputDistribution(Beam):
     def mappings(self) -> _MappedParametersListType:
         """TODO"""
         if self.REFERENCE == 1:
-            return [{f"{self.LABEL1}.REFERENCE": 1}]
+            return [{f"{self.LABEL1}.SLICE": 0, f"{self.LABEL1}.REFERENCE": 1}]
         else:
             return _ParametricMapping(
                 [
@@ -359,7 +409,7 @@ class BeamInputDistribution(Beam):
         """The beam distribution."""
         return self._distribution
 
-    def create_statistics(self, n: int = 1):
+    def create_reference_statistics(self, n: int = 1):
         """
 
         Args:
@@ -393,7 +443,7 @@ class BeamInputDistribution(Beam):
         Returns:
 
         """
-        self.initialize_distribution(Beam.generate_from_file(file, path, n))
+        self.initialize_distribution(BeamInputDistribution.generate_from_file(file, path, n))
         return self
 
     def from_5d_sigma_matrix(self, n, **kwargs) -> Beam:
@@ -407,7 +457,7 @@ class BeamInputDistribution(Beam):
         Returns:
 
         """
-        distribution = Beam.generate_from_5d_sigma_matrix(n, **kwargs)
+        distribution = BeamInputDistribution.generate_from_5d_sigma_matrix(n, **kwargs)
         self.initialize_distribution(distribution)
         return self
 
@@ -454,7 +504,7 @@ class BeamInputDistribution(Beam):
 
         Args:
             sequence:
-            kwags:
+            kwargs:
 
         Returns:
 
@@ -462,7 +512,6 @@ class BeamInputDistribution(Beam):
         return cls(
             particle=getattr(_particules, sequence.particle.__name__),
             kinematics=sequence.kinematics,
-            objet_type=_Objet2,
             **kwargs
         )
 
@@ -479,7 +528,7 @@ class BeamInputDistribution(Beam):
         Returns:
 
         """
-        return pd.read_csv(os.path.join(path, file))[:n]
+        return pd.read_csv(os.path.join(path, file))[:n].values
 
     @staticmethod
     def generate_from_5d_sigma_matrix(n: int,
@@ -611,13 +660,13 @@ class BeamTwiss(Beam):
         Returns:
 
         """
+        super().post_init(objet_type=objet_type, **kwargs)
         if betablock is not None and sequence is not None:
             raise ZgoubidooBeamException("Provide either betablock or sequence, not both.")
         if sequence is not None and betablock is None:
             betablock = sequence.betablock
         if betablock is not None:
             self._set_from_betablock(betablock)
-        super().post_init(objet_type=objet_type, **kwargs)
 
     def generate_object(self):
         """
