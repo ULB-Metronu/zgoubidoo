@@ -360,11 +360,7 @@ class ZgoubiResults:
         if self._step_by_step_transfer_matrix is not None and force_reload is False:
             return self._step_by_step_transfer_matrix
         else:
-            tracks = self.get_tracks(force_reload=True,
-                                     with_rays=True,
-                                     with_survey=True,
-                                     with_s_rotation_only=True,
-                                     )
+            tracks = self.tracks_frenet
             self._step_by_step_transfer_matrix = zgoubidoo.twiss.compute_transfer_matrix(
                 beamline=self.results[0][1]['input'],
                 tracks=tracks,

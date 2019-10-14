@@ -57,7 +57,7 @@ def compute_alpha_from_matrix(m: _pd.DataFrame, twiss: _BetaBlock, plane: int = 
         a Pandas Series with the alpha values computed at all steps of the input step-by-step transfer matrix
     """
     r11, r12, r21, r22, alpha, beta, gamma = _get_parameters(m, twiss, plane)
-    return -r11 * r21 * beta + r12 * r21 * alpha + r11 * r12 * gamma
+    return -r11 * r21 * beta + (r11 * r22 + r12 * r21) * alpha - r12 * r22 * gamma
 
 
 def compute_beta_from_matrix(m: _pd.DataFrame, twiss: _BetaBlock, plane: int = 1, strict: bool = False) -> _pd.Series:
@@ -220,10 +220,10 @@ def compute_periodic_twiss(matrix: _pd.DataFrame, end: Union[int, str] = -1) -> 
     twiss['DYP'] = disp[1]
     twiss['DZ'] = disp[2] * _ureg.m
     twiss['DZP'] = disp[3]
-    twiss['DISP1'] = disp[0]
-    twiss['DISP2'] = disp[1]
-    twiss['DISP3'] = disp[2]
-    twiss['DISP4'] = disp[3]
+    twiss['DISP1'] = twiss['DY']
+    twiss['DISP2'] = twiss['DYP']
+    twiss['DISP3'] = twiss['DZ']
+    twiss['DISP4'] = twiss['DZP']
 
     return _pd.Series(twiss)
 
@@ -281,8 +281,8 @@ def compute_twiss(matrix: _pd.DataFrame,
         pass
 
     if with_phase_unrolling:
-        matrix['MU1'] = phase_unrolling(matrix['MU1'].values)
-        matrix['MU2'] = phase_unrolling(matrix['MU2'].values)
+        matrix['MU1U'] = phase_unrolling(matrix['MU1'].values)
+        matrix['MU2U'] = phase_unrolling(matrix['MU2'].values)
 
     return matrix
 
@@ -394,5 +394,5 @@ def compute_transfer_matrix(beamline: _Input, tracks: _pd.DataFrame, global_fram
             m['Y'] = ref['Y'].values
             m['Z'] = ref['Z'].values
 
-        matrix = matrix.append(m[1:-1])
+        matrix = matrix.append(m)
     return matrix.reset_index()
