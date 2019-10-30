@@ -111,7 +111,7 @@ class ZgoubiResults:
         """
         def _transform_and_return_tracks(t):
             if transformation is not None:
-                return transformation.transform(tracks=t, beamline=self.results[0][1]['input'])
+                return transformation.transform(tracks=t.copy(), beamline=self.results[0][1]['input'])
             else:
                 return t
 

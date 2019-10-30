@@ -205,7 +205,13 @@ def compute_periodic_twiss(matrix: _pd.DataFrame, end: Union[int, str] = -1) -> 
     twiss['MU1'] = _np.arccos(twiss['CMU1'])
     twiss['MU2'] = _np.arccos(twiss['CMU2'])
     twiss['BETA11'] = m['R12'] / _np.sin(twiss['MU1']) * _ureg.m
+    if twiss['BETA11'] < 0.0:
+        twiss['BETA11'] *= -1
+        twiss['MU1'] *= -1
     twiss['BETA22'] = m['R34'] / _np.sin(twiss['MU2']) * _ureg.m
+    if twiss['BETA22'] < 0.0:
+        twiss['BETA22'] *= -1
+        twiss['MU2'] *= -1
     twiss['ALPHA11'] = (m['R11'] - m['R22']) / (2.0 * _np.sin(twiss['MU1']))
     twiss['ALPHA22'] = (m['R33'] - m['R44']) / (2.0 * _np.sin(twiss['MU2']))
     twiss['GAMMA11'] = -m['R21'] / _np.sin(twiss['MU1']) * _ureg.m**-1
@@ -340,7 +346,6 @@ def compute_transfer_matrix(beamline: _Input, tracks: _pd.DataFrame) -> _pd.Data
     Args:
         beamline: the Zgoubidoo Input beamline
         tracks: tracking data
-        global_frame:
 
     Returns:
         a Panda DataFrame representing the transfer matrix
