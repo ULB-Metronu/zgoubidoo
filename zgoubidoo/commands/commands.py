@@ -1145,6 +1145,9 @@ class Twiss(Command):
 
 class Ymy(Command, _Patchable):
     """Reverse signs of Y and Z reference axes, equivalent to a 180 degree rotation around the X axis.
+    
+    This is particularly useful for example in combination with a `Dipole` that needs to be flipped so that the 
+    geometry matches the negative field value.
 
     TODO
     """
@@ -1159,6 +1162,6 @@ class Ymy(Command, _Patchable):
 
         """
         if self._entry_patched is None:
-            self._entry_patched = _Frame(self.entry)
+            self._entry_patched = self.entry.__class__(self.entry)
             self._entry_patched.rotate_x(180 * _ureg.degree)
         return self._entry_patched

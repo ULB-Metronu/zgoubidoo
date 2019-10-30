@@ -4,20 +4,17 @@ The module performs a 3D global survey of the beamline. Zgoubi is *not* used for
 infered by Zgoubidoo based on the inputs.
 """
 from typing import Optional, Union
-import numpy as _np
 import pandas as _pd
-import quaternion
 import zgoubidoo.zgoubi
 from .input import Input as _Input
 from georges_core.frame import Frame as _Frame
+from georges_core.frame import FrameFrenet as _FrameFrenet
 from .commands.patchable import Patchable as _Patchable
-from .commands.magnetique import PolarMagnet as _PolarMagnet
 from .commands.objet import Objet2 as _Objet2
 from .commands.particules import Particule as _Particule
 from .commands.particules import ParticuleType as _ParticuleType
 from .commands.particules import Proton as _Proton
 from . import Kinematics as _Kinematics
-from . import ureg as _ureg
 
 
 def clear_survey(beamline: _Input):
@@ -29,7 +26,6 @@ def clear_survey(beamline: _Input):
     Returns:
 
     """
-    beamline.reset_optical_lenght()
     for e in beamline[_Patchable]:
         e.clear_placement()
 
@@ -39,7 +35,7 @@ def survey(beamline: _Input,
            with_reference_trajectory: bool = False,
            reference_particle: Optional[Union[_Particule, _ParticuleType]] = None,
            reference_kinematics: Optional[_Kinematics] = None,
-           output: bool = False) -> Optional[_pd.DataFrame]:
+           output: bool = False) -> Union[_Input, _pd.DataFrame]:
     """
     Survey a Zgoubidoo input and provides a line with all the elements being placed in space.
 
@@ -66,6 +62,11 @@ def survey(beamline: _Input,
     Returns:
         the surveyed line.
     """
+    frenet: _FrameFrenet = _FrameFrenet()
+    for e in beamline[_Patchable]:
+        e.place(frenet)
+        frenet = e.frenet_orientation
+    clear_survey(beamline)
     frame: _Frame = reference_frame or _Frame()
     for e in beamline[_Patchable]:
         e.place(frame)
@@ -73,12 +74,12 @@ def survey(beamline: _Input,
     if with_reference_trajectory:
         survey_reference_trajectory(beamline, reference_kinematics, reference_particle)
     if output:
-        return survey_output(beamline)
+        return process_survey_output(beamline)
     else:
         return beamline
 
 
-def survey_output(beamline: _Input) -> _pd.DataFrame:
+def process_survey_output(beamline: _Input) -> _pd.DataFrame:
     """
 
     Args:
@@ -161,107 +162,8 @@ def survey_reference_trajectory(beamline: _Input,
     zi.KINEMATICS = reference_kinematics
     zi.IL = 2
     z = zgoubidoo.Zgoubi()
-    tracks = z(zi, debug=debug).collect().tracks
+    tracks = z(zi, debug=debug).collect().tracks_global
     if len(tracks) > 0:
         for e in sequence:
             e.reference_trajectory = tracks.query(f"LABEL1 == '{e.LABEL1}'")
     return beamline
-
-
-def construct_rays(tracks: _pd.DataFrame):
-    """
-
-    Args:
-        tracks:
-
-    Returns:
-
-    """
-    for label in tracks.LABEL1.unique():
-        coordinates = tracks.query(f"LABEL1 == '{label}'")
-
-        for cset in (
-                {'T': 'T', 'P': 'P', 'XR': 'XR', 'YR': 'YR', 'ZR': 'ZR'},
-                {'T': 'To', 'P': 'Po', 'XR': 'XRo', 'YR': 'YRo', 'ZR': 'ZRo'},
-        ):  # Transform the initial and final coordinates
-            _ = _np.zeros((coordinates.shape[0], 3))
-            _[:, 2] = -coordinates[cset['T']].values
-            q1 = quaternion.from_rotation_vector(_)
-            _[:, 2] = 0
-            _[:, 1] = coordinates[cset['P']].values
-            q2 = quaternion.from_rotation_vector(_)
-            q = q2 * q1
-            end_points = _np.matmul(_np.linalg.inv(quaternion.as_rotation_matrix(q)), _np.array([1.0, 0.0, 0.0]))
-            tracks.loc[tracks.LABEL1 == label, cset['XR']] = end_points[:, 0]
-            tracks.loc[tracks.LABEL1 == label, cset['YR']] = end_points[:, 1]
-            tracks.loc[tracks.LABEL1 == label, cset['ZR']] = end_points[:, 2]
-
-
-def transform_tracks(beamline: _Input,
-                     tracks: _pd.DataFrame,
-                     ref: str = 'entry_patched',
-                     with_initial_coordinates: bool = True,
-                     s_rotation_only: bool = False
-                     ):
-    """
-
-    Args:
-        beamline:
-        tracks:
-        ref:
-        with_initial_coordinates:
-        s_rotation_only:
-    """
-    for label in tracks.LABEL1.unique():
-        e = getattr(beamline, label)
-        if isinstance(getattr(beamline, label), _PolarMagnet):
-            # Convert from polar to cartesian coordinates
-            raw = tracks.query(f"LABEL1 == '{label}'")[['X', 'Y']].values
-            tracks.loc[tracks.LABEL1 == label, 'ANG'] = _np.degrees(100 * raw[:, 0])
-            tracks.loc[tracks.LABEL1 == label, 'R'] = raw[:, 1]
-            tracks.loc[tracks.LABEL1 == label, 'X'] = raw[:, 1] * _np.sin(100 * raw[:, 0])
-            tracks.loc[tracks.LABEL1 == label, 'Y'] = raw[:, 1] * _np.cos(100 * raw[:, 0]) - e.RM.m_as('m')
-
-        # Rotate all particle coordinates to the global reference frame
-        f = getattr(e, ref)
-        t = tracks.query(f"LABEL1 == '{label}'")
-        if s_rotation_only:
-            m = zgoubidoo.Frame().rotate_x(f.get_rotation_vector()[0] * _ureg.radians).get_rotation_matrix()
-            if isinstance(getattr(beamline, label), _PolarMagnet):
-                _ = _np.dot(t[['X', 'R', 'Z']].values, _np.linalg.inv(m))
-                tracks.loc[tracks.LABEL1 == label, 'RG'] = _[:, 1]
-        else:
-            m = f.get_rotation_matrix()
-        element_rotation = _np.linalg.inv(m)
-        u = _np.dot(t[['X', 'Y', 'Z']].values, element_rotation)
-        if with_initial_coordinates:
-            v = _np.dot(t[['X', 'Yo', 'Zo']].values, element_rotation)
-
-        # Translate all particle coordinates to the global reference frame
-        origin = getattr(e, ref).origin
-        if s_rotation_only:
-            tracks.loc[tracks.LABEL1 == label, 'XG'] = u[:, 0] + origin[0].m_as('m')
-            tracks.loc[tracks.LABEL1 == label, 'YG'] = u[:, 1]
-            tracks.loc[tracks.LABEL1 == label, 'ZG'] = u[:, 2]
-        else:
-            tracks.loc[tracks.LABEL1 == label, 'XG'] = u[:, 0] + origin[0].m_as('m')
-            tracks.loc[tracks.LABEL1 == label, 'YG'] = u[:, 1] + origin[1].m_as('m')
-            tracks.loc[tracks.LABEL1 == label, 'ZG'] = u[:, 2] + origin[2].m_as('m')
-            if with_initial_coordinates:
-                tracks.loc[tracks.LABEL1 == label, 'YGo'] = v[:, 1] + origin[1].m_as('m')
-                tracks.loc[tracks.LABEL1 == label, 'ZGo'] = v[:, 2] + origin[2].m_as('m')
-
-        # Transform (rotate and translate) all rays coordinates to the global reference frame
-        if 'XR' in tracks.columns and 'YR' in tracks.columns and 'ZR' in tracks.columns:
-            w = _np.dot(t[['XR', 'YR', 'ZR']].values, element_rotation)
-            tracks.loc[tracks.LABEL1 == label, 'XRG'] = w[:, 0]
-            tracks.loc[tracks.LABEL1 == label, 'YRG'] = w[:, 1]
-            tracks.loc[tracks.LABEL1 == label, 'ZRG'] = w[:, 2]
-
-            # Transform the angles in the global reference frame
-            tracks.loc[tracks.LABEL1 == label, 'TG'] = _np.arcsin(w[:, 1])
-            tracks.loc[tracks.LABEL1 == label, 'PG'] = _np.arcsin(w[:, 2])
-
-            w = _np.dot(t[['XR', 'YRo', 'ZRo']].values, element_rotation)
-            tracks.loc[tracks.LABEL1 == label, 'TGo'] = _np.arcsin(w[:, 1])
-            tracks.loc[tracks.LABEL1 == label, 'PGo'] = _np.arcsin(w[:, 2])
