@@ -162,7 +162,7 @@ def survey_reference_trajectory(beamline: _Input,
     zi.KINEMATICS = reference_kinematics
     zi.IL = 2
     z = zgoubidoo.Zgoubi()
-    tracks = z(zi, debug=debug).collect().tracks_global
+    tracks = z(zi, debug=debug).collect().tracks
     if len(tracks) > 0:
         for e in sequence:
             e.reference_trajectory = tracks.query(f"LABEL1 == '{e.LABEL1}'")

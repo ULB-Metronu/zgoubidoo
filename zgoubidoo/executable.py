@@ -37,7 +37,9 @@ class ResultsType(type):
 
 class ExecutableResults(metaclass=ResultsType):
     """TODO"""
-    pass
+    @property
+    def tracks(self):
+        return
 
 
 class Executable:

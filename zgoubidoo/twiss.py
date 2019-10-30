@@ -288,11 +288,10 @@ def compute_twiss(matrix: _pd.DataFrame,
 
 
 def align_tracks(tracks: _pd.DataFrame,
-                 align_on: str = 'S',
+                 align_on: str = 'SREF',
                  identifier: str = 'LET',
                  reference_track: str = 'O',
-                 polar: bool = False,
-                 global_frame: bool = True) -> Tuple[_np.array, _pd.DataFrame]:
+                 ) -> Tuple[_np.array, _pd.DataFrame]:
     """
     Align the tracks to obtain a homegenous array with all coordinates given at the same location.
 
@@ -304,25 +303,16 @@ def align_tracks(tracks: _pd.DataFrame,
         align_on: coordinates on which the tracks are aligned (typically 'X' or 'S')
         identifier: identifier of the column used for the particles indexing
         reference_track:
-        polar:
-        global_frame:
 
     Returns:
         aligned data and reference data
     """
-    if global_frame:
-        coordinates: list = ['YG', 'TG', 'ZG', 'PG', 'D-1', 'Yo', 'To', 'Zo', 'Po', 'Do']  # Keep it in this order
-        if polar:
-            coordinates[0] = 'RG'
-            coordinates.append('YG')
-    else:
-        coordinates: list = ['Y', 'T', 'Z', 'P', 'D-1', 'Yo', 'To', 'Zo', 'Po', 'Do']  # Keep it in this order
+    coordinates: list = ['YT', 'T', 'ZT', 'P', 'D-1', 'YT0', 'T0', 'ZT0', 'P0', 'Do']  # Keep it in this order
     particules: list = ['O', 'A', 'C', 'E', 'G', 'I', 'B', 'D', 'F', 'H', 'J']  # Keep it in this order
     assert set(particules) == set(tracks[identifier].unique()), "Required particles not found (are you using Objet5?)."
     ref: _pd.DataFrame = tracks.query(f"{identifier} == '{reference_track}'")[coordinates +
                                                                               [align_on,
                                                                                'LABEL1',
-                                                                               'XG' if global_frame else 'X'
                                                                                ]]
     ref_alignment_values = ref[align_on].values
     assert _np.all(_np.diff(ref_alignment_values) >= 0), "The reference alignment values " \
@@ -342,7 +332,7 @@ def align_tracks(tracks: _pd.DataFrame,
     return data, ref
 
 
-def compute_transfer_matrix(beamline: _Input, tracks: _pd.DataFrame, global_frame: bool = True) -> _pd.DataFrame:
+def compute_transfer_matrix(beamline: _Input, tracks: _pd.DataFrame) -> _pd.DataFrame:
     """
     Constructs the step-by-step transfer matrix from tracking data (finite differences). The approximation
     uses the O(3) formula (not just the O(1) formula) and therefore makes use of all the 11 particles.
@@ -368,7 +358,7 @@ def compute_transfer_matrix(beamline: _Input, tracks: _pd.DataFrame, global_fram
         if e.LABEL1 not in elements:
             continue
         t = tracks[tracks.LABEL1 == e.LABEL1]
-        data, ref = align_tracks(t, global_frame=global_frame, polar=isinstance(e, _PolarMagnet))
+        data, ref = align_tracks(t)
         n_dimensions: int = 5
         normalization = [2 * (data[i + 1, :, i + n_dimensions] - data[0, :, i + n_dimensions])
                          for i in range(0, n_dimensions)
@@ -382,17 +372,8 @@ def compute_transfer_matrix(beamline: _Input, tracks: _pd.DataFrame, global_fram
                 for j in range(0, n_dimensions)
             }
         )
-        m['S'] = ref['S'].values
+        m['S'] = ref['SREF'].values
         m['LABEL1'] = e.LABEL1
         m['KEYWORD'] = e.KEYWORD
-        if global_frame:
-            m['X'] = ref['XG'].values
-            m['Y'] = ref['YG'].values
-            m['Z'] = ref['ZG'].values
-        else:
-            m['X'] = ref['X'].values
-            m['Y'] = ref['Y'].values
-            m['Z'] = ref['Z'].values
-
         matrix = matrix.append(m)
     return matrix.reset_index()

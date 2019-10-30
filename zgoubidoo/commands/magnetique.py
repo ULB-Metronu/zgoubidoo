@@ -6,6 +6,7 @@ TODO
 
 from typing import Optional
 import numpy as _np
+import pandas as _pd
 import parse as _parse
 import lmfit
 from .particules import ParticuleType as _ParticuleType
@@ -59,6 +60,7 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
 
         """
         self.field_map = field_map
+        # noinspection PyAttributeOutsideInit
         self._field_profile_model = None
 
     @property
@@ -68,6 +70,7 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
 
     @field_map.setter
     def field_map(self, v: _FieldMap):
+        # noinspection PyAttributeOutsideInit
         self._field_map = v
 
     @property
@@ -234,6 +237,23 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
+
+    def adjust_tracks_variables(self, tracks: _pd.DataFrame):
+        t = tracks[tracks.LABEL1 == self.LABEL1]
+        radius = self.RM.m_as('m')
+        angles = 100 * t['X']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ANGLE'] = angles
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'R'] = t['Y']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'R0'] = t['Yo']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = radius * angles + self.entry_s.m_as('m')
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y'] - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo'] - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT0'] = t['Zo']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X'] = t['Y'] * _np.sin(angles)
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X0'] = t['Yo'] * _np.sin(angles)
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y'] = t['Y'] * _np.cos(angles) - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y0'] = t['Yo'] * _np.cos(angles) - radius
 
     @property
     def angular_opening(self) -> _Q:
@@ -1395,6 +1415,19 @@ class Drift(CartesianMagnet):
         {super().__str__().rstrip()}
         {self.XL.m_as('cm'):.12e}
             """
+
+    @property
+    def entry_s(self) -> Optional[_ureg.Quantity]:
+        """
+
+        Returns:
+
+        """
+        if self.reference_trajectory is not None:
+            r = self.reference_trajectory['S']
+            return (r.min() - (r.iloc[1] - r.iloc[0])) * _ureg.m
+        else:
+            return 0.0 * _ureg.m
 
     @classmethod
     def parse(cls, stream: str):

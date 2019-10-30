@@ -15,6 +15,7 @@ class Patchable:
 
     def __init__(self):
         """Initializes a un-patched patchable element."""
+        self.LABEL1 = None
         self._entry: Optional[_Frame] = None
         self._entry_patched: Optional[_Frame] = None
         self._exit: Optional[_Frame] = None
@@ -22,6 +23,14 @@ class Patchable:
         self._frenet: Optional[_Frame] = None
         self._center: Optional[_Frame] = None
         self._reference_trajectory: Optional[_pd.DataFrame] = None
+
+    def adjust_tracks_variables(self, tracks: _pd.DataFrame):
+        t = tracks[tracks.LABEL1 == self.LABEL1]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = t['X'] + self.entry_s.m_as('m')
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT0'] = t['Zo']
 
     def place(self, frame: _Frame):
         """Place the element with a reference frame.
@@ -142,7 +151,7 @@ class Patchable:
         if self.reference_trajectory is not None:
             return self.reference_trajectory['S'].min() * _ureg.m
         else:
-            return None
+            return 0.0 * _ureg.m
 
     @property
     def exit_s(self) -> Optional[_ureg.Quantity]:
@@ -154,7 +163,7 @@ class Patchable:
         if self.reference_trajectory is not None:
             return self.reference_trajectory['S'].max() * _ureg.m
         else:
-            return None
+            return 0.0 * _ureg.m
 
     @property
     def optical_length(self) -> Optional[_ureg.Quantity]:
@@ -166,4 +175,4 @@ class Patchable:
         if self.reference_trajectory is not None:
             return (self.reference_trajectory['S'].max() - self.reference_trajectory['S'].min()) * _ureg.m
         else:
-            return None
+            return 0.0 * _ureg.m

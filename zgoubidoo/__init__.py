@@ -86,5 +86,5 @@ from .outputs import read_fai_file, read_matrix_file, read_optics_file, read_plt
     read_srloss_steps_file
 from .mappings import ParametricMapping, ParametersMappingType
 from .zgoubi import Zgoubi, ZgoubiResults, ZgoubiException
-from .surveys import survey, clear_survey, transform_tracks, survey_reference_trajectory
+from .surveys import survey, clear_survey, survey_reference_trajectory
 from .polarity import HorizontalPolarity, VerticalPolarity

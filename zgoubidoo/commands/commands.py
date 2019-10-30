@@ -658,7 +658,7 @@ class ChangRef(Command, _Patchable):
         Returns:
 
         """
-        return _np.linalg.norm((self.exit_patched._get_origin() - self.entry._get_origin())) * _ureg.cm
+        return 0.0 * _ureg.cm
 
     @property
     def exit(self) -> _Frame:

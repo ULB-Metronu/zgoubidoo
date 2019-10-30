@@ -15,12 +15,15 @@ import os
 import numpy as _np
 import pandas as _pd
 from .executable import Executable
+from .transformations import GlobalCoordinateTransformation as _GlobalCoordinateTransformation
+from .transformations import FrenetCoordinateTransformation as _FrenetCoordinateTransformation
 from .outputs import read_plt_file, read_matrix_file, read_srloss_file, read_srloss_steps_file, read_optics_file
 from . import ureg as _ureg
 import zgoubidoo
 from .constants import ZGOUBI_INPUT_FILENAME as _ZGOUBI_INPUT_FILENAME
 if TYPE_CHECKING:
     from .input import Input as _Input
+    from .transformations import CoordinateTransformationType as _CoordinateTransformationType
     from .mappings import MappedParametersType as _MappedParametersType
     from .mappings import MappedParametersListType as _MappedParametersListType
 
@@ -92,9 +95,7 @@ class ZgoubiResults:
     def get_tracks(self,
                    parameters: Optional[_MappedParametersListType] = None,
                    force_reload: bool = False,
-                   with_rays: bool = False,
-                   with_survey: bool = False,
-                   with_s_rotation_only: bool = False,
+                   transformation: Optional[_CoordinateTransformationType] = None,
                    ) -> _pd.DataFrame:
         """
         Collects all tracks from the different Zgoubi instances matching the given parameters list
@@ -103,15 +104,19 @@ class ZgoubiResults:
         Args:
             parameters:
             force_reload:
-            with_rays:
-            with_survey:
-            with_s_rotation_only:
+            transformation:
 
         Returns:
             A concatenated DataFrame with all the tracks in the result matching the parameters list.
         """
+        def _transform_and_return_tracks(t):
+            if transformation is not None:
+                return transformation.transform(tracks=t, beamline=self.results[0][1]['input'])
+            else:
+                return t
+
         if self._tracks is not None and parameters is None and force_reload is False:
-            return self._tracks
+            return _transform_and_return_tracks(self._tracks)
         tracks = list()
         particle_id = 0
         for k, r in self.results:
@@ -128,7 +133,7 @@ class ZgoubiResults:
                         try:
                             tracks[-1][f"{kk.replace('.', '__')}"] = _ureg.Quantity(vv).to_base_units().m
                         except _ureg.UndefinedUnitError:
-                            tracks[-1][f"{kk}"] = vv
+                            tracks[-1][f"{kk.replace('.', '__')}"] = vv
                 except FileNotFoundError:
                     _logger.warning(
                         f"Unable to read and load the Zgoubi .plt files required to collect the tracks for path "
@@ -141,14 +146,7 @@ class ZgoubiResults:
             tracks = _pd.DataFrame()
         if parameters is None:
             self._tracks = tracks
-        if with_rays:
-            zgoubidoo.surveys.construct_rays(tracks=tracks)
-        if with_survey:
-            zgoubidoo.surveys.transform_tracks(beamline=self.results[0][1]['input'],
-                                               tracks=tracks,
-                                               s_rotation_only=with_s_rotation_only,
-                                               )
-        return tracks
+        return _transform_and_return_tracks(tracks.copy())
 
     @property
     def tracks(self) -> _pd.DataFrame:
@@ -158,7 +156,7 @@ class ZgoubiResults:
         Returns:
             A concatenated DataFrame with all the tracks in the result.
         """
-        return self.get_tracks(force_reload=False, with_rays=False, with_survey=False, with_s_rotation_only=False)
+        return self.get_tracks(force_reload=False)
 
     @property
     def tracks_global(self) -> _pd.DataFrame:
@@ -168,7 +166,7 @@ class ZgoubiResults:
         Returns:
             A concatenated DataFrame with all the tracks in the result.
         """
-        return self.get_tracks(force_reload=True, with_rays=True, with_survey=True, with_s_rotation_only=False)
+        return self.get_tracks(transformation=_GlobalCoordinateTransformation)
 
     @property
     def tracks_frenet(self) -> _pd.DataFrame:
@@ -178,7 +176,7 @@ class ZgoubiResults:
         Returns:
             A concatenated DataFrame with all the tracks in the result.
         """
-        return self.get_tracks(force_reload=True, with_rays=True, with_survey=True, with_s_rotation_only=True)
+        return self.get_tracks(transformation=_FrenetCoordinateTransformation)
 
     def get_srloss(self,
                    parameters: Optional[_MappedParametersListType] = None,
@@ -269,10 +267,8 @@ class ZgoubiResults:
         if parameters is None:
             self._srloss_steps = srloss_steps
         if with_survey and not srloss_steps.empty:
-            zgoubidoo.surveys.transform_tracks(beamline=self.results[0][1]['input'],
-                                               tracks=srloss_steps,
-                                               with_initial_coordinates=False,
-                                               )
+            _GlobalCoordinateTransformation.transform(srloss_steps, self.results[0][1]['input'])
+
         return srloss_steps
 
     @property
@@ -360,11 +356,9 @@ class ZgoubiResults:
         if self._step_by_step_transfer_matrix is not None and force_reload is False:
             return self._step_by_step_transfer_matrix
         else:
-            tracks = self.tracks_frenet
             self._step_by_step_transfer_matrix = zgoubidoo.twiss.compute_transfer_matrix(
                 beamline=self.results[0][1]['input'],
-                tracks=tracks,
-                global_frame=True
+                tracks=self.tracks_frenet,
             )
             return self._step_by_step_transfer_matrix
 
