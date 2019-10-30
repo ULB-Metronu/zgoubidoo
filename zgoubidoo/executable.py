@@ -130,7 +130,7 @@ class Executable:
         TODO
 
         """
-        self._pool.shutdown()
+        self._pool.shutdown(wait=True)
         self._pool = _ThreadPoolExecutor(max_workers=self._n_procs)
 
     def collect(self, paths: Optional[List[str]] = None) -> ExecutableResults:
