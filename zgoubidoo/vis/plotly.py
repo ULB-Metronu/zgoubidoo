@@ -89,8 +89,9 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                     },
                 )
             if isinstance(e, (_Bend, _Dipole)):
-                length = (e.exit_s - e.entry_s).m_as('m')
-                if e.entry_patched.get_rotation_vector()[0] >= 0.0:
+                length = e.optical_length.m_as('m')
+                m = e.entry_patched.get_rotation_matrix()
+                if _np.dot(m, _np.array([0, 0, 1]))[2] >= 0.0:
                     path = f"M{e.entry_s.m_as('m')},{vertical_position + 0.1} " \
                            f"H{e.exit_s.m_as('m')} " \
                            f"L{e.exit_s.m_as('m') - 0.15 * length},{vertical_position - 0.1} " \

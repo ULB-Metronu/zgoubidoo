@@ -21,13 +21,13 @@ from .particules import Proton as _Proton
 from .. import ureg as _ureg
 from .. import Q_ as _Q
 from ..zgoubi import Zgoubi as _Zgoubi
-from georges_core.frame import Frame as _Frame
 from .patchable import Patchable as _Patchable
 from .plotable import Plotable as _Plotable
 from ..fieldmaps import FieldMap as _FieldMap
 from ..units import _cm, _radian, _kilogauss, _degree
 import zgoubidoo
 from georges_core.kinematics import Kinematics as _Kinematics
+from georges_core.frame import Frame as _Frame
 
 
 class MagnetType(_CommandType):
@@ -156,19 +156,19 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
         return self.YCE or 0.0 * _ureg.cm
 
     @property
-    def entry_patched(self) -> _Frame:
+    def entry_patched(self) -> Optional[_Frame]:
         """
 
         Returns:
 
         """
         if self._entry_patched is None:
-            self._entry_patched = _Frame(self.entry)
+            self._entry_patched = self.entry.__class__(self.entry)
             if self.KPOS in (0, 1, 2):
                 self._entry_patched.translate_x(-(self.X_E or 0.0 * _ureg.cm))
                 self._entry_patched.translate_x(self.x_offset)
                 self._entry_patched.translate_y(self.y_offset)
-                self._entry_patched.rotate_z(-self.rotation)  # Is this sign correct?
+                self._entry_patched.rotate_z(-self.rotation)
             elif self.KPOS == 3:
                 self._entry_patched.translate_x(-(self.X_E or 0.0 * _ureg.cm))
                 self._entry_patched.rotate_z(
@@ -179,19 +179,19 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
         return self._entry_patched
 
     @property
-    def exit(self) -> _Frame:
+    def exit(self) -> Optional[_Frame]:
         """
 
         Returns:
 
         """
         if self._exit is None:
-            self._exit = _Frame(self.entry_patched)
+            self._exit = self.entry_patched.__class__(self.entry_patched)
             self._exit.translate_x(self.length + (self.X_E or 0.0 * _ureg.cm))
         return self._exit
 
     @property
-    def exit_patched(self) -> _Frame:
+    def exit_patched(self) -> Optional[_Frame]:
         """
 
         Returns:
@@ -199,14 +199,14 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
         """
         if self._exit_patched is None:
             if self.KPOS is None or self.KPOS == 1:
-                self._exit_patched = _Frame(self.exit)
+                self._exit_patched = self.exit.__class__(self.exit)
                 self._exit_patched.translate_x(-(self.X_S or 0.0 * _ureg.cm))
             elif self.KPOS == 0 or self.KPOS == 2:
-                self._exit_patched = _Frame(self.entry)
+                self._exit_patched = self.entry.__class__(self.entry)
                 self._exit_patched.translate_x(self.XL or 0.0 * _ureg.cm)
                 self._exit_patched.translate_x(-(self.X_S or 0.0 * _ureg.cm))
             elif self.KPOS == 3:
-                self._exit_patched = _Frame(self.exit)
+                self._exit_patched = self.exit.__class__(self.exit)
                 self._exit_patched.rotate_z(
                     -_np.arcsin(
                         (self.XL * self.B1) / (2 * self.KINEMATICS.brho)) * _ureg.radian
@@ -290,52 +290,52 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
         return self.angular_opening.to('rad').magnitude * self.radius
 
     @property
-    def entry_patched(self):
+    def entry_patched(self) -> Optional[_Frame]:
         """
 
         Returns:
 
         """
         if self._entry_patched is None:
-            self._entry_patched = _Frame(self.entry)
+            self._entry_patched = self.entry.__class__(self.entry)
             self._entry_patched.translate_y(self.radius - (self.RE or 0 * _ureg.cm))
             self._entry_patched.rotate_z(-self.TE or 0 * _ureg.degree)
         return self._entry_patched
 
     @property
-    def center(self):
+    def center(self) -> Optional[_Frame]:
         """
 
         Returns:
 
         """
         if self._center is None:
-            self._center = _Frame(self.entry_patched)
+            self._center = self.entry_patched.__class__(self.entry_patched)
             self._center.translate_y(-self.radius)
         return self._center
 
     @property
-    def exit(self) -> _Frame:
+    def exit(self) -> Optional[_Frame]:
         """
 
         Returns:
 
         """
         if self._exit is None:
-            self._exit = _Frame(self.center)
+            self._exit = self.center.__class__(self.center)
             self._exit.translate_y(self.radius)
             self._exit.rotate_z(-self.angular_opening)
         return self._exit
 
     @property
-    def exit_patched(self) -> _Frame:
+    def exit_patched(self) -> Optional[_Frame]:
         """
 
         Returns:
 
         """
         if self._exit_patched is None:
-            self._exit_patched = _Frame(self.exit)
+            self._exit_patched = self.exit.__class__(self.exit)
             self._exit_patched.translate_y((self.RS or 0 * _ureg.cm) - self.radius)
             self._exit_patched.rotate_z(self.TS or 0 * _ureg.degree)
         return self._exit_patched
