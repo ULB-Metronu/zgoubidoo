@@ -106,7 +106,7 @@ class Patchable:
     @property
     def frenet_orientation(self) -> Optional[_Frame]:
         if self._frenet is None:
-            self._frenet = self.exit_patched.__class__(self.exit_patched)
+            self._frenet = self.entry_patched.__class__(self.entry_patched)
         return self._frenet
 
     @property

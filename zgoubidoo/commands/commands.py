@@ -661,22 +661,22 @@ class ChangRef(Command, _Patchable):
         return 0.0 * _ureg.cm
 
     @property
-    def exit(self) -> _Frame:
+    def entry_patched(self) -> _Frame:
         """
 
         Returns:
 
         """
-        if self._exit is None:
-            self._exit = _Frame(self.entry_patched)
+        if self._entry_patched is None:
+            self._entry_patched = _Frame(self.entry)
             for t in self.TRANSFORMATIONS:
                 if len(t) > 2:
                     raise Exception("Invalid transformation.")
                 if t[0].endswith('S'):
-                    self._exit.translate_axis(t[0][0], t[1])
+                    self._entry_patched.translate_axis(t[0][0], t[1])
                 elif t[0].endswith('R'):
-                    self._exit.rotate_axis(t[0][0], t[1])
-        return self._exit
+                    self._entry_patched.rotate_axis(t[0][0], t[1])
+        return self._entry_patched
 
 
 # Alias
