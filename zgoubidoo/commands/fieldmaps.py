@@ -2,9 +2,21 @@
 
 More details here.
 """
+from __future__ import annotations
+from typing import TYPE_CHECKING, Optional, List, Mapping, Union
+import pandas as _pd
 from .commands import Command as _Command
+from .actions import Action as _Action
+from .patchable import Patchable as _Patchable
 from .. import ureg as _ureg
+from .. import Q_ as _Q
 from ..units import _cm, _radian
+from ..zgoubi import Zgoubi as _Zgoubi
+from ..zgoubi import ZgoubiException as _ZgoubiException
+import zgoubidoo
+from georges_core.frame import Frame as _Frame
+if TYPE_CHECKING:
+    from ..input import Input as _Input
 
 
 class Brevol(_Command):
@@ -102,7 +114,7 @@ class PolarMesh(_Command):
     """Keyword of the command used for the Zgoubi input data."""
 
 
-class Tosca(_Command):
+class Tosca(_Command, _Patchable):
     """2-D and 3-D Cartesian or cylindrical mesh field map.
 
     .. rubric:: Zgoubi manual description
@@ -198,3 +210,124 @@ class Tosca(_Command):
         {_cm(s.XPAS):.12e}
         {s.KPOS:d} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
         """
+
+    def load(self, zgoubi: Optional[_Zgoubi] = None):
+        z = zgoubi or _Zgoubi()
+        zi = zgoubidoo.Input(f"FIT_{self.LABEL1}_MAGNET")
+        zi += self
+
+        def cb(f):
+            """Post execution callback."""
+            r = f.result()
+            if not self.results[0][1].success:
+                raise _ZgoubiException(f"Unable to load field map for keyword {self.__class__.__name__}.")
+            self._length = self.results[0][1].results.iloc[-1]['LENGTH']
+
+        z(zi, identifier={'TOSCA_LOAD': self.LABEL1}, cb=cb)
+        z.wait()
+        return self
+
+    def process_output(self, output: List[str],
+                       parameters: Mapping[str, Union[_Q, float]],
+                       zgoubi_input: _Input
+                       ) -> bool:
+        """
+
+        Args:
+            output:
+            parameters:
+            zgoubi_input:
+
+        Returns:
+
+        """
+        length: float = 0.0
+        for l in output:
+            if l.strip().startswith("Length of element,  XL ="):
+                length = float(l.split()[5])
+                break
+        self._results.append(
+            (
+                parameters,
+                _Action.CommandResult(success=True, results=_pd.DataFrame([{'LENGTH': length}]))
+            )
+        )
+        return True
+
+    @property
+    def rotation(self) -> _Q:
+        """
+
+        Returns:
+
+        """
+        return self.ALE or 0.0 * _ureg.degree
+
+    @property
+    def length(self) -> _Q:
+        """
+
+        Returns:
+
+        """
+        return self._length
+
+    @property
+    def x_offset(self) -> _Q:
+        """
+
+        Returns:
+
+        """
+        return self.XCE or 0.0 * _ureg.cm
+
+    @property
+    def y_offset(self) -> _Q:
+        """
+
+        Returns:
+
+        """
+        return self.YCE or 0.0 * _ureg.cm
+
+    @property
+    def entry_patched(self) -> Optional[_Frame]:
+        """
+
+        Returns:
+
+        """
+        if self._entry_patched is None:
+            self._entry_patched = self.entry.__class__(self.entry)
+            if self.KPOS in (0, 1, 2):
+                self._entry_patched.translate_x(self.x_offset)
+                self._entry_patched.translate_y(self.y_offset)
+                self._entry_patched.rotate_z(-self.rotation)
+        return self._entry_patched
+
+    @property
+    def exit(self) -> Optional[_Frame]:
+        """
+
+        Returns:
+
+        """
+        if self._exit is None:
+            self._exit = self.entry_patched.__class__(self.entry_patched)
+            self._exit.translate_x(self.length)
+        return self._exit
+
+    @property
+    def exit_patched(self) -> Optional[_Frame]:
+        """
+
+        Returns:
+
+        """
+        if self._exit_patched is None:
+            if self.KPOS is None or self.KPOS == 1:
+                self._exit_patched = self.exit.__class__(self.exit)
+            elif self.KPOS == 0 or self.KPOS == 2:
+                self._exit_patched = self.entry.__class__(self.entry)
+                self._exit_patched.translate_x(self.XL or 0.0 * _ureg.cm)
+        return self._exit_patched
