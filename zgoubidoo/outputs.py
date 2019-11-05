@@ -128,25 +128,33 @@ def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> _pd.DataFram
                       skipinitialspace=True,
                       quotechar='\''
                       )
-    df['LABEL1'] = df['LABEL1'].map(lambda x: x.strip())
-    df['X'] *= 1e-2
-    df['S'] *= 1e-2
-    df['Y'] = 1e-2 * df['Y-DY']
-    del df['Y-DY']
-    df['T'] *= 1e-3
-    df['Z'] *= 1e-2
-    df['P'] *= 1e-3
-    df['Yo'] *= 1e-2
-    df['To'] *= 1e-3
-    df['Zo'] *= 1e-2
-    df['Po'] *= 1e-3
-    df['KEX'] = df['# KEX']
-    df['Do'] = df['Do-1']
-    del df['Do-1']
-    df['KEYWORD'] = df['KLEY'].apply(str.strip)
-    del df['# KEX']
-    del df['KLEY']
-
+    try:
+        df['LABEL1'] = df['LABEL1'].map(lambda x: x.strip())
+        df['X'] *= 1e-2
+        df['S'] *= 1e-2
+        df['Y'] = 1e-2 * df['Y-DY']
+        del df['Y-DY']
+        df['T'] *= 1e-3
+        df['Z'] *= 1e-2
+        df['P'] *= 1e-3
+        df['Yo'] *= 1e-2
+        df['To'] *= 1e-3
+        df['Zo'] *= 1e-2
+        df['Po'] *= 1e-3
+        df['KEX'] = df['# KEX']
+        df['Do'] = df['Do-1']
+        del df['Do-1']
+        df['KEYWORD'] = df['KLEY'].apply(str.strip)
+        del df['# KEX']
+        del df['KLEY']
+    except TypeError:
+        df = _pd.read_csv(os.path.join(path, filename),
+                          skiprows=4,
+                          names=headers,
+                          sep=r'\s+',
+                          skipinitialspace=True,
+                          quotechar='\''
+                          )
     return df
 
 
