@@ -18,7 +18,7 @@ Examples:
     TODO
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING, Dict, List
+from typing import TYPE_CHECKING, Dict, List, Union
 import numpy as _np
 from zgoubidoo import ureg as _ureg
 from zgoubidoo.commands import Quadrupole, Sextupole, Octupole, Command, Marker, Drift, Bend, ChangeRef, Multipole, \
@@ -131,6 +131,7 @@ def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
                    RM=_np.abs(element.L/element.ANGLE),
                    AT=_np.abs(element.ANGLE),
                    B0=b1,
+                   N=(_np.abs(element.L/element.ANGLE).to('m')**2 * getattr(element, 'K1', 0.0 * _ureg.m**-2)).magnitude
                    )
     if element['TILT'] != 0:
         b.COLOR = 'goldenrod'
@@ -174,11 +175,16 @@ def quadrupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Di
         if element.get('K1') is None and element.get('K1L') is None and element.get('K1BRHO') is None:
             gradient = 0 / _ureg.m ** 2
         elif element.get('K1') is not None and element.get('K1L') is not None:
-            gradient = max(element['K1'] / _ureg.m ** 2, element['K1L'] / element['L'])
+            if element['K1'] == 0:
+                gradient = element['K1L'] / element['L']
+            elif element['K1L'] == 0:
+                gradient = element['K1'] / _ureg.m ** 2 if isinstance(element['K1'], float) else element['K1']
+            else:
+                raise KeyError("K1 and K1L cannot be non zero at the same time.")
         elif element.get('K1L') is not None:
             gradient = element['K1L'] / element['L']
         elif element.get('K1') is not None:
-            gradient = element['K1'] / _ureg.m ** 2
+            gradient = element['K1'] / _ureg.m ** 2 if isinstance(element['K1'], float) else element['K1']
         elif element.get('K1BRHO') is not None:
             gradient = element['K1BRHO'] / kinematics.brho
         else:
