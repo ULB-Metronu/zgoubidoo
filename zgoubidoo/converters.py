@@ -41,7 +41,8 @@ def marker_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) 
     Returns:
 
     """
-    return [options.get('command', Marker)().generate_label(prefix=element.name)]
+    # if option generate prefix, etc .generate_label(prefix=element.name)
+    return [options.get('command', Marker)(element.name)]
 
 
 def drift_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:

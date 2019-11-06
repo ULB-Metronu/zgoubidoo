@@ -444,7 +444,7 @@ class ObjetA(_Command):
     """Object from Monte-Carlo simulation of decay reaction.
 
     Examples:
-        Test
+        TODO
     """
     KEYWORD = 'OBJETA'
     """Keyword of the command used for the Zgoubi input data."""

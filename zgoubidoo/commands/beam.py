@@ -245,7 +245,6 @@ class BeamZgoubiDistribution(Beam):
                 **kwargs,
                 )
         b.IMAX = statistics or sequence.metadata.n_particles,
-        b._set_from_betablock(sequence.betablock)
         b.EMIT_Y = sequence.metadata['EX'] * _ureg.m * _ureg.radian
         b.EMIT_Z = sequence.metadata['EY'] * _ureg.m * _ureg.radian
         return b
