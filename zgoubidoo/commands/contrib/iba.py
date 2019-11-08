@@ -11,7 +11,7 @@ from ..magnetique import Dipole as _Dipole
 from ..magnetique import PolarMagnet as _PolarMagnet
 from ..magnetique import Multipole as _Multipole
 from ..magnetique import Quadrupole as _Quadrupole
-from ..magnetique import FakeDrift as _FakeDrift
+from ..magnetique import Drift as _Drift
 from ..commands import Collimator as _Collimator
 from ..commands import Marker as _Marker
 from ..commands import Ymy as _Ymy
@@ -21,8 +21,9 @@ from ..commands import Chamber as _Chamber
 from ..particules import Proton as _Proton
 from ..commands import ChangeRef as _ChangeRef
 from ..beam import Beam as _Beam
+from ..beam import BeamInputDistribution as _BeamInputDistribution
 from ... import ureg as _ureg
-from ... import _Q
+from ... import Q_ as _Q
 from ...input import Input as _Input
 from ...mappings import MappedParametersType as _MappedParametersType
 from ... import Kinematics as _Kinematics
@@ -540,7 +541,6 @@ class QuadrupoleIBA(_Quadrupole):
                   polarity: _PolarityType = _HorizontalPolarity,
                   p=None,
                   l_eff: float = None,
-                  gradient: float = 0.0,
                   **kwargs
                   ):
         """
@@ -556,7 +556,7 @@ class QuadrupoleIBA(_Quadrupole):
 
         """
         self._current = 0.0
-        self._gradient = gradient
+        self._gradient = 0.0
         if self.PARAMETERS.get('POLARITY'):
             self.polarity = self.POLARITY
         else:
@@ -646,7 +646,8 @@ class QuadrupoleIBA(_Quadrupole):
     @p.setter
     def p(self, value):
         self.__P = value
-        self.current = self._current
+        if self._current is not None:
+            self.current = self._current
 
     @property
     def l_eff(self):
@@ -660,7 +661,8 @@ class QuadrupoleIBA(_Quadrupole):
     @l_eff.setter
     def l_eff(self, value):
         self.__L_EFF = value
-        self.current = self._current
+        if self._current is not None:
+            self.current = self._current
 
     @property
     def B0(self):
@@ -1162,12 +1164,12 @@ class CGTR:
         self.sl1g: SL1G = sl1g or SL1G()
         self.sl2g: SL2G = sl2g or SL2G()
         self.sl3g: SL3G = sl3g or SL3G()
-        self.beam: _Beam = beam or _Beam('BUNCH', slices=1, kinematics=kinematics.brho)
+        self.beam: _Beam = beam or _BeamInputDistribution('BUNCH', slices=1, kinematics=kinematics.brho)
         self.start: _Marker = _Marker('START')
         self.iso: _Marker = _Marker('ISO')
 
         if with_fit:
-            self.fit_dipoles(boro=kinematics.brho)
+            self.fit_dipoles(kinematics=kinematics)
 
         self.zi: _Input = _Input('CGTR', line=[
             self.beam,
@@ -1175,53 +1177,71 @@ class CGTR:
             self.start,
             _Collimator('C1G', IA=1, IFORM=2, J=0, C1=5 * _ureg.mm, C2=5 * _ureg.mm),
             _Chamber('Chamber1', IA=1, IFORM=2, J=0, C1=29.75 * _ureg.mm, C2=29.75 * _ureg.mm),
-            _FakeDrift('C1G_T1G', XL=9.2995 * _ureg.cm),
+            _Drift
+            ('C1G_T1G', XL=9.2995 * _ureg.cm),
             #_ChangeRef(),
             _Ymy(),
             self.t1g,
-            _FakeDrift('T1G_T2G', XL=2.09 * _ureg.cm),
+            _Drift
+            ('T1G_T2G', XL=2.09 * _ureg.cm),
             self.t2g,
-            _FakeDrift('T2G_Q1G', XL=38.7855 * _ureg.cm),
+            _Drift
+            ('T2G_Q1G', XL=38.7855 * _ureg.cm),
             self.q1g,
-            _FakeDrift('Q1G_Q2G', XL=30.3 * _ureg.cm),
+            _Drift
+            ('Q1G_Q2G', XL=30.3 * _ureg.cm),
             self.q2g,
-            _FakeDrift('Q2G_SL1G', XL=19.719 * _ureg.cm + 3 * _ureg.cm),
+            _Drift
+            ('Q2G_SL1G', XL=19.719 * _ureg.cm + 3 * _ureg.cm),
             self.sl1g,
-            _FakeDrift('SL1G_SL2G', XL=3 * _ureg.cm + 3 * _ureg.cm + 1 * _ureg.cm),
+            _Drift
+            ('SL1G_SL2G', XL=3 * _ureg.cm + 3 * _ureg.cm + 1 * _ureg.cm),
             self.sl2g,
-            _FakeDrift('SL2G_B1G', XL=39.734 * _ureg.cm + 3 * _ureg.cm - self.b1g.extra_drift),
+            _Drift
+            ('SL2G_B1G', XL=39.734 * _ureg.cm + 3 * _ureg.cm - self.b1g.extra_drift),
             _Chamber(IA=2),
             _Chamber('Chamber2', IA=1, IFORM=1, J=0, C1=2.9 * _ureg.cm, C2=1.29 * _ureg.cm, C3=self.b1g.RM),
             self.b1g,
             _Chamber(IA=2),
             _Ymy(),
             _Chamber('Chamber3', IA=1, IFORM=2, J=0, C1=29.75 * _ureg.mm, C2=29.75 * _ureg.mm),
-            _FakeDrift('B1G_Q3G', XL=26.44 * _ureg.cm - self.b1g.extra_drift),
+            _Drift
+            ('B1G_Q3G', XL=26.44 * _ureg.cm - self.b1g.extra_drift),
             self.q3g,
-            _FakeDrift('Q3G_Q4G', XL=32.6 * _ureg.cm),
+            _Drift
+            ('Q3G_Q4G', XL=32.6 * _ureg.cm),
             self.q4g,
-            _FakeDrift('Q4G_Q5G', XL=33.4 * _ureg.cm),
+            _Drift
+            ('Q4G_Q5G', XL=33.4 * _ureg.cm),
             self.q5g,
-            _FakeDrift('Q5G_Q6G', XL=33.5 * _ureg.cm),
+            _Drift
+            ('Q5G_Q6G', XL=33.5 * _ureg.cm),
             self.q6g,
-            _FakeDrift('Q6G_Q7G', XL=36.0 * _ureg.cm),
+            _Drift
+            ('Q6G_Q7G', XL=36.0 * _ureg.cm),
             self.q7g,
-            _FakeDrift('Q7G_SL3G', XL=16.5682507 * _ureg.cm + 3 * _ureg.cm),
+            _Drift
+            ('Q7G_SL3G', XL=16.5682507 * _ureg.cm + 3 * _ureg.cm),
             self.sl3g,
-            _FakeDrift('SL3G_B2G', XL=30.9927502 * _ureg.cm + 3 * _ureg.cm - self.b2g.extra_drift),
+            _Drift
+            ('SL3G_B2G', XL=30.9927502 * _ureg.cm + 3 * _ureg.cm - self.b2g.extra_drift),
             _Chamber(IA=2),
             _Chamber('Chamber4', IA=1, IFORM=1, J=0, C1=11/2 * _ureg.cm, C2=2.58/2 * _ureg.cm, C3=self.b2g.RM),
             self.b2g,
             _Chamber(IA=2),
-            _FakeDrift('B2G_SMX', XL=31.77 * _ureg.cm - self.b2g.extra_drift - (self.smx.length - 159 * _ureg.mm)/2),
+            _Drift
+            ('B2G_SMX', XL=31.77 * _ureg.cm - self.b2g.extra_drift - (self.smx.length - 159 * _ureg.mm)/2),
             self.smx,
-            _FakeDrift('SMX_SMY', XL=13.04 * _ureg.cm - (self.smx.length - 159 * _ureg.mm)/2 - (self.smy.length - 109 * _ureg.mm)/2),
+            _Drift
+            ('SMX_SMY', XL=13.04 * _ureg.cm - (self.smx.length - 159 * _ureg.mm)/2 - (self.smy.length - 109 * _ureg.mm)/2),
             self.smy,
-            _FakeDrift('SMY_B3G', XL=20.39 * _ureg.cm - self.b3g.extra_drift + self.b3g.extra_drift - (self.smy.length - 109 *_ureg.mm)/2),
+            _Drift
+            ('SMY_B3G', XL=20.39 * _ureg.cm - self.b3g.extra_drift + self.b3g.extra_drift - (self.smy.length - 109 *_ureg.mm)/2),
             _Collimator('B3G_ENTRY', IA=1, IFORM=1, J=0, C1=11/2 * _ureg.cm, C2=9/2 * _ureg.cm),
             self.b3g,
             _Collimator('B3G_EXIT', IA=1, IFORM=1, J=0, C1=13.65/2 * _ureg.cm, C2=9/2 * _ureg.cm),
-            _FakeDrift('FINAL', XL=1101.071 * _ureg.mm - self.b3g.extra_drift +
+            _Drift
+            ('FINAL', XL=1101.071 * _ureg.mm - self.b3g.extra_drift +
                                    self.b3g.extra_drift - 0.20950282594698123 * _ureg.meter),
             self.iso,
         ],
@@ -1248,19 +1268,19 @@ class CGTR:
     def gantry_angle(self, angle):
         pass
 
-    def fit_dipoles(self, boro: _Q, dipoles: Optional[List[DipoleIBA]] = None):
+    def fit_dipoles(self, kinematics: _Kinematics, dipoles: Optional[List[DipoleIBA]] = None):
         """Adjusts the main field of the dipoles according to the beam energy.
 
         The adjustment is made so that the reference trajectory exists the magnet on axis.
 
         Args:
-            boro: the beam energy
+            kinematics: the beam kinematics
             dipoles: a list of dipoles to fit
         """
         z = _Zgoubi()
         dipoles = dipoles or [self.b1g, self.b2g, self.b3g]
         for dipole in dipoles:
-            dipole.fit(boro=boro, zgoubi=z)
+            dipole.fit(kinematics=kinematics, zgoubi=z)
         z.wait()
 
     def run(self,
@@ -1375,7 +1395,7 @@ class CGTR:
 
     def plot(self,
              ax=None,
-             artist: zgoubidoo.vis.Artist = None,
+             artist: zgoubidoo.vis.ZgoubidooPlotlyArtist = None,
              start: Optional[Union[str, zgoubidoo.commands.Command]] = None,
              stop: Optional[Union[str, zgoubidoo.commands.Command]] = None,
              crosshair: bool = True):
@@ -1412,4 +1432,4 @@ class CGTR:
 
         if crosshair:
             artist.ax.hlines(0.0, -10, 1000)
-        #return artist.figure
+        return artist.figure
