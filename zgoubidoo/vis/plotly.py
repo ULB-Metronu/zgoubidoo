@@ -98,8 +98,8 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                            f"H{e.exit_s.m_as('m') - 0.85 * length} " \
                            f"Z"
                 else:
-                    path = f"M{e.entry_s.m_as('m') + 0.15 * e.length.m_as('m')},{vertical_position + 0.1} " \
-                           f"H{e.exit_s.m_as('m') - 0.15 * e.length.m_as('m')} " \
+                    path = f"M{e.entry_s.m_as('m') + 0.15 * length},{vertical_position + 0.1} " \
+                           f"H{e.exit_s.m_as('m') - 0.15 * length} " \
                            f"L{e.exit_s.m_as('m')},{vertical_position - 0.1} " \
                            f"H{e.entry_s.m_as('m')} " \
                            f"Z"
