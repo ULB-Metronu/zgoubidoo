@@ -213,7 +213,7 @@ class Tosca(_Command, _Patchable):
 
     def load(self, zgoubi: Optional[_Zgoubi] = None):
         z = zgoubi or _Zgoubi()
-        zi = zgoubidoo.Input(f"FIT_{self.LABEL1}_MAGNET")
+        zi = zgoubidoo.Input(f"TOSCA_{self.LABEL1}")
         zi += self
 
         def cb(f):
@@ -242,9 +242,9 @@ class Tosca(_Command, _Patchable):
 
         """
         length: float = 0.0
-        for l in output:
-            if l.strip().startswith("Length of element,  XL ="):
-                length = float(l.split()[5])
+        for line in output:
+            if line.strip().startswith("Length of element,  XL ="):
+                length = float(line.split()[5])
                 break
         self._results.append(
             (
