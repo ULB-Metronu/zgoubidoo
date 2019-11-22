@@ -402,6 +402,10 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
         return -(magnet_angle - poles_angle) / 2
 
 
+class PolarMultiMagnet(PolarMagnet):
+    pass
+
+
 class AGSMainMagnet(CartesianMagnet):
     """AGS main magnet.
 
@@ -1224,7 +1228,7 @@ class DipoleM(PolarMagnet):
         return ''.join(map(lambda _: _.rstrip(), command))
 
 
-class Dipoles(PolarMagnet):
+class Dipoles(PolarMultiMagnet):
     """Dipole magnet N-tuple, polar frame.
 
     .. rubric:: Zgoubi manual description
@@ -1453,7 +1457,7 @@ class Emma(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
 
-class FFAG(PolarMagnet):
+class FFAG(PolarMultiMagnet):
     """FFAG magnet, N-tuple.
 
     TODO
@@ -1467,7 +1471,7 @@ class FFAG(PolarMagnet):
     commands (e.g. fit)."""
 
 
-class FFAGSpirale(PolarMagnet):
+class FFAGSpirale(PolarMultiMagnet):
     """Spiral FFAG magnet, N-tuple.
 
     TODO

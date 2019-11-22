@@ -507,7 +507,7 @@ class Options(Action):
     def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        1 1
+        1 2
         CONSTY {'ON' if self._consty else 'OFF'}
         WRITE {'ON' if self._write else 'OFF'}
         """
