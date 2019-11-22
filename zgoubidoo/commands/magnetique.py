@@ -1476,73 +1476,63 @@ class FFAGSpirale(PolarMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': 0,
-        'N': 1,
-        'AT': 0,
-        'RM': 0,
-
-        'ACN': (0, ),
-        'DELTA_RM': [0, ],
-        'BZ0': [0, ],
-        'K': [0, ],
-        'G0_E': [0, ],
-        'K_E': [0, ],
-        'NCE': [0, ],
-        'C0_E': [0, ],
-        'C1_E': [0, ],
-        'C2_E': [0, ],
-        'C3_E': [0, ],
-        'C4_E': [0, ],
-        'C5_E': [0, ],
-        'SHIFT_E': [0, ],
-        'OMEGA_E': [0, ],
-        'XI_E': [0, ],
-        'DUMMY1_E': 0,
-        'DUMMY2_E': 0,
-        'DUMMY3_E': 0,
-        'DUMMY4_E': 0,
-        'G0_S': [0, ],
-        'K_S': [0, ],
-        'NCS': [0, ],
-        'C0_S': [0, ],
-        'C1_S': [0, ],
-        'C2_S': [0, ],
-        'C3_S': [0, ],
-        'C4_S': [0, ],
-        'C5_S': [0, ],
-        'SHIFT_S': [0, ],
-        'OMEGA_S': [0, ],
-        'XI_S': [0, ],
-        'DUMMY1_S': 0,
-        'DUMMY2_S': 0,
-        'DUMMY3_S': 0,
-        'DUMMY4_S': 0,
-        'G0_L': [0, ],
-        'K_L': [0, ],
-        'NCL': [0, ],
-        'C0_L': [0, ],
-        'C1_L': [0, ],
-        'C2_L': [0, ],
-        'C3_L': [0, ],
-        'C4_L': [0, ],
-        'C5_L': [0, ],
-        'SHIFT_L': [0, ],
-        'OMEGA_L': [0, ],
-        'THETA_L': [0, ],
-        'R1_L': [1e9, ],
-        'U1_L': [-1e9, ],
-        'U2_L': [1e9, ],
-        'R2_L': [1e9, ],
-
+        'IL': (0, ''),
+        'N': (1, 'Number of dipoles in the FFAG n-tuple'),
+        'AT': (0 * _ureg.degree, 'Total angular extent of the dipole'),
+        'RM': (100 * _ureg.cm, 'Reference radius'),
+        # For each magnet in the n-tuple
+        'ACN': ([0, 0] * _ureg.degree, 'Azymuth for dipole positioning'),
+        'DELTA_RM': ([0, 0] * _ureg.cm, 'Reference radius offset'),
+        'BZ0': ([0, 0] * _ureg.kilogauss, 'Field at the reference radius'),
+        'K': ([0, 0], 'Field index'),
+        'G0_E': ([0, 0] * _ureg.cm, ''),
+        'K_E': ([0, 0], ''),
+        'NCE': ([0, 0], ''),
+        'C0_E': ([0, 0], ''),
+        'C1_E': ([1, 1], ''),
+        'C2_E': ([0, 0], ''),
+        'C3_E': ([0, 0], ''),
+        'C4_E': ([0, 0], ''),
+        'C5_E': ([0, 0], ''),
+        'SHIFT_E': ([0, 0] * _ureg.cm, ''),
+        'OMEGA_E': ([0, 0], ''),
+        'XI_E': ([0, 0] * _ureg.degree, ''),
+        'G0_S': ([0, 0] * _ureg.cm, ''),
+        'K_S': ([0, 0], ''),
+        'NCS': ([0, 0], ''),
+        'C0_S': ([0, 0], ''),
+        'C1_S': ([1, 1], ''),
+        'C2_S': ([0, 0], ''),
+        'C3_S': ([0, 0], ''),
+        'C4_S': ([0, 0], ''),
+        'C5_S': ([0, 0], ''),
+        'SHIFT_S': ([0, 0], ''),
+        'OMEGA_S': ([0, 0], ''),
+        'XI_S': ([0, 0] * _ureg.degree, ''),
+        'G0_L': ([0, 0], ''),
+        'K_L': ([-1, -1], ''),
+        'NCL': ([0, 0], ''),
+        'C0_L': ([0, 0], ''),
+        'C1_L': ([1, 1], ''),
+        'C2_L': ([0, 0], ''),
+        'C3_L': ([0, 0], ''),
+        'C4_L': ([0, 0], ''),
+        'C5_L': ([0, 0], ''),
+        'SHIFT_L': ([0, 0], ''),
+        'OMEGA_L': ([0, 0], ''),
+        'THETA_L': ([0, 0], ''),
+        'R1_L': ([1e9, 1e9], ''),
+        'U1_L': ([1e9, 1e9], ''),
+        'U2_L': ([1e9, 1e9], ''),
+        'R2_L': ([1e9, 1e9], ''),
+        # General parameters
         'KIRD': 0,
-        'Resol': 2,
-        'XPAS': 0.1,
-        'KPOS': 2,
-        'RE': 0,
-        'TE': 0,
-        'RS': 0,
-        'TS': 0,
-        'DP': 0,
+        'RESOL': 2,
+        'XPAS': (1.0 * _ureg.cm, 'Integration step'),
+        'RE': 0 * _ureg.cm,
+        'TE': 0 * _ureg.radian,
+        'RS': 0 * _ureg.cm,
+        'TS': 0 * _ureg.radian,
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
@@ -1552,54 +1542,35 @@ class FFAGSpirale(PolarMagnet):
         c = f"""
             {super().__str__().rstrip()}
             {s.IL}
-            {s.N} {s.AT:.12e} {s.RM:.12e}
+            {s.N} {s.AT.m_as('degree'):.12e} {s.RM.m_as('cm'):.12e}
             """
         command.append(c)
 
         for i in range(0, s.N):
             c = f"""
-                {s.ACN[i]:.12e} {s.DELTA_RM[i]:.12e} {s.BZ0[i]:.12e} {s.K[i]:.12e}
-                {s.G0_E[i]:.12e} {s.K_E[i]:.12e}
-                {s.NCE[i]} {s.C0_E[i]:.12e} {s.C1_E[i]:.12e} {s.C2_E[i]:.12e} {s.C3_E[i]:.12e} {s.C4_E[i]:.12e} {s.C5_E[i]:.12e} {s.SHIFT_E[i]:.12e}
-                {s.OMEGA_E[i]:.12e} {s.XI_E[i]:.12e} {s.DUMMY1_E:.12e} {s.DUMMY2_E:.12e} {s.DUMMY3_E:.12e} {s.DUMMY4_E:.12e}
-                {s.G0_S[i]:.12e} {s.K_S[i]:.12e}
-                {s.NCS[i]} {s.C0_S[i]:.12e} {s.C1_S[i]:.12e} {s.C2_S[i]:.12e} {s.C3_S[i]:.12e} {s.C4_S[i]:.12e} {s.C5_S[i]:.12e} {s.SHIFT_S[i]:.12e}
-                {s.OMEGA_S[i]:.12e} {s.XI_S[i]:.12e} {s.DUMMY1_S:.12e} {s.DUMMY2_S:.12e} {s.DUMMY3_S:.12e} {s.DUMMY4_S:.12e}
-                {s.G0_L[i]:.12e} {s.K_L[i]:.12e}
-                {s.NCL[i]} {s.C0_L[i]:.12e} {s.C1_L[i]:.12e} {s.C2_L[i]:.12e} {s.C3_L[i]:.12e} {s.C4_L[i]:.12e} {s.C5_L[i]:.12e} {s.SHIFT_L[i]:.12e}
-                {s.OMEGA_L[i]:.12e} {s.THETA_L[i]:.12e} {s.R1_L[i]:.12e} {s.U1_L[i]:.12e} {s.U2_L[i]:.12e} {s.R2_L[i]:.12e}
+            {s.ACN[i].m_as('degree'):.12e} {s.DELTA_RM[i].m_as('cm'):.12e} {s.BZ0[i].m_as('kilogauss'):.12e} {s.K[i]:.12e}
+            {s.G0_E[i].m_as('cm'):.12e} {s.K_E[i]:.12e}
+            {s.NCE[i]} {s.C0_E[i]:.12e} {s.C1_E[i]:.12e} {s.C2_E[i]:.12e} {s.C3_E[i]:.12e} {s.C4_E[i]:.12e} {s.C5_E[i]:.12e} {s.SHIFT_E[i].m_as('cm'):.12e}
+            {s.OMEGA_E[i].m_as('degree'):.12e} {s.XI_E[i].m_as('degree'):.12e} 0.0 0.0 0.0 0.0
+            {s.G0_S[i].m_as('cm'):.12e} {s.K_S[i]:.12e}
+            {s.NCS[i]} {s.C0_S[i]:.12e} {s.C1_S[i]:.12e} {s.C2_S[i]:.12e} {s.C3_S[i]:.12e} {s.C4_S[i]:.12e} {s.C5_S[i]:.12e} {s.SHIFT_S[i]:.12e}
+            {s.OMEGA_S[i].m_as('degree'):.12e} {s.XI_S[i].m_as('degree'):.12e} 0.0 0.0 0.0 0.0
+            {s.G0_L[i]:.12e} {s.K_L[i]:.12e}
+            {s.NCL[i]} {s.C0_L[i]:.12e} {s.C1_L[i]:.12e} {s.C2_L[i]:.12e} {s.C3_L[i]:.12e} {s.C4_L[i]:.12e} {s.C5_L[i]:.12e} {s.SHIFT_L[i]:.12e}
+            {s.OMEGA_L[i]:.12e} {s.THETA_L[i]:.12e} {s.R1_L[i]:.12e} {s.U1_L[i]:.12e} {s.U2_L[i]:.12e} {s.R2_L[i]:.12e}
                 """
             command.append(c)
-
-        if s.KIRD != 0 and s.KIRD != 2 and s.KIRD != 4 and s.KIRD != 25:
-            raise _ZgoubidooException("KIRD must be equal to 0,2,4 or 25")
-        if (s.KIRD == 0 and s.Resol != 2) and (s.KIRD == 0 and s.Resol != 4):
-            raise _ZgoubidooException("Resol must be equal to 2 or 4 when KIRD = 0")
 
         command.append(f"""
-            {s.KIRD} {s.Resol:.12e} 
-            {s.XPAS:.12e}
+            {s.KIRD} {s.RESOL:.12e}
+            {s.XPAS.m_as('cm'):.12e}
             """)
 
-        if s.KPOS not in (1, 2):
-            raise _ZgoubidooException("KPOS must be equal to 1 or 2.")
-
-        if s.KPOS == 2:
-            if s.RE == 0:
-                s.RE = s.RM
-            if s.RS == 0:
-                s.RS = s.RM
-            c = f"""
-                {s.KPOS}
-                {s.RE:.12e} {s.TE:.12e} {s.RS:.12e} {s.TS:.12e}
-                """
-            command.append(c)
-        elif s.KPOS == 1:
-            c = f"""
-                {s.KPOS}
-                {s.DP:.12e}
-                """
-            command.append(c)
+        c = f"""
+            2
+            {s.RE.m_as('cm'):.12e} {s.TE.m_as('radian'):.12e} {s.RS.m_as('cm'):.12e} {s.TS.m_as('radian'):.12e}
+            """
+        command.append(c)
 
         return ''.join(map(lambda _: _.rstrip(), command))
 
