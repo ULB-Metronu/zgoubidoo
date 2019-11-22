@@ -2,7 +2,7 @@
 TODO
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING, List, Union, Tuple, Iterable, Mapping
+from typing import TYPE_CHECKING, Optional, List, Union, Tuple, Iterable, Mapping
 import pandas as _pd
 from .commands import CommandType as _CommandType
 from .commands import Command as _Command
@@ -109,6 +109,8 @@ class Fit(Action, metaclass=FitType):
         'CONSTRAINTS': ([], 'Constraints'),
         'PENALTY': (1.0e-10, 'Penalty'),
         'ITERATIONS': (50000, 'Iterations'),
+        'FINAL': (True, 'If true, Zgoubi will do an extra pass with the variables set with the fit results'),
+        'SAVE': (True, 'If true, Zgoubi will save the results to file'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
@@ -129,7 +131,7 @@ class Fit(Action, metaclass=FitType):
                      line: _Input,
                      place: Union[str, _Command],
                      parameter: Union[int, Iterable],
-                     parameter_range: Tuple[float] = None):
+                     parameter_range: Optional[Union[float, Tuple[float]]] = None):
             """
 
             Args:
@@ -144,7 +146,7 @@ class Fit(Action, metaclass=FitType):
             except TypeError:
                 self.IP: int = parameter
             self.XC: int = 0
-            self.DV: Tuple[float] = parameter_range if parameter_range is not None else [-100.0, 100.0]
+            self.DV: Union[float, Tuple[float]] = parameter_range if parameter_range is not None else [-100.0, 100.0]
 
         def __getitem__(self, item):
             return getattr(self, item)
@@ -264,7 +266,7 @@ class Fit(Action, metaclass=FitType):
             self.IC: float = 3
             self.I: int = particle
             self.J: int = variable
-            self.IR: int = line.zgoubi_index(place)
+            self.IR: int = place if place == '#End' else line.zgoubi_index(place)
             self.V: float = value
             self.WV: float = weight
             self.NP: int = 0
@@ -327,7 +329,7 @@ class Fit(Action, metaclass=FitType):
         command = list()
         command.append(super().__str__().rstrip())
         command.append(f"""
-        {len(self.PARAMS) - list(self.PARAMS).count(None)} save
+        {len(self.PARAMS) - list(self.PARAMS).count(None)} {'nofinal' if not self.FINAL else ''} {'save' if self.SAVE else ''}
         """)
         for p in self.PARAMS:
             if p is None:
@@ -415,16 +417,16 @@ class Fit(Action, metaclass=FitType):
         grab: bool = False
         status: list = []
         data: list = []
-        for l in output:
-            if l.strip().startswith('Lmnt'):
-                status.append(l)
-            if l.strip().startswith('LMNT'):
+        for line in output:
+            if line.strip().startswith('Lmnt'):
+                status.append(line)
+            if line.strip().startswith('LMNT'):
                 grab = True
                 continue
-            if l.strip().startswith('STATUS OF'):
+            if line.strip().startswith('STATUS OF'):
                 grab = False
             if grab:
-                values = l.split()
+                values = line.split()
                 d = {
                         'element_id': int(values[0]),
                         'variable_id': int(values[1]),
