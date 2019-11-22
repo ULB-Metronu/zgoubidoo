@@ -146,7 +146,7 @@ class ZgoubiResults:
             tracks = _pd.DataFrame()
         if parameters is None:
             self._tracks = tracks
-        return _transform_and_return_tracks(tracks.copy())
+        return _transform_and_return_tracks(tracks)
 
     @property
     def tracks(self) -> _pd.DataFrame:
