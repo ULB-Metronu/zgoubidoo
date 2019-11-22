@@ -479,3 +479,33 @@ class Include(Action):
     TODO
     """
     pass
+
+
+class Options(Action):
+    """
+    TODO
+    """
+    KEYWORD = 'OPTIONS'
+    """Keyword of the command used for the Zgoubi input data."""
+
+    def post_init(self, write: bool = True, consty: bool = False):
+        """
+
+        Args:
+            write:
+            consty:
+
+        Returns:
+
+        """
+        self.LABEL1 = ' '
+        self._write = write
+        self._consty = consty
+
+    def __str__(self):
+        return f"""
+        {super().__str__().rstrip()}
+        1 1
+        CONSTY {'ON' if self._consty else 'OFF'}
+        WRITE {'ON' if self._write else 'OFF'}
+        """
