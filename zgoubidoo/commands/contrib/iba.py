@@ -1394,42 +1394,26 @@ class CGTR:
         return tracks
 
     def plot(self,
-             ax=None,
              artist: zgoubidoo.vis.ZgoubidooPlotlyArtist = None,
              start: Optional[Union[str, zgoubidoo.commands.Command]] = None,
              stop: Optional[Union[str, zgoubidoo.commands.Command]] = None,
-             crosshair: bool = True):
+             crosshair: bool = True
+             ):
         """Plot the P1 beamline.
 
         TODO
 
         Args:
-            ax: an optional matplotlib axis to draw on
             artist: an artist object for the rendering
             start: first element of the beamline to be plotted
             stop: last element of the beamline to be plotted
             crosshair: draw a crosshair indicating the isocenter
         """
-        zgoubidoo.survey(beamline=self.line)
+        self.line.survey()
 
         if artist is None:
-            artist = zgoubidoo.vis.ZgoubiMpl(ax=ax)
-        if ax is not None:
-            artist.ax = ax
+            artist = zgoubidoo.vis.ZgoubidooPlotlyArtist()
 
-        zgoubidoo.vis.beamline(line=self.line[start:stop],
-                               artist=artist,
-                               tracks=self.tracks,
-                               )
+        artist.plot_beamline(self.line)
 
-        artist.ax.set_aspect('equal', 'datalim')
-        artist.ax.set_rasterized(True)
-        artist.ax.set_xlabel('X (mm)')
-        artist.ax.set_ylabel('Y (mm)')
-        for item in ([artist.ax.title, artist.ax.xaxis.label, artist.ax.yaxis.label] +
-                     artist.ax.get_xticklabels() + artist.ax.get_yticklabels()):
-            item.set_fontsize(30)
-
-        if crosshair:
-            artist.ax.hlines(0.0, -10, 1000)
-        return artist.figure
+        return artist
