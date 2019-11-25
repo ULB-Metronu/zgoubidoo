@@ -128,11 +128,19 @@ def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
                  )
 
     elif options.get('command') == Dipole:
+        if not _np.isnan(element.N):
+            field_index = element.N
+        elif not _np.isnan(element.K1):
+            field_index = (_np.abs(
+                element.L/element.ANGLE).to('m')**2 * getattr(element, 'K1', 0.0 * _ureg.m**-2)
+                           ).magnitude
+        else:
+            field_index = 0
         b = Dipole(element.name[0:_ZGOUBI_LABEL_LENGTH],
                    RM=_np.abs(element.L/element.ANGLE),
                    AT=_np.abs(element.ANGLE),
                    B0=b1,
-                   N=(_np.abs(element.L/element.ANGLE).to('m')**2 * getattr(element, 'K1', 0.0 * _ureg.m**-2)).magnitude
+                   N=field_index,
                    )
     if element['TILT'] != 0:
         b.COLOR = 'goldenrod'
