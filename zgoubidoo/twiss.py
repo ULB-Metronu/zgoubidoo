@@ -18,10 +18,11 @@ Example:
 
 """
 from typing import Tuple, Optional, Union
+from logging import warning
+import warnings
 import numpy as _np
 import pandas as _pd
 from .input import Input as _Input
-from .commands.magnetique import PolarMagnet as _PolarMagnet
 from georges_core.sequences import BetaBlock as _BetaBlock
 import zgoubidoo
 from . import ureg as _ureg
@@ -202,8 +203,16 @@ def compute_periodic_twiss(matrix: _pd.DataFrame, end: Union[int, str] = -1) -> 
         'CMU1': (m['R11'] + m['R22'])/2.0,
         'CMU2': (m['R33'] + m['R44'])/2.0,
     })
-    twiss['MU1'] = _np.arccos(twiss['CMU1'])
-    twiss['MU2'] = _np.arccos(twiss['CMU2'])
+    if twiss['CMU1'] < -1.0 or twiss['CMU1'] > 1.0:
+        warning("Horizontal motion is unstable; proceed with caution.")
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        twiss['MU1'] = _np.arccos(twiss['CMU1'])
+    if twiss['CMU2'] < -1.0 or twiss['CMU2'] > 1.0:
+        warning("Vertical motion is unstable; proceed with caution.")
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        twiss['MU2'] = _np.arccos(twiss['CMU2'])
     twiss['BETA11'] = m['R12'] / _np.sin(twiss['MU1']) * _ureg.m
     if twiss['BETA11'] < 0.0:
         twiss['BETA11'] *= -1
