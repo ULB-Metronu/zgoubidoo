@@ -131,7 +131,7 @@ def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
         if element.N is not None and not _np.isnan(element.N):
             field_index = element.N
         elif element.K1 is not None and not _np.isnan(element.K1):
-            field_index = (_np.abs(
+            field_index = -(_np.abs(
                 element.L/element.ANGLE).to('m')**2 * getattr(element, 'K1', 0.0 * _ureg.m**-2)
                            ).magnitude
         else:
