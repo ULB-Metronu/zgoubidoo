@@ -629,6 +629,12 @@ class BeamTwiss(Beam):
     A beam to be used for transfer map and Twiss computations.
     """
     PARAMETERS = {
+        'PY': 1e-3,
+        'PT': 1e-3,
+        'PZ': 1e-3,
+        'PP': 1e-3,
+        'PX': 1e-3,
+        'PD': 1e-3,
         'ALPHA_Y': 0.0,
         'BETA_Y': 1.0 * _ureg.m,
         'ALPHA_Z': 0.0,
@@ -676,6 +682,12 @@ class BeamTwiss(Beam):
         """
         return self._objet_type(self.LABEL1,
                                 BORO=self._kinematics.brho,
+                                PY=self.PY,
+                                PT=self.PT,
+                                PZ=self.PZ,
+                                PP=self.PP,
+                                PX=self.PX,
+                                PD=self.PD,
                                 ALPHA_Y=self.ALPHA_Y,
                                 BETA_Y=self.BETA_Y,
                                 ALPHA_Z=self.ALPHA_Z,

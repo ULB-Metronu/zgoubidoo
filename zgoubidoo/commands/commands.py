@@ -1149,6 +1149,8 @@ class Ymy(Command, _Patchable):
     This is particularly useful for example in combination with a `Dipole` that needs to be flipped so that the 
     geometry matches the negative field value.
 
+    ..note: YMY reverses the signs of all transverse variables (Y, T, Z, P); despite its name.
+
     TODO
     """
     KEYWORD = 'YMY'
