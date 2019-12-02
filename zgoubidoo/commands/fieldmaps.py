@@ -218,10 +218,9 @@ class Tosca(_Command, _Patchable):
 
         def cb(f):
             """Post execution callback."""
-            r = f.result()
             if not self.results[0][1].success:
                 raise _ZgoubiException(f"Unable to load field map for keyword {self.__class__.__name__}.")
-            self._length = self.results[0][1].results.iloc[-1]['LENGTH']
+            self._length = self.results[0][1].results.iloc[-1]['LENGTH'] * _ureg.cm
 
         z(zi, identifier={'TOSCA_LOAD': self.LABEL1}, cb=cb)
         z.wait()

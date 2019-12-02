@@ -14,6 +14,7 @@ import tempfile
 import os
 import numpy as _np
 import pandas as _pd
+import pint
 from .executable import Executable
 from .transformations import GlobalCoordinateTransformation as _GlobalCoordinateTransformation
 from .transformations import FrenetCoordinateTransformation as _FrenetCoordinateTransformation
@@ -132,7 +133,7 @@ class ZgoubiResults:
                     for kk, vv in k.items():
                         try:
                             tracks[-1][f"{kk.replace('.', '__')}"] = _ureg.Quantity(vv).to_base_units().m
-                        except _ureg.UndefinedUnitError:
+                        except pint.UndefinedUnitError:
                             tracks[-1][f"{kk.replace('.', '__')}"] = vv
                 except FileNotFoundError:
                     _logger.warning(

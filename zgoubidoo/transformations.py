@@ -71,13 +71,14 @@ class GlobalCoordinateTransformation(CoordinateTranformation):
 
             # Rotate cartesian coordinates to the global reference frame
             element_rotation = _np.linalg.inv(getattr(e, reference_frame).get_rotation_matrix())
-            u = _np.dot(t[['X', 'Y', 'Z']].values, element_rotation)
+            u = t[['X', 'Y', 'Z']].values#_np.dot(t[['X', 'Y', 'Z']].values, element_rotation)
 
             # Translate all coordinates to the global reference frame
             origin = getattr(e, reference_frame).origin
-            tracks.loc[tracks.LABEL1 == label, 'XG'] = u[:, 0] + origin[0].m_as('m')
-            tracks.loc[tracks.LABEL1 == label, 'YG'] = u[:, 1] + origin[1].m_as('m')
-            tracks.loc[tracks.LABEL1 == label, 'ZG'] = u[:, 2] + origin[2].m_as('m')
+
+            tracks.loc[tracks.LABEL1 == label, 'XG'] = u[:, 0] #+ origin[0].m_as('m')
+            tracks.loc[tracks.LABEL1 == label, 'YG'] = u[:, 1] #+ origin[1].m_as('m')
+            tracks.loc[tracks.LABEL1 == label, 'ZG'] = u[:, 2] #+ origin[2].m_as('m')
 
             # Transform (rotate and translate) all rays coordinates to the global reference frame
             v = _np.dot(t[['XR', 'YR', 'ZR']].values, element_rotation)
