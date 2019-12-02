@@ -211,6 +211,12 @@ class Tosca(_Command, _Patchable):
         {s.KPOS:d} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
         """
 
+    def adjust_tracks_variables(self, tracks: _pd.DataFrame):
+        super().adjust_tracks_variables(tracks)
+        t = tracks[tracks.LABEL1 == self.LABEL1]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = t['X'] - t['X'].min() + self.entry_s.m_as('m')
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X'] = t['X'] - t['X'].min()
+
     def load(self, zgoubi: Optional[_Zgoubi] = None):
         z = zgoubi or _Zgoubi()
         zi = zgoubidoo.Input(f"TOSCA_{self.LABEL1}")
