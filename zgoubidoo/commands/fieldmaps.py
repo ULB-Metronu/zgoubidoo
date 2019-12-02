@@ -329,5 +329,5 @@ class Tosca(_Command, _Patchable):
                 self._exit_patched = self.exit.__class__(self.exit)
             elif self.KPOS == 0 or self.KPOS == 2:
                 self._exit_patched = self.entry.__class__(self.entry)
-                self._exit_patched.translate_x(self.XL or 0.0 * _ureg.cm)
+                self._exit_patched.translate_x(self.length)
         return self._exit_patched
