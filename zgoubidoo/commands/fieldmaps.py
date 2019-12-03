@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Optional, List, Mapping, Union
 import pandas as _pd
 from .commands import Command as _Command
 from .actions import Action as _Action
-from .patchable import Patchable as _Patchable
+from .magnetique import CartesianMagnet as _CartesianMagnet
 from .. import ureg as _ureg
 from .. import Q_ as _Q
 from ..units import _cm, _radian
@@ -114,7 +114,7 @@ class PolarMesh(_Command):
     """Keyword of the command used for the Zgoubi input data."""
 
 
-class Tosca(_Command, _Patchable):
+class Tosca(_CartesianMagnet):
     """2-D and 3-D Cartesian or cylindrical mesh field map.
 
     .. rubric:: Zgoubi manual description
@@ -186,9 +186,9 @@ class Tosca(_Command, _Patchable):
         'IORDRE': (25, 'Degree of interpolation polynomial.'),
         'XPAS': (1 * _ureg.mm, 'Integration step.'),
         'KPOS': (2, "Alignment parameter"),
-        'XCE': (0,),
-        'YCE': (0,),
-        'ALE': (0,),
+        'XCE': (0 * _ureg.cm, ''),
+        'YCE': (0 * _ureg.cm, ''),
+        'ALE': (0 * _ureg.radian, ''),
         'RE': (0,),
         'TE': (0,),
         'RS': (0,),
@@ -208,7 +208,7 @@ class Tosca(_Command, _Patchable):
         {s.ID:d} {s.A:.12e} {s.B:.12e} {s.C:.12e}
         {s.IORDRE:d}
         {_cm(s.XPAS):.12e}
-        {s.KPOS:d} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+        {s.KPOS:d} {s.XCE.m_as('cm'):.12e} {s.YCE.m_as('cm'):.12e} {s.ALE.m_as('radian'):.12e}
         """
 
     def adjust_tracks_variables(self, tracks: _pd.DataFrame):
@@ -307,7 +307,7 @@ class Tosca(_Command, _Patchable):
             if self.KPOS in (0, 1, 2):
                 self._entry_patched.translate_x(self.x_offset)
                 self._entry_patched.translate_y(self.y_offset)
-                self._entry_patched.rotate_z(-self.rotation)
+                self._entry_patched.rotate_z(self.rotation)
         return self._entry_patched
 
     @property

@@ -119,6 +119,8 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
     def plot_beamline(self,
                       beamline: _Input,
+                      apertures: bool = True,
+                      body: bool = False,
                       with_drifts: bool = False,
                       points_in_polar_paths: int = 20,
                       opacity: float = 0.5,
@@ -131,6 +133,8 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
         Args:
             beamline:
+            apertures:
+            body:
             with_drifts:
             points_in_polar_paths:
             opacity:
@@ -138,7 +142,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
         """
         def add_svg_path(points):
             points = points.dot(_np.linalg.inv(e.entry_patched.get_rotation_matrix())) + _np.array([
-                e.entry.x_, e.entry.y_, 0.0
+                e.entry_patched.x_, e.entry_patched.y_, 0.0
             ])
             path = f"M{points[0, 0]},{points[0, 1]} "
             for p in points[1:]:
@@ -218,18 +222,26 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                     pts.append([(r - 0.2) * _np.sin(theta), -r + (r - 0.2) * _np.cos(theta), 0.0])
                 add_svg_path(_np.array(pts))
             else:
-                add_svg_path(_np.array([
-                    [0.0, -e.APERTURE_LEFT.m_as('m') - 0.1, 0.0],
-                    [0.0, -e.APERTURE_LEFT.m_as('m'), 0.0],
-                    [e.length.m_as('m'), -e.APERTURE_LEFT.m_as('m'), 0.0],
-                    [e.length.m_as('m'), -e.APERTURE_LEFT.m_as('m') - 0.1, 0.0],
-                ]))
-                add_svg_path(_np.array([
-                    [0.0, e.APERTURE_LEFT.m_as('m'), 0.0],
-                    [0.0, e.APERTURE_LEFT.m_as('m') + 0.1, 0.0],
-                    [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m') + 0.1, 0.0],
-                    [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m'), 0.0],
-                ]))
+                if apertures:
+                    add_svg_path(_np.array([
+                        [0.0, -e.APERTURE_LEFT.m_as('m') - 0.1, 0.0],
+                        [0.0, -e.APERTURE_LEFT.m_as('m'), 0.0],
+                        [e.length.m_as('m'), -e.APERTURE_LEFT.m_as('m'), 0.0],
+                        [e.length.m_as('m'), -e.APERTURE_LEFT.m_as('m') - 0.1, 0.0],
+                    ]))
+                    add_svg_path(_np.array([
+                        [0.0, e.APERTURE_LEFT.m_as('m'), 0.0],
+                        [0.0, e.APERTURE_LEFT.m_as('m') + 0.1, 0.0],
+                        [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m') + 0.1, 0.0],
+                        [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m'), 0.0],
+                    ]))
+                if body:
+                    add_svg_path(_np.array([
+                        [0.0, -e.APERTURE_LEFT.m_as('m'), 0.0],
+                        [0.0, e.APERTURE_LEFT.m_as('m'), 0.0],
+                        [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m'), 0.0],
+                        [e.length.m_as('m'), -e.APERTURE_LEFT.m_as('m'), 0.0],
+                    ]))
 
     @classmethod
     def plot_twiss(cls,
