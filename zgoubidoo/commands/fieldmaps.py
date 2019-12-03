@@ -4,6 +4,7 @@ More details here.
 """
 from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Mapping, Union
+import numpy as _np
 import pandas as _pd
 from .commands import Command as _Command
 from .actions import Action as _Action
@@ -14,6 +15,7 @@ from ..units import _cm, _radian
 from ..zgoubi import Zgoubi as _Zgoubi
 from ..zgoubi import ZgoubiException as _ZgoubiException
 import zgoubidoo
+import plotly.graph_objects as _go
 from georges_core.frame import Frame as _Frame
 if TYPE_CHECKING:
     from ..input import Input as _Input
@@ -258,6 +260,36 @@ class Tosca(_CartesianMagnet):
             )
         )
         return True
+
+    def plotly(self):
+        """
+
+        Returns:
+
+        """
+        fieldmap = _pd.read_csv(self.FNAME, skiprows=8, names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'], sep=r'\s+')
+        fieldmap['X'] = fieldmap['X'] + self.length.m_as('cm') / 2
+        fieldmap['Z_ABS'] = fieldmap['Z'].apply(_np.abs)
+        fieldmap = fieldmap[fieldmap['Z'] == fieldmap['Z_ABS'].min()]
+
+        rotation_matrix = _np.linalg.inv(self.entry_patched.get_rotation_matrix())
+        origin = self.entry_patched.origin
+
+        u = _np.dot(fieldmap[['X', 'Y', 'Z']].values, rotation_matrix)
+        fieldmap['XG'] = (u[:, 0] + origin[0].m_as('cm')) / 100
+        fieldmap['YG'] = (u[:, 1] + origin[1].m_as('cm')) / 100
+        fieldmap['ZG'] = (u[:, 2] + origin[2].m_as('cm')) / 100
+
+        return _go.Histogram2d(
+            histfunc='avg',
+            nbinsx=100,
+            nbinsy=100,
+            x=fieldmap['XG'],
+            y=fieldmap['YG'],
+            z=fieldmap['BZ'],
+            opacity=1.0,
+            colorscale='Greys',
+        )
 
     @property
     def rotation(self) -> _Q:

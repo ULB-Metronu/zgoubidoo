@@ -174,74 +174,79 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 continue
             if not with_drifts and isinstance(e, _Drift):
                 continue
-            if isinstance(e, _PolarMultiMagnet):
-                r = e.RM.m_as('m')
-                re = e.RE.m_as('m')
-                for i in range(0, e.N):
-                    if magnet_poles == 0:
-                        pts = []
-                        thetas = _np.linspace(
-                            e.AT.m_as('radian') / 2 + e.ACN[i].m_as('radian') - e.OMEGA_E[i].m_as('radian'),
-                            e.AT.m_as('radian') / 2 + e.ACN[i].m_as('radian') - e.OMEGA_S[i].m_as('radian'),
-                            points_in_polar_paths)
-                        for theta in thetas:
-                            pts.append([(r + 0.1) * _np.sin(theta), -re + (r + 0.1) * _np.cos(theta), 0.0])
-                        for theta in thetas[::-1]:
-                            pts.append([(r + 0.2) * _np.sin(theta), -re + (r + 0.2) * _np.cos(theta), 0.0])
-                        add_svg_path(_np.array(pts))
-                        pts = []
-                        for theta in thetas:
-                            pts.append([(r - 0.1) * _np.sin(theta), -re + (r - 0.1) * _np.cos(theta), 0.0])
-                        for theta in thetas[::-1]:
-                            pts.append([(r - 0.2) * _np.sin(theta), -re + (r - 0.2) * _np.cos(theta), 0.0])
-                        add_svg_path(_np.array(pts))
-                    else:
-                        pts = []
-                        thetas = _np.linspace(
-                            e.AT.m_as('radian') / 2 + e.ACN[i].m_as('radian') - e.OMEGA_E[i].m_as('radian'),
-                            e.AT.m_as('radian') / 2 + e.ACN[i].m_as('radian') - e.OMEGA_S[i].m_as('radian'),
-                            points_in_polar_paths)
-                        for theta in thetas:
-                            pts.append([(r + magnet_poles/4) * _np.sin(theta), -re + (r + magnet_poles/4) * _np.cos(theta), 0.0])
-                        for theta in thetas[::-1]:
-                            pts.append([(r - magnet_poles) * _np.sin(theta), -re + (r - magnet_poles) * _np.cos(theta), 0.0])
-                        add_svg_path(_np.array(pts))
-            elif isinstance(e, _PolarMagnet):
-                r = e.RM.m_as('m')
-                pts = []
-                thetas = _np.linspace(0, e.AT.m_as('radian'), points_in_polar_paths)
-                for theta in thetas:
-                    pts.append([(r+0.1) * _np.sin(theta), -r + (r+0.1) * _np.cos(theta), 0.0])
-                for theta in thetas[::-1]:
-                    pts.append([(r+0.2) * _np.sin(theta), -r + (r+0.2) * _np.cos(theta), 0.0])
-                add_svg_path(_np.array(pts))
-                pts = []
-                for theta in thetas:
-                    pts.append([(r - 0.1) * _np.sin(theta), -r + (r - 0.1) * _np.cos(theta), 0.0])
-                for theta in thetas[::-1]:
-                    pts.append([(r - 0.2) * _np.sin(theta), -r + (r - 0.2) * _np.cos(theta), 0.0])
-                add_svg_path(_np.array(pts))
-            else:
-                if apertures:
-                    add_svg_path(_np.array([
-                        [0.0, -e.APERTURE_LEFT.m_as('m') - 0.1, 0.0],
-                        [0.0, -e.APERTURE_LEFT.m_as('m'), 0.0],
-                        [e.length.m_as('m'), -e.APERTURE_LEFT.m_as('m'), 0.0],
-                        [e.length.m_as('m'), -e.APERTURE_LEFT.m_as('m') - 0.1, 0.0],
-                    ]))
-                    add_svg_path(_np.array([
-                        [0.0, e.APERTURE_LEFT.m_as('m'), 0.0],
-                        [0.0, e.APERTURE_LEFT.m_as('m') + 0.1, 0.0],
-                        [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m') + 0.1, 0.0],
-                        [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m'), 0.0],
-                    ]))
-                if body:
-                    add_svg_path(_np.array([
-                        [0.0, -e.APERTURE_LEFT.m_as('m'), 0.0],
-                        [0.0, e.APERTURE_LEFT.m_as('m'), 0.0],
-                        [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m'), 0.0],
-                        [e.length.m_as('m'), -e.APERTURE_LEFT.m_as('m'), 0.0],
-                    ]))
+            try:
+                if e.plotly is None:
+                    raise AttributeError
+                self._data.append(e.plotly())
+            except AttributeError:
+                if isinstance(e, _PolarMultiMagnet):
+                    r = e.RM.m_as('m')
+                    re = e.RE.m_as('m')
+                    for i in range(0, e.N):
+                        if magnet_poles == 0:
+                            pts = []
+                            thetas = _np.linspace(
+                                e.AT.m_as('radian') / 2 + e.ACN[i].m_as('radian') - e.OMEGA_E[i].m_as('radian'),
+                                e.AT.m_as('radian') / 2 + e.ACN[i].m_as('radian') - e.OMEGA_S[i].m_as('radian'),
+                                points_in_polar_paths)
+                            for theta in thetas:
+                                pts.append([(r + 0.1) * _np.sin(theta), -re + (r + 0.1) * _np.cos(theta), 0.0])
+                            for theta in thetas[::-1]:
+                                pts.append([(r + 0.2) * _np.sin(theta), -re + (r + 0.2) * _np.cos(theta), 0.0])
+                            add_svg_path(_np.array(pts))
+                            pts = []
+                            for theta in thetas:
+                                pts.append([(r - 0.1) * _np.sin(theta), -re + (r - 0.1) * _np.cos(theta), 0.0])
+                            for theta in thetas[::-1]:
+                                pts.append([(r - 0.2) * _np.sin(theta), -re + (r - 0.2) * _np.cos(theta), 0.0])
+                            add_svg_path(_np.array(pts))
+                        else:
+                            pts = []
+                            thetas = _np.linspace(
+                                e.AT.m_as('radian') / 2 + e.ACN[i].m_as('radian') - e.OMEGA_E[i].m_as('radian'),
+                                e.AT.m_as('radian') / 2 + e.ACN[i].m_as('radian') - e.OMEGA_S[i].m_as('radian'),
+                                points_in_polar_paths)
+                            for theta in thetas:
+                                pts.append([(r + magnet_poles/4) * _np.sin(theta), -re + (r + magnet_poles/4) * _np.cos(theta), 0.0])
+                            for theta in thetas[::-1]:
+                                pts.append([(r - magnet_poles) * _np.sin(theta), -re + (r - magnet_poles) * _np.cos(theta), 0.0])
+                            add_svg_path(_np.array(pts))
+                elif isinstance(e, _PolarMagnet):
+                    r = e.RM.m_as('m')
+                    pts = []
+                    thetas = _np.linspace(0, e.AT.m_as('radian'), points_in_polar_paths)
+                    for theta in thetas:
+                        pts.append([(r+0.1) * _np.sin(theta), -r + (r+0.1) * _np.cos(theta), 0.0])
+                    for theta in thetas[::-1]:
+                        pts.append([(r+0.2) * _np.sin(theta), -r + (r+0.2) * _np.cos(theta), 0.0])
+                    add_svg_path(_np.array(pts))
+                    pts = []
+                    for theta in thetas:
+                        pts.append([(r - 0.1) * _np.sin(theta), -r + (r - 0.1) * _np.cos(theta), 0.0])
+                    for theta in thetas[::-1]:
+                        pts.append([(r - 0.2) * _np.sin(theta), -r + (r - 0.2) * _np.cos(theta), 0.0])
+                    add_svg_path(_np.array(pts))
+                else:
+                    if apertures:
+                        add_svg_path(_np.array([
+                            [0.0, -e.APERTURE_LEFT.m_as('m') - 0.1, 0.0],
+                            [0.0, -e.APERTURE_LEFT.m_as('m'), 0.0],
+                            [e.length.m_as('m'), -e.APERTURE_LEFT.m_as('m'), 0.0],
+                            [e.length.m_as('m'), -e.APERTURE_LEFT.m_as('m') - 0.1, 0.0],
+                        ]))
+                        add_svg_path(_np.array([
+                            [0.0, e.APERTURE_LEFT.m_as('m'), 0.0],
+                            [0.0, e.APERTURE_LEFT.m_as('m') + 0.1, 0.0],
+                            [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m') + 0.1, 0.0],
+                            [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m'), 0.0],
+                        ]))
+                    if body:
+                        add_svg_path(_np.array([
+                            [0.0, -e.APERTURE_LEFT.m_as('m'), 0.0],
+                            [0.0, e.APERTURE_LEFT.m_as('m'), 0.0],
+                            [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m'), 0.0],
+                            [e.length.m_as('m'), -e.APERTURE_LEFT.m_as('m'), 0.0],
+                        ]))
 
     @classmethod
     def plot_twiss(cls,

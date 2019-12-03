@@ -4,6 +4,7 @@ More details here.
 TODO
 """
 from typing import List, Optional, Union, Iterable, Tuple
+from _collections import deque
 import numpy as _np
 import pandas as _pd
 import lmfit
@@ -23,7 +24,6 @@ from ..commands import ChangeRef as _ChangeRef
 from ..beam import Beam as _Beam
 from ..beam import BeamInputDistribution as _BeamInputDistribution
 from ... import ureg as _ureg
-from ... import Q_ as _Q
 from ...input import Input as _Input
 from ...mappings import MappedParametersType as _MappedParametersType
 from ... import Kinematics as _Kinematics
@@ -1232,17 +1232,22 @@ class CGTR:
             _Drift
             ('B2G_SMX', XL=31.77 * _ureg.cm - self.b2g.extra_drift - (self.smx.length - 159 * _ureg.mm)/2),
             self.smx,
-            _Drift
-            ('SMX_SMY', XL=13.04 * _ureg.cm - (self.smx.length - 159 * _ureg.mm)/2 - (self.smy.length - 109 * _ureg.mm)/2),
+            _Drift('SMX_SMY', XL=13.04 * _ureg.cm - (self.smx.length - 159 * _ureg.mm)/2 - (self.smy.length - 109 * _ureg.mm)/2),
             self.smy,
-            _Drift
-            ('SMY_B3G', XL=20.39 * _ureg.cm - self.b3g.extra_drift + self.b3g.extra_drift - (self.smy.length - 109 *_ureg.mm)/2),
+            _Drift('SMY_B3G',
+                   XL=20.39 * _ureg.cm# - self.b3g.extra_drift + self.b3g.extra_drift - (self.smy.length - 109 *_ureg.mm)/2
+                   ),
             _Collimator('B3G_ENTRY', IA=1, IFORM=1, J=0, C1=11/2 * _ureg.cm, C2=9/2 * _ureg.cm),
+            _ChangeRef('ROT_ENTREE', TRANSFORMATIONS=[('YS', 39 * _ureg.cm), ]),
+            _ChangeRef('ROT_ENTREE', TRANSFORMATIONS=[('ZR', -30 * _ureg.degree), ]),
             self.b3g,
+            _ChangeRef('ROT_ENTREE', TRANSFORMATIONS=[('ZR', -30 * _ureg.degree), ]),
+            _ChangeRef('ROT_ENTREE', TRANSFORMATIONS=[('YS', -39 * _ureg.cm),]),
             _Collimator('B3G_EXIT', IA=1, IFORM=1, J=0, C1=13.65/2 * _ureg.cm, C2=9/2 * _ureg.cm),
-            _Drift
-            ('FINAL', XL=1101.071 * _ureg.mm - self.b3g.extra_drift +
-                                   self.b3g.extra_drift - 0.20950282594698123 * _ureg.meter),
+            _Drift('FINAL',
+                   XL=1101.071 * _ureg.mm# - self.b3g.extra_drift +
+                                  # self.b3g.extra_drift - 0.20950282594698123 * _ureg.meter
+            ),
             self.iso,
         ],
                                  )
