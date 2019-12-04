@@ -131,7 +131,10 @@ class Fit(Action, metaclass=FitType):
                      line: _Input,
                      place: Union[str, _Command],
                      parameter: Union[int, Iterable],
-                     parameter_range: Optional[Union[float, Tuple[float]]] = None):
+                     parameter_range: Optional[Union[float, Tuple[float]]] = None,
+                     coupling_place: Optional[Union[str, _Command]] = None,
+                     coupling_parameter: Optional[Union[int, Iterable]] = None,
+                     ):
             """
 
             Args:
@@ -139,13 +142,20 @@ class Fit(Action, metaclass=FitType):
                 place:
                 parameter:
                 parameter_range:
+                coupling_place:
+                coupling_parameter:
             """
             self.IR: int = line.zgoubi_index(place)
             try:
                 self.IP: int = parameter[2]
             except TypeError:
                 self.IP: int = parameter
-            self.XC: int = 0
+            try:
+                coupling_parameter_value: int = coupling_parameter[2]
+            except TypeError:
+                coupling_parameter_value: int = coupling_parameter
+            self.XC1: int = 0 if coupling_place is None else line.zgoubi_index(coupling_place)
+            self.XC2: int = 0 if coupling_place is None else coupling_parameter_value
             self.DV: Union[float, Tuple[float]] = parameter_range if parameter_range is not None else [-100.0, 100.0]
 
         def __getitem__(self, item):
@@ -340,11 +350,11 @@ class Fit(Action, metaclass=FitType):
                 ip = p['IP']
             if isinstance(p['DV'], (list, tuple)):
                 command.append(f"""
-        {p['IR']} {ip} {p['XC']} [{p['DV'][0]}, {p['DV'][1]}]
+        {p['IR']} {ip} {p['XC1']}.{p['XC2']} [{p['DV'][0]}, {p['DV'][1]}]
         """)
             else:
                 command.append(f"""
-        {p['IR']} {ip} {p['XC']} {p['DV']}
+        {p['IR']} {ip} {p['XC1']}.{p['XC2']} {p['DV']}
         """)
         command.append(f"""
         {len(self.CONSTRAINTS) - list(self.PARAMS).count(None)} {self.PENALTY:.12e} {int(self.ITERATIONS):d}
