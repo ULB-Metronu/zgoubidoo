@@ -4,7 +4,6 @@ More details here.
 TODO
 """
 from typing import List, Optional, Union, Iterable, Tuple
-from _collections import deque
 import numpy as _np
 import pandas as _pd
 import lmfit
@@ -1054,6 +1053,7 @@ class SL3G(HorizontalSlits):
         'C2': 0.5 * _ureg.cm,
     }
 
+
 class VerticalSlits(_Collimator):
     """Proteus One vertical slits.
 
@@ -1173,64 +1173,47 @@ class CGTR:
 
         self.zi: _Input = _Input('CGTR', line=[
             self.beam,
-            _Proton(),
             self.start,
             _Collimator('C1G', IA=1, IFORM=2, J=0, C1=5 * _ureg.mm, C2=5 * _ureg.mm),
             _Chamber('Chamber1', IA=1, IFORM=2, J=0, C1=29.75 * _ureg.mm, C2=29.75 * _ureg.mm),
-            _Drift
-            ('C1G_T1G', XL=9.2995 * _ureg.cm),
-            #_ChangeRef(),
+            _Drift('C1G_T1G', XL=9.2995 * _ureg.cm),
             _Ymy(),
             self.t1g,
-            _Drift
-            ('T1G_T2G', XL=2.09 * _ureg.cm),
+            _Drift('T1G_T2G', XL=2.09 * _ureg.cm),
             self.t2g,
-            _Drift
-            ('T2G_Q1G', XL=38.7855 * _ureg.cm),
+            _Drift('T2G_Q1G', XL=38.7855 * _ureg.cm),
             self.q1g,
-            _Drift
-            ('Q1G_Q2G', XL=30.3 * _ureg.cm),
+            _Drift('Q1G_Q2G', XL=30.3 * _ureg.cm),
             self.q2g,
-            _Drift
-            ('Q2G_SL1G', XL=19.719 * _ureg.cm + 3 * _ureg.cm),
+            _Drift('Q2G_SL1G', XL=19.719 * _ureg.cm + 3 * _ureg.cm),
             self.sl1g,
-            _Drift
-            ('SL1G_SL2G', XL=3 * _ureg.cm + 3 * _ureg.cm + 1 * _ureg.cm),
+            _Drift('SL1G_SL2G', XL=3 * _ureg.cm + 3 * _ureg.cm + 1 * _ureg.cm),
             self.sl2g,
-            _Drift
-            ('SL2G_B1G', XL=39.734 * _ureg.cm + 3 * _ureg.cm - self.b1g.extra_drift),
+            _Drift('SL2G_B1G', XL=39.734 * _ureg.cm + 3 * _ureg.cm - self.b1g.extra_drift),
             _Chamber(IA=2),
             _Chamber('Chamber2', IA=1, IFORM=1, J=0, C1=2.9 * _ureg.cm, C2=1.29 * _ureg.cm, C3=self.b1g.RM),
             self.b1g,
             _Chamber(IA=2),
             _Ymy(),
             _Chamber('Chamber3', IA=1, IFORM=2, J=0, C1=29.75 * _ureg.mm, C2=29.75 * _ureg.mm),
-            _Drift
-            ('B1G_Q3G', XL=26.44 * _ureg.cm - self.b1g.extra_drift),
+            _Drift('B1G_Q3G', XL=26.44 * _ureg.cm - self.b1g.extra_drift),
             self.q3g,
-            _Drift
-            ('Q3G_Q4G', XL=32.6 * _ureg.cm),
+            _Drift('Q3G_Q4G', XL=32.6 * _ureg.cm),
             self.q4g,
-            _Drift
-            ('Q4G_Q5G', XL=33.4 * _ureg.cm),
+            _Drift('Q4G_Q5G', XL=33.4 * _ureg.cm),
             self.q5g,
-            _Drift
-            ('Q5G_Q6G', XL=33.5 * _ureg.cm),
+            _Drift('Q5G_Q6G', XL=33.5 * _ureg.cm),
             self.q6g,
-            _Drift
-            ('Q6G_Q7G', XL=36.0 * _ureg.cm),
+            _Drift('Q6G_Q7G', XL=36.0 * _ureg.cm),
             self.q7g,
-            _Drift
-            ('Q7G_SL3G', XL=16.5682507 * _ureg.cm + 3 * _ureg.cm),
+            _Drift('Q7G_SL3G', XL=16.5682507 * _ureg.cm + 3 * _ureg.cm),
             self.sl3g,
-            _Drift
-            ('SL3G_B2G', XL=30.9927502 * _ureg.cm + 3 * _ureg.cm - self.b2g.extra_drift),
+            _Drift('SL3G_B2G', XL=30.9927502 * _ureg.cm + 3 * _ureg.cm - self.b2g.extra_drift),
             _Chamber(IA=2),
             _Chamber('Chamber4', IA=1, IFORM=1, J=0, C1=11/2 * _ureg.cm, C2=2.58/2 * _ureg.cm, C3=self.b2g.RM),
             self.b2g,
             _Chamber(IA=2),
-            _Drift
-            ('B2G_SMX', XL=31.77 * _ureg.cm - self.b2g.extra_drift - (self.smx.length - 159 * _ureg.mm)/2),
+            _Drift('B2G_SMX', XL=31.77 * _ureg.cm - self.b2g.extra_drift - (self.smx.length - 159 * _ureg.mm)/2),
             self.smx,
             _Drift('SMX_SMY', XL=13.04 * _ureg.cm - (self.smx.length - 159 * _ureg.mm)/2 - (self.smy.length - 109 * _ureg.mm)/2),
             self.smy,
@@ -1419,6 +1402,6 @@ class CGTR:
         if artist is None:
             artist = zgoubidoo.vis.ZgoubidooPlotlyArtist()
 
-        artist.plot_beamline(self.line)
+        artist.plot_beamline(self.line, start=start, stop=stop)
 
         return artist

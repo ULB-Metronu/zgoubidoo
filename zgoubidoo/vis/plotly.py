@@ -2,10 +2,11 @@
 TODO
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, Union
 import numpy as _np
 import pandas as _pd
 from georges_core.vis import PlotlyArtist as _PlotlyArtist
+from ..commands import Command as _Command
 from ..commands import Plotable as _Plotable
 from ..commands import Patchable as _Patchable
 from ..commands import PolarMagnet as _PolarMagnet
@@ -125,6 +126,8 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                       points_in_polar_paths: int = 20,
                       opacity: float = 0.5,
                       magnet_poles: int = 0.0,
+                      start: Optional[Union[str, _Command]] = None,
+                      stop: Optional[Union[str, _Command]] = None,
                       ) -> None:
         """
         Use a `ZgoubiPlot` artist to perform the rendering of the beamline with elements and tracks.
@@ -139,6 +142,8 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             points_in_polar_paths:
             opacity:
             magnet_poles:
+            start:
+            stop:
         """
         def add_svg_path(points):
             points = points.dot(_np.linalg.inv(e.entry_patched.get_rotation_matrix())) + _np.array([
@@ -169,7 +174,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 },
             )
 
-        for e in beamline:
+        for e in beamline[start:stop]:
             if not isinstance(e, _Plotable):
                 continue
             if not with_drifts and isinstance(e, _Drift):
