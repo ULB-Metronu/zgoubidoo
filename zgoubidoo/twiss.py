@@ -324,7 +324,8 @@ def align_tracks(tracks: _pd.DataFrame,
     """
     coordinates: list = ['YT', 'T', 'ZT', 'P', 'D-1', 'YT0', 'T0', 'ZT0', 'P0', 'Do']  # Keep it in this order
     particules: list = ['O', 'A', 'C', 'E', 'G', 'I', 'B', 'D', 'F', 'H', 'J']  # Keep it in this order
-    assert set(particules) == set(tracks[identifier].unique()), "Required particles not found (are you using Objet5?)."
+    assert set(particules) == set(tracks[identifier].unique()), \
+        f"Required particles not found for element {tracks['LABEL1'].unique()[0]} (are you using Objet5?)."
     ref: _pd.DataFrame = tracks.query(f"{identifier} == '{reference_track}'")[coordinates +
                                                                               [align_on,
                                                                                'LABEL1',

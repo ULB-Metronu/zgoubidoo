@@ -18,6 +18,7 @@ import tempfile
 import logging
 import shutil
 import os
+import numpy as _np
 import pandas as _pd
 import parse as _parse
 from georges_core.frame import Frame as _Frame
@@ -386,7 +387,7 @@ class Input:
 
         """
         for i, r in parameters.iterrows():
-            setattr(self[r['element_id'] - 1], r['parameter'], r['final'])
+            setattr(self[r['element_id'] - 1], r['parameter'], r['final'].magnitude)
         return self
 
     def adjust(self, mapping: _MappedParametersType) -> _MappedParametersType:
@@ -609,6 +610,7 @@ class Input:
                with_reference_trajectory: bool = False,
                reference_kinematics: Optional[_Kinematics] = None,
                reference_particle: Optional[Union[_Particule, _ParticuleType]] = None,
+               reference_closed_orbit: Optional[_np.ndarray] = None,
                output: bool = False
                ) -> _pd.DataFrame:
         """Perform a survey on the input sequence.
@@ -618,6 +620,7 @@ class Input:
             with_reference_trajectory:
             reference_kinematics:
             reference_particle:
+            reference_closed_orbit:
             output:
 
         Returns:
@@ -629,6 +632,7 @@ class Input:
                                 with_reference_trajectory=with_reference_trajectory,
                                 reference_kinematics=reference_kinematics,
                                 reference_particle=reference_particle,
+                                reference_closed_orbit=reference_closed_orbit,
                                 output=output
                                 )
 

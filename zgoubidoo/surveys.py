@@ -4,6 +4,7 @@ The module performs a 3D global survey of the beamline. Zgoubi is *not* used for
 infered by Zgoubidoo based on the inputs.
 """
 from typing import Optional, Union
+import numpy as _np
 import pandas as _pd
 import zgoubidoo.zgoubi
 from .input import Input as _Input
@@ -35,6 +36,7 @@ def survey(beamline: _Input,
            with_reference_trajectory: bool = False,
            reference_particle: Optional[Union[_Particule, _ParticuleType]] = None,
            reference_kinematics: Optional[_Kinematics] = None,
+           reference_closed_orbit: Optional[_np.ndarray] = None,
            output: bool = False) -> Union[_Input, _pd.DataFrame]:
     """
     Survey a Zgoubidoo input and provides a line with all the elements being placed in space.
@@ -57,6 +59,7 @@ def survey(beamline: _Input,
         with_reference_trajectory: TODO
         reference_particle: TODO
         reference_kinematics: TODO
+        reference_closed_orbit: TODO
         output:
 
     Returns:
@@ -72,7 +75,7 @@ def survey(beamline: _Input,
         e.place(frame)
         frame = e.exit_patched
     if with_reference_trajectory:
-        survey_reference_trajectory(beamline, reference_kinematics, reference_particle)
+        survey_reference_trajectory(beamline, reference_kinematics, reference_particle, reference_closed_orbit)
     if output:
         return process_survey_output(beamline)
     else:
@@ -134,14 +137,16 @@ def process_survey_output(beamline: _Input) -> _pd.DataFrame:
 def survey_reference_trajectory(beamline: _Input,
                                 reference_kinematics: _Kinematics,
                                 reference_particle: Optional[Union[_Particule, _ParticuleType]] = None,
+                                closed_orbit: Optional[_np.ndarray] = None,
                                 debug: bool = False,
                                 ):
     """
     TODO
     Args:
         beamline: TODO
-        reference_particle:
         reference_kinematics:
+        reference_particle:
+        closed_orbit:
         debug:
 
     Returns:
@@ -158,6 +163,8 @@ def survey_reference_trajectory(beamline: _Input,
     if isinstance(reference_particle, _ParticuleType):
         reference_particle = reference_particle()
     objet = _Objet2(BORO=reference_kinematics.brho)
+    if closed_orbit is not None:
+        objet.add(closed_orbit)
     zi = _Input(name='SURVEY_REFERENCE', line=[objet, reference_particle] + list(sequence))
     zi.KINEMATICS = reference_kinematics
     zi.IL = 2
