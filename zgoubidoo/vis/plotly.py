@@ -145,9 +145,9 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             start:
             stop:
         """
-        def add_svg_path(points):
+        def add_svg_path(points, reference_frame: str = 'entry_patched'):
             points = points.dot(_np.linalg.inv(e.entry_patched.get_rotation_matrix())) + _np.array([
-                e.entry_patched.x_, e.entry_patched.y_, 0.0
+                getattr(e, reference_frame).x_, getattr(e, reference_frame).y_, 0.0
             ])
             path = f"M{points[0, 0]},{points[0, 1]} "
             for p in points[1:]:
@@ -215,7 +215,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                                 pts.append([(r + magnet_poles/4) * _np.sin(theta), -re + (r + magnet_poles/4) * _np.cos(theta), 0.0])
                             for theta in thetas[::-1]:
                                 pts.append([(r - magnet_poles) * _np.sin(theta), -re + (r - magnet_poles) * _np.cos(theta), 0.0])
-                            add_svg_path(_np.array(pts))
+                            add_svg_path(_np.array(pts), reference_frame='entry')
                 elif isinstance(e, _PolarMagnet):
                     r = e.RM.m_as('m')
                     pts = []
