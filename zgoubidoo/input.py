@@ -387,7 +387,7 @@ class Input:
 
         """
         for i, r in parameters.iterrows():
-            setattr(self[r['element_id'] - 1], r['parameter'], r['final'].magnitude)
+            setattr(self[r['element_id'] - 1], r['parameter'] + '_', r['final'].magnitude)
         return self
 
     def adjust(self, mapping: _MappedParametersType) -> _MappedParametersType:

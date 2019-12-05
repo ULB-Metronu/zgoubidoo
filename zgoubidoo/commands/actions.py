@@ -350,11 +350,11 @@ class Fit(Action, metaclass=FitType):
                 ip = p['IP']
             if isinstance(p['DV'], (list, tuple)):
                 command.append(f"""
-        {p['IR']} {ip} {p['XC1']}.{p['XC2']} [{p['DV'][0]}, {p['DV'][1]}]
+        {p['IR']} {ip} {p['XC1']}.{p['XC2']:03d} [{p['DV'][0]}, {p['DV'][1]}]
         """)
             else:
                 command.append(f"""
-        {p['IR']} {ip} {p['XC1']}.{p['XC2']} {p['DV']}
+        {p['IR']} {ip} {p['XC1']}.{p['XC2']:03d} {p['DV']}
         """)
         command.append(f"""
         {len(self.CONSTRAINTS) - list(self.PARAMS).count(None)} {self.PENALTY:.12e} {int(self.ITERATIONS):d}
