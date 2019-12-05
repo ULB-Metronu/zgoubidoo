@@ -204,12 +204,12 @@ def compute_periodic_twiss(matrix: _pd.DataFrame, end: Union[int, str] = -1) -> 
         'CMU2': (m['R33'] + m['R44'])/2.0,
     })
     if twiss['CMU1'] < -1.0 or twiss['CMU1'] > 1.0:
-        warning("Horizontal motion is unstable; proceed with caution.")
+        warning(f"Horizontal motion is unstable; proceed with caution (cos(mu) = {twiss['CMU1']}).")
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         twiss['MU1'] = _np.arccos(twiss['CMU1'])
     if twiss['CMU2'] < -1.0 or twiss['CMU2'] > 1.0:
-        warning("Vertical motion is unstable; proceed with caution.")
+        warning(f"Vertical motion is unstable; proceed with caution (cos(mu) = {twiss['CMU2']}).")
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         twiss['MU2'] = _np.arccos(twiss['CMU2'])
