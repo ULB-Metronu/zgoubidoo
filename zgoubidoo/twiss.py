@@ -282,7 +282,7 @@ def compute_twiss(matrix: _pd.DataFrame,
         """TODO"""
         if phi[0] < 0:
             phi[0] += 2 * _np.pi
-        for i in range(1, phi.shape[0] - 1):
+        for i in range(1, phi.shape[0]):
             if phi[i] < 0:
                 phi[i] += 2 * _np.pi
             if phi[i - 1] - phi[i] > 0.5:
