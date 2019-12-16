@@ -218,19 +218,27 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                             add_svg_path(_np.array(pts), reference_frame='entry')
                 elif isinstance(e, _PolarMagnet):
                     r = e.RM.m_as('m')
-                    pts = []
                     thetas = _np.linspace(0, e.AT.m_as('radian'), points_in_polar_paths)
-                    for theta in thetas:
-                        pts.append([(r+0.1) * _np.sin(theta), -r + (r+0.1) * _np.cos(theta), 0.0])
-                    for theta in thetas[::-1]:
-                        pts.append([(r+0.2) * _np.sin(theta), -r + (r+0.2) * _np.cos(theta), 0.0])
-                    add_svg_path(_np.array(pts))
-                    pts = []
-                    for theta in thetas:
-                        pts.append([(r - 0.1) * _np.sin(theta), -r + (r - 0.1) * _np.cos(theta), 0.0])
-                    for theta in thetas[::-1]:
-                        pts.append([(r - 0.2) * _np.sin(theta), -r + (r - 0.2) * _np.cos(theta), 0.0])
-                    add_svg_path(_np.array(pts))
+                    if apertures:
+                        pts = []
+                        for theta in thetas:
+                            pts.append([(r+0.1) * _np.sin(theta), -r + (r+0.1) * _np.cos(theta), 0.0])
+                        for theta in thetas[::-1]:
+                            pts.append([(r+0.2) * _np.sin(theta), -r + (r+0.2) * _np.cos(theta), 0.0])
+                        add_svg_path(_np.array(pts))
+                        pts = []
+                        for theta in thetas:
+                            pts.append([(r - 0.1) * _np.sin(theta), -r + (r - 0.1) * _np.cos(theta), 0.0])
+                        for theta in thetas[::-1]:
+                            pts.append([(r - 0.2) * _np.sin(theta), -r + (r - 0.2) * _np.cos(theta), 0.0])
+                        add_svg_path(_np.array(pts))
+                    if magnet_poles > 0:
+                        pts = []
+                        for theta in thetas:
+                            pts.append([(r + 0.1) * _np.sin(theta), -r + (r + 0.1) * _np.cos(theta), 0.0])
+                        for theta in thetas[::-1]:
+                            pts.append([(r + 0.2) * _np.sin(theta), -r + (r - 0.1) * _np.cos(theta), 0.0])
+                        add_svg_path(_np.array(pts))
                 else:
                     if apertures:
                         add_svg_path(_np.array([
@@ -245,7 +253,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                             [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m') + 0.1, 0.0],
                             [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m'), 0.0],
                         ]))
-                    if body:
+                    if magnet_poles > 0:
                         add_svg_path(_np.array([
                             [0.0, -e.APERTURE_LEFT.m_as('m'), 0.0],
                             [0.0, e.APERTURE_LEFT.m_as('m'), 0.0],
