@@ -237,7 +237,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                         for theta in thetas:
                             pts.append([(r + 0.1) * _np.sin(theta), -r + (r + 0.1) * _np.cos(theta), 0.0])
                         for theta in thetas[::-1]:
-                            pts.append([(r + 0.2) * _np.sin(theta), -r + (r - 0.1) * _np.cos(theta), 0.0])
+                            pts.append([(r - 0.1) * _np.sin(theta), -r + (r - 0.1) * _np.cos(theta), 0.0])
                         add_svg_path(_np.array(pts))
                 else:
                     if apertures:
