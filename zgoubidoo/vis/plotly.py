@@ -125,7 +125,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                       with_drifts: bool = False,
                       points_in_polar_paths: int = 20,
                       opacity: float = 0.5,
-                      magnet_poles: int = 0.0,
+                      magnet_poles: float = 0.0,
                       start: Optional[Union[str, _Command]] = None,
                       stop: Optional[Union[str, _Command]] = None,
                       ) -> None:
@@ -235,9 +235,9 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                     if magnet_poles > 0:
                         pts = []
                         for theta in thetas:
-                            pts.append([(r + 0.1) * _np.sin(theta), -r + (r + 0.1) * _np.cos(theta), 0.0])
+                            pts.append([(r + magnet_poles) * _np.sin(theta), -r + (r + magnet_poles) * _np.cos(theta), 0.0])
                         for theta in thetas[::-1]:
-                            pts.append([(r - 0.1) * _np.sin(theta), -r + (r - 0.1) * _np.cos(theta), 0.0])
+                            pts.append([(r - magnet_poles) * _np.sin(theta), -r + (r - magnet_poles) * _np.cos(theta), 0.0])
                         add_svg_path(_np.array(pts))
                 else:
                     if apertures:
