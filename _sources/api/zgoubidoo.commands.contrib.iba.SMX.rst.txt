@@ -18,6 +18,7 @@ SMX
    .. autosummary::
 
       ~SMX.post_init
+      ~SMX.process_fit_field_profile
 
    .. rubric:: Attributes Documentation
 
@@ -27,3 +28,4 @@ SMX
    .. rubric:: Methods Documentation
 
    .. automethod:: post_init
+   .. automethod:: process_fit_field_profile

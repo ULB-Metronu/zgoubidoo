@@ -13,7 +13,17 @@ VerticalSlits
       ~VerticalSlits.KEYWORD
       ~VerticalSlits.PARAMETERS
 
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~VerticalSlits.post_init
+
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: post_init

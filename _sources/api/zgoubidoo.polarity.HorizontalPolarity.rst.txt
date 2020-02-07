@@ -1,7 +1,0 @@
-HorizontalPolarity
-==================
-
-.. currentmodule:: zgoubidoo.polarity
-
-.. autoclass:: HorizontalPolarity
-   :show-inheritance:

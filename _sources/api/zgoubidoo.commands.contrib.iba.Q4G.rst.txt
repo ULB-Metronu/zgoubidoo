@@ -13,7 +13,17 @@ Q4G
       ~Q4G.KEYWORD
       ~Q4G.PARAMETERS
 
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Q4G.post_init
+
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: post_init

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>beamline &mdash; Zgoubidoo 2019.1 documentation</title>
+  <title>beamline &mdash; Zgoubidoo 2019.4 documentation</title>
   
 
   
@@ -17,35 +17,35 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="ZgoubiMesh" href="zgoubidoo.vis.ZgoubiMesh.html" />
-    <link rel="prev" title="Zgoubidoo’s visualization and plotting module" href="../vis.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                2019.1
+                2019.4
               </div>
             
           
@@ -84,25 +84,18 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../commands.html">Zgoubi commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../beam.html">Working with Zgoubidoo beams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sequence.html">Working with Zgoubidoo sequences</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../vis.html#functions">Functions</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">beamline</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../vis.html#classes">Classes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../vis.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
 </ul>
@@ -150,8 +143,6 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="../vis.html">Zgoubidoo’s visualization and plotting module</a> &raquo;</li>
-        
       <li>beamline</li>
     
     
@@ -173,29 +164,6 @@
             
   <div class="section" id="beamline">
 <h1>beamline<a class="headerlink" href="#beamline" title="Permalink to this headline">¶</a></h1>
-<dl class="function">
-<dt id="zgoubidoo.vis.beamline">
-<code class="descclassname">zgoubidoo.vis.</code><code class="descname">beamline</code><span class="sig-paren">(</span><em>line: zgoubidoo.input.Input</em>, <em>tracks=None</em>, <em>tracks_color: str = 'b'</em>, <em>artist: Optional[zgoubidoo.vis.zgoubiplot.ZgoubiPlot] = None</em>, <em>with_elements: bool = True</em>, <em>with_tracks: bool = True</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/zgoubidoo/vis/beamline.html#beamline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.beamline" title="Permalink to this definition">¶</a></dt>
-<dd><p>Use a <cite>ZgoubiPlot</cite> artist to perform the rendering of the beamline with elements and tracks.</p>
-<p>The <cite>Input</cite> must be surveyed first so that all the placements are taken into account for the plotting.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>line</strong> – the beamline to be rendered</li>
-<li><strong>tracks</strong> – the tracks dataset</li>
-<li><strong>tracks_color</strong> – color for the rendering of the tracks</li>
-<li><strong>artist</strong> – the artist for the rendering</li>
-<li><strong>with_elements</strong> – plot the beamline elements</li>
-<li><strong>with_tracks</strong> – plot the beam tracks</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 </div>
 
 
@@ -203,15 +171,6 @@
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="zgoubidoo.vis.ZgoubiMesh.html" class="btn btn-neutral float-right" title="ZgoubiMesh" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="../vis.html" class="btn btn-neutral" title="Zgoubidoo’s visualization and plotting module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
@@ -235,26 +194,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

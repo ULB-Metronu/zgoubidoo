@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; Zgoubidoo 2019.1 documentation</title>
+  <title>Installation &mdash; Zgoubidoo 2019.4 documentation</title>
   
 
   
@@ -17,35 +17,37 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Zgoubi" href="zgoubi.html" />
+    <link rel="next" title="Getting started" href="gettingstarted.html" />
     <link rel="prev" title="News and announcements" href="news.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -59,7 +61,7 @@
             
             
               <div class="version">
-                2019.1
+                2019.4
               </div>
             
           
@@ -94,13 +96,14 @@
 <li class="toctree-l2"><a class="reference internal" href="#using-zgoubidoo-with-jupyter-notebook">Using Zgoubidoo with Jupyter Notebook</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="commands.html">Zgoubi commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contrib.html">Zgoubidoo specialized and contributed commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input.html">Working with Zgoubi Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="beam.html">Working with Zgoubidoo beams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vis.html">Zgoubidoo’s visualization and plotting module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Zgoubidoo’s utility modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
@@ -201,11 +204,26 @@ versions are merged onto the master branch.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <dl class="last docutils">
+<dt>2019.4 - What will it be?</dt>
+<dd><ul class="first last simple">
+<li>Surprise.</li>
+</ul>
+</dd>
+<dt>2019.3 - Coherent support of the high-level ‘sequence’ API and synchrotron radiation</dt>
+<dd><ul class="first simple">
+<li>[FEATURE] A brand new ‘sequence’ API (see the ‘sequences’ module) supporting lattice description that are</li>
+</ul>
+<p class="last">code independent. They can be automatically loaded and converted from MAD-X Twiss files onto Zgoubi or MAD-X inputs;
+- [FEATURE] More complete Twiss computation module taking advantage of the survey and global reference frame for
+coordinates transformation. Twiss parameters are now correct also for strange lattices with arbitraty rotations;
+- [FEATURE] Now supports running MAD-X as well, with all the same nice functionalities.
+- [BUG FIXES] Many, many, many bug fixes;</p>
+</dd>
 <dt>2019.2 - Brand new support for concurrent execution of multiple Zgoubi’s instances</dt>
 <dd><ul class="first last simple">
-<li>Full support for concurrent multiprocessing execution is provided</li>
-<li>Improvement capabilities for multi-dimensional parametric mappings</li>
-<li>Lots of bug fixes and documentation update</li>
+<li>Full support for concurrent multiprocessing execution is provided;</li>
+<li>Improvement capabilities for multi-dimensional parametric mappings;</li>
+<li>Lots of bug fixes and documentation update.</li>
 </ul>
 </dd>
 <dt>2019.1 - First stable release.</dt>
@@ -214,10 +232,11 @@ versions are merged onto the master branch.</p>
 </ul>
 </dd>
 <dt>2018.1 - First release!</dt>
-<dd><ul class="first last simple">
-<li>Support all Zgoubi elements, altough some commands (in particular related to electric elements or spin tracking) have never been tested</li>
-<li>Step-by-step computation of Twiss parameters (in a similar fashion to what pyzgoubi does) using 11 particules</li>
+<dd><ul class="first simple">
+<li>Support all Zgoubi elements, altough some commands (in particular related to electric elements or spin tracking)</li>
 </ul>
+<p class="last">have never been tested;
+- Step-by-step computation of Twiss parameters (in a similar fashion to what pyzgoubi does) using 11 particules.</p>
 </dd>
 </dl>
 </div>
@@ -286,10 +305,10 @@ installation of <code class="docutils literal notranslate"><span class="pre">jup
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="zgoubi.html" class="btn btn-neutral float-right" title="Zgoubi" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="gettingstarted.html" class="btn btn-neutral float-right" title="Getting started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="news.html" class="btn btn-neutral" title="News and announcements" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="news.html" class="btn btn-neutral float-left" title="News and announcements" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -315,26 +334,16 @@ installation of <code class="docutils literal notranslate"><span class="pre">jup
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

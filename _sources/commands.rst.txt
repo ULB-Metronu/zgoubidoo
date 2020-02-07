@@ -71,3 +71,9 @@ Spin tracking commands
 
 .. automodapi:: zgoubidoo.commands.spin
     :no-heading:
+
+Synchrotron radiation commands
+------------------------------
+
+.. automodapi:: zgoubidoo.commands.radiation
+    :no-heading:

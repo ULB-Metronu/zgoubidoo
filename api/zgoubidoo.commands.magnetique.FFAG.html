@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>FFAG &mdash; Zgoubidoo 2019.1 documentation</title>
+  <title>FFAG &mdash; Zgoubidoo 2019.4 documentation</title>
   
 
   
@@ -17,13 +17,20 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -31,21 +38,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="FFAGSpirale" href="zgoubidoo.commands.magnetique.FFAGSpirale.html" />
     <link rel="prev" title="Emma" href="zgoubidoo.commands.magnetique.Emma.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -59,7 +61,7 @@
             
             
               <div class="version">
-                2019.1
+                2019.4
               </div>
             
           
@@ -87,6 +89,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../commands.html">Zgoubi commands</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands">Zgoubidoo’s class hierarchy and bases classes for new commands</a></li>
@@ -108,17 +111,19 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Dipoles.html">Dipoles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Dodecapole.html">Dodecapole</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Drift.html">Drift</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.ESL.html">ESL</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Emma.html">Emma</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">FFAG</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.FFAGSpirale.html">FFAGSpirale</a></li>
-<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.FakeDrift.html">FakeDrift</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Magnet.html">Magnet</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.MagnetType.html">MagnetType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Multipol.html">Multipol</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Multipole.html">Multipole</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Octupole.html">Octupole</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.PS170.html">PS170</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.PolarMagnet.html">PolarMagnet</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.PolarMagnetType.html">PolarMagnetType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.PolarMultiMagnet.html">PolarMultiMagnet</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Quadisex.html">Quadisex</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Quadrupole.html">Quadrupole</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.SexQuad.html">SexQuad</a></li>
@@ -134,13 +139,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.electrique">Electric elements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.fieldmaps">Field-map elements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.spin">Spin tracking commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.radiation">Synchrotron radiation commands</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../beam.html">Working with Zgoubidoo beams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
@@ -215,51 +221,7 @@
 <dl class="class">
 <dt id="zgoubidoo.commands.magnetique.FFAG">
 <em class="property">class </em><code class="descclassname">zgoubidoo.commands.magnetique.</code><code class="descname">FFAG</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#FFAG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.FFAG" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.magnetique.PolarMagnet.html#zgoubidoo.commands.magnetique.PolarMagnet" title="zgoubidoo.commands.magnetique.PolarMagnet"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.magnetique.PolarMagnet</span></code></a></p>
-<p>FFAG magnet, N-tuple.</p>
-<p>TODO</p>
-<p class="rubric">Command attributes</p>
-<dl class="attribute">
-<dt>
-<code class="descname">LABEL1=''</code></dt>
-<dd><p>Primary label for the Zgoubi command (default: auto-generated hash).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">LABEL2=''</code></dt>
-<dd><p>Secondary label for the Zgoubi command.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">HEIGHT='20 centimeter'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
+<dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.magnetique.PolarMultiMagnet.html#zgoubidoo.commands.magnetique.PolarMultiMagnet" title="zgoubidoo.commands.magnetique.PolarMultiMagnet"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.magnetique.PolarMultiMagnet</span></code></a></p>
 <p>Default initializer for all Commands.</p>
 <p class="rubric">Attributes Summary</p>
 <table border="1" class="longtable docutils">
@@ -268,27 +230,16 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.FFAG.KEYWORD" title="zgoubidoo.commands.magnetique.FFAG.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></td>
-<td>Keyword of the command used for the Zgoubi input data.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.FFAG.PARAMETERS" title="zgoubidoo.commands.magnetique.FFAG.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></td>
 <td>Parameters of the command, with their default value, their description and optinally an index used by other commands (e.g.</td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
 <dl class="attribute">
-<dt id="zgoubidoo.commands.magnetique.FFAG.KEYWORD">
-<code class="descname">KEYWORD</code><em class="property"> = 'FFAG'</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.FFAG.KEYWORD" title="Permalink to this definition">¶</a></dt>
-<dd><p>Keyword of the command used for the Zgoubi input data.</p>
-</dd></dl>
-
-<dl class="attribute">
 <dt id="zgoubidoo.commands.magnetique.FFAG.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'ACN': [0], 'AT': (0,), 'BZ0': [0], 'C0_E': [0], 'C0_L': [0], 'C0_S': [0], 'C1_E': [0], 'C1_L': [0], 'C1_S': [0], 'C2_E': [0], 'C2_L': [0], 'C2_S': [0], 'C3_E': [0], 'C3_L': [0], 'C3_S': [0], 'C4_E': [0], 'C4_L': [0], 'C4_S': [0], 'C5_E': [0], 'C5_L': [0], 'C5_S': [0], 'COLOR': ('red',), 'DELTA_RM': [0], 'DP': (0,), 'G0_E': [0], 'G0_L': [0], 'G0_S': [0], 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, ''), 'IL': (2,), 'K': [0], 'KIRD': (0,), 'KPOS': (2,), 'K_E': [0], 'K_L': [0], 'K_S': [0], 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'N': (1,), 'NCE': [0], 'NCL': [0], 'NCS': [0], 'OMEGA_E': [0], 'OMEGA_L': [0], 'OMEGA_S': [0], 'R1_E': [1000000000.0], 'R1_L': [1000000000.0], 'R1_S': [1000000000.0], 'R2_E': [1000000000.0], 'R2_L': [1000000000.0], 'R2_S': [1000000000.0], 'RE': (0,), 'RM': (0,), 'RS': (0,), 'Resol': (2,), 'SHIFT_E': [0], 'SHIFT_L': [0], 'SHIFT_S': [0], 'TE': (0,), 'THETA_E': [0], 'THETA_L': [0], 'THETA_S': [0], 'TS': (0,), 'U1_E': [-1000000000.0], 'U1_L': [-1000000000.0], 'U1_S': [-1000000000.0], 'U2_E': [1000000000.0], 'U2_L': [1000000000.0], 'U2_S': [1000000000.0], 'WIDTH': (&lt;Quantity(150, 'centimeter')&gt;,), 'XPAS': (0.1,)}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.FFAG.PARAMETERS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parameters of the command, with their default value, their description and optinally an index used by other
-commands (e.g. fit).</p>
-</dd></dl>
+<code class="descname">PARAMETERS</code><em class="property"> = {'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'COLOR': ('red',), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'KINEMATICS': (None, 'A kinematics object.'), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'WIDTH': (&lt;Quantity(150, 'centimeter')&gt;,)}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.FFAG.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -305,7 +256,7 @@ commands (e.g. fit).</p>
         <a href="zgoubidoo.commands.magnetique.FFAGSpirale.html" class="btn btn-neutral float-right" title="FFAGSpirale" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="zgoubidoo.commands.magnetique.Emma.html" class="btn btn-neutral" title="Emma" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="zgoubidoo.commands.magnetique.Emma.html" class="btn btn-neutral float-left" title="Emma" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -331,26 +282,16 @@ commands (e.g. fit).</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

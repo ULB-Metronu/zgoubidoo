@@ -1,0 +1,320 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>zgoubidoo.commands.radiation &mdash; Zgoubidoo 2019.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2019.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../news.html">News and announcements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>zgoubidoo.commands.radiation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for zgoubidoo.commands.radiation</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Commands controlling Zgoubi&#39;s control flow, geometry, tracking options, etc.</span>
+
+<span class="sd">TODO</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
+<span class="kn">from</span> <span class="nn">.actions</span> <span class="k">import</span> <span class="n">Action</span> <span class="k">as</span> <span class="n">_Action</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">Q_</span> <span class="k">as</span> <span class="n">_Q</span>
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">..input</span> <span class="k">import</span> <span class="n">Input</span> <span class="k">as</span> <span class="n">_Input</span>
+
+
+<div class="viewcode-block" id="SynchrotronRadiationLosses"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.radiation.SynchrotronRadiationLosses.html#zgoubidoo.commands.radiation.SynchrotronRadiationLosses">[docs]</a><span class="k">class</span> <span class="nc">SynchrotronRadiationLosses</span><span class="p">(</span><span class="n">_Action</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Synchrotron radiation loss.</span>
+
+<span class="sd">    .. rubric:: Zgoubi manual description</span>
+
+<span class="sd">    The keyword SRLOSS allows activating or stopping (option KSR = 1, 0 respectively) stepwise tracking of energy loss</span>
+<span class="sd">    by stochastic emission of photons in magnetic fields, following the method described in section 3.1.</span>
+
+<span class="sd">    It can be chosen to allow radiation in the sole dipole fields, or in all types of fields regardless of their</span>
+<span class="sd">    multipole composition. It can also be chosen to allow for the radiation induced transverse kick.</span>
+
+<span class="sd">    SRLOSS must be preceded by PARTICUL for defining mass and charge values as they enter in the definition of SR</span>
+<span class="sd">    parameters.</span>
+
+<span class="sd">    Statistics on SR parameters are computed and updated while tracking, the results of which can be obtained by means</span>
+<span class="sd">    of the keyword SRPRNT.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;SRLOSS&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span>
+
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;KSR&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Switch (0: SR switched off, 1: SR switched on).&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Output SRLOSS information to file.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;KEYWORDS&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;ALL&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;SCALING&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;If &quot;scale&quot; then scale magnetic field based on energy loss from synchrotron radiation.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;OPTION&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;1: effect on DP only, 2 : effect on dp and kick angle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;SEED&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">123456</span><span class="p">,</span> <span class="s1">&#39;Random seed.&#39;</span><span class="p">),</span>
+    <span class="p">}</span>
+    <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optionally an index used by other </span>
+<span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        {super().__str__().rstrip()}</span>
+<span class="s2">        </span><span class="si">{self.KSR}</span><span class="s2">.</span><span class="si">{self.I}</span><span class="s2"> {&#39;PRINT&#39; if self.I else &#39;&#39;}</span>
+<span class="s2">        </span><span class="si">{self.KEYWORDS}</span><span class="s2"> </span><span class="si">{self.SCALING}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{self.OPTION}</span><span class="s2"> </span><span class="si">{self.SEED}</span><span class="s2"></span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SynchrotronRadiationLosses.switch"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.radiation.SynchrotronRadiationLosses.html#zgoubidoo.commands.radiation.SynchrotronRadiationLosses.switch">[docs]</a>    <span class="k">def</span> <span class="nf">switch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Switches on or off the synchrotron radiation losses.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value: value of the switch.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">KSR</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="SynchrotronRadiationLosses.on"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.radiation.SynchrotronRadiationLosses.html#zgoubidoo.commands.radiation.SynchrotronRadiationLosses.on">[docs]</a>    <span class="k">def</span> <span class="nf">on</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Switches on the synchrotron radiation losses.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">switch</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="SynchrotronRadiationLosses.off"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.radiation.SynchrotronRadiationLosses.html#zgoubidoo.commands.radiation.SynchrotronRadiationLosses.off">[docs]</a>    <span class="k">def</span> <span class="nf">off</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Switches off the synchrotron radiation losses.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">switch</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div></div>
+
+
+<span class="n">SRLoss</span> <span class="o">=</span> <span class="n">SynchrotronRadiationLosses</span>
+
+
+<div class="viewcode-block" id="SynchrotronRadiationPrint"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.radiation.SynchrotronRadiationPrint.html#zgoubidoo.commands.radiation.SynchrotronRadiationPrint">[docs]</a><span class="k">class</span> <span class="nc">SynchrotronRadiationPrint</span><span class="p">(</span><span class="n">_Action</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Print SR loss statistics.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;SRPRNT&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SynchrotronRadiationPrint.process_output"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.radiation.SynchrotronRadiationPrint.html#zgoubidoo.commands.radiation.SynchrotronRadiationPrint.process_output">[docs]</a>    <span class="k">def</span> <span class="nf">process_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+                       <span class="n">parameters</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">_Q</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+                       <span class="n">zgoubi_input</span><span class="p">:</span> <span class="n">_Input</span>
+                       <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            output:</span>
+<span class="sd">            parameters:</span>
+<span class="sd">            zgoubi_input:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="n">parameters</span><span class="p">,</span>
+                <span class="n">_Action</span><span class="o">.</span><span class="n">CommandResult</span><span class="p">(</span><span class="n">success</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">())</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
+
+
+<span class="n">SRPrint</span> <span class="o">=</span> <span class="n">SynchrotronRadiationPrint</span>
+
+
+<div class="viewcode-block" id="SynchrotronRadiationSpectral"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.radiation.SynchrotronRadiationSpectral.html#zgoubidoo.commands.radiation.SynchrotronRadiationSpectral">[docs]</a><span class="k">class</span> <span class="nc">SynchrotronRadiationSpectral</span><span class="p">(</span><span class="n">_Action</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Synchrotron radiation spectral-angular densities.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;SYNRAD&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,363 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>BetaBlock &mdash; Zgoubidoo 2019.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="BetaBlockType" href="georges_core.sequences.BetaBlockType.html" />
+    <link rel="prev" title="Physics with Zgoubidoo high-level interfaces" href="../physics.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2019.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../news.html">News and announcements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../physics.html">Physics with Zgoubidoo high-level interfaces</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../physics.html#module-georges_core.sequences">Sequences</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../physics.html#classes">Classes</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">BetaBlock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.BetaBlockType.html">BetaBlockType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.Element.html">Element</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.ElementClass.html">ElementClass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.PlacementSequence.html">PlacementSequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.Sequence.html">Sequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.SequenceException.html">SequenceException</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.SequenceMetadata.html">SequenceMetadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.TransportSequence.html">TransportSequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.TwissSequence.html">TwissSequence</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../physics.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../physics.html#module-zgoubidoo.commands.beam">Beams</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../physics.html">Physics with Zgoubidoo high-level interfaces</a> &raquo;</li>
+        
+      <li>BetaBlock</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/georges_core.sequences.BetaBlock.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="betablock">
+<h1>BetaBlock<a class="headerlink" href="#betablock" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="georges_core.sequences.BetaBlock">
+<em class="property">class </em><code class="descclassname">georges_core.sequences.</code><code class="descname">BetaBlock</code><span class="sig-paren">(</span><em>beta11: float = &lt;Quantity(1.0</em>, <em>'meter')&gt;</em>, <em>alpha11: float = 0.0</em>, <em>gamma11: Optional[float] = None</em>, <em>beta22: float = &lt;Quantity(1.0</em>, <em>'meter')&gt;</em>, <em>alpha22: float = 0.0</em>, <em>gamma22: Optional[float] = None</em>, <em>disp1: float = &lt;Quantity(0.0</em>, <em>'meter')&gt;</em>, <em>disp2: float = 0.0</em>, <em>disp3: float = &lt;Quantity(0.0</em>, <em>'meter')&gt;</em>, <em>disp4: float = 0.0</em>, <em>emit1: float = 1e-09</em>, <em>emit2: float = 1e-09</em>, <em>emit3: float = 1e-09</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/betablock.html#BetaBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.BetaBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>TODO</p>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.alpha11" title="georges_core.sequences.BetaBlock.alpha11"><code class="xref py py-obj docutils literal notranslate"><span class="pre">alpha11</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.alpha22" title="georges_core.sequences.BetaBlock.alpha22"><code class="xref py py-obj docutils literal notranslate"><span class="pre">alpha22</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.beta11" title="georges_core.sequences.BetaBlock.beta11"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta11</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.beta22" title="georges_core.sequences.BetaBlock.beta22"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta22</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.disp1" title="georges_core.sequences.BetaBlock.disp1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">disp1</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.disp2" title="georges_core.sequences.BetaBlock.disp2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">disp2</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.disp3" title="georges_core.sequences.BetaBlock.disp3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">disp3</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.disp4" title="georges_core.sequences.BetaBlock.disp4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">disp4</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.emit1" title="georges_core.sequences.BetaBlock.emit1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">emit1</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.emit2" title="georges_core.sequences.BetaBlock.emit2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">emit2</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.emit3" title="georges_core.sequences.BetaBlock.emit3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">emit3</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.gamma11" title="georges_core.sequences.BetaBlock.gamma11"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma11</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.gamma22" title="georges_core.sequences.BetaBlock.gamma22"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma22</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="georges_core.sequences.BetaBlock.alpha11">
+<code class="descname">alpha11</code><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.alpha11" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="georges_core.sequences.BetaBlock.alpha22">
+<code class="descname">alpha22</code><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.alpha22" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="georges_core.sequences.BetaBlock.beta11">
+<code class="descname">beta11</code><em class="property"> = &lt;Quantity(1.0, 'meter')&gt;</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.beta11" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="georges_core.sequences.BetaBlock.beta22">
+<code class="descname">beta22</code><em class="property"> = &lt;Quantity(1.0, 'meter')&gt;</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.beta22" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="georges_core.sequences.BetaBlock.disp1">
+<code class="descname">disp1</code><em class="property"> = &lt;Quantity(0.0, 'meter')&gt;</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.disp1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="georges_core.sequences.BetaBlock.disp2">
+<code class="descname">disp2</code><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.disp2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="georges_core.sequences.BetaBlock.disp3">
+<code class="descname">disp3</code><em class="property"> = &lt;Quantity(0.0, 'meter')&gt;</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.disp3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="georges_core.sequences.BetaBlock.disp4">
+<code class="descname">disp4</code><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.disp4" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="georges_core.sequences.BetaBlock.emit1">
+<code class="descname">emit1</code><em class="property"> = 1e-09</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.emit1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="georges_core.sequences.BetaBlock.emit2">
+<code class="descname">emit2</code><em class="property"> = 1e-09</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.emit2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="georges_core.sequences.BetaBlock.emit3">
+<code class="descname">emit3</code><em class="property"> = 1e-09</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.emit3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="georges_core.sequences.BetaBlock.gamma11">
+<code class="descname">gamma11</code><em class="property"> = None</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.gamma11" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="georges_core.sequences.BetaBlock.gamma22">
+<code class="descname">gamma22</code><em class="property"> = None</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.gamma22" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="georges_core.sequences.BetaBlockType.html" class="btn btn-neutral float-right" title="BetaBlockType" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../physics.html" class="btn btn-neutral float-left" title="Physics with Zgoubidoo high-level interfaces" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

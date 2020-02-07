@@ -1,7 +1,0 @@
-VerticalPolarity
-================
-
-.. currentmodule:: zgoubidoo.polarity
-
-.. autoclass:: VerticalPolarity
-   :show-inheritance:

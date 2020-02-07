@@ -1,0 +1,937 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>zgoubidoo.commands.beam &mdash; Zgoubidoo 2019.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2019.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../news.html">News and announcements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>zgoubidoo.commands.beam</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for zgoubidoo.commands.beam</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Zgoubidoo beam.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">randint</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo</span> <span class="k">import</span> <span class="n">Q_</span> <span class="k">as</span> <span class="n">_Q</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">CommandType</span> <span class="k">as</span> <span class="n">_CommandType</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">_Command</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">Comment</span> <span class="k">as</span> <span class="n">_Comment</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">particules</span> <span class="k">as</span> <span class="n">_particules</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">ParticuleType</span> <span class="k">as</span> <span class="n">_ParticuleType</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">Proton</span> <span class="k">as</span> <span class="n">_Proton</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">Objet2</span> <span class="k">as</span> <span class="n">_Objet2</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">Objet5</span> <span class="k">as</span> <span class="n">_Objet5</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">MCObjet3</span> <span class="k">as</span> <span class="n">_MCObjet3</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">ObjetType</span> <span class="k">as</span> <span class="n">_ObjetType</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">ZgoubidooAttributeException</span> <span class="k">as</span> <span class="n">_ZgoubidooAttributeException</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">ZgoubidooException</span> <span class="k">as</span> <span class="n">_ZgoubidooException</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">Kinematics</span> <span class="k">as</span> <span class="n">_Kinematics</span>
+<span class="kn">from</span> <span class="nn">..mappings</span> <span class="k">import</span> <span class="n">ParametricMapping</span> <span class="k">as</span> <span class="n">_ParametricMapping</span>
+<span class="kn">from</span> <span class="nn">..mappings</span> <span class="k">import</span> <span class="n">MappedParametersListType</span> <span class="k">as</span> <span class="n">_MappedParametersListType</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">georges_core.sequences</span> <span class="k">import</span> <span class="n">BetaBlock</span> <span class="k">as</span> <span class="n">_BetaBlock</span>
+    <span class="kn">from</span> <span class="nn">georges_core.sequences</span> <span class="k">import</span> <span class="n">TwissSequence</span> <span class="k">as</span> <span class="n">_TwissSequence</span>
+    <span class="kn">from</span> <span class="nn">georges_core.sequences</span> <span class="k">import</span> <span class="n">Sequence</span> <span class="k">as</span> <span class="n">_Sequence</span>
+
+
+<div class="viewcode-block" id="ZgoubidooBeamException"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.ZgoubidooBeamException.html#zgoubidoo.commands.beam.ZgoubidooBeamException">[docs]</a><span class="k">class</span> <span class="nc">ZgoubidooBeamException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exception raised for errors when running Zgoubi.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">m</span></div>
+
+
+<div class="viewcode-block" id="BeamType"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamType.html#zgoubidoo.commands.beam.BeamType">[docs]</a><span class="k">class</span> <span class="nc">BeamType</span><span class="p">(</span><span class="n">_CommandType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Type system for Objet types.&quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Beam"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.Beam.html#zgoubidoo.commands.beam.Beam">[docs]</a><span class="k">class</span> <span class="nc">Beam</span><span class="p">(</span><span class="n">_Command</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">BeamType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Beam</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">_Comment</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Definition of </span><span class="si">{self.__class__.__name__}</span><span class="s2">&quot;</span><span class="p">))</span> \
+               <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generate_object</span><span class="p">())</span> \
+               <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_particle</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Beam.post_init"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.Beam.html#zgoubidoo.commands.beam.Beam.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                  <span class="n">objet_type</span><span class="p">:</span> <span class="n">_ObjetType</span><span class="p">,</span>
+                  <span class="n">kinematics</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">_Kinematics</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">_Q</span><span class="p">],</span>
+                  <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">,</span>
+                  <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            objet_type:</span>
+<span class="sd">            kinematics:</span>
+<span class="sd">            particle:</span>
+<span class="sd">            *args:</span>
+<span class="sd">            **kwargs:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">particle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_objet_type</span><span class="p">:</span> <span class="n">_ObjetType</span> <span class="o">=</span> <span class="n">objet_type</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kinematics</span><span class="p">,</span> <span class="n">_Kinematics</span><span class="p">):</span>
+            <span class="n">kinematics</span> <span class="o">=</span> <span class="n">_Kinematics</span><span class="p">(</span><span class="n">kinematics</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span><span class="p">:</span> <span class="n">_Kinematics</span> <span class="o">=</span> <span class="n">kinematics</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">particle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ParticuleType</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The beam&#39;s particle type.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_particle</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">kinematics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The beam&#39;s kinematics properties.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mappings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_MappedParametersListType</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;TODO&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[{}]</span>
+
+<div class="viewcode-block" id="Beam.generate_object"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.Beam.html#zgoubidoo.commands.beam.Beam.generate_object">[docs]</a>    <span class="k">def</span> <span class="nf">generate_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        TODO</span>
+
+<span class="sd">        Return:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_objet_type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">,</span> <span class="n">BORO</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span><span class="o">.</span><span class="n">brho</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_set_from_betablock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">betablock</span><span class="p">:</span> <span class="n">_BetaBlock</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            betablock:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ALPHA_Y</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">alpha11</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">BETA_Y</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">beta11</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ALPHA_Z</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">alpha22</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">BETA_Z</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">beta22</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">D_Y</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">disp1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">D_YP</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">disp2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">D_Z</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">disp3</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">D_ZP</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">disp4</span>
+        <span class="k">except</span> <span class="n">_ZgoubidooAttributeException</span><span class="p">:</span>
+            <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="BeamZgoubiDistribution"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamZgoubiDistribution.html#zgoubidoo.commands.beam.BeamZgoubiDistribution">[docs]</a><span class="k">class</span> <span class="nc">BeamZgoubiDistribution</span><span class="p">(</span><span class="n">Beam</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    TODO</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;SLICE&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Active slice identifier. *Note*: this is not the number of slices, but the active slice number.&quot;</span><span class="p">),</span>
+        <span class="s1">&#39;IMAX&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Number of particles to be generated&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;ALPHA_Y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;Horizontal (Y) alpha function&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;BETA_Y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="s1">&#39;Horizontal (Y) beta function&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;EMIT_Y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1e-9</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span><span class="p">,</span> <span class="s1">&#39;Horizontal (Y) normalized emittance&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;D_Y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="s1">&#39;Horizontal (Y) dispersion&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;D_YP&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;Horizontal (Y) dispersion prime&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;N_CUTOFF_Y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;Cut-off value for the horizontal distribution&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;N_CUTOFF2_Y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Secondary cut-off value for the horizontal distribution&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;ALPHA_Z&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;Vertical (Z) alpha function&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;BETA_Z&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="s1">&#39;Vertical (Z) beta function&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;EMIT_Z&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1e-9</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span><span class="p">,</span> <span class="s1">&#39;Vertical (Z) normalized emittance&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;D_Z&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="s1">&#39;Vertical (Z) dispersion&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;D_ZP&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;Vertical (Z) dispersion prime&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;N_CUTOFF_Z&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;Cut-off value for the vertical distribution&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;N_CUTOFF2_Z&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Secondary cut-off value for the vertical distribution&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;ALPHA_X&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;Longitudinal (X) alpha function&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;BETA_X&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="s1">&#39;Longitudinal (X) beta function&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;EMIT_X&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1e-9</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span><span class="p">,</span> <span class="s1">&#39;Longitudinal (X) normalized emittance&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;N_CUTOFF_X&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;Cut-off value for the longitudinal distribution&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;N_CUTOFF2_X&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Secondary cut-off value for the longitudinal distribution&#39;</span><span class="p">),</span>
+    <span class="p">}</span>
+    <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
+<span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BeamZgoubiDistribution.post_init"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamZgoubiDistribution.html#zgoubidoo.commands.beam.BeamZgoubiDistribution.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                  <span class="n">objet_type</span><span class="p">:</span> <span class="n">_ObjetType</span> <span class="o">=</span> <span class="n">_MCObjet3</span><span class="p">,</span>
+                  <span class="n">betablock</span><span class="p">:</span> <span class="n">_BetaBlock</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">slices</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                  <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            objet_type:</span>
+<span class="sd">            betablock:</span>
+<span class="sd">            slices:</span>
+<span class="sd">            *args:</span>
+<span class="sd">            **kwargs:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">post_init</span><span class="p">(</span><span class="n">objet_type</span><span class="o">=</span><span class="n">objet_type</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_slices</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">slices</span>
+        <span class="k">if</span> <span class="n">betablock</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_from_betablock</span><span class="p">(</span><span class="n">betablock</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">slices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Number of slices.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slices</span>
+
+    <span class="nd">@slices</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">slices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;(Re)set the number of slices.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_slices</span> <span class="o">=</span> <span class="n">n</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mappings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_MappedParametersListType</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;TODO&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_ParametricMapping</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="n">f</span><span class="s2">&quot;</span><span class="si">{self.LABEL1}</span><span class="s2">.SLICE&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slices</span><span class="p">))</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">combinations</span>
+
+<div class="viewcode-block" id="BeamZgoubiDistribution.generate_object"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamZgoubiDistribution.html#zgoubidoo.commands.beam.BeamZgoubiDistribution.generate_object">[docs]</a>    <span class="k">def</span> <span class="nf">generate_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        TODO</span>
+
+<span class="sd">        Return:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_objet_type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">,</span>
+                                <span class="n">BORO</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span><span class="o">.</span><span class="n">brho</span><span class="p">,</span>
+                                <span class="n">IMAX</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">IMAX</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">slices</span><span class="p">,</span>
+                                <span class="n">KY</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                <span class="n">KT</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                <span class="n">KZ</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                <span class="n">KP</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                <span class="n">ALPHA_Y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ALPHA_Y</span><span class="p">,</span>
+                                <span class="n">BETA_Y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">BETA_Y</span><span class="p">,</span>
+                                <span class="n">D_Y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">D_Y</span><span class="p">,</span>
+                                <span class="n">D_YP</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">D_YP</span><span class="p">,</span>
+                                <span class="n">EMIT_Y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">EMIT_Z</span><span class="p">,</span>
+                                <span class="n">ALPHA_Z</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ALPHA_Z</span><span class="p">,</span>
+                                <span class="n">BETA_Z</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">BETA_Z</span><span class="p">,</span>
+                                <span class="n">D_Z</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">D_Z</span><span class="p">,</span>
+                                <span class="n">D_ZP</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">D_ZP</span><span class="p">,</span>
+                                <span class="n">EMIT_Z</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">EMIT_Z</span><span class="p">,</span>
+                                <span class="n">ALPHA_X</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ALPHA_X</span><span class="p">,</span>
+                                <span class="n">BETA_X</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">BETA_X</span><span class="p">,</span>
+                                <span class="n">EMIT_X</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">EMIT_X</span><span class="p">,</span>
+                                <span class="n">I1</span><span class="o">=</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e6</span><span class="p">),</span>
+                                <span class="n">I2</span><span class="o">=</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e6</span><span class="p">),</span>
+                                <span class="n">I3</span><span class="o">=</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e6</span><span class="p">),</span>
+                                <span class="p">)</span></div>
+
+<div class="viewcode-block" id="BeamZgoubiDistribution.from_sequence"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamZgoubiDistribution.html#zgoubidoo.commands.beam.BeamZgoubiDistribution.from_sequence">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_sequence</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sequence</span><span class="p">:</span> <span class="n">_TwissSequence</span><span class="p">,</span> <span class="n">statistics</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sequence:</span>
+<span class="sd">            statistics:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="s1">&#39;BUNCH&#39;</span><span class="p">,</span>
+                <span class="n">particle</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">_particules</span><span class="p">,</span> <span class="n">sequence</span><span class="o">.</span><span class="n">particle</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
+                <span class="n">kinematics</span><span class="o">=</span><span class="n">sequence</span><span class="o">.</span><span class="n">kinematics</span><span class="p">,</span>
+                <span class="n">betablock</span><span class="o">=</span><span class="n">sequence</span><span class="o">.</span><span class="n">betablock</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+                <span class="p">)</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">IMAX</span> <span class="o">=</span> <span class="n">statistics</span> <span class="ow">or</span> <span class="n">sequence</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">n_particles</span><span class="p">,</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">EMIT_Y</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EX&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">EMIT_Z</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;EY&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span>
+        <span class="k">return</span> <span class="n">b</span></div></div>
+
+
+<div class="viewcode-block" id="BeamInputDistribution"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution">[docs]</a><span class="k">class</span> <span class="nc">BeamInputDistribution</span><span class="p">(</span><span class="n">Beam</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A beam using an explicit beam distribution.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;SLICE&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Active slice identifier. Note: this is not the number of slices, but the active slice number.&quot;</span><span class="p">),</span>
+        <span class="s1">&#39;REFERENCE&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Setting to 1 will produce a beam with only the reference particle (the distribution is not &quot;</span>
+                         <span class="s2">&quot;lost&quot;</span><span class="p">),</span>
+    <span class="p">}</span>
+    <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
+<span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BeamInputDistribution.post_init"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                  <span class="n">objet_type</span><span class="p">:</span> <span class="n">_ObjetType</span> <span class="o">=</span> <span class="n">_Objet2</span><span class="p">,</span>
+                  <span class="n">distribution</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">slices</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                  <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            objet_type:</span>
+<span class="sd">            kinematics:</span>
+<span class="sd">            particle:</span>
+<span class="sd">            distribution:</span>
+<span class="sd">            slices:</span>
+<span class="sd">            *args:</span>
+<span class="sd">            **kwargs:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">post_init</span><span class="p">(</span><span class="n">objet_type</span><span class="o">=</span><span class="n">objet_type</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_slices</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">slices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_distribution</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialize_distribution</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BeamInputDistribution.initialize_distribution"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution.initialize_distribution">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distribution</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Try setting the internal pandas.DataFrame with a distribution.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            distribution:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                <span class="n">BeamInputDistribution</span><span class="o">.</span><span class="n">generate_from_file</span><span class="p">(</span>
+                    <span class="n">distribution</span><span class="p">,</span>
+                    <span class="n">path</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">distribution</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="BeamInputDistribution.add"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distribution</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            distribution:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">distr</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">distr</span> <span class="o">=</span> <span class="n">BeamInputDistribution</span><span class="o">.</span><span class="n">generate_from_file</span><span class="p">(</span>
+                <span class="n">distribution</span><span class="p">,</span>
+                <span class="n">path</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="n">distr</span> <span class="o">=</span> <span class="n">distribution</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">distr</span> <span class="o">=</span> <span class="n">distribution</span>
+
+        <span class="k">if</span> <span class="n">distr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distr</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span> <span class="s2">&quot;The distribution container must be a numpy array.&quot;</span>
+            <span class="k">assert</span> <span class="n">distr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Invalid dimensions for the array of particles (must be 2).&quot;</span>
+            <span class="k">if</span> <span class="n">distr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>  <span class="c1"># Y T Z P</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">distr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">distr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">iex</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">distr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">distr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">distr</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">iex</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">distr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>  <span class="c1"># Y T Z P D</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">distr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">iex</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">distr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">distr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">distr</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">,</span> <span class="n">distr</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:],</span> <span class="n">iex</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">distr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>  <span class="c1"># Y T Z P X D</span>
+                <span class="n">iex</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">distr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">distr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">distr</span><span class="p">,</span> <span class="n">iex</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">distr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">7</span><span class="p">:</span>  <span class="c1"># Y T Z P X D IEX</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">_ZgoubidooException</span><span class="p">(</span><span class="s2">&quot;Invalid dimensions for particles vectors.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distribution</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_distribution</span> <span class="o">=</span> <span class="n">distr</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_distribution</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_distribution</span><span class="p">,</span> <span class="n">distr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">slices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Number of slices.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slices</span>
+
+    <span class="nd">@slices</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">slices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;(Re)set the number of slices.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_slices</span> <span class="o">=</span> <span class="n">n</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">active_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The index of the active (current) slice.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">n_tot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distribution</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">n_per_slices</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">n_tot</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slices</span><span class="p">))</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distribution</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">SLICE</span> <span class="o">*</span> <span class="n">n_per_slices</span><span class="p">:(</span><span class="bp">self</span><span class="o">.</span><span class="n">SLICE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">n_per_slices</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">d</span>
+
+<div class="viewcode-block" id="BeamInputDistribution.generate_object"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution.generate_object">[docs]</a>    <span class="k">def</span> <span class="nf">generate_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        TODO</span>
+
+<span class="sd">        Return:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_objet_type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">,</span> <span class="n">BORO</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span><span class="o">.</span><span class="n">brho</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">REFERENCE</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">_</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">active_slice</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mappings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_MappedParametersListType</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;TODO&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">REFERENCE</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[{</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{self.LABEL1}</span><span class="s2">.SLICE&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{self.LABEL1}</span><span class="s2">.REFERENCE&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_ParametricMapping</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">{</span>
+                        <span class="n">f</span><span class="s2">&quot;</span><span class="si">{self.LABEL1}</span><span class="s2">.SLICE&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slices</span><span class="p">))</span>
+                    <span class="p">},</span>
+                    <span class="p">{</span>
+                        <span class="n">f</span><span class="s2">&quot;</span><span class="si">{self.LABEL1}</span><span class="s2">.REFERENCE&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="p">}</span>
+                <span class="p">]</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">combinations</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The beam distribution.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distribution</span>
+
+<div class="viewcode-block" id="BeamInputDistribution.create_reference_statistics"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution.create_reference_statistics">[docs]</a>    <span class="k">def</span> <span class="nf">create_reference_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_object</span><span class="p">()</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span><span class="o">.</span><span class="n">add_references</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_distribution</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">PARTICULES</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="BeamInputDistribution.clear"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Beam</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_distribution</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_slices</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="BeamInputDistribution.from_file"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution.from_file">[docs]</a>    <span class="k">def</span> <span class="nf">from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Beam</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            file:</span>
+<span class="sd">            n:</span>
+<span class="sd">            path:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialize_distribution</span><span class="p">(</span><span class="n">BeamInputDistribution</span><span class="o">.</span><span class="n">generate_from_file</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="BeamInputDistribution.from_5d_sigma_matrix"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution.from_5d_sigma_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">from_5d_sigma_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Beam</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a beam with a 5D particle distribution from a Sigma matrix.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n:</span>
+<span class="sd">            **kwargs:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">distribution</span> <span class="o">=</span> <span class="n">BeamInputDistribution</span><span class="o">.</span><span class="n">generate_from_5d_sigma_matrix</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialize_distribution</span><span class="p">(</span><span class="n">distribution</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="BeamInputDistribution.from_twiss_parameters"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution.from_twiss_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">from_twiss_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Beam</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a beam with a 5D particle distribution from Twiss parameters.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n:</span>
+<span class="sd">            **kwargs:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;PX&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;PY&#39;</span><span class="p">,</span> <span class="s1">&#39;DPP&#39;</span><span class="p">,</span> <span class="s1">&#39;DPPRMS&#39;</span><span class="p">,</span> <span class="s1">&#39;BETAX&#39;</span><span class="p">,</span> <span class="s1">&#39;ALPHAX&#39;</span><span class="p">,</span> <span class="s1">&#39;BETAY&#39;</span><span class="p">,</span> <span class="s1">&#39;ALPHAY&#39;</span><span class="p">,</span> <span class="s1">&#39;EMITX&#39;</span><span class="p">,</span> <span class="s1">&#39;EMITY&#39;</span><span class="p">}</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">keys</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()]):</span>
+            <span class="k">raise</span> <span class="n">ZgoubidooBeamException</span><span class="p">(</span><span class="s2">&quot;Invalid argument for a twiss distribution.&quot;</span><span class="p">)</span>
+        <span class="n">betax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;BETAX&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">alphax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ALPHAX&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">gammax</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">alphax</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">betax</span>
+        <span class="n">betay</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;BETAY&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">alphay</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ALPHAY&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">gammay</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">alphay</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">betay</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">from_5d_sigma_matrix</span><span class="p">(</span><span class="n">n</span><span class="p">,</span>
+                                  <span class="n">x</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                                  <span class="n">px</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PX&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                                  <span class="n">y</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                                  <span class="n">py</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PY&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                                  <span class="n">dpp</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;DPP&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                                  <span class="n">dpprms</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;DPPRMS&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                                  <span class="n">s11</span><span class="o">=</span><span class="n">betax</span> <span class="o">*</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;EMITX&#39;</span><span class="p">],</span>
+                                  <span class="n">s12</span><span class="o">=-</span><span class="n">alphax</span> <span class="o">*</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;EMITX&#39;</span><span class="p">],</span>
+                                  <span class="n">s22</span><span class="o">=</span><span class="n">gammax</span> <span class="o">*</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;EMITX&#39;</span><span class="p">],</span>
+                                  <span class="n">s33</span><span class="o">=</span><span class="n">betay</span> <span class="o">*</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;EMITY&#39;</span><span class="p">],</span>
+                                  <span class="n">s34</span><span class="o">=-</span><span class="n">alphay</span> <span class="o">*</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;EMITY&#39;</span><span class="p">],</span>
+                                  <span class="n">s44</span><span class="o">=</span><span class="n">gammay</span> <span class="o">*</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;EMITY&#39;</span><span class="p">]</span>
+                                  <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="BeamInputDistribution.from_sequence"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution.from_sequence">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_sequence</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sequence</span><span class="p">:</span> <span class="n">_Sequence</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sequence:</span>
+<span class="sd">            kwargs:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">particle</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">_particules</span><span class="p">,</span> <span class="n">sequence</span><span class="o">.</span><span class="n">particle</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
+            <span class="n">kinematics</span><span class="o">=</span><span class="n">sequence</span><span class="o">.</span><span class="n">kinematics</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="BeamInputDistribution.generate_from_file"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution.generate_from_file">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">generate_from_file</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read a beam distribution from file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            file:</span>
+<span class="sd">            path:</span>
+<span class="sd">            n:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file</span><span class="p">))[:</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">values</span></div>
+
+<div class="viewcode-block" id="BeamInputDistribution.generate_from_5d_sigma_matrix"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution.generate_from_5d_sigma_matrix">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">generate_from_5d_sigma_matrix</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                                      <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">px</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">py</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">dpp</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">s11</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">s12</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">s13</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">s14</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">s15</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">s22</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">s23</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">s24</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">s25</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">s33</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">s34</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">s35</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">s44</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">s45</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">dpprms</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                      <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n:</span>
+<span class="sd">            x:</span>
+<span class="sd">            px:</span>
+<span class="sd">            y:</span>
+<span class="sd">            py:</span>
+<span class="sd">            dpp:</span>
+<span class="sd">            s11:</span>
+<span class="sd">            s12:</span>
+<span class="sd">            s13:</span>
+<span class="sd">            s14:</span>
+<span class="sd">            s15:</span>
+<span class="sd">            s22:</span>
+<span class="sd">            s23:</span>
+<span class="sd">            s24:</span>
+<span class="sd">            s25:</span>
+<span class="sd">            s33:</span>
+<span class="sd">            s34:</span>
+<span class="sd">            s35:</span>
+<span class="sd">            s44:</span>
+<span class="sd">            s45:</span>
+<span class="sd">            dpprms:</span>
+<span class="sd">            matrix:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># For performance considerations, see</span>
+        <span class="c1"># https://software.intel.com/en-us/blogs/2016/06/15/faster-random-number-generation-in-intel-distribution-for-python</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">numpy.random_intel</span>
+            <span class="n">generator</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random_intel</span><span class="o">.</span><span class="n">multivariate_normal</span>
+        <span class="k">except</span> <span class="n">ModuleNotFoundError</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">numpy.random</span>
+            <span class="n">generator</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span>
+
+        <span class="n">s21</span> <span class="o">=</span> <span class="n">s12</span>
+        <span class="n">s31</span> <span class="o">=</span> <span class="n">s13</span>
+        <span class="n">s32</span> <span class="o">=</span> <span class="n">s23</span>
+        <span class="n">s41</span> <span class="o">=</span> <span class="n">s14</span>
+        <span class="n">s42</span> <span class="o">=</span> <span class="n">s24</span>
+        <span class="n">s43</span> <span class="o">=</span> <span class="n">s34</span>
+        <span class="n">s51</span> <span class="o">=</span> <span class="n">s15</span>
+        <span class="n">s52</span> <span class="o">=</span> <span class="n">s25</span>
+        <span class="n">s53</span> <span class="o">=</span> <span class="n">s35</span>
+        <span class="n">s54</span> <span class="o">=</span> <span class="n">s45</span>
+        <span class="n">s55</span> <span class="o">=</span> <span class="n">dpprms</span> <span class="o">**</span> <span class="mi">2</span>
+
+        <span class="k">if</span> <span class="n">matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">matrix</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">generator</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">px</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">dpp</span><span class="p">],</span>
+                <span class="n">matrix</span><span class="p">,</span>
+                <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">generator</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">px</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">dpp</span><span class="p">],</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+                    <span class="p">[</span><span class="n">s11</span><span class="p">,</span> <span class="n">s12</span><span class="p">,</span> <span class="n">s13</span><span class="p">,</span> <span class="n">s14</span><span class="p">,</span> <span class="n">s15</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">s21</span><span class="p">,</span> <span class="n">s22</span><span class="p">,</span> <span class="n">s23</span><span class="p">,</span> <span class="n">s24</span><span class="p">,</span> <span class="n">s25</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">s31</span><span class="p">,</span> <span class="n">s32</span><span class="p">,</span> <span class="n">s33</span><span class="p">,</span> <span class="n">s34</span><span class="p">,</span> <span class="n">s35</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">s41</span><span class="p">,</span> <span class="n">s42</span><span class="p">,</span> <span class="n">s43</span><span class="p">,</span> <span class="n">s44</span><span class="p">,</span> <span class="n">s45</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">s51</span><span class="p">,</span> <span class="n">s52</span><span class="p">,</span> <span class="n">s53</span><span class="p">,</span> <span class="n">s54</span><span class="p">,</span> <span class="n">s55</span><span class="p">]</span>
+                <span class="p">]),</span>
+                <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="BeamTwiss"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamTwiss.html#zgoubidoo.commands.beam.BeamTwiss">[docs]</a><span class="k">class</span> <span class="nc">BeamTwiss</span><span class="p">(</span><span class="n">Beam</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A beam to be used for transfer map and Twiss computations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;PY&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+        <span class="s1">&#39;PT&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+        <span class="s1">&#39;PZ&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+        <span class="s1">&#39;PP&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+        <span class="s1">&#39;PX&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+        <span class="s1">&#39;PD&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+        <span class="s1">&#39;YR&#39;</span><span class="p">:</span> <span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="p">],</span> <span class="s1">&#39;Y-coordinate of the reference trajectory&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;TR&#39;</span><span class="p">:</span> <span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="p">],</span> <span class="s1">&#39;T-coordinate of the reference trajectory&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;ZR&#39;</span><span class="p">:</span> <span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="p">],</span> <span class="s1">&#39;Z-coordinate of the reference trajectory&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PR&#39;</span><span class="p">:</span> <span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="p">],</span> <span class="s1">&#39;P-coordinate of the reference trajectory&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;XR&#39;</span><span class="p">:</span> <span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="p">],</span> <span class="s1">&#39;X-coordinate of the reference trajectory&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;DR&#39;</span><span class="p">:</span> <span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="p">],</span> <span class="s1">&#39;D-coordinate of the reference trajectory&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;ALPHA_Y&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="s1">&#39;BETA_Y&#39;</span><span class="p">:</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">,</span>
+        <span class="s1">&#39;ALPHA_Z&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="s1">&#39;BETA_Z&#39;</span><span class="p">:</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">,</span>
+        <span class="s1">&#39;ALPHA_X&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="s1">&#39;BETA_X&#39;</span><span class="p">:</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">,</span>
+        <span class="s1">&#39;D_Y&#39;</span><span class="p">:</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">,</span>
+        <span class="s1">&#39;D_YP&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;D_Z&#39;</span><span class="p">:</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">,</span>
+        <span class="s1">&#39;D_ZP&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="BeamTwiss.post_init"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamTwiss.html#zgoubidoo.commands.beam.BeamTwiss.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                  <span class="n">betablock</span><span class="p">:</span> <span class="n">_BetaBlock</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">sequence</span><span class="p">:</span> <span class="n">_TwissSequence</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">objet_type</span><span class="p">:</span> <span class="n">_ObjetType</span> <span class="o">=</span> <span class="n">_Objet5</span><span class="p">,</span>
+                  <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            betablock:</span>
+<span class="sd">            sequence:</span>
+<span class="sd">            objet_type:</span>
+<span class="sd">            *args:</span>
+<span class="sd">            **kwargs:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">post_init</span><span class="p">(</span><span class="n">objet_type</span><span class="o">=</span><span class="n">objet_type</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">betablock</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">sequence</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ZgoubidooBeamException</span><span class="p">(</span><span class="s2">&quot;Provide either betablock or sequence, not both.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sequence</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">betablock</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">betablock</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="n">betablock</span>
+        <span class="k">if</span> <span class="n">betablock</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_from_betablock</span><span class="p">(</span><span class="n">betablock</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BeamTwiss.generate_object"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamTwiss.html#zgoubidoo.commands.beam.BeamTwiss.generate_object">[docs]</a>    <span class="k">def</span> <span class="nf">generate_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        TODO</span>
+
+<span class="sd">        Return:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_objet_type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">,</span>
+                                <span class="n">BORO</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span><span class="o">.</span><span class="n">brho</span><span class="p">,</span>
+                                <span class="n">PY</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">PY</span><span class="p">,</span>
+                                <span class="n">PT</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">PT</span><span class="p">,</span>
+                                <span class="n">PZ</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">PZ</span><span class="p">,</span>
+                                <span class="n">PP</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">PP</span><span class="p">,</span>
+                                <span class="n">PX</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">PX</span><span class="p">,</span>
+                                <span class="n">PD</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">PD</span><span class="p">,</span>
+                                <span class="n">YR</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">YR</span><span class="p">,</span>
+                                <span class="n">TR</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">TR</span><span class="p">,</span>
+                                <span class="n">ZR</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ZR</span><span class="p">,</span>
+                                <span class="n">PR</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">PR</span><span class="p">,</span>
+                                <span class="n">XR</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">XR</span><span class="p">,</span>
+                                <span class="n">DR</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">DR</span><span class="p">,</span>
+                                <span class="n">ALPHA_Y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ALPHA_Y</span><span class="p">,</span>
+                                <span class="n">BETA_Y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">BETA_Y</span><span class="p">,</span>
+                                <span class="n">ALPHA_Z</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ALPHA_Z</span><span class="p">,</span>
+                                <span class="n">BETA_Z</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">BETA_Z</span><span class="p">,</span>
+                                <span class="n">ALPHA_X</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ALPHA_X</span><span class="p">,</span>
+                                <span class="n">BETA_X</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">BETA_X</span><span class="p">,</span>
+                                <span class="n">D_Y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">D_Y</span><span class="p">,</span>
+                                <span class="n">D_YP</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">D_YP</span><span class="p">,</span>
+                                <span class="n">D_Z</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">D_Z</span><span class="p">,</span>
+                                <span class="n">D_ZP</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">D_ZP</span><span class="p">,</span>
+                                <span class="p">)</span></div>
+
+<div class="viewcode-block" id="BeamTwiss.from_sequence"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.BeamTwiss.html#zgoubidoo.commands.beam.BeamTwiss.from_sequence">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_sequence</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sequence</span><span class="p">:</span> <span class="n">_TwissSequence</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sequence:</span>
+<span class="sd">            kwargs:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">particle</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">_particules</span><span class="p">,</span> <span class="n">sequence</span><span class="o">.</span><span class="n">particle</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
+            <span class="n">kinematics</span><span class="o">=</span><span class="n">sequence</span><span class="o">.</span><span class="n">kinematics</span><span class="p">,</span>
+            <span class="n">betablock</span><span class="o">=</span><span class="n">sequence</span><span class="o">.</span><span class="n">betablock</span><span class="p">,</span>
+            <span class="n">objet_type</span><span class="o">=</span><span class="n">_Objet5</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

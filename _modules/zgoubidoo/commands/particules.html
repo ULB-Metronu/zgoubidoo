@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>zgoubidoo.commands.particules &mdash; Zgoubidoo 2019.1 documentation</title>
+  <title>zgoubidoo.commands.particules &mdash; Zgoubidoo 2019.4 documentation</title>
   
 
   
@@ -17,33 +17,35 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -57,7 +59,7 @@
             
             
               <div class="version">
-                2019.1
+                2019.4
               </div>
             
           
@@ -85,13 +87,14 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Zgoubi commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../input.html">Working with Zgoubi Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../beam.html">Working with Zgoubidoo beams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Zgoubidoo’s utility modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
@@ -195,10 +198,10 @@
             <span class="n">label1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">label1</span><span class="p">,</span> <span class="n">label2</span><span class="p">,</span> <span class="n">Particule</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        {super().__str__().strip()}</span>
-<span class="s2">        {s.M.to(&#39;MeV_c2&#39;).magnitude:.12e} {s.Q.to(&#39;coulomb&#39;).magnitude:.12e} </span><span class="si">{s.G:.12e}</span><span class="s2"> </span><span class="si">{s.tau:.12e}</span><span class="s2"> 0.0</span>
+<span class="s2">        {self.M.m_as(&#39;MeV_c2&#39;):.12e} {self.Q.m_as(&#39;coulomb&#39;):.12e} </span><span class="si">{self.G:.12e}</span><span class="s2"> </span><span class="si">{self.tau:.12e}</span><span class="s2"> 0.0</span>
 <span class="s2">        &quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
@@ -214,23 +217,60 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">lifetime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Lifetime constant of the particle.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">gyro</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gyromagnetic factor of the particle.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">G</span></div>
 
 
-<div class="viewcode-block" id="Electron"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.Electron.html#zgoubidoo.commands.particules.Electron">[docs]</a><span class="k">class</span> <span class="nc">Electron</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
+<div class="viewcode-block" id="NativeParticuleType"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.NativeParticuleType.html#zgoubidoo.commands.particules.NativeParticuleType">[docs]</a><span class="k">class</span> <span class="nc">NativeParticuleType</span><span class="p">(</span><span class="n">ParticuleType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    TODO</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">NATIVE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        &#39;</span><span class="si">{cls.KEYWORD}</span><span class="s2">&#39; {cls.__name__.upper()}</span>
+<span class="s2">        {cls.__name__.upper()}</span>
+<span class="s2">            &quot;&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="NativeParticule"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.NativeParticule.html#zgoubidoo.commands.particules.NativeParticule">[docs]</a><span class="k">class</span> <span class="nc">NativeParticule</span><span class="p">(</span><span class="n">Particule</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">NativeParticuleType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    TODO</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;NATIVE&#39;</span><span class="p">:</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">NATIVE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        {_Command.__str__(self).strip()}</span>
+<span class="s2">        {self.__class__.__name__.upper()}</span>
+<span class="s2">            &quot;&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Electron"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.Electron.html#zgoubidoo.commands.particules.Electron">[docs]</a><span class="k">class</span> <span class="nc">Electron</span><span class="p">(</span><span class="n">NativeParticule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An electron particle.&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.51099892</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c2</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.60217653e-19</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5109989461</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c2</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.6021766208e-19</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
         <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">((</span><span class="o">-</span><span class="mf">2.0023193043622</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;G factor&#39;</span><span class="p">),</span>
     <span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="Positron"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.Positron.html#zgoubidoo.commands.particules.Positron">[docs]</a><span class="k">class</span> <span class="nc">Positron</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
+<div class="viewcode-block" id="Positron"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.Positron.html#zgoubidoo.commands.particules.Positron">[docs]</a><span class="k">class</span> <span class="nc">Positron</span><span class="p">(</span><span class="n">NativeParticule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A positron particle.&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.51099892</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c2</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.60217653e-19</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5109989461</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c2</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.6021766208e-19</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
         <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">((</span><span class="o">-</span><span class="mf">2.0023193043622</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;G factor&#39;</span><span class="p">),</span>
     <span class="p">}</span></div>
 
@@ -279,7 +319,7 @@
     <span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="Proton"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.Proton.html#zgoubidoo.commands.particules.Proton">[docs]</a><span class="k">class</span> <span class="nc">Proton</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
+<div class="viewcode-block" id="Proton"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.Proton.html#zgoubidoo.commands.particules.Proton">[docs]</a><span class="k">class</span> <span class="nc">Proton</span><span class="p">(</span><span class="n">NativeParticule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A proton particle.&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">938.27203</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c2</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
@@ -306,6 +346,14 @@
     <span class="p">}</span></div>
 
 
+<div class="viewcode-block" id="Ion"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.Ion.html#zgoubidoo.commands.particules.Ion">[docs]</a><span class="k">class</span> <span class="nc">Ion</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for ion particles.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Ion.charge_state"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.Ion.html#zgoubidoo.commands.particules.Ion.charge_state">[docs]</a>    <span class="k">def</span> <span class="nf">charge_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Modify the charge state of the ion.&quot;&quot;&quot;</span>
+        <span class="c1"># TODO</span>
+        <span class="k">pass</span></div></div>
+
+
 <div class="viewcode-block" id="HeliumIon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.HeliumIon.html#zgoubidoo.commands.particules.HeliumIon">[docs]</a><span class="k">class</span> <span class="nc">HeliumIon</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A fully stripped Helium ion&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
@@ -317,6 +365,15 @@
 
 <div class="viewcode-block" id="CarbonIon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.CarbonIon.html#zgoubidoo.commands.particules.CarbonIon">[docs]</a><span class="k">class</span> <span class="nc">CarbonIon</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A fully stripped Carbon ion&quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="OxygenIon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.OxygenIon.html#zgoubidoo.commands.particules.OxygenIon">[docs]</a><span class="k">class</span> <span class="nc">OxygenIon</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A fully stripped Oxygen ion&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
         <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
@@ -340,6 +397,16 @@
         <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
         <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
     <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="XenonIon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.XenonIon.html#zgoubidoo.commands.particules.XenonIon">[docs]</a><span class="k">class</span> <span class="nc">XenonIon</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A fully stripped Sulfur ion&quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+    <span class="p">}</span></div>
+
 </pre></div>
 
            </div>
@@ -369,26 +436,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

@@ -1,0 +1,590 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>zgoubidoo.outputs &mdash; Zgoubidoo 2019.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2019.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../news.html">News and announcements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingstarted.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>zgoubidoo.outputs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for zgoubidoo.outputs</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;TODO</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
+
+<span class="n">_ZGOUBI_PLT_HEADERS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;# KEX&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;Do-1&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;Yo&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;To&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;Zo&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;Po&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;So&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;to&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;D-1&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;Y-DY&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;T&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;Z&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;P&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;S&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;time&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;beta&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;DS&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;KART&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;IT&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;IREP&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;SORT&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;X&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;BX&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;BY&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;BZ&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;RET&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;DPR&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;PS&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;SXo&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;SYo&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;SZo&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;modSo&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;SX&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;SY&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;SZ&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;modS&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;EX&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;EY&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;EZ&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;BORO&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;IPASS&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;NOEL&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;KLEY&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;LABEL1&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;LABEL2&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;LET&#39;</span>
+                       <span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;Headers of the Zgoubi .plt files.&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="read_fai_file"><a class="viewcode-back" href="../../lowlevel.html#zgoubidoo.outputs.read_fai_file">[docs]</a><span class="k">def</span> <span class="nf">read_fai_file</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;zgoubi.fai&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Function to read Zgoubi .fai files.</span>
+
+<span class="sd">    Reads the content of a Zgoubi .fai file (&#39;faisceau&#39;, &#39;beam&#39; file) and formats it as a valid Pandas DataFrame with</span>
+<span class="sd">    headers.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; read_fai_file()</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename: the name of the file</span>
+<span class="sd">        path: the path to the .fai file</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a Pandas DataFrame with the .fai file content.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        a FileNotFoundError in case the file is not found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Header line from the Zgoubi .fai file</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">),</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">_pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span>
+                        <span class="n">skiprows</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                        <span class="n">names</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                        <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span>
+                        <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">quotechar</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+                        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="read_plt_file"><a class="viewcode-back" href="../../lowlevel.html#zgoubidoo.outputs.read_plt_file">[docs]</a><span class="k">def</span> <span class="nf">read_plt_file</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;zgoubi.plt&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Function to read Zgoubi .plt files.</span>
+
+<span class="sd">    Reads the content of a Zgoubi .plt file (&#39;plot&#39; file) and formats it as a valid Pandas DataFrame with headers.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        each coordinate is converted from the Zgoubi internal unit system onto the SI system. This means, in particular,</span>
+<span class="sd">        that the positions are in meters and the angles in mrad.</span>
+
+<span class="sd">    The special columns have the following meaning:</span>
+<span class="sd">        - *LET*: one character string (for tagging (groups of) particles)</span>
+<span class="sd">        - *IREP* is an index which indicates a symmetry with respect to the median plane. For instance,</span>
+<span class="sd">        if Z(I + 1) = −Z(I), then normally IREP(I + 1) = IREP(I ). Consequently the coordinates of particle I + 1</span>
+<span class="sd">        will not be obtained from ray-tracing but instead deduced from those of particle I by simple symmetry.</span>
+<span class="sd">        This saves on computing time.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; read_plt_file()</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename: the name of the file</span>
+<span class="sd">        path: the path to the .plt file</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a Pandas DataFrame with the .plt file content.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        a FileNotFoundError in case the file is not found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Header line from the Zgoubi .plt file</span>
+    <span class="k">if</span> <span class="n">_ZGOUBI_PLT_HEADERS</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="n">_ZGOUBI_PLT_HEADERS</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">),</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)))</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span>
+                      <span class="n">skiprows</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                      <span class="n">names</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                      <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span>
+                      <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                      <span class="n">quotechar</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+                      <span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;LABEL1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;LABEL1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e-2</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e-2</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-2</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Y-DY&#39;</span><span class="p">]</span>
+        <span class="k">del</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Y-DY&#39;</span><span class="p">]</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e-3</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e-2</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e-3</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Yo&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e-2</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;To&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e-3</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Zo&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e-2</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Po&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e-3</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;KEX&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;# KEX&#39;</span><span class="p">]</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Do&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Do-1&#39;</span><span class="p">]</span>
+        <span class="k">del</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Do-1&#39;</span><span class="p">]</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;KEYWORD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;KLEY&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;# KEX&#39;</span><span class="p">]</span>
+        <span class="k">del</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;KLEY&#39;</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span>
+                          <span class="n">skiprows</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                          <span class="n">names</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                          <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span>
+                          <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                          <span class="n">quotechar</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+                          <span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="read_srloss_file"><a class="viewcode-back" href="../../lowlevel.html#zgoubidoo.outputs.read_srloss_file">[docs]</a><span class="k">def</span> <span class="nf">read_srloss_file</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;zgoubi.SRLOSS.out&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Read Zgoubi SRLOSS files to a DataFrame.</span>
+
+<span class="sd">    Reads the content of a Zgoubi SRLOSS (synchrotron radiation losses) file (produced with SRPrint) and formats it as a</span>
+<span class="sd">    valid Pandas DataFrame with headers.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; read_srloss_file()</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename: the name of the file</span>
+<span class="sd">        path: the path to the SRLOSS file</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a Pandas DataFrame with the SRLOSS file content.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        a FileNotFoundException in case the file is not found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">headers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;KLE&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;LABEL1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;LABEL2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;NOEL&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;IPASS&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;BORO&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;DPREF&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;AM&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Q&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;G&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;IMAX&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;PI*EMIT(1)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ALP(1)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;BET(1)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;XM(1)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;XPM(1)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;NLIV(1)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;NINL(1)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;RATIN(1)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;PI*EMIT(2)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ALP(2)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;BET(2)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;XM(2)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;XPM(2)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;NLIV(2)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;NINL(2)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;RATIN(2)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;PI*EMIT(3)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ALP(3)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;BET(3)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;XM(3)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;XPM(3)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;NLIV(3)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;NINL(3)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;RATIN(3)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;DE_LOCAL&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;SIGE_LOCAL&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;DE_AVG_THEO&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;E_AVG_PHOTON&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;E_RMS_PHOTON&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span>
+                      <span class="n">skiprows</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                      <span class="n">names</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                      <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span>
+                      <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                      <span class="n">quotechar</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+                      <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="read_srloss_steps_file"><a class="viewcode-back" href="../../lowlevel.html#zgoubidoo.outputs.read_srloss_steps_file">[docs]</a><span class="k">def</span> <span class="nf">read_srloss_steps_file</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;zgoubi.SRLOSS.STEPS.out&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Read Zgoubi SRLOSS STEPS files to a DataFrame.</span>
+
+<span class="sd">    Reads the content of a Zgoubi SRLOSS STEPS (synchrotron radiation losses for each integration steps) file</span>
+<span class="sd">    (produced with SRPrint) and formats it as a valid Pandas DataFrame with headers.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; read_srloss_steps_file()</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename: the name of the file</span>
+<span class="sd">        path: the path to the SRLOSS STEPS file</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a Pandas DataFrame with the SRLOSS STEPS file content.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        a FileNotFoundException in case the file is not found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">headers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;LABEL1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;NOEL&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;IT&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;K&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;E&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;S&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;X&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Y&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Z&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;T&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;P&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span>
+                      <span class="n">skiprows</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                      <span class="n">names</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                      <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span>
+                      <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                      <span class="n">quotechar</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+                      <span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e-2</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e-2</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e-2</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">1e-2</span>
+
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="read_matrix_file"><a class="viewcode-back" href="../../lowlevel.html#zgoubidoo.outputs.read_matrix_file">[docs]</a><span class="k">def</span> <span class="nf">read_matrix_file</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;zgoubi.MATRIX.out&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Read Zgoubi MATRIX files to a DataFrame.</span>
+
+<span class="sd">    Reads the content of a Zgoubi matrix file (output from a Twiss command) and formats it as a valid Pandas</span>
+<span class="sd">    DataFrame with headers.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        the resulting DataFrame uses SI units.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; read_matrix_file()</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename: the name of the file</span>
+<span class="sd">        path: the path to the zgoubi.MATRIX.out file</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a Pandas DataFrame with the zgoubi.MATRIX.out file content.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        a FileNotFoundError in case the file is not found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Cleaned up header lines</span>
+    <span class="n">headers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;R11&#39;</span><span class="p">,</span> <span class="s1">&#39;R12&#39;</span><span class="p">,</span> <span class="s1">&#39;R13&#39;</span><span class="p">,</span> <span class="s1">&#39;R14&#39;</span><span class="p">,</span> <span class="s1">&#39;R15&#39;</span><span class="p">,</span> <span class="s1">&#39;R16&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;R21&#39;</span><span class="p">,</span> <span class="s1">&#39;R22&#39;</span><span class="p">,</span> <span class="s1">&#39;R23&#39;</span><span class="p">,</span> <span class="s1">&#39;R24&#39;</span><span class="p">,</span> <span class="s1">&#39;R25&#39;</span><span class="p">,</span> <span class="s1">&#39;R26&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;R31&#39;</span><span class="p">,</span> <span class="s1">&#39;R32&#39;</span><span class="p">,</span> <span class="s1">&#39;R33&#39;</span><span class="p">,</span> <span class="s1">&#39;R34&#39;</span><span class="p">,</span> <span class="s1">&#39;R35&#39;</span><span class="p">,</span> <span class="s1">&#39;R36&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;R41&#39;</span><span class="p">,</span> <span class="s1">&#39;R42&#39;</span><span class="p">,</span> <span class="s1">&#39;R43&#39;</span><span class="p">,</span> <span class="s1">&#39;R44&#39;</span><span class="p">,</span> <span class="s1">&#39;R45&#39;</span><span class="p">,</span> <span class="s1">&#39;R46&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;R51&#39;</span><span class="p">,</span> <span class="s1">&#39;R52&#39;</span><span class="p">,</span> <span class="s1">&#39;R53&#39;</span><span class="p">,</span> <span class="s1">&#39;R54&#39;</span><span class="p">,</span> <span class="s1">&#39;R55&#39;</span><span class="p">,</span> <span class="s1">&#39;R56&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;R61&#39;</span><span class="p">,</span> <span class="s1">&#39;R62&#39;</span><span class="p">,</span> <span class="s1">&#39;R63&#39;</span><span class="p">,</span> <span class="s1">&#39;R64&#39;</span><span class="p">,</span> <span class="s1">&#39;R65&#39;</span><span class="p">,</span> <span class="s1">&#39;R66&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ALFY&#39;</span><span class="p">,</span> <span class="s1">&#39;BETY&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ALFZ&#39;</span><span class="p">,</span> <span class="s1">&#39;BETZ&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;DY&#39;</span><span class="p">,</span> <span class="s1">&#39;DYP&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;DZ&#39;</span><span class="p">,</span> <span class="s1">&#39;DZP&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;PHIY&#39;</span><span class="p">,</span> <span class="s1">&#39;PHIZ&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;F(1IREF)&#39;</span><span class="p">,</span> <span class="s1">&#39;F(2IREF)&#39;</span><span class="p">,</span> <span class="s1">&#39;F(3IREF)&#39;</span><span class="p">,</span> <span class="s1">&#39;F(4IREF)&#39;</span><span class="p">,</span> <span class="s1">&#39;F(5IREF)&#39;</span><span class="p">,</span> <span class="s1">&#39;F(6IREF)&#39;</span><span class="p">,</span> <span class="s1">&#39;F(7IREF)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;CMUY&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;CMUZ&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;QY&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;QZ&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;XCE&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;YCE&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ALE&#39;</span>
+    <span class="p">]</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span>
+                      <span class="n">skiprows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                      <span class="n">names</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                      <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span>
+                      <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                      <span class="n">quotechar</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+                      <span class="p">)</span>
+
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ALPHA11&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ALFY&#39;</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;BETA11&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;BETY&#39;</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;GAMMA11&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ALPHA11&#39;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;BETA11&#39;</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ALPHA22&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ALFZ&#39;</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;BETA22&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;BETZ&#39;</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;GAMMA22&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ALPHA22&#39;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;BETA22&#39;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="read_optics_file"><a class="viewcode-back" href="../../lowlevel.html#zgoubidoo.outputs.read_optics_file">[docs]</a><span class="k">def</span> <span class="nf">read_optics_file</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;zgoubi.OPTICS.out&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Read Zgoubi OPTICS files to a DataFrame.</span>
+
+<span class="sd">    Reads the content of a Zgoubi optics file (output from a Optics) and formats it as a valid Pandas</span>
+<span class="sd">    DataFrame with headers.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        the resulting DataFrame uses SI units.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; read_optcs_file()</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename: the name of the file</span>
+<span class="sd">        path: the path to the zgoubi.OPTICS.out file</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a Pandas DataFrame with the zgoubi.OPTICS.out file content.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        a FileNotFoundError in case the file is not found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Cleaned up header lines</span>
+    <span class="n">headers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;ALPHA11&#39;</span><span class="p">,</span> <span class="s1">&#39;BETA11&#39;</span><span class="p">,</span> <span class="s1">&#39;ALPHA22&#39;</span><span class="p">,</span> <span class="s1">&#39;BETA22&#39;</span><span class="p">,</span> <span class="s1">&#39;ALPHA33&#39;</span><span class="p">,</span> <span class="s1">&#39;BETA33&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;DISP1&#39;</span><span class="p">,</span> <span class="s1">&#39;DISP2&#39;</span><span class="p">,</span> <span class="s1">&#39;DISP3&#39;</span><span class="p">,</span> <span class="s1">&#39;DISP4&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;MU1&#39;</span><span class="p">,</span> <span class="s1">&#39;MU2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="s1">&#39;ELEMENT&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;KEYWORD&#39;</span><span class="p">,</span> <span class="s1">&#39;LABEL1&#39;</span><span class="p">,</span> <span class="s1">&#39;LABEL2&#39;</span><span class="p">,</span> <span class="s1">&#39;FO&#39;</span><span class="p">,</span> <span class="s1">&#39;K0&#39;</span><span class="p">,</span> <span class="s1">&#39;K1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;K2&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="s1">&#39;optimp.f&#39;</span><span class="p">,</span> <span class="s1">&#39;IPASS&#39;</span><span class="p">,</span> <span class="s1">&#39;frac&#39;</span><span class="p">,</span> <span class="s1">&#39;int&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;R11&#39;</span><span class="p">,</span> <span class="s1">&#39;R12&#39;</span><span class="p">,</span> <span class="s1">&#39;R21&#39;</span><span class="p">,</span> <span class="s1">&#39;R22&#39;</span><span class="p">,</span> <span class="s1">&#39;R33&#39;</span><span class="p">,</span> <span class="s1">&#39;R34&#39;</span><span class="p">,</span> <span class="s1">&#39;R43&#39;</span><span class="p">,</span> <span class="s1">&#39;R44&#39;</span><span class="p">,</span> <span class="s1">&#39;R51&#39;</span><span class="p">,</span> <span class="s1">&#39;R52&#39;</span><span class="p">,</span> <span class="s1">&#39;R53&#39;</span><span class="p">,</span> <span class="s1">&#39;R54&#39;</span><span class="p">,</span> <span class="s1">&#39;R56&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;UNKNOWN1&#39;</span><span class="p">,</span> <span class="s1">&#39;UNKNOWN2&#39;</span><span class="p">,</span> <span class="s1">&#39;UNKNOWN3&#39;</span><span class="p">,</span> <span class="s1">&#39;UNKWOWN4&#39;</span><span class="p">,</span> <span class="s1">&#39;UNKNOWN5&#39;</span><span class="p">,</span> <span class="s1">&#39;UNKNOWN6&#39;</span><span class="p">,</span> <span class="s1">&#39;UNKNOWN7&#39;</span>
+    <span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span>
+                      <span class="n">skiprows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                      <span class="n">names</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                      <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span>
+                      <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                      <span class="n">quotechar</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+                      <span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

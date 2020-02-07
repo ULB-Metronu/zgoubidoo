@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>brho_to_momentum &mdash; Zgoubidoo 2019.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="brho_to_pv" href="georges_core.kinematics.brho_to_pv.html" />
+    <link rel="prev" title="brho_to_gamma" href="georges_core.kinematics.brho_to_gamma.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2019.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../news.html">News and announcements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html#module-georges_core.frame">Affine geometry using the frame module</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../utilities.html#module-georges_core.kinematics">Accelerator physics and relativity calculations using the physics module</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../utilities.html#functions">Functions</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.beta_to_brho.html">beta_to_brho</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.beta_to_ekin.html">beta_to_ekin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.beta_to_etot.html">beta_to_etot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.beta_to_gamma.html">beta_to_gamma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.beta_to_momentum.html">beta_to_momentum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.beta_to_pv.html">beta_to_pv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.beta_to_range.html">beta_to_range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.brho_to_beta.html">brho_to_beta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.brho_to_ekin.html">brho_to_ekin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.brho_to_gamma.html">brho_to_gamma</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">brho_to_momentum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.brho_to_pv.html">brho_to_pv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.brho_to_range.html">brho_to_range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.ekin_to_beta.html">ekin_to_beta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.ekin_to_brho.html">ekin_to_brho</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.ekin_to_etot.html">ekin_to_etot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.ekin_to_gamma.html">ekin_to_gamma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.ekin_to_momentum.html">ekin_to_momentum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.ekin_to_pv.html">ekin_to_pv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.ekin_to_range.html">ekin_to_range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.etot_to_beta.html">etot_to_beta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.etot_to_brho.html">etot_to_brho</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.etot_to_ekin.html">etot_to_ekin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.etot_to_gamma.html">etot_to_gamma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.etot_to_momentum.html">etot_to_momentum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.etot_to_pv.html">etot_to_pv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.etot_to_range.html">etot_to_range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.gamma_to_beta.html">gamma_to_beta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.gamma_to_brho.html">gamma_to_brho</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.gamma_to_ekin.html">gamma_to_ekin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.gamma_to_etot.html">gamma_to_etot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.gamma_to_momentum.html">gamma_to_momentum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.gamma_to_pv.html">gamma_to_pv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.gamma_to_range.html">gamma_to_range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.momentum_to_beta.html">momentum_to_beta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.momentum_to_brho.html">momentum_to_brho</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.momentum_to_ekin.html">momentum_to_ekin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.momentum_to_etot.html">momentum_to_etot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.momentum_to_gamma.html">momentum_to_gamma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.momentum_to_pv.html">momentum_to_pv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.momentum_to_range.html">momentum_to_range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.range_to_beta.html">range_to_beta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.range_to_brho.html">range_to_brho</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.range_to_ekin.html">range_to_ekin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.range_to_gamma.html">range_to_gamma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.range_to_momentum.html">range_to_momentum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.range_to_pv.html">range_to_pv</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities.html#id1">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities.html#id2">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html#module-zgoubidoo.units">Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html#module-zgoubidoo.polarity">Polarity type system</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../utilities.html">Zgoubidoo’s utility modules</a> &raquo;</li>
+        
+      <li>brho_to_momentum</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/georges_core.kinematics.brho_to_momentum.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="brho-to-momentum">
+<h1>brho_to_momentum<a class="headerlink" href="#brho-to-momentum" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="georges_core.kinematics.brho_to_momentum">
+<code class="descclassname">georges_core.kinematics.</code><code class="descname">brho_to_momentum</code><span class="sig-paren">(</span><em>brho: _Q</em>, <em>particle: _ParticuleType = &lt;class 'georges_core.particles.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; _Q<a class="reference internal" href="../_modules/georges_core/kinematics.html#brho_to_momentum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.brho_to_momentum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts magnetic rigidity (brho) to momentum.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">momentum_to_brho</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;tesla * meter&#39;</span><span class="p">)</span>
+<span class="go">&lt;Quantity(0.33356409519815206, &#39;meter * tesla&#39;)&gt;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>brho</strong> – magnetic rigidity</li>
+<li><strong>particle</strong> – the particle type (default: proton)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="georges_core.kinematics.brho_to_pv.html" class="btn btn-neutral float-right" title="brho_to_pv" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="georges_core.kinematics.brho_to_gamma.html" class="btn btn-neutral float-left" title="brho_to_gamma" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

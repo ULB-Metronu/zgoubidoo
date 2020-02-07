@@ -1,8 +1,0 @@
-<map id="inheritancec66b31d56e" name="inheritancec66b31d56e">
-<area shape="rect" id="node1" href="api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" target="_top" title="Test test test." alt="" coords="5,101,88,125"/>
-<area shape="rect" id="node2" href="api/zgoubidoo.commands.spin.SpinRotation.html#zgoubidoo.commands.spin.SpinRotation" target="_top" title="Spin rotation." alt="" coords="136,5,234,29"/>
-<area shape="rect" id="node3" href="api/zgoubidoo.commands.spin.SpinStore.html#zgoubidoo.commands.spin.SpinStore" target="_top" title="Store spin coordinates every IP other pass at labeled elements." alt="" coords="145,53,225,77"/>
-<area shape="rect" id="node4" href="api/zgoubidoo.commands.spin.SpnPrt.html#zgoubidoo.commands.spin.SpnPrt" target="_top" title="Print spin coordinates." alt="" coords="149,101,221,125"/>
-<area shape="rect" id="node5" href="api/zgoubidoo.commands.spin.SpnTrk.html#zgoubidoo.commands.spin.SpnTrk" target="_top" title="Spin tracking." alt="" coords="149,149,221,173"/>
-<area shape="rect" id="node6" href="api/zgoubidoo.commands.spin.Spnprnl.html#zgoubidoo.commands.spin.Spnprnl" target="_top" title="Store spin coordinates into file FNAME." alt="" coords="149,197,221,221"/>
-</map>

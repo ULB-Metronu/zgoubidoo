@@ -1,0 +1,356 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Physics with Zgoubidoo high-level interfaces &mdash; Zgoubidoo 2019.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="BetaBlock" href="api/georges_core.sequences.BetaBlock.html" />
+    <link rel="prev" title="FieldMap" href="api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2019.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="news.html">News and announcements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contrib.html">Zgoubidoo specialized and contributed commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Physics with Zgoubidoo high-level interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-georges_core.sequences">Sequences</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/georges_core.sequences.BetaBlock.html">BetaBlock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/georges_core.sequences.BetaBlockType.html">BetaBlockType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/georges_core.sequences.Element.html">Element</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/georges_core.sequences.ElementClass.html">ElementClass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/georges_core.sequences.PlacementSequence.html">PlacementSequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/georges_core.sequences.Sequence.html">Sequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/georges_core.sequences.SequenceException.html">SequenceException</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/georges_core.sequences.SequenceMetadata.html">SequenceMetadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/georges_core.sequences.TransportSequence.html">TransportSequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/georges_core.sequences.TwissSequence.html">TwissSequence</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.commands.beam">Beams</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.beam.Beam.html">Beam</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.beam.BeamInputDistribution.html">BeamInputDistribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.beam.BeamTwiss.html">BeamTwiss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.beam.BeamType.html">BeamType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.beam.BeamZgoubiDistribution.html">BeamZgoubiDistribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.beam.ZgoubidooBeamException.html">ZgoubidooBeamException</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Physics with Zgoubidoo high-level interfaces</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/physics.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-zgoubidoo.physics">
+<span id="physics-with-zgoubidoo-high-level-interfaces"></span><h1>Physics with Zgoubidoo high-level interfaces<a class="headerlink" href="#module-zgoubidoo.physics" title="Permalink to this headline">¶</a></h1>
+<p>High-level interface (API) for Zgoubi.</p>
+<p>The high-level API adds a level of abstraction on top of low-level API (using <cite>Input</cite> and <cite>Command</cite>).</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#module-georges_core.sequences" id="id3">Sequences</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.commands.beam" id="id4">Beams</a></li>
+</ul>
+</div>
+<div class="section" id="module-georges_core.sequences">
+<span id="sequences"></span><h2><a class="toc-backref" href="#id3">Sequences</a><a class="headerlink" href="#module-georges_core.sequences" title="Permalink to this headline">¶</a></h2>
+<p>TODO</p>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api/georges_core.sequences.BetaBlock.html#georges_core.sequences.BetaBlock" title="georges_core.sequences.BetaBlock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BetaBlock</span></code></a>(beta11,&nbsp;)&gt;,&nbsp;alpha11,&nbsp;gamma11,&nbsp;…)</td>
+<td>TODO</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/georges_core.sequences.BetaBlockType.html#georges_core.sequences.BetaBlockType" title="georges_core.sequences.BetaBlockType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BetaBlockType</span></code></a></td>
+<td>TODO</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/georges_core.sequences.Element.html#georges_core.sequences.Element" title="georges_core.sequences.Element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Element</span></code></a>(name,&nbsp;**kwargs)</td>
+<td>TODO</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/georges_core.sequences.ElementClass.html#georges_core.sequences.ElementClass" title="georges_core.sequences.ElementClass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElementClass</span></code></a>(name,&nbsp;bases,&nbsp;Tuple[type],&nbsp;…)</td>
+<td>TODO</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/georges_core.sequences.PlacementSequence.html#georges_core.sequences.PlacementSequence" title="georges_core.sequences.PlacementSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PlacementSequence</span></code></a>(name,&nbsp;data,&nbsp;…)</td>
+<td>Placement Sequence.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/georges_core.sequences.Sequence.html#georges_core.sequences.Sequence" title="georges_core.sequences.Sequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sequence</span></code></a>(name[,&nbsp;data])</td>
+<td>Sequence.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/georges_core.sequences.SequenceException.html#georges_core.sequences.SequenceException" title="georges_core.sequences.SequenceException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SequenceException</span></code></a>(m)</td>
+<td>Exception raised for errors when using zgoubidoo.Sequence</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/georges_core.sequences.SequenceMetadata.html#georges_core.sequences.SequenceMetadata" title="georges_core.sequences.SequenceMetadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SequenceMetadata</span></code></a>(data,&nbsp;kinematics,&nbsp;particle,&nbsp;…)</td>
+<td>TODO</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/georges_core.sequences.TransportSequence.html#georges_core.sequences.TransportSequence" title="georges_core.sequences.TransportSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TransportSequence</span></code></a>(filename,&nbsp;path,&nbsp;flavor)</td>
+<td>TODO</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/georges_core.sequences.TwissSequence.html#georges_core.sequences.TwissSequence" title="georges_core.sequences.TwissSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TwissSequence</span></code></a>(filename,&nbsp;path,&nbsp;*,&nbsp;columns,&nbsp;…)</td>
+<td>TODO</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="class-inheritance-diagram">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h3>
+<div class="graphviz"><img src="_images/inheritance-a9eac988b290ec91e70964bb0f40cafa04f923db.png" alt="Inheritance diagram of georges_core.sequences.betablock.BetaBlock, georges_core.sequences.betablock.BetaBlockType, georges_core.sequences.elements.Element, georges_core.sequences.elements.ElementClass, georges_core.sequences.sequence.PlacementSequence, georges_core.sequences.sequence.Sequence, georges_core.sequences.sequence.SequenceException, georges_core.sequences.sequence.SequenceMetadata, georges_core.sequences.sequence.TransportSequence, georges_core.sequences.sequence.TwissSequence" class="inheritance graphviz" /></div>
+</div>
+</div>
+<div class="section" id="module-zgoubidoo.commands.beam">
+<span id="beams"></span><h2><a class="toc-backref" href="#id4">Beams</a><a class="headerlink" href="#module-zgoubidoo.commands.beam" title="Permalink to this headline">¶</a></h2>
+<p>Zgoubidoo beam.</p>
+<div class="section" id="id1">
+<h3>Classes<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.beam.Beam.html#zgoubidoo.commands.beam.Beam" title="zgoubidoo.commands.beam.Beam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Beam</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<td><p class="rubric">Command attributes</p>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution" title="zgoubidoo.commands.beam.BeamInputDistribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BeamInputDistribution</span></code></a>(label1,&nbsp;label2,&nbsp;…)</td>
+<td>A beam using an explicit beam distribution.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.beam.BeamTwiss.html#zgoubidoo.commands.beam.BeamTwiss" title="zgoubidoo.commands.beam.BeamTwiss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BeamTwiss</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<td>A beam to be used for transfer map and Twiss computations.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.beam.BeamType.html#zgoubidoo.commands.beam.BeamType" title="zgoubidoo.commands.beam.BeamType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BeamType</span></code></a>(name,&nbsp;bases,&nbsp;…],&nbsp;dct,&nbsp;Any])</td>
+<td>Type system for Objet types.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.beam.BeamZgoubiDistribution.html#zgoubidoo.commands.beam.BeamZgoubiDistribution" title="zgoubidoo.commands.beam.BeamZgoubiDistribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BeamZgoubiDistribution</span></code></a>(label1,&nbsp;label2,&nbsp;…)</td>
+<td>TODO</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.beam.ZgoubidooBeamException.html#zgoubidoo.commands.beam.ZgoubidooBeamException" title="zgoubidoo.commands.beam.ZgoubidooBeamException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZgoubidooBeamException</span></code></a>(m)</td>
+<td>Exception raised for errors when running Zgoubi.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id2">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="graphviz"><img src="_images/inheritance-a694c5ded6c1a5d12a89498a66c5ebcc6847c060.png" alt="Inheritance diagram of zgoubidoo.commands.beam.Beam, zgoubidoo.commands.beam.BeamInputDistribution, zgoubidoo.commands.beam.BeamTwiss, zgoubidoo.commands.beam.BeamType, zgoubidoo.commands.beam.BeamZgoubiDistribution, zgoubidoo.commands.beam.ZgoubidooBeamException" usemap="#inheritance807b3a38ad" class="inheritance graphviz" /></div>
+<map id="inheritance807b3a38ad" name="inheritance807b3a38ad">
+<area shape="rect" id="node1" href="api/zgoubidoo.commands.beam.Beam.html#zgoubidoo.commands.beam.Beam" target="_top" title="Beam" alt="" coords="238,101,310,125"/>
+<area shape="rect" id="node3" href="api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution" target="_top" title="A beam using an explicit beam distribution." alt="" coords="370,53,522,77"/>
+<area shape="rect" id="node4" href="api/zgoubidoo.commands.beam.BeamTwiss.html#zgoubidoo.commands.beam.BeamTwiss" target="_top" title="A beam to be used for transfer map and Twiss computations." alt="" coords="401,101,491,125"/>
+<area shape="rect" id="node7" href="api/zgoubidoo.commands.beam.BeamZgoubiDistribution.html#zgoubidoo.commands.beam.BeamZgoubiDistribution" target="_top" title="TODO" alt="" coords="364,149,528,173"/>
+<area shape="rect" id="node2" href="api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" target="_top" title="Test test test." alt="" coords="53,101,136,125"/>
+<area shape="rect" id="node5" href="api/zgoubidoo.commands.beam.BeamType.html#zgoubidoo.commands.beam.BeamType" target="_top" title="Type system for Objet types." alt="" coords="231,53,316,77"/>
+<area shape="rect" id="node6" href="api/zgoubidoo.commands.commands.CommandType.html#zgoubidoo.commands.commands.CommandType" target="_top" title="Dark magic." alt="" coords="38,53,150,77"/>
+<area shape="rect" id="node8" href="api/zgoubidoo.commands.beam.ZgoubidooBeamException.html#zgoubidoo.commands.beam.ZgoubidooBeamException" target="_top" title="Exception raised for errors when running Zgoubi." alt="" coords="5,5,183,29"/>
+</map></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="api/georges_core.sequences.BetaBlock.html" class="btn btn-neutral float-right" title="BetaBlock" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html" class="btn btn-neutral float-left" title="FieldMap" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

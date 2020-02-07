@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Multipole &mdash; Zgoubidoo 2019.1 documentation</title>
+  <title>Multipole &mdash; Zgoubidoo 2019.4 documentation</title>
   
 
   
@@ -17,35 +17,37 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Octupole" href="zgoubidoo.commands.magnetique.Octupole.html" />
-    <link rel="prev" title="MagnetType" href="zgoubidoo.commands.magnetique.MagnetType.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+    <link rel="prev" title="Multipol" href="zgoubidoo.commands.magnetique.Multipol.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -59,7 +61,7 @@
             
             
               <div class="version">
-                2019.1
+                2019.4
               </div>
             
           
@@ -87,6 +89,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../commands.html">Zgoubi commands</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands">Zgoubidoo’s class hierarchy and bases classes for new commands</a></li>
@@ -108,17 +111,19 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Dipoles.html">Dipoles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Dodecapole.html">Dodecapole</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Drift.html">Drift</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.ESL.html">ESL</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Emma.html">Emma</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.FFAG.html">FFAG</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.FFAGSpirale.html">FFAGSpirale</a></li>
-<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.FakeDrift.html">FakeDrift</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Magnet.html">Magnet</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.MagnetType.html">MagnetType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Multipol.html">Multipol</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Multipole</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Octupole.html">Octupole</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.PS170.html">PS170</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.PolarMagnet.html">PolarMagnet</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.PolarMagnetType.html">PolarMagnetType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.PolarMultiMagnet.html">PolarMultiMagnet</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Quadisex.html">Quadisex</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Quadrupole.html">Quadrupole</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.SexQuad.html">SexQuad</a></li>
@@ -134,13 +139,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.electrique">Electric elements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.fieldmaps">Field-map elements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.spin">Spin tracking commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.radiation">Synchrotron radiation commands</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../beam.html">Working with Zgoubidoo beams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
@@ -217,7 +223,28 @@
 <em class="property">class </em><code class="descclassname">zgoubidoo.commands.magnetique.</code><code class="descname">Multipole</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#Multipole"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.Multipole" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet" title="zgoubidoo.commands.magnetique.CartesianMagnet"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.magnetique.CartesianMagnet</span></code></a></p>
 <p>Magnetic multipole.</p>
-<p>TODO</p>
+<p class="rubric">Zgoubi manual description</p>
+<p>The simulation of multipolar magnetic field M⃗ by MULTIPOL proceeds by addition of the dipolar (B1),
+quadrupolar (B2), sextupolar (B3), etc., up to 20-polar (B10) components, and of their derivatives up to fourth
+order.</p>
+<p>The independent components B1, B2, B3, …, B10 and their derivatives up to the fourth order are calculated as
+described in section 1.3.7.</p>
+<p>The entrance and exit fringe fields are treated separately. They are characterized by the integration zone XE at
+entrance and XS at exit, as for QUADRUPO, and by the extent λE at entrance, λS at exit. The fringe field extents
+for the dipole component are λE and λS. The fringe field for the quadrupolar (sextupolar, …, 20-polar) component
+is given by a coefficient E2 (E3, …, E10) at entrance, and S2 (S3, …, S10) at exit, such that the extent is
+λE * E2 (λE * E3, …, λE * E10) at entrance and λS * S2 (λS * S3, …, λS * S10) at exit.</p>
+<p>If λE = 0 (λS = 0) the multipole lens is considered to have a sharp edge field at entrance (exit), and then,
+XE (XS) is forced to zero (for the mere purpose of saving computing time). If Ei = 0 (Si = 0) (i = 2, 10), the
+entrance (exit) fringe field for the multipole component i is considered as a sharp edge field. In sharp edge field
+model, the wedge angle vertical first order focusing effect (if B1 is non zero) is simulated at magnet entrance and
+exit by a kick P2 = P1 − Z1 tan(ε/ρ) applied to each particle (P1, P2 are the vertical angles upstream and
+downstream of the EFB, Z1 is the vertical particle position at the EFB, ρ the local horizontal bending radius and
+ε the wedge angle experienced by the particle ; ε depends on the horizontal angle T).</p>
+<p>Any multipole component Bi can be rotated independently by an angle RXi around the longitudinal X- axis, for the
+simulation of positioning defects, as well as skew lenses.</p>
+<p>Magnet (mis-)alignment is assured by KPOS. KPOS also allows some degrees of automatic alignment useful for periodic
+structures (section 4.6.7).</p>
 <p class="rubric">Command attributes</p>
 <dl class="attribute">
 <dt>
@@ -250,11 +277,40 @@
 <dl class="attribute">
 <dt>
 <code class="descname">HEIGHT='20 centimeter'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Height of the magnet (distance between poles), used by plotting functions.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">REFERENCE_FIELD_COMPONENT='BZ'</code></dt>
+<dd><p>Orientation of the reference field (used by field maps)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">KINEMATICS='None'</code></dt>
+<dd><p>A kinematics object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">NoneType</td>
 </tr>
 </tbody>
 </table>
@@ -263,6 +319,928 @@
 <dl class="attribute">
 <dt>
 <code class="descname">WIDTH='50 centimeter'</code></dt>
+<dd><p>Width of the magnetic poles (used for plotting only).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">APERTURE_LEFT='10 centimeter'</code></dt>
+<dd><p>Aperture size of the magnet, left side (used for plotting only).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">APERTURE_RIGHT='10 centimeter'</code></dt>
+<dd><p>Aperture size of the magnet, right side (used for plotting only).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">APERTURE_TOP='10 centimeter'</code></dt>
+<dd><p>Aperture size of the magnet, top side (used for plotting only).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">APERTURE_BOTTOM='10 centimeter'</code></dt>
+<dd><p>Aperture size of the magnet, bottom side (used for plotting only).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">COLOR='green'</code></dt>
+<dd><p>Magnet color for plotting.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">LENGTH_IS_ARC_LENGTH='False'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">IL='0'</code></dt>
+<dd><p>Print field and coordinates along trajectories</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">XL='0 centimeter'</code></dt>
+<dd><p>Magnet length</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">R0='10.0 centimeter'</code></dt>
+<dd><p>Radius of the pole tips</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">B1='0 kilogauss'</code></dt>
+<dd><p>Field at pole tip for dipolar component.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">B2='0 kilogauss'</code></dt>
+<dd><p>Field at pole tip for quadrupolar component.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">B3='0 kilogauss'</code></dt>
+<dd><p>Field at pole tip for sextupolar component.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">B4='0 kilogauss'</code></dt>
+<dd><p>Field at pole tip for octupolar component.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">B5='0 kilogauss'</code></dt>
+<dd><p>Field at pole tip for decapolar component.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">B6='0 kilogauss'</code></dt>
+<dd><p>Field at pole tip for dodecapolar component.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">B7='0 kilogauss'</code></dt>
+<dd><p>Field at pole tip for 14-polar component.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">B8='0 kilogauss'</code></dt>
+<dd><p>Field at pole tip for 16-polar component.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">B9='0 kilogauss'</code></dt>
+<dd><p>Field at pole tip for 18-polar component.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">B10='0 kilogauss'</code></dt>
+<dd><p>Field at pole tip for 20-polar component.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">X_E='0 centimeter'</code></dt>
+<dd><p>Entrance face integration zone for the fringe field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">LAM_E='0 centimeter'</code></dt>
+<dd><p>Entrance face fringe field extent</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">E2='1'</code></dt>
+<dd><p>Quadrupole entrance fringe field extent (E_2 * LAM_E).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">E3='1'</code></dt>
+<dd><p>Sextupolar entrance fringe field extent (E_3 * LAM_E).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">E4='1'</code></dt>
+<dd><p>Octupolar entrance fringe field extent (E_4 * LAM_E).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">E5='1'</code></dt>
+<dd><p>Decapolar entrance fringe field extent (E_5 * LAM_E).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">E6='1'</code></dt>
+<dd><p>Dodecapolar entrance fringe field extent (E_6 * LAM_E).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">E7='1'</code></dt>
+<dd><p>14-polar entrance fringe field extent (E_7 * LAM_E).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">E8='1'</code></dt>
+<dd><p>16-polar entrance fringe field extent (E_8 * LAM_E).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">E9='1'</code></dt>
+<dd><p>18-polar entrance fringe field extent (E_9 * LAM_E).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">E10='1'</code></dt>
+<dd><p>20-polar entrance fringe field extent (E_10 * LAM_E).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C0_E='0'</code></dt>
+<dd><p>Zeroth-order Enge coefficient for entrance fringe field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C1_E='1'</code></dt>
+<dd><p>First-order Enge coefficient for entrance fringe field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C2_E='0'</code></dt>
+<dd><p>Second-order Enge coefficient for entrance fringe field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C3_E='0'</code></dt>
+<dd><p>Third-order Enge coefficient for entrance fringe field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C4_E='0'</code></dt>
+<dd><p>Fourth-order Enge coefficient for entrance fringe field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C5_E='0'</code></dt>
+<dd><p>Fifth-order Enge coefficient for entrance fringe field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">X_S='0 centimeter'</code></dt>
+<dd><p>Exit face integration zone for the fringe field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">LAM_S='0 centimeter'</code></dt>
+<dd><p>Exit face fringe field extent</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">S2='1'</code></dt>
+<dd><p>Quadrupole exit fringe field extent (E_2 * LAM_S).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">S3='1'</code></dt>
+<dd><p>Sextupolar exit fringe field extent (E_3 * LAM_S).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">S4='1'</code></dt>
+<dd><p>Octupolar exit fringe field extent (E_4 * LAM_S).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">S5='1'</code></dt>
+<dd><p>Decapolar exit fringe field extent (E_5 * LAM_S).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">S6='1'</code></dt>
+<dd><p>Dodecapolar exit fringe field extent (E_6 * LAM_S).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">S7='1'</code></dt>
+<dd><p>14-polar exit fringe field extent (E_7 * LAM_S).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">S8='1'</code></dt>
+<dd><p>16-polar exit fringe field extent (E_8 * LAM_S).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">S9='1'</code></dt>
+<dd><p>18-polar exit fringe field extent (E_9 * LAM_S).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">S10='1'</code></dt>
+<dd><p>20-polar exit fringe field extent (E_10 * LAM_S).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C0_S='0'</code></dt>
+<dd><p>Zeroth-order Enge coefficient for entrance fringe field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C1_S='1'</code></dt>
+<dd><p>First-order Enge coefficient for exit fringe field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C2_S='0'</code></dt>
+<dd><p>Second-order Enge coefficient for exit fringe field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C3_S='0'</code></dt>
+<dd><p>Third-order Enge coefficient for exit fringe field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C4_S='0'</code></dt>
+<dd><p>Fourth-order Enge coefficient for exit fringe field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C5_S='0'</code></dt>
+<dd><p>Fifth-order Enge coefficient for exit fringe field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">R1='0 degree'</code></dt>
+<dd><p>Skew angle of the dipolar component</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">R2='0 degree'</code></dt>
+<dd><p>Skew angle of the quadrupolar component</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">R3='0 degree'</code></dt>
+<dd><p>Skew angle of the sextupolar component</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">R4='0 degree'</code></dt>
+<dd><p>Skew angle of the octupolar component</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">R5='0 degree'</code></dt>
+<dd><p>Skew angle of the decapolar component</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">R6='0 degree'</code></dt>
+<dd><p>Skew angle of the dodecapolar component</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">R7='0 degree'</code></dt>
+<dd><p>Skew angle of the 14-polar component</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">R8='0 degree'</code></dt>
+<dd><p>Skew angle of the 16-polar component</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">R9='0 degree'</code></dt>
+<dd><p>Skew angle of the 18-polar component</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">R10='0 degree'</code></dt>
+<dd><p>Skew angle of the 20-polar component</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">XPAS='1.0 centimeter'</code></dt>
+<dd><p>Integration step.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">KPOS='1'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">XCE='0 centimeter'</code></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -275,12 +1253,25 @@
 
 <dl class="attribute">
 <dt>
-<code class="descname">COLOR='blue'</code></dt>
+<code class="descname">YCE='0 centimeter'</code></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">ALE='0 radian'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
 </tr>
 </tbody>
 </table>
@@ -311,7 +1302,7 @@
 
 <dl class="attribute">
 <dt id="zgoubidoo.commands.magnetique.Multipole.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'ALE': (0,), 'B1': (0,), 'B10': (0,), 'B2': (0,), 'B3': (0,), 'B4': (0,), 'B5': (0,), 'B6': (0,), 'B7': (0,), 'B8': (0,), 'B9': (0,), 'C0_E': (0,), 'C0_S': (0,), 'C1_E': (0,), 'C1_S': (0,), 'C2_E': (0,), 'C2_S': (0,), 'C3_E': (0,), 'C3_S': (0,), 'C4_E': (0,), 'C4_S': (0,), 'C5_E': (0,), 'C5_S': (0,), 'COLOR': ('blue', ''), 'E_10': (0,), 'E_2': (0,), 'E_3': (0,), 'E_4': (0,), 'E_5': (0,), 'E_6': (0,), 'E_7': (0,), 'E_8': (0,), 'E_9': (0,), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, ''), 'IL': (2,), 'KPOS': (1,), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'LAM_E': (0,), 'LAM_S': (0,), 'NCE': (0,), 'NCS': (0,), 'R0': (0,), 'R1': (0,), 'R10': (0,), 'R2': (0,), 'R3': (0,), 'R4': (0,), 'R5': (0,), 'R6': (0,), 'R7': (0,), 'R8': (0,), 'R9': (0,), 'S_10': (0,), 'S_2': (0,), 'S_3': (0,), 'S_4': (0,), 'S_5': (0,), 'S_6': (0,), 'S_7': (0,), 'S_8': (0,), 'S_9': (0,), 'WIDTH': (&lt;Quantity(50, 'centimeter')&gt;, ''), 'XCE': (0,), 'XL': (0,), 'XPAS': (0.1,), 'X_E': (0,), 'X_S': (0,), 'YCE': (0,)}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.Multipole.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="descname">PARAMETERS</code><em class="property"> = {'ALE': (&lt;Quantity(0, 'radian')&gt;, ''), 'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'B1': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for dipolar component.', 4), 'B10': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for 20-polar component.', 13), 'B2': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for quadrupolar component.', 5), 'B3': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for sextupolar component.', 6), 'B4': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for octupolar component.', 7), 'B5': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for decapolar component.', 8), 'B6': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for dodecapolar component.', 9), 'B7': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for 14-polar component.', 10), 'B8': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for 16-polar component.', 11), 'B9': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for 18-polar component.', 12), 'C0_E': (0, 'Zeroth-order Enge coefficient for entrance fringe field.'), 'C0_S': (0, 'Zeroth-order Enge coefficient for entrance fringe field.'), 'C1_E': (1, 'First-order Enge coefficient for entrance fringe field.'), 'C1_S': (1, 'First-order Enge coefficient for exit fringe field.'), 'C2_E': (0, 'Second-order Enge coefficient for entrance fringe field.'), 'C2_S': (0, 'Second-order Enge coefficient for exit fringe field.'), 'C3_E': (0, 'Third-order Enge coefficient for entrance fringe field.'), 'C3_S': (0, 'Third-order Enge coefficient for exit fringe field.'), 'C4_E': (0, 'Fourth-order Enge coefficient for entrance fringe field.'), 'C4_S': (0, 'Fourth-order Enge coefficient for exit fringe field.'), 'C5_E': (0, 'Fifth-order Enge coefficient for entrance fringe field.'), 'C5_S': (0, 'Fifth-order Enge coefficient for exit fringe field.'), 'COLOR': ('green', 'Magnet color for plotting.'), 'E10': (1, '20-polar entrance fringe field extent (E_10 * LAM_E).'), 'E2': (1, 'Quadrupole entrance fringe field extent (E_2 * LAM_E).'), 'E3': (1, 'Sextupolar entrance fringe field extent (E_3 * LAM_E).'), 'E4': (1, 'Octupolar entrance fringe field extent (E_4 * LAM_E).'), 'E5': (1, 'Decapolar entrance fringe field extent (E_5 * LAM_E).'), 'E6': (1, 'Dodecapolar entrance fringe field extent (E_6 * LAM_E).'), 'E7': (1, '14-polar entrance fringe field extent (E_7 * LAM_E).'), 'E8': (1, '16-polar entrance fringe field extent (E_8 * LAM_E).'), 'E9': (1, '18-polar entrance fringe field extent (E_9 * LAM_E).'), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'IL': (0, 'Print field and coordinates along trajectories', 1), 'KINEMATICS': (None, 'A kinematics object.'), 'KPOS': (1, ''), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'LAM_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance face fringe field extent'), 'LAM_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit face fringe field extent'), 'LENGTH_IS_ARC_LENGTH': (False, ''), 'R0': (&lt;Quantity(10.0, 'centimeter')&gt;, 'Radius of the pole tips', 3), 'R1': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the dipolar component'), 'R10': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the 20-polar component'), 'R2': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the quadrupolar component'), 'R3': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the sextupolar component'), 'R4': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the octupolar component'), 'R5': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the decapolar component'), 'R6': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the dodecapolar component'), 'R7': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the 14-polar component'), 'R8': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the 16-polar component'), 'R9': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the 18-polar component'), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'S10': (1, '20-polar exit fringe field extent (E_10 * LAM_S).'), 'S2': (1, 'Quadrupole exit fringe field extent (E_2 * LAM_S).'), 'S3': (1, 'Sextupolar exit fringe field extent (E_3 * LAM_S).'), 'S4': (1, 'Octupolar exit fringe field extent (E_4 * LAM_S).'), 'S5': (1, 'Decapolar exit fringe field extent (E_5 * LAM_S).'), 'S6': (1, 'Dodecapolar exit fringe field extent (E_6 * LAM_S).'), 'S7': (1, '14-polar exit fringe field extent (E_7 * LAM_S).'), 'S8': (1, '16-polar exit fringe field extent (E_8 * LAM_S).'), 'S9': (1, '18-polar exit fringe field extent (E_9 * LAM_S).'), 'WIDTH': (&lt;Quantity(50, 'centimeter')&gt;, 'Width of the magnetic poles (used for plotting only).'), 'XCE': (&lt;Quantity(0, 'centimeter')&gt;, ''), 'XL': (&lt;Quantity(0, 'centimeter')&gt;, 'Magnet length', 2), 'XPAS': (&lt;Quantity(1.0, 'centimeter')&gt;, 'Integration step.'), 'X_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance face integration zone for the fringe field.'), 'X_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit face integration zone for the fringe field.'), 'YCE': (&lt;Quantity(0, 'centimeter')&gt;, '')}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.Multipole.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parameters of the command, with their default value, their description and optinally an index used by other
 commands (e.g. fit).</p>
 </dd></dl>
@@ -331,7 +1322,7 @@ commands (e.g. fit).</p>
         <a href="zgoubidoo.commands.magnetique.Octupole.html" class="btn btn-neutral float-right" title="Octupole" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="zgoubidoo.commands.magnetique.MagnetType.html" class="btn btn-neutral" title="MagnetType" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="zgoubidoo.commands.magnetique.Multipol.html" class="btn btn-neutral float-left" title="Multipol" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -357,26 +1348,16 @@ commands (e.g. fit).</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

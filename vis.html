@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Zgoubidoo’s visualization and plotting module &mdash; Zgoubidoo 2019.1 documentation</title>
+  <title>Zgoubidoo’s visualization and plotting module &mdash; Zgoubidoo 2019.4 documentation</title>
   
 
   
@@ -17,35 +17,37 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="beamline" href="api/zgoubidoo.vis.beamline.html" />
-    <link rel="prev" title="ZgoubidooSequenceException" href="api/zgoubidoo.sequence.sequence.ZgoubidooSequenceException.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
+    <link rel="next" title="MatplotlibArtist" href="api/zgoubidoo.vis.MatplotlibArtist.html" />
+    <link rel="prev" title="ZgoubidooBeamException" href="api/zgoubidoo.commands.beam.ZgoubidooBeamException.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -59,7 +61,7 @@
             
             
               <div class="version">
-                2019.1
+                2019.4
               </div>
             
           
@@ -87,22 +89,19 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="commands.html">Zgoubi commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contrib.html">Zgoubidoo specialized and contributed commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input.html">Working with Zgoubi Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="beam.html">Working with Zgoubidoo beams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Zgoubidoo’s visualization and plotting module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#functions">Functions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/zgoubidoo.vis.beamline.html">beamline</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="#classes">Classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/zgoubidoo.vis.ZgoubiMesh.html">ZgoubiMesh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/zgoubidoo.vis.ZgoubiMpl.html">ZgoubiMpl</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/zgoubidoo.vis.ZgoubiPlot.html">ZgoubiPlot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/zgoubidoo.vis.MatplotlibArtist.html">MatplotlibArtist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/zgoubidoo.vis.MplArtist.html">MplArtist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/zgoubidoo.vis.ZgoubidooPlotlyArtist.html">ZgoubidooPlotlyArtist</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
@@ -179,28 +178,6 @@
 <p>Blabla</p>
 <span class="target" id="module-zgoubidoo.vis"></span><p>Visualization and plotting module.</p>
 <p>TODO</p>
-<div class="section" id="functions">
-<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.vis.beamline.html#zgoubidoo.vis.beamline" title="zgoubidoo.vis.beamline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beamline</span></code></a>(beamline[,&nbsp;tracks])</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param beamline:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <div class="section" id="classes">
 <h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="longtable docutils">
@@ -209,13 +186,13 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.vis.ZgoubiMesh.html#zgoubidoo.vis.ZgoubiMesh" title="zgoubidoo.vis.ZgoubiMesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZgoubiMesh</span></code></a>([with_boxes,&nbsp;with_frames])</td>
-<td></td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.vis.ZgoubiMpl.html#zgoubidoo.vis.ZgoubiMpl" title="zgoubidoo.vis.ZgoubiMpl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZgoubiMpl</span></code></a>([ax])</td>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.vis.MatplotlibArtist.html#zgoubidoo.vis.MatplotlibArtist" title="zgoubidoo.vis.MatplotlibArtist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MatplotlibArtist</span></code></a>([ax])</td>
 <td>A matplotlib implementation of a <cite>ZgoubiPlot</cite> artist.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.vis.ZgoubiPlot.html#zgoubidoo.vis.ZgoubiPlot" title="zgoubidoo.vis.ZgoubiPlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZgoubiPlot</span></code></a>([with_boxes,&nbsp;with_frames,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.vis.MplArtist.html#zgoubidoo.vis.MplArtist" title="zgoubidoo.vis.MplArtist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MplArtist</span></code></a></td>
+<td>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.vis.matplotlib.MatplotlibArtist</span></code></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.vis.ZgoubidooPlotlyArtist.html#zgoubidoo.vis.ZgoubidooPlotlyArtist" title="zgoubidoo.vis.ZgoubidooPlotlyArtist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZgoubidooPlotlyArtist</span></code></a>(config,&nbsp;…)</td>
 <td>TODO</td>
 </tr>
 </tbody>
@@ -223,7 +200,7 @@
 </div>
 <div class="section" id="class-inheritance-diagram">
 <h2>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h2>
-<div class="graphviz"><img src="_images/inheritance-63948b8d80de9b40fa90419d6d899e8d38fe187f.png" alt="Inheritance diagram of zgoubidoo.vis.mesh.ZgoubiMesh, zgoubidoo.vis.matplotlib.ZgoubiMpl, zgoubidoo.vis.zgoubiplot.ZgoubiPlot" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="_images/inheritance-7c325d3593bdff47adb6dad0d55d1d8fc2e20c96.png" alt="Inheritance diagram of zgoubidoo.vis.matplotlib.MatplotlibArtist, zgoubidoo.vis.matplotlib.MatplotlibArtist, zgoubidoo.vis.plotly.ZgoubidooPlotlyArtist" class="inheritance graphviz" /></div>
 </div>
 </div>
 
@@ -235,10 +212,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="api/zgoubidoo.vis.beamline.html" class="btn btn-neutral float-right" title="beamline" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="api/zgoubidoo.vis.MatplotlibArtist.html" class="btn btn-neutral float-right" title="MatplotlibArtist" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="api/zgoubidoo.sequence.sequence.ZgoubidooSequenceException.html" class="btn btn-neutral" title="ZgoubidooSequenceException" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="api/zgoubidoo.commands.beam.ZgoubidooBeamException.html" class="btn btn-neutral float-left" title="ZgoubidooBeamException" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -264,26 +241,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Using the Zgoubidoo low-level interface &mdash; Zgoubidoo 2019.1 documentation</title>
+  <title>Using the Zgoubidoo low-level interface &mdash; Zgoubidoo 2019.4 documentation</title>
   
 
   
@@ -17,35 +17,37 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Working with Zgoubidoo beams" href="beam.html" />
+    <link rel="next" title="Field maps" href="fieldmaps.html" />
     <link rel="prev" title="Working with Zgoubi Input" href="input.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -59,7 +61,7 @@
             
             
               <div class="version">
-                2019.1
+                2019.4
               </div>
             
           
@@ -87,17 +89,18 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="commands.html">Zgoubi commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contrib.html">Zgoubidoo specialized and contributed commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input.html">Working with Zgoubi Input</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Using the Zgoubidoo low-level interface</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.output">Reading Zgoubi output files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.outputs">Reading Zgoubi output files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.twiss">Computing Twiss parameters</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="beam.html">Working with Zgoubidoo beams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vis.html">Zgoubidoo’s visualization and plotting module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Zgoubidoo’s utility modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
@@ -170,23 +173,16 @@
 <p>Test</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#module-zgoubidoo.output" id="id1">Reading Zgoubi output files</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.outputs" id="id1">Reading Zgoubi output files</a></li>
 <li><a class="reference internal" href="#module-zgoubidoo.twiss" id="id2">Computing Twiss parameters</a></li>
 </ul>
 </div>
-<div class="section" id="module-zgoubidoo.output">
-<span id="reading-zgoubi-output-files"></span><h2><a class="toc-backref" href="#id1">Reading Zgoubi output files</a><a class="headerlink" href="#module-zgoubidoo.output" title="Permalink to this headline">¶</a></h2>
-<p>Module for handling of affine geometry transformations (rotations and translations).</p>
-<p>This module provides support for affine geometry transformations, mainly through the <cite>Frame</cite> class.</p>
-<p class="rubric">Example</p>
-<p>example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1"># TODO</span>
-<span class="go">2</span>
-</pre></div>
-</div>
+<div class="section" id="module-zgoubidoo.outputs">
+<span id="reading-zgoubi-output-files"></span><h2><a class="toc-backref" href="#id1">Reading Zgoubi output files</a><a class="headerlink" href="#module-zgoubidoo.outputs" title="Permalink to this headline">¶</a></h2>
+<p>TODO</p>
 <dl class="function">
-<dt id="zgoubidoo.output.read_fai_file">
-<code class="descclassname">zgoubidoo.output.</code><code class="descname">read_fai_file</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.fai'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/output.html#read_fai_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.output.read_fai_file" title="Permalink to this definition">¶</a></dt>
+<dt id="zgoubidoo.outputs.read_fai_file">
+<code class="descclassname">zgoubidoo.outputs.</code><code class="descname">read_fai_file</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.fai'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/outputs.html#read_fai_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.outputs.read_fai_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to read Zgoubi .fai files.</p>
 <p>Reads the content of a Zgoubi .fai file (‘faisceau’, ‘beam’ file) and formats it as a valid Pandas DataFrame with
 headers.</p>
@@ -215,10 +211,10 @@ headers.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="zgoubidoo.output.read_matrix_file">
-<code class="descclassname">zgoubidoo.output.</code><code class="descname">read_matrix_file</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.MATRIX.out'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/output.html#read_matrix_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.output.read_matrix_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to read Zgoubi MATRIX files.</p>
-<p>Reads the content of a Zgoubi matrix file (output from a Twiss or Optics command) and formats it as a valid Pandas
+<dt id="zgoubidoo.outputs.read_matrix_file">
+<code class="descclassname">zgoubidoo.outputs.</code><code class="descname">read_matrix_file</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.MATRIX.out'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/outputs.html#read_matrix_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.outputs.read_matrix_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read Zgoubi MATRIX files to a DataFrame.</p>
+<p>Reads the content of a Zgoubi matrix file (output from a Twiss command) and formats it as a valid Pandas
 DataFrame with headers.</p>
 <p class="rubric">Notes</p>
 <p>the resulting DataFrame uses SI units.</p>
@@ -232,11 +228,11 @@ DataFrame with headers.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>filename</strong> – the name of the file</li>
-<li><strong>path</strong> – the path to the .plt file</li>
+<li><strong>path</strong> – the path to the zgoubi.MATRIX.out file</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a Pandas DataFrame with the .plt file content.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a Pandas DataFrame with the zgoubi.MATRIX.out file content.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">a FileNotFoundError in case the file is not found.</p>
@@ -247,13 +243,56 @@ DataFrame with headers.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="zgoubidoo.output.read_plt_file">
-<code class="descclassname">zgoubidoo.output.</code><code class="descname">read_plt_file</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.plt'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/output.html#read_plt_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.output.read_plt_file" title="Permalink to this definition">¶</a></dt>
+<dt id="zgoubidoo.outputs.read_optics_file">
+<code class="descclassname">zgoubidoo.outputs.</code><code class="descname">read_optics_file</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.OPTICS.out'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/outputs.html#read_optics_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.outputs.read_optics_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read Zgoubi OPTICS files to a DataFrame.</p>
+<p>Reads the content of a Zgoubi optics file (output from a Optics) and formats it as a valid Pandas
+DataFrame with headers.</p>
+<p class="rubric">Notes</p>
+<p>the resulting DataFrame uses SI units.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read_optcs_file</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> – the name of the file</li>
+<li><strong>path</strong> – the path to the zgoubi.OPTICS.out file</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a Pandas DataFrame with the zgoubi.OPTICS.out file content.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">a FileNotFoundError in case the file is not found.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="zgoubidoo.outputs.read_plt_file">
+<code class="descclassname">zgoubidoo.outputs.</code><code class="descname">read_plt_file</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.plt'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/outputs.html#read_plt_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.outputs.read_plt_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to read Zgoubi .plt files.</p>
 <p>Reads the content of a Zgoubi .plt file (‘plot’ file) and formats it as a valid Pandas DataFrame with headers.</p>
 <p class="rubric">Notes</p>
-<p>each coordinate is converted from the Zgoubi internal unit system onto the SI system. This means, in particular
+<p>each coordinate is converted from the Zgoubi internal unit system onto the SI system. This means, in particular,
 that the positions are in meters and the angles in mrad.</p>
+<dl class="docutils">
+<dt>The special columns have the following meaning:</dt>
+<dd><ul class="first simple">
+<li><em>LET</em>: one character string (for tagging (groups of) particles)</li>
+<li><em>IREP</em> is an index which indicates a symmetry with respect to the median plane. For instance,</li>
+</ul>
+<p class="last">if Z(I + 1) = −Z(I), then normally IREP(I + 1) = IREP(I ). Consequently the coordinates of particle I + 1
+will not be obtained from ray-tracing but instead deduced from those of particle I by simple symmetry.
+This saves on computing time.</p>
+</dd>
+</dl>
 <p class="rubric">Example</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read_plt_file</span><span class="p">()</span>
 </pre></div>
@@ -278,11 +317,75 @@ that the positions are in meters and the angles in mrad.</p>
 </table>
 </dd></dl>
 
+<dl class="function">
+<dt id="zgoubidoo.outputs.read_srloss_file">
+<code class="descclassname">zgoubidoo.outputs.</code><code class="descname">read_srloss_file</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.SRLOSS.out'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/outputs.html#read_srloss_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.outputs.read_srloss_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read Zgoubi SRLOSS files to a DataFrame.</p>
+<p>Reads the content of a Zgoubi SRLOSS (synchrotron radiation losses) file (produced with SRPrint) and formats it as a
+valid Pandas DataFrame with headers.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read_srloss_file</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> – the name of the file</li>
+<li><strong>path</strong> – the path to the SRLOSS file</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a Pandas DataFrame with the SRLOSS file content.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">a FileNotFoundException in case the file is not found.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="zgoubidoo.outputs.read_srloss_steps_file">
+<code class="descclassname">zgoubidoo.outputs.</code><code class="descname">read_srloss_steps_file</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.SRLOSS.STEPS.out'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/outputs.html#read_srloss_steps_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.outputs.read_srloss_steps_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read Zgoubi SRLOSS STEPS files to a DataFrame.</p>
+<p>Reads the content of a Zgoubi SRLOSS STEPS (synchrotron radiation losses for each integration steps) file
+(produced with SRPrint) and formats it as a valid Pandas DataFrame with headers.</p>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read_srloss_steps_file</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> – the name of the file</li>
+<li><strong>path</strong> – the path to the SRLOSS STEPS file</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a Pandas DataFrame with the SRLOSS STEPS file content.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">a FileNotFoundException in case the file is not found.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="module-zgoubidoo.twiss">
 <span id="computing-twiss-parameters"></span><h2><a class="toc-backref" href="#id2">Computing Twiss parameters</a><a class="headerlink" href="#module-zgoubidoo.twiss" title="Permalink to this headline">¶</a></h2>
 <p>Step-by-step computation of the transfer matrix and Twiss parameters from Zgoubi tracks.</p>
-<p>TODO</p>
+<p>The functions in this module perform a first-order analysis of the dynamics, via the computation of the transfer matrix
+and its parametrizations.</p>
+<p>The standard uncoupled Twiss parametrization (including off-momentum effects, aka. dispersion) is the default option.</p>
+<p>Additional formalisms for the parametrization of fully coupled transfer matrices are also available (Teng, Ripken,
+etc.).</p>
 <p class="rubric">Example</p>
 <p>import matplotlib.pyplot as plt
 import pandas as pd
@@ -292,7 +395,7 @@ from zgoubidoo.commands import *
 _ = zgoubidoo.ureg</p>
 <dl class="function">
 <dt id="zgoubidoo.twiss.align_tracks">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">align_tracks</code><span class="sig-paren">(</span><em>tracks: pandas.core.frame.DataFrame</em>, <em>align_on: str = 'X'</em>, <em>identifier: str = 'LET'</em>, <em>reference_track: str = 'O'</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.core.multiarray.array, pandas.core.frame.DataFrame]<a class="reference internal" href="_modules/zgoubidoo/twiss.html#align_tracks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.align_tracks" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">align_tracks</code><span class="sig-paren">(</span><em>tracks: pandas.core.frame.DataFrame</em>, <em>align_on: str = 'SREF'</em>, <em>identifier: str = 'LET'</em>, <em>reference_track: str = 'O'</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.array, pandas.core.frame.DataFrame]<a class="reference internal" href="_modules/zgoubidoo/twiss.html#align_tracks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.align_tracks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Align the tracks to obtain a homegenous array with all coordinates given at the same location.</p>
 <p>Required for example to compute the transfer matrix (not all particules would have integration step at the
 same coordinate and must be aligned. Uses a linear interpolation.</p>
@@ -317,7 +420,7 @@ same coordinate and must be aligned. Uses a linear interpolation.</p>
 
 <dl class="function">
 <dt id="zgoubidoo.twiss.compute_alpha_from_matrix">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_alpha_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: pandas.core.series.Series</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_alpha_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_alpha_from_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_alpha_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: georges_core.sequences.betablock.BetaBlock</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_alpha_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_alpha_from_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the Twiss alpha values at every steps of the input step-by-step transfer matrix.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -339,7 +442,7 @@ same coordinate and must be aligned. Uses a linear interpolation.</p>
 
 <dl class="function">
 <dt id="zgoubidoo.twiss.compute_beta_from_matrix">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_beta_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: pandas.core.series.Series</em>, <em>plane: int = 1</em>, <em>strict: bool = False</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_beta_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_beta_from_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_beta_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: georges_core.sequences.betablock.BetaBlock</em>, <em>plane: int = 1</em>, <em>strict: bool = False</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_beta_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_beta_from_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the Twiss beta values at every steps of the input step-by-step transfer matrix.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -362,7 +465,7 @@ same coordinate and must be aligned. Uses a linear interpolation.</p>
 
 <dl class="function">
 <dt id="zgoubidoo.twiss.compute_dispersion_from_matrix">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_dispersion_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: pandas.core.series.Series</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_dispersion_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_dispersion_from_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_dispersion_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: georges_core.sequences.betablock.BetaBlock</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_dispersion_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_dispersion_from_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the dispersion function at every steps of the input step-by-step transfer matrix.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -384,7 +487,7 @@ same coordinate and must be aligned. Uses a linear interpolation.</p>
 
 <dl class="function">
 <dt id="zgoubidoo.twiss.compute_dispersion_prime_from_matrix">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_dispersion_prime_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: pandas.core.series.Series</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_dispersion_prime_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_dispersion_prime_from_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_dispersion_prime_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: georges_core.sequences.betablock.BetaBlock</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_dispersion_prime_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_dispersion_prime_from_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the dispersion prime function at every steps of the input step-by-step transfer matrix.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -411,7 +514,7 @@ matrix</p>
 
 <dl class="function">
 <dt id="zgoubidoo.twiss.compute_gamma_from_matrix">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_gamma_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: pandas.core.series.Series</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_gamma_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_gamma_from_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_gamma_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: georges_core.sequences.betablock.BetaBlock</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_gamma_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_gamma_from_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the Twiss gamma values at every steps of the input step-by-step transfer matrix.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -454,7 +557,7 @@ matrix</p>
 
 <dl class="function">
 <dt id="zgoubidoo.twiss.compute_mu_from_matrix">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_mu_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: pandas.core.series.Series</em>, <em>beta=None</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_mu_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_mu_from_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_mu_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: georges_core.sequences.betablock.BetaBlock</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_mu_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_mu_from_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the phase advance values at every steps of the input step-by-step transfer matrix.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -463,7 +566,6 @@ matrix</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>m</strong> – the step-by-step transfer matrix for which the beta values should be computed</li>
 <li><strong>twiss</strong> – the initial Twiss values</li>
-<li><strong>beta</strong> – pre-computed step-by-step beta values (to improve effiency if already compyted)</li>
 <li><strong>plane</strong> – an integer representing the plane (1 or 2)</li>
 </ul>
 </td>
@@ -477,15 +579,20 @@ matrix</p>
 
 <dl class="function">
 <dt id="zgoubidoo.twiss.compute_periodic_twiss">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_periodic_twiss</code><span class="sig-paren">(</span><em>matrix: pandas.core.frame.DataFrame</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_periodic_twiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_periodic_twiss" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_periodic_twiss</code><span class="sig-paren">(</span><em>matrix: pandas.core.frame.DataFrame</em>, <em>end: Union[int</em>, <em>str] = -1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_periodic_twiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_periodic_twiss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute twiss parameters from a transfer matrix which is assumed to be a periodic transfer matrix.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>matrix</strong> – the (periodic) transfer matrix</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>matrix</strong> – the (periodic) transfer matrix</li>
+<li><strong>end</strong> – </li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a Series object with the values of the periodic Twiss parameters.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Series object with the values of the periodic Twiss parameters.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -493,9 +600,9 @@ matrix</p>
 
 <dl class="function">
 <dt id="zgoubidoo.twiss.compute_transfer_matrix">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_transfer_matrix</code><span class="sig-paren">(</span><em>beamline: zgoubidoo.input.Input</em>, <em>tracks: pandas.core.frame.DataFrame</em>, <em>align_on: str = 'X'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_transfer_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_transfer_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_transfer_matrix</code><span class="sig-paren">(</span><em>beamline: zgoubidoo.input.Input</em>, <em>tracks: pandas.core.frame.DataFrame</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_transfer_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_transfer_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructs the step-by-step transfer matrix from tracking data (finite differences). The approximation
-uses the O(3) formula (not just the O(1) formula) and therefore makes use of all the particles.</p>
+uses the O(3) formula (not just the O(1) formula) and therefore makes use of all the 11 particles.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -503,7 +610,6 @@ uses the O(3) formula (not just the O(1) formula) and therefore makes use of all
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>beamline</strong> – the Zgoubidoo Input beamline</li>
 <li><strong>tracks</strong> – tracking data</li>
-<li><strong>align_on</strong> – coordinates on which the tracks are aligned (typically ‘X’ or ‘S’)</li>
 </ul>
 </td>
 </tr>
@@ -516,14 +622,14 @@ uses the O(3) formula (not just the O(1) formula) and therefore makes use of all
 <p>Here is a typical example to call <code class="docutils literal notranslate"><span class="pre">compute_transfer_matrix</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tracks</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">read_plt_file</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">zi</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Input</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">matrix</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">twiss</span><span class="o">.</span><span class="n">compute_transfer_matrix</span><span class="p">(</span><span class="n">zi</span><span class="p">,</span> <span class="n">tracks</span><span class="p">,</span> <span class="n">align_on</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">matrix</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">twiss</span><span class="o">.</span><span class="n">compute_transfer_matrix</span><span class="p">(</span><span class="n">zi</span><span class="p">,</span> <span class="n">tracks</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="function">
 <dt id="zgoubidoo.twiss.compute_twiss">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_twiss</code><span class="sig-paren">(</span><em>matrix: pandas.core.frame.DataFrame</em>, <em>twiss_init: Optional[pandas.core.series.Series] = None</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_twiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_twiss" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_twiss</code><span class="sig-paren">(</span><em>matrix: pandas.core.frame.DataFrame</em>, <em>twiss_init: Optional[georges_core.sequences.betablock.BetaBlock] = None</em>, <em>with_phase_unrolling: bool = True</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_twiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_twiss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Uses a step-by-step transfer matrix to compute the Twiss parameters (uncoupled). The phase advance and the
 determinants of the jacobians are computed as well.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -534,6 +640,7 @@ determinants of the jacobians are computed as well.</p>
 <li><strong>matrix</strong> – the input step-by-step transfer matrix</li>
 <li><strong>twiss_init</strong> – the initial values for the Twiss computation (if None, periodic conditions are assumed and the</li>
 <li><strong>parameters are computed from the transfer matrix</strong><strong>)</strong><strong></strong> (<a class="reference internal" href="api/zgoubidoo.commands.commands.Twiss.html#zgoubidoo.commands.commands.Twiss" title="zgoubidoo.commands.commands.Twiss"><em>Twiss</em></a>) – </li>
+<li><strong>with_phase_unrolling</strong> – TODO</li>
 </ul>
 </td>
 </tr>
@@ -542,20 +649,6 @@ determinants of the jacobians are computed as well.</p>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.twiss.truc">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">truc</code><span class="sig-paren">(</span><em>b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/twiss.html#truc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.truc" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>b</strong> – </td>
-</tr>
-</tbody>
-</table>
-<p>Returns:</p>
 </dd></dl>
 
 </div>
@@ -569,10 +662,10 @@ determinants of the jacobians are computed as well.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="beam.html" class="btn btn-neutral float-right" title="Working with Zgoubidoo beams" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="fieldmaps.html" class="btn btn-neutral float-right" title="Field maps" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="input.html" class="btn btn-neutral" title="Working with Zgoubi Input" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="input.html" class="btn btn-neutral float-left" title="Working with Zgoubi Input" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -598,26 +691,16 @@ determinants of the jacobians are computed as well.</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

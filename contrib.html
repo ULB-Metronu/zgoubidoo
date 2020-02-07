@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Zgoubidoo specialized and contributed commands &mdash; Zgoubidoo 2019.1 documentation</title>
+  <title>Zgoubidoo specialized and contributed commands &mdash; Zgoubidoo 2019.4 documentation</title>
   
 
   
@@ -17,35 +17,37 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="B1G" href="api/zgoubidoo.commands.contrib.iba.B1G.html" />
-    <link rel="prev" title="Spnprnl" href="api/zgoubidoo.commands.spin.Spnprnl.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
+    <link rel="prev" title="SynchrotronRadiationSpectral" href="api/zgoubidoo.commands.radiation.SynchrotronRadiationSpectral.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -59,7 +61,7 @@
             
             
               <div class="version">
-                2019.1
+                2019.4
               </div>
             
           
@@ -87,6 +89,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="commands.html">Zgoubi commands</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Zgoubidoo specialized and contributed commands</a><ul>
@@ -113,6 +116,9 @@
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.QWall.html">QWall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.QuadrupoleIBA.html">QuadrupoleIBA</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.ResearchArea.html">ResearchArea</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.SL1G.html">SL1G</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.SL2G.html">SL2G</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.SL3G.html">SL3G</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.SMX.html">SMX</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.SMY.html">SMY</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.T1G.html">T1G</a></li>
@@ -123,14 +129,29 @@
 <li class="toctree-l3"><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.commands.contrib.cern">CERN elements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.commands.contrib.emma">Emma elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.commands.contrib.cern">CERN elements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.contrib.cern.LHeC.html">LHeC</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-zgoubidoo.commands.contrib.emma">Emma elements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.contrib.emma.QD.html">QD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/zgoubidoo.commands.contrib.emma.QF.html">QF</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Class Inheritance Diagram</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="input.html">Working with Zgoubi Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="beam.html">Working with Zgoubidoo beams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vis.html">Zgoubidoo’s visualization and plotting module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Zgoubidoo’s utility modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
@@ -207,14 +228,14 @@ be described in this module.</p>
 <p>The organization of this module is such that a distinct sub-module is created per machine or center.</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#module-zgoubidoo.commands.contrib.iba" id="id1">IBA elements</a></li>
-<li><a class="reference internal" href="#module-zgoubidoo.commands.contrib.cern" id="id2">CERN elements</a></li>
-<li><a class="reference internal" href="#module-zgoubidoo.commands.contrib.emma" id="id3">Emma elements</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.commands.contrib.iba" id="id5">IBA elements</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.commands.contrib.cern" id="id6">CERN elements</a></li>
+<li><a class="reference internal" href="#module-zgoubidoo.commands.contrib.emma" id="id7">Emma elements</a></li>
 </ul>
 </div>
 <div class="section" id="module-zgoubidoo.commands.contrib.iba">
-<span id="iba-elements"></span><h2><a class="toc-backref" href="#id1">IBA elements</a><a class="headerlink" href="#module-zgoubidoo.commands.contrib.iba" title="Permalink to this headline">¶</a></h2>
-<p>Zgoubidoo’s interfaces to purefly magnetic Zgoubi commands.</p>
+<span id="iba-elements"></span><h2><a class="toc-backref" href="#id5">IBA elements</a><a class="headerlink" href="#module-zgoubidoo.commands.contrib.iba" title="Permalink to this headline">¶</a></h2>
+<p>Zgoubidoo’s</p>
 <p>More details here.
 TODO</p>
 <div class="section" id="classes">
@@ -288,19 +309,28 @@ TODO</p>
 <tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.ResearchArea.html#zgoubidoo.commands.contrib.iba.ResearchArea" title="zgoubidoo.commands.contrib.iba.ResearchArea"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ResearchArea</span></code></a>()</td>
 <td>Proteus One research area input sequence.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.SMX.html#zgoubidoo.commands.contrib.iba.SMX" title="zgoubidoo.commands.contrib.iba.SMX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SMX</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.SL1G.html#zgoubidoo.commands.contrib.iba.SL1G" title="zgoubidoo.commands.contrib.iba.SL1G"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SL1G</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<td>First vertical collimator</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.SL2G.html#zgoubidoo.commands.contrib.iba.SL2G" title="zgoubidoo.commands.contrib.iba.SL2G"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SL2G</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<td>First horizontal collimator</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.SL3G.html#zgoubidoo.commands.contrib.iba.SL3G" title="zgoubidoo.commands.contrib.iba.SL3G"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SL3G</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<td>First vertical collimator</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.SMX.html#zgoubidoo.commands.contrib.iba.SMX" title="zgoubidoo.commands.contrib.iba.SMX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SMX</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Proteus One inline (horizontal) scanning magnet.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.SMY.html#zgoubidoo.commands.contrib.iba.SMY" title="zgoubidoo.commands.contrib.iba.SMY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SMY</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.SMY.html#zgoubidoo.commands.contrib.iba.SMY" title="zgoubidoo.commands.contrib.iba.SMY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SMY</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Proteus One crossline (vertical) scanning magnet.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.T1G.html#zgoubidoo.commands.contrib.iba.T1G" title="zgoubidoo.commands.contrib.iba.T1G"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T1G</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.T1G.html#zgoubidoo.commands.contrib.iba.T1G" title="zgoubidoo.commands.contrib.iba.T1G"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T1G</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Proteus One steering magnet.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.T2G.html#zgoubidoo.commands.contrib.iba.T2G" title="zgoubidoo.commands.contrib.iba.T2G"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T2G</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.T2G.html#zgoubidoo.commands.contrib.iba.T2G" title="zgoubidoo.commands.contrib.iba.T2G"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T2G</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Proteus One steering magnet.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.VerticalSlits.html#zgoubidoo.commands.contrib.iba.VerticalSlits" title="zgoubidoo.commands.contrib.iba.VerticalSlits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VerticalSlits</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.contrib.iba.VerticalSlits.html#zgoubidoo.commands.contrib.iba.VerticalSlits" title="zgoubidoo.commands.contrib.iba.VerticalSlits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VerticalSlits</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
 <td>Proteus One vertical slits.</td>
 </tr>
 </tbody>
@@ -308,29 +338,31 @@ TODO</p>
 </div>
 <div class="section" id="class-inheritance-diagram">
 <h3>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h3>
-<div class="graphviz"><img src="_images/inheritance-70fa72f0a697ee2811e12f9d3c1f6f0c9d469481.png" alt="Inheritance diagram of zgoubidoo.commands.contrib.iba.B1G, zgoubidoo.commands.contrib.iba.B2G, zgoubidoo.commands.contrib.iba.B3G, zgoubidoo.commands.contrib.iba.CGTR, zgoubidoo.commands.contrib.iba.DipoleIBA, zgoubidoo.commands.contrib.iba.HorizontalSlits, zgoubidoo.commands.contrib.iba.Q1C, zgoubidoo.commands.contrib.iba.Q1G, zgoubidoo.commands.contrib.iba.Q2C, zgoubidoo.commands.contrib.iba.Q2G, zgoubidoo.commands.contrib.iba.Q3G, zgoubidoo.commands.contrib.iba.Q4G, zgoubidoo.commands.contrib.iba.Q5G, zgoubidoo.commands.contrib.iba.Q6G, zgoubidoo.commands.contrib.iba.Q7G, zgoubidoo.commands.contrib.iba.QLong, zgoubidoo.commands.contrib.iba.QPMQ, zgoubidoo.commands.contrib.iba.QShort, zgoubidoo.commands.contrib.iba.QWall, zgoubidoo.commands.contrib.iba.QuadrupoleIBA, zgoubidoo.commands.contrib.iba.ResearchArea, zgoubidoo.commands.contrib.iba.SMX, zgoubidoo.commands.contrib.iba.SMY, zgoubidoo.commands.contrib.iba.T1G, zgoubidoo.commands.contrib.iba.T2G, zgoubidoo.commands.contrib.iba.VerticalSlits" usemap="#inheritance19780aa64c" class="inheritance graphviz" /></div>
-<map id="inheritance19780aa64c" name="inheritance19780aa64c">
+<div class="graphviz"><img src="_images/inheritance-cac41cf97d6f62f71198c032a58793746b617dd2.png" alt="Inheritance diagram of zgoubidoo.commands.contrib.iba.B1G, zgoubidoo.commands.contrib.iba.B2G, zgoubidoo.commands.contrib.iba.B3G, zgoubidoo.commands.contrib.iba.CGTR, zgoubidoo.commands.contrib.iba.DipoleIBA, zgoubidoo.commands.contrib.iba.HorizontalSlits, zgoubidoo.commands.contrib.iba.Q1C, zgoubidoo.commands.contrib.iba.Q1G, zgoubidoo.commands.contrib.iba.Q2C, zgoubidoo.commands.contrib.iba.Q2G, zgoubidoo.commands.contrib.iba.Q3G, zgoubidoo.commands.contrib.iba.Q4G, zgoubidoo.commands.contrib.iba.Q5G, zgoubidoo.commands.contrib.iba.Q6G, zgoubidoo.commands.contrib.iba.Q7G, zgoubidoo.commands.contrib.iba.QLong, zgoubidoo.commands.contrib.iba.QPMQ, zgoubidoo.commands.contrib.iba.QShort, zgoubidoo.commands.contrib.iba.QWall, zgoubidoo.commands.contrib.iba.QuadrupoleIBA, zgoubidoo.commands.contrib.iba.ResearchArea, zgoubidoo.commands.contrib.iba.SL1G, zgoubidoo.commands.contrib.iba.SL2G, zgoubidoo.commands.contrib.iba.SL3G, zgoubidoo.commands.contrib.iba.SMX, zgoubidoo.commands.contrib.iba.SMY, zgoubidoo.commands.contrib.iba.T1G, zgoubidoo.commands.contrib.iba.T2G, zgoubidoo.commands.contrib.iba.VerticalSlits" usemap="#inheritance205013aaad" class="inheritance graphviz" /></div>
+<map id="inheritance205013aaad" name="inheritance205013aaad">
 <area shape="rect" id="node1" href="api/zgoubidoo.commands.contrib.iba.B1G.html#zgoubidoo.commands.contrib.iba.B1G" target="_top" title="Proteus One 40 degree dipole." alt="" coords="611,367,668,387"/>
 <area shape="rect" id="node2" href="api/zgoubidoo.commands.contrib.iba.DipoleIBA.html#zgoubidoo.commands.contrib.iba.DipoleIBA" target="_top" title="IBA generic dipole." alt="" coords="496,387,560,406"/>
 <area shape="rect" id="node3" href="api/zgoubidoo.commands.contrib.iba.B2G.html#zgoubidoo.commands.contrib.iba.B2G" target="_top" title="Proteus One 70 degree dipole." alt="" coords="611,406,668,425"/>
 <area shape="rect" id="node4" href="api/zgoubidoo.commands.contrib.iba.B3G.html#zgoubidoo.commands.contrib.iba.B3G" target="_top" title="Proteus One 60 degree dipole." alt="" coords="611,444,668,463"/>
-<area shape="rect" id="node5" href="api/zgoubidoo.commands.magnetique.Bend.html#zgoubidoo.commands.magnetique.Bend" target="_top" title="Bending magnet, Cartesian frame." alt="" coords="380,214,437,234"/>
-<area shape="rect" id="node32" href="api/zgoubidoo.commands.contrib.iba.SMX.html#zgoubidoo.commands.contrib.iba.SMX" target="_top" title="Proteus One inline (horizontal) scanning magnet." alt="" coords="499,138,556,157"/>
-<area shape="rect" id="node33" href="api/zgoubidoo.commands.contrib.iba.SMY.html#zgoubidoo.commands.contrib.iba.SMY" target="_top" title="Proteus One crossline (vertical) scanning magnet." alt="" coords="499,176,556,195"/>
-<area shape="rect" id="node34" href="api/zgoubidoo.commands.contrib.iba.T1G.html#zgoubidoo.commands.contrib.iba.T1G" target="_top" title="Proteus One steering magnet." alt="" coords="499,214,556,234"/>
-<area shape="rect" id="node35" href="api/zgoubidoo.commands.contrib.iba.T2G.html#zgoubidoo.commands.contrib.iba.T2G" target="_top" title="Proteus One steering magnet." alt="" coords="499,253,556,272"/>
+<area shape="rect" id="node5" href="api/zgoubidoo.commands.contrib.iba.CGTR.html#zgoubidoo.commands.contrib.iba.CGTR" target="_top" title="Proteus One compact gantry (CGTR) input sequence." alt="" coords="18,300,75,320"/>
 <area shape="rect" id="node6" href="api/zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet" target="_top" title="Base class for magnetic elements in cartesian coordinates." alt="" coords="236,291,334,310"/>
+<area shape="rect" id="node15" href="api/zgoubidoo.commands.magnetique.Multipole.html#zgoubidoo.commands.magnetique.Multipole" target="_top" title="Magnetic multipole." alt="" coords="379,214,438,234"/>
 <area shape="rect" id="node30" href="api/zgoubidoo.commands.magnetique.Quadrupole.html#zgoubidoo.commands.magnetique.Quadrupole" target="_top" title="Quadrupole magnet." alt="" coords="372,291,445,310"/>
-<area shape="rect" id="node7" href="api/zgoubidoo.commands.contrib.iba.CGTR.html#zgoubidoo.commands.contrib.iba.CGTR" target="_top" title="Proteus One compact gantry (CGTR) input sequence." alt="" coords="18,272,75,291"/>
-<area shape="rect" id="node8" href="api/zgoubidoo.commands.magnetique.Magnet.html#zgoubidoo.commands.magnetique.Magnet" target="_top" title="Base class for all magnetic elements." alt="" coords="134,348,191,367"/>
-<area shape="rect" id="node12" href="api/zgoubidoo.commands.magnetique.PolarMagnet.html#zgoubidoo.commands.magnetique.PolarMagnet" target="_top" title="Base class for magnetic elements in polar coordinates." alt="" coords="247,348,324,367"/>
-<area shape="rect" id="node9" href="api/zgoubidoo.commands.commands.Collimateur.html#zgoubidoo.commands.commands.Collimateur" target="_top" title="Collimator." alt="" coords="127,387,198,406"/>
-<area shape="rect" id="node13" href="api/zgoubidoo.commands.contrib.iba.HorizontalSlits.html#zgoubidoo.commands.contrib.iba.HorizontalSlits" target="_top" title="Proteus One horizontal slits." alt="" coords="243,387,328,406"/>
-<area shape="rect" id="node36" href="api/zgoubidoo.commands.contrib.iba.VerticalSlits.html#zgoubidoo.commands.contrib.iba.VerticalSlits" target="_top" title="Proteus One vertical slits." alt="" coords="249,425,321,444"/>
-<area shape="rect" id="node10" href="api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" target="_top" title="Test test test." alt="" coords="14,387,80,406"/>
-<area shape="rect" id="node11" href="api/zgoubidoo.commands.magnetique.Dipole.html#zgoubidoo.commands.magnetique.Dipole" target="_top" title="Dipole magnet, polar frame." alt="" coords="380,367,437,387"/>
-<area shape="rect" id="node14" href="api/zgoubidoo.commands.patchable.Patchable.html#zgoubidoo.commands.patchable.Patchable" target="_top" title="Patchable elements are Zgoubi commands that affect the placement of the reference frame." alt="" coords="15,310,79,329"/>
-<area shape="rect" id="node15" href="api/zgoubidoo.commands.plotable.Plotable.html#zgoubidoo.commands.plotable.Plotable" target="_top" title="Plotable type." alt="" coords="18,348,75,367"/>
+<area shape="rect" id="node7" href="api/zgoubidoo.commands.magnetique.Magnet.html#zgoubidoo.commands.magnetique.Magnet" target="_top" title="Base class for all magnetic elements." alt="" coords="134,367,191,387"/>
+<area shape="rect" id="node11" href="api/zgoubidoo.commands.magnetique.PolarMagnet.html#zgoubidoo.commands.magnetique.PolarMagnet" target="_top" title="Base class for magnetic elements in polar coordinates." alt="" coords="247,367,324,387"/>
+<area shape="rect" id="node8" href="api/zgoubidoo.commands.commands.Collimateur.html#zgoubidoo.commands.commands.Collimateur" target="_top" title="Collimator." alt="" coords="127,415,198,434"/>
+<area shape="rect" id="node12" href="api/zgoubidoo.commands.contrib.iba.HorizontalSlits.html#zgoubidoo.commands.contrib.iba.HorizontalSlits" target="_top" title="Proteus One horizontal slits." alt="" coords="243,415,328,434"/>
+<area shape="rect" id="node34" href="api/zgoubidoo.commands.contrib.iba.VerticalSlits.html#zgoubidoo.commands.contrib.iba.VerticalSlits" target="_top" title="Proteus One vertical slits." alt="" coords="249,463,321,482"/>
+<area shape="rect" id="node9" href="api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" target="_top" title="Test test test." alt="" coords="14,415,80,434"/>
+<area shape="rect" id="node10" href="api/zgoubidoo.commands.magnetique.Dipole.html#zgoubidoo.commands.magnetique.Dipole" target="_top" title="Dipole magnet, polar frame." alt="" coords="380,367,437,387"/>
+<area shape="rect" id="node32" href="api/zgoubidoo.commands.contrib.iba.SL1G.html#zgoubidoo.commands.contrib.iba.SL1G" target="_top" title="First vertical collimator" alt="" coords="380,406,437,425"/>
+<area shape="rect" id="node35" href="api/zgoubidoo.commands.contrib.iba.SL3G.html#zgoubidoo.commands.contrib.iba.SL3G" target="_top" title="First vertical collimator" alt="" coords="380,444,437,463"/>
+<area shape="rect" id="node13" href="api/zgoubidoo.commands.patchable.Patchable.html#zgoubidoo.commands.patchable.Patchable" target="_top" title="Patchable elements are Zgoubi commands that affect the placement of the reference frame." alt="" coords="15,339,79,358"/>
+<area shape="rect" id="node14" href="api/zgoubidoo.commands.plotable.Plotable.html#zgoubidoo.commands.plotable.Plotable" target="_top" title="Plotable type." alt="" coords="18,377,75,396"/>
+<area shape="rect" id="node36" href="api/zgoubidoo.commands.contrib.iba.SMX.html#zgoubidoo.commands.contrib.iba.SMX" target="_top" title="Proteus One inline (horizontal) scanning magnet." alt="" coords="499,138,556,157"/>
+<area shape="rect" id="node37" href="api/zgoubidoo.commands.contrib.iba.SMY.html#zgoubidoo.commands.contrib.iba.SMY" target="_top" title="Proteus One crossline (vertical) scanning magnet." alt="" coords="499,176,556,195"/>
+<area shape="rect" id="node38" href="api/zgoubidoo.commands.contrib.iba.T1G.html#zgoubidoo.commands.contrib.iba.T1G" target="_top" title="Proteus One steering magnet." alt="" coords="499,214,556,234"/>
+<area shape="rect" id="node39" href="api/zgoubidoo.commands.contrib.iba.T2G.html#zgoubidoo.commands.contrib.iba.T2G" target="_top" title="Proteus One steering magnet." alt="" coords="499,253,556,272"/>
 <area shape="rect" id="node16" href="api/zgoubidoo.commands.contrib.iba.Q1C.html#zgoubidoo.commands.contrib.iba.Q1C" target="_top" title="Proteus One &#39;Q1C&#39; gantry quadrupole." alt="" coords="706,4,764,23"/>
 <area shape="rect" id="node17" href="api/zgoubidoo.commands.contrib.iba.QShort.html#zgoubidoo.commands.contrib.iba.QShort" target="_top" title="Proteus One short quadrupole." alt="" coords="611,119,668,138"/>
 <area shape="rect" id="node20" href="api/zgoubidoo.commands.contrib.iba.Q2C.html#zgoubidoo.commands.contrib.iba.Q2C" target="_top" title="Proteus One &#39;Q2C&#39; gantry quadrupole." alt="" coords="706,42,764,62"/>
@@ -345,16 +377,59 @@ TODO</p>
 <area shape="rect" id="node25" href="api/zgoubidoo.commands.contrib.iba.QLong.html#zgoubidoo.commands.contrib.iba.QLong" target="_top" title="Proteus One long quadrupole." alt="" coords="611,291,668,310"/>
 <area shape="rect" id="node28" href="api/zgoubidoo.commands.contrib.iba.QuadrupoleIBA.html#zgoubidoo.commands.contrib.iba.QuadrupoleIBA" target="_top" title="IBA generic quadrupole." alt="" coords="483,291,573,310"/>
 <area shape="rect" id="node29" href="api/zgoubidoo.commands.contrib.iba.QPMQ.html#zgoubidoo.commands.contrib.iba.QPMQ" target="_top" title="Proteus One &#39;PMQ&#39; quadrupole." alt="" coords="611,329,668,348"/>
-<area shape="rect" id="node31" href="api/zgoubidoo.commands.contrib.iba.ResearchArea.html#zgoubidoo.commands.contrib.iba.ResearchArea" target="_top" title="Proteus One research area input sequence." alt="" coords="4,234,89,253"/>
+<area shape="rect" id="node31" href="api/zgoubidoo.commands.contrib.iba.ResearchArea.html#zgoubidoo.commands.contrib.iba.ResearchArea" target="_top" title="Proteus One research area input sequence." alt="" coords="4,262,89,281"/>
+<area shape="rect" id="node33" href="api/zgoubidoo.commands.contrib.iba.SL2G.html#zgoubidoo.commands.contrib.iba.SL2G" target="_top" title="First horizontal collimator" alt="" coords="380,482,437,501"/>
 </map></div>
 </div>
 <div class="section" id="module-zgoubidoo.commands.contrib.cern">
-<span id="cern-elements"></span><h2><a class="toc-backref" href="#id2">CERN elements</a><a class="headerlink" href="#module-zgoubidoo.commands.contrib.cern" title="Permalink to this headline">¶</a></h2>
+<span id="cern-elements"></span><h2><a class="toc-backref" href="#id6">CERN elements</a><a class="headerlink" href="#module-zgoubidoo.commands.contrib.cern" title="Permalink to this headline">¶</a></h2>
 <p>TODO</p>
+<div class="section" id="id1">
+<h3>Classes<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.contrib.cern.LHeC.html#zgoubidoo.commands.contrib.cern.LHeC" title="zgoubidoo.commands.contrib.cern.LHeC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LHeC</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id2">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="graphviz"><img src="_images/inheritance-6fd4e1557217990999ae2b68d9e6485c21eec3b0.png" alt="Inheritance diagram of zgoubidoo.commands.contrib.cern.lhec.LHeC" class="inheritance graphviz" /></div>
+</div>
 </div>
 <div class="section" id="module-zgoubidoo.commands.contrib.emma">
-<span id="emma-elements"></span><h2><a class="toc-backref" href="#id3">Emma elements</a><a class="headerlink" href="#module-zgoubidoo.commands.contrib.emma" title="Permalink to this headline">¶</a></h2>
+<span id="emma-elements"></span><h2><a class="toc-backref" href="#id7">Emma elements</a><a class="headerlink" href="#module-zgoubidoo.commands.contrib.emma" title="Permalink to this headline">¶</a></h2>
 <p>TODO</p>
+<div class="section" id="id3">
+<h3>Classes<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.contrib.emma.QD.html#zgoubidoo.commands.contrib.emma.QD" title="zgoubidoo.commands.contrib.emma.QD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">QD</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.contrib.emma.QF.html#zgoubidoo.commands.contrib.emma.QF" title="zgoubidoo.commands.contrib.emma.QF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">QF</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id4">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="graphviz"><img src="_images/inheritance-f05cf59fcc6a5497f3c7d7f032b0f36e22ae1f90.png" alt="Inheritance diagram of zgoubidoo.commands.contrib.emma.QD, zgoubidoo.commands.contrib.emma.QF" usemap="#inheritanceef73298140" class="inheritance graphviz" /></div>
+<map id="inheritanceef73298140" name="inheritanceef73298140">
+<area shape="rect" id="node1" href="api/zgoubidoo.commands.contrib.emma.QD.html#zgoubidoo.commands.contrib.emma.QD" target="_top" title="QD" alt="" coords="5,53,77,77"/>
+<area shape="rect" id="node2" href="api/zgoubidoo.commands.contrib.emma.QF.html#zgoubidoo.commands.contrib.emma.QF" target="_top" title="QF" alt="" coords="5,5,77,29"/>
+</map></div>
 </div>
 </div>
 
@@ -369,7 +444,7 @@ TODO</p>
         <a href="api/zgoubidoo.commands.contrib.iba.B1G.html" class="btn btn-neutral float-right" title="B1G" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="api/zgoubidoo.commands.spin.Spnprnl.html" class="btn btn-neutral" title="Spnprnl" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="api/zgoubidoo.commands.radiation.SynchrotronRadiationSpectral.html" class="btn btn-neutral float-left" title="SynchrotronRadiationSpectral" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -395,26 +470,16 @@ TODO</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

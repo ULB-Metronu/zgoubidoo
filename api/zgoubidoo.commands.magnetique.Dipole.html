@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Dipole &mdash; Zgoubidoo 2019.1 documentation</title>
+  <title>Dipole &mdash; Zgoubidoo 2019.4 documentation</title>
   
 
   
@@ -17,13 +17,20 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -31,21 +38,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="DipoleM" href="zgoubidoo.commands.magnetique.DipoleM.html" />
     <link rel="prev" title="Decapole" href="zgoubidoo.commands.magnetique.Decapole.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -59,7 +61,7 @@
             
             
               <div class="version">
-                2019.1
+                2019.4
               </div>
             
           
@@ -87,6 +89,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../commands.html">Zgoubi commands</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands">Zgoubidoo’s class hierarchy and bases classes for new commands</a></li>
@@ -108,17 +111,19 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Dipoles.html">Dipoles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Dodecapole.html">Dodecapole</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Drift.html">Drift</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.ESL.html">ESL</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Emma.html">Emma</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.FFAG.html">FFAG</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.FFAGSpirale.html">FFAGSpirale</a></li>
-<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.FakeDrift.html">FakeDrift</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Magnet.html">Magnet</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.MagnetType.html">MagnetType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Multipol.html">Multipol</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Multipole.html">Multipole</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Octupole.html">Octupole</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.PS170.html">PS170</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.PolarMagnet.html">PolarMagnet</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.PolarMagnetType.html">PolarMagnetType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.PolarMultiMagnet.html">PolarMultiMagnet</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Quadisex.html">Quadisex</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.Quadrupole.html">Quadrupole</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.magnetique.SexQuad.html">SexQuad</a></li>
@@ -134,13 +139,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.electrique">Electric elements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.fieldmaps">Field-map elements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.spin">Spin tracking commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.radiation">Synchrotron radiation commands</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../beam.html">Working with Zgoubidoo beams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
@@ -308,7 +314,8 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
 <dl class="attribute">
 <dt>
 <code class="descname">HEIGHT='20 centimeter'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Height of the magnet (distance between poles), used by plotting functions.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -320,7 +327,91 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
 
 <dl class="attribute">
 <dt>
-<code class="descname">IL='2'</code></dt>
+<code class="descname">REFERENCE_FIELD_COMPONENT='BZ'</code></dt>
+<dd><p>Orientation of the reference field (used by field maps)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">KINEMATICS='None'</code></dt>
+<dd><p>A kinematics object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">NoneType</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">APERTURE_LEFT='10 centimeter'</code></dt>
+<dd><p>Aperture size of the magnet, left side (used for plotting only).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">APERTURE_RIGHT='10 centimeter'</code></dt>
+<dd><p>Aperture size of the magnet, right side (used for plotting only).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">APERTURE_TOP='10 centimeter'</code></dt>
+<dd><p>Aperture size of the magnet, top side (used for plotting only).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">APERTURE_BOTTOM='10 centimeter'</code></dt>
+<dd><p>Aperture size of the magnet, bottom side (used for plotting only).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">IL='0'</code></dt>
 <dd><p>Print field and coordinates along trajectories</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -335,7 +426,7 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
 <dl class="attribute">
 <dt>
 <code class="descname">AT='0 degree'</code></dt>
-<dd><p>Total angular extent of the dipole</p>
+<dd><p>Total angular extent of the dipole (positive value in all cases)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -557,12 +648,13 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
 
 <dl class="attribute">
 <dt>
-<code class="descname">THETA_E='0'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<code class="descname">THETA_E='0 degree'</code></dt>
+<dd><p>Entrance face wedge angle</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
 </tr>
 </tbody>
 </table>
@@ -751,12 +843,13 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
 
 <dl class="attribute">
 <dt>
-<code class="descname">THETA_S='0'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<code class="descname">THETA_S='0 degree'</code></dt>
+<dd><p>Exit face wedge angle</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
 </tr>
 </tbody>
 </table>
@@ -820,7 +913,7 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
 
 <dl class="attribute">
 <dt>
-<code class="descname">LAM_L='0 centimeter'</code></dt>
+<code class="descname">LAM_L='0.0 centimeter'</code></dt>
 <dd><p>Lateral fringe field extent (normally ≃ gap size)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -834,13 +927,13 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
 
 <dl class="attribute">
 <dt>
-<code class="descname">XI_L='0.0'</code></dt>
+<code class="descname">XI_L='0'</code></dt>
 <dd><p>Flag to activate/deactivate the lateral EFB (0 to deactivate)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
 </tr>
 </tbody>
 </table>
@@ -959,12 +1052,13 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
 
 <dl class="attribute">
 <dt>
-<code class="descname">THETA_L='0'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<code class="descname">THETA_L='0 degree'</code></dt>
+<dd><p>Lateral field boundary wedge angle</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
 </tr>
 </tbody>
 </table>
@@ -1181,12 +1275,13 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.Dipole.fit" title="zgoubidoo.commands.magnetique.Dipole.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(boro,&nbsp;particle,&nbsp;entry_coordinates,&nbsp;…)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.Dipole.fit" title="zgoubidoo.commands.magnetique.Dipole.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(kinematics,&nbsp;particle,&nbsp;entry_coordinates,&nbsp;…)</td>
 <td><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param boro:</th><td class="field-body">the reference energy of the magnet</td>
+<tr class="field-odd field"><th class="field-name" colspan="2">param kinematics:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">the reference energy of the magnet</td>
 </tr>
 </tbody>
 </table>
@@ -1214,7 +1309,7 @@ From the vertical field B⃗ and derivatives in the median plane, first a transf
 
 <dl class="attribute">
 <dt id="zgoubidoo.commands.magnetique.Dipole.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'ACENT': (&lt;Quantity(0, 'degree')&gt;, 'Azimuth for positioning of EFBs', 4), 'AT': (&lt;Quantity(0, 'degree')&gt;, 'Total angular extent of the dipole', 2), 'B': (0, 'Field index (radial sextupolar)', 7), 'B0': (&lt;Quantity(0, 'kilogauss')&gt;, 'Reference field', 5), 'C0_E': (0, 'Fringe field coefficient C0', 12), 'C0_L': (0, 'Fringe field coefficient C0', 41), 'C0_S': (0, 'Fringe field coefficient C0', 26), 'C1_E': (1, 'Fringe field coefficient C1', 13), 'C1_L': (1, 'Fringe field coefficient C1', 42), 'C1_S': (1, 'Fringe field coefficient C1', 27), 'C2_E': (0, 'Fringe field coefficient C2', 14), 'C2_L': (0, 'Fringe field coefficient C2', 43), 'C2_S': (0, 'Fringe field coefficient C2', 28), 'C3_E': (0, 'Fringe field coefficient C3', 15), 'C3_L': (0, 'Fringe field coefficient C3', 44), 'C3_S': (0, 'Fringe field coefficient C3', 29), 'C4_E': (0, 'Fringe field coefficient C4', 16), 'C4_L': (0, 'Fringe field coefficient C4', 45), 'C4_S': (0, 'Fringe field coefficient C4', 30), 'C5_E': (0, 'Fringe field coefficient C5', 17), 'C5_L': (0, 'Fringe field coefficient C5', 46), 'C5_S': (0, 'Fringe field coefficient C5', 31), 'COLOR': ('red',), 'DP': (0.0, '', 63), 'G': (0, 'Field index (radial octupolar)', 8), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, ''), 'IL': (2, 'Print field and coordinates along trajectories', 1), 'IORDRE': (2, '', 55), 'KPOS': (2, '', 58), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'LAM_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance fringe field extent (normally ≃ gap size)', 9), 'LAM_L': (&lt;Quantity(0, 'centimeter')&gt;, 'Lateral fringe field extent (normally ≃ gap size)', 39), 'LAM_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit fringe field extent (normally ≃ gap size)', 25), 'N': (0, 'Field index (radial quadrupolar)', 6), 'OMEGA_E': (&lt;Quantity(0, 'degree')&gt;, '', 19), 'OMEGA_L': (&lt;Quantity(0, 'degree')&gt;, '', 48), 'OMEGA_S': (&lt;Quantity(0, 'degree')&gt;, '', 33), 'R1_E': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Entrance EFB radius', 21), 'R1_L': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Lateral EFB radius', 50), 'R1_S': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Exit EFB radius', 35), 'R2_E': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Entrance EFB radius', 24), 'R2_L': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Lateral EFB radius', 53), 'R2_S': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Exit EFB radius', 38), 'RE': (&lt;Quantity(0, 'centimeter')&gt;, '', 59), 'RESOL': (10, '', 56), 'RM': (&lt;Quantity(0, 'centimeter')&gt;, 'Reference radius', 3), 'RM3': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Reference radius of the lateral EFB', 54), 'RS': (&lt;Quantity(0, 'centimeter')&gt;, '', 61), 'SHIFT_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Shift of the EFB', 18), 'SHIFT_L': (&lt;Quantity(0, 'centimeter')&gt;, 'Shift of the EFB', 47), 'SHIFT_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Shift of the EFB', 32), 'TE': (&lt;Quantity(0, 'radian')&gt;, '', 60), 'THETA_E': (0, '', 20), 'THETA_L': (0, '', 49), 'THETA_S': (0, '', 34), 'TS': (&lt;Quantity(0, 'radian')&gt;, '', 62), 'U1_E': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Entrance EFB linear extent', 22), 'U1_L': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Lateral EFB linear extent', 51), 'U1_S': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Exit EFB linear extent', 36), 'U2_E': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Entrance EFB linear extent', 23), 'U2_L': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Lateral EFB linear extent', 52), 'U2_S': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Exit EFB linear extent', 37), 'WIDTH': (&lt;Quantity(150, 'centimeter')&gt;,), 'XI_L': (0.0, 'Flag to activate/deactivate the lateral EFB (0 to deactivate)', 40), 'XPAS': (&lt;Quantity(1, 'millimeter')&gt;, 'Integration step', 57)}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.Dipole.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="descname">PARAMETERS</code><em class="property"> = {'ACENT': (&lt;Quantity(0, 'degree')&gt;, 'Azimuth for positioning of EFBs', 4), 'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'AT': (&lt;Quantity(0, 'degree')&gt;, 'Total angular extent of the dipole (positive value in all cases)', 2), 'B': (0, 'Field index (radial sextupolar)', 7), 'B0': (&lt;Quantity(0, 'kilogauss')&gt;, 'Reference field', 5), 'C0_E': (0, 'Fringe field coefficient C0', 12), 'C0_L': (0, 'Fringe field coefficient C0', 41), 'C0_S': (0, 'Fringe field coefficient C0', 26), 'C1_E': (1, 'Fringe field coefficient C1', 13), 'C1_L': (1, 'Fringe field coefficient C1', 42), 'C1_S': (1, 'Fringe field coefficient C1', 27), 'C2_E': (0, 'Fringe field coefficient C2', 14), 'C2_L': (0, 'Fringe field coefficient C2', 43), 'C2_S': (0, 'Fringe field coefficient C2', 28), 'C3_E': (0, 'Fringe field coefficient C3', 15), 'C3_L': (0, 'Fringe field coefficient C3', 44), 'C3_S': (0, 'Fringe field coefficient C3', 29), 'C4_E': (0, 'Fringe field coefficient C4', 16), 'C4_L': (0, 'Fringe field coefficient C4', 45), 'C4_S': (0, 'Fringe field coefficient C4', 30), 'C5_E': (0, 'Fringe field coefficient C5', 17), 'C5_L': (0, 'Fringe field coefficient C5', 46), 'C5_S': (0, 'Fringe field coefficient C5', 31), 'COLOR': ('#4169E1',), 'DP': (0.0, '', 63), 'G': (0, 'Field index (radial octupolar)', 8), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'IL': (0, 'Print field and coordinates along trajectories', 1), 'IORDRE': (2, '', 55), 'KINEMATICS': (None, 'A kinematics object.'), 'KPOS': (2, '', 58), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'LAM_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance fringe field extent (normally ≃ gap size)', 9), 'LAM_L': (&lt;Quantity(0.0, 'centimeter')&gt;, 'Lateral fringe field extent (normally ≃ gap size)', 39), 'LAM_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit fringe field extent (normally ≃ gap size)', 25), 'N': (0, 'Field index (radial quadrupolar)', 6), 'OMEGA_E': (&lt;Quantity(0, 'degree')&gt;, '', 19), 'OMEGA_L': (&lt;Quantity(0, 'degree')&gt;, '', 48), 'OMEGA_S': (&lt;Quantity(0, 'degree')&gt;, '', 33), 'R1_E': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Entrance EFB radius', 21), 'R1_L': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Lateral EFB radius', 50), 'R1_S': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Exit EFB radius', 35), 'R2_E': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Entrance EFB radius', 24), 'R2_L': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Lateral EFB radius', 53), 'R2_S': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Exit EFB radius', 38), 'RE': (&lt;Quantity(0, 'centimeter')&gt;, '', 64), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'RESOL': (10, '', 56), 'RM': (&lt;Quantity(0, 'centimeter')&gt;, 'Reference radius', 3), 'RM3': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Reference radius of the lateral EFB', 54), 'RS': (&lt;Quantity(0, 'centimeter')&gt;, '', 66), 'SHIFT_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Shift of the EFB', 18), 'SHIFT_L': (&lt;Quantity(0, 'centimeter')&gt;, 'Shift of the EFB', 47), 'SHIFT_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Shift of the EFB', 32), 'TE': (&lt;Quantity(0, 'radian')&gt;, '', 65), 'THETA_E': (&lt;Quantity(0, 'degree')&gt;, 'Entrance face wedge angle', 20), 'THETA_L': (&lt;Quantity(0, 'degree')&gt;, 'Lateral field boundary wedge angle', 49), 'THETA_S': (&lt;Quantity(0, 'degree')&gt;, 'Exit face wedge angle', 34), 'TS': (&lt;Quantity(0, 'radian')&gt;, '', 67), 'U1_E': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Entrance EFB linear extent', 22), 'U1_L': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Lateral EFB linear extent', 51), 'U1_S': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Exit EFB linear extent', 36), 'U2_E': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Entrance EFB linear extent', 23), 'U2_L': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Lateral EFB linear extent', 52), 'U2_S': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Exit EFB linear extent', 37), 'WIDTH': (&lt;Quantity(150, 'centimeter')&gt;,), 'XI_L': (0, 'Flag to activate/deactivate the lateral EFB (0 to deactivate)', 40), 'XPAS': (&lt;Quantity(1, 'millimeter')&gt;, 'Integration step', 57)}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.Dipole.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parameters of the command, with their default value, their description and optinally an index used by other
 commands (e.g. fit).</p>
 </dd></dl>
@@ -1222,13 +1317,13 @@ commands (e.g. fit).</p>
 <p class="rubric">Methods Documentation</p>
 <dl class="method">
 <dt id="zgoubidoo.commands.magnetique.Dipole.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>boro: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em>, <em>entry_coordinates: List[T] = None</em>, <em>exit_coordinate: float = 0.0</em>, <em>method: zgoubidoo.commands.commands.FitType = &lt;class 'zgoubidoo.commands.commands.Fit2'&gt;</em>, <em>zgoubi: Optional[zgoubidoo.zgoubi.Zgoubi] = None</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#Dipole.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.Dipole.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>kinematics: georges_core.kinematics.Kinematics</em>, <em>particle: zgoubidoo.commands.particules.ParticuleType = &lt;class 'zgoubidoo.commands.particules.Proton'&gt;</em>, <em>entry_coordinates: numpy.array = None</em>, <em>exit_coordinate: float = 0.0</em>, <em>method: zgoubidoo.commands.actions.FitType = &lt;class 'zgoubidoo.commands.actions.Fit2'&gt;</em>, <em>zgoubi: Optional[zgoubidoo.zgoubi.Zgoubi] = None</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#Dipole.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.Dipole.fit" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>boro</strong> – the reference energy of the magnet</li>
+<li><strong>kinematics</strong> – the reference energy of the magnet</li>
 <li><strong>particle</strong> – the particule type</li>
 <li><strong>entry_coordinates</strong> – references 6D coordinates at the magnet entry</li>
 <li><strong>exit_coordinate</strong> – the coordinate at the magnet exit</li>
@@ -1247,7 +1342,7 @@ commands (e.g. fit).</p>
 
 <dl class="method">
 <dt id="zgoubidoo.commands.magnetique.Dipole.post_init">
-<code class="descname">post_init</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span> &#x2192; NoReturn<a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#Dipole.post_init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.Dipole.post_init" title="Permalink to this definition">¶</a></dt>
+<code class="descname">post_init</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#Dipole.post_init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.Dipole.post_init" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1274,7 +1369,7 @@ commands (e.g. fit).</p>
         <a href="zgoubidoo.commands.magnetique.DipoleM.html" class="btn btn-neutral float-right" title="DipoleM" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="zgoubidoo.commands.magnetique.Decapole.html" class="btn btn-neutral" title="Decapole" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="zgoubidoo.commands.magnetique.Decapole.html" class="btn btn-neutral float-left" title="Decapole" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -1300,26 +1395,16 @@ commands (e.g. fit).</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

@@ -1,0 +1,664 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>FieldMap &mdash; Zgoubidoo 2019.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Physics with Zgoubidoo high-level interfaces" href="../physics.html" />
+    <link rel="prev" title="EngeModel" href="zgoubidoo.fieldmaps.fieldmap.EngeModel.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2019.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../news.html">News and announcements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../fieldmaps.html">Field maps</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../fieldmaps.html#functions">Functions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../fieldmaps.html#classes">Classes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="zgoubidoo.fieldmaps.fieldmap.EngeModel.html">EngeModel</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">FieldMap</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../fieldmaps.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../fieldmaps.html">Field maps</a> &raquo;</li>
+        
+      <li>FieldMap</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/zgoubidoo.fieldmaps.fieldmap.FieldMap.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="fieldmap">
+<h1>FieldMap<a class="headerlink" href="#fieldmap" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap">
+<em class="property">class </em><code class="descclassname">zgoubidoo.fieldmaps.fieldmap.</code><code class="descname">FieldMap</code><span class="sig-paren">(</span><em>field_map: pandas.core.frame.DataFrame</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/fieldmaps/fieldmap.html#FieldMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>TODO</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>field_map</strong> – </td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.data" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></td>
+<td>Field map raw data in a numpy array.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.df" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">df</span></code></a></td>
+<td>Field map dataframe.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.field_profile_fit" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.field_profile_fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">field_profile_fit</span></code></a></td>
+<td>Fit of the field profile.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.mesh_sampling_x" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.mesh_sampling_x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mesh_sampling_x</span></code></a></td>
+<td>Sampling points of the field map along the X axis.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.mesh_sampling_y" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.mesh_sampling_y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mesh_sampling_y</span></code></a></td>
+<td>Sampling points of the field map along the Y axis.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.mesh_sampling_z" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.mesh_sampling_z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mesh_sampling_z</span></code></a></td>
+<td>Sampling points of the field map along the Z axis.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.reference_trajectory" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.reference_trajectory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reference_trajectory</span></code></a></td>
+<td>Reference trajectory attached to the field map.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.attach_cartesian_trajectory" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.attach_cartesian_trajectory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attach_cartesian_trajectory</span></code></a>(axis,&nbsp;lower,&nbsp;…)</td>
+<td>TODO: support arbitrary rotations</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.attach_polar_trajectory" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.attach_polar_trajectory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attach_polar_trajectory</span></code></a>(radius,&nbsp;lower_angle,&nbsp;…)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param radius:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.export_for_bdsim" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.export_for_bdsim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">export_for_bdsim</span></code></a>(method)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param method:</th><td class="field-body">method used for the grid interpolation (‘nearest’ or ‘linear’)</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.fit_field_profile" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.fit_field_profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_field_profile</span></code></a>(model,&nbsp;field_component,&nbsp;…)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param model:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.load_from_opera" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.load_from_opera"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_from_opera</span></code></a>(file,&nbsp;path)</td>
+<td>Factory method to load a field map from a Opera output file.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.load_from_opera_with_mesh" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.load_from_opera_with_mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_from_opera_with_mesh</span></code></a>(field_file,&nbsp;…)</td>
+<td>Factory method to load a field map from Opera output files (field map and mesh definition).</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.mesh_sampling_along_axis" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.mesh_sampling_along_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mesh_sampling_along_axis</span></code></a>(axis)</td>
+<td>Sampling points of the field map along a given axis.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.plot_field_map" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.plot_field_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_field_map</span></code></a>(ax,&nbsp;field_component,&nbsp;plane1,&nbsp;…)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param ax:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.plot_field_profile" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.plot_field_profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_field_profile</span></code></a>(ax,&nbsp;field_component,&nbsp;…)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param ax:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.rotate" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.rotate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate</span></code></a>()</td>
+<td>TODO</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.sample" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample</span></code></a>(points,&nbsp;field_component,&nbsp;method)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param points:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.slice" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.slice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">slice</span></code></a>(slicing)</td>
+<td>Slices the field map following a slicing query.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.translate" title="zgoubidoo.fieldmaps.fieldmap.FieldMap.translate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">translate</span></code></a>(x,&nbsp;y,&nbsp;z)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param x:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.data">
+<code class="descname">data</code><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Field map raw data in a numpy array.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.df">
+<code class="descname">df</code><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Field map dataframe.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.field_profile_fit">
+<code class="descname">field_profile_fit</code><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.field_profile_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit of the field profile.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.mesh_sampling_x">
+<code class="descname">mesh_sampling_x</code><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.mesh_sampling_x" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sampling points of the field map along the X axis.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.mesh_sampling_y">
+<code class="descname">mesh_sampling_y</code><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.mesh_sampling_y" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sampling points of the field map along the Y axis.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.mesh_sampling_z">
+<code class="descname">mesh_sampling_z</code><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.mesh_sampling_z" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sampling points of the field map along the Z axis.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.reference_trajectory">
+<code class="descname">reference_trajectory</code><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.reference_trajectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reference trajectory attached to the field map.</p>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.attach_cartesian_trajectory">
+<code class="descname">attach_cartesian_trajectory</code><span class="sig-paren">(</span><em>axis: int = 0</em>, <em>lower: Optional[float] = None</em>, <em>upper: Optional[float] = None</em>, <em>samples: Optional[int] = None</em>, <em>offset_x: float = 0.0</em>, <em>offset_y: float = 0.0</em>, <em>offset_z: float = 0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/fieldmaps/fieldmap.html#FieldMap.attach_cartesian_trajectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.attach_cartesian_trajectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>TODO: support arbitrary rotations</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>axis</strong> – </li>
+<li><strong>lower</strong> – </li>
+<li><strong>upper</strong> – </li>
+<li><strong>samples</strong> – </li>
+<li><strong>offset_x</strong> – </li>
+<li><strong>offset_y</strong> – </li>
+<li><strong>offset_z</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.attach_polar_trajectory">
+<code class="descname">attach_polar_trajectory</code><span class="sig-paren">(</span><em>radius: float</em>, <em>lower_angle: float</em>, <em>upper_angle: float</em>, <em>samples: int</em>, <em>plane: str = 'XY'</em>, <em>offset_x: float = 0.0</em>, <em>offset_y: float = 0.0</em>, <em>offset_z: float = 0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/fieldmaps/fieldmap.html#FieldMap.attach_polar_trajectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.attach_polar_trajectory" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>radius</strong> – </li>
+<li><strong>lower_angle</strong> – </li>
+<li><strong>upper_angle</strong> – </li>
+<li><strong>samples</strong> – </li>
+<li><strong>plane</strong> – </li>
+<li><strong>offset_x</strong> – </li>
+<li><strong>offset_y</strong> – </li>
+<li><strong>offset_z</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.export_for_bdsim">
+<code class="descname">export_for_bdsim</code><span class="sig-paren">(</span><em>method: str = 'nearest'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/fieldmaps/fieldmap.html#FieldMap.export_for_bdsim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.export_for_bdsim" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>method</strong> – method used for the grid interpolation (‘nearest’ or ‘linear’)</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.fit_field_profile">
+<code class="descname">fit_field_profile</code><span class="sig-paren">(</span><em>model: Optional[lmfit.model.Model] = None</em>, <em>field_component: str = 'MOD'</em>, <em>sampling_method: str = 'nearest'</em><span class="sig-paren">)</span> &#x2192; lmfit.model.ModelResult<a class="reference internal" href="../_modules/zgoubidoo/fieldmaps/fieldmap.html#FieldMap.fit_field_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.fit_field_profile" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model</strong> – </li>
+<li><strong>field_component</strong> – </li>
+<li><strong>sampling_method</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.load_from_opera">
+<em class="property">classmethod </em><code class="descname">load_from_opera</code><span class="sig-paren">(</span><em>file: str</em>, <em>path: str = '.'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/fieldmaps/fieldmap.html#FieldMap.load_from_opera"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.load_from_opera" title="Permalink to this definition">¶</a></dt>
+<dd><p>Factory method to load a field map from a Opera output file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>file</strong> – the file containing the field map data</li>
+<li><strong>path</strong> – path to the field mpa data file</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A FieldMap loaded from file.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.load_from_opera_with_mesh">
+<em class="property">classmethod </em><code class="descname">load_from_opera_with_mesh</code><span class="sig-paren">(</span><em>field_file: str</em>, <em>mesh_file: str</em>, <em>path: str = '.'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/fieldmaps/fieldmap.html#FieldMap.load_from_opera_with_mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.load_from_opera_with_mesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Factory method to load a field map from Opera output files (field map and mesh definition).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>field_file</strong> – the file containing the field map data</li>
+<li><strong>mesh_file</strong> – the file containing the mesh data</li>
+<li><strong>path</strong> – path to the field mpa data files</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A FieldMap loaded from files.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.mesh_sampling_along_axis">
+<code class="descname">mesh_sampling_along_axis</code><span class="sig-paren">(</span><em>axis: int</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.array, int]<a class="reference internal" href="../_modules/zgoubidoo/fieldmaps/fieldmap.html#FieldMap.mesh_sampling_along_axis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.mesh_sampling_along_axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sampling points of the field map along a given axis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>axis</strong> – the index of the axis.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A numpy array containing the data points of the field map sampling.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.plot_field_map">
+<code class="descname">plot_field_map</code><span class="sig-paren">(</span><em>ax</em>, <em>field_component: str</em>, <em>plane1: int = 0</em>, <em>plane2: int = 2</em>, <em>bins: int = 50</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/fieldmaps/fieldmap.html#FieldMap.plot_field_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.plot_field_map" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ax</strong> – </li>
+<li><strong>field_component</strong> – </li>
+<li><strong>plane1</strong> – </li>
+<li><strong>plane2</strong> – </li>
+<li><strong>bins</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.plot_field_profile">
+<code class="descname">plot_field_profile</code><span class="sig-paren">(</span><em>ax</em>, <em>field_component: str = 'MOD'</em>, <em>sampling_method: str = 'nearest'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/fieldmaps/fieldmap.html#FieldMap.plot_field_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.plot_field_profile" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ax</strong> – </li>
+<li><strong>field_component</strong> – </li>
+<li><strong>sampling_method</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.rotate">
+<code class="descname">rotate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/fieldmaps/fieldmap.html#FieldMap.rotate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.rotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>TODO</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>points</em>, <em>field_component: str = 'MOD'</em>, <em>method: str = 'nearest'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/fieldmaps/fieldmap.html#FieldMap.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.sample" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>points</strong> – </li>
+<li><strong>field_component</strong> – field component to be sampled (‘BX’, ‘BY’, ‘BZ’ or ‘MOD’)</li>
+<li><strong>method</strong> – method used for the grid interpolation (‘nearest’ or ‘linear’)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.slice">
+<code class="descname">slice</code><span class="sig-paren">(</span><em>slicing: str = 'Z == 0'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/fieldmaps/fieldmap.html#FieldMap.slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Slices the field map following a slicing query.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>slicing</strong> – the slicing query string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The object itself (allows method chaining).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zgoubidoo.fieldmaps.fieldmap.FieldMap.translate">
+<code class="descname">translate</code><span class="sig-paren">(</span><em>x: float = 0</em>, <em>y: float = 0</em>, <em>z: float = 0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/fieldmaps/fieldmap.html#FieldMap.translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.fieldmaps.fieldmap.FieldMap.translate" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> – </li>
+<li><strong>y</strong> – </li>
+<li><strong>z</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns:</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../physics.html" class="btn btn-neutral float-right" title="Physics with Zgoubidoo high-level interfaces" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="zgoubidoo.fieldmaps.fieldmap.EngeModel.html" class="btn btn-neutral float-left" title="EngeModel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -10,6 +10,7 @@ QuadrupoleIBA
 
    .. autosummary::
 
+      ~QuadrupoleIBA.B0
       ~QuadrupoleIBA.KEYWORD
       ~QuadrupoleIBA.PARAMETERS
       ~QuadrupoleIBA.current
@@ -28,6 +29,7 @@ QuadrupoleIBA
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: B0
    .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS
    .. autoattribute:: current

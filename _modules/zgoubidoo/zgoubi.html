@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>zgoubidoo.zgoubi &mdash; Zgoubidoo 2019.1 documentation</title>
+  <title>zgoubidoo.zgoubi &mdash; Zgoubidoo 2019.4 documentation</title>
   
 
   
@@ -17,33 +17,35 @@
   
 
   
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
-
-  
-  <script src="../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -57,7 +59,7 @@
             
             
               <div class="version">
-                2019.1
+                2019.4
               </div>
             
           
@@ -85,13 +87,14 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingstarted.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../commands.html">Zgoubi commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../input.html">Working with Zgoubi Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../beam.html">Working with Zgoubidoo beams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../utilities.html">Zgoubidoo’s utility modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
@@ -168,22 +171,25 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">tempfile</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">multiprocessing</span>
-<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="k">import</span> <span class="n">ThreadPoolExecutor</span> <span class="k">as</span> <span class="n">_ThreadPoolExecutor</span>
-<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="k">import</span> <span class="n">Future</span> <span class="k">as</span> <span class="n">_Future</span>
-<span class="kn">import</span> <span class="nn">subprocess</span> <span class="k">as</span> <span class="nn">sub</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
-<span class="kn">from</span> <span class="nn">.input</span> <span class="k">import</span> <span class="n">Input</span>
-<span class="kn">from</span> <span class="nn">.input</span> <span class="k">import</span> <span class="n">MappedParameters</span> <span class="k">as</span> <span class="n">_MappedParameters</span>
-<span class="kn">from</span> <span class="nn">.input</span> <span class="k">import</span> <span class="n">PathsDict</span> <span class="k">as</span> <span class="n">_PathDict</span>
-<span class="kn">from</span> <span class="nn">.output</span> <span class="k">import</span> <span class="n">read_plt_file</span><span class="p">,</span> <span class="n">read_matrix_file</span>
+<span class="kn">import</span> <span class="nn">pint</span>
+<span class="kn">from</span> <span class="nn">.executable</span> <span class="k">import</span> <span class="n">Executable</span>
+<span class="kn">from</span> <span class="nn">.transformations</span> <span class="k">import</span> <span class="n">GlobalCoordinateTransformation</span> <span class="k">as</span> <span class="n">_GlobalCoordinateTransformation</span>
+<span class="kn">from</span> <span class="nn">.transformations</span> <span class="k">import</span> <span class="n">FrenetCoordinateTransformation</span> <span class="k">as</span> <span class="n">_FrenetCoordinateTransformation</span>
+<span class="kn">from</span> <span class="nn">.outputs</span> <span class="k">import</span> <span class="n">read_plt_file</span><span class="p">,</span> <span class="n">read_matrix_file</span><span class="p">,</span> <span class="n">read_srloss_file</span><span class="p">,</span> <span class="n">read_srloss_steps_file</span><span class="p">,</span> <span class="n">read_optics_file</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
+<span class="kn">import</span> <span class="nn">zgoubidoo</span>
+<span class="kn">from</span> <span class="nn">.constants</span> <span class="k">import</span> <span class="n">ZGOUBI_INPUT_FILENAME</span> <span class="k">as</span> <span class="n">_ZGOUBI_INPUT_FILENAME</span>
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.input</span> <span class="k">import</span> <span class="n">Input</span> <span class="k">as</span> <span class="n">_Input</span>
+    <span class="kn">from</span> <span class="nn">.transformations</span> <span class="k">import</span> <span class="n">CoordinateTransformationType</span> <span class="k">as</span> <span class="n">_CoordinateTransformationType</span>
+    <span class="kn">from</span> <span class="nn">.mappings</span> <span class="k">import</span> <span class="n">MappedParametersType</span> <span class="k">as</span> <span class="n">_MappedParametersType</span>
+    <span class="kn">from</span> <span class="nn">.mappings</span> <span class="k">import</span> <span class="n">MappedParametersListType</span> <span class="k">as</span> <span class="n">_MappedParametersListType</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ZgoubiException&#39;</span><span class="p">,</span> <span class="s1">&#39;ZgoubiResults&#39;</span><span class="p">,</span> <span class="s1">&#39;Zgoubi&#39;</span><span class="p">]</span>
 <span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -198,11 +204,11 @@
 
 <div class="viewcode-block" id="ZgoubiResults"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.ZgoubiResults">[docs]</a><span class="k">class</span> <span class="nc">ZgoubiResults</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Results from a Zgoubi executable run.&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Mapping</span><span class="p">],</span> <span class="n">options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        `ZgoubiResults` is used to store results and outputs from a single or multiple Zgoubi runs. It is instanciated from</span>
-<span class="sd">        a list of dictionnaries containing the results (each one being a mapping between `MappedParameters` (to identify</span>
-<span class="sd">        from which run the results are from) and the results themselves (also a dictionnary)).</span>
+<span class="sd">        `ZgoubiResults` is used to store results and outputs from a single or multiple Zgoubi runs. It is instanciated</span>
+<span class="sd">        from a list of dictionnaries containing the results (each one being a mapping between `MappedParameters`</span>
+<span class="sd">        (to identify from which run the results are from) and the results themselves (also a dictionnary)).</span>
 
 <span class="sd">        Methods and properties of `ZgoubiResults` are used to access and process individual or multiple results. In</span>
 <span class="sd">        particular it is possible to extract a set of tracks from the results.</span>
@@ -212,10 +218,19 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            results: a list of dictionnaries structure with the Zgoubi run information and errors.</span>
+<span class="sd">            options:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">:</span> <span class="n">Mapping</span> <span class="o">=</span> <span class="n">options</span> <span class="ow">or</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Mapping</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tracks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tracks_global</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tracks_frenet</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_optics</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_srloss</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_srloss_steps</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_step_by_step_optics</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_step_by_step_transfer_matrix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="ZgoubiResults.merge"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.ZgoubiResults.merge">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">results</span><span class="p">:</span> <span class="n">ZgoubiResults</span><span class="p">):</span>
@@ -241,23 +256,48 @@
         <span class="sd">&quot;&quot;&quot;Retrieve results from the list using a numeric index.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="n">item</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="ZgoubiResults.get_tracks"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.ZgoubiResults.get_tracks">[docs]</a>    <span class="k">def</span> <span class="nf">get_tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">_MappedParameters</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="viewcode-block" id="ZgoubiResults.get_tracks"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.ZgoubiResults.get_tracks">[docs]</a>    <span class="k">def</span> <span class="nf">get_tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                   <span class="n">parameters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_MappedParametersListType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                   <span class="n">force_reload</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                   <span class="n">transformation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_CoordinateTransformationType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                   <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Collects all tracks from the different Zgoubi instances matching the given parameters list</span>
 <span class="sd">        in the results and concatenate them.</span>
 
+<span class="sd">        Args:</span>
+<span class="sd">            parameters:</span>
+<span class="sd">            force_reload:</span>
+<span class="sd">            transformation:</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            A concatenated DataFrame with all the tracks in the result matching the parameters list.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracks</span>
+        <span class="k">def</span> <span class="nf">_transform_and_return_tracks</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">transformation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">transformation</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">tracks</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">beamline</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;input&#39;</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">t</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">force_reload</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_transform_and_return_tracks</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tracks</span><span class="p">)</span>
         <span class="n">tracks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">particle_id</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">tracks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">read_plt_file</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]))</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+                    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span>
+                    <span class="n">tracks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">read_plt_file</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">p</span><span class="p">))</span>
+                    <span class="n">tracks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;IT&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">particle_id</span>
+                    <span class="n">particle_id</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">tracks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;IT&#39;</span><span class="p">])</span>
                     <span class="k">for</span> <span class="n">kk</span><span class="p">,</span> <span class="n">vv</span> <span class="ow">in</span> <span class="n">k</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                        <span class="n">tracks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{kk[0]}</span><span class="s2">.</span><span class="si">{kk[1]}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vv</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">tracks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">f</span><span class="s2">&quot;{kk.replace(&#39;.&#39;, &#39;__&#39;)}&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">vv</span><span class="p">)</span><span class="o">.</span><span class="n">to_base_units</span><span class="p">()</span><span class="o">.</span><span class="n">m</span>
+                        <span class="k">except</span> <span class="n">pint</span><span class="o">.</span><span class="n">UndefinedUnitError</span><span class="p">:</span>
+                            <span class="n">tracks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">f</span><span class="s2">&quot;{kk.replace(&#39;.&#39;, &#39;__&#39;)}&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vv</span>
                 <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
                     <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                         <span class="n">f</span><span class="s2">&quot;Unable to read and load the Zgoubi .plt files required to collect the tracks for path &quot;</span>
@@ -265,12 +305,12 @@
                     <span class="p">)</span>
                     <span class="k">continue</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tracks</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">tracks</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">tracks</span><span class="p">)</span>
+            <span class="n">tracks</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">tracks</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">tracks</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_tracks</span> <span class="o">=</span> <span class="n">tracks</span>
-        <span class="k">return</span> <span class="n">tracks</span></div>
+        <span class="k">return</span> <span class="n">_transform_and_return_tracks</span><span class="p">(</span><span class="n">tracks</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
@@ -280,7 +320,129 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            A concatenated DataFrame with all the tracks in the result.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tracks</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tracks</span><span class="p">(</span><span class="n">force_reload</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">tracks_global</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Collects all tracks from the different Zgoubi instances in the results and concatenate them.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A concatenated DataFrame with all the tracks in the result.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tracks</span><span class="p">(</span><span class="n">transformation</span><span class="o">=</span><span class="n">_GlobalCoordinateTransformation</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">tracks_frenet</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Collects all tracks from the different Zgoubi instances in the results and concatenate them.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A concatenated DataFrame with all the tracks in the result.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tracks</span><span class="p">(</span><span class="n">transformation</span><span class="o">=</span><span class="n">_FrenetCoordinateTransformation</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ZgoubiResults.get_srloss"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.ZgoubiResults.get_srloss">[docs]</a>    <span class="k">def</span> <span class="nf">get_srloss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                   <span class="n">parameters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_MappedParametersListType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                   <span class="n">force_reload</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            parameters:</span>
+<span class="sd">            force_reload:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srloss</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">force_reload</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srloss</span>
+        <span class="n">srloss</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+                    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span>
+                    <span class="n">srloss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">read_srloss_file</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">p</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">kk</span><span class="p">,</span> <span class="n">vv</span> <span class="ow">in</span> <span class="n">k</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="n">srloss</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{kk}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vv</span>
+                <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+                    <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="s2">&quot;Unable to read and load the Zgoubi SRLOSS files required to collect the SRLOSS data.&quot;</span>
+                    <span class="p">)</span>
+                    <span class="k">continue</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">srloss</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">srloss</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">srloss</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">srloss</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_srloss</span> <span class="o">=</span> <span class="n">srloss</span>
+        <span class="k">return</span> <span class="n">srloss</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">srloss</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_srloss</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ZgoubiResults.get_srloss_steps"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.ZgoubiResults.get_srloss_steps">[docs]</a>    <span class="k">def</span> <span class="nf">get_srloss_steps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                         <span class="n">parameters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_MappedParametersListType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                         <span class="n">force_reload</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                         <span class="n">with_survey</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            parameters:</span>
+<span class="sd">            force_reload: the data are cached in most cases to allow multiple calls, this flag will force the data to</span>
+<span class="sd">            be reloaded.</span>
+<span class="sd">            with_survey: performs the transformation of the coordinates using the survey information (this is</span>
+<span class="sd">            basically a transformation from the local coordinates of the element to the global reference frame).</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srloss_steps</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">force_reload</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_srloss_steps</span>
+        <span class="n">srloss_steps</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+                    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span>
+                    <span class="n">srloss_steps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">read_srloss_steps_file</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">p</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">kk</span><span class="p">,</span> <span class="n">vv</span> <span class="ow">in</span> <span class="n">k</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="n">srloss_steps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{kk}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vv</span>
+                <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+                    <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="s2">&quot;Unable to read and load the Zgoubi SRLOSS_STEPS files required to collect &quot;</span>
+                        <span class="s2">&quot;the SRLOSS STEPS data.&quot;</span>
+                    <span class="p">)</span>
+                    <span class="k">continue</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">srloss_steps</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">srloss_steps</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">srloss_steps</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">srloss_steps</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_srloss_steps</span> <span class="o">=</span> <span class="n">srloss_steps</span>
+        <span class="k">if</span> <span class="n">with_survey</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">srloss_steps</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="n">_GlobalCoordinateTransformation</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">srloss_steps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;input&#39;</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">srloss_steps</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">srloss_steps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_srloss_steps</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
@@ -294,7 +456,11 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">m</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
                 <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">:</span>
-                    <span class="n">m</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">read_matrix_file</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]))</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+                    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span>
+                    <span class="n">m</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">read_matrix_file</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">p</span><span class="p">))</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
                 <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
@@ -303,8 +469,74 @@
                 <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_matrix</span>
 
+<div class="viewcode-block" id="ZgoubiResults.get_optics"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.ZgoubiResults.get_optics">[docs]</a>    <span class="k">def</span> <span class="nf">get_optics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                   <span class="n">force_reload</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                   <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Collects all optics data from the different Zgoubi instances in the results and concatenate them.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            force_reload:</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            A concatenated DataFrame with all the optics information from the previous run.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optics</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">force_reload</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optics</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">p</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+                <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                    <span class="n">p</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span>
+                <span class="n">m</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">read_optics_file</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">p</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_optics</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">&quot;Unable to read and load the Zgoubi OPTICS files required to collect the matrix data.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optics</span></div>
+
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">_MappedParameters</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">optics</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_optics</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ZgoubiResults.compute_step_by_step_transfer_matrix"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.ZgoubiResults.compute_step_by_step_transfer_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">compute_step_by_step_transfer_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                             <span class="n">force_reload</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            force_reload:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step_by_step_transfer_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">force_reload</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step_by_step_transfer_matrix</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_step_by_step_transfer_matrix</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">twiss</span><span class="o">.</span><span class="n">compute_transfer_matrix</span><span class="p">(</span>
+                <span class="n">beamline</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;input&#39;</span><span class="p">],</span>
+                <span class="n">tracks</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tracks_frenet</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step_by_step_transfer_matrix</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">step_by_step_transfer_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_step_by_step_transfer_matrix</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">_MappedParametersType</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Raw information from the Zgoubi run.</span>
 
 <span class="sd">        Provides the raw data structures from the Zgoubi runs.</span>
@@ -312,42 +544,62 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            a list of mappings.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;mapping&#39;</span><span class="p">]:</span> <span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">}</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;mapping&#39;</span><span class="p">],</span> <span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">]</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">paths</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">_MappedParameters</span><span class="p">,</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">paths</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">_MappedParametersType</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">]]]:</span>
         <span class="sd">&quot;&quot;&quot;Path of all the directories for the runs present in the results.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            a list of directories.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="n">m</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">]</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">mappings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">_MappedParameters</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">mappings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">_MappedParametersType</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Parametric mappings of all the runs present in the results.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            a list of parametric mappings.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">]</span>
+
+<div class="viewcode-block" id="ZgoubiResults.save"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.ZgoubiResults.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">destination</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">what</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Save files.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            destination:</span>
+<span class="sd">            what:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="n">what</span> <span class="ow">or</span> <span class="p">[</span>
+            <span class="n">_ZGOUBI_INPUT_FILENAME</span><span class="p">,</span>
+            <span class="n">Zgoubi</span><span class="o">.</span><span class="n">RESULT_FILE</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;input&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">destination</span><span class="o">=</span><span class="n">destination</span><span class="p">,</span> <span class="n">what</span><span class="o">=</span><span class="n">files</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ZgoubiResults.print"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.ZgoubiResults.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">what</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;result&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Helper function to print the raw results from a Zgoubi run.&quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="n">what</span><span class="p">]))</span></div></div>
+        <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Results for mapping </span><span class="si">{m}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="n">what</span><span class="p">]))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;================================================================================================&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;================================================================================================&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;================================================================================================&quot;</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="Zgoubi"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.Zgoubi">[docs]</a><span class="k">class</span> <span class="nc">Zgoubi</span><span class="p">:</span>
+<div class="viewcode-block" id="Zgoubi"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.Zgoubi">[docs]</a><span class="k">class</span> <span class="nc">Zgoubi</span><span class="p">(</span><span class="n">Executable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;High level interface to run Zgoubi from Python.&quot;&quot;&quot;</span>
 
-    <span class="n">ZGOUBI_EXECUTABLE_NAME</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;zgoubi&#39;</span>
+    <span class="n">EXECUTABLE_NAME</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;zgoubi&#39;</span>
     <span class="sd">&quot;&quot;&quot;Default name of the Zgoubi executable.&quot;&quot;&quot;</span>
 
-    <span class="n">ZGOUBI_RES_FILE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;zgoubi.res&#39;</span>
+    <span class="n">INPUT_FILENAME</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">_ZGOUBI_INPUT_FILENAME</span>
+    <span class="sd">&quot;&quot;&quot;Name of the input file (typically zgoubi.dat).&quot;&quot;&quot;</span>
+
+    <span class="n">RESULT_FILE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;zgoubi.res&#39;</span>
     <span class="sd">&quot;&quot;&quot;Default name of the Zgoubi result &#39;.res&#39; file.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executable</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ZGOUBI_EXECUTABLE_NAME</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n_procs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executable</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">EXECUTABLE_NAME</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n_procs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        `Zgoubi` is responsible for running the Zgoubi executable within Zgoubidoo. It will run Zgoubi as a subprocess</span>
 <span class="sd">        and offers a variety of concurency and parallelisation features.</span>
@@ -366,194 +618,39 @@
 <span class="sd">            - n_procs: maximum number of Zgoubi simulations to be started in parallel</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_executable</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">executable</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_n_procs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">n_procs</span> <span class="ow">or</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">path</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_futures</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">_PathDict</span><span class="p">,</span> <span class="n">_Future</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="p">:</span> <span class="n">_ThreadPoolExecutor</span> <span class="o">=</span> <span class="n">_ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_procs</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">executable</span><span class="o">=</span><span class="n">executable</span><span class="p">,</span> <span class="n">results_type</span><span class="o">=</span><span class="n">ZgoubiResults</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Zgoubi.cleanup"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.Zgoubi.cleanup">[docs]</a>    <span class="k">def</span> <span class="nf">cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-
-<span class="sd">        Returns:</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_futures</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span></div>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">executable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Provides the full path to the Zgoubi executable.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            full path to the Zgoubi executable.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_exec</span><span class="p">()</span>
-
-<div class="viewcode-block" id="Zgoubi.__call__"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.Zgoubi.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">zgoubi_input</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span>
-                 <span class="n">mapping</span><span class="p">:</span> <span class="n">_MappedParameters</span> <span class="o">=</span> <span class="n">_MappedParameters</span><span class="p">({}),</span>
-                 <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">cb</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Zgoubi</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Execute up to `n_procs` Zgoubi runs.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            zgoubi_input: `Input` object specifying the Zgoubi inputs and input paths.</span>
-<span class="sd">            mapping: TODO</span>
-<span class="sd">            debug: verbose output</span>
-<span class="sd">            (default to `multiprocessing.cpu_count`)</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            a ZgoubiResults object holding the simulation results.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            a ZgoubiException in case the input paths list is empty.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">zgoubi_input</span><span class="o">.</span><span class="n">paths</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">paths</span> <span class="o">=</span> <span class="n">zgoubi_input</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">identifier</span><span class="o">=</span><span class="n">mapping</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">paths</span> <span class="o">=</span> <span class="n">zgoubi_input</span><span class="o">.</span><span class="n">paths</span>
-
-        <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paths</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">path</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span>  <span class="c1"># Path from a TemporaryDirectory</span>
-            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-                <span class="n">path</span> <span class="o">=</span> <span class="n">p</span>  <span class="c1"># p is a string</span>
-            <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Starting Zgoubi in </span><span class="si">{path}</span><span class="s2">.&quot;</span><span class="p">)</span>
-            <span class="n">future</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_execute_zgoubi</span><span class="p">,</span>
-                <span class="n">_MappedParameters</span><span class="p">({</span><span class="o">**</span><span class="n">mapping</span><span class="p">,</span> <span class="o">**</span><span class="n">m</span><span class="o">.</span><span class="n">parameters</span><span class="p">}),</span>
-                <span class="n">zgoubi_input</span><span class="p">,</span>
-                <span class="n">path</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="k">if</span> <span class="n">cb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">future</span><span class="o">.</span><span class="n">add_done_callback</span><span class="p">(</span><span class="n">cb</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_futures</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">paths</span><span class="p">,</span> <span class="n">future</span><span class="p">))</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="Zgoubi.wait"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.Zgoubi.wait">[docs]</a>    <span class="k">def</span> <span class="nf">wait</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        TODO</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span> <span class="o">=</span> <span class="n">_ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_procs</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Zgoubi.collect"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.Zgoubi.collect">[docs]</a>    <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ZgoubiResults</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        TODO</span>
-<span class="sd">        Returns:</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">ZgoubiResults</span><span class="p">(</span><span class="n">results</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="n">_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_futures</span><span class="p">)))</span></div>
-
-    <span class="k">def</span> <span class="nf">_execute_zgoubi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                        <span class="n">mapping</span><span class="p">:</span> <span class="n">_MappedParameters</span><span class="p">,</span>
-                        <span class="n">zgoubi_input</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span>
-                        <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
-                        <span class="n">debug</span><span class="o">=</span><span class="kc">False</span>
-                        <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Run Zgoubi as a subprocess.</span>
-
-<span class="sd">        Zgoubi is run as a subprocess; the standard IOs are piped to the Python process and retrieved.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            zgoubi_input: Zgoubi input sequence (used after the run to process the output of each element).</span>
-<span class="sd">            path: path to the input file.</span>
-<span class="sd">            mapping: TODO</span>
-<span class="sd">            debug: verbose output.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            a dictionary holding the results of the run.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            FileNotFoundError if the result file is not present at the end of the execution.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">stderr</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="n">sub</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">executable</span><span class="p">],</span>
-                      <span class="n">stdin</span><span class="o">=</span><span class="n">sub</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
-                      <span class="n">stdout</span><span class="o">=</span><span class="n">sub</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
-                      <span class="n">stderr</span><span class="o">=</span><span class="n">sub</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span>
-                      <span class="n">cwd</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
-                      <span class="p">)</span>
-
-        <span class="c1"># Run</span>
-        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Zgoubi process in </span><span class="si">{path}</span><span class="s2"> has started.&quot;</span><span class="p">)</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
-
-        <span class="c1"># Collect STDERR</span>
-        <span class="k">if</span> <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">stderr</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
-
-        <span class="c1"># Extract element by element output</span>
+    <span class="k">def</span> <span class="nf">_extract_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">code_input</span><span class="p">:</span> <span class="n">_Input</span><span class="p">,</span> <span class="n">mapping</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Extract element by element output&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">Zgoubi</span><span class="o">.</span><span class="n">ZGOUBI_RES_FILE</span><span class="p">))</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">RESULT_FILE</span><span class="p">))</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ZgoubiException</span><span class="p">(</span><span class="s2">&quot;Zgoubi execution ended but result &#39;.res&#39; file not found.&quot;</span><span class="p">)</span>
+            <span class="c1"># TODO add debug mechanism in this case</span>
+            <span class="k">raise</span> <span class="n">ZgoubiException</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Zgoubi execution ended but result &#39;</span><span class="si">{self.RESULT_FILE}</span><span class="s2">&#39; file not found.&quot;</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">zgoubi_input</span><span class="o">.</span><span class="n">line</span><span class="p">:</span>
-            <span class="n">e</span><span class="o">.</span><span class="n">attach_output</span><span class="p">(</span><span class="n">outputs</span><span class="o">=</span><span class="n">Zgoubi</span><span class="o">.</span><span class="n">find_labeled_output</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">),</span>
-                            <span class="n">zgoubi_input</span><span class="o">=</span><span class="n">zgoubi_input</span><span class="p">,</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">code_input</span><span class="o">.</span><span class="n">line</span><span class="p">:</span>
+            <span class="n">e</span><span class="o">.</span><span class="n">attach_output</span><span class="p">(</span><span class="n">outputs</span><span class="o">=</span><span class="n">Zgoubi</span><span class="o">.</span><span class="n">find_labeled_output</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">KEYWORD</span><span class="p">),</span>
+                            <span class="n">zgoubi_input</span><span class="o">=</span><span class="n">code_input</span><span class="p">,</span>
                             <span class="n">parameters</span><span class="o">=</span><span class="n">mapping</span><span class="p">,</span>
                             <span class="p">)</span>
-
-        <span class="c1"># Extract CPU time</span>
-        <span class="n">cputime</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
-        <span class="k">if</span> <span class="n">stderr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">if</span>
-                     <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;CPU time&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)]</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
-                <span class="n">cputime</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\d+\.\d+[E|e]?[+|-]?\d+&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">group</span><span class="p">())</span>
-        <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
-        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Zgoubi process in </span><span class="si">{path}</span><span class="s2"> finished in </span><span class="si">{cputime}</span><span class="s2"> s.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span>
-            <span class="s1">&#39;stdout&#39;</span><span class="p">:</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">),</span>
-            <span class="s1">&#39;stderr&#39;</span><span class="p">:</span> <span class="n">stderr</span><span class="p">,</span>
-            <span class="s1">&#39;cputime&#39;</span><span class="p">:</span> <span class="n">cputime</span><span class="p">,</span>
-            <span class="s1">&#39;result&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">,</span>
-            <span class="s1">&#39;input&#39;</span><span class="p">:</span> <span class="n">zgoubi_input</span><span class="p">,</span>
-            <span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="n">path</span><span class="p">,</span>
-            <span class="s1">&#39;mapping&#39;</span><span class="p">:</span> <span class="n">mapping</span><span class="p">,</span>
-        <span class="p">}</span>
-
-    <span class="k">def</span> <span class="nf">_get_exec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optional_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;/usr/local/bin&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Retrive the path to the Zgoubi executable.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            optional_path: additional path provided to the `which` command.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            a string representing the full path to the executable.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_executable</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;win32&#39;</span><span class="p">,</span> <span class="s1">&#39;win64&#39;</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_executable</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{sys.prefix}</span><span class="s2">/bin/</span><span class="si">{self._executable}</span><span class="s2">&quot;</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{sys.prefix}</span><span class="s2">/bin/</span><span class="si">{self._executable}</span><span class="s2">&quot;</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_executable</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH&#39;</span><span class="p">],</span> <span class="n">optional_path</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span>
 
 <div class="viewcode-block" id="Zgoubi.find_labeled_output"><a class="viewcode-back" href="../../zgoubi.html#zgoubidoo.zgoubi.Zgoubi.find_labeled_output">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">find_labeled_output</span><span class="p">(</span><span class="n">out</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">find_labeled_output</span><span class="p">(</span><span class="n">out</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">keyword</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Process the Zgoubi output and retrieves output data for a particular labeled element.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            - out: the Zgoubi output</span>
 <span class="sd">            - label: the label of the element to be retrieved</span>
+<span class="sd">            - keyword:</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            the output of the given label</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">l</span> <span class="ow">and</span> <span class="s1">&#39;Keyword&#39;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">label</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="ow">in</span> <span class="n">l</span> <span class="ow">and</span> <span class="s1">&#39;Keyword&#39;</span> <span class="ow">in</span> <span class="n">l</span> <span class="ow">and</span> <span class="n">keyword</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>  <span class="c1"># This might be a bit fragile</span>
                 <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
                 <span class="k">continue</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -590,26 +687,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

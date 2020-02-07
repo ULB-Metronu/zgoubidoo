@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>HeliumIon &mdash; Zgoubidoo 2019.1 documentation</title>
+  <title>HeliumIon &mdash; Zgoubidoo 2019.4 documentation</title>
   
 
   
@@ -17,13 +17,20 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -31,21 +38,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="ImmortalAntiMuon" href="zgoubidoo.commands.particules.ImmortalAntiMuon.html" />
     <link rel="prev" title="HMinus" href="zgoubidoo.commands.particules.HMinus.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -59,7 +61,7 @@
             
             
               <div class="version">
-                2019.1
+                2019.4
               </div>
             
           
@@ -87,6 +89,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../commands.html">Zgoubi commands</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands">Zgoubidoo’s class hierarchy and bases classes for new commands</a></li>
@@ -101,14 +104,19 @@
 <li class="toctree-l4 current"><a class="current reference internal" href="#">HeliumIon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.ImmortalAntiMuon.html">ImmortalAntiMuon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.ImmortalMuon.html">ImmortalMuon</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Ion.html">Ion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.LeadIon.html">LeadIon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Muon.html">Muon</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.NativeParticule.html">NativeParticule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.NativeParticuleType.html">NativeParticuleType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.OxygenIon.html">OxygenIon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Particule.html">Particule</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.ParticuleType.html">ParticuleType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Pion.html">Pion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Positron.html">Positron</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Proton.html">Proton</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.SulfurIon.html">SulfurIon</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.XenonIon.html">XenonIon</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../commands.html#id6">Class Inheritance Diagram</a></li>
@@ -120,13 +128,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.electrique">Electric elements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.fieldmaps">Field-map elements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.spin">Spin tracking commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.radiation">Synchrotron radiation commands</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../beam.html">Working with Zgoubidoo beams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
@@ -327,7 +336,7 @@
         <a href="zgoubidoo.commands.particules.ImmortalAntiMuon.html" class="btn btn-neutral float-right" title="ImmortalAntiMuon" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="zgoubidoo.commands.particules.HMinus.html" class="btn btn-neutral" title="HMinus" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="zgoubidoo.commands.particules.HMinus.html" class="btn btn-neutral float-left" title="HMinus" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -353,26 +362,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

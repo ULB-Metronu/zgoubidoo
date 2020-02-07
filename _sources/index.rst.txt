@@ -14,13 +14,14 @@ Zgoubidoo's documentation
 
    news
    installation
+   gettingstarted
    zgoubi
    commands
    contrib
    input
    lowlevel
-   beam
-   sequence
+   fieldmaps
+   physics
    vis
    utilities
    examples

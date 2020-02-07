@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Objet5 &mdash; Zgoubidoo 2019.1 documentation</title>
+  <title>Objet5 &mdash; Zgoubidoo 2019.4 documentation</title>
   
 
   
@@ -17,13 +17,20 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -31,21 +38,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Objet6" href="zgoubidoo.commands.objet.Objet6.html" />
     <link rel="prev" title="Objet4" href="zgoubidoo.commands.objet.Objet4.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -59,7 +61,7 @@
             
             
               <div class="version">
-                2019.1
+                2019.4
               </div>
             
           
@@ -87,6 +89,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../commands.html">Zgoubi commands</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands">Zgoubidoo’s class hierarchy and bases classes for new commands</a></li>
@@ -115,13 +118,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.electrique">Electric elements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.fieldmaps">Field-map elements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.spin">Spin tracking commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.radiation">Synchrotron radiation commands</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../beam.html">Working with Zgoubidoo beams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
@@ -243,6 +247,118 @@
 </table>
 </dd></dl>
 
+<dl class="attribute">
+<dt>
+<code class="descname">KOBJ='5'</code></dt>
+<dd><p>Generation of groups 11 particles.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">NN='1'</code></dt>
+<dd><p>Number of groups of 11 particles</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">YR='[0]'</code></dt>
+<dd><p>Y-coordinate of the reference trajectory</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">TR='[0]'</code></dt>
+<dd><p>T-coordinate of the reference trajectory</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">ZR='[0]'</code></dt>
+<dd><p>Z-coordinate of the reference trajectory</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">PR='[0]'</code></dt>
+<dd><p>P-coordinate of the reference trajectory</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">XR='[0]'</code></dt>
+<dd><p>X-coordinate of the reference trajectory</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">DR='[1]'</code></dt>
+<dd><p>D-coordinate of the reference trajectory</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <p>Default initializer for all Commands.</p>
 <p class="rubric">Attributes Summary</p>
 <table border="1" class="longtable docutils">
@@ -255,7 +371,7 @@
 <td></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.objet.Objet5.PARAMETERS" title="zgoubidoo.commands.objet.Objet5.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></td>
-<td></td>
+<td>Parameters of the command, with their default value, their description and optinally an index used by other commands (e.g.</td>
 </tr>
 </tbody>
 </table>
@@ -267,8 +383,10 @@
 
 <dl class="attribute">
 <dt id="zgoubidoo.commands.objet.Objet5.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'ALPHA_X': (0,), 'ALPHA_Y': (0,), 'ALPHA_Z': (0,), 'BETA_X': (0,), 'BETA_Y': (0,), 'BETA_Z': (0,), 'BORO': (&lt;Quantity(1.0, 'centimeter * kilogauss')&gt;, 'Reference magnetic rigidity.'), 'DR': (1,), 'D_Y': (0,), 'D_YP': (0,), 'D_Z': (0,), 'D_ZP': (0,), 'KOBJ': (5,), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'NN': (1,), 'PD': (0.001,), 'PP': (0.001,), 'PR': (0,), 'PT': (0.001,), 'PX': (0.001,), 'PY': (0.001,), 'PZ': (0.001,), 'TR': (0,), 'XR': (0,), 'YR': (0,), 'ZR': (0,)}</em><a class="headerlink" href="#zgoubidoo.commands.objet.Objet5.PARAMETERS" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">PARAMETERS</code><em class="property"> = {'ALPHA_X': (0,), 'ALPHA_Y': (0,), 'ALPHA_Z': (0,), 'BETA_X': (&lt;Quantity(1, 'meter')&gt;,), 'BETA_Y': (&lt;Quantity(1, 'meter')&gt;,), 'BETA_Z': (&lt;Quantity(1, 'meter')&gt;,), 'BORO': (&lt;Quantity(1.0, 'centimeter * kilogauss')&gt;, 'Reference magnetic rigidity.'), 'DR': ([1], 'D-coordinate of the reference trajectory'), 'D_Y': (&lt;Quantity(0, 'meter')&gt;,), 'D_YP': (0,), 'D_Z': (&lt;Quantity(0, 'meter')&gt;,), 'D_ZP': (0,), 'KOBJ': (5, 'Generation of groups 11 particles.'), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'NN': (1, 'Number of groups of 11 particles'), 'PD': (0.001,), 'PP': (0.001,), 'PR': ([0], 'P-coordinate of the reference trajectory'), 'PT': (0.001,), 'PX': (0.001,), 'PY': (0.001,), 'PZ': (0.001,), 'TR': ([0], 'T-coordinate of the reference trajectory'), 'XR': ([0], 'X-coordinate of the reference trajectory'), 'YR': ([0], 'Y-coordinate of the reference trajectory'), 'ZR': ([0], 'Z-coordinate of the reference trajectory')}</em><a class="headerlink" href="#zgoubidoo.commands.objet.Objet5.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameters of the command, with their default value, their description and optinally an index used by other
+commands (e.g. fit).</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -285,7 +403,7 @@
         <a href="zgoubidoo.commands.objet.Objet6.html" class="btn btn-neutral float-right" title="Objet6" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="zgoubidoo.commands.objet.Objet4.html" class="btn btn-neutral" title="Objet4" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="zgoubidoo.commands.objet.Objet4.html" class="btn btn-neutral float-left" title="Objet4" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -311,26 +429,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

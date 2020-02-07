@@ -13,7 +13,17 @@ Q5G
       ~Q5G.KEYWORD
       ~Q5G.PARAMETERS
 
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Q5G.post_init
+
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: post_init

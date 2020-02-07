@@ -13,9 +13,11 @@ ChangeRef
       ~ChangeRef.KEYWORD
       ~ChangeRef.PARAMETERS
       ~ChangeRef.entry_patched
+      ~ChangeRef.length
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS
    .. autoattribute:: entry_patched
+   .. autoattribute:: length

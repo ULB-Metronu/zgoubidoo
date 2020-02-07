@@ -26,11 +26,10 @@ PolarMagnet
 
    .. autosummary::
 
+      ~PolarMagnet.adjust_tracks_variables
       ~PolarMagnet.drift_length_from_polar
       ~PolarMagnet.efb_angle_from_polar
       ~PolarMagnet.efb_offset_from_polar
-      ~PolarMagnet.plot
-      ~PolarMagnet.plot_tracks
 
    .. rubric:: Attributes Documentation
 
@@ -48,8 +47,7 @@ PolarMagnet
 
    .. rubric:: Methods Documentation
 
+   .. automethod:: adjust_tracks_variables
    .. automethod:: drift_length_from_polar
    .. automethod:: efb_angle_from_polar
    .. automethod:: efb_offset_from_polar
-   .. automethod:: plot
-   .. automethod:: plot_tracks

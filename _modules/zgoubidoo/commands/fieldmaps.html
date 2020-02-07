@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>zgoubidoo.commands.fieldmaps &mdash; Zgoubidoo 2019.1 documentation</title>
+  <title>zgoubidoo.commands.fieldmaps &mdash; Zgoubidoo 2019.4 documentation</title>
   
 
   
@@ -17,33 +17,35 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -57,7 +59,7 @@
             
             
               <div class="version">
-                2019.1
+                2019.4
               </div>
             
           
@@ -85,13 +87,14 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Zgoubi commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../input.html">Working with Zgoubi Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../beam.html">Working with Zgoubidoo beams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Zgoubidoo’s utility modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
@@ -162,9 +165,23 @@
 
 <span class="sd">More details here.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
 <span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">_Command</span>
+<span class="kn">from</span> <span class="nn">.actions</span> <span class="k">import</span> <span class="n">Action</span> <span class="k">as</span> <span class="n">_Action</span>
+<span class="kn">from</span> <span class="nn">.magnetique</span> <span class="k">import</span> <span class="n">CartesianMagnet</span> <span class="k">as</span> <span class="n">_CartesianMagnet</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">Q_</span> <span class="k">as</span> <span class="n">_Q</span>
 <span class="kn">from</span> <span class="nn">..units</span> <span class="k">import</span> <span class="n">_cm</span><span class="p">,</span> <span class="n">_radian</span>
+<span class="kn">from</span> <span class="nn">..zgoubi</span> <span class="k">import</span> <span class="n">Zgoubi</span> <span class="k">as</span> <span class="n">_Zgoubi</span>
+<span class="kn">from</span> <span class="nn">..zgoubi</span> <span class="k">import</span> <span class="n">ZgoubiException</span> <span class="k">as</span> <span class="n">_ZgoubiException</span>
+<span class="kn">import</span> <span class="nn">zgoubidoo</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">_go</span>
+<span class="kn">from</span> <span class="nn">georges_core.frame</span> <span class="k">import</span> <span class="n">Frame</span> <span class="k">as</span> <span class="n">_Frame</span>
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">..input</span> <span class="k">import</span> <span class="n">Input</span> <span class="k">as</span> <span class="n">_Input</span>
 
 
 <div class="viewcode-block" id="Brevol"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.Brevol.html#zgoubidoo.commands.fieldmaps.Brevol">[docs]</a><span class="k">class</span> <span class="nc">Brevol</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
@@ -262,7 +279,7 @@
     <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="Tosca"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.Tosca.html#zgoubidoo.commands.fieldmaps.Tosca">[docs]</a><span class="k">class</span> <span class="nc">Tosca</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
+<div class="viewcode-block" id="Tosca"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.Tosca.html#zgoubidoo.commands.fieldmaps.Tosca">[docs]</a><span class="k">class</span> <span class="nc">Tosca</span><span class="p">(</span><span class="n">_CartesianMagnet</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;2-D and 3-D Cartesian or cylindrical mesh field map.</span>
 
 <span class="sd">    .. rubric:: Zgoubi manual description</span>
@@ -328,87 +345,192 @@
         <span class="s1">&#39;MOD2&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Format reading sub-mode.&#39;</span><span class="p">),</span>
         <span class="s1">&#39;FNAME&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;TOSCA&#39;</span><span class="p">,</span> <span class="s1">&#39;File names.&#39;</span><span class="p">),</span>
         <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Integration boundary.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">(),</span>
-        <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">(),</span>
-        <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">(),</span>
+        <span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,),</span>
+        <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,),</span>
+        <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,),</span>
         <span class="s1">&#39;IORDRE&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;Degree of interpolation polynomial.&#39;</span><span class="p">),</span>
         <span class="s1">&#39;XPAS&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span> <span class="s1">&#39;Integration step.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;KPOS&#39;</span><span class="p">:</span> <span class="p">(),</span>
-        <span class="s1">&#39;XCE&#39;</span><span class="p">:</span> <span class="p">(),</span>
-        <span class="s1">&#39;YCE&#39;</span><span class="p">:</span> <span class="p">(),</span>
-        <span class="s1">&#39;ALE&#39;</span><span class="p">:</span> <span class="p">(),</span>
-        <span class="s1">&#39;RE&#39;</span><span class="p">:</span> <span class="p">(),</span>
-        <span class="s1">&#39;TE&#39;</span><span class="p">:</span> <span class="p">(),</span>
-        <span class="s1">&#39;RS&#39;</span><span class="p">:</span> <span class="p">(),</span>
-        <span class="s1">&#39;TS&#39;</span><span class="p">:</span> <span class="p">(),</span>
+        <span class="s1">&#39;KPOS&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Alignment parameter&quot;</span><span class="p">),</span>
+        <span class="s1">&#39;XCE&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;YCE&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;ALE&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;RE&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,),</span>
+        <span class="s1">&#39;TE&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,),</span>
+        <span class="s1">&#39;RS&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,),</span>
+        <span class="s1">&#39;TS&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,),</span>
     <span class="p">}</span>
-    <span class="sd">&quot;&quot;&quot;Parameters of the command.</span>
-<span class="sd">    </span>
-<span class="sd">    The tuples contain their default value, their description and optinally an index used by other commands (e.g. fit).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-<div class="viewcode-block" id="Tosca.test"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.Tosca.html#zgoubidoo.commands.fieldmaps.Tosca.test">[docs]</a>    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Hello</span>
-<span class="sd">        Returns:</span>
-
-<span class="sd">        &quot;&quot;&quot;</span></div>
+    <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
+<span class="sd">        commands (e.g. fit).&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Provides the Zgoubi input format representation of the command.</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        {super().__str__().rstrip()}</span>
+<span class="s2">        </span><span class="si">{s.IC:d}</span><span class="s2"> </span><span class="si">{s.IL:d}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{s.BNORM:.12e}</span><span class="s2"> </span><span class="si">{s.XN:.12e}</span><span class="s2"> </span><span class="si">{s.YN:.12e}</span><span class="s2"> </span><span class="si">{s.ZN:.12e}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{s.TITL}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{s.IX:d}</span><span class="s2"> </span><span class="si">{s.IY:d}</span><span class="s2"> </span><span class="si">{s.IZ:d}</span><span class="s2"> </span><span class="si">{s.MOD:d}</span><span class="s2">.</span><span class="si">{s.MOD2:d}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{s.FNAME}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{s.ID:d}</span><span class="s2"> </span><span class="si">{s.A:.12e}</span><span class="s2"> </span><span class="si">{s.B:.12e}</span><span class="s2"> </span><span class="si">{s.C:.12e}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{s.IORDRE:d}</span><span class="s2"></span>
+<span class="s2">        {_cm(s.XPAS):.12e}</span>
+<span class="s2">        </span><span class="si">{s.KPOS:d}</span><span class="s2"> {s.XCE.m_as(&#39;cm&#39;):.12e} {s.YCE.m_as(&#39;cm&#39;):.12e} {s.ALE.m_as(&#39;radian&#39;):.12e}</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Tosca.adjust_tracks_variables"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.Tosca.html#zgoubidoo.commands.fieldmaps.Tosca.adjust_tracks_variables">[docs]</a>    <span class="k">def</span> <span class="nf">adjust_tracks_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tracks</span><span class="p">:</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">adjust_tracks_variables</span><span class="p">(</span><span class="n">tracks</span><span class="p">)</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">tracks</span><span class="p">[</span><span class="n">tracks</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">]</span>
+        <span class="n">tracks</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tracks</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">,</span> <span class="s1">&#39;SREF&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">entry_s</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+        <span class="n">tracks</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tracks</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Tosca.load"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.Tosca.html#zgoubidoo.commands.fieldmaps.Tosca.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zgoubi</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_Zgoubi</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">zgoubi</span> <span class="ow">or</span> <span class="n">_Zgoubi</span><span class="p">()</span>
+        <span class="n">zi</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;TOSCA_</span><span class="si">{self.LABEL1}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">zi</span> <span class="o">+=</span> <span class="bp">self</span>
+
+        <span class="k">def</span> <span class="nf">cb</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Post execution callback.&quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">success</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">_ZgoubiException</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Unable to load field map for keyword </span><span class="si">{self.__class__.__name__}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;LENGTH&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span>
+
+        <span class="n">z</span><span class="p">(</span><span class="n">zi</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;TOSCA_LOAD&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">},</span> <span class="n">cb</span><span class="o">=</span><span class="n">cb</span><span class="p">)</span>
+        <span class="n">z</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Tosca.process_output"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.Tosca.html#zgoubidoo.commands.fieldmaps.Tosca.process_output">[docs]</a>    <span class="k">def</span> <span class="nf">process_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+                       <span class="n">parameters</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">_Q</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+                       <span class="n">zgoubi_input</span><span class="p">:</span> <span class="n">_Input</span>
+                       <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            output:</span>
+<span class="sd">            parameters:</span>
+<span class="sd">            zgoubi_input:</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            a string to be used as Zgoubi input format.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">command</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">                {super().__str__().rstrip()}</span>
-<span class="s2">                </span><span class="si">{s.IL}</span><span class="s2"></span>
-<span class="s2">                {s.AT.to(&#39;degree&#39;).magnitude:.12e} {s.RM.to(&#39;centimeter&#39;).magnitude:.12e}</span>
-<span class="s2">                {s.ACENT.to(&#39;degree&#39;).magnitude:.12e} {s.B0.to(</span>
-<span class="s2">            &#39;kilogauss&#39;).magnitude:.12e} </span><span class="si">{s.N:.12e}</span><span class="s2"> </span><span class="si">{s.B:.12e}</span><span class="s2"> </span><span class="si">{s.G:.12e}</span><span class="s2"></span>
-<span class="s2">                {s.LAM_E.to(&#39;centimeter&#39;).magnitude:.12e} 0.0</span>
-<span class="s2">                6 </span><span class="si">{s.C0_E:.12e}</span><span class="s2"> </span><span class="si">{s.C1_E:.12e}</span><span class="s2"> </span><span class="si">{s.C2_E:.12e}</span><span class="s2"> </span><span class="si">{s.C3_E:.12e}</span><span class="s2"> </span><span class="si">{s.C4_E:.12e}</span><span class="s2"> </span><span class="si">{s.C5_E:.12e}</span><span class="s2"> {s.SHIFT_E.to(</span>
-<span class="s2">            &#39;centimeter&#39;).magnitude:.12e}</span>
-<span class="s2">                {s.OMEGA_E.to(&#39;degree&#39;).magnitude:.12e} </span><span class="si">{s.THETA_E:.12e}</span><span class="s2"> {s.R1_E.to(</span>
-<span class="s2">            &#39;centimeter&#39;).magnitude:.12e} {s.U1_E.to(&#39;centimeter&#39;).magnitude:.12e} {s.U2_E.to(</span>
-<span class="s2">            &#39;centimeter&#39;).magnitude:.12e} {s.R2_E.to(&#39;centimeter&#39;).magnitude:.12e}</span>
-<span class="s2">                {s.LAM_S.to(&#39;centimeter&#39;).magnitude:.12e} 0.0</span>
-<span class="s2">                6 </span><span class="si">{s.C0_S:.12e}</span><span class="s2"> </span><span class="si">{s.C1_S:.12e}</span><span class="s2"> </span><span class="si">{s.C2_S:.12e}</span><span class="s2"> </span><span class="si">{s.C3_S:.12e}</span><span class="s2"> </span><span class="si">{s.C4_S:.12e}</span><span class="s2"> </span><span class="si">{s.C5_S:.12e}</span><span class="s2"> {_s.SHIFT_S.to(</span>
-<span class="s2">            &#39;centimeter&#39;).magnitude:.12e}</span>
-<span class="s2">                {s.OMEGA_S.to(&#39;degree&#39;).magnitude:.12e} </span><span class="si">{s.THETA_S:.12e}</span><span class="s2"> {s.R1_S.to(</span>
-<span class="s2">            &#39;centimeter&#39;).magnitude:.12e} {s.U1_S.to(&#39;centimeter&#39;).magnitude:.12e} {s.U2_S.to(</span>
-<span class="s2">            &#39;centimeter&#39;).magnitude:.12e} {s.R2_S.to(&#39;centimeter&#39;).magnitude:.12e}</span>
-<span class="s2">                {s.LAM_L.to(&#39;centimeter&#39;).magnitude:.12e} </span><span class="si">{s.XI_L}</span><span class="s2"></span>
-<span class="s2">                6 </span><span class="si">{s.C0_L:.12e}</span><span class="s2"> </span><span class="si">{s.C1_L:.12e}</span><span class="s2"> </span><span class="si">{s.C2_L:.12e}</span><span class="s2"> </span><span class="si">{s.C3_L:.12e}</span><span class="s2"> </span><span class="si">{s.C4_L:.12e}</span><span class="s2"> </span><span class="si">{s.C5_L:.12e}</span><span class="s2"> {s.SHIFT_L.to(</span>
-<span class="s2">            &#39;centimeter&#39;).magnitude:.12e}</span>
-<span class="s2">                {s.OMEGA_L.to(&#39;degree&#39;).magnitude:.12e} </span><span class="si">{s.THETA_L:.12e}</span><span class="s2"> {s.R1_L.to(</span>
-<span class="s2">            &#39;centimeter&#39;).magnitude:.12e} {s.U1_L.to(&#39;centimeter&#39;).magnitude:.12e} {s.U2_L.to(</span>
-<span class="s2">            &#39;centimeter&#39;).magnitude:.12e} {s.R2_L.to(&#39;centimeter&#39;).magnitude:.12e} {s.RM3.to(</span>
-<span class="s2">            &#39;centimeter&#39;).magnitude:.12e}</span>
-<span class="s2">                </span><span class="si">{s.IORDRE}</span><span class="s2"> </span><span class="si">{s.RESOL:.12e}</span><span class="s2"></span>
-<span class="s2">                {s.XPAS.to(&#39;centimeter&#39;).magnitude}&quot;&quot;&quot;</span>
-        <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="n">length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">output</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Length of element,  XL =&quot;</span><span class="p">):</span>
+                <span class="n">length</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">5</span><span class="p">])</span>
+                <span class="k">break</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="n">parameters</span><span class="p">,</span>
+                <span class="n">_Action</span><span class="o">.</span><span class="n">CommandResult</span><span class="p">(</span><span class="n">success</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([{</span><span class="s1">&#39;LENGTH&#39;</span><span class="p">:</span> <span class="n">length</span><span class="p">}]))</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
 
-        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">KPOS</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">RE</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">s</span><span class="o">.</span><span class="n">RE</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">RM</span>
-            <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">RS</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">s</span><span class="o">.</span><span class="n">RS</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">RM</span>
-            <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">                </span><span class="si">{s.KPOS}</span><span class="s2"></span>
-<span class="s2">                {s.RE.to(&#39;centimeter&#39;).magnitude:.12e} {s.TE.to(&#39;radian&#39;).magnitude:.12e} {s.RS.to(</span>
-<span class="s2">                &#39;centimeter&#39;).magnitude:.12e} {s.TS.to(&#39;radian&#39;).magnitude:.12e}</span>
-<span class="s2">                        &quot;&quot;&quot;</span>
-            <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">s</span><span class="o">.</span><span class="n">KPOS</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">                </span><span class="si">{s.KPOS}</span><span class="s2"></span>
-<span class="s2">                </span><span class="si">{s.DP:.12e}</span><span class="s2"> 0.0 0.0 0.0</span>
-<span class="s2">                        &quot;&quot;&quot;</span>
-            <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<div class="viewcode-block" id="Tosca.plotly"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.Tosca.html#zgoubidoo.commands.fieldmaps.Tosca.plotly">[docs]</a>    <span class="k">def</span> <span class="nf">plotly</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="n">_</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(),</span> <span class="n">command</span><span class="p">))</span></div>
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fieldmap</span> <span class="o">=</span> <span class="n">_pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FNAME</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;BY&#39;</span><span class="p">,</span> <span class="s1">&#39;BZ&#39;</span><span class="p">,</span> <span class="s1">&#39;BX&#39;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">)</span>
+        <span class="n">fieldmap</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fieldmap</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">fieldmap</span><span class="p">[</span><span class="s1">&#39;Z_ABS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fieldmap</span><span class="p">[</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">abs</span><span class="p">)</span>
+        <span class="n">fieldmap</span> <span class="o">=</span> <span class="n">fieldmap</span><span class="p">[</span><span class="n">fieldmap</span><span class="p">[</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">fieldmap</span><span class="p">[</span><span class="s1">&#39;Z_ABS&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()]</span>
+
+        <span class="n">rotation_matrix</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">get_rotation_matrix</span><span class="p">())</span>
+        <span class="n">origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="n">origin</span>
+
+        <span class="n">u</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">fieldmap</span><span class="p">[[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">rotation_matrix</span><span class="p">)</span>
+        <span class="n">fieldmap</span><span class="p">[</span><span class="s1">&#39;XG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">origin</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">))</span> <span class="o">/</span> <span class="mi">100</span>
+        <span class="n">fieldmap</span><span class="p">[</span><span class="s1">&#39;YG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">origin</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">))</span> <span class="o">/</span> <span class="mi">100</span>
+        <span class="n">fieldmap</span><span class="p">[</span><span class="s1">&#39;ZG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">origin</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">))</span> <span class="o">/</span> <span class="mi">100</span>
+
+        <span class="k">return</span> <span class="n">_go</span><span class="o">.</span><span class="n">Histogram2d</span><span class="p">(</span>
+            <span class="n">histfunc</span><span class="o">=</span><span class="s1">&#39;avg&#39;</span><span class="p">,</span>
+            <span class="n">nbinsx</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+            <span class="n">nbinsy</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">fieldmap</span><span class="p">[</span><span class="s1">&#39;XG&#39;</span><span class="p">],</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">fieldmap</span><span class="p">[</span><span class="s1">&#39;YG&#39;</span><span class="p">],</span>
+            <span class="n">z</span><span class="o">=</span><span class="n">fieldmap</span><span class="p">[</span><span class="s1">&#39;BZ&#39;</span><span class="p">],</span>
+            <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+            <span class="n">colorscale</span><span class="o">=</span><span class="s1">&#39;Greys&#39;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ALE</span> <span class="ow">or</span> <span class="mf">0.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">degree</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">length</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_length</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">x_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">XCE</span> <span class="ow">or</span> <span class="mf">0.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">y_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">YCE</span> <span class="ow">or</span> <span class="mf">0.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">entry_patched</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_Frame</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entry_patched</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_entry_patched</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entry</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entry</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">KPOS</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_entry_patched</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_offset</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_entry_patched</span><span class="o">.</span><span class="n">translate_y</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y_offset</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_entry_patched</span><span class="o">.</span><span class="n">rotate_z</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entry_patched</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_Frame</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_exit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entry_patched</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entry_patched</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_exit</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exit</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">exit_patched</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_Frame</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exit_patched</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">KPOS</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">KPOS</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_exit_patched</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exit</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exit</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">KPOS</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">KPOS</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_exit_patched</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entry</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entry</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_exit_patched</span><span class="o">.</span><span class="n">translate_x</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exit_patched</span></div>
 </pre></div>
 
            </div>
@@ -438,26 +560,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Chambre &mdash; Zgoubidoo 2019.1 documentation</title>
+  <title>Chambre &mdash; Zgoubidoo 2019.4 documentation</title>
   
 
   
@@ -17,13 +17,20 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -31,21 +38,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="ChangRef" href="zgoubidoo.commands.commands.ChangRef.html" />
     <link rel="prev" title="Chambr" href="zgoubidoo.commands.commands.Chambr.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -59,7 +61,7 @@
             
             
               <div class="version">
-                2019.1
+                2019.4
               </div>
             
           
@@ -87,6 +89,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../commands.html">Zgoubi commands</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#zgoubidoo-s-class-hierarchy-and-bases-classes-for-new-commands">Zgoubidoo’s class hierarchy and bases classes for new commands</a></li>
@@ -106,16 +109,9 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Collimator.html">Collimator</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Command.html">Command</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.CommandType.html">CommandType</a></li>
-<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.ESL.html">ESL</a></li>
-<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.End.html">End</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Comment.html">Comment</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.FaiStore.html">FaiStore</a></li>
-<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Faisceau.html">Faisceau</a></li>
-<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Faiscnl.html">Faiscnl</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Fake.html">Fake</a></li>
-<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Fin.html">Fin</a></li>
-<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Fit.html">Fit</a></li>
-<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Fit2.html">Fit2</a></li>
-<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.FitType.html">FitType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Focale.html">Focale</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.FocaleZ.html">FocaleZ</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.GasScattering.html">GasScattering</a></li>
@@ -136,15 +132,13 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Reset.html">Reset</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Scaling.html">Scaling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Separa.html">Separa</a></li>
-<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.SynchrotronRadiation.html">SynchrotronRadiation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.SynchrotronRadiationLosses.html">SynchrotronRadiationLosses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.SynchrotronRadiationPrint.html">SynchrotronRadiationPrint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.TraRot.html">TraRot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.TransferMatrix.html">TransferMatrix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.TranslationRotation.html">TranslationRotation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Twiss.html">Twiss</a></li>
-<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.WienFilter.html">WienFilter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.Ymy.html">Ymy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.ZgoubidooAttributeException.html">ZgoubidooAttributeException</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.commands.ZgoubidooException.html">ZgoubidooException</a></li>
 </ul>
 </li>
@@ -158,13 +152,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.electrique">Electric elements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.fieldmaps">Field-map elements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.spin">Spin tracking commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#module-zgoubidoo.commands.radiation">Synchrotron radiation commands</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../beam.html">Working with Zgoubidoo beams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
@@ -241,30 +236,151 @@
 <em class="property">class </em><code class="descclassname">zgoubidoo.commands.commands.</code><code class="descname">Chambre</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/commands.html#Chambre"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.commands.Chambre" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" title="zgoubidoo.commands.commands.Command"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.commands.Command</span></code></a></p>
 <p>Long transverse aperture limitation.</p>
-<blockquote>
-<div><p class="rubric">Zgoubi manual description</p>
-<p>CHAMBR causes the identification, counting and stopping of particles that reach the transverse limits of the vacuum chamber. The chamber can be either rectangular (IFORM = 1) or elliptic (IFORM = 2). The chamber is centered at YC, ZC and has transverse dimensions ±Y L and ±ZL such that any particle will be stopped if its coordinates Y, Z satisfy</p>
-<p>The conditions introduced with CHAMBR are valid along the optical structure until the next occurrence of the keyword CHAMBR. Then, if IL = 1 the aperture is possibly modified by introducing new values of YC, ZC, Y L and ZL, or, if IL = 2 the chamber ends and information is printed concerning those particles that have been stopped.</p>
-</div></blockquote>
-<p>The testing is done in optical elements at each integration step, between the EFB’s. For instance, in QUADRUPO there will be no testing from −XE to 0 and from XL to XL + XS, but only from 0 to XL ; in DIPOLE, there is no testing as long as the ENTRANCE EFB is not reached, and testing is stopped as soon as the EXIT or LATERAL EFB’s are passed.
-In optical elements defined in polar coordinates, Y stands for the radial coordinate (e.g., DIPOLE, see Figs. 3C, p. 27, and 11, p. 82). Thus, centering CHAMBR at
-Y C = RM simulates a chamber curved with radius RM, and having a radial acceptance RM ± YL. In DRIFT, the testing is done at the beginning and at the end, and only for positive drifts. There is no testing in CHANGREF.
-When a particle is stopped, its index IEX (see OBJET and section 4.6.10) is set to the value -4, and its actual path length is stored in the array SORT for possible further use.</p>
-<blockquote>
-<div><p class="rubric">Command attributes</p>
-<p>Attributes:</p>
-<blockquote>
-<div><p>LABEL1=’’ (str): Primary label for the Zgoubi command (default: auto-generated hash).</p>
-<p>LABEL2=’’ (str): Secondary label for the Zgoubi command.</p>
-<p>IA=‘0’ (int): 0 (element inactive), 1 ((re)definition of the aperture), 2 (stop testing and reset counters,print information on stopped particles</p>
-<p>IFORM=‘1’ (int): 1 (rectangular aperture), 2 (elliptical aperture)</p>
-<p>J=‘0’ (int): 0 (default) or 1</p>
-<p>C1=‘100 centimeter’ (Quantity): If J=0, Y opening, if J=1, inner Y opening</p>
-<p>C2=‘100 centimeter’ (Quantity): If J=0, Z opening, if J=1, outer Y opening</p>
-<p>C3=‘0 centimeter’ (Quantity): If J=0, Y center, if J=1, inner Z opening</p>
-<p>C4=‘0 centimeter’ (Quantity): If J=0, Z center, if J=1, outer Z opening</p>
-</div></blockquote>
-</div></blockquote>
+<p class="rubric">Zgoubi manual description</p>
+<p>CHAMBR causes the identification, counting and stopping of particles that reach the transverse limits of the vacuum
+chamber. The chamber can be either rectangular (IFORM = 1) or elliptic (IFORM = 2). The chamber is centered at YC,
+ZC and has transverse dimensions ±Y L and ±ZL such that any particle will be stopped if its coordinates Y, Z
+satisfy.</p>
+<p>The conditions introduced with CHAMBR are valid along the optical structure until the next occurrence of the
+keyword CHAMBR. Then, if IL = 1 the aperture is possibly modified by introducing new values of YC, ZC, Y L and ZL,
+or, if IL = 2 the chamber ends and information is printed concerning those particles that have been stopped.</p>
+<p>The testing is done in optical elements at each integration step, between the EFB’s. For instance, in QUADRUPO
+there will be no testing from −XE to 0 and from XL to XL + XS, but only from 0 to XL ; in DIPOLE, there is no
+testing as long as the ENTRANCE EFB is not reached, and testing is stopped as soon as the EXIT or LATERAL EFB’s
+are passed.</p>
+<p>In optical elements defined in polar coordinates, Y stands for the radial coordinate (e.g., DIPOLE, see Figs. 3C,
+p. 27, and 11, p. 82). Thus, centering CHAMBR at Y C = RM simulates a chamber curved with radius RM, and having a
+radial acceptance RM ± YL. In DRIFT, the testing is done at the beginning and at the end, and only for positive
+drifts. There is no testing in CHANGREF.</p>
+<p>When a particle is stopped, its index IEX (see OBJET and section 4.6.10) is set to the value -4, and its actual
+path length is stored in the array SORT for possible further use.</p>
+<p class="rubric">Command attributes</p>
+<dl class="attribute">
+<dt>
+<code class="descname">LABEL1=''</code></dt>
+<dd><p>Primary label for the Zgoubi command (default: auto-generated hash).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">LABEL2=''</code></dt>
+<dd><p>Secondary label for the Zgoubi command.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">IA='0'</code></dt>
+<dd><p>0 (element inactive), 1 ((re)definition of the aperture), 2 (stop testing and reset counters,print information on stopped particles</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">IFORM='1'</code></dt>
+<dd><p>1 (rectangular aperture), 2 (elliptical aperture)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">J='0'</code></dt>
+<dd><p>0 (default) or 1</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C1='100 centimeter'</code></dt>
+<dd><p>If J=0, Y opening, if J=1, inner Y opening</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C2='100 centimeter'</code></dt>
+<dd><p>If J=0, Z opening, if J=1, outer Y opening</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C3='0 centimeter'</code></dt>
+<dd><p>If J=0, Y center, if J=1, inner Z opening</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">C4='0 centimeter'</code></dt>
+<dd><p>If J=0, Z center, if J=1, outer Z opening</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <p>Default initializer for all Commands.</p>
 <p class="rubric">Attributes Summary</p>
 <table border="1" class="longtable docutils">
@@ -310,7 +426,7 @@ commands (e.g. fit).</p>
         <a href="zgoubidoo.commands.commands.ChangRef.html" class="btn btn-neutral float-right" title="ChangRef" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="zgoubidoo.commands.commands.Chambr.html" class="btn btn-neutral" title="Chambr" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="zgoubidoo.commands.commands.Chambr.html" class="btn btn-neutral float-left" title="Chambr" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -336,26 +452,16 @@ commands (e.g. fit).</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

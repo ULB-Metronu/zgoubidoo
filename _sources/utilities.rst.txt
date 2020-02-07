@@ -7,13 +7,13 @@ Zgoubidoo's utility modules
 Affine geometry using the frame module
 --------------------------------------
 
-.. automodapi:: zgoubidoo.frame
+.. automodapi:: georges_core.frame
     :no-heading:
 
 Accelerator physics and relativity calculations using the physics module
 ------------------------------------------------------------------------
 
-.. automodapi:: zgoubidoo.physics
+.. automodapi:: georges_core.kinematics
     :no-heading:
 
 Units
@@ -28,8 +28,3 @@ Polarity type system
 .. automodule:: zgoubidoo.polarity
     :members:
 
-Miscelanous
------------
-
-.. automodule:: zgoubidoo.utils
-    :members:

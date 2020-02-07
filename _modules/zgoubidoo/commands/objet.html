@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>zgoubidoo.commands.objet &mdash; Zgoubidoo 2019.1 documentation</title>
+  <title>zgoubidoo.commands.objet &mdash; Zgoubidoo 2019.4 documentation</title>
   
 
   
@@ -17,33 +17,35 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -57,7 +59,7 @@
             
             
               <div class="version">
-                2019.1
+                2019.4
               </div>
             
           
@@ -85,13 +87,14 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Zgoubi commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../input.html">Working with Zgoubi Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../beam.html">Working with Zgoubidoo beams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Zgoubidoo’s utility modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
@@ -219,11 +222,11 @@
         <span class="s1">&#39;IP&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Total number of points in +- P (or +P only if K2=01)&#39;</span><span class="p">),</span>
         <span class="s1">&#39;IX&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Total number of points in +- X&#39;</span><span class="p">),</span>
         <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Total number of points in +- D&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;PY&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">centimeter</span><span class="p">,</span> <span class="s1">&#39;Step size in Y&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;PT&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">milliradian</span><span class="p">,</span> <span class="s1">&#39;Step size in T&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;PZ&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">centimeter</span><span class="p">,</span> <span class="s1">&#39;Step size in Z&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;PP&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">milliradian</span><span class="p">,</span> <span class="s1">&#39;Step size in P&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;PX&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">centimeter</span><span class="p">,</span> <span class="s1">&#39;Step size in X&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PY&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">centimeter</span><span class="p">,</span> <span class="s1">&#39;Step size in Y&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PT&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">milliradian</span><span class="p">,</span> <span class="s1">&#39;Step size in T&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PZ&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">centimeter</span><span class="p">,</span> <span class="s1">&#39;Step size in Z&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PP&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">milliradian</span><span class="p">,</span> <span class="s1">&#39;Step size in P&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PX&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">centimeter</span><span class="p">,</span> <span class="s1">&#39;Step size in X&#39;</span><span class="p">),</span>
         <span class="s1">&#39;PD&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;Step size in Delta(BRHO)/BORO&#39;</span><span class="p">),</span>
         <span class="s1">&#39;YR&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">centimeter</span><span class="p">,</span> <span class="s1">&#39;Reference Y&#39;</span><span class="p">),</span>
         <span class="s1">&#39;TR&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">milliradian</span><span class="p">,</span> <span class="s1">&#39;Reference T&#39;</span><span class="p">),</span>
@@ -246,6 +249,9 @@
 <div class="viewcode-block" id="Objet2"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet2.html#zgoubidoo.commands.objet.Objet2">[docs]</a><span class="k">class</span> <span class="nc">Objet2</span><span class="p">(</span><span class="n">Objet</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Objet with all initial coordinates entered explicitely.</span>
 
+<span class="sd">    This object type can be used to simulate a bunch with an explicit list of coordinates. That&#39;s the method Zgoubidoo</span>
+<span class="sd">    uses when tracking bunches.</span>
+
 <span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; zi = Input()</span>
 <span class="sd">        &gt;&gt;&gt; objet = Objet2()</span>
@@ -259,14 +265,32 @@
         <span class="s1">&#39;KOBJ&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
         <span class="s1">&#39;K2&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
         <span class="s1">&#39;IDMAX&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span>
-        <span class="s1">&#39;T&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">31</span><span class="p">),</span>
-        <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
-        <span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">33</span><span class="p">),</span>
     <span class="p">}</span>
+    <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
+<span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Objet2.post_init"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet2.html#zgoubidoo.commands.objet.Objet2.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="o">=</span> <span class="kc">None</span></div>
+    <span class="n">Y_</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="n">T_</span> <span class="o">=</span> <span class="mi">31</span>
+    <span class="n">Z_</span> <span class="o">=</span> <span class="mi">32</span>
+    <span class="n">P_</span> <span class="o">=</span> <span class="mi">33</span>
+    <span class="c1"># Used for FIT</span>
+
+<div class="viewcode-block" id="Objet2.post_init"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet2.html#zgoubidoo.commands.objet.Objet2.post_init">[docs]</a>    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                  <span class="n">reference_y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+                  <span class="n">reference_t</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+                  <span class="n">reference_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+                  <span class="n">reference_p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+                  <span class="n">reference_x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+                  <span class="n">reference_d</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Post initialization routine.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reference_y</span> <span class="o">=</span> <span class="n">reference_y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reference_t</span> <span class="o">=</span> <span class="n">reference_t</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reference_z</span> <span class="o">=</span> <span class="n">reference_z</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reference_p</span> <span class="o">=</span> <span class="n">reference_p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reference_x</span> <span class="o">=</span> <span class="n">reference_x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reference_d</span> <span class="o">=</span> <span class="n">reference_d</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">IMAX</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -288,12 +312,9 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">PARTICULES</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot;The particles list.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span><span class="p">[:,</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># D = 1</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span><span class="p">[:,</span> <span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># IEX</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_references</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span>
 
 <div class="viewcode-block" id="Objet2.clear"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet2.html#zgoubidoo.commands.objet.Objet2.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -314,30 +335,68 @@
 <span class="sd">        Returns:</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s1">&#39;columns&#39;</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="o">=</span> <span class="n">p</span>
-            <span class="k">elif</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">]:</span>
-                <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-                <span class="n">p</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
-                <span class="n">p</span><span class="p">[</span><span class="s1">&#39;IEX&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
-                <span class="n">p</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">1.0</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="o">=</span> <span class="n">p</span><span class="p">[[</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;IEX&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">if</span> <span class="n">p</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">_np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span> <span class="s2">&quot;The particles container must be a numpy array.&quot;</span>
+        <span class="k">assert</span> <span class="n">p</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Invalid dimensions for the array of particles (must be 2).&quot;</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>  <span class="c1"># Y T Z P</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">iex</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">distribution</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">iex</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>  <span class="c1"># Y T Z P D</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">iex</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">distribution</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">p</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:],</span> <span class="n">iex</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>  <span class="c1"># Y T Z P X D</span>
+            <span class="n">iex</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">distribution</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="n">iex</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">7</span><span class="p">:</span>  <span class="c1"># Y T Z P X D IEX</span>
+            <span class="n">distribution</span> <span class="o">=</span> <span class="n">p</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">_ZgoubidooException</span><span class="p">(</span><span class="s2">&quot;Invalid dimensions for particles vectors.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="o">=</span> <span class="n">distribution</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_PARTICULES</span><span class="p">,</span> <span class="n">distribution</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="Objet2.add_references"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet2.html#zgoubidoo.commands.objet.Objet2.add_references">[docs]</a>    <span class="k">def</span> <span class="nf">add_references</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a reference particle to the Objet.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n: the number of reference particles to add</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the object itself.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+        <span class="n">p</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_y</span>
+        <span class="n">p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_t</span>
+        <span class="n">p</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_z</span>
+        <span class="n">p</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_p</span>
+        <span class="n">p</span><span class="p">[:,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_x</span>
+        <span class="n">p</span><span class="p">[:,</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_d</span>
+        <span class="n">p</span><span class="p">[:,</span> <span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># IEX</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
-<span class="s2">        </span><span class="si">{s.KOBJ}</span><span class="s2">.0</span><span class="si">{s.K2}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{s.IMAX}</span><span class="s2"> </span><span class="si">{s.IDMAX}</span><span class="s2"></span>
+<span class="s2">        {super().__str__().strip()}</span>
+<span class="s2">        </span><span class="si">{self.KOBJ}</span><span class="s2">.0</span><span class="si">{self.K2}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{self.IMAX}</span><span class="s2"> </span><span class="si">{self.IDMAX}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">PARTICULES</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">]:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">PARTICULES</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span>
+        <span class="n">c</span> <span class="o">+=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{p[0]:.12e}</span><span class="s2"> </span><span class="si">{p[1]:.12e}</span><span class="s2"> </span><span class="si">{p[2]:.12e}</span><span class="s2"> </span><span class="si">{p[3]:.12e}</span><span class="s2"> </span><span class="si">{p[4]:.12e}</span><span class="s2"> </span><span class="si">{p[5]:.12e}</span><span class="s2"> O</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">PARTICULES</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">]:</span>
             <span class="n">c</span> <span class="o">+=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        </span><span class="si">{p[0]:.12e}</span><span class="s2"> </span><span class="si">{p[1]:.12e}</span><span class="s2"> </span><span class="si">{p[2]:.12e}</span><span class="s2"> </span><span class="si">{p[3]:.12e}</span><span class="s2"> </span><span class="si">{p[4]:.12e}</span><span class="s2"> </span><span class="si">{p[5]:.12e}</span><span class="s2"> A</span>
 <span class="s2">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span>
-        <span class="n">c</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">f</span><span class="s2">&quot;{int(x):d}&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">IEX</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">c</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">f</span><span class="s2">&quot;{int(x):d}&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">IEX</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">return</span> <span class="n">c</span></div>
 
 
@@ -408,7 +467,7 @@
         <span class="s1">&#39;XF&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
         <span class="s1">&#39;DF&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
         <span class="s1">&#39;TF&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s1">&#39;TAG&#39;</span><span class="p">:</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="c1"># No effect if &#39;*&#39;</span>
+        <span class="s1">&#39;TAG&#39;</span><span class="p">:</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span>  <span class="c1"># No effect if &#39;*&#39;</span>
         <span class="s1">&#39;YR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
         <span class="s1">&#39;TR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
         <span class="s1">&#39;ZR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
@@ -417,7 +476,7 @@
         <span class="s1">&#39;DR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
         <span class="s1">&#39;TR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
         <span class="s1">&#39;InitC&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s1">&#39;FNAME&#39;</span><span class="p">:</span> <span class="s1">&#39;zgoubi.fai&#39;</span><span class="p">,</span> <span class="c1">#(NN in KOBJ=3.NN determines storage FORMAT)</span>
+        <span class="s1">&#39;FNAME&#39;</span><span class="p">:</span> <span class="s1">&#39;zgoubi.fai&#39;</span><span class="p">,</span>  <span class="c1"># (NN in KOBJ=3.NN determines storage FORMAT)</span>
     <span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -443,61 +502,92 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;KOBJ&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-        <span class="s1">&#39;NN&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;KOBJ&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;Generation of groups 11 particles.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;NN&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Number of groups of 11 particles&#39;</span><span class="p">),</span>
         <span class="s1">&#39;PY&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
         <span class="s1">&#39;PT&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
         <span class="s1">&#39;PZ&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
         <span class="s1">&#39;PP&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
         <span class="s1">&#39;PX&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
         <span class="s1">&#39;PD&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
-        <span class="s1">&#39;YR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s1">&#39;TR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s1">&#39;ZR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s1">&#39;PR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s1">&#39;XR&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s1">&#39;DR&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;YR&#39;</span><span class="p">:</span> <span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="p">],</span> <span class="s1">&#39;Y-coordinate of the reference trajectory&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;TR&#39;</span><span class="p">:</span> <span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="p">],</span> <span class="s1">&#39;T-coordinate of the reference trajectory&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;ZR&#39;</span><span class="p">:</span> <span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="p">],</span> <span class="s1">&#39;Z-coordinate of the reference trajectory&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PR&#39;</span><span class="p">:</span> <span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="p">],</span> <span class="s1">&#39;P-coordinate of the reference trajectory&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;XR&#39;</span><span class="p">:</span> <span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="p">],</span> <span class="s1">&#39;X-coordinate of the reference trajectory&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;DR&#39;</span><span class="p">:</span> <span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="p">],</span> <span class="s1">&#39;D-coordinate of the reference trajectory&#39;</span><span class="p">),</span>
         <span class="s1">&#39;ALPHA_Y&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s1">&#39;BETA_Y&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;BETA_Y&#39;</span><span class="p">:</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">,</span>
         <span class="s1">&#39;ALPHA_Z&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s1">&#39;BETA_Z&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;BETA_Z&#39;</span><span class="p">:</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">,</span>
         <span class="s1">&#39;ALPHA_X&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s1">&#39;BETA_X&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s1">&#39;D_Y&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;BETA_X&#39;</span><span class="p">:</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">,</span>
+        <span class="s1">&#39;D_Y&#39;</span><span class="p">:</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">,</span>
         <span class="s1">&#39;D_YP&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s1">&#39;D_Z&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;D_Z&#39;</span><span class="p">:</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">,</span>
         <span class="s1">&#39;D_ZP&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
     <span class="p">}</span>
+    <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
+<span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">YR</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">TR</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">ZR</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">PR</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">XR</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">DR</span><span class="p">)</span> <span class="o">==</span> <span class="n">s</span><span class="o">.</span><span class="n">NN</span><span class="p">,</span> <span class="s1">&#39;Invalid lengths&#39;</span>
         <span class="n">command</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
+<span class="s2">        {super().__str__().strip()}</span>
 <span class="s2">        </span><span class="si">{s.KOBJ}</span><span class="s2">.0</span><span class="si">{s.NN}</span><span class="s2"></span>
 <span class="s2">        </span><span class="si">{s.PY:.12e}</span><span class="s2"> </span><span class="si">{s.PT:.12e}</span><span class="s2"> </span><span class="si">{s.PZ:.12e}</span><span class="s2"> </span><span class="si">{s.PP:.12e}</span><span class="s2"> </span><span class="si">{s.PX:.12e}</span><span class="s2"> </span><span class="si">{s.PD:.12e}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{s.YR:.12e}</span><span class="s2"> </span><span class="si">{s.TR:.12e}</span><span class="s2"> </span><span class="si">{s.ZR:.12e}</span><span class="s2"> </span><span class="si">{s.PR:.12e}</span><span class="s2"> </span><span class="si">{s.XR:.12e}</span><span class="s2"> </span><span class="si">{s.DR:.12e}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{s.YR[0]:.12e}</span><span class="s2"> </span><span class="si">{s.TR[0]:.12e}</span><span class="s2"> </span><span class="si">{s.ZR[0]:.12e}</span><span class="s2"> </span><span class="si">{s.PR[0]:.12e}</span><span class="s2"> </span><span class="si">{s.XR[0]:.12e}</span><span class="s2"> </span><span class="si">{s.DR[0]:.12e}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span>
         <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">NN</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">            </span><span class="si">{s.ALPHA_Y:.12e}</span><span class="s2"> </span><span class="si">{s.BETA_Y:.12e}</span><span class="s2"> </span><span class="si">{s.ALPHA_Z:.12e}</span><span class="s2"> </span><span class="si">{s.BETA_Z:.12e}</span><span class="s2"> </span><span class="si">{s.ALPHA_X:.12e}</span><span class="s2"> </span><span class="si">{s.BETA_X:.12e}</span><span class="s2"></span>
-<span class="s2">            </span><span class="si">{s.D_Y:.12e}</span><span class="s2"> </span><span class="si">{s.D_YP:.12e}</span><span class="s2"> </span><span class="si">{s.D_Z:.12e}</span><span class="s2"> </span><span class="si">{s.D_ZP:.12e}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{s.ALPHA_Y:.12e}</span><span class="s2"> {s.BETA_Y.m_as(&#39;m&#39;):.12e} </span><span class="si">{s.ALPHA_Z:.12e}</span><span class="s2"> {s.BETA_Z.m_as(&#39;m&#39;):.12e} </span><span class="si">{s.ALPHA_X:.12e}</span><span class="s2"> {s.BETA_X.m_as(&#39;m&#39;):.12e} {s.D_Y.m_as(&#39;m&#39;):.12e} </span><span class="si">{s.D_YP:.12e}</span><span class="s2"> {s.D_Z.m_as(&#39;m&#39;):.12e} </span><span class="si">{s.D_ZP:.12e}</span><span class="s2"></span>
 <span class="s2">            &quot;&quot;&quot;</span>
             <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">s</span><span class="o">.</span><span class="n">NN</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">99</span><span class="p">):</span>
-            <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">            </span><span class="si">{s.YR:.12e}</span><span class="s2"> </span><span class="si">{s.TR:.12e}</span><span class="s2"> </span><span class="si">{s.ZR:.12e}</span><span class="s2"> </span><span class="si">{s.PR:.12e}</span><span class="s2"> </span><span class="si">{s.XR:.12e}</span><span class="s2"> </span><span class="si">{s.DR:.12e}</span><span class="s2"></span>
-<span class="s2">            &quot;&quot;&quot;</span>
+        <span class="k">elif</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="n">NN</span> <span class="o">&lt;</span> <span class="mi">99</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">NN</span><span class="p">):</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{s.YR[i]:.12e}</span><span class="s2"> </span><span class="si">{s.TR[i]:.12e}</span><span class="s2"> </span><span class="si">{s.ZR[i]:.12e}</span><span class="s2"> </span><span class="si">{s.PR[i]:.12e}</span><span class="s2"> </span><span class="si">{s.XR[i]:.12e}</span><span class="s2"> </span><span class="si">{s.DR[i]:.12e}</span><span class="s2"></span>
+<span class="s2">                    &quot;&quot;&quot;</span>
             <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="n">_</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(),</span> <span class="n">command</span><span class="p">))</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span></div>
 
 
 <div class="viewcode-block" id="Objet6"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet6.html#zgoubidoo.commands.objet.Objet6">[docs]</a><span class="k">class</span> <span class="nc">Objet6</span><span class="p">(</span><span class="n">Objet</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Generation of 61 particles.</span>
 
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; 1 + 1 # TODO</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
+
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;KOBJ&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;Generation of groups 61 particles.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PY&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+        <span class="s1">&#39;PT&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+        <span class="s1">&#39;PZ&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+        <span class="s1">&#39;PP&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+        <span class="s1">&#39;PX&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+        <span class="s1">&#39;PD&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+        <span class="s1">&#39;YR&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;Y-coordinate of the reference trajectory&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;TR&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;T-coordinate of the reference trajectory&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;ZR&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;Z-coordinate of the reference trajectory&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PR&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;P-coordinate of the reference trajectory&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;XR&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;X-coordinate of the reference trajectory&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;DR&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;D-coordinate of the reference trajectory&#39;</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        {super().__str__().rstrip()}</span>
+<span class="s2">        </span><span class="si">{self.KOBJ}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{self.PY:.12e}</span><span class="s2"> </span><span class="si">{self.PT:.12e}</span><span class="s2"> </span><span class="si">{self.PZ:.12e}</span><span class="s2"> </span><span class="si">{self.PP:.12e}</span><span class="s2"> </span><span class="si">{self.PX:.12e}</span><span class="s2"> </span><span class="si">{self.PD:.12e}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{self.YR:.12e}</span><span class="s2"> </span><span class="si">{self.TR:.12e}</span><span class="s2"> </span><span class="si">{self.ZR:.12e}</span><span class="s2"> </span><span class="si">{self.PR:.12e}</span><span class="s2"> </span><span class="si">{self.XR:.12e}</span><span class="s2"> </span><span class="si">{self.DR:.12e}</span><span class="s2"></span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="n">command</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="n">_</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(),</span> <span class="n">command</span><span class="p">))</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span></div>
 
 
 <div class="viewcode-block" id="Objet7"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.objet.Objet7.html#zgoubidoo.commands.objet.Objet7">[docs]</a><span class="k">class</span> <span class="nc">Objet7</span><span class="p">(</span><span class="n">Objet</span><span class="p">):</span>
@@ -517,7 +607,7 @@
     <span class="sd">&quot;&quot;&quot;Object from Monte-Carlo simulation of decay reaction.</span>
 
 <span class="sd">    Examples:</span>
-<span class="sd">        Test</span>
+<span class="sd">        TODO</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;OBJETA&#39;</span>
     <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span></div>
@@ -551,26 +641,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

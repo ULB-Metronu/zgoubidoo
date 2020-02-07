@@ -1,7 +1,0 @@
-Polarity
-========
-
-.. currentmodule:: zgoubidoo.polarity
-
-.. autoclass:: Polarity
-   :show-inheritance:

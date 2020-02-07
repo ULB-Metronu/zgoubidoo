@@ -1,0 +1,674 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>zgoubidoo.fieldmaps.fieldmap &mdash; Zgoubidoo 2019.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Zgoubidoo
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2019.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../news.html">News and announcements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../zgoubi.html">Zgoubi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Zgoubi commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib.html">Zgoubidoo specialized and contributed commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../input.html">Working with Zgoubi Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utilities.html">Zgoubidoo’s utility modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Zgoubidoo</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>zgoubidoo.fieldmaps.fieldmap</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for zgoubidoo.fieldmaps.fieldmap</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Field map module.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">lmfit</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">interpolate</span>
+<span class="kn">from</span> <span class="nn">lmfit</span> <span class="k">import</span> <span class="n">Model</span> <span class="k">as</span> <span class="n">_Model</span>
+
+
+<div class="viewcode-block" id="load_mesh_data"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.load_mesh_data.html#zgoubidoo.fieldmaps.fieldmap.load_mesh_data">[docs]</a><span class="k">def</span> <span class="nf">load_mesh_data</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load a mesh data file and creates a complete mesh grid using numpy.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        file: the file containing the mesh data</span>
+<span class="sd">        path: path to the mesh data file</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A Numpy mesh grid (list of arrays).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">x_dim</span><span class="p">,</span> <span class="n">y_dim</span><span class="p">,</span> <span class="n">z_dim</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">())</span><span class="o">.</span><span class="n">split</span><span class="p">())))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">x_dim</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">x_dim</span><span class="p">:</span><span class="n">x_dim</span> <span class="o">+</span> <span class="n">y_dim</span><span class="p">]</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">x_dim</span> <span class="o">+</span> <span class="n">y_dim</span><span class="p">:</span><span class="n">x_dim</span> <span class="o">+</span> <span class="n">y_dim</span> <span class="o">+</span> <span class="n">z_dim</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s1">&#39;ij&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="load_field_data"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.load_field_data.html#zgoubidoo.fieldmaps.fieldmap.load_field_data">[docs]</a><span class="k">def</span> <span class="nf">load_field_data</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        file: the file containing the field map data</span>
+<span class="sd">        path: path to the field mpa data file</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A DataFrame containing the field data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;BX&#39;</span><span class="p">,</span> <span class="s1">&#39;BY&#39;</span><span class="p">,</span> <span class="s1">&#39;BZ&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">],</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="load_opera_fieldmap_with_mesh"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.load_opera_fieldmap_with_mesh.html#zgoubidoo.fieldmaps.fieldmap.load_opera_fieldmap_with_mesh">[docs]</a><span class="k">def</span> <span class="nf">load_opera_fieldmap_with_mesh</span><span class="p">(</span><span class="n">field_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mesh_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        field_file: the file containing the field map data</span>
+<span class="sd">        mesh_file: the file containing the mesh data</span>
+<span class="sd">        path: path to the field mpa data files</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A Numpy array containing the mesh points and the associated field values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">_np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">shape</span><span class="p">),))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">load_mesh_data</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">mesh_file</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">)]</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">load_field_data</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">field_file</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="n">_np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="o">*</span><span class="n">f</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+        <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="s1">&#39;BX&#39;</span><span class="p">,</span> <span class="s1">&#39;BY&#39;</span><span class="p">,</span> <span class="s1">&#39;BZ&#39;</span><span class="p">,</span> <span class="s1">&#39;MATCODE&#39;</span><span class="p">],</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="load_opera_fieldmap"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.load_opera_fieldmap.html#zgoubidoo.fieldmaps.fieldmap.load_opera_fieldmap">[docs]</a><span class="k">def</span> <span class="nf">load_opera_fieldmap</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        file: the file containing the field map data</span>
+<span class="sd">        path: path to the field mpa data file</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A Numpy array containing the mesh points and the associated field values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file</span><span class="p">),</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span>
+        <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="s1">&#39;BX&#39;</span><span class="p">,</span> <span class="s1">&#39;BY&#39;</span><span class="p">,</span> <span class="s1">&#39;BZ&#39;</span><span class="p">,</span> <span class="s1">&#39;MATCODE&#39;</span><span class="p">,</span>
+    <span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="enge"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.enge.html#zgoubidoo.fieldmaps.fieldmap.enge">[docs]</a><span class="k">def</span> <span class="nf">enge</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">],</span>
+         <span class="n">ce_0</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+         <span class="n">ce_1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+         <span class="n">ce_2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+         <span class="n">ce_3</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+         <span class="n">ce_4</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+         <span class="n">ce_5</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+         <span class="n">cs_0</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+         <span class="n">cs_1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+         <span class="n">cs_2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+         <span class="n">cs_3</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+         <span class="n">cs_4</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+         <span class="n">cs_5</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+         <span class="n">lam_e</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+         <span class="n">lam_s</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+         <span class="n">offset_e</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>
+         <span class="n">offset_s</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+         <span class="n">amplitude</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+         <span class="n">field_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+         <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Enge function for the modelling of fringe fields.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        s: the coordinate (can be a numpy array)</span>
+<span class="sd">        ce_0: zero-th order coefficient for the entrance fringe</span>
+<span class="sd">        ce_1: first order coefficient for the entrance fringe (usually set to 1)</span>
+<span class="sd">        ce_2: second order coefficent for the entrance fringe</span>
+<span class="sd">        ce_3: third order coefficient for the entrance fringe</span>
+<span class="sd">        ce_4: fourth order coefficient for the entrance fringe</span>
+<span class="sd">        ce_5: fifth order coefficient for the entrance fringe</span>
+<span class="sd">        cs_0: zero-th order coefficient for the exit fringe</span>
+<span class="sd">        cs_1: first order coefficient for the exit fringe (usually set to 1)</span>
+<span class="sd">        cs_2: second order coefficient for the exit fringe</span>
+<span class="sd">        cs_3: third order coefficient for the exit fringe</span>
+<span class="sd">        cs_4: fourth order coefficient for the exit fringe</span>
+<span class="sd">        cs_5: fifth order coefficient for the exit fringe</span>
+<span class="sd">        lam_e: characteristic length of the entrance fringe</span>
+<span class="sd">        lam_s: characteristic length of the exit fringe</span>
+<span class="sd">        offset_e: offset for the positionning of the entrance fall-off</span>
+<span class="sd">        offset_s: offset for the positionning of the exit fall-off</span>
+<span class="sd">        amplitude: field amplitude (not necesserally equal to the maximum)</span>
+<span class="sd">        field_offset: field offset</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        the value of the Enge function at coordinate s.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p_e</span> <span class="o">=</span> <span class="n">ce_0</span> <span class="o">+</span> <span class="n">ce_1</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">s</span> <span class="o">-</span> <span class="n">offset_e</span><span class="p">)</span> <span class="o">/</span> <span class="n">lam_e</span><span class="p">)</span> <span class="o">+</span> <span class="n">ce_2</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">s</span> <span class="o">-</span> <span class="n">offset_e</span><span class="p">)</span> <span class="o">/</span> <span class="n">lam_e</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">ce_3</span> <span class="o">*</span> <span class="p">(</span>
+                <span class="o">-</span><span class="p">(</span><span class="n">s</span> <span class="o">-</span> <span class="n">offset_e</span><span class="p">)</span> <span class="o">/</span> <span class="n">lam_e</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">ce_4</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">s</span> <span class="o">-</span> <span class="n">offset_e</span><span class="p">)</span> <span class="o">/</span> <span class="n">lam_e</span><span class="p">)</span> <span class="o">**</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">ce_5</span> <span class="o">*</span> <span class="p">(</span>
+                      <span class="o">-</span><span class="p">(</span><span class="n">s</span> <span class="o">-</span> <span class="n">offset_e</span><span class="p">)</span> <span class="o">/</span> <span class="n">lam_e</span><span class="p">)</span> <span class="o">**</span> <span class="mi">5</span>
+    <span class="n">p_s</span> <span class="o">=</span> <span class="n">cs_0</span> <span class="o">+</span> <span class="n">cs_1</span> <span class="o">*</span> <span class="p">((</span><span class="n">s</span> <span class="o">-</span> <span class="n">offset_s</span><span class="p">)</span> <span class="o">/</span> <span class="n">lam_s</span><span class="p">)</span> <span class="o">+</span> <span class="n">cs_2</span> <span class="o">*</span> <span class="p">((</span><span class="n">s</span> <span class="o">-</span> <span class="n">offset_s</span><span class="p">)</span> <span class="o">/</span> <span class="n">lam_s</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">cs_3</span> <span class="o">*</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">s</span> <span class="o">-</span> <span class="n">offset_s</span><span class="p">)</span> <span class="o">/</span> <span class="n">lam_s</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">cs_4</span> <span class="o">*</span> <span class="p">((</span><span class="n">s</span> <span class="o">-</span> <span class="n">offset_s</span><span class="p">)</span> <span class="o">/</span> <span class="n">lam_s</span><span class="p">)</span> <span class="o">**</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">cs_5</span> <span class="o">*</span> <span class="p">(</span>
+                      <span class="p">(</span><span class="n">s</span> <span class="o">-</span> <span class="n">offset_s</span><span class="p">)</span> <span class="o">/</span> <span class="n">lam_s</span><span class="p">)</span> <span class="o">**</span> <span class="mi">5</span>
+    <span class="k">return</span> <span class="n">amplitude</span> <span class="o">*</span> <span class="p">((</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">p_e</span><span class="p">)))</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">p_s</span><span class="p">)))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">field_offset</span></div>
+
+
+<div class="viewcode-block" id="EngeModel"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.EngeModel.html#zgoubidoo.fieldmaps.fieldmap.EngeModel">[docs]</a><span class="k">class</span> <span class="nc">EngeModel</span><span class="p">(</span><span class="n">_Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Enge model to be used with lmfit.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">enge</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The parameters of the Enge model (interface to `lmfit.Model.make_params()`).&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_params</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span></div>
+
+
+<div class="viewcode-block" id="FieldMap"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap">[docs]</a><span class="k">class</span> <span class="nc">FieldMap</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    TODO</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_map</span><span class="p">:</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_map:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">field_map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reference_trajectory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_field_profile_fit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="FieldMap.load_from_opera"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap.load_from_opera">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load_from_opera</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Factory method to load a field map from a Opera output file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            file: the file containing the field map data</span>
+<span class="sd">            path: path to the field mpa data file</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A FieldMap loaded from file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">field_map</span><span class="o">=</span><span class="n">load_opera_fieldmap</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">file</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="FieldMap.load_from_opera_with_mesh"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap.load_from_opera_with_mesh">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load_from_opera_with_mesh</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">field_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mesh_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Factory method to load a field map from Opera output files (field map and mesh definition).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            field_file: the file containing the field map data</span>
+<span class="sd">            mesh_file: the file containing the mesh data</span>
+<span class="sd">            path: path to the field mpa data files</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A FieldMap loaded from files.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">field_map</span><span class="o">=</span><span class="n">load_opera_fieldmap_with_mesh</span><span class="p">(</span><span class="n">field_file</span><span class="o">=</span><span class="n">field_file</span><span class="p">,</span> <span class="n">mesh_file</span><span class="o">=</span><span class="n">mesh_file</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">))</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">df</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Field map dataframe.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Field map raw data in a numpy array.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">reference_trajectory</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Reference trajectory attached to the field map.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_trajectory</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">field_profile_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Fit of the field profile.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_field_profile_fit</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mesh_sampling_x</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Sampling points of the field map along the X axis.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh_sampling_along_axis</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mesh_sampling_y</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Sampling points of the field map along the Y axis.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh_sampling_along_axis</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mesh_sampling_z</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Sampling points of the field map along the Z axis.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh_sampling_along_axis</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FieldMap.mesh_sampling_along_axis"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap.mesh_sampling_along_axis">[docs]</a>    <span class="k">def</span> <span class="nf">mesh_sampling_along_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sampling points of the field map along a given axis.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            axis: the index of the axis.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A numpy array containing the data points of the field map sampling.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="n">axis</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">_</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">_</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FieldMap.translate"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap.translate">[docs]</a>    <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x:</span>
+<span class="sd">            y:</span>
+<span class="sd">            z:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span> <span class="o">-=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">]</span> <span class="o">-=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span> <span class="o">-=</span> <span class="n">z</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="FieldMap.rotate"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap.rotate">[docs]</a>    <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;TODO&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="FieldMap.slice"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap.slice">[docs]</a>    <span class="k">def</span> <span class="nf">slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slicing</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Z == 0&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Slices the field map following a slicing query.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            slicing: the slicing query string</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The object itself (allows method chaining).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">slicing</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="FieldMap.sample"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">field_component</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;MOD&#39;</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;nearest&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            points:</span>
+<span class="sd">            field_component: field component to be sampled (&#39;BX&#39;, &#39;BY&#39;, &#39;BZ&#39; or &#39;MOD&#39;)</span>
+<span class="sd">            method: method used for the grid interpolation (&#39;nearest&#39; or &#39;linear&#39;)</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">points</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The sampling points are not defined (`points is None`).&quot;</span><span class="p">)</span>
+        <span class="c1"># The lambda trick is used so that the modulus is only computed if needed</span>
+        <span class="n">field_components</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;BX&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">],</span>
+            <span class="s1">&#39;BY&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">4</span><span class="p">],</span>
+            <span class="s1">&#39;BZ&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">5</span><span class="p">],</span>
+            <span class="s1">&#39;MOD&#39;</span><span class="p">:</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">_np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)),</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">field_components</span><span class="p">[</span><span class="n">field_component</span><span class="p">](),</span> <span class="n">points</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FieldMap.attach_cartesian_trajectory"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap.attach_cartesian_trajectory">[docs]</a>    <span class="k">def</span> <span class="nf">attach_cartesian_trajectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                    <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                    <span class="n">lower</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                    <span class="n">upper</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                    <span class="n">samples</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                    <span class="n">offset_x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+                                    <span class="n">offset_y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+                                    <span class="n">offset_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+                                    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        TODO: support arbitrary rotations</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            axis:</span>
+<span class="sd">            lower:</span>
+<span class="sd">            upper:</span>
+<span class="sd">            samples:</span>
+<span class="sd">            offset_x:</span>
+<span class="sd">            offset_y:</span>
+<span class="sd">            offset_z:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">length_sampling</span> <span class="o">=</span> <span class="n">samples</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh_sampling_along_axis</span><span class="p">(</span><span class="n">axis</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">lower</span> <span class="o">=</span> <span class="n">lower</span> <span class="ow">or</span> <span class="n">_np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh_sampling_along_axis</span><span class="p">(</span><span class="n">axis</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">upper</span> <span class="o">=</span> <span class="n">upper</span> <span class="ow">or</span> <span class="n">_np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh_sampling_along_axis</span><span class="p">(</span><span class="n">axis</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">sampling</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">length_sampling</span><span class="p">)</span>
+        <span class="n">zeros</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">length_sampling</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="n">sampling</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">zeros</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">axis</span> <span class="o">==</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="n">zeros</span><span class="p">,</span> <span class="n">sampling</span><span class="p">,</span> <span class="n">zeros</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">axis</span> <span class="o">==</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="n">zeros</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">sampling</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid value for &#39;axis&#39;.&quot;</span><span class="p">)</span>
+        <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">offset_x</span>
+        <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">offset_y</span>
+        <span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">offset_z</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reference_trajectory</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="FieldMap.attach_polar_trajectory"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap.attach_polar_trajectory">[docs]</a>    <span class="k">def</span> <span class="nf">attach_polar_trajectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                <span class="n">lower_angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                <span class="n">upper_angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                                <span class="n">samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                                <span class="n">plane</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;XY&#39;</span><span class="p">,</span>
+                                <span class="n">offset_x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+                                <span class="n">offset_y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+                                <span class="n">offset_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+                                <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            radius:</span>
+<span class="sd">            lower_angle:</span>
+<span class="sd">            upper_angle:</span>
+<span class="sd">            samples:</span>
+<span class="sd">            plane:</span>
+<span class="sd">            offset_x:</span>
+<span class="sd">            offset_y:</span>
+<span class="sd">            offset_z:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">angles</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">lower_angle</span><span class="p">,</span> <span class="n">upper_angle</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span> <span class="o">*</span> <span class="n">radius</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span> <span class="o">*</span> <span class="n">radius</span>
+        <span class="n">zeros</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">plane</span> <span class="o">==</span> <span class="s1">&#39;XY&#39;</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">zeros</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">plane</span> <span class="o">==</span> <span class="s1">&#39;YZ&#39;</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="n">zeros</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">plane</span> <span class="o">==</span> <span class="s1">&#39;XZ&#39;</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid value for &#39;plane&#39;.&quot;</span><span class="p">)</span>
+        <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">offset_x</span>
+        <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">offset_y</span>
+        <span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">offset_z</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reference_trajectory</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="FieldMap.fit_field_profile"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap.fit_field_profile">[docs]</a>    <span class="k">def</span> <span class="nf">fit_field_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                          <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">lmfit</span><span class="o">.</span><span class="n">Model</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                          <span class="n">field_component</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;MOD&#39;</span><span class="p">,</span>
+                          <span class="n">sampling_method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;nearest&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">lmfit</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">ModelResult</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model:</span>
+<span class="sd">            field_component:</span>
+<span class="sd">            sampling_method:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_trajectory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The reference trajectory is not defined.&quot;</span><span class="p">)</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">model</span> <span class="ow">or</span> <span class="n">EngeModel</span><span class="p">()</span>
+        <span class="n">fit</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_trajectory</span><span class="p">,</span> <span class="n">field_component</span><span class="o">=</span><span class="n">field_component</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">sampling_method</span><span class="p">),</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">s</span><span class="o">=</span><span class="n">_np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_trajectory</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_trajectory</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_field_profile_fit</span> <span class="o">=</span> <span class="n">fit</span>
+        <span class="k">return</span> <span class="n">fit</span></div>
+
+<div class="viewcode-block" id="FieldMap.plot_field_profile"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap.plot_field_profile">[docs]</a>    <span class="k">def</span> <span class="nf">plot_field_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">field_component</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;MOD&#39;</span><span class="p">,</span> <span class="n">sampling_method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;nearest&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ax:</span>
+<span class="sd">            field_component:</span>
+<span class="sd">            sampling_method:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_trajectory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                <span class="n">_np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_trajectory</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_trajectory</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_trajectory</span><span class="p">,</span> <span class="n">field_component</span><span class="o">=</span><span class="n">field_component</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">sampling_method</span><span class="p">),</span>
+                <span class="s1">&#39;bo&#39;</span><span class="p">,</span>
+                <span class="n">ms</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_profile_fit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                <span class="n">_np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_reference_trajectory</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_trajectory</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">field_profile_fit</span><span class="o">.</span><span class="n">best_fit</span><span class="p">,</span>
+                <span class="s1">&#39;r-&#39;</span><span class="p">,</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="FieldMap.plot_field_map"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap.plot_field_map">[docs]</a>    <span class="k">def</span> <span class="nf">plot_field_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">field_component</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">plane1</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">plane2</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ax:</span>
+<span class="sd">            field_component:</span>
+<span class="sd">            plane1:</span>
+<span class="sd">            plane2:</span>
+<span class="sd">            bins:</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">hist2d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="n">plane1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="n">plane2</span><span class="p">],</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">field_component</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_trajectory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_trajectory</span><span class="p">[:,</span> <span class="n">plane1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_trajectory</span><span class="p">[:,</span> <span class="n">plane2</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FieldMap.export_for_bdsim"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap.export_for_bdsim">[docs]</a>    <span class="k">def</span> <span class="nf">export_for_bdsim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;nearest&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            method: method used for the grid interpolation (&#39;nearest&#39; or &#39;linear&#39;)</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_mesh</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span>
+                   <span class="bp">self</span><span class="o">.</span><span class="n">mesh_sampling_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">():</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh_sampling_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">():</span><span class="mi">100</span><span class="n">j</span><span class="p">,</span>
+                   <span class="bp">self</span><span class="o">.</span><span class="n">mesh_sampling_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">():</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh_sampling_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">():</span><span class="mi">100</span><span class="n">j</span><span class="p">,</span>
+                   <span class="bp">self</span><span class="o">.</span><span class="n">mesh_sampling_z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">():</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh_sampling_z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">():</span><span class="mi">100</span><span class="n">j</span>
+                   <span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">100</span> <span class="o">**</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+        <span class="n">fx</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">new_mesh</span><span class="p">,</span> <span class="n">field_component</span><span class="o">=</span><span class="s1">&#39;BX&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+        <span class="n">fy</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">new_mesh</span><span class="p">,</span> <span class="n">field_component</span><span class="o">=</span><span class="s1">&#39;BY&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+        <span class="n">fz</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">new_mesh</span><span class="p">,</span> <span class="n">field_component</span><span class="o">=</span><span class="s1">&#39;BZ&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">new_mesh</span><span class="p">,</span> <span class="n">_np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">fx</span><span class="p">,</span> <span class="n">fy</span><span class="p">,</span> <span class="n">fz</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

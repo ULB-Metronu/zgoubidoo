@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>QPMQ &mdash; Zgoubidoo 2019.1 documentation</title>
+  <title>QPMQ &mdash; Zgoubidoo 2019.4 documentation</title>
   
 
   
@@ -17,13 +17,20 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -31,21 +38,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="QShort" href="zgoubidoo.commands.contrib.iba.QShort.html" />
     <link rel="prev" title="QLong" href="zgoubidoo.commands.contrib.iba.QLong.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -59,7 +61,7 @@
             
             
               <div class="version">
-                2019.1
+                2019.4
               </div>
             
           
@@ -87,6 +89,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../zgoubi.html">Zgoubi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../commands.html">Zgoubi commands</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../contrib.html">Zgoubidoo specialized and contributed commands</a><ul class="current">
@@ -113,6 +116,9 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.QWall.html">QWall</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.QuadrupoleIBA.html">QuadrupoleIBA</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.ResearchArea.html">ResearchArea</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.SL1G.html">SL1G</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.SL2G.html">SL2G</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.SL3G.html">SL3G</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.SMX.html">SMX</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.SMY.html">SMY</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.contrib.iba.T1G.html">T1G</a></li>
@@ -129,8 +135,8 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../input.html">Working with Zgoubi Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../beam.html">Working with Zgoubidoo beams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sequence.html">Working with Zgoubidoo sequences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fieldmaps.html">Field maps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
@@ -239,7 +245,8 @@
 <dl class="attribute">
 <dt>
 <code class="descname">HEIGHT='20 centimeter'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Height of the magnet (distance between poles), used by plotting functions.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -251,21 +258,9 @@
 
 <dl class="attribute">
 <dt>
-<code class="descname">WIDTH='50 centimeter'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">COLOR='blue'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<code class="descname">REFERENCE_FIELD_COMPONENT='BZ'</code></dt>
+<dd><p>Orientation of the reference field (used by field maps)</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -277,7 +272,118 @@
 
 <dl class="attribute">
 <dt>
-<code class="descname">IL='2'</code></dt>
+<code class="descname">KINEMATICS='None'</code></dt>
+<dd><p>A kinematics object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">NoneType</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">WIDTH='50 centimeter'</code></dt>
+<dd><p>Width of the magnetic poles (used for plotting only).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">APERTURE_LEFT='10 centimeter'</code></dt>
+<dd><p>Aperture size of the magnet, left side (used for plotting only).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">APERTURE_RIGHT='10 centimeter'</code></dt>
+<dd><p>Aperture size of the magnet, right side (used for plotting only).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">APERTURE_TOP='10 centimeter'</code></dt>
+<dd><p>Aperture size of the magnet, top side (used for plotting only).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">APERTURE_BOTTOM='10 centimeter'</code></dt>
+<dd><p>Aperture size of the magnet, bottom side (used for plotting only).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">COLOR='#FF0000'</code></dt>
+<dd><p>Magnet color for plotting.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">LENGTH_IS_ARC_LENGTH='False'</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">IL='0'</code></dt>
 <dd><p>Print field and coordinates along trajectories</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -333,7 +439,7 @@
 
 <dl class="attribute">
 <dt>
-<code class="descname">XE='0 centimeter'</code></dt>
+<code class="descname">X_E='0 centimeter'</code></dt>
 <dd><p>Entrance face integration zone for the fringe field</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -361,7 +467,7 @@
 
 <dl class="attribute">
 <dt>
-<code class="descname">XS='0 centimeter'</code></dt>
+<code class="descname">X_S='0 centimeter'</code></dt>
 <dd><p>Exit face integration zone for the fringe field</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -391,6 +497,62 @@
 <dt>
 <code class="descname">XPAS='0.1 centimeter'</code></dt>
 <dd><p>Integration step</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">KPOS='1'</code></dt>
+<dd><p>Misalignment type</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">XCE='0 centimeter'</code></dt>
+<dd><p>x offset</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">YCE='0 centimeter'</code></dt>
+<dd><p>y offset</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">ALE='0 radian'</code></dt>
+<dd><p>misalignment rotation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -445,7 +607,7 @@
 
 <dl class="attribute">
 <dt id="zgoubidoo.commands.contrib.iba.QPMQ.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'ALE': (&lt;Quantity(0, 'radian')&gt;,), 'B0': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tips'), 'C0_E': (0,), 'C0_S': (0,), 'C1_E': (1,), 'C1_S': (1,), 'C2_E': (0,), 'C2_S': (0,), 'C3_E': (0,), 'C3_S': (0,), 'C4_E': (0,), 'C4_S': (0,), 'C5_E': (0,), 'C5_S': (0,), 'COLOR': ('blue', ''), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, ''), 'IL': (2, 'Print field and coordinates along trajectories'), 'KPOS': (1,), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'LAM_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance face fringe field extent'), 'LAM_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit face fringe field extent'), 'R0': (&lt;Quantity(1.0, 'centimeter')&gt;, 'Radius of the pole tips'), 'WIDTH': (&lt;Quantity(50, 'centimeter')&gt;, ''), 'XCE': (&lt;Quantity(0, 'centimeter')&gt;,), 'XE': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance face integration zone for the fringe field'), 'XL': (&lt;Quantity(297, 'millimeter')&gt;, 'Magnet length'), 'XPAS': (&lt;Quantity(0.1, 'centimeter')&gt;, 'Integration step'), 'XS': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit face integration zone for the fringe field'), 'YCE': (&lt;Quantity(0, 'centimeter')&gt;,)}</em><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.QPMQ.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="descname">PARAMETERS</code><em class="property"> = {'ALE': (&lt;Quantity(0, 'radian')&gt;, 'misalignment rotation', 73), 'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'B0': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tips', 12), 'C0_E': (0,), 'C0_S': (0,), 'C1_E': (1,), 'C1_S': (1,), 'C2_E': (0,), 'C2_S': (0,), 'C3_E': (0,), 'C3_S': (0,), 'C4_E': (0,), 'C4_S': (0,), 'C5_E': (0,), 'C5_S': (0,), 'COLOR': ('#FF0000', 'Magnet color for plotting.'), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'IL': (0, 'Print field and coordinates along trajectories', 0), 'KINEMATICS': (None, 'A kinematics object.'), 'KPOS': (1, 'Misalignment type', 70), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'LAM_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance face fringe field extent', 21), 'LAM_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit face fringe field extent'), 'LENGTH_IS_ARC_LENGTH': (False, ''), 'R0': (&lt;Quantity(1.0, 'centimeter')&gt;, 'Radius of the pole tips', 11), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'WIDTH': (&lt;Quantity(50, 'centimeter')&gt;, 'Width of the magnetic poles (used for plotting only).'), 'XCE': (&lt;Quantity(0, 'centimeter')&gt;, 'x offset', 71), 'XL': (&lt;Quantity(297, 'millimeter')&gt;, 'Magnet length', 10), 'XPAS': (&lt;Quantity(0.1, 'centimeter')&gt;, 'Integration step', 60), 'X_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance face integration zone for the fringe field', 20), 'X_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit face integration zone for the fringe field'), 'YCE': (&lt;Quantity(0, 'centimeter')&gt;, 'y offset', 72)}</em><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.QPMQ.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods Documentation</p>
@@ -482,7 +644,7 @@
         <a href="zgoubidoo.commands.contrib.iba.QShort.html" class="btn btn-neutral float-right" title="QShort" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="zgoubidoo.commands.contrib.iba.QLong.html" class="btn btn-neutral" title="QLong" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="zgoubidoo.commands.contrib.iba.QLong.html" class="btn btn-neutral float-left" title="QLong" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -508,26 +670,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

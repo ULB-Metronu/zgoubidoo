@@ -18,6 +18,7 @@ SMY
    .. autosummary::
 
       ~SMY.post_init
+      ~SMY.process_fit_field_profile
 
    .. rubric:: Attributes Documentation
 
@@ -27,3 +28,4 @@ SMY
    .. rubric:: Methods Documentation
 
    .. automethod:: post_init
+   .. automethod:: process_fit_field_profile
