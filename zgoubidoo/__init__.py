@@ -1,13 +1,14 @@
 """*Zgoubidoo: a modern Python 3 interface to particle tracking codes: Zgoubi and MAD-X.*
 
-Zgoubidoo was born as a Python 3 interface for `Zgoubi`_, a ray-tracing code for beam dynamics simulations. Zgoubido is
+Zgoubidoo is a Python 3 interface for `Zgoubi`_, a ray-tracing code for beam dynamics simulations. Zgoubido is
 intended to follow a modern Python design and aims at being easy to use. Interactive use with iPython or Jupyter
-Notebook is supported and encouraged. As such Zgoubidoo can be viewed as a 'Zgoubi for the mere mortal' interface. More
-recently, Zgoubidoo learned how to drive MAD-X, in a similar fashion as it runs Zgoubi. This is intended to promote
-more systematic comparisons between the codes (in the few corner cases where it is possible) and to allow the user to
-built a complete workflow with a single unified libary: indeed, the optical design of new machines typically starts
-with MAD-X for which Zgoubidoo provides a complete interface (survey, Twiss and tracking modules, as well as the
-equivalent PTC modules).
+Notebook is supported and encouraged. As such Zgoubidoo can be viewed as a 'Zgoubi for the mere mortal' interface.
+
+More recently, Zgoubidoo learned how to drive MAD-X, in a similar fashion as it runs Zgoubi (via the *georges-core*
+library). This is intended to promote more systematic comparisons between the codes (in the few corner cases where it
+is possible) and to allow the user to built a complete workflow with a single unified libary: indeed, the optical
+design of new machines typically starts with MAD-X for which Zgoubidoo provides a complete interface (survey, Twiss
+and tracking modules, as well as the equivalent PTC modules).
 
 Zgoubi
 ------

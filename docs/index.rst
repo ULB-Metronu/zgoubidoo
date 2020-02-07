@@ -22,7 +22,6 @@ Zgoubidoo's documentation
    lowlevel
    fieldmaps
    physics
-   loaders
    vis
    utilities
    examples

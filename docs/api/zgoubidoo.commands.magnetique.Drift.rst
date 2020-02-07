@@ -10,24 +10,22 @@ Drift
 
    .. autosummary::
 
-      ~Drift.COLOR
       ~Drift.KEYWORD
       ~Drift.PARAMETERS
+      ~Drift.entry_s
 
    .. rubric:: Methods Summary
 
    .. autosummary::
 
       ~Drift.parse
-      ~Drift.plot
 
    .. rubric:: Attributes Documentation
 
-   .. autoattribute:: COLOR
    .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS
+   .. autoattribute:: entry_s
 
    .. rubric:: Methods Documentation
 
    .. automethod:: parse
-   .. automethod:: plot
