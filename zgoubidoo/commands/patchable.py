@@ -28,9 +28,15 @@ class Patchable:
         t = tracks[tracks.LABEL1 == self.LABEL1]
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = t['X'] + self.entry_s.m_as('m')
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo']
+        try:
+            tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo']
+        except KeyError:
+            pass
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT0'] = t['Zo']
+        try:
+            tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT0'] = t['Zo']
+        except KeyError:
+            pass
 
     def place(self, frame: _Frame):
         """Place the element with a reference frame.

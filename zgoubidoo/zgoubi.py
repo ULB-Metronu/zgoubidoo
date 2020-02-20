@@ -268,9 +268,9 @@ class ZgoubiResults:
         if parameters is None:
             self._srloss_steps = srloss_steps
         if with_survey and not srloss_steps.empty:
-            _GlobalCoordinateTransformation.transform(srloss_steps, self.results[0][1]['input'])
+            self._srloss_steps = _GlobalCoordinateTransformation.transform(tracks=srloss_steps.copy(), beamline=self.results[0][1]['input'])
 
-        return srloss_steps
+        return self._srloss_steps
 
     @property
     def srloss_steps(self) -> _pd.DataFrame:

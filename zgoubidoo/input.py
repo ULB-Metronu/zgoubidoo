@@ -772,7 +772,6 @@ class Input:
         if beam is not None:
             converted_sequence.appendleft(
                 (beam.from_sequence(sequence,
-                                    statistics=(beam_options or {}).get('statistics', None),
                                     **(beam_options or {'LABEL1': 'BEAM'})), )  # Note the tuple here
             )
         _ = cls(
