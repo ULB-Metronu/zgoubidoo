@@ -63,22 +63,22 @@ class CommandType(type):
             def default_init(self, label1: str = '', label2: str = '', *params, **kwargs):
                 """Default initializer for all Commands."""
                 defaults = {}
-                if 'post_init' in dct:
+                if '__post_init__' in dct:
                     defaults = {
                         _: __.default
-                        for _, __ in inspect.signature(dct['post_init']).parameters.items()
+                        for _, __ in inspect.signature(dct['__post_init__']).parameters.items()
                         if __.default is not inspect.Parameter.empty
                     }
                 bases[0].__init__(self, label1, label2, dct.get('PARAMETERS', {}), *params, **{**defaults, **kwargs})
-                if 'post_init' in dct:
-                    dct['post_init'](self, **kwargs)
+                if '__post_init__' in dct:
+                    dct['__post_init__'](self, **kwargs)
             dct['__init__'] = default_init
 
-        # Collect all post_init arguments
+        # Collect all __post_init__ arguments
         if '_POST_INIT' not in dct:
             dct['_POST_INIT'] = {}
-        if 'post_init' in dct and len(bases) > 0:
-            dct['_POST_INIT'] = {*getattr(bases[0], '_POST_INIT', {}), *dct['post_init'].__code__.co_varnames}
+        elif len(bases) > 0:
+            dct['_POST_INIT'] = {*getattr(bases[0], '_POST_INIT', {}), *dct['__post_init__'].__code__.co_varnames}
 
         # Add a default keyword
         if 'KEYWORD' not in dct:
@@ -199,7 +199,7 @@ class Command(metaclass=CommandType):
             self._attributes['LABEL2'] = label2
         if not self._attributes['LABEL1']:
             self.generate_label()
-        Command.post_init(self, **kwargs)
+        self.__post_init__(**kwargs)
 
     def generate_label(self, prefix: str = ''):
         """
@@ -216,11 +216,12 @@ class Command(metaclass=CommandType):
         ]))[:_ZGOUBI_LABEL_LENGTH]
         return self
 
-    def post_init(self, **kwargs):  # -> NoReturn:
+    def __post_init__(self, **kwargs):  # -> NoReturn:
         """
         TODO
         Args:
-            **kwargs: all arguments from the initializer (constructor) are passed to ``post_init`` as keyword arguments.
+            **kwargs: all arguments from the initializer (constructor) are passed to ``__post_init__`` as keyword
+            arguments.
 
         """
         pass
@@ -556,54 +557,8 @@ class Binary(Command):
 
 
 class Chambre(Command):
-    """Long transverse aperture limitation.
-
-    .. rubric:: Zgoubi manual description
-
-    CHAMBR causes the identification, counting and stopping of particles that reach the transverse limits of the vacuum
-    chamber. The chamber can be either rectangular (IFORM = 1) or elliptic (IFORM = 2). The chamber is centered at YC,
-    ZC and has transverse dimensions ±Y L and ±ZL such that any particle will be stopped if its coordinates Y, Z
-    satisfy.
-
-    The conditions introduced with CHAMBR are valid along the optical structure until the next occurrence of the
-    keyword CHAMBR. Then, if IL = 1 the aperture is possibly modified by introducing new values of YC, ZC, Y L and ZL,
-    or, if IL = 2 the chamber ends and information is printed concerning those particles that have been stopped.
-
-    The testing is done in optical elements at each integration step, between the EFB’s. For instance, in QUADRUPO
-    there will be no testing from −XE to 0 and from XL to XL + XS, but only from 0 to XL ; in DIPOLE, there is no
-    testing as long as the ENTRANCE EFB is not reached, and testing is stopped as soon as the EXIT or LATERAL EFB’s
-    are passed.
-
-    In optical elements defined in polar coordinates, Y stands for the radial coordinate (e.g., DIPOLE, see Figs. 3C,
-    p. 27, and 11, p. 82). Thus, centering CHAMBR at Y C = RM simulates a chamber curved with radius RM, and having a
-    radial acceptance RM ± YL. In DRIFT, the testing is done at the beginning and at the end, and only for positive
-    drifts. There is no testing in CHANGREF.
-
-    When a particle is stopped, its index IEX (see OBJET and section 4.6.10) is set to the value -4, and its actual
-    path length is stored in the array SORT for possible further use.
-    """
     KEYWORD = 'CHAMBR'
     """Keyword of the command used for the Zgoubi input data."""
-
-    PARAMETERS = {
-        'IA': (0, '0 (element inactive), 1 ((re)definition of the aperture), 2 (stop testing and reset counters,'
-                  'print information on stopped particles'),
-        'IFORM': (1, '1 (rectangular aperture), 2 (elliptical aperture)'),
-        'J': (0, '0 (default) or 1'),
-        'C1': (100 * _ureg.cm, 'If J=0, Y opening, if J=1, inner Y opening'),
-        'C2': (100 * _ureg.cm, 'If J=0, Z opening, if J=1, outer Y opening'),
-        'C3': (0 * _ureg.cm, 'If J=0, Y center, if J=1, inner Z opening'),
-        'C4': (0 * _ureg.cm, 'If J=0, Z center, if J=1, outer Z opening'),
-    }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
-    commands (e.g. fit)."""
-
-    def __str__(self):
-        return f"""
-        {super().__str__().rstrip()}
-        {self.IA}
-        {self.IFORM}.{self.J} {_cm(self.C1)} {_cm(self.C2)} {_cm(self.C3)} {_cm(self.C4)}
-        """
 
 
 # Aliases

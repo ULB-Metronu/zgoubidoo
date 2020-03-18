@@ -835,10 +835,7 @@ class Input:
         Returns:
 
         """
-        return cls(
-            line=[getattr(zgoubidoo.commands, _parse.search("'{KEYWORD}'", c)['KEYWORD'].capitalize()).build(c, debug)
-                  for c in "\n".join([_.strip() for _ in stream.split('\n')]).strip('\n').split('\n\n')]
-        )
+        return cls()
 
 
 class ZgoubiInputValidator:

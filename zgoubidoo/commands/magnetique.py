@@ -49,7 +49,7 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
 
-    def post_init(self, field_map: Optional[_FieldMap] = None, **kwargs):
+    def __post_init__(self, field_map: Optional[_FieldMap] = None, **kwargs):
         """
 
         Args:
@@ -112,7 +112,7 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
 
-    def post_init(self, **kwargs):
+    def __post_init__(self, **kwargs):
         if self.LENGTH_IS_ARC_LENGTH:
             if self.KINEMATICS is None:
                 raise _ZgoubidooException("Arc length conversion requested but KINEMATICS not provided.")
@@ -688,7 +688,7 @@ class Bend(CartesianMagnet):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
 
-    def post_init(self, **kwargs):
+    def __post_init__(self, **kwargs):
         """
 
         Args:
@@ -900,7 +900,7 @@ class Dipole(PolarMagnet):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
-    def post_init(self, **kwargs):
+    def __post_init__(self, **kwargs):
         """
 
         Args:
@@ -1539,7 +1539,7 @@ class FFAG(PolarMultiMagnet):
         """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
 
-        def post_init(self, **kwargs):
+        def __post_init__(self, **kwargs):
             """
 
             Args:
@@ -2045,7 +2045,7 @@ class Quadrupole(CartesianMagnet):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
-    def post_init(self, **kwargs):
+    def __post_init__(self, **kwargs):
         """
 
         Args:
