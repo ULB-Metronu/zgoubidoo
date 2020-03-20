@@ -176,7 +176,8 @@ def quadrupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Di
     """
     if element['L'] == 0 * _ureg.m:
         raise ValueError("Quadrupole length cannot be zero.")
-    if element.get('B1') is not None and element.get('R') is not None:
+    if element.get('B1') is not None and element.get('R') is not None and not _np.isnan(element['B1']) \
+            and not _np.isnan(element['R']):
         b_field = element['B1']
         bore_radius = element['R']
     else:
