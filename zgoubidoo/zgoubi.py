@@ -387,7 +387,7 @@ class ZgoubiResults:
         if self._step_by_step_optics is not None and force_reload is False:
             return self._step_by_step_optics
         else:
-            self._step_by_step_optics = zgoubidoo.twiss.compute_twiss(self._step_by_step_transfer_matrix,
+            self._step_by_step_optics = zgoubidoo.twiss.compute_twiss(self.step_by_step_transfer_matrix,
                                                                       twiss_init=twiss_init)
             return self._step_by_step_optics
 
