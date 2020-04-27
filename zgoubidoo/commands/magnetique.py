@@ -979,7 +979,7 @@ class Dipole(PolarMagnet):
             exit_coordinate: the coordinate at the magnet exit
             method: the Zgoubi fitting command
             zgoubi: the `Zgoubi` instance used to launch the runs
-            debug: verbose output
+            debug: verbose parent
 
         Returns:
             the `Dipole` itself (allows method chaining).

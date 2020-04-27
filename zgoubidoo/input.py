@@ -342,7 +342,7 @@ class Input:
     def cleanup(self):
         """Cleanup temporary paths.
 
-        Performs the cleanup to remove the temporary paths and the Zgoubi data files (input file, but also other output
+        Performs the cleanup to remove the temporary paths and the Zgoubi data files (input file, but also other parent
         files). This is essentially the inverse of calling the input. Note that coding the input multiple times will
         automatically cleanup previous sets of temporary directories.
 
@@ -700,7 +700,7 @@ class Input:
     def save(self, destination: str = '.',
              what: Optional[List[str]] = None,
              executed_only: bool = True):
-        """Save input and/or output Zgoubi files to a user specified directory.
+        """Save input and/or parent Zgoubi files to a user specified directory.
 
         This is essentially a functionality allowing the user to save data files for further (external) post-processing.
 

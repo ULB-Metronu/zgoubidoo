@@ -165,7 +165,7 @@ class FieldMap:
     @classmethod
     def load_from_opera(cls, file: str, path: str = '.'):
         """
-        Factory method to load a field map from a Opera output file.
+        Factory method to load a field map from a Opera parent file.
 
         Args:
             file: the file containing the field map data
@@ -179,7 +179,7 @@ class FieldMap:
     @classmethod
     def load_from_opera_with_mesh(cls, field_file: str, mesh_file: str, path: str = '.'):
         """
-        Factory method to load a field map from Opera output files (field map and mesh definition).
+        Factory method to load a field map from Opera parent files (field map and mesh definition).
 
         Args:
             field_file: the file containing the field map data

@@ -29,7 +29,7 @@ def srloss(sequence: _Sequence, bunch=None, statistics: int = 1000, debug: bool 
         sequence: the input sequence
         bunch:
         statistics: the number of particles to tracks to collect enough statistics
-        debug: verbose output on the results of the Zgoubi run
+        debug: verbose parent on the results of the Zgoubi run
 
     Returns:
 

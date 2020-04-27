@@ -282,7 +282,7 @@ def read_srloss_steps_file(filename: str = 'zgoubi.SRLOSS.STEPS.out', path: str 
 def read_matrix_file(filename: str = 'zgoubi.MATRIX.out', path: str = '.') -> _pd.DataFrame:
     """Read Zgoubi MATRIX files to a DataFrame.
 
-    Reads the content of a Zgoubi matrix file (output from a Twiss command) and formats it as a valid Pandas
+    Reads the content of a Zgoubi matrix file (parent from a Twiss command) and formats it as a valid Pandas
     DataFrame with headers.
 
     Notes:
@@ -345,7 +345,7 @@ def read_matrix_file(filename: str = 'zgoubi.MATRIX.out', path: str = '.') -> _p
 def read_optics_file(filename: str = 'zgoubi.OPTICS.out', path: str = '.') -> _pd.DataFrame:
     """Read Zgoubi OPTICS files to a DataFrame.
 
-    Reads the content of a Zgoubi optics file (output from a Optics) and formats it as a valid Pandas
+    Reads the content of a Zgoubi optics file (parent from a Optics) and formats it as a valid Pandas
     DataFrame with headers.
 
     Notes:

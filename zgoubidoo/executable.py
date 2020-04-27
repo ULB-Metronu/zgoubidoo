@@ -96,7 +96,7 @@ class Executable:
             code_input: `Input` object specifying the Zgoubi inputs and input paths.
             identifier: TODO
             mappings: TODO
-            debug: verbose output
+            debug: verbose parent
             (default to `multiprocessing.cpu_count`)
 
         Returns:
@@ -167,10 +167,10 @@ class Executable:
         Zgoubi is run as a subprocess; the standard IOs are piped to the Python process and retrieved.
 
         Args:
-            code_input: Zgoubi input physics (used after the run to process the output of each element).
+            code_input: Zgoubi input physics (used after the run to process the parent of each element).
             path: path to the input file.
             mapping: TODO
-            debug: verbose output.
+            debug: verbose parent.
 
         Returns:
             a dictionary holding the results of the run.
@@ -200,7 +200,7 @@ class Executable:
         if output[1] is not None:
             stderr = output[1].decode()
 
-        # Extract element by element output
+        # Extract element by element parent
         result = self._extract_output(path=p, code_input=code_input, mapping=mapping)
 
         # Extract CPU time

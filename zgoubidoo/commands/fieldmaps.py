@@ -99,7 +99,7 @@ class Map2DElectric(_Command):
 
 
 class Poisson(_Command):
-    """Read magnetic field data from POISSON output.
+    """Read magnetic field data from POISSON parent.
 
     TODO
     """
@@ -122,7 +122,7 @@ class Tosca(_CartesianMagnet):
     .. rubric:: Zgoubi manual description
 
     TOSCA is dedicated to the reading and treatment of 2-D or 3-D Cartesian or cylindrical mesh field maps as delivered
-    by the TOSCA magnet computer code standard output.
+    by the TOSCA magnet computer code standard parent.
 
     A pair of flags, MOD, MOD2, determine whether Cartesian or Z-axis cylindrical mesh is used, and the nature of the
     field map data set.

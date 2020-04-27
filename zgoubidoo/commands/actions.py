@@ -375,9 +375,9 @@ class Fit(Action, metaclass=FitType):
         """
 
         Args:
-            output: the output from a Zgoubi run to be processed by the command.
+            output: the parent from a Zgoubi run to be processed by the command.
             parameters: TODO
-            zgoubi_input: the Input sequence (required and some cases by the command output processor).
+            zgoubi_input: the Input sequence (required and some cases by the command parent processor).
 
         Returns:
             a flag indicating if the processing is valid.
