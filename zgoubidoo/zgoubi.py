@@ -22,6 +22,7 @@ from .outputs import read_plt_file, read_matrix_file, read_srloss_file, read_srl
 from . import ureg as _ureg
 import zgoubidoo
 from .constants import ZGOUBI_INPUT_FILENAME as _ZGOUBI_INPUT_FILENAME
+from georges_core.sequences import BetaBlock as _BetaBlock
 if TYPE_CHECKING:
     from .input import Input as _Input
     from .transformations import CoordinateTransformationType as _CoordinateTransformationType
@@ -373,7 +374,7 @@ class ZgoubiResults:
         return self.compute_step_by_step_transfer_matrix()
 
     def compute_step_by_step_optics(self,
-                                    twiss_init: Optional[_pd.Series] = None,
+                                    twiss_init: Optional[_BetaBlock] = None,
                                     force_reload: bool = False) -> Optional[_pd.DataFrame]:
         """
 
