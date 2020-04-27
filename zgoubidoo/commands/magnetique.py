@@ -2213,7 +2213,6 @@ class Quadrupole(CartesianMagnet):
 
     @gradient.setter
     def gradient(self, g):
-        print("hello")
         self.B0 = g * self.R0
 
 

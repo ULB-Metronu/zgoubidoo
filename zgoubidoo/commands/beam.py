@@ -109,14 +109,14 @@ class Beam(_Command, metaclass=BeamType):
 
         """
         try:
-            self.ALPHA_Y = betablock.alpha11
-            self.BETA_Y = betablock.beta11
-            self.ALPHA_Z = betablock.alpha22
-            self.BETA_Z = betablock.beta22
-            self.D_Y = betablock.disp1
-            self.D_YP = betablock.disp2
-            self.D_Z = betablock.disp3
-            self.D_ZP = betablock.disp4
+            self.ALPHA_Y = betablock.ALPHA11
+            self.BETA_Y = betablock.BETA11
+            self.ALPHA_Z = betablock.ALPHA22
+            self.BETA_Z = betablock.BETA22
+            self.D_Y = betablock.DISP1
+            self.D_YP = betablock.DISP2
+            self.D_Z = betablock.DISP3
+            self.D_ZP = betablock.DISP4
         except _ZgoubidooAttributeException:
             pass
 
