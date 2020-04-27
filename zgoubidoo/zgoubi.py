@@ -372,6 +372,34 @@ class ZgoubiResults:
         """
         return self.compute_step_by_step_transfer_matrix()
 
+    def compute_step_by_step_optics(self,
+                                    twiss_init: Optional[_pd.Series] = None,
+                                    force_reload: bool = False) -> Optional[_pd.DataFrame]:
+        """
+
+        Args:
+            twiss_init:
+            force_reload:
+
+        Returns:
+
+        """
+        if self._step_by_step_optics is not None and force_reload is False:
+            return self._step_by_step_optics
+        else:
+            self._step_by_step_optics = zgoubidoo.twiss.compute_twiss(self._step_by_step_transfer_matrix,
+                                                                      twiss_init=twiss_init)
+            return self._step_by_step_optics
+
+    @property
+    def step_by_step_periodic_optics(self) -> Optional[_pd.DataFrame]:
+        """
+
+        Returns:
+
+        """
+        return self.compute_step_by_step_optics()
+
     @property
     def results(self) -> List[Tuple[_MappedParametersType, Mapping]]:
         """Raw information from the Zgoubi run.
@@ -458,7 +486,7 @@ class Zgoubi(Executable):
         super().__init__(executable=executable, results_type=ZgoubiResults, path=path, n_procs=n_procs)
 
     def _extract_output(self, path, code_input: _Input, mapping) -> List[str]:
-        """Extract element by element output"""
+        """Extract element by element parent"""
         try:
             result = open(os.path.join(path, self.RESULT_FILE)).read().split('\n')
         except FileNotFoundError:
@@ -475,15 +503,15 @@ class Zgoubi(Executable):
     @staticmethod
     def find_labeled_output(out: Iterable[str], label: str, keyword: str) -> List[str]:
         """
-        Process the Zgoubi output and retrieves output data for a particular labeled element.
+        Process the Zgoubi parent and retrieves parent data for a particular labeled element.
 
         Args:
-            - out: the Zgoubi output
+            - out: the Zgoubi parent
             - label: the label of the element to be retrieved
             - keyword:
 
         Returns:
-            the output of the given label
+            the parent of the given label
         """
         data: List[str] = []
         for l in out:

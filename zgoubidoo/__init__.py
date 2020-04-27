@@ -70,7 +70,7 @@ except ModuleNotFoundError:
 
 try:
     from georges_core import sequences
-    from georges_core import Kinematics, ZgoubiKinematicsException
+    from georges_core import Kinematics
     from georges_core.frame import Frame, FrameException
 except ModuleNotFoundError:
     # TODO error handling
