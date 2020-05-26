@@ -1505,7 +1505,7 @@ class Emma(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
 
-class FFAG(PolarMagnet):
+class FFAG(PolarMultiMagnet):
     """FFAG magnet, N-tuple.
 
     TODO
