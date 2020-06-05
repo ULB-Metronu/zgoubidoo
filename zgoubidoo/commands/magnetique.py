@@ -1508,8 +1508,58 @@ class Emma(CartesianMagnet):
 class FFAG(PolarMultiMagnet):
     """FFAG magnet, N-tuple.
 
-    TODO
+    .. rubric:: Zgoubi manual description
+
+    ``FFAG`` works much like ``DIPOLES` as to the field modelling, apart from the radial dependence of the field, B = B0(r/r0)^k, `
+    so-called “scaling”. Note that ``DIPOLES`` does similar job by using a Taylor r-expansion of B0(r/r0)^k.
+    The FFAG procedure allows overlapping of fringe fields of neighboring dipoles, thus simulating in some sort the field in a dipole N-tuple -
+    as for instance in an FFAG doublet or triplet. A detailed application, with five dipoles, can be found in Ref. [44]. This is done in the way described below.
+
+    The dimensioning of the magnet is defined by :
+
+        - AT : total angular aperture
+        - RM : mean radius used for the positioning of field boundaries
+
+    For each one of the N = 1 to (maximum) 5 dipoles of the N-tuple, the two effective field boundaries (entrance and exit EFBs) from which the dipole field is drawn
+    are defined from geometric boundaries, the shape and position of which are determined by the following parameters
+    (in the same manner as in DIPOLE, DIPOLE-M ) (see Fig. 11-A page 98, and Fig. 31) :
+
+    - ACN_i : arbitrary inner angle, used for EFBs positioning
+    - ω : azimuth of an EFB with respect to ACN
+    - θ : angle of an EFB with respect to its azimuth (wedge angle)
+    - R1, R2 : radius of curvature of an EFB
+    - U1, U2 : extent of the linear part of an EFB
+
+
+    Calculation of the Field From a Single Dipole
+
+    The magnetic field is calculated in polar coordinates. At all (R, θ) in the median plane (z = 0), the magnetic field due a single one (index i) of the dipoles of a N -tuple FFAG magnet is written
+                    BZ_i(R, θ) = BZ_{0,i} F_i(R, θ) (R/RM)^{K_i}
+    wherein BZ0,i is a reference field, at reference radius RM_i, whereas F(R,θ) is calculated as described below.
+
+
+    Calculation of F_i(R, θ)
+
+    The fringe field coefficient F_i(R, θ) associated with a dipole is computed as in the procedure DIPOLES (eq. 6.4.16),
+    including (rigorously if the interpolation method is used, see page 125, or to order zero if the analytic method is used, see page 125) radial dependence of the gap size
+                g(R) = g_0 (RM/R)^κ (6.4.19)
+    so to simulate the effect of gap shaping on BZ_i(R,θ)|R field fall-off, over the all radial extent of a scaling FFAG dipole (with normally - but not necessarily in practice - κ ≈ Ki).
+
+
+    Calculation of the Field Resulting From All N Dipoles
+
+    For the rest, namely, calculation of the full field at particle position from the N dipoles, analytical calculation or numerical interpolation of the mid-plane field derivatives,
+    extrapolation off median plane, etc., things are performed exactly as in the case of the ``DIPOLES`` procedure (see page 125).
+
+
+    Sharp Edge
+
+    Sharp edge field fall-off at a field boundary can only be simulated if the following conditions are fulfilled :
+        - entrance (resp. exit) field boundary coincides with entrance (resp. exit) dipole limit (it means in particular, see Fig. 11,
+        ω^+ = ACENT (resp. ω^- = −(AT − ACENT)), together with θ = 0 at entrance (resp. exit) EFBs),
+        - analytical method for calculation of the mid-plane field derivatives is used.
     """
+
     KEYWORD = 'FFAG'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -1658,8 +1708,48 @@ class FFAG(PolarMultiMagnet):
 class FFAGSpirale(PolarMultiMagnet):
     """Spiral FFAG magnet, N-tuple.
 
-    TODO
+    .. rubric:: Zgoubi manual description
+
+    ``FFAG-SPI`` works much like ``FFAG`` asto the field modelling, with essentially a different axial dependence.
+    The ``FFAG-SPI` procedure allows overlapping of fringe fields of neighboring dipoles, thus simulating in some sort `
+    the field in a dipole N -tuple (similar to Fig. 31, page 137). This allows for instance accounting for fringe field effects, or clamps, as schemed in Fig. 32.
+
+    The dimensioning of the magnet is defined by :
+        - AT : total angular aperture
+        - RM : mean radius used for the positioning of field boundaries
+
+    For each one of the N = 1 to (maximum) 5 dipoles of the N-tuple, the two effective field boundaries (entrance and exit EFBs) from which the dipole field is drawn
+    are defined from geometric boundaries, the shape and position of which are determined by the following parameters:
+
+        - ACN_i : arbitrary inner angle, used for EFBs positioning
+        - ω : azimuth of an EFB with respect to ACN
+        - ξ : spiral angle
+
+    with ACN_i and ω as defined in Fig. 32 (similar to what can be found in Figs. 31 and 11-A).
+
+
+    Calculation of the Field From a Single Dipole
+
+    The magnetic field is calculated in polar coordinates. At all (R, θ) in the median plane (Z = 0),
+    the magnetic field due a single one (index i) of the dipoles of a N -tuple spiral FFAG magnet is written
+                BZ_i(R, θ) = BZ_{0,i} F_i(R, θ) (R/RM )^{K_i}
+    wherein BZ_0,i is a reference field, at reference radius RMi, whereas F(R,θ) is calculated as described below.
+
+
+    Calculation of F_i(R, θ)
+
+    The fringe field coefficient F_i(R, θ) associated with a dipole is computed as in the procedure ``DIPOLES`` (eq. 6.4.16),
+    including radial dependence of the gap size :
+                g(R) = g_0 (RM/R)^κ (6.4.20)
+    so to simulate the effect of gap shaping on BZ_i(R,θ)|R field fall-off, over the all radial extent of the dipole (with normally - yet not necessarily in practice - κ ≈ Ki).
+
+
+    Calculation of the Full Field From All N Dipoles
+
+    For the rest, namely calculation of the full field at particle position, as resulting from the N dipoles, calculation of the mid-plane field derivatives,
+    extrapolation off median plane, etc., things are performed in the same manner as for the DIPOLES procedure (see page 125).
     """
+
     KEYWORD = 'FFAG-SPI'
     """Keyword of the command used for the Zgoubi input data."""
 
