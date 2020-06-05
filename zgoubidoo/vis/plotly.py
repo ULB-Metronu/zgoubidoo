@@ -191,8 +191,8 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                         if magnet_poles == 0:
                             pts = []
                             thetas = _np.linspace(
-                                e.AT.m_as('radian') / 2 + e.ACN[i].m_as('radian') - e.OMEGA_E[i].m_as('radian'),
-                                e.AT.m_as('radian') / 2 + e.ACN[i].m_as('radian') - e.OMEGA_S[i].m_as('radian'),
+                                e.ACN[i].m_as('radian') - e.OMEGA_E[i].m_as('radian'),
+                                e.ACN[i].m_as('radian') - e.OMEGA_S[i].m_as('radian'),
                                 points_in_polar_paths)
                             for theta in thetas:
                                 pts.append([(r + 0.1) * _np.sin(theta), -re + (r + 0.1) * _np.cos(theta), 0.0])
@@ -208,8 +208,8 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                         else:
                             pts = []
                             thetas = _np.linspace(
-                                e.AT.m_as('radian') / 2 + e.ACN[i].m_as('radian') - e.OMEGA_E[i].m_as('radian'),
-                                e.AT.m_as('radian') / 2 + e.ACN[i].m_as('radian') - e.OMEGA_S[i].m_as('radian'),
+                                e.ACN[i].m_as('radian') - e.OMEGA_E[i].m_as('radian'),
+                                e.ACN[i].m_as('radian') - e.OMEGA_S[i].m_as('radian'),
                                 points_in_polar_paths)
                             for theta in thetas:
                                 pts.append([(r + magnet_poles/4) * _np.sin(theta), -re + (r + magnet_poles/4) * _np.cos(theta), 0.0])

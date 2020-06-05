@@ -1239,74 +1239,103 @@ class Dipoles(PolarMultiMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, 'Print field and coordinates along trajectories'),
-        'N': (1, 'Number of magnets (maximum 5).'),
-        'AT': (0 * _ureg.degree, 'Total angular extent of the N dipoles.'),
-        'RM': (0 * _ureg.cm, 'Reference radius.'),
-        'ACN': ([0 * _ureg.degree, 0 * _ureg.degree, 0 * _ureg.degree, 0 * _ureg.degree, 0 * _ureg.degree], 'Reference azimuth for positionning of the field boundaries of the magnets.'),
-        'DRM': ([0 * _ureg.cm, 0 * _ureg.cm, 0 * _ureg.cm, 0 * _ureg.cm, 0 * _ureg.cm], 'Offset for the reference radius of each magnets.'),
-        'B0': ([0 * _ureg.tesla, 0 * _ureg.tesla, 0 * _ureg.tesla, 0 * _ureg.tesla, 0 * _ureg.tesla], 'Dipole fields of each magnets.'),
-        'BI': ([[], [], [], [], []], 'Lists of field coefficients for each magnets.'),
-        'G0_E': ([0 * _ureg.cm, 0 * _ureg.cm, 0 * _ureg.cm, 0 * _ureg.cm, 0 * _ureg.cm], 'Reference gaps for the entrance fringe fields of each magnets.'),
-        'K_E': [0, 0, 0, 0, 0],
-        'C0_E': [0, 0, 0, 0, 0],
-        'C1_E': [0, 0, 0, 0, 0],
-        'C2_E': [0, 0, 0, 0, 0],
-        'C3_E': [0, 0, 0, 0, 0],
-        'C4_E': [0, 0, 0, 0, 0],
-        'C5_E': [0, 0, 0, 0, 0],
-        'SHIFT_E': [0, ],
-        'OMEGA_E': [0, ],
-        'THETA_E': [0, ],
-        'R1_E': [1e9, ],
-        'U1_E': [-1e9, ],
-        'U2_E': [1e9, ],
-        'R2_E': [1e9, ],
-        'G0_S': ([0 * _ureg.cm, 0 * _ureg.cm, 0 * _ureg.cm, 0 * _ureg.cm, 0 * _ureg.cm], 'Reference gaps for the exit fringe fields of each magnets.'),
-        'K_S': [0, ],
-        'NCS': [0, ],
-        'C0_S': [0, 0, 0, 0, 0],
-        'C1_S': [0, 0, 0, 0, 0],
-        'C2_S': [0, 0, 0, 0, 0],
-        'C3_S': [0, 0, 0, 0, 0],
-        'C4_S': [0, 0, 0, 0, 0],
-        'C5_S': [0, 0, 0, 0, 0],
-        'SHIFT_S': [0, ],
-        'OMEGA_S': [0, ],
-        'THETA_S': [0, ],
-        'R1_S': [1e9, ],
-        'U1_S': [-1e9, ],
-        'U2_S': [1e9, ],
-        'R2_S': [1e9, ],
-        'G0_L': [0, ],
-        'K_L': [0, ],
-        'NCL': [0, ],
-        'C0_L': ([0, 0, 0, 0, 0], 'Unused.'),
-        'C1_L': ([0, 0, 0, 0, 0], 'Unused.'),
-        'C2_L': ([0, 0, 0, 0, 0], 'Unused.'),
-        'C3_L': ([0, 0, 0, 0, 0], 'Unused.'),
-        'C4_L': ([0, 0, 0, 0, 0], 'Unused.'),
-        'C5_L': ([0, 0, 0, 0, 0], 'Unused.'),
-        'SHIFT_L': ([0, 0, 0, 0, 0], 'Unused'),
-        'OMEGA_L': ([0, 0, 0, 0, 0], 'Unused.'),
-        'THETA_L': ([0, 0, 0, 0, 0], 'Unused.'),
-        'R1_L': ([0, 0, 0, 0, 0], 'Unused.'),
-        'U1_L': ([0, 0, 0, 0, 0], 'Unused.'),
-        'U2_L': ([0, 0, 0, 0, 0], 'Unused.'),
-        'R2_L': ([0, 0, 0, 0, 0], 'Unused.'),
-        'R3': ([0, 0, 0, 0, 0], 'Unused.'),
-        'KIRD': 0,
-        'Resol': 2,
-        'XPAS': 0.1,
-        'KPOS': 2,
-        'RE': 0,
-        'TE': 0,
-        'RS': 0,
-        'TS': 0,
-        'DP': 0,
+        'IL': (0, 'Print field and coordinates along trajectories', 1),
+        'N': (1, 'Number of magnets (maximum 5).', 2),
+        'AT': (0.0 * _ureg.degree, 'Total angular extent of the N dipoles.', 3),
+        'RM': (0.0 * _ureg.cm, 'Reference radius: mean radius used for the positioning of field boundaries', 4),
+        'ACN': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth for dipole positioning', 5),
+        'DRM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter,
+                'Offset for the reference radius of each magnet : RM_i  = RM +DELTA_RM', 6),
+        'B0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, 'Dipole fields of each magnets.', 7),
+        'BI': ([[], [], [], [], []], 'Lists of field coefficients for each magnets.', 8),
+        # à partir d'ici, on doit faire +ind pour tous les numéros de fit
+        'G0_E': (
+        [0.00000001, 0.0, 0.0, 0.0, 0.0] * _ureg.cm, 'Reference gaps for the entrance fringe fields of each magnets.',
+        9),
+        'K_E': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 10),  # 11 c'est pour le NC
+        'C0_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 12),
+        'C1_E': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 13),
+        'C2_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 14),
+        'C3_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 15),
+        'C4_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 16),
+        'C5_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 17),
+        'SHIFT_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB', 18),
+        'OMEGA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, '', 19),
+        'THETA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Entrance face wedge angle', 20),
+        'R1_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB radius', 21),
+        'U1_E': ([-1e9, -1e9, -1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB linear extent', 22),  ####-1e9 ?
+        'U2_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB linear extent', 23),
+        'R2_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB radius', 24),
+        'G0_S': (
+        [0.00000001, 0.0, 0.0, 0.0, 0.0] * _ureg.cm, 'Reference gaps for the exit fringe fields of each magnet.', 25),
+        'K_S': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 26),
+        'C0_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 28),  # 27 pour le NC
+        'C1_S': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 29),
+        'C2_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 30),
+        'C3_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 31),
+        'C4_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 32),
+        'C5_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 33),
+        'SHIFT_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB', 34),
+        'OMEGA_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, '', 35),
+        'THETA_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Entrance face wedge angle', 36),
+        'R1_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB radius', 37),
+        'U1_S': ([-1e9, -1e9, -1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB linear extent', 38),  ####-1e9 ?
+        'U2_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB linear extent', 39),
+        'R2_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB radius', 40),
+        'G0_L': (
+        [0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm, 'UNUSED Reference gaps for the lateral fringe fields of each dipole.',
+        41),
+        'K_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field parameter kappa', 42),  ####POUR FIT : ne pas oublier NC unused
+        'C0_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C0', 44),
+        'C1_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C1', 45),
+        'C2_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C2', 46),
+        'C3_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C3', 47),
+        'C4_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C4', 48),
+        'C5_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C5', 49),
+        'SHIFT_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'UNUSED  Shift of the EFB', 50),
+        'OMEGA_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'UNUSED ', 51),
+        'THETA_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'UNUSED Entrance face wedge angle', 52),
+        'R1_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'UNUSED Lateral EFB radius', 53),
+        'U1_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'UNUSED Lateral EFB linear extent', 54),
+        'U2_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'UNUSED Lateral EFB linear extent', 55),
+        'R2_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'UNUSED Lateral EFB radius', 56),
+        'RM3': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Unused.', 57),
+        'KIRD': (
+        2, 'Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives', 58),
+        # 111 (pour chaque dipole supplémentaire, faire +53 pour le fit)
+        'RESOL': (2, '', 59),
+        'XPAS': (1.0 * _ureg.millimeter, 'Integration step', 60),
+        'KPOS': (2, '', 61),
+        'RE': (0.0 * _ureg.centimeter, '', 62),
+        'TE': (0.0 * _ureg.radian, '', 63),
+        'RS': (0.0 * _ureg.centimeter, '', 64),
+        'TS': (0.0 * _ureg.radian, '', 65),
+        'DP': (0.0, '', 62),
+        'COLOR': '#4169E1',
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
+
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        for i in range(self.N):
+            if _degree(self.OMEGA_E[i]) == 0:
+                self.OMEGA_E[i] = self.AT / (2 * self.N) + i * self.AT / self.N
+            if _degree(self.OMEGA_S[i]) == 0:
+                self.OMEGA_S[i] -= (self.AT - self.AT / (2 * self.N) - i * self.AT / self.N)
+            if _degree(self.ACN[i]) == 0:
+                self.ACN[i] = self.AT / (2 * self.N) + i * self.AT / self.N
+            if _cm(self.RE) == 0:
+                self.RE = self.RM
+            if _cm(self.RS) == 0:
+                self.RS = self.RM
 
     def __str__(s):
         command = list()
@@ -1316,27 +1345,46 @@ class Dipoles(PolarMultiMagnet):
             {s.N} {_degree(s.AT):.20e} {_cm(s.RM):.12e}
             """)
 
-        for i in range(s.N):
+        for i in range(0, s.N):
             command.append(f"""
-            {s.ACN[i]} {s.DRM[i]} {s.B0[i]} {len(s.BI[i])} {' '.join(map(str, s.BI[i]))}
-            {s.G0_E} {s.KE}
-            6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e} {_cm(s.SHIFT_E):.12e}
-            {_degree(s.OMEGA_E):.20e} {_degree(s.THETA_E):.12e} {_cm(s.R1_E):.12e} {_cm(s.U1_E):.12e} {_cm(s.U2_E):.12e} {_cm(s.R2_S):.12e}
-            {s.G0_E} {s.KE}
-            6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e} {_cm(s.SHIFT_S):.12e}
-            {_degree(s.OMEGA_S):.20e} {_degree(s.THETA_S):.12e} {_cm(s.R1_S):.12e} {_cm(s.U1_S):.12e} {_cm(s.U2_S):.12e} {_cm(s.R2_S):.12e}
-            {s.G0_L} {s.KL}
-            6 {s.C0_L:.12e} {s.C1_L:.12e} {s.C2_L:.12e} {s.C3_L:.12e} {s.C4_L:.12e} {s.C5_L:.12e} {_cm(s.SHIFT_L):.12e}
-            {_degree(s.OMEGA_L):.12e} {_degree(s.THETA_L):.12e} {_cm(s.R1_L):.12e} {_cm(s.U1_L):.12e} {_cm(s.U2_L):.12e} {_cm(s.R2_L):.12e} {_cm(s.RM3):.12e}
-
+            {_degree(s.ACN[i]):.20e} {_cm(s.DRM[i]):.12e} {_kilogauss(s.B0[i]):.12e} {len(s.BI[i])} {' '.join(map(str, s.BI[i]))}
+            {_cm(s.G0_E[i]):.12e} {s.K_E[i]:.12e}
+            4 {s.C0_E[i]:.12e} {s.C1_E[i]:.12e} {s.C2_E[i]:.12e} {s.C3_E[i]:.12e} {s.C4_E[i]:.12e} {s.C5_E[i]:.12e} {_cm(s.SHIFT_E[i]):.12e}
+            {_degree(s.OMEGA_E[i]):.20e} {_degree(s.THETA_E[i]):.12e} {_cm(s.R1_E[i]):.12e} {_cm(s.U1_E[i]):.12e} {_cm(s.U2_E[i]):.12e} {_cm(s.R2_E[i]):.12e}
+            {_cm(s.G0_S[i]):.12e} {s.K_S[i]:.12e}
+            4 {s.C0_S[i]:.12e} {s.C1_S[i]:.12e} {s.C2_S[i]:.12e} {s.C3_S[i]:.12e} {s.C4_S[i]:.12e} {s.C5_S[i]:.12e} {_cm(s.SHIFT_S[i]):.12e}
+            {_degree(s.OMEGA_S[i]):.20e} {_degree(s.THETA_S[i]):.12e} {_cm(s.R1_S[i]):.12e} {_cm(s.U1_S[i]):.12e} {_cm(s.U2_S[i]):.12e} {_cm(s.R2_S[i]):.12e}
+            {_cm(s.G0_L[i]):.12e} {s.K_L[i]:.12e}
+            4 {s.C0_L[i]:.12e} {s.C1_L[i]:.12e} {s.C2_L[i]:.12e} {s.C3_L[i]:.12e} {s.C4_L[i]:.12e} {s.C5_L[i]:.12e} {_cm(s.SHIFT_L[i]):.12e}
+            {_degree(s.OMEGA_L[i]):.20e} {_degree(s.THETA_L[i]):.12e} {_cm(s.R1_L[i]):.12e} {_cm(s.U1_L[i]):.12e} {_cm(s.U2_L[i]):.12e} {_cm(s.R2_L[i]):.12e} {_cm(s.RM3[i]):.12e}
             """)
 
-        command.append(f"""
+        c = f"""
             {s.KIRD} {s.RESOL}
-            {s.XPAS}
+            {_cm(s.XPAS):.12e}
             {s.KPOS}
-            
-        """)
+            """
+        command.append(c)
+
+        if s.KPOS not in (1, 2):
+            raise _ZgoubidooException("KPOS must be equal to 1 or 2.")
+
+        if s.KPOS == 2:
+            if s.RE == 0:
+                s.RE = s.RM
+            if s.RS == 0:
+                s.RS = s.RM
+            c = f"""
+            {_cm(s.RE):.12e} {_radian(s.TE):.12e} {_cm(s.RS):.12e} {_radian(s.TS):.12e}
+                """
+            command.append(c)
+
+        elif s.KPOS == 1:
+            c = f"""
+            {s.DP:.12e}
+                """
+            command.append(c)
+
         return ''.join(map(lambda _: _.rstrip(), command))
 
 
@@ -1458,227 +1506,313 @@ class Emma(CartesianMagnet):
 
 
 class FFAG(PolarMultiMagnet):
-    class FFAG(PolarMagnet):
-        """FFAG magnet, N-tuple.
+    """FFAG magnet, N-tuple.
 
-        TODO
+    .. rubric:: Zgoubi manual description
+
+    ``FFAG`` works much like ``DIPOLES` as to the field modelling, apart from the radial dependence of the field, B = B0(r/r0)^k, `
+    so-called “scaling”. Note that ``DIPOLES`` does similar job by using a Taylor r-expansion of B0(r/r0)^k.
+    The FFAG procedure allows overlapping of fringe fields of neighboring dipoles, thus simulating in some sort the field in a dipole N-tuple -
+    as for instance in an FFAG doublet or triplet. A detailed application, with five dipoles, can be found in Ref. [44]. This is done in the way described below.
+
+    The dimensioning of the magnet is defined by :
+
+        - AT : total angular aperture
+        - RM : mean radius used for the positioning of field boundaries
+
+    For each one of the N = 1 to (maximum) 5 dipoles of the N-tuple, the two effective field boundaries (entrance and exit EFBs) from which the dipole field is drawn
+    are defined from geometric boundaries, the shape and position of which are determined by the following parameters
+    (in the same manner as in DIPOLE, DIPOLE-M ) (see Fig. 11-A page 98, and Fig. 31) :
+
+    - ACN_i : arbitrary inner angle, used for EFBs positioning
+    - ω : azimuth of an EFB with respect to ACN
+    - θ : angle of an EFB with respect to its azimuth (wedge angle)
+    - R1, R2 : radius of curvature of an EFB
+    - U1, U2 : extent of the linear part of an EFB
+
+
+    Calculation of the Field From a Single Dipole
+
+    The magnetic field is calculated in polar coordinates. At all (R, θ) in the median plane (z = 0), the magnetic field due a single one (index i) of the dipoles of a N -tuple FFAG magnet is written
+                    BZ_i(R, θ) = BZ_{0,i} F_i(R, θ) (R/RM)^{K_i}
+    wherein BZ0,i is a reference field, at reference radius RM_i, whereas F(R,θ) is calculated as described below.
+
+
+    Calculation of F_i(R, θ)
+
+    The fringe field coefficient F_i(R, θ) associated with a dipole is computed as in the procedure DIPOLES (eq. 6.4.16),
+    including (rigorously if the interpolation method is used, see page 125, or to order zero if the analytic method is used, see page 125) radial dependence of the gap size
+                g(R) = g_0 (RM/R)^κ (6.4.19)
+    so to simulate the effect of gap shaping on BZ_i(R,θ)|R field fall-off, over the all radial extent of a scaling FFAG dipole (with normally - but not necessarily in practice - κ ≈ Ki).
+
+
+    Calculation of the Field Resulting From All N Dipoles
+
+    For the rest, namely, calculation of the full field at particle position from the N dipoles, analytical calculation or numerical interpolation of the mid-plane field derivatives,
+    extrapolation off median plane, etc., things are performed exactly as in the case of the ``DIPOLES`` procedure (see page 125).
+
+
+    Sharp Edge
+
+    Sharp edge field fall-off at a field boundary can only be simulated if the following conditions are fulfilled :
+        - entrance (resp. exit) field boundary coincides with entrance (resp. exit) dipole limit (it means in particular, see Fig. 11,
+        ω^+ = ACENT (resp. ω^- = −(AT − ACENT)), together with θ = 0 at entrance (resp. exit) EFBs),
+        - analytical method for calculation of the mid-plane field derivatives is used.
+    """
+
+    KEYWORD = 'FFAG'
+    """Keyword of the command used for the Zgoubi input data."""
+
+    PARAMETERS = {
+        'IL': (0, 'Print field and coordinates along trajectories', 1),
+        'N': (1, 'Number of dipoles in the FFAG N -tuple (maximum 5)', 2),
+        'AT': (0.0 * _ureg.degree, 'Total angular extent of the N dipoles', 3),
+        'RM': (0.0 * _ureg.centimeter, 'Reference radius: mean radius used for the positioning of field boundaries', 4),
+        'ACN': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth for dipole positioning', 5),
+        'DRM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Offset for the reference radius of each dipole : RM_i  = RM +DELTA_RM', 6),
+        'BZ0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, 'Field of each dipole', 7),
+        'K': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Field index for each dipole', 8),
+        'G0_E': ([0.00000001, 0.00000001, 0.00000001, 0.00000001, 0.00000001] * _ureg.cm, 'Reference gaps for the entrance fringe fields of each dipole.',9),
+        'K_E': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 10),
+        'C0_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 12),
+        'C1_E': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 13),
+        'C2_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 14),
+        'C3_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 15),
+        'C4_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 16),
+        'C5_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 16),
+        'SHIFT_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB', 18),
+        'OMEGA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, '', 19),
+        'THETA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Entrance face wedge angle', 20),
+        'R1_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB radius', 21),
+        'U1_E': ([-1e9, -1e9, -1e9, -1e9, -1e9] * _ureg.centimeter, 'Entrance EFB linear extent', 22),
+        'U2_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB linear extent', 23),
+        'R2_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB radius', 24),
+        'G0_S': ([0.00000001, 0.00000001, 0.00000001, 0.00000001, 0.00000001] * _ureg.cm, 'Reference gaps for the exit fringe fields of each dipole.', 25),
+        'K_S': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 26),
+        'C0_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 28),
+        'C1_S': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 29),
+        'C2_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 30),
+        'C3_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 31),
+        'C4_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 32),
+        'C5_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 33),
+        'SHIFT_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB', 34),
+        'OMEGA_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, '', 35),
+        'THETA_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Entrance face wedge angle', 36),
+        'R1_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB radius', 37),
+        'U1_S': ([-1e9, -1e9, -1e9, -1e9, -1e9] * _ureg.centimeter, 'Exit EFB linear extent', 38),
+        'U2_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB linear extent', 39),
+        'R2_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB radius', 40),
+        'G0_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm, 'UNUSED Reference gaps for the lateral fringe fields of each dipole.', 41),
+        'K_L': ([-1, -1, -1, -1, -1], 'UNUSED Fringe field parameter kappa', 42),
+        'C0_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C0', 44),
+        'C1_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C1', 45),
+        'C2_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C2', 46),
+        'C3_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C3', 47),
+        'C4_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C4', 48),
+        'C5_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C5', 49),
+        'SHIFT_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'UNUSED  Shift of the EFB', 50),
+        'OMEGA_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'UNUSED ', 51),
+        'THETA_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'UNUSED Entrance face wedge angle', 52),
+        'R1_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB radius', 53),
+        'U1_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB linear extent', 54),
+        'U2_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB linear extent', 55),
+        'R2_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB radius', 56),
+        'KIRD': (2, 'Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives', 57),  #The fit index depends on the number of magnets in the FFAG N -tuple (+52 for each new magnet)
+        'RESOL': (2, '', 58),
+        'XPAS': (1.0 * _ureg.millimeter, 'Integration step', 59),
+        'KPOS': (2, '', 60),
+        'RE': (0.0 * _ureg.centimeter, '', 61),
+        'TE': (0.0 * _ureg.radian, '', 62),
+        'RS': (0.0 * _ureg.centimeter, '', 63),
+        'TS': (0.0 * _ureg.radian, '', 64),
+        'DP': (0.0, '', 61),
+        'COLOR': '#4169E1',
+    }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
+
+    def post_init(self, **kwargs):
         """
-        KEYWORD = 'FFAG'
-        """Keyword of the command used for the Zgoubi input data."""
 
-        PARAMETERS = {
-            'IL': (0, 'Print field and coordinates along trajectories'),
-            'N': (1, 'Number of dipoles in the FFAG N -tuple (maximum 5)'),
-            'AT': (0.0 * _ureg.degree, 'Total angular extent of the N dipoles'),
-            'RM': (0.0 * _ureg.centimeter,
-                   'Reference radius: mean radius used for the positioning of field boundaries'),
-            'ACN': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth for dipole positioning'),
-            'DRM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter,
-                    'Offset for the reference radius of each dipole : RM_i  = RM +DELTA_RM'),
-            'BZ0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, 'Field of each dipole'),
-            'K': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Field index for each dipole'),
-            'G0_E': ([3.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm,
-                     'Reference gaps for the entrance fringe fields of each dipole.'),
-            'K_E': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa'),
-            'C0_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0'),
-            'C1_E': ([1, 0, 0, 0, 0], 'Fringe field coefficient C1'),
-            'C2_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2'),
-            'C3_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3'),
-            'C4_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4'),
-            'C5_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5'),
-            'SHIFT_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB'),
-            'OMEGA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, ''),
-            'THETA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Entrance face wedge angle'),
-            'R1_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB radius'),
-            'U1_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB linear extent'),
-            'U2_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB linear extent'),
-            'R2_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB radius', 24),
-            'G0_S': ([3.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm, 'Reference gaps for the exit fringe fields of each dipole.'),
-            'K_S': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa'),
-            'C0_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0'),
-            'C1_S': ([1, 0, 0, 0, 0], 'Fringe field coefficient C1'),
-            'C2_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2'),
-            'C3_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3'),
-            'C4_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4'),
-            'C5_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5'),
-            'SHIFT_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB'),
-            'OMEGA_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, ''),
-            'THETA_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Entrance face wedge angle'),
-            'R1_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB radius'),
-            'U1_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB linear extent'),
-            'U2_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB linear extent'),
-            'R2_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB radius', 24),
-            'G0_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm,
-                     'UNUSED Reference gaps for the lateral fringe fields of each dipole.'),
-            'K_L': ([-1, -1, -1, -1, -1], 'UNUSED Fringe field parameter kappa'),
-            'C0_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C0'),
-            'C1_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C1'),
-            'C2_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C2'),
-            'C3_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C3'),
-            'C4_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C4'),
-            'C5_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C5'),
-            'SHIFT_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'UNUSED  Shift of the EFB'),
-            'OMEGA_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'UNUSED '),
-            'THETA_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'UNUSED Entrance face wedge angle'),
-            'R1_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB radius'),
-            'U1_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB linear extent'),
-            'U2_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB linear extent'),
-            'R2_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB radius', 24),
-            'KIRD': (2,
-                     'Analytical (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives'),
-            'RESOL': (2, ''),
-            'XPAS': (1.0 * _ureg.millimeter, 'Integration step'),
-            'KPOS': (2, ''),
-            'RE': (0.0 * _ureg.centimeter, ''),
-            'TE': (0.0 * _ureg.radian, ''),
-            'RS': (0.0 * _ureg.centimeter, ''),
-            'TS': (0.0 * _ureg.radian, ''),
-            'DP': (0.0, '', 63),
-            'COLOR': '#4169E1',
-        }
-        """Parameters of the command, with their default value, their description and optinally an index used by other 
-        commands (e.g. fit)."""
+        Args:
+            **kwargs:
 
-        def post_init(self, **kwargs):
+        Returns:
+
+        """
+        for i in range(self.N):
+            if _degree(self.OMEGA_E[i]) == 0:
+                self.OMEGA_E[i] = self.AT / (2 * self.N) + i * self.AT / self.N
+            if _degree(self.OMEGA_S[i]) == 0:
+                self.OMEGA_S[i] -= (self.AT - self.AT / (2 * self.N) - i * self.AT / self.N)
+            if _degree(self.ACN[i]) == 0:
+                self.ACN[i] = self.AT / (2 * self.N) + i * self.AT / self.N
+            if _cm(self.RE) == 0:
+                self.RE = self.RM
+            if _cm(self.RS) == 0:
+                self.RS = self.RM
+
+    def __str__(s):
+        command = []
+        c = f"""       
+            {super().__str__().rstrip()}
+            {s.IL}
+            {s.N} {_degree(s.AT):.20e} {_cm(s.RM):.12e}
             """
+        command.append(c)
 
-            Args:
-                **kwargs:
-
-            Returns:
-
-            """
-            for i in range(self.N):
-                if _degree(self.OMEGA_E[i]) == 0:
-                    self.OMEGA_E[i] = self.AT / (2 * self.N) + i * self.AT / self.N
-                if _degree(self.OMEGA_S[i]) == 0:
-                    self.OMEGA_S[i] -= (self.AT - self.AT / (2 * self.N) - i * self.AT / self.N)
-                if _degree(self.ACN[i]) == 0:
-                    self.ACN[i] = self.AT / (2 * self.N) + i * self.AT / self.N
-                if _cm(self.RE) == 0:
-                    self.RE = self.RM
-                if _cm(self.RS) == 0:
-                    self.RS = self.RM
-
-        def __str__(s):
-            command = []
-            c = f"""       
-                {super().__str__().rstrip()}
-                {s.IL}
-                {s.N} {_degree(s.AT):.20e} {_cm(s.RM):.12e}
-                """
-            command.append(c)
-
-            for i in range(s.N):
-                c = f"""
-                {_degree(s.ACN[i]):.20e} {_cm(s.DRM[i]):.12e} {_kilogauss(s.BZ0[i]):.12e} {s.K[i]:.12e}
-                {_cm(s.G0_E[i]):.12e} {s.K_E[i]:.12e}
-                6 {s.C0_E[i]:.12e} {s.C1_E[i]:.12e} {s.C2_E[i]:.12e} {s.C3_E[i]:.12e} {s.C4_E[i]:.12e} {s.C5_E[i]:.12e} {_cm(s.SHIFT_E[i]):.12e}
-                {_degree(s.OMEGA_E[i]):.20e} {_degree(s.THETA_E[i]):.12e} {_cm(s.R1_E[i]):.12e} {_cm(s.U1_E[i]):.12e} {_cm(s.U2_E[i]):.12e} {_cm(s.R2_E[i]):.12e}
-                {_cm(s.G0_S[i]):.12e} {s.K_S[i]:.12e}
-                6 {s.C0_S[i]:.12e} {s.C1_S[i]:.12e} {s.C2_S[i]:.12e} {s.C3_S[i]:.12e} {s.C4_S[i]:.12e} {s.C5_S[i]:.12e} {_cm(s.SHIFT_S[i]):.12e}
-                {_degree(s.OMEGA_S[i]):.20e} {_degree(s.THETA_S[i]):.12e} {_cm(s.R1_S[i]):.12e} {_cm(s.U1_S[i]):.12e} {_cm(s.U2_S[i]):.12e} {_cm(s.R2_S[i]):.12e}
-                {_cm(s.G0_L[i]):.12e} {s.K_L[i]:.12e}
-                6 {s.C0_L[i]:.12e} {s.C1_L[i]:.12e} {s.C2_L[i]:.12e} {s.C3_L[i]:.12e} {s.C4_L[i]:.12e} {s.C5_L[i]:.12e} {_cm(s.SHIFT_L[i]):.12e}
-                {_degree(s.OMEGA_L[i]):.20e} {_degree(s.THETA_L[i]):.12e} {_cm(s.R1_L[i]):.12e} {_cm(s.U1_L[i]):.12e} {_cm(s.U2_L[i]):.12e} {_cm(s.R2_L[i]):.12e}
-                """
-                command.append(c)
-
+        for i in range(0, s.N):
             c = f"""
-                {s.KIRD} {s.RESOL:.12e}
-                {_cm(s.XPAS):.12e}
-                {s.KPOS}
+            {_degree(s.ACN[i]):.20e} {_cm(s.DRM[i]):.12e} {_kilogauss(s.BZ0[i]):.12e} {s.K[i]:.12e}
+            {_cm(s.G0_E[i]):.12e} {s.K_E[i]:.12e}
+            6 {s.C0_E[i]:.12e} {s.C1_E[i]:.12e} {s.C2_E[i]:.12e} {s.C3_E[i]:.12e} {s.C4_E[i]:.12e} {s.C5_E[i]:.12e} {_cm(s.SHIFT_E[i]):.12e}
+            {_degree(s.OMEGA_E[i]):.20e} {_degree(s.THETA_E[i]):.12e} {_cm(s.R1_E[i]):.12e} {_cm(s.U1_E[i]):.12e} {_cm(s.U2_E[i]):.12e} {_cm(s.R2_E[i]):.12e}
+            {_cm(s.G0_S[i]):.12e} {s.K_S[i]:.12e}
+            6 {s.C0_S[i]:.12e} {s.C1_S[i]:.12e} {s.C2_S[i]:.12e} {s.C3_S[i]:.12e} {s.C4_S[i]:.12e} {s.C5_S[i]:.12e} {_cm(s.SHIFT_S[i]):.12e}
+            {_degree(s.OMEGA_S[i]):.20e} {_degree(s.THETA_S[i]):.12e} {_cm(s.R1_S[i]):.12e} {_cm(s.U1_S[i]):.12e} {_cm(s.U2_S[i]):.12e} {_cm(s.R2_S[i]):.12e}
+            {_cm(s.G0_L[i]):.12e} {s.K_L[i]:.12e}
+            6 {s.C0_L[i]:.12e} {s.C1_L[i]:.12e} {s.C2_L[i]:.12e} {s.C3_L[i]:.12e} {s.C4_L[i]:.12e} {s.C5_L[i]:.12e} {_cm(s.SHIFT_L[i]):.12e}
+            {_degree(s.OMEGA_L[i]):.20e} {_degree(s.THETA_L[i]):.12e} {_cm(s.R1_L[i]):.12e} {_cm(s.U1_L[i]):.12e} {_cm(s.U2_L[i]):.12e} {_cm(s.R2_L[i]):.12e}
+            """
+            command.append(c)
+
+        c = f"""
+            {s.KIRD} {s.RESOL}
+            {_cm(s.XPAS):.12e}
+            {s.KPOS}
+            """
+        command.append(c)
+
+        if s.KPOS not in (1, 2):
+            raise _ZgoubidooException("KPOS must be equal to 1 or 2.")
+
+        if s.KPOS == 2:
+            if s.RE == 0:
+                s.RE = s.RM
+            if s.RS == 0:
+                s.RS = s.RM
+            c = f"""
+            {_cm(s.RE):.12e} {_radian(s.TE):.12e} {_cm(s.RS):.12e} {_radian(s.TS):.12e}
                 """
             command.append(c)
 
-            if s.KPOS not in (1, 2):
-                raise _ZgoubidooException("KPOS must be equal to 1 or 2.")
+        elif s.KPOS == 1:
+            c = f"""
+            {s.DP:.12e}
+                """
+            command.append(c)
 
-            if s.KPOS == 2:
-                if s.RE == 0:
-                    s.RE = s.RM
-                if s.RS == 0:
-                    s.RS = s.RM
-                c = f"""
-                {_cm(s.RE):.12e} {_radian(s.TE):.12e} {_cm(s.RS):.12e} {_radian(s.TS):.12e}
-                    """
-                command.append(c)
-
-            elif s.KPOS == 1:
-                c = f"""
-                {s.DP:.12e}
-                    """
-                command.append(c)
-
-            return ''.join(map(lambda _: _.rstrip(), command))
+        return ''.join(map(lambda _: _.rstrip(), command))
 
 
 class FFAGSpirale(PolarMultiMagnet):
     """Spiral FFAG magnet, N-tuple.
 
-    TODO
+    .. rubric:: Zgoubi manual description
+
+    ``FFAG-SPI`` works much like ``FFAG`` asto the field modelling, with essentially a different axial dependence.
+    The ``FFAG-SPI` procedure allows overlapping of fringe fields of neighboring dipoles, thus simulating in some sort `
+    the field in a dipole N -tuple (similar to Fig. 31, page 137). This allows for instance accounting for fringe field effects, or clamps, as schemed in Fig. 32.
+
+    The dimensioning of the magnet is defined by :
+        - AT : total angular aperture
+        - RM : mean radius used for the positioning of field boundaries
+
+    For each one of the N = 1 to (maximum) 5 dipoles of the N-tuple, the two effective field boundaries (entrance and exit EFBs) from which the dipole field is drawn
+    are defined from geometric boundaries, the shape and position of which are determined by the following parameters:
+
+        - ACN_i : arbitrary inner angle, used for EFBs positioning
+        - ω : azimuth of an EFB with respect to ACN
+        - ξ : spiral angle
+
+    with ACN_i and ω as defined in Fig. 32 (similar to what can be found in Figs. 31 and 11-A).
+
+
+    Calculation of the Field From a Single Dipole
+
+    The magnetic field is calculated in polar coordinates. At all (R, θ) in the median plane (Z = 0),
+    the magnetic field due a single one (index i) of the dipoles of a N -tuple spiral FFAG magnet is written
+                BZ_i(R, θ) = BZ_{0,i} F_i(R, θ) (R/RM )^{K_i}
+    wherein BZ_0,i is a reference field, at reference radius RMi, whereas F(R,θ) is calculated as described below.
+
+
+    Calculation of F_i(R, θ)
+
+    The fringe field coefficient F_i(R, θ) associated with a dipole is computed as in the procedure ``DIPOLES`` (eq. 6.4.16),
+    including radial dependence of the gap size :
+                g(R) = g_0 (RM/R)^κ (6.4.20)
+    so to simulate the effect of gap shaping on BZ_i(R,θ)|R field fall-off, over the all radial extent of the dipole (with normally - yet not necessarily in practice - κ ≈ Ki).
+
+
+    Calculation of the Full Field From All N Dipoles
+
+    For the rest, namely calculation of the full field at particle position, as resulting from the N dipoles, calculation of the mid-plane field derivatives,
+    extrapolation off median plane, etc., things are performed in the same manner as for the DIPOLES procedure (see page 125).
     """
+
     KEYWORD = 'FFAG-SPI'
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, ''),
-        'N': (1, 'Number of dipoles in the FFAG n-tuple'),
-        'AT': (0 * _ureg.degree, 'Total angular extent of the dipole'),
-        'RM': (100 * _ureg.cm, 'Reference radius'),
+        'IL': (0, 'Print field and coordinates along trajectories', 1),
+        'N': (1, 'Number of dipoles in the FFAG n-tuple (maximum 5)', 2),
+        'AT': (0.0 * _ureg.degree, 'Total angular extent of the N dipoles', 3),
+        'RM': (0.0 * _ureg.centimeter, 'Reference radius: mean radius used for the positioning of field boundaries', 4),
         # For each magnet in the n-tuple
-        'ACN': ([0, 0] * _ureg.degree, 'Azymuth for dipole positioning'),
-        'DELTA_RM': ([0, 0] * _ureg.cm, 'Reference radius offset'),
-        'BZ0': ([0, 0] * _ureg.kilogauss, 'Field at the reference radius'),
-        'K': ([0, 0], 'Field index'),
-        'G0_E': ([0, 0] * _ureg.cm, ''),
-        'K_E': ([0, 0], ''),
-        'NCE': ([0, 0], ''),
-        'C0_E': ([0, 0], ''),
-        'C1_E': ([1, 1], ''),
-        'C2_E': ([0, 0], ''),
-        'C3_E': ([0, 0], ''),
-        'C4_E': ([0, 0], ''),
-        'C5_E': ([0, 0], ''),
-        'SHIFT_E': ([0, 0] * _ureg.cm, ''),
-        'OMEGA_E': ([0, 0], ''),
-        'XI_E': ([0, 0] * _ureg.degree, ''),
-        'G0_S': ([0, 0] * _ureg.cm, ''),
-        'K_S': ([0, 0], ''),
-        'NCS': ([0, 0], ''),
-        'C0_S': ([0, 0], ''),
-        'C1_S': ([1, 1], ''),
-        'C2_S': ([0, 0], ''),
-        'C3_S': ([0, 0], ''),
-        'C4_S': ([0, 0], ''),
-        'C5_S': ([0, 0], ''),
-        'SHIFT_S': ([0, 0], ''),
-        'OMEGA_S': ([0, 0], ''),
-        'XI_S': ([0, 0] * _ureg.degree, ''),
-        'G0_L': ([0, 0], ''),
-        'K_L': ([-1, -1], ''),
-        'NCL': ([0, 0], ''),
-        'C0_L': ([0, 0], ''),
-        'C1_L': ([1, 1], ''),
-        'C2_L': ([0, 0], ''),
-        'C3_L': ([0, 0], ''),
-        'C4_L': ([0, 0], ''),
-        'C5_L': ([0, 0], ''),
-        'SHIFT_L': ([0, 0], ''),
-        'OMEGA_L': ([0, 0], ''),
-        'THETA_L': ([0, 0], ''),
-        'R1_L': ([1e9, 1e9], ''),
-        'U1_L': ([1e9, 1e9], ''),
-        'U2_L': ([1e9, 1e9], ''),
-        'R2_L': ([1e9, 1e9], ''),
+        'ACN': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth for dipole positioning', 5),
+        'DRM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Reference radius offset of each dipole : RM_i  = RM +DELTA_RM', 6),
+        'BZ0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, 'Field at the reference radius of each dipole', 7),
+        'K': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Field index for each dipole', 8),
+        'G0_E': ([0.00000001, 0.00000001, 0.00000001, 0.00000001, 0.00000001] * _ureg.cm, 'Reference gaps for the entrance fringe fields of each dipole.', 9),
+        'K_E': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 10),
+        'NCE': ([0, 0, 0, 0, 0], 'UNUSED', 11),
+        'C0_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 12),
+        'C1_E': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 13),
+        'C2_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 14),
+        'C3_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 15),
+        'C4_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 16),
+        'C5_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 17),
+        'SHIFT_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB', 18),
+        'OMEGA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth of an EFB with respect to ACN', 19),
+        'XI_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Spiral angle', 20),
+        'G0_S': ([0.00000001, 0.00000001, 0.00000001, 0.00000001, 0.00000001] * _ureg.cm,'Reference gaps for the exit fringe fields of each dipole.', 25),
+        'K_S': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 26),
+        'NCS': ([0, 0, 0, 0, 0], 'UNUSED', 27),
+        'C0_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 28),
+        'C1_S': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 29),
+        'C2_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 30),
+        'C3_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 31),
+        'C4_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 32),
+        'C5_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 33),
+        'SHIFT_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB', 34),
+        'OMEGA_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth of an EFB with respect to ACN', 35),
+        'XI_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Spiral angle', 36),
+        'G0_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm, 'UNUSED Reference gaps for the lateral fringe fields of each dipole.',41),
+        'K_L': ([-1, -1, -1, -1, -1], 'UNUSED Fringe field parameter kappa', 42),
+        'NCL': ([0, 0, 0, 0, 0], 'UNUSED', 43),
+        'C0_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C0', 44),
+        'C1_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C1', 45),
+        'C2_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C2', 46),
+        'C3_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C3', 47),
+        'C4_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C4', 48),
+        'C5_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C5', 49),
+        'SHIFT_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'UNUSED  Shift of the EFB', 50),
+        'OMEGA_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'UNUSED ', 51),
+        'THETA_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'UNUSED Entrance face wedge angle', 52),
+        'R1_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB radius', 53),
+        'U1_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB linear extent', 54),
+        'U2_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB linear extent', 55),
+        'R2_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB radius', 56),
         # General parameters
-        'KIRD': 0,
-        'RESOL': 2,
-        'XPAS': (1.0 * _ureg.cm, 'Integration step'),
-        'RE': 0 * _ureg.cm,
-        'TE': 0 * _ureg.radian,
-        'RS': 0 * _ureg.cm,
-        'TS': 0 * _ureg.radian,
+        'KIRD': (2, 'Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives', 57),
+        # The fit index depends on the number of magnets in the FFAG_SPI N -tuple (+52 for each new magnet)
+        'RESOL': (2, '', 58),
+        'XPAS': (1.0 * _ureg.millimeter, 'Integration step', 59),
+        #        'KPOS': (2, '', 60), #D'office 2 pour le FFA-SPI
+        'RE': (0.0 * _ureg.centimeter, '', 61),
+        'TE': (0.0 * _ureg.radian, '', 62),
+        'RS': (0.0 * _ureg.centimeter, '', 63),
+        'TS': (0.0 * _ureg.radian, '', 64),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
@@ -1694,16 +1828,16 @@ class FFAGSpirale(PolarMultiMagnet):
 
         for i in range(0, s.N):
             c = f"""
-            {s.ACN[i].m_as('degree'):.12e} {s.DELTA_RM[i].m_as('cm'):.12e} {s.BZ0[i].m_as('kilogauss'):.12e} {s.K[i]:.12e}
+            {s.ACN[i].m_as('degree'):.12e} {s.DRM[i].m_as('cm'):.12e} {s.BZ0[i].m_as('kilogauss'):.12e} {s.K[i]:.12e}
             {s.G0_E[i].m_as('cm'):.12e} {s.K_E[i]:.12e}
             {s.NCE[i]} {s.C0_E[i]:.12e} {s.C1_E[i]:.12e} {s.C2_E[i]:.12e} {s.C3_E[i]:.12e} {s.C4_E[i]:.12e} {s.C5_E[i]:.12e} {s.SHIFT_E[i].m_as('cm'):.12e}
             {s.OMEGA_E[i].m_as('degree'):.12e} {s.XI_E[i].m_as('degree'):.12e} 0.0 0.0 0.0 0.0
             {s.G0_S[i].m_as('cm'):.12e} {s.K_S[i]:.12e}
             {s.NCS[i]} {s.C0_S[i]:.12e} {s.C1_S[i]:.12e} {s.C2_S[i]:.12e} {s.C3_S[i]:.12e} {s.C4_S[i]:.12e} {s.C5_S[i]:.12e} {s.SHIFT_S[i]:.12e}
             {s.OMEGA_S[i].m_as('degree'):.12e} {s.XI_S[i].m_as('degree'):.12e} 0.0 0.0 0.0 0.0
-            {s.G0_L[i]:.12e} {s.K_L[i]:.12e}
-            {s.NCL[i]} {s.C0_L[i]:.12e} {s.C1_L[i]:.12e} {s.C2_L[i]:.12e} {s.C3_L[i]:.12e} {s.C4_L[i]:.12e} {s.C5_L[i]:.12e} {s.SHIFT_L[i]:.12e}
-            {s.OMEGA_L[i]:.12e} {s.THETA_L[i]:.12e} {s.R1_L[i]:.12e} {s.U1_L[i]:.12e} {s.U2_L[i]:.12e} {s.R2_L[i]:.12e}
+            {_cm(s.G0_L[i]):.12e} {s.K_L[i]:.12e}
+            {s.NCL[i]} {s.C0_L[i]:.12e} {s.C1_L[i]:.12e} {s.C2_L[i]:.12e} {s.C3_L[i]:.12e} {s.C4_L[i]:.12e} {s.C5_L[i]:.12e} {_cm(s.SHIFT_L[i]):.12e}
+            {_degree(s.OMEGA_L[i]):.20e} {_degree(s.THETA_L[i]):.12e} {_cm(s.R1_L[i]):.12e} {_cm(s.U1_L[i]):.12e} {_cm(s.U2_L[i]):.12e} {_cm(s.R2_L[i]):.12e}
                 """
             command.append(c)
 
