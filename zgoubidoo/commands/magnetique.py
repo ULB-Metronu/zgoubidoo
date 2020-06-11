@@ -1833,7 +1833,7 @@ class FFAGSpirale(PolarMultiMagnet):
             {s.NCE[i]} {s.C0_E[i]:.12e} {s.C1_E[i]:.12e} {s.C2_E[i]:.12e} {s.C3_E[i]:.12e} {s.C4_E[i]:.12e} {s.C5_E[i]:.12e} {s.SHIFT_E[i].m_as('cm'):.12e}
             {s.OMEGA_E[i].m_as('degree'):.12e} {s.XI_E[i].m_as('degree'):.12e} 0.0 0.0 0.0 0.0
             {s.G0_S[i].m_as('cm'):.12e} {s.K_S[i]:.12e}
-            {s.NCS[i]} {s.C0_S[i]:.12e} {s.C1_S[i]:.12e} {s.C2_S[i]:.12e} {s.C3_S[i]:.12e} {s.C4_S[i]:.12e} {s.C5_S[i]:.12e} {s.SHIFT_S[i]:.12e}
+            {s.NCS[i]} {s.C0_S[i]:.12e} {s.C1_S[i]:.12e} {s.C2_S[i]:.12e} {s.C3_S[i]:.12e} {s.C4_S[i]:.12e} {s.C5_S[i]:.12e} {s.SHIFT_S[i].m_as('cm'):.12e}
             {s.OMEGA_S[i].m_as('degree'):.12e} {s.XI_S[i].m_as('degree'):.12e} 0.0 0.0 0.0 0.0
             {_cm(s.G0_L[i]):.12e} {s.K_L[i]:.12e}
             {s.NCL[i]} {s.C0_L[i]:.12e} {s.C1_L[i]:.12e} {s.C2_L[i]:.12e} {s.C3_L[i]:.12e} {s.C4_L[i]:.12e} {s.C5_L[i]:.12e} {_cm(s.SHIFT_L[i]):.12e}
