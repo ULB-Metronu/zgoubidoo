@@ -4,7 +4,7 @@ More details here.
 TODO
 """
 
-from typing import Optional
+from typing import Optional, List
 import numpy as _np
 import pandas as _pd
 import parse as _parse
@@ -43,6 +43,7 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
     """
     PARAMETERS = {
         'HEIGHT': (20 * _ureg.cm, 'Height of the magnet (distance between poles), used by plotting functions.'),
+        'POLE_WIDTH': (30 * _ureg.cm, 'Pole width (used for plotting only).'),
         'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'),
         'KINEMATICS': (None, 'A kinematics object.'),
     }
@@ -77,7 +78,7 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
     def field_profile_model(self):
         """A model for the field profile."""
         return self._field_profile_model
-    
+
     def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
         """
         
@@ -235,7 +236,7 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
         'APERTURE_BOTTOM': (10 * _ureg.cm, 'Aperture size of the magnet, bottom side (used for plotting only).'),
         'COLOR': 'red',
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
         commands (e.g. fit)."""
 
     def adjust_tracks_variables(self, tracks: _pd.DataFrame):
@@ -265,13 +266,13 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
         return self.AT or 0 * _ureg.degree
 
     @property
-    def reference_angle(self) -> _Q:
+    def reference_angles(self) -> List[_Q]:
         """
 
         Returns:
 
         """
-        return self.ACENT or 0 * _ureg.degree
+        return [self.ACENT or 0 * _ureg.degree]
 
     @property
     def entrance_efb(self) -> _Q:
@@ -403,7 +404,10 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
 
 
 class PolarMultiMagnet(PolarMagnet):
-    pass
+
+    @property
+    def reference_angles(self) -> List[_Q]:
+        return self.ACN
 
 
 class AGSMainMagnet(CartesianMagnet):
@@ -1816,6 +1820,27 @@ class FFAGSpirale(PolarMultiMagnet):
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
+
+    def adjust_tracks_variables(self, tracks: _pd.DataFrame):
+        t = tracks[tracks.LABEL1 == self.LABEL1]
+        radius = self.RM.m_as('m')
+        angles = 100 * t['X'] + self.AT.m_as('radians') / 2
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ANGLE'] = angles
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'R'] = t['Y']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'R0'] = t['Yo']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = radius * angles + self.entry_s.m_as('m')
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y'] - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo'] - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT0'] = t['Zo']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X'] = t['Y'] * _np.sin(angles)
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X0'] = t['Yo'] * _np.sin(angles)
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y'] = t['Y'] * _np.cos(angles) - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y0'] = t['Yo'] * _np.cos(angles) - radius
+
+    @property
+    def reference_angles(self) -> List[_Q]:
+        return [acn + self.AT / 2 for acn in self.ACN]
 
     def __str__(s):
         command = []
