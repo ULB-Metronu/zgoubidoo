@@ -2013,66 +2013,71 @@ class Octupole(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-            'IL': 0,
-            'XL': 0,
-            'R0': 0,
-            'B0': 0,
-            'X_E': 0,
-            'LAM_E': 0,
-            'NCE': 0,
-            'C0_E': 0,
-            'C1_E': 0,
-            'C2_E': 0,
-            'C3_E': 0,
-            'C4_E': 0,
-            'C5_E': 0,
-            'X_S': 0,
-            'LAM_S': 0,
-            'NCS': 0,
-            'C0_S': 0,
-            'C1_S': 0,
-            'C2_S': 0,
-            'C3_S': 0,
-            'C4_S': 0,
-            'C5_S': 0,
-            'XPAS': 0.1,
-            'KPOS': 1,
-            'XCE': 0,
-            'YCE': 0,
-            'ALE': 0,
+        'IL': (0, 'Print field and coordinates along trajectories', 0),
+        'XL': (0 * _ureg.centimeter, 'Magnet length', 10),
+        'R0': (1.0 * _ureg.centimeter, 'Radius of the pole tips', 11),
+        'B0': (0 * _ureg.kilogauss, 'Field at pole tips', 12),
+        'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 20),
+        'LAM_E': (0 * _ureg.centimeter, 'Entrance face fringe field extent', 21),
+        'C0_E': 0,
+        'C1_E': 1,
+        'C2_E': 0,
+        'C3_E': 0,
+        'C4_E': 0,
+        'C5_E': 0,
+        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field'),
+        'LAM_S': (0 * _ureg.centimeter, 'Exit face fringe field extent'),
+        'C0_S': 0,
+        'C1_S': 1,
+        'C2_S': 0,
+        'C3_S': 0,
+        'C4_S': 0,
+        'C5_S': 0,
+        'XPAS': (0.1 * _ureg.centimeter, 'Integration step', 60),
+        'KPOS': (1, 'Misalignment type', 70),
+        'XCE': (0 * _ureg.centimeter, 'x offset', 71),
+        'YCE': (0 * _ureg.centimeter, 'y offset', 72),
+        'ALE': (0 * _ureg.radian, 'misalignment rotation', 73),
+        'COLOR': ('#FF33E9', 'Magnet color for plotting.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        if _cm(self.X_E) == 0 and _cm(self.R0) != 0 and self.LAM_E.magnitude != 0:
+            self.X_E = 2 * self.R0
+        if _cm(self.X_S) == 0 and _cm(self.R0) != 0 and self.LAM_S.magnitude != 0:
+            self.X_S = 2 * self.R0
+
     def __str__(s):
-        command = []
-        c = f"""
-            {super().__str__().rstrip()}
-            {s.IL}
-            {s.XL:.12e} {s.R0:.12e} {s.B0:.12e}
-            {s.X_E:.12e} {s.LAM_E:.12e}
-            {s.NCE} {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
-            {s.X_S:.12e} {s.LAM_S:.12e}
-            {s.NCS} {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
-            {s.XPAS:.12e}  
-            """
-        command.append(c)
+        return f"""
+        {super().__str__().rstrip()}
+        {s.IL}
+        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B0):.12e}
+        {_cm(s.X_E):.12e} {_cm(s.LAM_E):.12e}
+        6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
+        {_cm(s.X_S):.12e} {_cm(s.LAM_S):.12e}
+        6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
+        {_cm(s.XPAS)}
+        {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
+        """
 
-        if s.KPOS not in (1, 2):
-            raise _ZgoubidooException("KPOS must be equal to 1 or 2")
+    @property
+    def gradient(self):
+        """Octopolar gradient (field at pole tip divided by the bore radius."""
+        return self.B0 / self.R0
 
-        if s.KPOS == 1:
-            c = f"""
-            {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
-            """
-            command.append(c)
-        elif s.KPOS == 2:
-            c = f"""
-            {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
-            """
-            command.append(c)
-
-        return ''.join(map(lambda _: _.rstrip(), command))
+    @gradient.setter
+    def gradient(self, g):
+        self.B0 = g * self.R0
 
 
 class PS170(Magnet):
