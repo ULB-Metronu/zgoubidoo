@@ -484,7 +484,12 @@ class Zgoubi(Executable):
             - n_procs: maximum number of Zgoubi simulations to be started in parallel
 
         """
-        super().__init__(executable=executable, results_type=ZgoubiResults, path=path, n_procs=n_procs)
+
+        super().__init__(executable=executable,
+                         results_type=ZgoubiResults,
+                         path=os.environ.get('ZGOUBI_EXECUTABLE_PATH', None),
+                         n_procs=n_procs
+                         )
 
     def _extract_output(self, path, code_input: _Input, mapping) -> List[str]:
         """Extract element by element parent"""
