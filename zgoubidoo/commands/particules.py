@@ -2,6 +2,7 @@
 
 More details here. TODO
 """
+import scipy.constants
 from .commands import Command as _Command
 from .commands import CommandType as _MetaCommand
 from .. import ureg as _ureg
@@ -97,110 +98,122 @@ class NativeParticule(Particule, metaclass=NativeParticuleType):
 class Electron(NativeParticule):
     """An electron particle."""
     PARAMETERS = {
-        'M': (0.5109989461 * _ureg.MeV_c2, 'Mass of the particle.'),
-        'Q': (-1.6021766208e-19 * _ureg.coulomb, 'Charge of the particle.'),
-        'G': ((-2.0023193043622 - 2) / 2, 'G factor'),
+        'M': (scipy.constants.electron_mass * _ureg.kg, 'Mass of the particle.'),
+        'Q': (-scipy.constants.elementary_charge * _ureg.coulomb, 'Charge of the particle.'),
+        'G': ((scipy.constants.physical_constants['electron g factor'][0] - 2) / 2, 'G factor'),
     }
 
 
 class Positron(NativeParticule):
     """A positron particle."""
     PARAMETERS = {
-        'M': (0.5109989461 * _ureg.MeV_c2, 'Mass of the particle.'),
-        'Q': (-1.6021766208e-19 * _ureg.coulomb, 'Charge of the particle.'),
-        'G': ((-2.0023193043622 - 2) / 2, 'G factor'),
+        'M': (scipy.constants.electron_mass * _ureg.kg, 'Mass of the particle.'),
+        'Q': (scipy.constants.elementary_charge * _ureg.coulomb, 'Charge of the particle.'),
+        'G': ((scipy.constants.physical_constants['electron g factor'][0] - 2) / 2, 'G factor'),
     }
 
 
 class Muon(Particule):
     """A muon particle."""
     PARAMETERS = {
-        'M': (105.6583745 * _ureg.MeV_c2, 'Mass of the particle.'),
-        'Q': (-1.60217653e-1 * _ureg.coulomb, 'Charge of the particle.'),
-        'G': ((-2.0023318418 - 2) / 2, 'G factor'),
-        'tau': (2.197029e-6, 'Lifetime'),
+        'M': (scipy.constants.physical_constants['muon mass'][0] * _ureg(scipy.constants.physical_constants['muon mass'][1]), 'Mass of the particle.'),
+        'Q': (-scipy.constants.elementary_charge * _ureg.coulomb, 'Charge of the particle.'),
+        'G': ((scipy.constants.physical_constants['muon g factor'][0] - 2) / 2, 'G factor'),
+        'tau': (2.197029e-6 * _ureg.s, 'Lifetime'),
     }
 
 
 class AntiMuon(Particule):
     """An anti-muon particle."""
     PARAMETERS = {
-        'M': (105.6583745 * _ureg.MeV_c2, 'Mass of the particle.'),
-        'Q': (1.60217653e-19 * _ureg.coulomb, 'Charge of the particle.'),
-        'G': ((-2.0023318418 - 2) / 2, 'G factor'),
-        'tau': (2.197029e-6, 'Lifetime'),
+        'M': (scipy.constants.physical_constants['muon mass'][0] * _ureg.kg, 'Mass of the particle.'),
+        'Q': (scipy.constants.elementary_charge * _ureg.coulomb, 'Charge of the particle.'),
+        'G': ((scipy.constants.physical_constants['muon g factor'][0] - 2) / 2, 'G factor'),
+        'tau': (2.197029e-6 * _ureg.s, 'Lifetime'),
     }
 
 
 class ImmortalMuon(Muon):
     """A muon particle (no decay)."""
-    PARAMETERS = dict(AntiMuon.PARAMETERS, **{
-        'tau': (0.0, 'Half-life of the particle.'),
-    })
+    PARAMETERS = {
+        'tau': (0.0 * _ureg.s, 'Half-life of the particle.'),
+    }
 
 
 class ImmortalAntiMuon(AntiMuon):
     """An anti-muon particle (no decay)."""
-    PARAMETERS = dict(Muon.PARAMETERS, **{
-        'tau': (0.0, 'Half-life of the particle.'),
-    })
+    PARAMETERS = {
+        'tau': (0.0 * _ureg.s, 'Half-life of the particle.'),
+    }
 
 
 class Pion(Particule):
     """A pion particle."""
     PARAMETERS = {
         'M': (139.57018 * _ureg.MeV_c2, 'Mass of the particle.'),
-        'Q': (1.60217653e-19 * _ureg.coulomb, 'Charge of the particle.'),
-        'G': (0, 'G factor'),
-        'tau': (2.6033e-8, 'Half-life of the particle.'),
+        'tau': (2.6033e-8 * _ureg.s, 'Half-life of the particle.'),
+    }
+
+
+class PositivePion(Pion):
+    """A pion particle."""
+    PARAMETERS = {
+        'Q': (scipy.constants.elementary_charge * _ureg.coulomb, 'Charge of the particle.'),
+    }
+
+
+class NegativePion(Pion):
+    """A pion particle."""
+    PARAMETERS = {
+        'Q': (-scipy.constants.elementary_charge * _ureg.coulomb, 'Charge of the particle.'),
     }
 
 
 class Proton(NativeParticule):
     """A proton particle."""
     PARAMETERS = {
-        'M': (938.27203 * _ureg.MeV_c2, 'Mass of the particle.'),
-        'Q': (1.602176487e-19 * _ureg.coulomb, 'Charge of the particle.'),
-        'G': ((5.585694701 - 2) / 2, 'G factor'),
+        'M': (scipy.constants.proton_mass * _ureg.kg, 'Mass of the particle.'),
+        'Q': (scipy.constants.elementary_charge * _ureg.coulomb, 'Charge of the particle.'),
+        'G': ((scipy.constants.physical_constants['proton g factor'][0] - 2) / 2, ),
     }
 
 
 class AntiProton(Particule):
     """An anti-proton particle."""
     PARAMETERS = {
-        'M': (938.27203 * _ureg.MeV_c2, 'Mass of the particle.'),
-        'Q': (-1.602176487e-19 * _ureg.coulomb, 'Charge of the particle.'),
-        'G': ((5.585694701 - 2) / 2, 'G factor'),
+        'M': (scipy.constants.proton_mass * _ureg.kg, 'Mass of the particle.'),
+        'Q': (-scipy.constants.elementary_charge * _ureg.coulomb, 'Charge of the particle.'),
+        'G': ((scipy.constants.physical_constants['proton g factor'][0] - 2) / 2, 'G factor'),
     }
 
 
 class HMinus(Particule):
     """An H- ion."""
     PARAMETERS = {
-        'M': (938.27203 * _ureg.MeV_c2, 'Mass of the particle.'),
-        'Q': (+1.602176487e-19 * _ureg.coulomb, 'Charge of the particle.'),
-        'G': ((5.585694701 - 2) / 2, 'G factor'),
+        'M': (scipy.constants.proton_mass * _ureg.kg, 'Mass of the particle.'),
+        'Q': (-scipy.constants.elementary_charge * _ureg.coulomb, 'Charge of the particle.'),
+        'G': ((scipy.constants.physical_constants['proton g factor'][0] - 2) / 2, 'G factor'),
     }
 
 
 class Ion(Particule):
     """Base class for ion particles."""
-    def charge_state(self):
-        """Modify the charge state of the ion."""
-        # TODO
-        pass
+    pass
 
 
-class HeliumIon(Particule):
+class HeliumIon(Ion):
     """A fully stripped Helium ion"""
     PARAMETERS = {
-        'M': (1, ''),
-        'Q': (1, ''),
-        'G': (1, ''),
+        'M': (scipy.constants.physical_constants['helion mass'][0]*_ureg.kg, 'Mass of the particle'),
+        'Q': (2 * scipy.constants.elementary_charge * _ureg.coulomb, 'Charge of the particle'),
+        'G': (scipy.constants.physical_constants['helion g factor'][0], 'G factor'),
     }
 
 
-class CarbonIon(Particule):
+Helion = HeliumIon
+
+
+class CarbonIon(Ion):
     """A fully stripped Carbon ion"""
     PARAMETERS = {
         'M': (1, ''),
@@ -209,7 +222,7 @@ class CarbonIon(Particule):
     }
 
 
-class OxygenIon(Particule):
+class OxygenIon(Ion):
     """A fully stripped Oxygen ion"""
     PARAMETERS = {
         'M': (1, ''),
@@ -218,7 +231,7 @@ class OxygenIon(Particule):
     }
 
 
-class LeadIon(Particule):
+class LeadIon(Ion):
     """A fully stripped Lead ion"""
     PARAMETERS = {
         'M': (1, ''),
@@ -227,7 +240,7 @@ class LeadIon(Particule):
     }
 
 
-class SulfurIon(Particule):
+class SulfurIon(Ion):
     """A fully stripped Sulfur ion"""
     PARAMETERS = {
         'M': (1, ''),
@@ -236,7 +249,7 @@ class SulfurIon(Particule):
     }
 
 
-class XenonIon(Particule):
+class XenonIon(Ion):
     """A fully stripped Sulfur ion"""
     PARAMETERS = {
         'M': (1, ''),
