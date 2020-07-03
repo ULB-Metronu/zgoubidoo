@@ -404,6 +404,14 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
         """
         return -(magnet_angle - poles_angle) / 2
 
+    @property
+    def entry_wedge_angle(self) -> List[_Q]:
+        return [self.THETA_E]
+
+    @property
+    def exit_wedge_angle(self) -> List[_Q]:
+        return [self.THETA_S]
+
 
 class PolarMultiMagnet(PolarMagnet):
 
@@ -1496,6 +1504,20 @@ class Drift(CartesianMagnet):
         """
         return _parse.parse(' '.join(template.split()), ' '.join(stream.split()))
 
+    def adjust_tracks_variables(self, tracks: _pd.DataFrame):
+        t = tracks[tracks.LABEL1 == self.LABEL1]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = t['X'] + self.entry_s.m_as('m')
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT0'] = t['Zo']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'BX'] = 0
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'BY'] = 0
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'BZ'] = 0
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'EX'] = 0
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'EY'] = 0
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'EZ'] = 0
+
 
 class ESL(Drift):
     """Field free drift space ("espace libre")."""
@@ -1843,6 +1865,14 @@ class FFAGSpirale(PolarMultiMagnet):
     @property
     def reference_angles(self) -> List[_Q]:
         return [acn + self.AT / 2 for acn in self.ACN]
+
+    @property
+    def entry_wedge_angle(self) -> List[_Q]:
+        return self.XI_E
+
+    @property
+    def exit_wedge_angle(self) -> List[_Q]:
+        return self.XI_S
 
     def __str__(s):
         command = []
