@@ -151,7 +151,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             opacity:
             reference_frame:
         """
-        def add_svg_path(points, reference_frame: str = 'entry_patched', color: Optional[str] = None):
+        def add_svg_path(points, reference_frame: str = 'entry_patched', color: Optional[str] = None, opacity: Optional[float] = 0.5):
             points = points.dot(_np.linalg.inv(getattr(e, reference_frame).get_rotation_matrix())) + _np.array([
                 getattr(e, reference_frame).x_, getattr(e, reference_frame).y_, 0.0
             ])
@@ -210,6 +210,8 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 aper_right = e.APERTURE_RIGHT.m_as('m')
                 width = e.POLE_WIDTH.m_as('m')
                 pipe_thickness = e.PIPE_THICKNESS.m_as('m')
+                total_angle = e.angular_opening.m_as('radians')
+
                 if isinstance(e, _PolarMultiMagnet):
                     r = e.RM.m_as('m')
                     for i in range(0, e.N):
@@ -248,7 +250,26 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
                 elif isinstance(e, _PolarMagnet):
                     r = e.RM.m_as('m')
-                    thetas = _np.linspace(0, e.AT.m_as('radian'), points_in_polar_paths)
+                    thetas = _np.linspace(0, total_angle, points_in_polar_paths)
+
+                    # Plot the map
+                    pts = []
+                    for theta in thetas:
+                        pts.append([(r + width / 2) * _np.sin(theta), -r + (r + width / 2) * _np.cos(theta), 0.0])
+                    pts.append([0, -r, 0.0])
+                    add_svg_path(_np.array(pts), reference_frame=reference_frame, opacity=0.2)
+                    pts = []
+                    x1 = (r + width / 2) * _np.sin(e.AT.m_as('radian') * 0.5)
+                    y1 = -r + (r + width / 2) * _np.cos(e.AT.m_as('radian') * 0.5)
+                    pts.append([0, -r, 0.0])
+                    pts.append([x1, y1, 0.0])
+                    add_svg_path(_np.array(pts), reference_frame=reference_frame, opacity=1.0)
+
+                    # Plot the entrance to the exit EFB with wedge angles
+                    thetas = _np.linspace(0.5 * total_angle - e.entrance_efb,
+                                          0.5 * total_angle - e.exit_efb,
+                                          points_in_polar_paths)
+
                     if with_magnet_poles:
                         pts = []
                         for theta in thetas:
@@ -284,10 +305,11 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                     if with_apertures:
                         add_svg_path(_np.array([
                             [0.0, -aper_left, 0.0],
-                            [0.0, -aper_left-pipe_thickness, 0.0],
-                            [e.length.m_as('m'), -aper_left-pipe_thickness, 0.0],
+                            [0.0, -aper_left - pipe_thickness, 0.0],
+                            [e.length.m_as('m'), -aper_left - pipe_thickness, 0.0],
                             [e.length.m_as('m'), -aper_left, 0.0],
                         ]), reference_frame=reference_frame, color=e.PIPE_COLOR)
+
                         add_svg_path(_np.array([
                             [0.0, aper_right, 0.0],
                             [0.0, aper_right + pipe_thickness, 0.0],
