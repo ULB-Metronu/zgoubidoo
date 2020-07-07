@@ -404,11 +404,11 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
         return -(magnet_angle - poles_angle) / 2
 
     @property
-    def entry_wedge_angle(self) -> List[_Q]:
+    def entrance_field_boundary_wedge_angle(self) -> List[_Q]:
         return [self.THETA_E]
 
     @property
-    def exit_wedge_angle(self) -> List[_Q]:
+    def exit_field_boundary_wedge_angle(self) -> List[_Q]:
         return [self.THETA_S]
 
 
