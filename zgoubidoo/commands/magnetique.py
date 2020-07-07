@@ -4,7 +4,7 @@ More details here.
 TODO
 """
 
-from typing import Optional
+from typing import Optional, List
 import numpy as _np
 import pandas as _pd
 import parse as _parse
@@ -43,6 +43,9 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
     """
     PARAMETERS = {
         'HEIGHT': (20 * _ureg.cm, 'Height of the magnet (distance between poles), used by plotting functions.'),
+        'PIPE_THICKNESS': (2 * _ureg.cm, 'Thickness of the pipe, used by plotting functions.'),
+        'PIPE_COLOR': ('grey', 'Color of the pipe, used by plotting functions.'),
+        'POLE_WIDTH': (50 * _ureg.cm, 'Pole width (used for plotting only).'),
         'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'),
         'KINEMATICS': (None, 'A kinematics object.'),
     }
@@ -77,7 +80,7 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
     def field_profile_model(self):
         """A model for the field profile."""
         return self._field_profile_model
-    
+
     def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
         """
         
@@ -228,14 +231,14 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
     TODO
     """
     PARAMETERS = {
-        'WIDTH': 150 * _ureg.cm,
+        'POLE_WIDTH': 150 * _ureg.cm,
         'APERTURE_LEFT': (10 * _ureg.cm, 'Aperture size of the magnet, left side (used for plotting only).'),
         'APERTURE_RIGHT': (10 * _ureg.cm, 'Aperture size of the magnet, right side (used for plotting only).'),
         'APERTURE_TOP': (10 * _ureg.cm, 'Aperture size of the magnet, top side (used for plotting only).'),
         'APERTURE_BOTTOM': (10 * _ureg.cm, 'Aperture size of the magnet, bottom side (used for plotting only).'),
-        'COLOR': 'red',
+        'COLOR': 'blue',
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
         commands (e.g. fit)."""
 
     def adjust_tracks_variables(self, tracks: _pd.DataFrame):
@@ -265,13 +268,13 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
         return self.AT or 0 * _ureg.degree
 
     @property
-    def reference_angle(self) -> _Q:
+    def reference_angles(self) -> List[_Q]:
         """
 
         Returns:
 
         """
-        return self.ACENT or 0 * _ureg.degree
+        return [self.ACENT or 0 * _ureg.degree]
 
     @property
     def entrance_efb(self) -> _Q:
@@ -401,9 +404,20 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
         """
         return -(magnet_angle - poles_angle) / 2
 
+    @property
+    def entry_wedge_angle(self) -> List[_Q]:
+        return [self.THETA_E]
+
+    @property
+    def exit_wedge_angle(self) -> List[_Q]:
+        return [self.THETA_S]
+
 
 class PolarMultiMagnet(PolarMagnet):
-    pass
+
+    @property
+    def reference_angles(self) -> List[_Q]:
+        return self.ACN
 
 
 class AGSMainMagnet(CartesianMagnet):
@@ -1490,6 +1504,20 @@ class Drift(CartesianMagnet):
         """
         return _parse.parse(' '.join(template.split()), ' '.join(stream.split()))
 
+    def adjust_tracks_variables(self, tracks: _pd.DataFrame):
+        t = tracks[tracks.LABEL1 == self.LABEL1]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = t['X'] + self.entry_s.m_as('m')
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT0'] = t['Zo']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'BX'] = 0
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'BY'] = 0
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'BZ'] = 0
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'EX'] = 0
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'EY'] = 0
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'EZ'] = 0
+
 
 class ESL(Drift):
     """Field free drift space ("espace libre")."""
@@ -1817,6 +1845,35 @@ class FFAGSpirale(PolarMultiMagnet):
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
+    def adjust_tracks_variables(self, tracks: _pd.DataFrame):
+        t = tracks[tracks.LABEL1 == self.LABEL1]
+        radius = self.RM.m_as('m')
+        angles = 100 * t['X'] + self.AT.m_as('radians') / 2
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ANGLE'] = angles
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'R'] = t['Y']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'R0'] = t['Yo']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = radius * angles + self.entry_s.m_as('m')
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y'] - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo'] - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT0'] = t['Zo']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X'] = t['Y'] * _np.sin(angles)
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X0'] = t['Yo'] * _np.sin(angles)
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y'] = t['Y'] * _np.cos(angles) - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y0'] = t['Yo'] * _np.cos(angles) - radius
+
+    @property
+    def reference_angles(self) -> List[_Q]:
+        return [acn + self.AT / 2 for acn in self.ACN]
+
+    @property
+    def entry_wedge_angle(self) -> List[_Q]:
+        return self.XI_E
+
+    @property
+    def exit_wedge_angle(self) -> List[_Q]:
+        return self.XI_S
+
     def __str__(s):
         command = []
         c = f"""
@@ -1833,7 +1890,7 @@ class FFAGSpirale(PolarMultiMagnet):
             {s.NCE[i]} {s.C0_E[i]:.12e} {s.C1_E[i]:.12e} {s.C2_E[i]:.12e} {s.C3_E[i]:.12e} {s.C4_E[i]:.12e} {s.C5_E[i]:.12e} {s.SHIFT_E[i].m_as('cm'):.12e}
             {s.OMEGA_E[i].m_as('degree'):.12e} {s.XI_E[i].m_as('degree'):.12e} 0.0 0.0 0.0 0.0
             {s.G0_S[i].m_as('cm'):.12e} {s.K_S[i]:.12e}
-            {s.NCS[i]} {s.C0_S[i]:.12e} {s.C1_S[i]:.12e} {s.C2_S[i]:.12e} {s.C3_S[i]:.12e} {s.C4_S[i]:.12e} {s.C5_S[i]:.12e} {s.SHIFT_S[i]:.12e}
+            {s.NCS[i]} {s.C0_S[i]:.12e} {s.C1_S[i]:.12e} {s.C2_S[i]:.12e} {s.C3_S[i]:.12e} {s.C4_S[i]:.12e} {s.C5_S[i]:.12e} {s.SHIFT_S[i].m_as('cm'):.12e}
             {s.OMEGA_S[i].m_as('degree'):.12e} {s.XI_S[i].m_as('degree'):.12e} 0.0 0.0 0.0 0.0
             {_cm(s.G0_L[i]):.12e} {s.K_L[i]:.12e}
             {s.NCL[i]} {s.C0_L[i]:.12e} {s.C1_L[i]:.12e} {s.C2_L[i]:.12e} {s.C3_L[i]:.12e} {s.C4_L[i]:.12e} {s.C5_L[i]:.12e} {_cm(s.SHIFT_L[i]):.12e}
@@ -1986,66 +2043,71 @@ class Octupole(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-            'IL': 0,
-            'XL': 0,
-            'R0': 0,
-            'B0': 0,
-            'X_E': 0,
-            'LAM_E': 0,
-            'NCE': 0,
-            'C0_E': 0,
-            'C1_E': 0,
-            'C2_E': 0,
-            'C3_E': 0,
-            'C4_E': 0,
-            'C5_E': 0,
-            'X_S': 0,
-            'LAM_S': 0,
-            'NCS': 0,
-            'C0_S': 0,
-            'C1_S': 0,
-            'C2_S': 0,
-            'C3_S': 0,
-            'C4_S': 0,
-            'C5_S': 0,
-            'XPAS': 0.1,
-            'KPOS': 1,
-            'XCE': 0,
-            'YCE': 0,
-            'ALE': 0,
+        'IL': (0, 'Print field and coordinates along trajectories', 0),
+        'XL': (0 * _ureg.centimeter, 'Magnet length', 10),
+        'R0': (1.0 * _ureg.centimeter, 'Radius of the pole tips', 11),
+        'B0': (0 * _ureg.kilogauss, 'Field at pole tips', 12),
+        'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 20),
+        'LAM_E': (0 * _ureg.centimeter, 'Entrance face fringe field extent', 21),
+        'C0_E': 0,
+        'C1_E': 1,
+        'C2_E': 0,
+        'C3_E': 0,
+        'C4_E': 0,
+        'C5_E': 0,
+        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field'),
+        'LAM_S': (0 * _ureg.centimeter, 'Exit face fringe field extent'),
+        'C0_S': 0,
+        'C1_S': 1,
+        'C2_S': 0,
+        'C3_S': 0,
+        'C4_S': 0,
+        'C5_S': 0,
+        'XPAS': (0.1 * _ureg.centimeter, 'Integration step', 60),
+        'KPOS': (1, 'Misalignment type', 70),
+        'XCE': (0 * _ureg.centimeter, 'x offset', 71),
+        'YCE': (0 * _ureg.centimeter, 'y offset', 72),
+        'ALE': (0 * _ureg.radian, 'misalignment rotation', 73),
+        'COLOR': ('#FF33E9', 'Magnet color for plotting.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        if _cm(self.X_E) == 0 and _cm(self.R0) != 0 and self.LAM_E.magnitude != 0:
+            self.X_E = 2 * self.R0
+        if _cm(self.X_S) == 0 and _cm(self.R0) != 0 and self.LAM_S.magnitude != 0:
+            self.X_S = 2 * self.R0
+
     def __str__(s):
-        command = []
-        c = f"""
-            {super().__str__().rstrip()}
-            {s.IL}
-            {s.XL:.12e} {s.R0:.12e} {s.B0:.12e}
-            {s.X_E:.12e} {s.LAM_E:.12e}
-            {s.NCE} {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
-            {s.X_S:.12e} {s.LAM_S:.12e}
-            {s.NCS} {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
-            {s.XPAS:.12e}  
-            """
-        command.append(c)
+        return f"""
+        {super().__str__().rstrip()}
+        {s.IL}
+        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B0):.12e}
+        {_cm(s.X_E):.12e} {_cm(s.LAM_E):.12e}
+        6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
+        {_cm(s.X_S):.12e} {_cm(s.LAM_S):.12e}
+        6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
+        {_cm(s.XPAS)}
+        {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
+        """
 
-        if s.KPOS not in (1, 2):
-            raise _ZgoubidooException("KPOS must be equal to 1 or 2")
+    @property
+    def gradient(self):
+        """Octopolar gradient (field at pole tip divided by the bore radius."""
+        return self.B0 / self.R0
 
-        if s.KPOS == 1:
-            c = f"""
-            {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
-            """
-            command.append(c)
-        elif s.KPOS == 2:
-            c = f"""
-            {s.KPOS} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
-            """
-            command.append(c)
-
-        return ''.join(map(lambda _: _.rstrip(), command))
+    @gradient.setter
+    def gradient(self, g):
+        self.B0 = g * self.R0
 
 
 class PS170(Magnet):

@@ -14,6 +14,7 @@ from ..commands import PolarMultiMagnet as _PolarMultiMagnet
 from ..commands import Drift as _Drift
 from ..commands import Quadrupole as _Quadrupole
 from ..commands import Sextupole as _Sextupole
+from ..commands import Octupole as _Octupole
 from ..commands import Multipole as _Multipole
 from ..commands import Bend as _Bend
 from ..commands import Dipole as _Dipole
@@ -58,7 +59,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
         for e in beamline:
             if not isinstance(e, _Patchable) and not isinstance(e, _Plotable):
                 continue
-            if isinstance(e, (_Quadrupole, _Sextupole)):
+            if isinstance(e, (_Quadrupole, _Sextupole, _Octupole)):
                 self.shapes.append(
                     {
                         'type': 'rect',
@@ -120,14 +121,15 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
     def plot_beamline(self,
                       beamline: _Input,
-                      apertures: bool = True,
-                      body: bool = False,
-                      with_drifts: bool = False,
-                      points_in_polar_paths: int = 20,
-                      opacity: float = 0.5,
-                      magnet_poles: float = 0.0,
                       start: Optional[Union[str, _Command]] = None,
                       stop: Optional[Union[str, _Command]] = None,
+                      with_drifts: bool = False,
+                      with_magnet_poles: bool = True,
+                      with_apertures: bool = True,
+                      with_frames: bool = False,
+                      points_in_polar_paths: int = 20,
+                      opacity: float = 0.5,
+                      reference_frame: str = 'entry_patched',
                       ) -> None:
         """
         Use a `ZgoubiPlot` artist to perform the rendering of the beamline with elements and tracks.
@@ -136,30 +138,32 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
         Args:
             beamline:
-            apertures:
-            body:
-            with_drifts:
-            points_in_polar_paths:
-            opacity:
-            magnet_poles:
             start:
             stop:
+            with_drifts:
+            with_magnet_poles:
+            with_apertures:
+            with_frames:
+            points_in_polar_paths:
+            opacity:
+            reference_frame:
         """
-        def add_svg_path(points, reference_frame: str = 'entry_patched'):
-            points = points.dot(_np.linalg.inv(e.entry_patched.get_rotation_matrix())) + _np.array([
+        def add_svg_path(points, reference_frame: str = 'entry_patched', color: Optional[str] = None):
+            points = points.dot(_np.linalg.inv(getattr(e, reference_frame).get_rotation_matrix())) + _np.array([
                 getattr(e, reference_frame).x_, getattr(e, reference_frame).y_, 0.0
             ])
             path = f"M{points[0, 0]},{points[0, 1]} "
             for p in points[1:]:
                 path += f"L{p[0]},{p[1]} "
             path += "Z"
-            try:
-                if e.B2.magnitude > 0:
-                    color = 'blue'
-                else:
-                    color = 'red'
-            except AttributeError:
-                color = e.COLOR
+            if color is None:
+                try:
+                    if e.B2.magnitude > 0:
+                        color = 'blue'
+                    else:
+                        color = 'red'
+                except AttributeError:
+                    color = e.COLOR
             self.shapes.append(
                 {
                     'type': 'path',
@@ -174,6 +178,18 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 },
             )
 
+        def plot_frames():
+            color = ['red', 'green', 'blue', 'magenta', 'darkorange']
+            for i, frame in enumerate(['entry', 'entry_patched', 'exit', 'exit_patched', 'center']):
+                self.scatter(
+                    {
+                        'x': [getattr(e, frame).x_],
+                        'y': [getattr(e, frame).y_],
+                        'marker': {'size': 5, 'color': color[i]},
+                        'legendgroup': f"{e.LABEL1}",
+                        'name': f"{frame} - {e.LABEL1}",
+                    })
+
         for e in beamline[start:stop]:
             if not isinstance(e, _Plotable):
                 continue
@@ -184,82 +200,97 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                     raise AttributeError
                 self._data.append(e.plotly())
             except AttributeError:
+                if with_frames:
+                    plot_frames()
+
+                aper_left = e.APERTURE_LEFT.m_as('m')
+                aper_right = e.APERTURE_RIGHT.m_as('m')
+                width = e.POLE_WIDTH.m_as('m')
+                pipe_thickness = e.PIPE_THICKNESS.m_as('m')
                 if isinstance(e, _PolarMultiMagnet):
                     r = e.RM.m_as('m')
-                    re = e.RE.m_as('m')
                     for i in range(0, e.N):
-                        if magnet_poles == 0:
-                            pts = []
-                            thetas = _np.linspace(
-                                e.ACN[i].m_as('radian') - e.OMEGA_E[i].m_as('radian'),
-                                e.ACN[i].m_as('radian') - e.OMEGA_S[i].m_as('radian'),
-                                points_in_polar_paths)
-                            for theta in thetas:
-                                pts.append([(r + 0.1) * _np.sin(theta), -re + (r + 0.1) * _np.cos(theta), 0.0])
-                            for theta in thetas[::-1]:
-                                pts.append([(r + 0.2) * _np.sin(theta), -re + (r + 0.2) * _np.cos(theta), 0.0])
-                            add_svg_path(_np.array(pts))
+                        thetas = _np.linspace(
+                            e.reference_angles[i].m_as('radian') - e.OMEGA_E[i].m_as('radian'),
+                            e.reference_angles[i].m_as('radian') - e.OMEGA_S[i].m_as('radian'),
+                            points_in_polar_paths)
+
+                        if with_magnet_poles:
                             pts = []
                             for theta in thetas:
-                                pts.append([(r - 0.1) * _np.sin(theta), -re + (r - 0.1) * _np.cos(theta), 0.0])
+                                pts.append(
+                                    [(r + width / 2) * _np.sin(theta), -r + (r + width / 2) * _np.cos(theta), 0.0])
                             for theta in thetas[::-1]:
-                                pts.append([(r - 0.2) * _np.sin(theta), -re + (r - 0.2) * _np.cos(theta), 0.0])
-                            add_svg_path(_np.array(pts))
-                        else:
+                                pts.append(
+                                    [(r - width / 2) * _np.sin(theta), -r + (r - width / 2) * _np.cos(theta), 0.0])
+                            add_svg_path(_np.array(pts), reference_frame=reference_frame)
+
+                        if with_apertures:
                             pts = []
-                            thetas = _np.linspace(
-                                e.ACN[i].m_as('radian') - e.OMEGA_E[i].m_as('radian'),
-                                e.ACN[i].m_as('radian') - e.OMEGA_S[i].m_as('radian'),
-                                points_in_polar_paths)
                             for theta in thetas:
-                                pts.append([(r + magnet_poles/4) * _np.sin(theta), -re + (r + magnet_poles/4) * _np.cos(theta), 0.0])
+                                pts.append(
+                                    [(r + aper_left) * _np.sin(theta), -r + (r + aper_left) * _np.cos(theta), 0.0])
                             for theta in thetas[::-1]:
-                                pts.append([(r - magnet_poles) * _np.sin(theta), -re + (r - magnet_poles) * _np.cos(theta), 0.0])
-                            add_svg_path(_np.array(pts), reference_frame='entry')
+                                pts.append([(r + aper_left + pipe_thickness) * _np.sin(theta),
+                                            -r + (r + aper_left + pipe_thickness) * _np.cos(theta), 0.0])
+                            add_svg_path(_np.array(pts), reference_frame=reference_frame, color=e.PIPE_COLOR)
+                            pts = []
+                            for theta in thetas:
+                                pts.append(
+                                    [(r - aper_right) * _np.sin(theta), -r + (r - aper_right) * _np.cos(theta), 0.0])
+                            for theta in thetas[::-1]:
+                                pts.append([(r - aper_right - + pipe_thickness) * _np.sin(theta),
+                                            -r + (r - aper_right - + pipe_thickness) * _np.cos(theta), 0.0])
+                            add_svg_path(_np.array(pts), reference_frame=reference_frame, color=e.PIPE_COLOR)
+
                 elif isinstance(e, _PolarMagnet):
                     r = e.RM.m_as('m')
                     thetas = _np.linspace(0, e.AT.m_as('radian'), points_in_polar_paths)
-                    if apertures:
+                    if with_magnet_poles:
                         pts = []
                         for theta in thetas:
-                            pts.append([(r+0.1) * _np.sin(theta), -r + (r+0.1) * _np.cos(theta), 0.0])
+                            pts.append([(r + width / 2) * _np.sin(theta), -r + (r + width / 2) * _np.cos(theta), 0.0])
                         for theta in thetas[::-1]:
-                            pts.append([(r+0.2) * _np.sin(theta), -r + (r+0.2) * _np.cos(theta), 0.0])
-                        add_svg_path(_np.array(pts))
+                            pts.append([(r - width / 2) * _np.sin(theta), -r + (r - width / 2) * _np.cos(theta), 0.0])
+                        add_svg_path(_np.array(pts), reference_frame=reference_frame)
+
+                    if with_apertures:
                         pts = []
                         for theta in thetas:
-                            pts.append([(r - 0.1) * _np.sin(theta), -r + (r - 0.1) * _np.cos(theta), 0.0])
+                            pts.append([(r + aper_left) * _np.sin(theta), -r + (r + aper_left) * _np.cos(theta), 0.0])
                         for theta in thetas[::-1]:
-                            pts.append([(r - 0.2) * _np.sin(theta), -r + (r - 0.2) * _np.cos(theta), 0.0])
-                        add_svg_path(_np.array(pts))
-                    if magnet_poles > 0:
+                            pts.append([(r + aper_left + pipe_thickness) * _np.sin(theta), -r + (r + aper_left + pipe_thickness) * _np.cos(theta), 0.0])
+                        add_svg_path(_np.array(pts), reference_frame=reference_frame, color=e.PIPE_COLOR)
                         pts = []
                         for theta in thetas:
-                            pts.append([(r + magnet_poles) * _np.sin(theta), -r + (r + magnet_poles) * _np.cos(theta), 0.0])
+                            pts.append([(r - aper_right) * _np.sin(theta), -r + (r - aper_right) * _np.cos(theta), 0.0])
                         for theta in thetas[::-1]:
-                            pts.append([(r - magnet_poles) * _np.sin(theta), -r + (r - magnet_poles) * _np.cos(theta), 0.0])
-                        add_svg_path(_np.array(pts))
+                            pts.append([(r - aper_right - + pipe_thickness) * _np.sin(theta),
+                                        -r + (r - aper_right - + pipe_thickness) * _np.cos(theta), 0.0])
+                        add_svg_path(_np.array(pts), reference_frame=reference_frame, color=e.PIPE_COLOR)
+
                 else:
-                    if apertures:
+                    if with_magnet_poles:
                         add_svg_path(_np.array([
-                            [0.0, -e.APERTURE_LEFT.m_as('m') - 0.1, 0.0],
-                            [0.0, -e.APERTURE_LEFT.m_as('m'), 0.0],
-                            [e.length.m_as('m'), -e.APERTURE_LEFT.m_as('m'), 0.0],
-                            [e.length.m_as('m'), -e.APERTURE_LEFT.m_as('m') - 0.1, 0.0],
+                            [0.0, -e.WIDTH.m_as('m') / 2, 0.0],
+                            [0.0, e.WIDTH.m_as('m') / 2, 0.0],
+                            [e.length.m_as('m'), e.WIDTH.m_as('m') / 2, 0.0],
+                            [e.length.m_as('m'), -e.WIDTH.m_as('m') / 2, 0.0],
                         ]))
+
+                    if with_apertures:
                         add_svg_path(_np.array([
-                            [0.0, e.APERTURE_LEFT.m_as('m'), 0.0],
-                            [0.0, e.APERTURE_LEFT.m_as('m') + 0.1, 0.0],
-                            [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m') + 0.1, 0.0],
-                            [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m'), 0.0],
-                        ]))
-                    if magnet_poles > 0:
+                            [0.0, -aper_left, 0.0],
+                            [0.0, -aper_left-pipe_thickness, 0.0],
+                            [e.length.m_as('m'), -aper_left-pipe_thickness, 0.0],
+                            [e.length.m_as('m'), -aper_left, 0.0],
+                        ]), reference_frame=reference_frame, color=e.PIPE_COLOR)
                         add_svg_path(_np.array([
-                            [0.0, -e.APERTURE_LEFT.m_as('m'), 0.0],
-                            [0.0, e.APERTURE_LEFT.m_as('m'), 0.0],
-                            [e.length.m_as('m'), e.APERTURE_LEFT.m_as('m'), 0.0],
-                            [e.length.m_as('m'), -e.APERTURE_LEFT.m_as('m'), 0.0],
-                        ]))
+                            [0.0, aper_right, 0.0],
+                            [0.0, aper_right + pipe_thickness, 0.0],
+                            [e.length.m_as('m'), aper_right + pipe_thickness, 0.0],
+                            [e.length.m_as('m'), aper_right, 0.0],
+                        ]), reference_frame=reference_frame, color=e.PIPE_COLOR)
 
     @classmethod
     def plot_twiss(cls,
