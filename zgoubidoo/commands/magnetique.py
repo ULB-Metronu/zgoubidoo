@@ -276,22 +276,22 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
         return [self.ACENT or 0 * _ureg.degree]
 
     @property
-    def entrance_efb(self) -> _Q:
+    def entrance_efb(self) -> List[_Q]:
         """
 
         Returns:
 
         """
-        return self.OMEGA_E or 0 * _ureg.degree
+        return [self.OMEGA_E or 0 * _ureg.degree]
 
     @property
-    def exit_efb(self) -> _Q:
+    def exit_efb(self) -> List[_Q]:
         """
 
         Returns:
 
         """
-        return self.OMEGA_S or 0 * _ureg.degree
+        return [self.OMEGA_S or 0 * _ureg.degree]
 
     @property
     def radius(self) -> _Q:
@@ -411,6 +411,10 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
     def exit_field_boundary_wedge_angle(self) -> List[_Q]:
         return [self.THETA_S]
 
+    @property
+    def n_magnets(self) -> int:
+        return 1
+
 
 class PolarMultiMagnetType(PolarMagnetType):
     """Type for polar multi magnets."""
@@ -428,9 +432,50 @@ class PolarMultiMagnetType(PolarMagnetType):
 
 class PolarMultiMagnet(PolarMagnet, metaclass=PolarMultiMagnetType):
 
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        for i in range(self.N):
+            if _degree(self.OMEGA_E[i]) == 0:
+                self.OMEGA_E[i] = self.AT / (2 * self.N) + i * self.AT / self.N
+            if _degree(self.OMEGA_S[i]) == 0:
+                self.OMEGA_S[i] -= (self.AT - self.AT / (2 * self.N) - i * self.AT / self.N)
+            if _cm(self.RE) == 0:
+                self.RE = self.RM
+            if _cm(self.RS) == 0:
+                self.RS = self.RM
+
     @property
     def reference_angles(self) -> List[_Q]:
         return self.ACN
+
+    @property
+    def n_magnets(self) -> int:
+        return self.N
+
+    @property
+    def entrance_efb(self) -> List[_Q]:
+        """
+
+        Returns:
+
+        """
+        return self.OMEGA_E
+
+    @property
+    def exit_efb(self) -> List[_Q]:
+        """
+
+        Returns:
+
+        """
+        return self.OMEGA_S
 
 
 class AGSMainMagnet(CartesianMagnet):
@@ -1958,16 +2003,8 @@ class FFAG(PolarMultiMagnet):
 
         """
         for i in range(self.N):
-            if _degree(self.OMEGA_E[i]) == 0:
-                self.OMEGA_E[i] = self.AT / (2 * self.N) + i * self.AT / self.N
-            if _degree(self.OMEGA_S[i]) == 0:
-                self.OMEGA_S[i] -= (self.AT - self.AT / (2 * self.N) - i * self.AT / self.N)
             if _degree(self.ACN[i]) == 0:
                 self.ACN[i] = self.AT / (2 * self.N) + i * self.AT / self.N
-            if _cm(self.RE) == 0:
-                self.RE = self.RM
-            if _cm(self.RS) == 0:
-                self.RS = self.RM
 
     def __str__(s):
         command = []
@@ -2020,6 +2057,14 @@ class FFAG(PolarMultiMagnet):
             command.append(c)
 
         return ''.join(map(lambda _: _.rstrip(), command))
+
+    @property
+    def entrance_field_boundary_wedge_angle(self) -> List[_Q]:
+        return self.THETA_E
+
+    @property
+    def exit_field_boundary_wedge_angle(self) -> List[_Q]:
+        return self.THETA_S
 
 
 class FFAGSpirale(PolarMultiMagnet):
@@ -2174,11 +2219,11 @@ class FFAGSpirale(PolarMultiMagnet):
         return [acn + self.AT / 2 for acn in self.ACN]
 
     @property
-    def entry_wedge_angle(self) -> List[_Q]:
+    def entrance_field_boundary_wedge_angle(self) -> List[_Q]:
         return self.XI_E
 
     @property
-    def exit_wedge_angle(self) -> List[_Q]:
+    def exit_field_boundary_wedge_angle(self) -> List[_Q]:
         return self.XI_S
 
     def __str__(s):
