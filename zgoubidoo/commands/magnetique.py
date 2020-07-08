@@ -415,6 +415,22 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
     def n_magnets(self) -> int:
         return 1
 
+    @property
+    def entrance_field_boundary_linear_extent_down(self) -> List[_Q]:
+        return [self.U1_E]
+
+    @property
+    def entrance_field_boundary_linear_extent_up(self) -> List[_Q]:
+        return [self.U2_E]
+
+    @property
+    def entrance_field_boundary_linear_radius_up(self) -> List[_Q]:
+        return [self.R2_E]
+
+    @property
+    def entrance_field_boundary_linear_radius_down(self) -> List[_Q]:
+        return [self.R1_E]
+
 
 class PolarMultiMagnetType(PolarMagnetType):
     """Type for polar multi magnets."""
