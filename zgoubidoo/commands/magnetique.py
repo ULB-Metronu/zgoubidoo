@@ -417,7 +417,7 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
 
     @property
     def entrance_field_boundary_linear_extent_down(self) -> List[_Q]:
-        return [self.U1_E]
+        return [-self.U1_E]
 
     @property
     def entrance_field_boundary_linear_extent_up(self) -> List[_Q]:
@@ -430,6 +430,22 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
     @property
     def entrance_field_boundary_linear_radius_down(self) -> List[_Q]:
         return [self.R1_E]
+
+    @property
+    def exit_field_boundary_linear_extent_down(self) -> List[_Q]:
+        return [-self.U1_S]
+
+    @property
+    def exit_field_boundary_linear_extent_up(self) -> List[_Q]:
+        return [self.U2_S]
+
+    @property
+    def exit_field_boundary_linear_radius_up(self) -> List[_Q]:
+        return [self.R2_S]
+
+    @property
+    def exit_field_boundary_linear_radius_down(self) -> List[_Q]:
+        return [self.R1_S]
 
 
 class PolarMultiMagnetType(PolarMagnetType):

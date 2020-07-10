@@ -152,116 +152,138 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             reference_frame:
         """
 
-        def add_svg_path(points, reference_frame: str = 'entry_patched', color: Optional[str] = None, opacity: Optional[float] = 0.5):
+        def add_svg_path(points, reference_frame: str = 'entry_patched',
+                         color: Optional[str] = None,
+                         opacity: Optional[float] = 0.5, type=''):
             points = points.dot(_np.linalg.inv(getattr(e, reference_frame).get_rotation_matrix())) + _np.array([
                 getattr(e, reference_frame).x_, getattr(e, reference_frame).y_, 0.0
             ])
-            path = f"M{points[0, 0]},{points[0, 1]} "
-            for p in points[1:]:
-                path += f"L{p[0]},{p[1]} "
-            path += "Z"
-            if color is None:
-                try:
-                    if e.B2.magnitude > 0:
-                        color = 'blue'
-                    else:
-                        color = 'red'
-                except AttributeError:
-                    color = e.COLOR
-            self.shapes.append(
-                {
-                    'type': 'path',
-                    'xref': 'x',
-                    'yref': 'y',
-                    'path': path,
-                    'line': {
-                        'width': 1,
+            if type == 'points':
+                self.scatter(x=[points[0, 0]],
+                             y=[points[0, 1]],
+                             marker={'size': 5, 'color': color},
+                             showlegend=False)
+            else:
+                path = f"M{points[0, 0]},{points[0, 1]} "
+                for p in points[1:]:
+                    path += f"L{p[0]},{p[1]} "
+                path += "Z"
+                if color is None:
+                    try:
+                        if e.B2.magnitude > 0:
+                            color = 'blue'
+                        else:
+                            color = 'red'
+                    except AttributeError:
+                        color = e.COLOR
+                self.shapes.append(
+                    {
+                        'type': 'path',
+                        'xref': 'x',
+                        'yref': 'y',
+                        'path': path,
+                        'line': {
+                            'width': 1,
+                        },
+                        'fillcolor': color,
+                        'opacity': opacity,
                     },
-                    'fillcolor': color,
-                    'opacity': opacity,
-                },
-            )
+                )
 
         def compute_face_angles(width):
 
-            roots = _np.roots([1, -2 * r * _np.cos(_np.pi - entrance_face_angle), r ** 2 - (r + width) ** 2])
+            roots = _np.roots([1, -2 * r * _np.cos(_np.pi + entrance_face_angle), r ** 2 - (r + width) ** 2])
             length = roots[roots > 0][0]
-            entrance_up = _np.arcsin((length / (r + width)) * _np.sin(entrance_face_angle))
+            entrance_up = _np.arcsin((length / (r + width)) * _np.sin(-entrance_face_angle))
 
-            roots = _np.roots([1, -2 * r * _np.cos(entrance_face_angle), r ** 2 - (r - width) ** 2])
+            roots = _np.roots([1, -2 * r * _np.cos(-entrance_face_angle), r ** 2 - (r - width) ** 2])
             length = _np.min(roots[roots > 0])
-            entrance_down = _np.sign(entrance_face_angle) * \
+            entrance_down = _np.sign(-entrance_face_angle) * \
                             _np.min(
                                 (_np.arccos(((r - width) ** 2 + r ** 2 - length ** 2) / (2 * ((r - width) * r))), 1))
 
-            roots = _np.roots([1, -2 * r * _np.cos(_np.pi - exit_face_angle), r ** 2 - (r + width) ** 2])
+            roots = _np.roots([1, -2 * r * _np.cos(_np.pi + exit_face_angle), r ** 2 - (r + width) ** 2])
             length = roots[roots > 0][0]
-            exit_up = _np.arcsin((length / (r + width)) * _np.sin(-exit_face_angle))
+            exit_up = _np.arcsin((length / (r + width)) * _np.sin(exit_face_angle))
 
-            roots = _np.roots([1, -2 * r * _np.cos(-exit_face_angle), r ** 2 - (r - width) ** 2])
+            roots = _np.roots([1, -2 * r * _np.cos(exit_face_angle), r ** 2 - (r - width) ** 2])
             length = _np.min(roots[roots > 0])
-            exit_down = _np.sign(-exit_face_angle) * \
+            exit_down = _np.sign(exit_face_angle) * \
                         _np.min((_np.arccos(((r - width) ** 2 + r ** 2 - length ** 2) / (2 * ((r - width) * r))), 1))
 
             return [entrance_up, entrance_down, exit_up, exit_down]
 
         def plot_left_up():
-            # Compute the first point up to U2
             entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=entrance_efb_extent_up)
             theta_init = reference_angle - omega_e - entrance_up
             xa = (r + entrance_efb_extent_up) * _np.sin(theta_init)
             ya = -r + (r + entrance_efb_extent_up) * _np.cos(theta_init)
 
-            self.scatter(x=[xa],
-                         y=[ya],
-                         marker={'size': 5, 'color': 'yellow'},
-                         mode='markers',
-                         showlegend=False)
             # Draw the arc circle
-            xr = xa + entrance_efb_radius_up * _np.cos(entrance_face_angle)
-            yr = ya + entrance_efb_radius_up * _np.sin(entrance_face_angle)
-            self.scatter(x=[xr],
-                         y=[yr],
-                         marker={'size': 5, 'color': 'magenta'},
-                         mode='markers',
-                         showlegend=False)
+            beta = reference_angle - omega_e - entrance_face_angle
+            xr = xa + entrance_efb_radius_up * _np.cos(beta)
+            yr = ya - entrance_efb_radius_up * _np.sin(beta)
+            delta_mu = entrance_efb_extent_up / entrance_efb_radius_up
 
             if entrance_efb_radius_up > 0:
-                mu = _np.pi / 2 + entrance_face_angle
-                mus = _np.linspace(_np.pi / 2 + mu, _np.pi / 2, 20)
+                mu0 = _np.pi - (reference_angle - omega_e) + entrance_face_angle
             else:
-                mu = entrance_face_angle
-                mus = _np.linspace(mu, _np.pi/2, 20)
+                mu0 = -(reference_angle - omega_e) + entrance_face_angle
 
-            x = xr + _np.abs(entrance_efb_radius_up) * _np.cos(mus)
-            y = yr + _np.abs(entrance_efb_radius_up) * _np.sin(mus)
+            mus = _np.linspace(mu0, mu0 - delta_mu, 20)
+            for mu in mus:
+                x = xr + _np.abs(entrance_efb_radius_up) * _np.cos(mu)
+                y = yr + _np.abs(entrance_efb_radius_up) * _np.sin(mu)
 
-            self.scatter(x=x,
-                         y=y,
-                         marker={'size': 5, 'color': 'black'},
-                         mode='markers',
-                         showlegend=False)
+                u = [[x, y, 0]]
+                add_svg_path(_np.array(u), reference_frame=reference_frame,
+                             color='black', type='points')
 
-            # Continue the arc circle
-            xb = (xr + _np.abs(entrance_efb_radius_up) * _np.cos(mus[-1]))
-            yb = (yr + _np.abs(entrance_efb_radius_up) * _np.sin(mus[-1]))
-            beta = _np.arctan(xb / (yb + r))
-            thetas_up = _np.linspace(
-                beta,
-                reference_angle - omega_s + exit_up,
-                points_in_polar_paths)
+            # # Continue the arc circle
+            # xb = (xr + _np.abs(entrance_efb_radius_up) * _np.cos(mus[-1]))
+            # yb = (yr + _np.abs(entrance_efb_radius_up) * _np.sin(mus[-1]))
+            # beta = _np.arctan(xb / (yb + r))
+            # thetas_up = _np.linspace(
+            #     beta,
+            #     reference_angle - omega_s + exit_up,
+            #     points_in_polar_paths)
+            #
+            # dr = _np.sqrt(xb ** 2 + (yb + r) ** 2) - r
+            # for theta in thetas_up:
+            #     x = (r + dr) * _np.sin(theta)
+            #     y = -r + (r + dr) * _np.cos(theta)
+            #     u = [[x, y, 0]]
+            #     add_svg_path(_np.array(u), reference_frame=reference_frame,
+            #                  color='black', type='points')
 
-            dr = _np.sqrt(xb ** 2 + (yb + r) ** 2) - r
-            for theta in thetas_up:
-                x = (r + dr) * _np.sin(theta)
-                y = -r + (r + dr) * _np.cos(theta)
-                self.scatter(
-                    x=[x],
-                    y=[y],
-                    marker={'size': 5, 'color': 'green'},
-                    mode='markers',
-                    showlegend=False,
-                )
+        def plot_right_up():
+
+            # Compute the first point up to U2
+            entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=exit_efb_extent_up)
+            theta_init = reference_angle - omega_s + exit_up
+            xa = (r + exit_efb_extent_up) * _np.sin(theta_init)
+            ya = -r + (r + exit_efb_extent_up) * _np.cos(theta_init)
+
+            # Draw the arc circle
+            beta = reference_angle - omega_s - exit_face_angle
+            xr = xa + exit_efb_radius_up * _np.cos(beta)
+            yr = ya - exit_efb_radius_up * _np.sin(beta)
+            delta_mu = exit_efb_extent_up / exit_efb_radius_up
+
+            if exit_efb_radius_up > 0:
+                mu0 = _np.pi - (reference_angle - omega_s) + exit_face_angle
+            else:
+                mu0 = -(reference_angle - omega_s) + exit_face_angle
+
+            mu1 = mu0 - delta_mu
+            mus = _np.linspace(mu0, mu1, 20)
+            for mu in mus:
+                x = xr + _np.abs(exit_efb_radius_up) * _np.cos(mu)
+                y = yr + _np.abs(exit_efb_radius_up) * _np.sin(mu)
+
+                u = [[x, y, 0]]
+                add_svg_path(_np.array(u), reference_frame=reference_frame,
+                             color='black', type='points')
 
         def plot_left_down():
             # Compute the first point up to U1
@@ -269,73 +291,63 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             theta_init = reference_angle - omega_e + entrance_down
             xa = (r - entrance_efb_extent_down) * _np.sin(theta_init)
             ya = -r + (r - entrance_efb_extent_down) * _np.cos(theta_init)
-            self.scatter(x=[xa],
-                         y=[ya],
-                         marker={'size': 5, 'color': 'yellow'},
-                         mode='markers',
-                         showlegend=False)
 
             # Draw the arc circle
-            xr = xa - entrance_efb_radius_down * _np.cos(entrance_face_angle)
-            yr = ya - entrance_efb_radius_down * _np.sin(entrance_face_angle)
-            self.scatter(x=[xr],
-                         y=[yr],
-                         marker={'size': 5, 'color': 'magenta'},
-                         mode='markers',
-                         showlegend=False)
+            beta = (reference_angle - omega_e) + entrance_face_angle
+            xr = xa + entrance_efb_radius_down * _np.cos(beta)
+            yr = ya - entrance_efb_radius_down * _np.sin(beta)
+            delta_mu = entrance_efb_extent_down / entrance_efb_radius_down
 
             if entrance_efb_radius_down < 0:
-                mu = _np.pi / 2 - entrance_face_angle
-                mus = _np.linspace(-_np.pi / 2 - mu, -_np.pi / 2, 20)
+                mu0 = -((reference_angle - omega_e) + entrance_face_angle)
             else:
-                mu = -entrance_face_angle
-                mus = _np.linspace(-mu, -_np.pi / 2, 20)
+                mu0 = -_np.pi - ((reference_angle - omega_e) + entrance_face_angle)
 
-            x = xr + _np.abs(entrance_efb_radius_down) * _np.cos(mus)
-            y = yr + _np.abs(entrance_efb_radius_down) * _np.sin(mus)
+            mu1 = mu0 + delta_mu
+            mus = _np.linspace(mu0, mu1, 20)
+            for mu in mus:
+                x = xr + _np.abs(entrance_efb_radius_down) * _np.cos(mu)
+                y = yr + _np.abs(entrance_efb_radius_down) * _np.sin(mu)
 
-            self.scatter(x=x,
-                         y=y,
-                         marker={'size': 5, 'color': 'black'},
-                         mode='markers',
-                         showlegend=False)
-
-            # Continue the arc circle
-            xb = (xr + _np.abs(entrance_efb_radius_down) * _np.cos(mus[-1]))
-            yb = (yr + _np.abs(entrance_efb_radius_down) * _np.sin(mus[-1]))
-            beta = _np.arctan(xb / (yb + r))
-            thetas_up = _np.linspace(
-                beta,
-                reference_angle - omega_s + exit_down,
-                points_in_polar_paths)
-
-            dr = _np.sqrt(xb ** 2 + (yb + r) ** 2) - r
-            for theta in thetas_up:
-                x = (r + dr) * _np.sin(theta)
-                y = -r + (r + dr) * _np.cos(theta)
-                self.scatter(
-                    x=[x],
-                    y=[y],
-                    marker={'size': 5, 'color': 'green'},
-                    mode='markers',
-                    showlegend=False,
-                )
+                u = [[x, y, 0]]
+                add_svg_path(_np.array(u), reference_frame=reference_frame,
+                             color='green', type='points')
 
         def plot_right_down():
-            pass
+            # Compute the first point up to U1
+            entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=exit_efb_extent_down)
+            theta_init = reference_angle - omega_s - exit_down
+            xa = (r - exit_efb_extent_down) * _np.sin(theta_init)
+            ya = -r + (r - exit_efb_extent_down) * _np.cos(theta_init)
 
-        def plot_right_down():
-            pass
+            # Draw the arc circle
+            beta = (reference_angle - omega_s) + exit_face_angle
+            xr = xa + exit_efb_radius_down * _np.cos(beta)
+            yr = ya - exit_efb_radius_down * _np.sin(beta)
 
+            delta_mu = exit_efb_extent_down / exit_efb_radius_down
+            if exit_efb_radius_down < 0:
+                mu0 = -((reference_angle - omega_s) + exit_face_angle)
+            else:
+                mu0 = _np.pi -((reference_angle - omega_s) + exit_face_angle)
 
+            mu1 = mu0 + delta_mu
+            mus = _np.linspace(mu0, mu1, 20)
+            for mu in mus:
+                x = xr + _np.abs(exit_efb_radius_down) * _np.cos(mu)
+                y = yr + _np.abs(exit_efb_radius_down) * _np.sin(mu)
+
+                u = [[x, y, 0]]
+                add_svg_path(_np.array(u), reference_frame=reference_frame,
+                             color='green', type='points')
 
         def plot_polar_magnet():
             if with_magnet_poles:
 
                 plot_left_up()
+                plot_right_up()
                 plot_left_down()
-
-
+                plot_right_down()
 
                 entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=width / 2)
                 thetas_up = _np.linspace(
@@ -411,15 +423,35 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             thetas = _np.linspace(0, total_angle, points_in_polar_paths)
             pts = []
             for theta in thetas:
-                pts.append([(r + width / 2) * _np.sin(theta), -r + (r + width / 2) * _np.cos(theta), 0.0])
-            pts.append([0, -r, 0.0])
+                pts.append([(r + 1.2 * width / 2) * _np.sin(theta), -r + (r + 1.2 * width / 2) * _np.cos(theta), 0.0])
+
+            for theta in thetas[::-1]:
+                pts.append([(r - 1.2 * width / 2) * _np.sin(theta), -r + (r - 1.2 * width / 2) * _np.cos(theta), 0.0])
+
             add_svg_path(_np.array(pts), reference_frame=reference_frame, opacity=0.2)
-            pts = []
-            x1 = (r + width / 2) * _np.sin(e.AT.m_as('radian') * 0.5)
-            y1 = -r + (r + width / 2) * _np.cos(e.AT.m_as('radian') * 0.5)
-            pts.append([0, -r, 0.0])
-            pts.append([x1, y1, 0.0])
-            add_svg_path(_np.array(pts), reference_frame=reference_frame, opacity=1.0)
+            self.scatter(x=[0, (r + 1.2 * width / 2) * _np.sin(reference_angle)],
+                         y=[-r, -r + (r + 1.2 * width / 2) * _np.cos(reference_angle)],
+                         line={'color': 'black',
+                               'width': 1,
+                               'dash': 'dash'},
+                         mode='lines',
+                         showlegend=False)
+
+            self.scatter(x=[0, (r + 1.2 * width / 2) * _np.sin(reference_angle - omega_e)],
+                         y=[-r, -r + (r + 1.2 * width / 2) * _np.cos(reference_angle - omega_e)],
+                         line={'color': 'black',
+                               'width': 1,
+                               'dash': 'dash'},
+                         mode='lines',
+                         showlegend=False)
+
+            self.scatter(x=[0, (r + 1.2 * width / 2) * _np.sin(reference_angle - omega_s)],
+                         y=[-r, -r + (r + 1.2 * width / 2) * _np.cos(reference_angle - omega_s)],
+                         line={'color': 'black',
+                               'width': 1,
+                               'dash': 'dash'},
+                         mode='lines',
+                         showlegend=False)
 
         def plot_frames():
             color = ['red', 'green', 'blue', 'magenta', 'darkorange']
@@ -453,7 +485,6 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
                 if isinstance(e, _PolarMagnet):
                     r = e.RM.m_as('m')
-                    print(e.entrance_field_boundary_linear_extent_up, e.entrance_field_boundary_linear_radius_up)
                     for i in range(0, e.n_magnets):
                         # width = e.entrance_field_boundary_linear_extent_up[i].m_as('m')
                         reference_angle = e.reference_angles[i].m_as('radian')
@@ -466,6 +497,10 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                         entrance_efb_radius_up = e.entrance_field_boundary_linear_radius_up[i].m_as('m')
                         entrance_efb_extent_down = e.entrance_field_boundary_linear_extent_down[i].m_as('m')
                         entrance_efb_radius_down = e.entrance_field_boundary_linear_radius_down[i].m_as('m')
+                        exit_efb_extent_up = e.exit_field_boundary_linear_extent_up[i].m_as('m')
+                        exit_efb_radius_up = e.exit_field_boundary_linear_radius_up[i].m_as('m')
+                        exit_efb_extent_down = e.exit_field_boundary_linear_extent_down[i].m_as('m')
+                        exit_efb_radius_down = e.exit_field_boundary_linear_radius_down[i].m_as('m')
 
                         plot_polar_magnet()
                         if with_frames:
