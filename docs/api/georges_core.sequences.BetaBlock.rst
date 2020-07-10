@@ -10,32 +10,52 @@ BetaBlock
 
    .. autosummary::
 
-      ~BetaBlock.alpha11
-      ~BetaBlock.alpha22
-      ~BetaBlock.beta11
-      ~BetaBlock.beta22
-      ~BetaBlock.disp1
-      ~BetaBlock.disp2
-      ~BetaBlock.disp3
-      ~BetaBlock.disp4
-      ~BetaBlock.emit1
-      ~BetaBlock.emit2
-      ~BetaBlock.emit3
-      ~BetaBlock.gamma11
-      ~BetaBlock.gamma22
+      ~BetaBlock.ALPHA11
+      ~BetaBlock.ALPHA22
+      ~BetaBlock.BETA11
+      ~BetaBlock.BETA22
+      ~BetaBlock.CMU1
+      ~BetaBlock.CMU2
+      ~BetaBlock.DISP1
+      ~BetaBlock.DISP2
+      ~BetaBlock.DISP3
+      ~BetaBlock.DISP4
+      ~BetaBlock.DX
+      ~BetaBlock.DXP
+      ~BetaBlock.DY
+      ~BetaBlock.DYP
+      ~BetaBlock.DZ
+      ~BetaBlock.DZP
+      ~BetaBlock.EMIT1
+      ~BetaBlock.EMIT2
+      ~BetaBlock.EMIT3
+      ~BetaBlock.GAMMA11
+      ~BetaBlock.GAMMA22
+      ~BetaBlock.MU1
+      ~BetaBlock.MU2
 
    .. rubric:: Attributes Documentation
 
-   .. autoattribute:: alpha11
-   .. autoattribute:: alpha22
-   .. autoattribute:: beta11
-   .. autoattribute:: beta22
-   .. autoattribute:: disp1
-   .. autoattribute:: disp2
-   .. autoattribute:: disp3
-   .. autoattribute:: disp4
-   .. autoattribute:: emit1
-   .. autoattribute:: emit2
-   .. autoattribute:: emit3
-   .. autoattribute:: gamma11
-   .. autoattribute:: gamma22
+   .. autoattribute:: ALPHA11
+   .. autoattribute:: ALPHA22
+   .. autoattribute:: BETA11
+   .. autoattribute:: BETA22
+   .. autoattribute:: CMU1
+   .. autoattribute:: CMU2
+   .. autoattribute:: DISP1
+   .. autoattribute:: DISP2
+   .. autoattribute:: DISP3
+   .. autoattribute:: DISP4
+   .. autoattribute:: DX
+   .. autoattribute:: DXP
+   .. autoattribute:: DY
+   .. autoattribute:: DYP
+   .. autoattribute:: DZ
+   .. autoattribute:: DZP
+   .. autoattribute:: EMIT1
+   .. autoattribute:: EMIT2
+   .. autoattribute:: EMIT3
+   .. autoattribute:: GAMMA11
+   .. autoattribute:: GAMMA22
+   .. autoattribute:: MU1
+   .. autoattribute:: MU2

@@ -1,17 +1,17 @@
-Ion
-===
+NegativePion
+============
 
 .. currentmodule:: zgoubidoo.commands.particules
 
-.. autoclass:: Ion
+.. autoclass:: NegativePion
    :show-inheritance:
 
    .. rubric:: Attributes Summary
 
    .. autosummary::
 
-      ~Ion.KEYWORD
-      ~Ion.PARAMETERS
+      ~NegativePion.KEYWORD
+      ~NegativePion.PARAMETERS
 
    .. rubric:: Attributes Documentation
 

@@ -18,6 +18,7 @@ Drift
 
    .. autosummary::
 
+      ~Drift.adjust_tracks_variables
       ~Drift.parse
 
    .. rubric:: Attributes Documentation
@@ -28,4 +29,5 @@ Drift
 
    .. rubric:: Methods Documentation
 
+   .. automethod:: adjust_tracks_variables
    .. automethod:: parse

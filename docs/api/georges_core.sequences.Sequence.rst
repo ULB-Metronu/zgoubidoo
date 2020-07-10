@@ -22,6 +22,7 @@ Sequence
    .. autosummary::
 
       ~Sequence.apply
+      ~Sequence.from_bdsim
       ~Sequence.from_madx_twiss
       ~Sequence.from_survey
       ~Sequence.from_transport
@@ -39,6 +40,7 @@ Sequence
    .. rubric:: Methods Documentation
 
    .. automethod:: apply
+   .. automethod:: from_bdsim
    .. automethod:: from_madx_twiss
    .. automethod:: from_survey
    .. automethod:: from_transport

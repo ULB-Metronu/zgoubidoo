@@ -11,7 +11,9 @@ PolarMultiMagnet
    .. autosummary::
 
       ~PolarMultiMagnet.PARAMETERS
+      ~PolarMultiMagnet.reference_angles
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: PARAMETERS
+   .. autoattribute:: reference_angles

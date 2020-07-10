@@ -1,17 +1,17 @@
-Ion
-===
+Helion
+======
 
 .. currentmodule:: zgoubidoo.commands.particules
 
-.. autoclass:: Ion
+.. autoclass:: Helion
    :show-inheritance:
 
    .. rubric:: Attributes Summary
 
    .. autosummary::
 
-      ~Ion.KEYWORD
-      ~Ion.PARAMETERS
+      ~Helion.KEYWORD
+      ~Helion.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
