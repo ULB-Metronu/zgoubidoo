@@ -4,7 +4,7 @@ More details here.
 TODO
 """
 
-from typing import Optional, List
+from typing import Optional
 import numpy as _np
 import pandas as _pd
 import parse as _parse
@@ -43,6 +43,7 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
     """
     PARAMETERS = {
         'HEIGHT': (20 * _ureg.cm, 'Height of the magnet (distance between poles), used by plotting functions.'),
+        'POLE_WIDTH': (30 * _ureg.cm, 'Pole width (used for plotting only).'),
         'PIPE_THICKNESS': (2 * _ureg.cm, 'Thickness of the pipe, used by plotting functions.'),
         'PIPE_COLOR': ('grey', 'Color of the pipe, used by plotting functions.'),
         'POLE_WIDTH': (50 * _ureg.cm, 'Pole width (used for plotting only).'),
@@ -80,7 +81,7 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
     def field_profile_model(self):
         """A model for the field profile."""
         return self._field_profile_model
-
+    
     def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
         """
         
