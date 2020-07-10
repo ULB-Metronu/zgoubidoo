@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -165,19 +165,20 @@
 
 <span class="sd">More details here. TODO</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">_Command</span>
-<span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">CommandType</span> <span class="k">as</span> <span class="n">_MetaCommand</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
+<span class="kn">import</span> <span class="nn">scipy.constants</span>
+<span class="kn">from</span> <span class="nn">.commands</span> <span class="kn">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">_Command</span>
+<span class="kn">from</span> <span class="nn">.commands</span> <span class="kn">import</span> <span class="n">CommandType</span> <span class="k">as</span> <span class="n">_MetaCommand</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
 
 
 <div class="viewcode-block" id="ParticuleType"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.ParticuleType.html#zgoubidoo.commands.particules.ParticuleType">[docs]</a><span class="k">class</span> <span class="nc">ParticuleType</span><span class="p">(</span><span class="n">_MetaCommand</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    TODO</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        &#39;</span><span class="si">{cls.KEYWORD}</span><span class="s2">&#39; {cls.__name__.upper()}</span>
-<span class="s2">        {cls.M.to(&#39;MeV_c2&#39;).magnitude:.12e} {cls.Q.to(&#39;coulomb&#39;).magnitude:.12e} </span><span class="si">{cls.G:.12e}</span><span class="s2"> </span><span class="si">{cls.tau:.12e}</span><span class="s2"> 0.0</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        &#39;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">KEYWORD</span><span class="si">}</span><span class="s2">&#39; </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV_c2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">Q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;coulomb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">G</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">tau</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> 0.0</span>
 <span class="s2">        &quot;&quot;&quot;</span></div>
 
 
@@ -193,15 +194,15 @@
         <span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Lifetime of the particle.&#39;</span><span class="p">),</span>
     <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">label2</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">label2</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">label1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">label1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">label1</span><span class="p">,</span> <span class="n">label2</span><span class="p">,</span> <span class="n">Particule</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().strip()}</span>
-<span class="s2">        {self.M.m_as(&#39;MeV_c2&#39;):.12e} {self.Q.m_as(&#39;coulomb&#39;):.12e} </span><span class="si">{self.G:.12e}</span><span class="s2"> </span><span class="si">{self.tau:.12e}</span><span class="s2"> 0.0</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="s1">&#39;MeV_c2&#39;</span><span class="p">)</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="s1">&#39;coulomb&#39;</span><span class="p">)</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">G</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> 0.0</span>
 <span class="s2">        &quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
@@ -229,11 +230,11 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    TODO</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">NATIVE</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        &#39;</span><span class="si">{cls.KEYWORD}</span><span class="s2">&#39; {cls.__name__.upper()}</span>
-<span class="s2">        {cls.__name__.upper()}</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        &#39;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">KEYWORD</span><span class="si">}</span><span class="s2">&#39; </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">            &quot;&quot;&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span></div>
@@ -247,11 +248,11 @@
         <span class="s1">&#39;NATIVE&#39;</span><span class="p">:</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
     <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">NATIVE</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {_Command.__str__(self).strip()}</span>
-<span class="s2">        {self.__class__.__name__.upper()}</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="n">_Command</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">            &quot;&quot;&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span></div>
@@ -260,110 +261,122 @@
 <div class="viewcode-block" id="Electron"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.Electron.html#zgoubidoo.commands.particules.Electron">[docs]</a><span class="k">class</span> <span class="nc">Electron</span><span class="p">(</span><span class="n">NativeParticule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An electron particle.&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5109989461</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c2</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.6021766208e-19</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">((</span><span class="o">-</span><span class="mf">2.0023193043622</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;G factor&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">electron_mass</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">kg</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">((</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">[</span><span class="s1">&#39;electron g factor&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;G factor&#39;</span><span class="p">),</span>
     <span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="Positron"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.Positron.html#zgoubidoo.commands.particules.Positron">[docs]</a><span class="k">class</span> <span class="nc">Positron</span><span class="p">(</span><span class="n">NativeParticule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A positron particle.&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5109989461</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c2</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.6021766208e-19</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">((</span><span class="o">-</span><span class="mf">2.0023193043622</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;G factor&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">electron_mass</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">kg</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">((</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">[</span><span class="s1">&#39;electron g factor&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;G factor&#39;</span><span class="p">),</span>
     <span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="Muon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.Muon.html#zgoubidoo.commands.particules.Muon">[docs]</a><span class="k">class</span> <span class="nc">Muon</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A muon particle.&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">105.6583745</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c2</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.60217653e-1</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">((</span><span class="o">-</span><span class="mf">2.0023318418</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;G factor&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">2.197029e-6</span><span class="p">,</span> <span class="s1">&#39;Lifetime&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">[</span><span class="s1">&#39;muon mass&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">_ureg</span><span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">[</span><span class="s1">&#39;muon mass&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">((</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">[</span><span class="s1">&#39;muon g factor&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;G factor&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">2.197029e-6</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="s1">&#39;Lifetime&#39;</span><span class="p">),</span>
     <span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="AntiMuon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.AntiMuon.html#zgoubidoo.commands.particules.AntiMuon">[docs]</a><span class="k">class</span> <span class="nc">AntiMuon</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An anti-muon particle.&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">105.6583745</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c2</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.60217653e-19</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">((</span><span class="o">-</span><span class="mf">2.0023318418</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;G factor&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">2.197029e-6</span><span class="p">,</span> <span class="s1">&#39;Lifetime&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">[</span><span class="s1">&#39;muon mass&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">kg</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">((</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">[</span><span class="s1">&#39;muon g factor&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;G factor&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">2.197029e-6</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="s1">&#39;Lifetime&#39;</span><span class="p">),</span>
     <span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="ImmortalMuon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.ImmortalMuon.html#zgoubidoo.commands.particules.ImmortalMuon">[docs]</a><span class="k">class</span> <span class="nc">ImmortalMuon</span><span class="p">(</span><span class="n">Muon</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A muon particle (no decay).&quot;&quot;&quot;</span>
-    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">AntiMuon</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span>
-        <span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;Half-life of the particle.&#39;</span><span class="p">),</span>
-    <span class="p">})</span></div>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="s1">&#39;Half-life of the particle.&#39;</span><span class="p">),</span>
+    <span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="ImmortalAntiMuon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.ImmortalAntiMuon.html#zgoubidoo.commands.particules.ImmortalAntiMuon">[docs]</a><span class="k">class</span> <span class="nc">ImmortalAntiMuon</span><span class="p">(</span><span class="n">AntiMuon</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An anti-muon particle (no decay).&quot;&quot;&quot;</span>
-    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">Muon</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span>
-        <span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;Half-life of the particle.&#39;</span><span class="p">),</span>
-    <span class="p">})</span></div>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="s1">&#39;Half-life of the particle.&#39;</span><span class="p">),</span>
+    <span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="Pion"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.Pion.html#zgoubidoo.commands.particules.Pion">[docs]</a><span class="k">class</span> <span class="nc">Pion</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A pion particle.&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">139.57018</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c2</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.60217653e-19</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;G factor&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">2.6033e-8</span><span class="p">,</span> <span class="s1">&#39;Half-life of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">2.6033e-8</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="s1">&#39;Half-life of the particle.&#39;</span><span class="p">),</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="PositivePion"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.PositivePion.html#zgoubidoo.commands.particules.PositivePion">[docs]</a><span class="k">class</span> <span class="nc">PositivePion</span><span class="p">(</span><span class="n">Pion</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A pion particle.&quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="NegativePion"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.NegativePion.html#zgoubidoo.commands.particules.NegativePion">[docs]</a><span class="k">class</span> <span class="nc">NegativePion</span><span class="p">(</span><span class="n">Pion</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A pion particle.&quot;&quot;&quot;</span>
+    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
     <span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="Proton"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.Proton.html#zgoubidoo.commands.particules.Proton">[docs]</a><span class="k">class</span> <span class="nc">Proton</span><span class="p">(</span><span class="n">NativeParticule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A proton particle.&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">938.27203</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c2</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.602176487e-19</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">((</span><span class="mf">5.585694701</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;G factor&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">proton_mass</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">kg</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">((</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">[</span><span class="s1">&#39;proton g factor&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">),</span>
     <span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="AntiProton"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.AntiProton.html#zgoubidoo.commands.particules.AntiProton">[docs]</a><span class="k">class</span> <span class="nc">AntiProton</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An anti-proton particle.&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">938.27203</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c2</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.602176487e-19</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">((</span><span class="mf">5.585694701</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;G factor&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">proton_mass</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">kg</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">((</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">[</span><span class="s1">&#39;proton g factor&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;G factor&#39;</span><span class="p">),</span>
     <span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="HMinus"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.HMinus.html#zgoubidoo.commands.particules.HMinus">[docs]</a><span class="k">class</span> <span class="nc">HMinus</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An H- ion.&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">938.27203</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c2</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">+</span><span class="mf">1.602176487e-19</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">((</span><span class="mf">5.585694701</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;G factor&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">proton_mass</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">kg</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">((</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">[</span><span class="s1">&#39;proton g factor&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;G factor&#39;</span><span class="p">),</span>
     <span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="Ion"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.Ion.html#zgoubidoo.commands.particules.Ion">[docs]</a><span class="k">class</span> <span class="nc">Ion</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for ion particles.&quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Ion.charge_state"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.Ion.html#zgoubidoo.commands.particules.Ion.charge_state">[docs]</a>    <span class="k">def</span> <span class="nf">charge_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Modify the charge state of the ion.&quot;&quot;&quot;</span>
-        <span class="c1"># TODO</span>
-        <span class="k">pass</span></div></div>
+    <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="HeliumIon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.HeliumIon.html#zgoubidoo.commands.particules.HeliumIon">[docs]</a><span class="k">class</span> <span class="nc">HeliumIon</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
+<div class="viewcode-block" id="HeliumIon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.HeliumIon.html#zgoubidoo.commands.particules.HeliumIon">[docs]</a><span class="k">class</span> <span class="nc">HeliumIon</span><span class="p">(</span><span class="n">Ion</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A fully stripped Helium ion&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">[</span><span class="s1">&#39;helion mass&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">_ureg</span><span class="o">.</span><span class="n">kg</span><span class="p">,</span> <span class="s1">&#39;Mass of the particle&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">elementary_charge</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">coulomb</span><span class="p">,</span> <span class="s1">&#39;Charge of the particle&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">physical_constants</span><span class="p">[</span><span class="s1">&#39;helion g factor&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;G factor&#39;</span><span class="p">),</span>
     <span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="CarbonIon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.CarbonIon.html#zgoubidoo.commands.particules.CarbonIon">[docs]</a><span class="k">class</span> <span class="nc">CarbonIon</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
+<span class="n">Helion</span> <span class="o">=</span> <span class="n">HeliumIon</span>
+
+
+<div class="viewcode-block" id="CarbonIon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.CarbonIon.html#zgoubidoo.commands.particules.CarbonIon">[docs]</a><span class="k">class</span> <span class="nc">CarbonIon</span><span class="p">(</span><span class="n">Ion</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A fully stripped Carbon ion&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
@@ -372,7 +385,7 @@
     <span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="OxygenIon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.OxygenIon.html#zgoubidoo.commands.particules.OxygenIon">[docs]</a><span class="k">class</span> <span class="nc">OxygenIon</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
+<div class="viewcode-block" id="OxygenIon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.OxygenIon.html#zgoubidoo.commands.particules.OxygenIon">[docs]</a><span class="k">class</span> <span class="nc">OxygenIon</span><span class="p">(</span><span class="n">Ion</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A fully stripped Oxygen ion&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
@@ -381,7 +394,7 @@
     <span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="LeadIon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.LeadIon.html#zgoubidoo.commands.particules.LeadIon">[docs]</a><span class="k">class</span> <span class="nc">LeadIon</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
+<div class="viewcode-block" id="LeadIon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.LeadIon.html#zgoubidoo.commands.particules.LeadIon">[docs]</a><span class="k">class</span> <span class="nc">LeadIon</span><span class="p">(</span><span class="n">Ion</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A fully stripped Lead ion&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
@@ -390,7 +403,7 @@
     <span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="SulfurIon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.SulfurIon.html#zgoubidoo.commands.particules.SulfurIon">[docs]</a><span class="k">class</span> <span class="nc">SulfurIon</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
+<div class="viewcode-block" id="SulfurIon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.SulfurIon.html#zgoubidoo.commands.particules.SulfurIon">[docs]</a><span class="k">class</span> <span class="nc">SulfurIon</span><span class="p">(</span><span class="n">Ion</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A fully stripped Sulfur ion&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
@@ -399,7 +412,7 @@
     <span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="XenonIon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.XenonIon.html#zgoubidoo.commands.particules.XenonIon">[docs]</a><span class="k">class</span> <span class="nc">XenonIon</span><span class="p">(</span><span class="n">Particule</span><span class="p">):</span>
+<div class="viewcode-block" id="XenonIon"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.particules.XenonIon.html#zgoubidoo.commands.particules.XenonIon">[docs]</a><span class="k">class</span> <span class="nc">XenonIon</span><span class="p">(</span><span class="n">Ion</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A fully stripped Sulfur ion&quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>

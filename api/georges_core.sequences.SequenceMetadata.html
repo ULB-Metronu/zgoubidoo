@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -99,6 +99,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../physics.html">Physics with Zgoubidoo high-level interfaces</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../physics.html#module-georges_core.sequences">Sequences</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../physics.html#classes">Classes</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.BDSIMSequence.html">BDSIMSequence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.BetaBlock.html">BetaBlock</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.BetaBlockType.html">BetaBlockType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.Element.html">Element</a></li>
@@ -188,43 +189,43 @@
             
   <div class="section" id="sequencemetadata">
 <h1>SequenceMetadata<a class="headerlink" href="#sequencemetadata" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="georges_core.sequences.SequenceMetadata">
-<em class="property">class </em><code class="descclassname">georges_core.sequences.</code><code class="descname">SequenceMetadata</code><span class="sig-paren">(</span><em>data: _pd.Series = None</em>, <em>kinematics: _Kinematics = None</em>, <em>particle: _ParticuleType = &lt;class 'georges_core.particles.Proton'&gt;</em>, <em>n_particles: int = 1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#SequenceMetadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.SequenceMetadata" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">georges_core.sequences.</code><code class="sig-name descname">SequenceMetadata</code><span class="sig-paren">(</span><em class="sig-param">data: _pd.Series = None</em>, <em class="sig-param">kinematics: _Kinematics = None</em>, <em class="sig-param">particle: _ParticuleType = &lt;class 'georges_core.particles.Proton'&gt;</em>, <em class="sig-param">n_particles: int = 1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#SequenceMetadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.SequenceMetadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>TODO</p>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.SequenceMetadata.data" title="georges_core.sequences.SequenceMetadata.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></td>
-<td></td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.SequenceMetadata.data" title="georges_core.sequences.SequenceMetadata.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.SequenceMetadata.kinematics" title="georges_core.sequences.SequenceMetadata.kinematics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kinematics</span></code></a></td>
-<td></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.SequenceMetadata.kinematics" title="georges_core.sequences.SequenceMetadata.kinematics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kinematics</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.SequenceMetadata.n_particles" title="georges_core.sequences.SequenceMetadata.n_particles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">n_particles</span></code></a></td>
-<td></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.SequenceMetadata.n_particles" title="georges_core.sequences.SequenceMetadata.n_particles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">n_particles</span></code></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.sequences.SequenceMetadata.data">
-<code class="descname">data</code><em class="property"> = None</em><a class="headerlink" href="#georges_core.sequences.SequenceMetadata.data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">data</code><em class="property">: _pd.Series</em><em class="property"> = None</em><a class="headerlink" href="#georges_core.sequences.SequenceMetadata.data" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.sequences.SequenceMetadata.kinematics">
-<code class="descname">kinematics</code><em class="property"> = None</em><a class="headerlink" href="#georges_core.sequences.SequenceMetadata.kinematics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">kinematics</code><em class="property">: _Kinematics</em><em class="property"> = None</em><a class="headerlink" href="#georges_core.sequences.SequenceMetadata.kinematics" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.sequences.SequenceMetadata.n_particles">
-<code class="descname">n_particles</code><em class="property"> = 1</em><a class="headerlink" href="#georges_core.sequences.SequenceMetadata.n_particles" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">n_particles</code><em class="property">: int</em><em class="property"> = 1</em><a class="headerlink" href="#georges_core.sequences.SequenceMetadata.n_particles" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

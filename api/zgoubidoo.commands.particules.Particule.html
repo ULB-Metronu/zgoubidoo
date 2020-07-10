@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -101,6 +101,7 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.CarbonIon.html">CarbonIon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Electron.html">Electron</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.HMinus.html">HMinus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Helion.html">Helion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.HeliumIon.html">HeliumIon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.ImmortalAntiMuon.html">ImmortalAntiMuon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.ImmortalMuon.html">ImmortalMuon</a></li>
@@ -109,10 +110,12 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Muon.html">Muon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.NativeParticule.html">NativeParticule</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.NativeParticuleType.html">NativeParticuleType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.NegativePion.html">NegativePion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.OxygenIon.html">OxygenIon</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Particule</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.ParticuleType.html">ParticuleType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Pion.html">Pion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.PositivePion.html">PositivePion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Positron.html">Positron</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Proton.html">Proton</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.SulfurIon.html">SulfurIon</a></li>
@@ -207,156 +210,143 @@
             
   <div class="section" id="particule">
 <h1>Particule<a class="headerlink" href="#particule" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="zgoubidoo.commands.particules.Particule">
-<em class="property">class </em><code class="descclassname">zgoubidoo.commands.particules.</code><code class="descname">Particule</code><span class="sig-paren">(</span><em>label1=''</em>, <em>label2=''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/particules.html#Particule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.particules.Particule" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.commands.particules.</code><code class="sig-name descname">Particule</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label1</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">label2</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">params</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/particules.html#Particule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.particules.Particule" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" title="zgoubidoo.commands.commands.Command"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.commands.Command</span></code></a></p>
 <p>Particle characteristics.</p>
 <p class="rubric">Command attributes</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL1=''</code></dt>
+<code class="sig-name descname">LABEL1=''</code></dt>
 <dd><p>Primary label for the Zgoubi command (default: auto-generated hash).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL2=''</code></dt>
+<code class="sig-name descname">LABEL2=''</code></dt>
 <dd><p>Secondary label for the Zgoubi command.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">M='0 megaelectronvolt_per_c2'</code></dt>
+<code class="sig-name descname">M='0 megaelectronvolt_per_c2'</code></dt>
 <dd><p>Mass of the particle.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">Q='0 coulomb'</code></dt>
+<code class="sig-name descname">Q='0 coulomb'</code></dt>
 <dd><p>Charge of the particle.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">G='0'</code></dt>
+<code class="sig-name descname">G='0'</code></dt>
 <dd><p>Factor</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">tau='0'</code></dt>
+<code class="sig-name descname">tau='0'</code></dt>
 <dd><p>Lifetime of the particle.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
+<p>TODO
+:param label1:
+:param label2:
+:param *params:
+:param **kwargs:</p>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.particules.Particule.KEYWORD" title="zgoubidoo.commands.particules.Particule.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></td>
-<td>Keyword of the command used for the Zgoubi input data.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.particules.Particule.KEYWORD" title="zgoubidoo.commands.particules.Particule.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></p></td>
+<td><p>Keyword of the command used for the Zgoubi input data.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.particules.Particule.PARAMETERS" title="zgoubidoo.commands.particules.Particule.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></td>
-<td></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.particules.Particule.PARAMETERS" title="zgoubidoo.commands.particules.Particule.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.particules.Particule.charge" title="zgoubidoo.commands.particules.Particule.charge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">charge</span></code></a></td>
-<td>Charge of the particle.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.particules.Particule.charge" title="zgoubidoo.commands.particules.Particule.charge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">charge</span></code></a></p></td>
+<td><p>Charge of the particle.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.particules.Particule.gyro" title="zgoubidoo.commands.particules.Particule.gyro"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gyro</span></code></a></td>
-<td>Gyromagnetic factor of the particle.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.particules.Particule.gyro" title="zgoubidoo.commands.particules.Particule.gyro"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gyro</span></code></a></p></td>
+<td><p>Gyromagnetic factor of the particle.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.particules.Particule.lifetime" title="zgoubidoo.commands.particules.Particule.lifetime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lifetime</span></code></a></td>
-<td>Lifetime constant of the particle.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.particules.Particule.lifetime" title="zgoubidoo.commands.particules.Particule.lifetime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lifetime</span></code></a></p></td>
+<td><p>Lifetime constant of the particle.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.particules.Particule.mass" title="zgoubidoo.commands.particules.Particule.mass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mass</span></code></a></td>
-<td>Mass of the particle.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.particules.Particule.mass" title="zgoubidoo.commands.particules.Particule.mass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mass</span></code></a></p></td>
+<td><p>Mass of the particle.</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.particules.Particule.KEYWORD">
-<code class="descname">KEYWORD</code><em class="property"> = 'PARTICUL'</em><a class="headerlink" href="#zgoubidoo.commands.particules.Particule.KEYWORD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">KEYWORD</code><em class="property">: str</em><em class="property"> = 'PARTICUL'</em><a class="headerlink" href="#zgoubidoo.commands.particules.Particule.KEYWORD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Keyword of the command used for the Zgoubi input data.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.particules.Particule.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'G': (0, 'Factor'), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'M': (&lt;Quantity(0, 'megaelectronvolt_per_c2')&gt;, 'Mass of the particle.'), 'Q': (&lt;Quantity(0, 'coulomb')&gt;, 'Charge of the particle.'), 'tau': (0, 'Lifetime of the particle.')}</em><a class="headerlink" href="#zgoubidoo.commands.particules.Particule.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'G': (0, 'Factor'), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'M': (&lt;Quantity(0, 'megaelectronvolt_per_c2')&gt;, 'Mass of the particle.'), 'Q': (&lt;Quantity(0, 'coulomb')&gt;, 'Charge of the particle.'), 'tau': (0, 'Lifetime of the particle.')}</em><a class="headerlink" href="#zgoubidoo.commands.particules.Particule.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.particules.Particule.charge">
-<code class="descname">charge</code><a class="headerlink" href="#zgoubidoo.commands.particules.Particule.charge" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">charge</code><a class="headerlink" href="#zgoubidoo.commands.particules.Particule.charge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Charge of the particle.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.particules.Particule.gyro">
-<code class="descname">gyro</code><a class="headerlink" href="#zgoubidoo.commands.particules.Particule.gyro" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">gyro</code><a class="headerlink" href="#zgoubidoo.commands.particules.Particule.gyro" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gyromagnetic factor of the particle.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.particules.Particule.lifetime">
-<code class="descname">lifetime</code><a class="headerlink" href="#zgoubidoo.commands.particules.Particule.lifetime" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">lifetime</code><a class="headerlink" href="#zgoubidoo.commands.particules.Particule.lifetime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Lifetime constant of the particle.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.particules.Particule.mass">
-<code class="descname">mass</code><a class="headerlink" href="#zgoubidoo.commands.particules.Particule.mass" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">mass</code><a class="headerlink" href="#zgoubidoo.commands.particules.Particule.mass" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mass of the particle.</p>
 </dd></dl>
 

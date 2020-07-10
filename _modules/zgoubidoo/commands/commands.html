@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -166,27 +166,27 @@
 
 <span class="sd">TODO</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
 <span class="kn">import</span> <span class="nn">parse</span> <span class="k">as</span> <span class="nn">_parse</span>
-<span class="kn">from</span> <span class="nn">pint</span> <span class="k">import</span> <span class="n">UndefinedUnitError</span> <span class="k">as</span> <span class="n">_UndefinedUnitError</span>
-<span class="kn">from</span> <span class="nn">.patchable</span> <span class="k">import</span> <span class="n">Patchable</span> <span class="k">as</span> <span class="n">_Patchable</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">Q_</span> <span class="k">as</span> <span class="n">_Q</span>
-<span class="kn">from</span> <span class="nn">georges_core.frame</span> <span class="k">import</span> <span class="n">Frame</span> <span class="k">as</span> <span class="n">_Frame</span>
-<span class="kn">from</span> <span class="nn">..units</span> <span class="k">import</span> <span class="n">_radian</span><span class="p">,</span> <span class="n">_degree</span><span class="p">,</span> <span class="n">_m</span><span class="p">,</span> <span class="n">_cm</span>
-<span class="kn">from</span> <span class="nn">..constants</span> <span class="k">import</span> <span class="n">ZGOUBI_LABEL_LENGTH</span> <span class="k">as</span> <span class="n">_ZGOUBI_LABEL_LENGTH</span>
+<span class="kn">from</span> <span class="nn">pint</span> <span class="kn">import</span> <span class="n">UndefinedUnitError</span> <span class="k">as</span> <span class="n">_UndefinedUnitError</span>
+<span class="kn">from</span> <span class="nn">.patchable</span> <span class="kn">import</span> <span class="n">Patchable</span> <span class="k">as</span> <span class="n">_Patchable</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Q_</span> <span class="k">as</span> <span class="n">_Q</span>
+<span class="kn">from</span> <span class="nn">georges_core.frame</span> <span class="kn">import</span> <span class="n">Frame</span> <span class="k">as</span> <span class="n">_Frame</span>
+<span class="kn">from</span> <span class="nn">..units</span> <span class="kn">import</span> <span class="n">_radian</span><span class="p">,</span> <span class="n">_degree</span><span class="p">,</span> <span class="n">_m</span><span class="p">,</span> <span class="n">_cm</span>
+<span class="kn">from</span> <span class="nn">..constants</span> <span class="kn">import</span> <span class="n">ZGOUBI_LABEL_LENGTH</span> <span class="k">as</span> <span class="n">_ZGOUBI_LABEL_LENGTH</span>
 <span class="kn">import</span> <span class="nn">zgoubidoo</span>
 
 
 <div class="viewcode-block" id="ZgoubidooException"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.ZgoubidooException.html#zgoubidoo.commands.commands.ZgoubidooException">[docs]</a><span class="k">class</span> <span class="nc">ZgoubidooException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Exception raised for errors in the Zgoubidoo commands module.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">m</span></div>
 
 
@@ -201,15 +201,15 @@
 <span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; c = Comment(COMMENT=&quot;A very long comment.&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">COMMENT</span> <span class="o">=</span> <span class="n">comment</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        ! </span><span class="si">{self.COMMENT}</span><span class="s2"></span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        ! </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">COMMENT</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">    &quot;&quot;&quot;</span>
     
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 
@@ -220,7 +220,7 @@
 
 <span class="sd">    TODO</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bases</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">CommandType</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dct</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bases</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">CommandType</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dct</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
         <span class="c1"># Insert a default initializer (constructor) in case one is not present</span>
         <span class="k">if</span> <span class="s1">&#39;__init__&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">dct</span><span class="p">:</span>
             <span class="k">def</span> <span class="nf">default_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label1</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">label2</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -268,7 +268,7 @@
 
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dct</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bases</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dct</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bases</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dct</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dct</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">cls</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__doc__</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
@@ -280,11 +280,11 @@
 <span class="s2">            &quot;&quot;&quot;</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
-                    <span class="bp">cls</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">+=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        </span><span class="si">{k}</span><span class="s2">=&#39;</span><span class="si">{v[0]}</span><span class="s2">&#39; ({type(v[0]).__name__}): </span><span class="si">{v[1]}</span><span class="s2"></span>
+                    <span class="bp">cls</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=&#39;</span><span class="si">{</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; (</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">            &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">):</span>
                 <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)][</span><span class="mi">2</span><span class="p">]</span>
@@ -293,13 +293,13 @@
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">PARAMETERS</span></div>
 
 
@@ -321,7 +321,7 @@
 
     <span class="k">class</span> <span class="nc">CommandResult</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;TODO&quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">success</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">results</span><span class="p">:</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">success</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">results</span><span class="p">:</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_success</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">success</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">:</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">results</span>
 
@@ -335,7 +335,7 @@
             <span class="sd">&quot;&quot;&quot;TODO&quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label1</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">label2</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label1</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">label2</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        TODO</span>
 <span class="sd">        Args:</span>
@@ -354,11 +354,11 @@
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">label1</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">label1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">_ZGOUBI_LABEL_LENGTH</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">ZgoubidooAttributeException</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;LABEL1 &#39;</span><span class="si">{label1}</span><span class="s2">&#39; for element </span><span class="si">{self.KEYWORD}</span><span class="s2"> is too long.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ZgoubidooAttributeException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;LABEL1 &#39;</span><span class="si">{</span><span class="n">label1</span><span class="si">}</span><span class="s2">&#39; for element </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYWORD</span><span class="si">}</span><span class="s2"> is too long.&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="p">[</span><span class="s1">&#39;LABEL1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label1</span>
         <span class="k">if</span> <span class="n">label2</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">label2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">_ZGOUBI_LABEL_LENGTH</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">ZgoubidooAttributeException</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;LABEL2 &#39;</span><span class="si">{label2}</span><span class="s2">&#39; for element </span><span class="si">{label1}</span><span class="s2"> (</span><span class="si">{self.KEYWORD}</span><span class="s2">) is too long.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ZgoubidooAttributeException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;LABEL2 &#39;</span><span class="si">{</span><span class="n">label2</span><span class="si">}</span><span class="s2">&#39; for element </span><span class="si">{</span><span class="n">label1</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYWORD</span><span class="si">}</span><span class="s2">) is too long.&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="p">[</span><span class="s1">&#39;LABEL2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label2</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="p">[</span><span class="s1">&#39;LABEL1&#39;</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">generate_label</span><span class="p">()</span>
@@ -388,7 +388,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-    <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        TODO</span>
 <span class="sd">        Args:</span>
@@ -415,7 +415,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">attr</span>
 
-    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Custom attribute setter; all non-protected (starting with a &#39;_&#39;) attributes in upper-case are considered</span>
 <span class="sd">        parameters of the `Command`. As such, the method will verify that they are indeed part of the command</span>
@@ -443,8 +443,8 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">k_</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">k_</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="k">raise</span> <span class="n">ZgoubidooAttributeException</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;The parameter </span><span class="si">{k_}</span><span class="s2"> is not part of the </span><span class="si">{self.__class__.__name__}</span><span class="s2"> &quot;</span>
-                                                  <span class="n">f</span><span class="s2">&quot;definition.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ZgoubidooAttributeException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The parameter </span><span class="si">{</span><span class="n">k_</span><span class="si">}</span><span class="s2"> is not part of the </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> &quot;</span>
+                                                  <span class="sa">f</span><span class="s2">&quot;definition.&quot;</span><span class="p">)</span>
 
             <span class="n">default</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retrieve_default_parameter_value</span><span class="p">(</span><span class="n">k_</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>  <span class="c1"># Avoid a bug in pint where a string starting with &#39;#&#39; cannot be parsed</span>
@@ -464,9 +464,9 @@
                 <span class="n">dimension</span> <span class="o">=</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">dimensionality</span>  <span class="c1"># No dimension</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">dimension</span> <span class="o">!=</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">default</span><span class="p">)</span><span class="o">.</span><span class="n">dimensionality</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">ZgoubidooAttributeException</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Invalid dimension (</span><span class="si">{dimension}</span><span class="s2"> &quot;</span>
-                                                      <span class="n">f</span><span class="s2">&quot;instead of {_ureg.Quantity(default).dimensionality}) &quot;</span>
-                                                      <span class="n">f</span><span class="s2">&quot;for parameter </span><span class="si">{k_}</span><span class="s2">=</span><span class="si">{v}</span><span class="s2"> of </span><span class="si">{self.__class__.__name__}</span><span class="s2">.&quot;</span>
+                    <span class="k">raise</span> <span class="n">ZgoubidooAttributeException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid dimension (</span><span class="si">{</span><span class="n">dimension</span><span class="si">}</span><span class="s2"> &quot;</span>
+                                                      <span class="sa">f</span><span class="s2">&quot;instead of </span><span class="si">{</span><span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">default</span><span class="p">)</span><span class="o">.</span><span class="n">dimensionality</span><span class="si">}</span><span class="s2">) &quot;</span>
+                                                      <span class="sa">f</span><span class="s2">&quot;for parameter </span><span class="si">{</span><span class="n">k_</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span>
                                                       <span class="p">)</span>
             <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="n">_UndefinedUnitError</span><span class="p">):</span>
                 <span class="k">pass</span>
@@ -487,10 +487,10 @@
         <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Provides the string representation of the command in the Zgoubi input file format.</span>
 
@@ -501,8 +501,8 @@
 <span class="sd">            &gt;&gt;&gt; c = Command(&#39;my_label_1&#39;, &#39;my_label_2&#39;)</span>
 <span class="sd">            &gt;&gt;&gt; str(c)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        &#39;</span><span class="si">{self.KEYWORD}</span><span class="s2">&#39; </span><span class="si">{self.LABEL1}</span><span class="s2"> </span><span class="si">{self.LABEL2}</span><span class="s2"></span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYWORD</span><span class="si">}</span><span class="s2">&#39; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">LABEL2</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -513,7 +513,7 @@
         <span class="sd">&quot;&quot;&quot;Object (instance) deep copy operation.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__copy__</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Comparison based on string representation in the Zgoubi format.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
@@ -626,7 +626,7 @@
         <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-----------------&quot;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;----------------- </span><span class="si">{cls.__name__}</span><span class="s2"> detected&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;----------------- </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> detected&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="bp">cls</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span><span class="o">.</span><span class="n">named</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Command.parse"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command.parse">[docs]</a>    <span class="nd">@classmethod</span>
@@ -661,7 +661,7 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">INPUT</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">OPTIONS</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">})</span></div>
 
 
@@ -688,14 +688,14 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
-<span class="s2">        </span><span class="si">{self.I}</span><span class="s2"></span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">I</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">I</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="n">c</span> <span class="o">+=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        </span><span class="si">{self.I1}</span><span class="s2"> </span><span class="si">{self.I2}</span><span class="s2"> </span><span class="si">{self.I3}</span><span class="s2"></span>
+            <span class="n">c</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">I1</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">I2</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">I3</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">            &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">c</span></div>
 
@@ -761,11 +761,11 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
-<span class="s2">        </span><span class="si">{self.IA}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{self.IFORM}</span><span class="s2">.</span><span class="si">{self.J}</span><span class="s2"> {_cm(self.C1)} {_cm(self.C2)} {_cm(self.C3)} {_cm(self.C4)}</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">IA</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">IFORM</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">J</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_cm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C1</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_cm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C2</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_cm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C3</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_cm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C4</span><span class="p">)</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span></div>
 
 
@@ -795,20 +795,20 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span>
         <span class="n">cc</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">TRANSFORMATIONS</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">_np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">magnitude</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">):</span>
                 <span class="k">continue</span>
             <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dimensionality</span> <span class="o">==</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">dimensionality</span><span class="p">:</span>
-                <span class="n">cc</span> <span class="o">+=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{t[0]}</span><span class="s2"> {_cm(t[1])} &quot;</span>
+                <span class="n">cc</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_cm</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="si">}</span><span class="s2"> &quot;</span>
             <span class="k">elif</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dimensionality</span> <span class="o">==</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span><span class="o">.</span><span class="n">dimensionality</span><span class="p">:</span>
-                <span class="n">cc</span> <span class="o">+=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{t[0]}</span><span class="s2"> {_degree(t[1])} &quot;</span>
+                <span class="n">cc</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_degree</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="si">}</span><span class="s2"> &quot;</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">ZgoubidooException</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Incorrect dimensionality in </span><span class="si">{self.__class__.__name__}</span><span class="s2">.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ZgoubidooException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Incorrect dimensionality in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">cc</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">c</span> <span class="o">+</span> <span class="n">cc</span>
         <span class="k">else</span><span class="p">:</span>
@@ -870,11 +870,11 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
-<span class="s2">        </span><span class="si">{self.IA}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{self.IFORM}</span><span class="s2">.</span><span class="si">{self.J}</span><span class="s2"> {_cm(self.C1)} {_cm(self.C2)} {_cm(self.C3)} {_cm(self.C4)}</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">IA</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">IFORM</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">J</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_cm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C1</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_cm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C2</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_cm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C3</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_cm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C4</span><span class="p">)</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span></div>
 
 
@@ -913,11 +913,11 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
-<span class="s2">        </span><span class="si">{self.FNAME}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{self.IP}</span><span class="s2"></span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FNAME</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">IP</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span></div>
 
 
@@ -932,10 +932,10 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
-<span class="s2">        {_cm(self.XL)}</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">_cm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">XL</span><span class="p">)</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span></div>
 
 
@@ -950,10 +950,10 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
-<span class="s2">        {_cm(self.XL)}</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">_cm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">XL</span><span class="p">)</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span></div>
 
 
@@ -976,11 +976,11 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
-<span class="s2">        </span><span class="si">{self.KGA}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{self.AI}</span><span class="s2"> </span><span class="si">{self.DEN}</span><span class="s2"></span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KGA</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">AI</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">DEN</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span></div>
 
 
@@ -1020,10 +1020,10 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
-<span class="s2">        </span><span class="si">{self.FNAME}</span><span class="s2"></span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FNAME</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span></div>
 
 
@@ -1062,14 +1062,14 @@
     <span class="n">KEYWORD</span> <span class="o">=</span> <span class="s1">&#39;MARKER&#39;</span>
     <span class="sd">&quot;&quot;&quot;Keyword of the command used for the Zgoubi input data.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">label2</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">,</span> <span class="n">with_plt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">label2</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">,</span> <span class="n">with_plt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">label1</span><span class="p">,</span> <span class="n">label2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">LABEL2</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">LABEL2</span> <span class="o">=</span> <span class="s1">&#39;.plt&#39;</span> <span class="k">if</span> <span class="n">with_plt</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().strip()}</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span></div>
 
 
@@ -1085,10 +1085,10 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
-<span class="s2">        </span><span class="si">{self.IORD}</span><span class="s2"> </span><span class="si">{self.IFOC}</span><span class="s2"> PRINT</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">IORD</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">IFOC</span><span class="si">}</span><span class="s2"> PRINT</span>
 <span class="s2">        &quot;&quot;&quot;</span></div>
 
 
@@ -1130,10 +1130,10 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().strip()}</span>
-<span class="s2">        </span><span class="si">{self.IOPT}</span><span class="s2"> </span><span class="si">{self.LABEL}</span><span class="s2"> </span><span class="si">{self.IMP}</span><span class="s2"></span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">IOPT</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">LABEL</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">IMP</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span></div>
 
 
@@ -1173,10 +1173,10 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
-<span class="s2">        </span><span class="si">{self.NPASS}</span><span class="s2"> </span><span class="si">{self.KWRIT}</span><span class="s2"> </span><span class="si">{self.K}</span><span class="s2">.{self.N or &#39;&#39;} {self.LABL1 or &#39;&#39;} {self.LABL2 or &#39;&#39;}</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">NPASS</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KWRIT</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">K</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">LABL1</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">LABL2</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span></div>
 
 
@@ -1220,9 +1220,9 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        1 1</span>
 <span class="s2">        QUADRUPO</span>
 <span class="s2">        -1</span>
@@ -1275,11 +1275,11 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
-<span class="s2">        {_m(s.TX):.12e} {_m(s.TY):.12e} {_m(s.TZ):.12e} {_radian(s.RX):.12e} {_radian(s.RY):.12e} {_radian(s.RZ):.12e}</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">_m</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">TX</span><span class="p">)</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_m</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">TY</span><span class="p">)</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_m</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">TZ</span><span class="p">)</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_radian</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">RX</span><span class="p">)</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_radian</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">RY</span><span class="p">)</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_radian</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">RZ</span><span class="p">)</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span></div>
 
 
@@ -1299,10 +1299,10 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optionally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
-<span class="s2">        </span><span class="si">{self.KTW}</span><span class="s2"> </span><span class="si">{self.FACD:.12e}</span><span class="s2"> </span><span class="si">{self.FACA:.12e}</span><span class="s2"></span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KTW</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FACD</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FACA</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span></div>
 
 

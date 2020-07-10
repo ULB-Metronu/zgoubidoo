@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -99,6 +99,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../physics.html">Physics with Zgoubidoo high-level interfaces</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../physics.html#module-georges_core.sequences">Sequences</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../physics.html#classes">Classes</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.BDSIMSequence.html">BDSIMSequence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.BetaBlock.html">BetaBlock</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.BetaBlockType.html">BetaBlockType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.Element.html">Element</a></li>
@@ -188,297 +189,239 @@
             
   <div class="section" id="placementsequence">
 <h1>PlacementSequence<a class="headerlink" href="#placementsequence" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="georges_core.sequences.PlacementSequence">
-<em class="property">class </em><code class="descclassname">georges_core.sequences.</code><code class="descname">PlacementSequence</code><span class="sig-paren">(</span><em>name: str = ''</em>, <em>data: Optional[List[Tuple[georges_core.sequences.elements.Element</em>, <em>pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]]] = None</em>, <em>metadata: Optional[georges_core.sequences.sequence.SequenceMetadata] = None</em>, <em>reference_placement: str = 'ENTRY'</em>, <em>element_keys: Optional[Mapping[str</em>, <em>str]] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">georges_core.sequences.</code><code class="sig-name descname">PlacementSequence</code><span class="sig-paren">(</span><em class="sig-param">name: str = ''</em>, <em class="sig-param">data: Optional[List[Tuple[georges_core.sequences.elements.Element</em>, <em class="sig-param">pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em class="sig-param">pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em class="sig-param">pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]]] = None</em>, <em class="sig-param">metadata: Optional[georges_core.sequences.sequence.SequenceMetadata] = None</em>, <em class="sig-param">reference_placement: str = 'ENTRY'</em>, <em class="sig-param">element_keys: Optional[Mapping[str</em>, <em class="sig-param">str]] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">georges_core.sequences.sequence.Sequence</span></code></p>
 <p>Placement Sequence.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>name</strong> – the name of the physics</li>
-<li><strong>data</strong> – the list of commands composing the physics</li>
-<li><strong>metadata</strong> – </li>
-<li><strong>reference_placement</strong> – </li>
-<li><strong>element_keys</strong> – </li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – the name of the physics</p></li>
+<li><p><strong>data</strong> – the list of commands composing the physics</p></li>
+<li><p><strong>metadata</strong> – </p></li>
+<li><p><strong>reference_placement</strong> – </p></li>
+<li><p><strong>element_keys</strong> – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.PlacementSequence.betablock" title="georges_core.sequences.PlacementSequence.betablock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">betablock</span></code></a></td>
-<td>TODO</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.PlacementSequence.betablock" title="georges_core.sequences.PlacementSequence.betablock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">betablock</span></code></a></p></td>
+<td><p>TODO</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.PlacementSequence.df" title="georges_core.sequences.PlacementSequence.df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">df</span></code></a></td>
-<td>strip_units:</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.PlacementSequence.df" title="georges_core.sequences.PlacementSequence.df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">df</span></code></a></p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param df</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.PlacementSequence.expanded" title="georges_core.sequences.PlacementSequence.expanded"><code class="xref py py-obj docutils literal notranslate"><span class="pre">expanded</span></code></a></td>
-<td></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.PlacementSequence.expanded" title="georges_core.sequences.PlacementSequence.expanded"><code class="xref py py-obj docutils literal notranslate"><span class="pre">expanded</span></code></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Methods Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.PlacementSequence.add" title="georges_core.sequences.PlacementSequence.add"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add</span></code></a>(element_or_sequence,&nbsp;…)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">param element_or_sequence:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"></td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.PlacementSequence.add" title="georges_core.sequences.PlacementSequence.add"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add</span></code></a>(element_or_sequence)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param element_or_sequence</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
-</tbody>
-</table>
-</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.PlacementSequence.expand" title="georges_core.sequences.PlacementSequence.expand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">expand</span></code></a>([drift_element])</p></td>
+<td><p>TODO Use namedtuples</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.PlacementSequence.expand" title="georges_core.sequences.PlacementSequence.expand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">expand</span></code></a>(drift_element)</td>
-<td>TODO Use namedtuples</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.PlacementSequence.join" title="georges_core.sequences.PlacementSequence.join"><code class="xref py py-obj docutils literal notranslate"><span class="pre">join</span></code></a>(other)</p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.PlacementSequence.join" title="georges_core.sequences.PlacementSequence.join"><code class="xref py py-obj docutils literal notranslate"><span class="pre">join</span></code></a>(other)</td>
-<td></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.PlacementSequence.place" title="georges_core.sequences.PlacementSequence.place"><code class="xref py py-obj docutils literal notranslate"><span class="pre">place</span></code></a>(element_or_sequence[, at, at_entry, …])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param element_or_sequence</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.PlacementSequence.place" title="georges_core.sequences.PlacementSequence.place"><code class="xref py py-obj docutils literal notranslate"><span class="pre">place</span></code></a>(element_or_sequence,&nbsp;…)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">param element_or_sequence:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.PlacementSequence.place_after_last" title="georges_core.sequences.PlacementSequence.place_after_last"><code class="xref py py-obj docutils literal notranslate"><span class="pre">place_after_last</span></code></a>(element_or_sequence[, at, …])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param element_or_sequence</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
-</tbody>
-</table>
-</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.PlacementSequence.place_before_first" title="georges_core.sequences.PlacementSequence.place_before_first"><code class="xref py py-obj docutils literal notranslate"><span class="pre">place_before_first</span></code></a>(element_or_sequence[, …])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param element_or_sequence</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.PlacementSequence.place_after_last" title="georges_core.sequences.PlacementSequence.place_after_last"><code class="xref py py-obj docutils literal notranslate"><span class="pre">place_after_last</span></code></a>(element_or_sequence,&nbsp;…)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">param element_or_sequence:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.PlacementSequence.reverse" title="georges_core.sequences.PlacementSequence.reverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reverse</span></code></a>()</p></td>
+<td><p>Returns:</p></td>
 </tr>
-</tbody>
-</table>
-</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.PlacementSequence.sort" title="georges_core.sequences.PlacementSequence.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort</span></code></a>([reverse])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param reverse</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.PlacementSequence.place_before_first" title="georges_core.sequences.PlacementSequence.place_before_first"><code class="xref py py-obj docutils literal notranslate"><span class="pre">place_before_first</span></code></a>(element_or_sequence,&nbsp;…)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">param element_or_sequence:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.PlacementSequence.reverse" title="georges_core.sequences.PlacementSequence.reverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reverse</span></code></a>()</td>
-<td>Returns:</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.PlacementSequence.sort" title="georges_core.sequences.PlacementSequence.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort</span></code></a>(reverse)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param reverse:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.PlacementSequence.to_df" title="georges_core.sequences.PlacementSequence.to_df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_df</span></code></a>(df,&nbsp;strip_units)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param df:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.PlacementSequence.to_df" title="georges_core.sequences.PlacementSequence.to_df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_df</span></code></a>([df, strip_units])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param df</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.sequences.PlacementSequence.betablock">
-<code class="descname">betablock</code><a class="headerlink" href="#georges_core.sequences.PlacementSequence.betablock" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
-</dd></dl>
+<code class="sig-name descname">betablock</code><a class="headerlink" href="#georges_core.sequences.PlacementSequence.betablock" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.sequences.PlacementSequence.df">
-<code class="descname">df</code><a class="headerlink" href="#georges_core.sequences.PlacementSequence.df" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div>strip_units:</div></blockquote>
+<code class="sig-name descname">df</code><a class="headerlink" href="#georges_core.sequences.PlacementSequence.df" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> – </p></li>
+<li><p><strong>strip_units</strong> – </p></li>
+</ul>
+</dd>
+</dl>
 <p>Returns:</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Args</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Type:</th><td class="field-body">df</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.sequences.PlacementSequence.expanded">
-<code class="descname">expanded</code><a class="headerlink" href="#georges_core.sequences.PlacementSequence.expanded" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">expanded</code><a class="headerlink" href="#georges_core.sequences.PlacementSequence.expanded" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods Documentation</p>
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.sequences.PlacementSequence.add">
-<code class="descname">add</code><span class="sig-paren">(</span><em>element_or_sequence: Union[georges_core.sequences.elements.Element, georges_core.sequences.sequence.Sequence]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence.add" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>element_or_sequence</strong> – </td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">element_or_sequence</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>georges_core.sequences.elements.Element<span class="p">, </span>georges_core.sequences.sequence.Sequence<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence.add" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>element_or_sequence</strong> – </p>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.sequences.PlacementSequence.expand">
-<code class="descname">expand</code><span class="sig-paren">(</span><em>drift_element: georges_core.sequences.elements.ElementClass = &lt;class 'abc.Drift'&gt;</em><span class="sig-paren">)</span> &#x2192; georges_core.sequences.sequence.PlacementSequence<a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence.expand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence.expand" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">expand</code><span class="sig-paren">(</span><em class="sig-param">drift_element: georges_core.sequences.elements.ElementClass = &lt;class 'abc.Drift'&gt;</em><span class="sig-paren">)</span> &#x2192; georges_core.sequences.sequence.PlacementSequence<a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence.expand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence.expand" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO Use namedtuples</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>drift_element</strong> – </td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>drift_element</strong> – </p>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.sequences.PlacementSequence.join">
-<code class="descname">join</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence.join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence.join" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">join</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence.join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence.join" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.sequences.PlacementSequence.place">
-<code class="descname">place</code><span class="sig-paren">(</span><em>element_or_sequence: Union[georges_core.sequences.elements.Element, georges_core.sequences.sequence.Sequence], at: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, at_entry: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, at_center: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, at_exit: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, after: Optional[str] = None, before: Optional[str] = None</em><span class="sig-paren">)</span> &#x2192; georges_core.sequences.sequence.PlacementSequence<a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence.place"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence.place" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>element_or_sequence</strong> – </li>
-<li><strong>at</strong> – </li>
-<li><strong>at_center</strong> – </li>
-<li><strong>at_entry</strong> – </li>
-<li><strong>at_exit</strong> – </li>
-<li><strong>after</strong> – </li>
-<li><strong>before</strong> – </li>
+<code class="sig-name descname">place</code><span class="sig-paren">(</span><em class="sig-param">element_or_sequence: Union[georges_core.sequences.elements.Element, georges_core.sequences.sequence.Sequence], at: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, at_entry: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, at_center: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, at_exit: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, after: Optional[str] = None, before: Optional[str] = None</em><span class="sig-paren">)</span> &#x2192; georges_core.sequences.sequence.PlacementSequence<a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence.place"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence.place" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>element_or_sequence</strong> – </p></li>
+<li><p><strong>at</strong> – </p></li>
+<li><p><strong>at_center</strong> – </p></li>
+<li><p><strong>at_entry</strong> – </p></li>
+<li><p><strong>at_exit</strong> – </p></li>
+<li><p><strong>after</strong> – </p></li>
+<li><p><strong>before</strong> – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.sequences.PlacementSequence.place_after_last">
-<code class="descname">place_after_last</code><span class="sig-paren">(</span><em>element_or_sequence: Union[georges_core.sequences.elements.Element, georges_core.sequences.sequence.Sequence], at: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, at_entry: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, at_center: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, at_exit: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None</em><span class="sig-paren">)</span> &#x2192; georges_core.sequences.sequence.PlacementSequence<a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence.place_after_last"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence.place_after_last" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>element_or_sequence</strong> – </li>
-<li><strong>at</strong> – </li>
-<li><strong>at_center</strong> – </li>
-<li><strong>at_entry</strong> – </li>
-<li><strong>at_exit</strong> – </li>
+<code class="sig-name descname">place_after_last</code><span class="sig-paren">(</span><em class="sig-param">element_or_sequence: Union[georges_core.sequences.elements.Element, georges_core.sequences.sequence.Sequence], at: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, at_entry: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, at_center: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, at_exit: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None</em><span class="sig-paren">)</span> &#x2192; georges_core.sequences.sequence.PlacementSequence<a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence.place_after_last"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence.place_after_last" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>element_or_sequence</strong> – </p></li>
+<li><p><strong>at</strong> – </p></li>
+<li><p><strong>at_center</strong> – </p></li>
+<li><p><strong>at_entry</strong> – </p></li>
+<li><p><strong>at_exit</strong> – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.sequences.PlacementSequence.place_before_first">
-<code class="descname">place_before_first</code><span class="sig-paren">(</span><em>element_or_sequence: Union[georges_core.sequences.elements.Element, georges_core.sequences.sequence.Sequence], at: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, at_entry: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, at_center: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, at_exit: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None</em><span class="sig-paren">)</span> &#x2192; georges_core.sequences.sequence.PlacementSequence<a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence.place_before_first"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence.place_before_first" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>element_or_sequence</strong> – </li>
-<li><strong>at</strong> – </li>
-<li><strong>at_center</strong> – </li>
-<li><strong>at_entry</strong> – </li>
-<li><strong>at_exit</strong> – </li>
+<code class="sig-name descname">place_before_first</code><span class="sig-paren">(</span><em class="sig-param">element_or_sequence: Union[georges_core.sequences.elements.Element, georges_core.sequences.sequence.Sequence], at: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, at_entry: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, at_center: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None, at_exit: Optional[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity] = None</em><span class="sig-paren">)</span> &#x2192; georges_core.sequences.sequence.PlacementSequence<a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence.place_before_first"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence.place_before_first" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>element_or_sequence</strong> – </p></li>
+<li><p><strong>at</strong> – </p></li>
+<li><p><strong>at_center</strong> – </p></li>
+<li><p><strong>at_entry</strong> – </p></li>
+<li><p><strong>at_exit</strong> – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.sequences.PlacementSequence.reverse">
-<code class="descname">reverse</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; georges_core.sequences.sequence.PlacementSequence<a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence.reverse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence.reverse" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">reverse</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; georges_core.sequences.sequence.PlacementSequence<a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence.reverse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence.reverse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.sequences.PlacementSequence.sort">
-<code class="descname">sort</code><span class="sig-paren">(</span><em>reverse: bool = False</em><span class="sig-paren">)</span> &#x2192; georges_core.sequences.sequence.PlacementSequence<a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence.sort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence.sort" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>reverse</strong> – </td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">sort</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reverse</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; georges_core.sequences.sequence.PlacementSequence<a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence.sort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence.sort" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>reverse</strong> – </p>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.sequences.PlacementSequence.to_df">
-<code class="descname">to_df</code><span class="sig-paren">(</span><em>df: Optional[pandas.core.frame.DataFrame] = None</em>, <em>strip_units: bool = False</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence.to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence.to_df" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>df</strong> – </li>
-<li><strong>strip_units</strong> – </li>
+<code class="sig-name descname">to_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>pandas.core.frame.DataFrame<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">strip_units</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#PlacementSequence.to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.PlacementSequence.to_df" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> – </p></li>
+<li><p><strong>strip_units</strong> – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 

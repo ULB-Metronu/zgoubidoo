@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -218,206 +218,203 @@
             
   <div class="section" id="quadisex">
 <h1>Quadisex<a class="headerlink" href="#quadisex" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="zgoubidoo.commands.magnetique.Quadisex">
-<em class="property">class </em><code class="descclassname">zgoubidoo.commands.magnetique.</code><code class="descname">Quadisex</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#Quadisex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.Quadisex" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.commands.magnetique.</code><code class="sig-name descname">Quadisex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label1</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">label2</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">params</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#Quadisex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.Quadisex" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet" title="zgoubidoo.commands.magnetique.CartesianMagnet"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.magnetique.CartesianMagnet</span></code></a></p>
 <p>Sharp edge magnetic multipoles.</p>
 <p>TODO</p>
 <p class="rubric">Command attributes</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL1=''</code></dt>
+<code class="sig-name descname">LABEL1=''</code></dt>
 <dd><p>Primary label for the Zgoubi command (default: auto-generated hash).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL2=''</code></dt>
+<code class="sig-name descname">LABEL2=''</code></dt>
 <dd><p>Secondary label for the Zgoubi command.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">HEIGHT='20 centimeter'</code></dt>
+<code class="sig-name descname">HEIGHT='20 centimeter'</code></dt>
 <dd><p>Height of the magnet (distance between poles), used by plotting functions.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">REFERENCE_FIELD_COMPONENT='BZ'</code></dt>
+<code class="sig-name descname">PIPE_THICKNESS='2 centimeter'</code></dt>
+<dd><p>Thickness of the pipe, used by plotting functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">PIPE_COLOR='grey'</code></dt>
+<dd><p>Color of the pipe, used by plotting functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">POLE_WIDTH='50 centimeter'</code></dt>
+<dd><p>Pole width (used for plotting only).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">REFERENCE_FIELD_COMPONENT='BZ'</code></dt>
 <dd><p>Orientation of the reference field (used by field maps)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">KINEMATICS='None'</code></dt>
+<code class="sig-name descname">KINEMATICS='None'</code></dt>
 <dd><p>A kinematics object.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">NoneType</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>NoneType</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">WIDTH='50 centimeter'</code></dt>
+<code class="sig-name descname">WIDTH='50 centimeter'</code></dt>
 <dd><p>Width of the magnetic poles (used for plotting only).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">APERTURE_LEFT='10 centimeter'</code></dt>
+<code class="sig-name descname">APERTURE_LEFT='10 centimeter'</code></dt>
 <dd><p>Aperture size of the magnet, left side (used for plotting only).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">APERTURE_RIGHT='10 centimeter'</code></dt>
+<code class="sig-name descname">APERTURE_RIGHT='10 centimeter'</code></dt>
 <dd><p>Aperture size of the magnet, right side (used for plotting only).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">APERTURE_TOP='10 centimeter'</code></dt>
+<code class="sig-name descname">APERTURE_TOP='10 centimeter'</code></dt>
 <dd><p>Aperture size of the magnet, top side (used for plotting only).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">APERTURE_BOTTOM='10 centimeter'</code></dt>
+<code class="sig-name descname">APERTURE_BOTTOM='10 centimeter'</code></dt>
 <dd><p>Aperture size of the magnet, bottom side (used for plotting only).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">COLOR='black'</code></dt>
+<code class="sig-name descname">COLOR='black'</code></dt>
 <dd><p>Magnet color for plotting.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LENGTH_IS_ARC_LENGTH='False'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">bool</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">LENGTH_IS_ARC_LENGTH='False'</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
 </dd></dl>
 
 <p>Default initializer for all Commands.</p>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.Quadisex.KEYWORD" title="zgoubidoo.commands.magnetique.Quadisex.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></td>
-<td>Keyword of the command used for the Zgoubi input data.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.Quadisex.KEYWORD" title="zgoubidoo.commands.magnetique.Quadisex.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></p></td>
+<td><p>Keyword of the command used for the Zgoubi input data.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.Quadisex.PARAMETERS" title="zgoubidoo.commands.magnetique.Quadisex.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></td>
-<td>Parameters of the command, with their default value, their description and optinally an index used by other commands (e.g.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.Quadisex.PARAMETERS" title="zgoubidoo.commands.magnetique.Quadisex.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></p></td>
+<td><p>Parameters of the command, with their default value, their description and optinally an index used by other commands (e.g.</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.Quadisex.KEYWORD">
-<code class="descname">KEYWORD</code><em class="property"> = 'QUADISEX'</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.Quadisex.KEYWORD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">KEYWORD</code><em class="property">: str</em><em class="property"> = 'QUADISEX'</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.Quadisex.KEYWORD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Keyword of the command used for the Zgoubi input data.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.Quadisex.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'ALE': (0,), 'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'B0': (0,), 'COLOR': ('black', 'Magnet color for plotting.'), 'EB1': (0,), 'EB2': (0,), 'EG1': (0,), 'EG2': (0,), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'IL': (0,), 'KINEMATICS': (None, 'A kinematics object.'), 'KPOS': (1,), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'LENGTH_IS_ARC_LENGTH': (False, ''), 'N': (0,), 'R0': (0,), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'WIDTH': (&lt;Quantity(50, 'centimeter')&gt;, 'Width of the magnetic poles (used for plotting only).'), 'XCE': (0,), 'XL': (0,), 'XPAS': (0.1,), 'YCE': (0,)}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.Quadisex.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'ALE': (0,), 'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'B0': (0,), 'COLOR': ('black', 'Magnet color for plotting.'), 'EB1': (0,), 'EB2': (0,), 'EG1': (0,), 'EG2': (0,), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'IL': (0,), 'KINEMATICS': (None, 'A kinematics object.'), 'KPOS': (1,), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'LENGTH_IS_ARC_LENGTH': (False, ''), 'N': (0,), 'PIPE_COLOR': ('grey', 'Color of the pipe, used by plotting functions.'), 'PIPE_THICKNESS': (&lt;Quantity(2, 'centimeter')&gt;, 'Thickness of the pipe, used by plotting functions.'), 'POLE_WIDTH': (&lt;Quantity(50, 'centimeter')&gt;, 'Pole width (used for plotting only).'), 'R0': (0,), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'WIDTH': (&lt;Quantity(50, 'centimeter')&gt;, 'Width of the magnetic poles (used for plotting only).'), 'XCE': (0,), 'XL': (0,), 'XPAS': (0.1,), 'YCE': (0,)}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.Quadisex.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parameters of the command, with their default value, their description and optinally an index used by other
 commands (e.g. fit).</p>
 </dd></dl>

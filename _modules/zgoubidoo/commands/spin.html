@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -165,8 +165,8 @@
 
 <span class="sd">More details here.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">.actions</span> <span class="k">import</span> <span class="n">Action</span> <span class="k">as</span> <span class="n">_Action</span>
-<span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">ZgoubidooException</span> <span class="k">as</span> <span class="n">_ZgoubidooException</span>
+<span class="kn">from</span> <span class="nn">.actions</span> <span class="kn">import</span> <span class="n">Action</span> <span class="k">as</span> <span class="n">_Action</span>
+<span class="kn">from</span> <span class="nn">.commands</span> <span class="kn">import</span> <span class="n">ZgoubidooException</span> <span class="k">as</span> <span class="n">_ZgoubidooException</span>
 
 
 <div class="viewcode-block" id="SpinRotation"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.spin.SpinRotation.html#zgoubidoo.commands.spin.SpinRotation">[docs]</a><span class="k">class</span> <span class="nc">SpinRotation</span><span class="p">(</span><span class="n">_Action</span><span class="p">):</span>
@@ -208,13 +208,13 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">        commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSO</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">4.1</span><span class="p">,</span> <span class="mi">5</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">_ZgoubidooException</span><span class="p">(</span><span class="s2">&quot;KPOS must be in (0, 1, 2, 3, 4, 4.1, 5).&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
-<span class="s2">        </span><span class="si">{self.KSO:d}</span><span class="s2"></span>
-<span class="s2">        {int(self.IR):d}</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KSO</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">IR</span><span class="p">)</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span></div>
 
 

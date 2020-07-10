@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -193,291 +193,237 @@
             
   <div class="section" id="cartesianmesh">
 <h1>CartesianMesh<a class="headerlink" href="#cartesianmesh" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="zgoubidoo.commands.fieldmaps.CartesianMesh">
-<em class="property">class </em><code class="descclassname">zgoubidoo.commands.fieldmaps.</code><code class="descname">CartesianMesh</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/fieldmaps.html#CartesianMesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.fieldmaps.CartesianMesh" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.commands.fieldmaps.</code><code class="sig-name descname">CartesianMesh</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label1</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">label2</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">params</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/fieldmaps.html#CartesianMesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.fieldmaps.CartesianMesh" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" title="zgoubidoo.commands.commands.Command"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.commands.Command</span></code></a></p>
 <p>2-D Cartesian uniform mesh magnetic field map.</p>
 <p>TODO</p>
 <p class="rubric">Command attributes</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL1=''</code></dt>
+<code class="sig-name descname">LABEL1=''</code></dt>
 <dd><p>Primary label for the Zgoubi command (default: auto-generated hash).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL2=''</code></dt>
+<code class="sig-name descname">LABEL2=''</code></dt>
 <dd><p>Secondary label for the Zgoubi command.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">IC='2'</code></dt>
+<code class="sig-name descname">IC='2'</code></dt>
 <dd><p>Print the map</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">IL='2'</code></dt>
+<code class="sig-name descname">IL='2'</code></dt>
 <dd><p>Print field and coordinates along trajectories</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">BNORM='1.0'</code></dt>
+<code class="sig-name descname">BNORM='1.0'</code></dt>
 <dd><p>Field normalization coefficient</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">XN='1.0'</code></dt>
+<code class="sig-name descname">XN='1.0'</code></dt>
 <dd><p>X coordinate normalization coefficient</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">YN='1.0'</code></dt>
+<code class="sig-name descname">YN='1.0'</code></dt>
 <dd><p>Y coordinate normalization coefficient</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">TITL='CARTEMES_FIELD_MAP'</code></dt>
+<code class="sig-name descname">TITL='CARTEMES_FIELD_MAP'</code></dt>
 <dd><p>Title. Start with ‘FLIP’ to get field map X-flipped</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">IX='1'</code></dt>
+<code class="sig-name descname">IX='1'</code></dt>
 <dd><p>Number of longitudinal nodes of the map</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">JY='1'</code></dt>
+<code class="sig-name descname">JY='1'</code></dt>
 <dd><p>Number of transverse nodes of the map</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">FNAME='field_map.map'</code></dt>
+<code class="sig-name descname">FNAME='field_map.map'</code></dt>
 <dd><p>File name</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">ID='0'</code></dt>
+<code class="sig-name descname">ID='0'</code></dt>
 <dd><p>Integration boundary</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">IORDRE='25'</code></dt>
+<code class="sig-name descname">IORDRE='25'</code></dt>
 <dd><p>Degree of interpolation polynomial</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">XPAS='1 centimeter'</code></dt>
+<code class="sig-name descname">XPAS='1 centimeter'</code></dt>
 <dd><p>Integration step</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">KPOS='1'</code></dt>
+<code class="sig-name descname">KPOS='1'</code></dt>
 <dd><p>Alignment</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">XCE='0 centimeter'</code></dt>
+<code class="sig-name descname">XCE='0 centimeter'</code></dt>
 <dd><p>Misalignment X shift</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">YCE='0 centimeter'</code></dt>
+<code class="sig-name descname">YCE='0 centimeter'</code></dt>
 <dd><p>Misalignment Y shift</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">ALE='0 radian'</code></dt>
+<code class="sig-name descname">ALE='0 radian'</code></dt>
 <dd><p>Misalignment tilt</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
 <p>Default initializer for all Commands.</p>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.fieldmaps.CartesianMesh.KEYWORD" title="zgoubidoo.commands.fieldmaps.CartesianMesh.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></td>
-<td>Keyword of the command used for the Zgoubi input data.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.fieldmaps.CartesianMesh.KEYWORD" title="zgoubidoo.commands.fieldmaps.CartesianMesh.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></p></td>
+<td><p>Keyword of the command used for the Zgoubi input data.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.fieldmaps.CartesianMesh.PARAMETERS" title="zgoubidoo.commands.fieldmaps.CartesianMesh.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></td>
-<td>Parameters of the command, with their default value, their description and optinally an index used by other commands (e.g.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.fieldmaps.CartesianMesh.PARAMETERS" title="zgoubidoo.commands.fieldmaps.CartesianMesh.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></p></td>
+<td><p>Parameters of the command, with their default value, their description and optinally an index used by other commands (e.g.</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.fieldmaps.CartesianMesh.KEYWORD">
-<code class="descname">KEYWORD</code><em class="property"> = 'CARTEMES'</em><a class="headerlink" href="#zgoubidoo.commands.fieldmaps.CartesianMesh.KEYWORD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">KEYWORD</code><em class="property">: str</em><em class="property"> = 'CARTEMES'</em><a class="headerlink" href="#zgoubidoo.commands.fieldmaps.CartesianMesh.KEYWORD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Keyword of the command used for the Zgoubi input data.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.fieldmaps.CartesianMesh.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'A': (0.0,), 'ALE': (&lt;Quantity(0, 'radian')&gt;, 'Misalignment tilt'), 'AP': [0.0], 'B': (0.0,), 'BNORM': (1.0, 'Field normalization coefficient'), 'BP': [0.0], 'C': (0.0,), 'CP': [0.0], 'FNAME': ('field_map.map', 'File name'), 'IC': (2, 'Print the map'), 'ID': (0, 'Integration boundary'), 'IL': (2, 'Print field and coordinates along trajectories'), 'IORDRE': (25, 'Degree of interpolation polynomial'), 'IX': (1, 'Number of longitudinal nodes of the map'), 'JY': (1, 'Number of transverse nodes of the map'), 'KPOS': (1, 'Alignment'), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'TITL': ('CARTEMES_FIELD_MAP', &quot;Title. Start with 'FLIP' to get field map X-flipped&quot;), 'XCE': (&lt;Quantity(0, 'centimeter')&gt;, 'Misalignment X shift'), 'XN': (1.0, 'X coordinate normalization coefficient'), 'XPAS': (&lt;Quantity(1, 'centimeter')&gt;, 'Integration step'), 'YCE': (&lt;Quantity(0, 'centimeter')&gt;, 'Misalignment Y shift'), 'YN': (1.0, 'Y coordinate normalization coefficient')}</em><a class="headerlink" href="#zgoubidoo.commands.fieldmaps.CartesianMesh.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'A': (0.0,), 'ALE': (&lt;Quantity(0, 'radian')&gt;, 'Misalignment tilt'), 'AP': [0.0], 'B': (0.0,), 'BNORM': (1.0, 'Field normalization coefficient'), 'BP': [0.0], 'C': (0.0,), 'CP': [0.0], 'FNAME': ('field_map.map', 'File name'), 'IC': (2, 'Print the map'), 'ID': (0, 'Integration boundary'), 'IL': (2, 'Print field and coordinates along trajectories'), 'IORDRE': (25, 'Degree of interpolation polynomial'), 'IX': (1, 'Number of longitudinal nodes of the map'), 'JY': (1, 'Number of transverse nodes of the map'), 'KPOS': (1, 'Alignment'), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'TITL': ('CARTEMES_FIELD_MAP', &quot;Title. Start with 'FLIP' to get field map X-flipped&quot;), 'XCE': (&lt;Quantity(0, 'centimeter')&gt;, 'Misalignment X shift'), 'XN': (1.0, 'X coordinate normalization coefficient'), 'XPAS': (&lt;Quantity(1, 'centimeter')&gt;, 'Integration step'), 'YCE': (&lt;Quantity(0, 'centimeter')&gt;, 'Misalignment Y shift'), 'YN': (1.0, 'Y coordinate normalization coefficient')}</em><a class="headerlink" href="#zgoubidoo.commands.fieldmaps.CartesianMesh.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parameters of the command, with their default value, their description and optinally an index used by other
 commands (e.g. fit).</p>
 </dd></dl>

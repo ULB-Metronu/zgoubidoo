@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -162,13 +162,13 @@
             
   <h1>Source code for zgoubidoo.fieldmaps.fieldmap</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Field map module.&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">lmfit</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">interpolate</span>
-<span class="kn">from</span> <span class="nn">lmfit</span> <span class="k">import</span> <span class="n">Model</span> <span class="k">as</span> <span class="n">_Model</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">interpolate</span>
+<span class="kn">from</span> <span class="nn">lmfit</span> <span class="kn">import</span> <span class="n">Model</span> <span class="k">as</span> <span class="n">_Model</span>
 
 
 <div class="viewcode-block" id="load_mesh_data"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.load_mesh_data.html#zgoubidoo.fieldmaps.fieldmap.load_mesh_data">[docs]</a><span class="k">def</span> <span class="nf">load_mesh_data</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">):</span>
@@ -296,7 +296,7 @@
 
 <div class="viewcode-block" id="EngeModel"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.EngeModel.html#zgoubidoo.fieldmaps.fieldmap.EngeModel">[docs]</a><span class="k">class</span> <span class="nc">EngeModel</span><span class="p">(</span><span class="n">_Model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Enge model to be used with lmfit.&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">enge</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -312,7 +312,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    TODO</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_map</span><span class="p">:</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_map</span><span class="p">:</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
@@ -322,13 +322,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_reference_trajectory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_field_profile_fit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
 
 <div class="viewcode-block" id="FieldMap.load_from_opera"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap.load_from_opera">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">load_from_opera</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Factory method to load a field map from a Opera output file.</span>
+<span class="sd">        Factory method to load a field map from a Opera parent file.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            file: the file containing the field map data</span>
@@ -342,7 +342,7 @@
 <div class="viewcode-block" id="FieldMap.load_from_opera_with_mesh"><a class="viewcode-back" href="../../../api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap.load_from_opera_with_mesh">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">load_from_opera_with_mesh</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">field_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mesh_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Factory method to load a field map from Opera output files (field map and mesh definition).</span>
+<span class="sd">        Factory method to load a field map from Opera parent files (field map and mesh definition).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            field_file: the file containing the field map data</span>

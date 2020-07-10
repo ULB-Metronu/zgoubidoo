@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -166,13 +166,13 @@
 
 <span class="sd">TODO</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
-<span class="kn">from</span> <span class="nn">.actions</span> <span class="k">import</span> <span class="n">Action</span> <span class="k">as</span> <span class="n">_Action</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">Q_</span> <span class="k">as</span> <span class="n">_Q</span>
+<span class="kn">from</span> <span class="nn">.actions</span> <span class="kn">import</span> <span class="n">Action</span> <span class="k">as</span> <span class="n">_Action</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Q_</span> <span class="k">as</span> <span class="n">_Q</span>
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">..input</span> <span class="k">import</span> <span class="n">Input</span> <span class="k">as</span> <span class="n">_Input</span>
+    <span class="kn">from</span> <span class="nn">..input</span> <span class="kn">import</span> <span class="n">Input</span> <span class="k">as</span> <span class="n">_Input</span>
 
 
 <div class="viewcode-block" id="SynchrotronRadiationLosses"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.radiation.SynchrotronRadiationLosses.html#zgoubidoo.commands.radiation.SynchrotronRadiationLosses">[docs]</a><span class="k">class</span> <span class="nc">SynchrotronRadiationLosses</span><span class="p">(</span><span class="n">_Action</span><span class="p">):</span>
@@ -206,12 +206,12 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optionally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
-<span class="s2">        </span><span class="si">{self.KSR}</span><span class="s2">.</span><span class="si">{self.I}</span><span class="s2"> {&#39;PRINT&#39; if self.I else &#39;&#39;}</span>
-<span class="s2">        </span><span class="si">{self.KEYWORDS}</span><span class="s2"> </span><span class="si">{self.SCALING}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{self.OPTION}</span><span class="s2"> </span><span class="si">{self.SEED}</span><span class="s2"></span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KSR</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">I</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;PRINT&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">I</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">KEYWORDS</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">SCALING</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">OPTION</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">SEED</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="SynchrotronRadiationLosses.switch"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.radiation.SynchrotronRadiationLosses.html#zgoubidoo.commands.radiation.SynchrotronRadiationLosses.switch">[docs]</a>    <span class="k">def</span> <span class="nf">switch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>

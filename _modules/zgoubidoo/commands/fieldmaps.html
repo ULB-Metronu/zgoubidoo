@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -165,23 +165,23 @@
 
 <span class="sd">More details here.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
-<span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">_Command</span>
-<span class="kn">from</span> <span class="nn">.actions</span> <span class="k">import</span> <span class="n">Action</span> <span class="k">as</span> <span class="n">_Action</span>
-<span class="kn">from</span> <span class="nn">.magnetique</span> <span class="k">import</span> <span class="n">CartesianMagnet</span> <span class="k">as</span> <span class="n">_CartesianMagnet</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">Q_</span> <span class="k">as</span> <span class="n">_Q</span>
-<span class="kn">from</span> <span class="nn">..units</span> <span class="k">import</span> <span class="n">_cm</span><span class="p">,</span> <span class="n">_radian</span>
-<span class="kn">from</span> <span class="nn">..zgoubi</span> <span class="k">import</span> <span class="n">Zgoubi</span> <span class="k">as</span> <span class="n">_Zgoubi</span>
-<span class="kn">from</span> <span class="nn">..zgoubi</span> <span class="k">import</span> <span class="n">ZgoubiException</span> <span class="k">as</span> <span class="n">_ZgoubiException</span>
+<span class="kn">from</span> <span class="nn">.commands</span> <span class="kn">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">_Command</span>
+<span class="kn">from</span> <span class="nn">.actions</span> <span class="kn">import</span> <span class="n">Action</span> <span class="k">as</span> <span class="n">_Action</span>
+<span class="kn">from</span> <span class="nn">.magnetique</span> <span class="kn">import</span> <span class="n">CartesianMagnet</span> <span class="k">as</span> <span class="n">_CartesianMagnet</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Q_</span> <span class="k">as</span> <span class="n">_Q</span>
+<span class="kn">from</span> <span class="nn">..units</span> <span class="kn">import</span> <span class="n">_cm</span><span class="p">,</span> <span class="n">_radian</span>
+<span class="kn">from</span> <span class="nn">..zgoubi</span> <span class="kn">import</span> <span class="n">Zgoubi</span> <span class="k">as</span> <span class="n">_Zgoubi</span>
+<span class="kn">from</span> <span class="nn">..zgoubi</span> <span class="kn">import</span> <span class="n">ZgoubiException</span> <span class="k">as</span> <span class="n">_ZgoubiException</span>
 <span class="kn">import</span> <span class="nn">zgoubidoo</span>
 <span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">_go</span>
-<span class="kn">from</span> <span class="nn">georges_core.frame</span> <span class="k">import</span> <span class="n">Frame</span> <span class="k">as</span> <span class="n">_Frame</span>
+<span class="kn">from</span> <span class="nn">georges_core.frame</span> <span class="kn">import</span> <span class="n">Frame</span> <span class="k">as</span> <span class="n">_Frame</span>
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">..input</span> <span class="k">import</span> <span class="n">Input</span> <span class="k">as</span> <span class="n">_Input</span>
+    <span class="kn">from</span> <span class="nn">..input</span> <span class="kn">import</span> <span class="n">Input</span> <span class="k">as</span> <span class="n">_Input</span>
 
 
 <div class="viewcode-block" id="Brevol"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.Brevol.html#zgoubidoo.commands.fieldmaps.Brevol">[docs]</a><span class="k">class</span> <span class="nc">Brevol</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
@@ -228,18 +228,18 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">    commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
-<span class="s2">        </span><span class="si">{s.IC}</span><span class="s2"> </span><span class="si">{s.IL}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{s.BNORM}</span><span class="s2"> </span><span class="si">{s.XN}</span><span class="s2"> </span><span class="si">{s.YN}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{s.TITL}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{s.IX}</span><span class="s2"> </span><span class="si">{s.JY}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{s.FNAME}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{s.ID}</span><span class="s2"> </span><span class="si">{s.A}</span><span class="s2"> </span><span class="si">{s.B}</span><span class="s2"> </span><span class="si">{s.C}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{s.IORDRE}</span><span class="s2"></span>
-<span class="s2">        {_cm(s.XPAS)}</span>
-<span class="s2">        </span><span class="si">{s.KPOS}</span><span class="s2"> {_cm(s.XCE)} {_cm(s.YCE)} {_radian(s.ALE)}</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">IC</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">IL</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">BNORM</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">XN</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">YN</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">TITL</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">IX</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">JY</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">FNAME</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">ID</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">A</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">B</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">C</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">IORDRE</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">_cm</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">XPAS</span><span class="p">)</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">KPOS</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_cm</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">XCE</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_cm</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">YCE</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">_radian</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">ALE</span><span class="p">)</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span></div>
 
 
@@ -262,7 +262,7 @@
 
 
 <div class="viewcode-block" id="Poisson"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.Poisson.html#zgoubidoo.commands.fieldmaps.Poisson">[docs]</a><span class="k">class</span> <span class="nc">Poisson</span><span class="p">(</span><span class="n">_Command</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Read magnetic field data from POISSON output.</span>
+    <span class="sd">&quot;&quot;&quot;Read magnetic field data from POISSON parent.</span>
 
 <span class="sd">    TODO</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -285,7 +285,7 @@
 <span class="sd">    .. rubric:: Zgoubi manual description</span>
 
 <span class="sd">    TOSCA is dedicated to the reading and treatment of 2-D or 3-D Cartesian or cylindrical mesh field maps as delivered</span>
-<span class="sd">    by the TOSCA magnet computer code standard output.</span>
+<span class="sd">    by the TOSCA magnet computer code standard parent.</span>
 
 <span class="sd">    A pair of flags, MOD, MOD2, determine whether Cartesian or Z-axis cylindrical mesh is used, and the nature of the</span>
 <span class="sd">    field map data set.</span>
@@ -362,18 +362,18 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">        commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        {super().__str__().rstrip()}</span>
-<span class="s2">        </span><span class="si">{s.IC:d}</span><span class="s2"> </span><span class="si">{s.IL:d}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{s.BNORM:.12e}</span><span class="s2"> </span><span class="si">{s.XN:.12e}</span><span class="s2"> </span><span class="si">{s.YN:.12e}</span><span class="s2"> </span><span class="si">{s.ZN:.12e}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{s.TITL}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{s.IX:d}</span><span class="s2"> </span><span class="si">{s.IY:d}</span><span class="s2"> </span><span class="si">{s.IZ:d}</span><span class="s2"> </span><span class="si">{s.MOD:d}</span><span class="s2">.</span><span class="si">{s.MOD2:d}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{s.FNAME}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{s.ID:d}</span><span class="s2"> </span><span class="si">{s.A:.12e}</span><span class="s2"> </span><span class="si">{s.B:.12e}</span><span class="s2"> </span><span class="si">{s.C:.12e}</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">{s.IORDRE:d}</span><span class="s2"></span>
-<span class="s2">        {_cm(s.XPAS):.12e}</span>
-<span class="s2">        </span><span class="si">{s.KPOS:d}</span><span class="s2"> {s.XCE.m_as(&#39;cm&#39;):.12e} {s.YCE.m_as(&#39;cm&#39;):.12e} {s.ALE.m_as(&#39;radian&#39;):.12e}</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">IC</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">IL</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">BNORM</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">XN</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">YN</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">ZN</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">TITL</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">IX</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">IY</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">IZ</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">MOD</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">MOD2</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">FNAME</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">ID</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">A</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">B</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">C</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">IORDRE</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">_cm</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">XPAS</span><span class="p">)</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">KPOS</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">XCE</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">)</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">YCE</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">)</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">ALE</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="s1">&#39;radian&#39;</span><span class="p">)</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Tosca.adjust_tracks_variables"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.Tosca.html#zgoubidoo.commands.fieldmaps.Tosca.adjust_tracks_variables">[docs]</a>    <span class="k">def</span> <span class="nf">adjust_tracks_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tracks</span><span class="p">:</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
@@ -384,13 +384,13 @@
 
 <div class="viewcode-block" id="Tosca.load"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.fieldmaps.Tosca.html#zgoubidoo.commands.fieldmaps.Tosca.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zgoubi</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_Zgoubi</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">z</span> <span class="o">=</span> <span class="n">zgoubi</span> <span class="ow">or</span> <span class="n">_Zgoubi</span><span class="p">()</span>
-        <span class="n">zi</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;TOSCA_</span><span class="si">{self.LABEL1}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">zi</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TOSCA_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">zi</span> <span class="o">+=</span> <span class="bp">self</span>
 
         <span class="k">def</span> <span class="nf">cb</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Post execution callback.&quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">success</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">_ZgoubiException</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Unable to load field map for keyword </span><span class="si">{self.__class__.__name__}</span><span class="s2">.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">_ZgoubiException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unable to load field map for keyword </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;LENGTH&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span>
 
         <span class="n">z</span><span class="p">(</span><span class="n">zi</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;TOSCA_LOAD&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">},</span> <span class="n">cb</span><span class="o">=</span><span class="n">cb</span><span class="p">)</span>

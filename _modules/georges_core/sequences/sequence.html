@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -164,21 +164,24 @@
 <span></span><span class="sd">&quot;&quot;&quot;High-level interface for Zgoubi using sequences.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Union</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="k">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">particles</span> <span class="k">as</span> <span class="n">_particles</span>
-<span class="kn">from</span> <span class="nn">..particles</span> <span class="k">import</span> <span class="n">Proton</span> <span class="k">as</span> <span class="n">_Proton</span>
-<span class="kn">from</span> <span class="nn">..kinematics</span> <span class="k">import</span> <span class="n">Kinematics</span> <span class="k">as</span> <span class="n">_Kinematics</span>
-<span class="kn">from</span> <span class="nn">.elements</span> <span class="k">import</span> <span class="n">Element</span> <span class="k">as</span> <span class="n">_Element</span>
-<span class="kn">from</span> <span class="nn">.elements</span> <span class="k">import</span> <span class="n">ElementClass</span> <span class="k">as</span> <span class="n">_ElementClass</span>
-<span class="kn">from</span> <span class="nn">.betablock</span> <span class="k">import</span> <span class="n">BetaBlock</span> <span class="k">as</span> <span class="n">_BetaBlock</span>
-<span class="kn">from</span> <span class="nn">..codes_io</span> <span class="k">import</span> <span class="n">load_madx_twiss_headers</span><span class="p">,</span> <span class="n">load_madx_twiss_table</span><span class="p">,</span> <span class="n">load_transport_input_file</span><span class="p">,</span> <span class="n">transport_element_factory</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">particles</span> <span class="k">as</span> <span class="n">_particles</span>
+<span class="kn">from</span> <span class="nn">..particles</span> <span class="kn">import</span> <span class="n">Proton</span> <span class="k">as</span> <span class="n">_Proton</span>
+<span class="kn">from</span> <span class="nn">..kinematics</span> <span class="kn">import</span> <span class="n">Kinematics</span> <span class="k">as</span> <span class="n">_Kinematics</span>
+<span class="kn">from</span> <span class="nn">.elements</span> <span class="kn">import</span> <span class="n">Element</span> <span class="k">as</span> <span class="n">_Element</span>
+<span class="kn">from</span> <span class="nn">.elements</span> <span class="kn">import</span> <span class="n">ElementClass</span> <span class="k">as</span> <span class="n">_ElementClass</span>
+<span class="kn">from</span> <span class="nn">.betablock</span> <span class="kn">import</span> <span class="n">BetaBlock</span> <span class="k">as</span> <span class="n">_BetaBlock</span>
+<span class="kn">from</span> <span class="nn">..codes_io</span> <span class="kn">import</span> <span class="n">load_madx_twiss_headers</span><span class="p">,</span> <span class="n">load_madx_twiss_table</span><span class="p">,</span> <span class="n">load_transport_input_file</span><span class="p">,</span> \
+    <span class="n">transport_element_factory</span>
+<span class="kn">from</span> <span class="nn">..codes_io</span> <span class="kn">import</span> <span class="n">BDSimOutput</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
+
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">..particles</span> <span class="k">import</span> <span class="n">ParticuleType</span> <span class="k">as</span> <span class="n">_ParticuleType</span>
+    <span class="kn">from</span> <span class="nn">..particles</span> <span class="kn">import</span> <span class="n">ParticuleType</span> <span class="k">as</span> <span class="n">_ParticuleType</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SequenceException&#39;</span><span class="p">,</span>
            <span class="s1">&#39;SequenceMetadata&#39;</span><span class="p">,</span>
@@ -187,13 +190,19 @@
            <span class="s1">&#39;TwissSequence&#39;</span><span class="p">,</span>
            <span class="s1">&#39;SurveySequence&#39;</span><span class="p">,</span>
            <span class="s1">&#39;TransportSequence&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;BDSIMSequence&#39;</span><span class="p">,</span>
            <span class="p">]</span>
+
+<span class="n">_BDSIM_TO_MAD_CONVENTION</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Rcol&#39;</span><span class="p">:</span> <span class="s1">&#39;RectangularCollimator&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Ecol&#39;</span><span class="p">:</span> <span class="s1">&#39;EllipticalCollimator&#39;</span><span class="p">,</span>
+<span class="p">}</span>
 
 
 <div class="viewcode-block" id="SequenceException"><a class="viewcode-back" href="../../../api/georges_core.sequences.SequenceException.html#georges_core.sequences.SequenceException">[docs]</a><span class="k">class</span> <span class="nc">SequenceException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Exception raised for errors when using zgoubidoo.Sequence&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">m</span></div>
 
 
@@ -210,7 +219,7 @@
     <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span>
     <span class="n">n_particles</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
 
-    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -254,7 +263,8 @@
     <span class="sd">&quot;&quot;&quot;Sequence.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
                  <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SequenceMetadata</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -277,7 +287,7 @@
             <span class="p">]</span>
         <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
 
     <span class="nd">@property</span>
@@ -318,6 +328,7 @@
                             <span class="k">return</span> <span class="n">_</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="k">return</span> <span class="n">_</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+
                     <span class="k">return</span> <span class="n">do</span>
 
                 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;AT_ENTRY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;AT_ENTRY&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">safe_convert</span><span class="p">(</span><span class="s1">&#39;meter&#39;</span><span class="p">))</span>
@@ -421,14 +432,31 @@
 <span class="sd">        Returns:</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">SurveySequence</span><span class="p">()</span></div></div>
+        <span class="k">return</span> <span class="n">SurveySequence</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Sequence.from_bdsim"><a class="viewcode-back" href="../../../api/georges_core.sequences.Sequence.html#georges_core.sequences.Sequence.from_bdsim">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_bdsim</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;output.root&#39;</span><span class="p">,</span>
+                   <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
+                   <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        TODO</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">BDSIMSequence</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
+                             <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
+                             <span class="n">from_element</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                             <span class="n">to_element</span><span class="o">=</span><span class="kc">None</span>
+                             <span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="PlacementSequence"><a class="viewcode-back" href="../../../api/georges_core.sequences.PlacementSequence.html#georges_core.sequences.PlacementSequence">[docs]</a><span class="k">class</span> <span class="nc">PlacementSequence</span><span class="p">(</span><span class="n">Sequence</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Placement Sequence.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
                  <span class="n">data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">_Element</span><span class="p">,</span>
                                            <span class="n">_ureg</span><span class="o">.</span><span class="n">Quantity</span><span class="p">,</span>
@@ -542,7 +570,7 @@
                             <span class="n">ats</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
                             <span class="n">ats</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">element_or_sequence</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">ats</span><span class="p">[</span><span class="s1">&#39;at&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">ats</span><span class="p">[</span><span class="n">f</span><span class="s2">&quot;at_{self._reference_placement.lower()}&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ats</span><span class="p">[</span><span class="s1">&#39;at&#39;</span><span class="p">]</span>
+            <span class="n">ats</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;at_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_reference_placement</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ats</span><span class="p">[</span><span class="s1">&#39;at&#39;</span><span class="p">]</span>
 
         <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Compute placement quantities.&quot;&quot;&quot;</span>
@@ -662,7 +690,7 @@
         <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
             <span class="n">length</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">at</span><span class="p">)</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">length</span> <span class="o">&gt;</span> <span class="mf">1e-6</span><span class="p">:</span>
-                <span class="n">expanded</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">drift_element</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;D_</span><span class="si">{e[0].NAME}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">L</span><span class="o">=</span><span class="n">length</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">),</span>
+                <span class="n">expanded</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">drift_element</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;D_</span><span class="si">{</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">NAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">L</span><span class="o">=</span><span class="n">length</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">),</span>
                                  <span class="n">at</span><span class="p">,</span>
                                  <span class="n">at</span> <span class="o">+</span> <span class="n">length</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
                                  <span class="n">at</span> <span class="o">+</span> <span class="n">length</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">,</span>
@@ -682,7 +710,8 @@
         <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">length</span><span class="o">-</span><span class="n">at_entry</span><span class="p">,</span> <span class="n">length</span><span class="o">-</span><span class="n">at_center</span><span class="p">,</span> <span class="n">length</span><span class="o">-</span><span class="n">at_exit</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">at_entry</span><span class="p">,</span> <span class="n">at_center</span><span class="p">,</span> <span class="n">at_exit</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+            <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="n">at_entry</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="n">at_center</span><span class="p">,</span> <span class="n">length</span> <span class="o">-</span> <span class="n">at_exit</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">at_entry</span><span class="p">,</span> <span class="n">at_center</span><span class="p">,</span> <span class="n">at_exit</span> <span class="ow">in</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
@@ -707,7 +736,7 @@
 <span class="sd">    TODO</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;twiss.outx&#39;</span><span class="p">,</span>
                  <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
                  <span class="o">*</span><span class="p">,</span>
@@ -783,9 +812,9 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    TODO</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">..codes_io.transport</span> <span class="k">import</span> <span class="n">TransportInputFlavor</span><span class="p">,</span> <span class="n">TransportInputOriginalFlavor</span>
+    <span class="kn">from</span> <span class="nn">..codes_io.transport</span> <span class="kn">import</span> <span class="n">TransportInputFlavor</span><span class="p">,</span> <span class="n">TransportInputOriginalFlavor</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                  <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
                  <span class="n">flavor</span><span class="p">:</span> <span class="n">TransportInputFlavor</span> <span class="o">=</span> <span class="n">TransportInputOriginalFlavor</span><span class="p">,</span>
@@ -824,14 +853,14 @@
         <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dicts</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;NAME&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">counters</span><span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;KEYWORD&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">counters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;KEYWORD&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-                <span class="n">d</span><span class="p">[</span><span class="s1">&#39;NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{d[&#39;KEYWORD&#39;]}</span><span class="s2">_{counters[d[&#39;KEYWORD&#39;]]}&quot;</span>
+                <span class="n">d</span><span class="p">[</span><span class="s1">&#39;NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;KEYWORD&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">counters</span><span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;KEYWORD&#39;</span><span class="p">]]</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">return</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dicts</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;NAME&#39;</span><span class="p">)</span></div>
 
     <span class="n">df</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">to_df</span><span class="p">)</span></div>
 
 
 <span class="k">class</span> <span class="nc">SurveySequence</span><span class="p">(</span><span class="n">PlacementSequence</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                  <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
                  <span class="p">):</span>
@@ -867,10 +896,94 @@
         <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dicts</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;NAME&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">counters</span><span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;KEYWORD&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">counters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;KEYWORD&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-                <span class="n">d</span><span class="p">[</span><span class="s1">&#39;NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{d[&#39;KEYWORD&#39;]}</span><span class="s2">_{counters[d[&#39;KEYWORD&#39;]]}&quot;</span>
+                <span class="n">d</span><span class="p">[</span><span class="s1">&#39;NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;KEYWORD&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">counters</span><span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;KEYWORD&#39;</span><span class="p">]]</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">return</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dicts</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;NAME&#39;</span><span class="p">)</span>
 
     <span class="n">df</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">to_df</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="BDSIMSequence"><a class="viewcode-back" href="../../../api/georges_core.sequences.BDSIMSequence.html#georges_core.sequences.BDSIMSequence">[docs]</a><span class="k">class</span> <span class="nc">BDSIMSequence</span><span class="p">(</span><span class="n">Sequence</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;output.root&#39;</span><span class="p">,</span>
+                 <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
+                 <span class="n">from_element</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">to_element</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename: the name of the physics</span>
+<span class="sd">            path:</span>
+<span class="sd">            from_element:</span>
+<span class="sd">            to_element:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Load the model</span>
+        <span class="n">bdsim_data</span> <span class="o">=</span> <span class="n">BDSimOutput</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">bdsim_model</span> <span class="o">=</span> <span class="n">bdsim_data</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">from_element</span><span class="p">:</span><span class="n">to_element</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_units</span><span class="p">(</span><span class="n">bdsim_model</span><span class="p">)</span>
+
+        <span class="c1"># Load the beam properties</span>
+        <span class="n">bdsim_beam</span> <span class="o">=</span> <span class="n">bdsim_data</span><span class="o">.</span><span class="n">beam</span><span class="o">.</span><span class="n">beam_base</span><span class="o">.</span><span class="n">pandas</span><span class="p">(</span><span class="n">branches</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;beamEnergy&#39;</span><span class="p">,</span> <span class="s1">&#39;particle&#39;</span><span class="p">])</span>
+        <span class="n">particle_name</span> <span class="o">=</span> <span class="n">bdsim_beam</span><span class="p">[</span><span class="s2">&quot;particle&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+        <span class="n">particle_energy</span> <span class="o">=</span> <span class="n">bdsim_beam</span><span class="p">[</span><span class="s2">&quot;beamEnergy&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">GeV</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_particles</span><span class="p">,</span> <span class="n">particle_name</span> <span class="k">if</span> <span class="n">particle_name</span> <span class="o">!=</span> <span class="s1">&#39;Default&#39;</span> <span class="k">else</span> <span class="s1">&#39;Proton&#39;</span><span class="p">)</span>
+        <span class="n">kin</span> <span class="o">=</span> <span class="n">_Kinematics</span><span class="p">(</span><span class="n">particle_energy</span><span class="p">,</span> <span class="n">kinetic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">particle</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+
+        <span class="c1"># Load the beam distribution</span>
+        <span class="n">beam_distribution</span> <span class="o">=</span> <span class="n">bdsim_data</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">beam_distribution</span><span class="p">[</span><span class="s1">&#39;dpp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">beam_distribution</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="p">((</span><span class="n">e</span><span class="o">/</span><span class="n">kin</span><span class="o">.</span><span class="n">momentum</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="s2">&quot;GeV/c&quot;</span><span class="p">))</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">beam_distribution</span> <span class="o">=</span> <span class="n">beam_distribution</span><span class="p">[[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;xp&#39;</span><span class="p">,</span> <span class="s1">&#39;yp&#39;</span><span class="p">,</span> <span class="s1">&#39;dpp&#39;</span><span class="p">]]</span>
+        <span class="n">beam_distribution</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;xp&quot;</span><span class="p">:</span> <span class="s2">&quot;px&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;yp&quot;</span><span class="p">:</span> <span class="s2">&quot;py&quot;</span>
+        <span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">beam_distribution</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">upper</span><span class="p">,</span> <span class="n">beam_distribution</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="n">beam_distribution</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">beam_distribution</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Remove the multi index</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;BDSIM&quot;</span><span class="p">,</span>
+                         <span class="n">data</span><span class="o">=</span><span class="n">bdsim_model</span><span class="p">,</span>
+                         <span class="n">metadata</span><span class="o">=</span><span class="n">SequenceMetadata</span><span class="p">(</span>
+                             <span class="n">data</span><span class="o">=</span><span class="n">_pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span>
+                                 <span class="s1">&#39;BEAM_DISTRIBUTION&#39;</span><span class="p">:</span> <span class="n">beam_distribution</span><span class="p">[[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;PX&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;PY&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;DPP&#39;</span><span class="p">]],</span>
+                             <span class="p">}),</span>
+                             <span class="n">kinematics</span><span class="o">=</span><span class="n">kin</span><span class="p">,</span>
+                             <span class="n">particle</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+                         <span class="p">)</span>
+
+<div class="viewcode-block" id="BDSIMSequence.set_units"><a class="viewcode-back" href="../../../api/georges_core.sequences.BDSIMSequence.html#georges_core.sequences.BDSIMSequence.set_units">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">set_units</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Specify the units</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">model</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+        <span class="n">model</span><span class="p">[</span><span class="s1">&#39;CLASS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;TYPE&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">capitalize</span><span class="p">)</span>
+        <span class="n">model</span><span class="p">[</span><span class="s1">&#39;CLASS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;CLASS&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">_BDSIM_TO_MAD_CONVENTION</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+
+        <span class="n">model</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;CLASS&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;RectangularCollimator&quot;</span><span class="p">,</span> <span class="s2">&quot;APERTYPE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;rectangular&quot;</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;CLASS&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Dump&quot;</span><span class="p">,</span> <span class="s2">&quot;APERTYPE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;rectangular&quot;</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">model</span><span class="p">[</span><span class="s2">&quot;CLASS&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;EllipticalCollimator&quot;</span><span class="p">,</span> <span class="s2">&quot;APERTYPE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;elliptical&quot;</span>
+
+        <span class="n">model</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">)</span>
+        <span class="n">model</span><span class="p">[</span><span class="s1">&#39;APERTURE1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;APERTURE1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">)</span>
+        <span class="n">model</span><span class="p">[</span><span class="s1">&#39;APERTURE2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;APERTURE2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span><span class="p">)</span>
+        <span class="n">model</span><span class="p">[</span><span class="s1">&#39;APERTURE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="p">[[</span><span class="s1">&#39;APERTURE1&#39;</span><span class="p">,</span> <span class="s1">&#39;APERTURE2&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">model</span><span class="p">[</span><span class="s1">&#39;K1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;K1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span> <span class="o">**</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">model</span><span class="p">[</span><span class="s1">&#39;K1S&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;K1S&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span> <span class="o">**</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">model</span><span class="p">[</span><span class="s1">&#39;K2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;K2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">m</span> <span class="o">**</span> <span class="o">-</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">model</span><span class="p">[</span><span class="s1">&#39;E1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;E1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span>
+        <span class="n">model</span><span class="p">[</span><span class="s1">&#39;E2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;E2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span>
+        <span class="n">model</span><span class="p">[</span><span class="s1">&#39;HGAP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;HGAP&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">meter</span><span class="p">)</span>
+        <span class="n">model</span><span class="p">[</span><span class="s1">&#39;TILT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;TILT&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span>
+        <span class="n">model</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">T</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BDSIMSequence.to_df"><a class="viewcode-back" href="../../../api/georges_core.sequences.BDSIMSequence.html#georges_core.sequences.BDSIMSequence.to_df">[docs]</a>    <span class="k">def</span> <span class="nf">to_df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">strip_units</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span></div>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">to_df</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

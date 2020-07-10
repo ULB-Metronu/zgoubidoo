@@ -1,0 +1,14 @@
+<map id="inheritance77982c000d" name="inheritance77982c000d">
+<area shape="rect" id="node1" href="api/zgoubidoo.commands.fieldmaps.Brevol.html#zgoubidoo.commands.fieldmaps.Brevol" target="_top" title="1&#45;D uniform mesh magnetic field map." alt="" coords="156,77,228,101"/>
+<area shape="rect" id="node2" href="api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" target="_top" title="Test test test." alt="" coords="5,173,88,197"/>
+<area shape="rect" id="node4" href="api/zgoubidoo.commands.magnetique.Magnet.html#zgoubidoo.commands.magnetique.Magnet" target="_top" title="Base class for all magnetic elements." alt="" coords="156,29,228,53"/>
+<area shape="rect" id="node5" href="api/zgoubidoo.commands.fieldmaps.CartesianMesh.html#zgoubidoo.commands.fieldmaps.CartesianMesh" target="_top" title="2&#45;D Cartesian uniform mesh magnetic field map." alt="" coords="136,125,247,149"/>
+<area shape="rect" id="node8" href="api/zgoubidoo.commands.fieldmaps.Map2D.html#zgoubidoo.commands.fieldmaps.Map2D" target="_top" title="2&#45;D Cartesian uniform mesh field map &#45; arbitrary magnetic field." alt="" coords="156,173,228,197"/>
+<area shape="rect" id="node9" href="api/zgoubidoo.commands.fieldmaps.Map2DElectric.html#zgoubidoo.commands.fieldmaps.Map2DElectric" target="_top" title="2&#45;D Cartesian uniform mesh field map &#45; arbitrary electric field." alt="" coords="138,221,246,245"/>
+<area shape="rect" id="node10" href="api/zgoubidoo.commands.fieldmaps.Poisson.html#zgoubidoo.commands.fieldmaps.Poisson" target="_top" title="Read magnetic field data from POISSON parent." alt="" coords="156,269,228,293"/>
+<area shape="rect" id="node11" href="api/zgoubidoo.commands.fieldmaps.PolarMesh.html#zgoubidoo.commands.fieldmaps.PolarMesh" target="_top" title="2&#45;D polar mesh magnetic field map." alt="" coords="149,317,234,341"/>
+<area shape="rect" id="node3" href="api/zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet" target="_top" title="Base class for magnetic elements in cartesian coordinates." alt="" coords="295,29,418,53"/>
+<area shape="rect" id="node12" href="api/zgoubidoo.commands.fieldmaps.Tosca.html#zgoubidoo.commands.fieldmaps.Tosca" target="_top" title="2&#45;D and 3&#45;D Cartesian or cylindrical mesh field map." alt="" coords="466,29,538,53"/>
+<area shape="rect" id="node6" href="api/zgoubidoo.commands.patchable.Patchable.html#zgoubidoo.commands.patchable.Patchable" target="_top" title="Patchable elements are Zgoubi commands that affect the placement of the reference frame." alt="" coords="6,5,87,29"/>
+<area shape="rect" id="node7" href="api/zgoubidoo.commands.plotable.Plotable.html#zgoubidoo.commands.plotable.Plotable" target="_top" title="Plotable type." alt="" coords="11,53,83,77"/>
+</map>

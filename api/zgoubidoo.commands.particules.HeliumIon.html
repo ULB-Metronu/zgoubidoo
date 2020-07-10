@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="ImmortalAntiMuon" href="zgoubidoo.commands.particules.ImmortalAntiMuon.html" />
-    <link rel="prev" title="HMinus" href="zgoubidoo.commands.particules.HMinus.html" /> 
+    <link rel="prev" title="Helion" href="zgoubidoo.commands.particules.Helion.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -101,6 +101,7 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.CarbonIon.html">CarbonIon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Electron.html">Electron</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.HMinus.html">HMinus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Helion.html">Helion</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">HeliumIon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.ImmortalAntiMuon.html">ImmortalAntiMuon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.ImmortalMuon.html">ImmortalMuon</a></li>
@@ -109,10 +110,12 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Muon.html">Muon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.NativeParticule.html">NativeParticule</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.NativeParticuleType.html">NativeParticuleType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.NegativePion.html">NegativePion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.OxygenIon.html">OxygenIon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Particule.html">Particule</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.ParticuleType.html">ParticuleType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Pion.html">Pion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.PositivePion.html">PositivePion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Positron.html">Positron</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Proton.html">Proton</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.SulfurIon.html">SulfurIon</a></li>
@@ -207,118 +210,103 @@
             
   <div class="section" id="heliumion">
 <h1>HeliumIon<a class="headerlink" href="#heliumion" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="zgoubidoo.commands.particules.HeliumIon">
-<em class="property">class </em><code class="descclassname">zgoubidoo.commands.particules.</code><code class="descname">HeliumIon</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/particules.html#HeliumIon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.particules.HeliumIon" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.particules.Particule.html#zgoubidoo.commands.particules.Particule" title="zgoubidoo.commands.particules.Particule"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.particules.Particule</span></code></a></p>
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.commands.particules.</code><code class="sig-name descname">HeliumIon</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label1</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">label2</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">params</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/particules.html#HeliumIon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.particules.HeliumIon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.particules.Ion.html#zgoubidoo.commands.particules.Ion" title="zgoubidoo.commands.particules.Ion"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.particules.Ion</span></code></a></p>
 <p>A fully stripped Helium ion</p>
 <p class="rubric">Command attributes</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL1=''</code></dt>
+<code class="sig-name descname">LABEL1=''</code></dt>
 <dd><p>Primary label for the Zgoubi command (default: auto-generated hash).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL2=''</code></dt>
+<code class="sig-name descname">LABEL2=''</code></dt>
 <dd><p>Secondary label for the Zgoubi command.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">M='1'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">M='5.0064127796e-27 kilogram'</code></dt>
+<dd><p>Mass of the particle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">Q='1'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">Q='3.204353268e-19 coulomb'</code></dt>
+<dd><p>Charge of the particle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">G='1'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">G='-4.255250615'</code></dt>
+<dd><p>G factor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">tau='0'</code></dt>
+<code class="sig-name descname">tau='0'</code></dt>
 <dd><p>Lifetime of the particle.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
 <p>Default initializer for all Commands.</p>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.particules.HeliumIon.KEYWORD" title="zgoubidoo.commands.particules.HeliumIon.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></td>
-<td></td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.particules.HeliumIon.KEYWORD" title="zgoubidoo.commands.particules.HeliumIon.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.particules.HeliumIon.PARAMETERS" title="zgoubidoo.commands.particules.HeliumIon.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></td>
-<td></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.particules.HeliumIon.PARAMETERS" title="zgoubidoo.commands.particules.HeliumIon.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.particules.HeliumIon.KEYWORD">
-<code class="descname">KEYWORD</code><em class="property"> = 'PARTICUL'</em><a class="headerlink" href="#zgoubidoo.commands.particules.HeliumIon.KEYWORD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">KEYWORD</code><em class="property">: str</em><em class="property"> = 'PARTICUL'</em><a class="headerlink" href="#zgoubidoo.commands.particules.HeliumIon.KEYWORD" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.particules.HeliumIon.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'G': (1, ''), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'M': (1, ''), 'Q': (1, ''), 'tau': (0, 'Lifetime of the particle.')}</em><a class="headerlink" href="#zgoubidoo.commands.particules.HeliumIon.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'G': (-4.255250615, 'G factor'), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'M': (&lt;Quantity(5.0064127796e-27, 'kilogram')&gt;, 'Mass of the particle'), 'Q': (&lt;Quantity(3.204353268e-19, 'coulomb')&gt;, 'Charge of the particle'), 'tau': (0, 'Lifetime of the particle.')}</em><a class="headerlink" href="#zgoubidoo.commands.particules.HeliumIon.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -336,7 +324,7 @@
         <a href="zgoubidoo.commands.particules.ImmortalAntiMuon.html" class="btn btn-neutral float-right" title="ImmortalAntiMuon" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="zgoubidoo.commands.particules.HMinus.html" class="btn btn-neutral float-left" title="HMinus" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="zgoubidoo.commands.particules.Helion.html" class="btn btn-neutral float-left" title="Helion" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

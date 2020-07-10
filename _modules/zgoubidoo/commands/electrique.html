@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -165,10 +165,10 @@
 
 <span class="sd">More details here.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
-<span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">_Command</span>
-<span class="kn">from</span> <span class="nn">.plotable</span> <span class="k">import</span> <span class="n">Plotable</span> <span class="k">as</span> <span class="n">_Plotable</span>
-<span class="kn">from</span> <span class="nn">.patchable</span> <span class="k">import</span> <span class="n">Patchable</span> <span class="k">as</span> <span class="n">_Patchable</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
+<span class="kn">from</span> <span class="nn">.commands</span> <span class="kn">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">_Command</span>
+<span class="kn">from</span> <span class="nn">.plotable</span> <span class="kn">import</span> <span class="n">Plotable</span> <span class="k">as</span> <span class="n">_Plotable</span>
+<span class="kn">from</span> <span class="nn">.patchable</span> <span class="kn">import</span> <span class="n">Patchable</span> <span class="k">as</span> <span class="n">_Patchable</span>
 
 
 <div class="viewcode-block" id="Cavite"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.electrique.Cavite.html#zgoubidoo.commands.electrique.Cavite">[docs]</a><span class="k">class</span> <span class="nc">Cavite</span><span class="p">(</span><span class="n">_Command</span><span class="p">,</span> <span class="n">_Patchable</span><span class="p">,</span> <span class="n">_Plotable</span><span class="p">):</span>
@@ -188,12 +188,12 @@
     <span class="sd">&quot;&quot;&quot;Parameters of the command, with their default value, their description and optinally an index used by other </span>
 <span class="sd">        commands (e.g. fit).&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">            {super().__str__().rstrip()}</span>
-<span class="s2">            {int(s.IOPT):d}   PRINT</span>
-<span class="s2">            {s.XL.m_as(&#39;m&#39;):.12e} {s.FREQ.to(&#39;Hz&#39;).magnitude:.12e}</span>
-<span class="s2">            {s.V.m_as(&#39;volt&#39;):.12e} {s.PHI_S.m_as(&#39;radian&#39;):.12e} </span><span class="si">{s.CHAMBERS}</span><span class="s2"></span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">IOPT</span><span class="p">)</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">   PRINT</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">XL</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="s1">&#39;m&#39;</span><span class="p">)</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">FREQ</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;Hz&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="s1">&#39;volt&#39;</span><span class="p">)</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">PHI_S</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="s1">&#39;radian&#39;</span><span class="p">)</span><span class="si">:</span><span class="s2">.12e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">CHAMBERS</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">            &quot;&quot;&quot;</span></div>
 
 

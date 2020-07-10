@@ -1,0 +1,10 @@
+<map id="inheritance807b3a38ad" name="inheritance807b3a38ad">
+<area shape="rect" id="node1" href="api/zgoubidoo.commands.beam.Beam.html#zgoubidoo.commands.beam.Beam" target="_top" title="Beam" alt="" coords="238,101,310,125"/>
+<area shape="rect" id="node3" href="api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution" target="_top" title="A beam using an explicit beam distribution." alt="" coords="370,53,522,77"/>
+<area shape="rect" id="node4" href="api/zgoubidoo.commands.beam.BeamTwiss.html#zgoubidoo.commands.beam.BeamTwiss" target="_top" title="A beam to be used for transfer map and Twiss computations." alt="" coords="401,101,491,125"/>
+<area shape="rect" id="node7" href="api/zgoubidoo.commands.beam.BeamZgoubiDistribution.html#zgoubidoo.commands.beam.BeamZgoubiDistribution" target="_top" title="TODO" alt="" coords="364,149,528,173"/>
+<area shape="rect" id="node2" href="api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" target="_top" title="Test test test." alt="" coords="53,101,136,125"/>
+<area shape="rect" id="node5" href="api/zgoubidoo.commands.beam.BeamType.html#zgoubidoo.commands.beam.BeamType" target="_top" title="Type system for Objet types." alt="" coords="231,53,316,77"/>
+<area shape="rect" id="node6" href="api/zgoubidoo.commands.commands.CommandType.html#zgoubidoo.commands.commands.CommandType" target="_top" title="Dark magic." alt="" coords="38,53,150,77"/>
+<area shape="rect" id="node8" href="api/zgoubidoo.commands.beam.ZgoubidooBeamException.html#zgoubidoo.commands.beam.ZgoubidooBeamException" target="_top" title="Exception raised for errors when running Zgoubi." alt="" coords="5,5,183,29"/>
+</map>

@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -171,12 +171,12 @@
 <span class="sd">to provide a parametric mapping (combinations of the variations of one or more parameters) to generate multiple Zgoubi</span>
 <span class="sd">input files.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Deque</span><span class="p">,</span> <span class="n">Mapping</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">deque</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Deque</span><span class="p">,</span> <span class="n">Mapping</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">from</span> <span class="nn">inspect</span> <span class="k">import</span> <span class="n">getmembers</span><span class="p">,</span> <span class="n">isfunction</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span><span class="p">,</span> <span class="n">reduce</span>
+<span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">getmembers</span><span class="p">,</span> <span class="n">isfunction</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span><span class="p">,</span> <span class="n">reduce</span>
 <span class="kn">import</span> <span class="nn">tempfile</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
@@ -184,27 +184,27 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
 <span class="kn">import</span> <span class="nn">parse</span> <span class="k">as</span> <span class="nn">_parse</span>
-<span class="kn">from</span> <span class="nn">georges_core.frame</span> <span class="k">import</span> <span class="n">Frame</span> <span class="k">as</span> <span class="n">_Frame</span>
+<span class="kn">from</span> <span class="nn">georges_core.frame</span> <span class="kn">import</span> <span class="n">Frame</span> <span class="k">as</span> <span class="n">_Frame</span>
 <span class="kn">import</span> <span class="nn">zgoubidoo.converters</span> <span class="k">as</span> <span class="nn">_zgoubi_converters</span>
 <span class="kn">import</span> <span class="nn">zgoubidoo.commands</span>
-<span class="kn">from</span> <span class="nn">.zgoubi</span> <span class="k">import</span> <span class="n">Zgoubi</span> <span class="k">as</span> <span class="n">_Zgoubi</span>
-<span class="kn">from</span> <span class="nn">.commands.commands</span> <span class="k">import</span> <span class="n">ZgoubidooException</span> <span class="k">as</span> <span class="n">_ZgoubidooException</span>
-<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">_Command</span>
-<span class="kn">from</span> <span class="nn">.commands.actions</span> <span class="k">import</span> <span class="n">End</span> <span class="k">as</span> <span class="n">_End</span>
-<span class="kn">from</span> <span class="nn">.commands.beam</span> <span class="k">import</span> <span class="n">Beam</span> <span class="k">as</span> <span class="n">_Beam</span>
-<span class="kn">from</span> <span class="nn">.commands.beam</span> <span class="k">import</span> <span class="n">BeamTwiss</span> <span class="k">as</span> <span class="n">_BeamTwiss</span>
-<span class="kn">from</span> <span class="nn">.commands</span> <span class="k">import</span> <span class="n">particules</span> <span class="k">as</span> <span class="n">_particules</span>
-<span class="kn">from</span> <span class="nn">.commands.particules</span> <span class="k">import</span> <span class="n">Particule</span> <span class="k">as</span> <span class="n">_Particule</span>
-<span class="kn">from</span> <span class="nn">.commands.particules</span> <span class="k">import</span> <span class="n">ParticuleType</span> <span class="k">as</span> <span class="n">_ParticuleType</span>
-<span class="kn">from</span> <span class="nn">.constants</span> <span class="k">import</span> <span class="n">ZGOUBI_IMAX</span><span class="p">,</span> <span class="n">ZGOUBI_INPUT_FILENAME</span>
-<span class="kn">from</span> <span class="nn">.mappings</span> <span class="k">import</span> <span class="n">MappedParametersType</span> <span class="k">as</span> <span class="n">_MappedParametersType</span>
-<span class="kn">from</span> <span class="nn">.mappings</span> <span class="k">import</span> <span class="n">MappedParametersListType</span> <span class="k">as</span> <span class="n">_MappedParametersListType</span>
-<span class="kn">from</span> <span class="nn">.mappings</span> <span class="k">import</span> <span class="n">flatten</span> <span class="k">as</span> <span class="n">_flatten</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">Kinematics</span> <span class="k">as</span> <span class="n">_Kinematics</span>
+<span class="kn">from</span> <span class="nn">.zgoubi</span> <span class="kn">import</span> <span class="n">Zgoubi</span> <span class="k">as</span> <span class="n">_Zgoubi</span>
+<span class="kn">from</span> <span class="nn">.commands.commands</span> <span class="kn">import</span> <span class="n">ZgoubidooException</span> <span class="k">as</span> <span class="n">_ZgoubidooException</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="kn">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">_Command</span>
+<span class="kn">from</span> <span class="nn">.commands.actions</span> <span class="kn">import</span> <span class="n">End</span> <span class="k">as</span> <span class="n">_End</span>
+<span class="kn">from</span> <span class="nn">.commands.beam</span> <span class="kn">import</span> <span class="n">Beam</span> <span class="k">as</span> <span class="n">_Beam</span>
+<span class="kn">from</span> <span class="nn">.commands.beam</span> <span class="kn">import</span> <span class="n">BeamTwiss</span> <span class="k">as</span> <span class="n">_BeamTwiss</span>
+<span class="kn">from</span> <span class="nn">.commands</span> <span class="kn">import</span> <span class="n">particules</span> <span class="k">as</span> <span class="n">_particules</span>
+<span class="kn">from</span> <span class="nn">.commands.particules</span> <span class="kn">import</span> <span class="n">Particule</span> <span class="k">as</span> <span class="n">_Particule</span>
+<span class="kn">from</span> <span class="nn">.commands.particules</span> <span class="kn">import</span> <span class="n">ParticuleType</span> <span class="k">as</span> <span class="n">_ParticuleType</span>
+<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">ZGOUBI_IMAX</span><span class="p">,</span> <span class="n">ZGOUBI_INPUT_FILENAME</span>
+<span class="kn">from</span> <span class="nn">.mappings</span> <span class="kn">import</span> <span class="n">MappedParametersType</span> <span class="k">as</span> <span class="n">_MappedParametersType</span>
+<span class="kn">from</span> <span class="nn">.mappings</span> <span class="kn">import</span> <span class="n">MappedParametersListType</span> <span class="k">as</span> <span class="n">_MappedParametersListType</span>
+<span class="kn">from</span> <span class="nn">.mappings</span> <span class="kn">import</span> <span class="n">flatten</span> <span class="k">as</span> <span class="n">_flatten</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">Kinematics</span> <span class="k">as</span> <span class="n">_Kinematics</span>
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">georges_core.sequences</span>
-    <span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">CommandType</span>
-    <span class="kn">from</span> <span class="nn">.commands.beam</span> <span class="k">import</span> <span class="n">BeamType</span> <span class="k">as</span> <span class="n">_BeamType</span>
+    <span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="kn">import</span> <span class="n">CommandType</span>
+    <span class="kn">from</span> <span class="nn">.commands.beam</span> <span class="kn">import</span> <span class="n">BeamType</span> <span class="k">as</span> <span class="n">_BeamType</span>
 
 <span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -215,7 +215,7 @@
 <div class="viewcode-block" id="ZgoubiInputException"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.ZgoubiInputException">[docs]</a><span class="k">class</span> <span class="nc">ZgoubiInputException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Exception raised for errors within Zgoubi Input.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">m</span></div>
 
 
@@ -240,7 +240,7 @@
 <span class="sd">        &#39;test_beamline&#39;</span>
 <span class="sd">        &gt;&gt;&gt; zi()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;beamline&#39;</span><span class="p">,</span>
                  <span class="n">line</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">_Command</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="p">):</span>
@@ -250,10 +250,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_paths</span><span class="p">:</span> <span class="n">PathsListType</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_reference_frame</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Input object &#39;{self.name }&#39; for paths </span><span class="si">{self.paths}</span><span class="s2"> is being destroyed.&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input object &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="si">}</span><span class="s2">&#39; for paths </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="si">}</span><span class="s2"> is being destroyed.&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Input.__str__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__str__">[docs]</a>    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="Input.__str__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__str__">[docs]</a>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Provides the string representation, a valid Zgoubi input stream.</span>
 
 <span class="sd">        Constructs the Zgoubi input sequence with the serialization of each command. An implicit `End` command is added</span>
@@ -264,10 +264,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_line</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Input.__call__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="Input.__call__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="o">*</span><span class="p">,</span>
                  <span class="n">mappings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_MappedParametersListType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ZGOUBI_INPUT_FILENAME</span><span class="p">,</span>
@@ -323,7 +323,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">adjust</span><span class="p">(</span><span class="n">initial_state</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">paths</span>
 
-<div class="viewcode-block" id="Input.__len__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__len__">[docs]</a>    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="Input.__len__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__len__">[docs]</a>    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Length of the input sequence.</span>
 
 <span class="sd">        Returns:</span>
@@ -331,7 +331,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_line</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Input.__iadd__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__iadd__">[docs]</a>    <span class="k">def</span> <span class="nf">__iadd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="n">_Command</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Input</span><span class="p">:</span>
+<div class="viewcode-block" id="Input.__iadd__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__iadd__">[docs]</a>    <span class="k">def</span> <span class="fm">__iadd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="n">_Command</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Input</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Append a command at the end of the input sequence.</span>
 
 <span class="sd">        Args:</span>
@@ -343,7 +343,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="Input.__isub__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__isub__">[docs]</a>    <span class="k">def</span> <span class="nf">__isub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Command</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Input</span><span class="p">:</span>
+<div class="viewcode-block" id="Input.__isub__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__isub__">[docs]</a>    <span class="k">def</span> <span class="fm">__isub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Command</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Input</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Remove a command from the input sequence.</span>
 
 <span class="sd">        Args:</span>
@@ -358,7 +358,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_line</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_line</span> <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="n">other</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="Input.__getitem__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__getitem__">[docs]</a>    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="Input.__getitem__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__getitem__">[docs]</a>    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                     <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">slice</span><span class="p">,</span>
                                  <span class="nb">int</span><span class="p">,</span>
                                  <span class="nb">float</span><span class="p">,</span>
@@ -403,8 +403,8 @@
                 <span class="n">start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="p">(</span><span class="n">_Command</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">stop</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="k">return</span> <span class="n">Input</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{self._name}</span><span class="s2">_sliced_from_{getattr(items.start, &#39;LABEL1&#39;, items.start)}&quot;</span>
-                              <span class="n">f</span><span class="s2">&quot;_to_{getattr(items.stop, &#39;LABEL1&#39;, items.stop)}&quot;</span><span class="p">,</span>
+            <span class="k">return</span> <span class="n">Input</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2">_sliced_from_</span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="s1">&#39;LABEL1&#39;</span><span class="p">,</span> <span class="n">items</span><span class="o">.</span><span class="n">start</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                              <span class="sa">f</span><span class="s2">&quot;_to_</span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="s1">&#39;LABEL1&#39;</span><span class="p">,</span> <span class="n">items</span><span class="o">.</span><span class="n">stop</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
                          <span class="n">line</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">islice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_line</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">items</span><span class="o">.</span><span class="n">step</span><span class="p">)),</span>
                          <span class="p">)</span>
 
@@ -414,7 +414,7 @@
                 <span class="n">items</span> <span class="o">=</span> <span class="p">(</span><span class="n">items</span><span class="p">,)</span>
             <span class="n">l</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filter</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
             <span class="n">items</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span><span class="p">,</span> <span class="n">items</span><span class="p">))</span>
-            <span class="k">return</span> <span class="n">Input</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{self._name}</span><span class="s2">_filtered_by_</span><span class="si">{items}</span><span class="s2">&quot;</span>
+            <span class="k">return</span> <span class="n">Input</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2">_filtered_by_</span><span class="si">{</span><span class="n">items</span><span class="si">}</span><span class="s2">&quot;</span>
                          <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
                          <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
                          <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
@@ -424,7 +424,7 @@
                          <span class="n">line</span><span class="o">=</span><span class="n">l</span><span class="p">,</span>
                          <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Input.__getattr__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__getattr__">[docs]</a>    <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Command</span><span class="p">:</span>
+<div class="viewcode-block" id="Input.__getattr__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__getattr__">[docs]</a>    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Command</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
@@ -436,9 +436,9 @@
         <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_line</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">e</span>
-        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Command with LABEL1 = </span><span class="si">{item}</span><span class="s2"> not found in the input sequence.&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Command with LABEL1 = </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2"> not found in the input sequence.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Input.__setattr__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__setattr__">[docs]</a>    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>  <span class="c1"># -&gt; NoReturn</span>
+<div class="viewcode-block" id="Input.__setattr__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__setattr__">[docs]</a>    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>  <span class="c1"># -&gt; NoReturn</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
@@ -457,7 +457,7 @@
                 <span class="k">except</span> <span class="n">_ZgoubidooException</span><span class="p">:</span>
                     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="Input.__contains__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__contains__">[docs]</a>    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CommandType</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CommandType</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="Input.__contains__"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.__contains__">[docs]</a>    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CommandType</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CommandType</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
@@ -505,7 +505,7 @@
 <div class="viewcode-block" id="Input.cleanup"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.cleanup">[docs]</a>    <span class="k">def</span> <span class="nf">cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Cleanup temporary paths.</span>
 
-<span class="sd">        Performs the cleanup to remove the temporary paths and the Zgoubi data files (input file, but also other output</span>
+<span class="sd">        Performs the cleanup to remove the temporary paths and the Zgoubi data files (input file, but also other parent</span>
 <span class="sd">        files). This is essentially the inverse of calling the input. Note that coding the input multiple times will</span>
 <span class="sd">        automatically cleanup previous sets of temporary directories.</span>
 
@@ -598,7 +598,7 @@
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">==</span> <span class="n">obj</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">i</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Element </span><span class="si">{obj}</span><span class="s2"> not found.&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Element </span><span class="si">{</span><span class="n">obj</span><span class="si">}</span><span class="s2"> not found.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Input.zgoubi_index"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.zgoubi_index">[docs]</a>    <span class="k">def</span> <span class="nf">zgoubi_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Command</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Index of an object in the sequence (following Zgoubi elements numbering).</span>
@@ -863,7 +863,7 @@
 <div class="viewcode-block" id="Input.save"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">destination</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
              <span class="n">what</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
              <span class="n">executed_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Save input and/or output Zgoubi files to a user specified directory.</span>
+        <span class="sd">&quot;&quot;&quot;Save input and/or parent Zgoubi files to a user specified directory.</span>
 
 <span class="sd">        This is essentially a functionality allowing the user to save data files for further (external) post-processing.</span>
 
@@ -883,7 +883,7 @@
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mapping_string</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">mapping_string</span> <span class="o">+=</span> <span class="s1">&#39;__&#39;</span>
-                <span class="n">mapping_string</span> <span class="o">+=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{k}</span><span class="s2">_</span><span class="si">{v}</span><span class="s2">&quot;</span>
+                <span class="n">mapping_string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="n">mapped_destination</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">destination</span><span class="p">,</span> <span class="n">mapping_string</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">m</span> <span class="o">!=</span> <span class="p">{}:</span>
                 <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">mapped_destination</span><span class="p">)</span>
@@ -935,7 +935,6 @@
         <span class="k">if</span> <span class="n">beam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">converted_sequence</span><span class="o">.</span><span class="n">appendleft</span><span class="p">(</span>
                 <span class="p">(</span><span class="n">beam</span><span class="o">.</span><span class="n">from_sequence</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span>
-                                    <span class="n">statistics</span><span class="o">=</span><span class="p">(</span><span class="n">beam_options</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;statistics&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
                                     <span class="o">**</span><span class="p">(</span><span class="n">beam_options</span> <span class="ow">or</span> <span class="p">{</span><span class="s1">&#39;LABEL1&#39;</span><span class="p">:</span> <span class="s1">&#39;BEAM&#39;</span><span class="p">})),</span> <span class="p">)</span>  <span class="c1"># Note the tuple here</span>
             <span class="p">)</span>
         <span class="n">_</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
@@ -956,12 +955,12 @@
               <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
               <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span>
               <span class="n">validators</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        Write a Zgoubi Input object to file after performing optional validation.</span>
 
 <span class="s2">        Args:</span>
 <span class="s2">            _: a Zgoubidoo Input object</span>
-<span class="s2">            filename: the file name (default: </span><span class="si">{ZGOUBI_INPUT_FILENAME}</span><span class="s2">)</span>
+<span class="s2">            filename: the file name (default: </span><span class="si">{</span><span class="n">ZGOUBI_INPUT_FILENAME</span><span class="si">}</span><span class="s2">)</span>
 <span class="s2">            path: path for the file (default: .)</span>
 <span class="s2">            mode: the mode for the writer (default: &#39;w&#39; - overwrite)</span>
 <span class="s2">            validators: callables used to validate the input</span>
@@ -1041,7 +1040,7 @@
         <span class="n">objets</span> <span class="o">=</span> <span class="n">_</span><span class="p">[</span><span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Objet</span><span class="p">,</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">MCObjet</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">objets</span><span class="p">:</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">IMAX</span> <span class="ow">or</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">ZGOUBI_IMAX</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">ZgoubiInputException</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Objet </span><span class="si">{o.label1}</span><span class="s2"> IMAX exceeds maximum value (</span><span class="si">{ZGOUBI_IMAX}</span><span class="s2">).&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ZgoubiInputException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Objet </span><span class="si">{</span><span class="n">o</span><span class="o">.</span><span class="n">label1</span><span class="si">}</span><span class="s2"> IMAX exceeds maximum value (</span><span class="si">{</span><span class="n">ZGOUBI_IMAX</span><span class="si">}</span><span class="s2">).&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span></div></div>
 </pre></div>
 

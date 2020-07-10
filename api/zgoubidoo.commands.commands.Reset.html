@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -231,9 +231,9 @@
             
   <div class="section" id="reset">
 <h1>Reset<a class="headerlink" href="#reset" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="zgoubidoo.commands.commands.Reset">
-<em class="property">class </em><code class="descclassname">zgoubidoo.commands.commands.</code><code class="descname">Reset</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/commands.html#Reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.commands.Reset" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.commands.commands.</code><code class="sig-name descname">Reset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label1</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">label2</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">params</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/commands.html#Reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.commands.Reset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" title="zgoubidoo.commands.commands.Command"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.commands.Command</span></code></a></p>
 <p>Reset counters and flags.</p>
 <p class="rubric">Zgoubi manual description</p>
@@ -245,75 +245,69 @@ problem to be treated as a new and independent one.</p>
 <p>The keywords or procedures of concern and the effect of RESET are the following:</p>
 <blockquote>
 <div><ul class="simple">
-<li><strong>CHAMBR</strong>: number of stopped particles reset to 0 ; CHAMBR option switched off</li>
-<li><strong>COLLIMA</strong>: number of stopped particles reset to 0</li>
-<li><strong>HISTO</strong>: histograms are emptied</li>
-<li><strong>INTEG</strong>: number of particles out of field map boundaries reset to 0</li>
-<li><strong>MCDESINT</strong>: decay in flight option switched off, counter reset</li>
-<li><strong>PICKUPS</strong>: pick-up signal calculation switched off</li>
-<li><strong>SCALING</strong>: scaling functions disabled</li>
-<li><strong>SPNTRK</strong>: spin tracking option switched off</li>
+<li><p><strong>CHAMBR</strong>: number of stopped particles reset to 0 ; CHAMBR option switched off</p></li>
+<li><p><strong>COLLIMA</strong>: number of stopped particles reset to 0</p></li>
+<li><p><strong>HISTO</strong>: histograms are emptied</p></li>
+<li><p><strong>INTEG</strong>: number of particles out of field map boundaries reset to 0</p></li>
+<li><p><strong>MCDESINT</strong>: decay in flight option switched off, counter reset</p></li>
+<li><p><strong>PICKUPS</strong>: pick-up signal calculation switched off</p></li>
+<li><p><strong>SCALING</strong>: scaling functions disabled</p></li>
+<li><p><strong>SPNTRK</strong>: spin tracking option switched off</p></li>
 </ul>
 </div></blockquote>
 <p class="rubric">Zgoubidoo usage and example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Reset</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Reset</span><span class="p">()</span>
 </pre></div>
 </div>
 <p class="rubric">Command attributes</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL1=''</code></dt>
+<code class="sig-name descname">LABEL1=''</code></dt>
 <dd><p>Primary label for the Zgoubi command (default: auto-generated hash).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL2=''</code></dt>
+<code class="sig-name descname">LABEL2=''</code></dt>
 <dd><p>Secondary label for the Zgoubi command.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <p>Default initializer for all Commands.</p>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.commands.Reset.KEYWORD" title="zgoubidoo.commands.commands.Reset.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></td>
-<td>Keyword of the command used for the Zgoubi input data.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.commands.Reset.KEYWORD" title="zgoubidoo.commands.commands.Reset.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></p></td>
+<td><p>Keyword of the command used for the Zgoubi input data.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.commands.Reset.PARAMETERS" title="zgoubidoo.commands.commands.Reset.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></td>
-<td></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.commands.Reset.PARAMETERS" title="zgoubidoo.commands.commands.Reset.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.commands.Reset.KEYWORD">
-<code class="descname">KEYWORD</code><em class="property"> = 'RESET'</em><a class="headerlink" href="#zgoubidoo.commands.commands.Reset.KEYWORD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">KEYWORD</code><em class="property">: str</em><em class="property"> = 'RESET'</em><a class="headerlink" href="#zgoubidoo.commands.commands.Reset.KEYWORD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Keyword of the command used for the Zgoubi input data.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.commands.Reset.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.')}</em><a class="headerlink" href="#zgoubidoo.commands.commands.Reset.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.')}</em><a class="headerlink" href="#zgoubidoo.commands.commands.Reset.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

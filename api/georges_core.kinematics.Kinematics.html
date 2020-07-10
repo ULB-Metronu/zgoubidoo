@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="ZgoubiKinematicsException" href="georges_core.kinematics.ZgoubiKinematicsException.html" />
+    <link rel="next" title="KinematicsException" href="georges_core.kinematics.KinematicsException.html" />
     <link rel="prev" title="range_to_pv" href="georges_core.kinematics.range_to_pv.html" /> 
 </head>
 
@@ -104,7 +104,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../utilities.html#functions">Functions</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../utilities.html#id1">Classes</a><ul class="current">
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Kinematics</a></li>
-<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.ZgoubiKinematicsException.html">ZgoubiKinematicsException</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.KinematicsException.html">KinematicsException</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../utilities.html#id2">Class Inheritance Diagram</a></li>
@@ -183,348 +183,297 @@
             
   <div class="section" id="kinematics">
 <h1>Kinematics<a class="headerlink" href="#kinematics" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="georges_core.kinematics.Kinematics">
-<em class="property">class </em><code class="descclassname">georges_core.kinematics.</code><code class="descname">Kinematics</code><span class="sig-paren">(</span><em>q: Union[float, _Q], particle: _ParticuleType = &lt;class 'georges_core.particles.Proton'&gt;, kinetic: Optional[bool] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">georges_core.kinematics.</code><code class="sig-name descname">Kinematics</code><span class="sig-paren">(</span><em class="sig-param">q: Union[float, _Q], particle: _ParticuleType = &lt;class 'georges_core.particles.Proton'&gt;, kinetic: Optional[bool] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>q</strong> – </li>
-<li><strong>particle</strong> – </li>
-<li><strong>kinetic</strong> – </li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>q</strong> – </p></li>
+<li><p><strong>particle</strong> – </p></li>
+<li><p><strong>kinetic</strong> – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.beta" title="georges_core.kinematics.Kinematics.beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta</span></code></a></td>
-<td>Provides <em>beta</em>.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.beta" title="georges_core.kinematics.Kinematics.beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta</span></code></a></p></td>
+<td><p>Provides <em>beta</em>.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.brho" title="georges_core.kinematics.Kinematics.brho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brho</span></code></a></td>
-<td>Provides <em>brho</em>.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.brho" title="georges_core.kinematics.Kinematics.brho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brho</span></code></a></p></td>
+<td><p>Provides <em>brho</em>.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.brho_" title="georges_core.kinematics.Kinematics.brho_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brho_</span></code></a></td>
-<td>Provides <em>brho</em> (magnitude only).</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.brho_" title="georges_core.kinematics.Kinematics.brho_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brho_</span></code></a></p></td>
+<td><p>Provides <em>brho</em> (magnitude only).</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.ekin" title="georges_core.kinematics.Kinematics.ekin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ekin</span></code></a></td>
-<td>TODO</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.ekin" title="georges_core.kinematics.Kinematics.ekin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ekin</span></code></a></p></td>
+<td><p>TODO</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.ekin_" title="georges_core.kinematics.Kinematics.ekin_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ekin_</span></code></a></td>
-<td>TODO</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.ekin_" title="georges_core.kinematics.Kinematics.ekin_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ekin_</span></code></a></p></td>
+<td><p>TODO</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.etot" title="georges_core.kinematics.Kinematics.etot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etot</span></code></a></td>
-<td>TODO</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.etot" title="georges_core.kinematics.Kinematics.etot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etot</span></code></a></p></td>
+<td><p>TODO</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.etot_" title="georges_core.kinematics.Kinematics.etot_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etot_</span></code></a></td>
-<td>TODO</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.etot_" title="georges_core.kinematics.Kinematics.etot_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etot_</span></code></a></p></td>
+<td><p>TODO</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.gamma" title="georges_core.kinematics.Kinematics.gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma</span></code></a></td>
-<td>Provides <em>gamma</em>.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.gamma" title="georges_core.kinematics.Kinematics.gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma</span></code></a></p></td>
+<td><p>Provides <em>gamma</em>.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.momentum" title="georges_core.kinematics.Kinematics.momentum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">momentum</span></code></a></td>
-<td>Provides the <em>momentum</em>.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.momentum" title="georges_core.kinematics.Kinematics.momentum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">momentum</span></code></a></p></td>
+<td><p>Provides the <em>momentum</em>.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.momentum_" title="georges_core.kinematics.Kinematics.momentum_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">momentum_</span></code></a></td>
-<td>Provides the <em>momentum</em> (magnitude only).</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.momentum_" title="georges_core.kinematics.Kinematics.momentum_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">momentum_</span></code></a></p></td>
+<td><p>Provides the <em>momentum</em> (magnitude only).</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.particule" title="georges_core.kinematics.Kinematics.particule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">particule</span></code></a></td>
-<td>Associated particle type.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.particule" title="georges_core.kinematics.Kinematics.particule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">particule</span></code></a></p></td>
+<td><p>Associated particle type.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.pv" title="georges_core.kinematics.Kinematics.pv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pv</span></code></a></td>
-<td>Provides <em>pv</em>.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.pv" title="georges_core.kinematics.Kinematics.pv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pv</span></code></a></p></td>
+<td><p>Provides <em>pv</em>.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.range" title="georges_core.kinematics.Kinematics.range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range</span></code></a></td>
-<td>TODO</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.range" title="georges_core.kinematics.Kinematics.range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range</span></code></a></p></td>
+<td><p>TODO</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.range_" title="georges_core.kinematics.Kinematics.range_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_</span></code></a></td>
-<td>TODO</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.range_" title="georges_core.kinematics.Kinematics.range_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_</span></code></a></p></td>
+<td><p>TODO</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Methods Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.to" title="georges_core.kinematics.Kinematics.to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to</span></code></a>(quantity)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param quantity:</th><td class="field-body"></td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.to" title="georges_core.kinematics.Kinematics.to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to</span></code></a>(quantity)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param quantity</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
-</tbody>
-</table>
-</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.to_beta" title="georges_core.kinematics.Kinematics.to_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_beta</span></code></a>()</p></td>
+<td><p>Returns:</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.to_beta" title="georges_core.kinematics.Kinematics.to_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_beta</span></code></a>()</td>
-<td>Returns:</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.to_brho" title="georges_core.kinematics.Kinematics.to_brho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_brho</span></code></a>([magnitude])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param magnitude</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.to_brho" title="georges_core.kinematics.Kinematics.to_brho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_brho</span></code></a>(magnitude)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">param magnitude:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.to_ekin" title="georges_core.kinematics.Kinematics.to_ekin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_ekin</span></code></a>([magnitude])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param magnitude</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
-</tbody>
-</table>
-</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.to_etot" title="georges_core.kinematics.Kinematics.to_etot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_etot</span></code></a>([magnitude])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param magnitude</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.to_ekin" title="georges_core.kinematics.Kinematics.to_ekin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_ekin</span></code></a>(magnitude)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">param magnitude:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.to_gamma" title="georges_core.kinematics.Kinematics.to_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_gamma</span></code></a>()</p></td>
+<td><p>Returns:</p></td>
 </tr>
-</tbody>
-</table>
-</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.to_momentum" title="georges_core.kinematics.Kinematics.to_momentum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_momentum</span></code></a>([magnitude])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param magnitude</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.to_etot" title="georges_core.kinematics.Kinematics.to_etot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_etot</span></code></a>(magnitude)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">param magnitude:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.to_pv" title="georges_core.kinematics.Kinematics.to_pv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_pv</span></code></a>()</p></td>
+<td><p>Returns:</p></td>
 </tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.to_gamma" title="georges_core.kinematics.Kinematics.to_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_gamma</span></code></a>()</td>
-<td>Returns:</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.to_momentum" title="georges_core.kinematics.Kinematics.to_momentum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_momentum</span></code></a>(magnitude)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">param magnitude:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.to_pv" title="georges_core.kinematics.Kinematics.to_pv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_pv</span></code></a>()</td>
-<td>Returns:</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.kinematics.Kinematics.to_range" title="georges_core.kinematics.Kinematics.to_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_range</span></code></a>(magnitude)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">param magnitude:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.kinematics.Kinematics.to_range" title="georges_core.kinematics.Kinematics.to_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_range</span></code></a>([magnitude])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param magnitude</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.kinematics.Kinematics.beta">
-<code class="descname">beta</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.beta" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">beta</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.beta" title="Permalink to this definition">¶</a></dt>
 <dd><p>Provides <em>beta</em>.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.kinematics.Kinematics.brho">
-<code class="descname">brho</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.brho" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">brho</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.brho" title="Permalink to this definition">¶</a></dt>
 <dd><p>Provides <em>brho</em>.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.kinematics.Kinematics.brho_">
-<code class="descname">brho_</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.brho_" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">brho_</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.brho_" title="Permalink to this definition">¶</a></dt>
 <dd><p>Provides <em>brho</em> (magnitude only).</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.kinematics.Kinematics.ekin">
-<code class="descname">ekin</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.ekin" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">ekin</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.ekin" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.kinematics.Kinematics.ekin_">
-<code class="descname">ekin_</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.ekin_" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">ekin_</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.ekin_" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.kinematics.Kinematics.etot">
-<code class="descname">etot</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.etot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">etot</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.etot" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.kinematics.Kinematics.etot_">
-<code class="descname">etot_</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.etot_" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">etot_</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.etot_" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.kinematics.Kinematics.gamma">
-<code class="descname">gamma</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.gamma" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">gamma</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.gamma" title="Permalink to this definition">¶</a></dt>
 <dd><p>Provides <em>gamma</em>.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.kinematics.Kinematics.momentum">
-<code class="descname">momentum</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.momentum" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">momentum</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.momentum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Provides the <em>momentum</em>.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.kinematics.Kinematics.momentum_">
-<code class="descname">momentum_</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.momentum_" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">momentum_</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.momentum_" title="Permalink to this definition">¶</a></dt>
 <dd><p>Provides the <em>momentum</em> (magnitude only).</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.kinematics.Kinematics.particule">
-<code class="descname">particule</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.particule" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">particule</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.particule" title="Permalink to this definition">¶</a></dt>
 <dd><p>Associated particle type.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.kinematics.Kinematics.pv">
-<code class="descname">pv</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.pv" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">pv</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.pv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Provides <em>pv</em>.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.kinematics.Kinematics.range">
-<code class="descname">range</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.range" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">range</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.range" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.kinematics.Kinematics.range_">
-<code class="descname">range_</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.range_" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">range_</code><a class="headerlink" href="#georges_core.kinematics.Kinematics.range_" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 </dd></dl>
 
 <p class="rubric">Methods Documentation</p>
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.kinematics.Kinematics.to">
-<code class="descname">to</code><span class="sig-paren">(</span><em>quantity: str</em><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics.to"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics.to" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>quantity</strong> – </td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">to</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">quantity</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics.to"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics.to" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>quantity</strong> – </p>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.kinematics.Kinematics.to_beta">
-<code class="descname">to_beta</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics.to_beta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics.to_beta" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_beta</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics.to_beta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics.to_beta" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.kinematics.Kinematics.to_brho">
-<code class="descname">to_brho</code><span class="sig-paren">(</span><em>magnitude: bool = False</em><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics.to_brho"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics.to_brho" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>magnitude</strong> – </td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">to_brho</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">magnitude</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics.to_brho"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics.to_brho" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>magnitude</strong> – </p>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.kinematics.Kinematics.to_ekin">
-<code class="descname">to_ekin</code><span class="sig-paren">(</span><em>magnitude: bool = False</em><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics.to_ekin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics.to_ekin" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>magnitude</strong> – </td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">to_ekin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">magnitude</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics.to_ekin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics.to_ekin" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>magnitude</strong> – </p>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.kinematics.Kinematics.to_etot">
-<code class="descname">to_etot</code><span class="sig-paren">(</span><em>magnitude: bool = False</em><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics.to_etot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics.to_etot" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>magnitude</strong> – </td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">to_etot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">magnitude</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics.to_etot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics.to_etot" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>magnitude</strong> – </p>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.kinematics.Kinematics.to_gamma">
-<code class="descname">to_gamma</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics.to_gamma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics.to_gamma" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_gamma</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics.to_gamma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics.to_gamma" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.kinematics.Kinematics.to_momentum">
-<code class="descname">to_momentum</code><span class="sig-paren">(</span><em>magnitude: bool = False</em><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics.to_momentum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics.to_momentum" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>magnitude</strong> – </td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">to_momentum</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">magnitude</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics.to_momentum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics.to_momentum" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>magnitude</strong> – </p>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.kinematics.Kinematics.to_pv">
-<code class="descname">to_pv</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics.to_pv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics.to_pv" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_pv</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics.to_pv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics.to_pv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.kinematics.Kinematics.to_range">
-<code class="descname">to_range</code><span class="sig-paren">(</span><em>magnitude: bool = False</em><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics.to_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics.to_range" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>magnitude</strong> – </td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">to_range</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">magnitude</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union[float, pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity]<a class="reference internal" href="../_modules/georges_core/kinematics.html#Kinematics.to_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.Kinematics.to_range" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>magnitude</strong> – </p>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
@@ -540,7 +489,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="georges_core.kinematics.ZgoubiKinematicsException.html" class="btn btn-neutral float-right" title="ZgoubiKinematicsException" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="georges_core.kinematics.KinematicsException.html" class="btn btn-neutral float-right" title="KinematicsException" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="georges_core.kinematics.range_to_pv.html" class="btn btn-neutral float-left" title="range_to_pv" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

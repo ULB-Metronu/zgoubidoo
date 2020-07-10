@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -208,256 +208,210 @@
             
   <div class="section" id="cgtr">
 <h1>CGTR<a class="headerlink" href="#cgtr" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="zgoubidoo.commands.contrib.iba.CGTR">
-<em class="property">class </em><code class="descclassname">zgoubidoo.commands.contrib.iba.</code><code class="descname">CGTR</code><span class="sig-paren">(</span><em>kinematics: georges_core.kinematics.Kinematics =          Proton         Total energy: 1168.2720299999999 megaelectronvolt         Kinetic energy: 230 megaelectronvolt         Momentum: 696.0640299570144 megaelectronvolt / speed_of_light         Magnetic rigidity: 2.3218196835259093 meter * tesla         Range in water (protons only): 32.9424672323197 centimeter         Relativistic pv: 414.71945005821937 megaelectronvolt         Relativistic beta: 0.5958064663732597         Relativistic gamma: 1.2451314678963628</em>, <em>b1g: Optional[zgoubidoo.commands.contrib.iba.B1G] = None</em>, <em>b2g: Optional[zgoubidoo.commands.contrib.iba.B2G] = None</em>, <em>b3g: Optional[zgoubidoo.commands.contrib.iba.B3G] = None</em>, <em>t1g: Optional[zgoubidoo.commands.contrib.iba.T1G] = None</em>, <em>t2g: Optional[zgoubidoo.commands.contrib.iba.T2G] = None</em>, <em>q1g: Optional[zgoubidoo.commands.contrib.iba.Q1G] = None</em>, <em>q2g: Optional[zgoubidoo.commands.contrib.iba.Q2G] = None</em>, <em>q3g: Optional[zgoubidoo.commands.contrib.iba.Q3G] = None</em>, <em>q4g: Optional[zgoubidoo.commands.contrib.iba.Q4G] = None</em>, <em>q5g: Optional[zgoubidoo.commands.contrib.iba.Q5G] = None</em>, <em>q6g: Optional[zgoubidoo.commands.contrib.iba.Q6G] = None</em>, <em>q7g: Optional[zgoubidoo.commands.contrib.iba.Q7G] = None</em>, <em>smx: Optional[zgoubidoo.commands.contrib.iba.SMX] = None</em>, <em>smy: Optional[zgoubidoo.commands.contrib.iba.SMY] = None</em>, <em>sl1g: Optional[zgoubidoo.commands.contrib.iba.SL1G] = None</em>, <em>sl2g: Optional[zgoubidoo.commands.contrib.iba.SL2G] = None</em>, <em>sl3g: Optional[zgoubidoo.commands.contrib.iba.SL3G] = None</em>, <em>beam: Optional[zgoubidoo.commands.beam.Beam] = None</em>, <em>with_fit: bool = True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.commands.contrib.iba.</code><code class="sig-name descname">CGTR</code><span class="sig-paren">(</span><em class="sig-param">kinematics: georges_core.kinematics.Kinematics =          Proton         Total energy: 1168.2720299999999 megaelectronvolt         Kinetic energy: 230 megaelectronvolt         Momentum: 696.0640299570144 megaelectronvolt / speed_of_light         Magnetic rigidity: 2.3218196835259093 meter * tesla         Range in water (protons only): 32.9424672323197 centimeter         Relativistic pv: 414.71945005821937 megaelectronvolt         Relativistic beta: 0.5958064663732597         Relativistic gamma: 1.2451314678963628</em>, <em class="sig-param">b1g: Optional[zgoubidoo.commands.contrib.iba.B1G] = None</em>, <em class="sig-param">b2g: Optional[zgoubidoo.commands.contrib.iba.B2G] = None</em>, <em class="sig-param">b3g: Optional[zgoubidoo.commands.contrib.iba.B3G] = None</em>, <em class="sig-param">t1g: Optional[zgoubidoo.commands.contrib.iba.T1G] = None</em>, <em class="sig-param">t2g: Optional[zgoubidoo.commands.contrib.iba.T2G] = None</em>, <em class="sig-param">q1g: Optional[zgoubidoo.commands.contrib.iba.Q1G] = None</em>, <em class="sig-param">q2g: Optional[zgoubidoo.commands.contrib.iba.Q2G] = None</em>, <em class="sig-param">q3g: Optional[zgoubidoo.commands.contrib.iba.Q3G] = None</em>, <em class="sig-param">q4g: Optional[zgoubidoo.commands.contrib.iba.Q4G] = None</em>, <em class="sig-param">q5g: Optional[zgoubidoo.commands.contrib.iba.Q5G] = None</em>, <em class="sig-param">q6g: Optional[zgoubidoo.commands.contrib.iba.Q6G] = None</em>, <em class="sig-param">q7g: Optional[zgoubidoo.commands.contrib.iba.Q7G] = None</em>, <em class="sig-param">smx: Optional[zgoubidoo.commands.contrib.iba.SMX] = None</em>, <em class="sig-param">smy: Optional[zgoubidoo.commands.contrib.iba.SMY] = None</em>, <em class="sig-param">sl1g: Optional[zgoubidoo.commands.contrib.iba.SL1G] = None</em>, <em class="sig-param">sl2g: Optional[zgoubidoo.commands.contrib.iba.SL2G] = None</em>, <em class="sig-param">sl3g: Optional[zgoubidoo.commands.contrib.iba.SL3G] = None</em>, <em class="sig-param">beam: Optional[zgoubidoo.commands.beam.Beam] = None</em>, <em class="sig-param">with_fit: bool = True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Proteus One compact gantry (CGTR) input sequence.</p>
 <p>TODO
 .. rubric:: Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cgtr</span> <span class="o">=</span> <span class="n">CGTR</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cgtr</span> <span class="o">=</span> <span class="n">CGTR</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cgtr</span><span class="o">.</span><span class="n">shoot</span><span class="p">()</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>kinematics</strong> – </li>
-<li><strong>b1g</strong> – </li>
-<li><strong>b2g</strong> – </li>
-<li><strong>b3g</strong> – </li>
-<li><strong>t1g</strong> – </li>
-<li><strong>t2g</strong> – </li>
-<li><strong>q1g</strong> – </li>
-<li><strong>q2g</strong> – </li>
-<li><strong>q3g</strong> – </li>
-<li><strong>q4g</strong> – </li>
-<li><strong>q5g</strong> – </li>
-<li><strong>q6g</strong> – </li>
-<li><strong>q7g</strong> – </li>
-<li><strong>smx</strong> – </li>
-<li><strong>smy</strong> – </li>
-<li><strong>beam</strong> – </li>
-<li><strong>with_fit</strong> – if True the dipole magnets of the line will be fit.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kinematics</strong> – </p></li>
+<li><p><strong>b1g</strong> – </p></li>
+<li><p><strong>b2g</strong> – </p></li>
+<li><p><strong>b3g</strong> – </p></li>
+<li><p><strong>t1g</strong> – </p></li>
+<li><p><strong>t2g</strong> – </p></li>
+<li><p><strong>q1g</strong> – </p></li>
+<li><p><strong>q2g</strong> – </p></li>
+<li><p><strong>q3g</strong> – </p></li>
+<li><p><strong>q4g</strong> – </p></li>
+<li><p><strong>q5g</strong> – </p></li>
+<li><p><strong>q6g</strong> – </p></li>
+<li><p><strong>q7g</strong> – </p></li>
+<li><p><strong>smx</strong> – </p></li>
+<li><p><strong>smy</strong> – </p></li>
+<li><p><strong>beam</strong> – </p></li>
+<li><p><strong>with_fit</strong> – if True the dipole magnets of the line will be fit.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.gantry_angle" title="zgoubidoo.commands.contrib.iba.CGTR.gantry_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gantry_angle</span></code></a></td>
-<td>Gantry angle (in IBA reference system).</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.gantry_angle" title="zgoubidoo.commands.contrib.iba.CGTR.gantry_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gantry_angle</span></code></a></p></td>
+<td><p>Gantry angle (in IBA reference system).</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.line" title="zgoubidoo.commands.contrib.iba.CGTR.line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">line</span></code></a></td>
-<td>Provides the full CGTR input sequence.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.line" title="zgoubidoo.commands.contrib.iba.CGTR.line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">line</span></code></a></p></td>
+<td><p>Provides the full CGTR input sequence.</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Methods Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.fit" title="zgoubidoo.commands.contrib.iba.CGTR.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(zgoubi,&nbsp;identifier,&nbsp;…)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param zgoubi:</th><td class="field-body"></td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.fit" title="zgoubidoo.commands.contrib.iba.CGTR.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(zgoubi, identifier, fit)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param zgoubi</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
-</tbody>
-</table>
-</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.fit_dipoles" title="zgoubidoo.commands.contrib.iba.CGTR.fit_dipoles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_dipoles</span></code></a>(kinematics[, dipoles])</p></td>
+<td><p>Adjusts the main field of the dipoles according to the beam energy.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.fit_dipoles" title="zgoubidoo.commands.contrib.iba.CGTR.fit_dipoles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_dipoles</span></code></a>(kinematics,&nbsp;dipoles)</td>
-<td>Adjusts the main field of the dipoles according to the beam energy.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.plot" title="zgoubidoo.commands.contrib.iba.CGTR.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>([artist, start, stop, crosshair])</p></td>
+<td><p>Plot the P1 beamline.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.plot" title="zgoubidoo.commands.contrib.iba.CGTR.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(artist,&nbsp;start,&nbsp;…)</td>
-<td>Plot the P1 beamline.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.run" title="zgoubidoo.commands.contrib.iba.CGTR.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>(zgoubi[, identifier])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param zgoubi</dt>
+<dd class="field-odd"><p>TODO</p>
+</dd>
+</dl>
+</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.run" title="zgoubidoo.commands.contrib.iba.CGTR.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>(zgoubi,&nbsp;identifier,&nbsp;…)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param zgoubi:</th><td class="field-body">TODO</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.shoot" title="zgoubidoo.commands.contrib.iba.CGTR.shoot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shoot</span></code></a>(x, y, zgoubi[, fit_type])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param x</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.shoot" title="zgoubidoo.commands.contrib.iba.CGTR.shoot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shoot</span></code></a>(x,&nbsp;y,&nbsp;zgoubi,&nbsp;fit_type)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param x:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.spots" title="zgoubidoo.commands.contrib.iba.CGTR.spots"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spots</span></code></a>(spots,&nbsp;float]],&nbsp;fit_type,&nbsp;with_tracks,&nbsp;…)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param spots:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.CGTR.spots" title="zgoubidoo.commands.contrib.iba.CGTR.spots"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spots</span></code></a>(spots[, fit_type, with_tracks, debug_fit])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param spots</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.contrib.iba.CGTR.gantry_angle">
-<code class="descname">gantry_angle</code><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.gantry_angle" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">gantry_angle</code><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.gantry_angle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gantry angle (in IBA reference system).</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.contrib.iba.CGTR.line">
-<code class="descname">line</code><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.line" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">line</code><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.line" title="Permalink to this definition">¶</a></dt>
 <dd><p>Provides the full CGTR input sequence.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the CGTR input sequence.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the CGTR input sequence.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <p class="rubric">Methods Documentation</p>
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.commands.contrib.iba.CGTR.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>zgoubi: zgoubidoo.zgoubi.Zgoubi, identifier: Mapping[str, Union[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity, float, str]], fit: zgoubidoo.commands.actions.Fit</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.commands.actions.Fit<a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.fit" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>zgoubi</strong> – </li>
-<li><strong>identifier</strong> – </li>
-<li><strong>fit</strong> – </li>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">zgoubi: zgoubidoo.zgoubi.Zgoubi, identifier: Mapping[str, Union[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity, float, str]], fit: zgoubidoo.commands.actions.Fit</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.commands.actions.Fit<a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.fit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>zgoubi</strong> – </p></li>
+<li><p><strong>identifier</strong> – </p></li>
+<li><p><strong>fit</strong> – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.commands.contrib.iba.CGTR.fit_dipoles">
-<code class="descname">fit_dipoles</code><span class="sig-paren">(</span><em>kinematics: georges_core.kinematics.Kinematics</em>, <em>dipoles: Optional[List[zgoubidoo.commands.contrib.iba.DipoleIBA]] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.fit_dipoles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.fit_dipoles" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit_dipoles</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">kinematics</span><span class="p">:</span> <span class="n"><a class="reference internal" href="georges_core.kinematics.Kinematics.html#georges_core.kinematics.Kinematics" title="georges_core.kinematics.Kinematics">georges_core.kinematics.Kinematics</a></span></em>, <em class="sig-param"><span class="n">dipoles</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span><a class="reference internal" href="zgoubidoo.commands.contrib.iba.DipoleIBA.html#zgoubidoo.commands.contrib.iba.DipoleIBA" title="zgoubidoo.commands.contrib.iba.DipoleIBA">zgoubidoo.commands.contrib.iba.DipoleIBA</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.fit_dipoles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.fit_dipoles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adjusts the main field of the dipoles according to the beam energy.</p>
 <p>The adjustment is made so that the reference trajectory exists the magnet on axis.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>kinematics</strong> – the beam kinematics</li>
-<li><strong>dipoles</strong> – a list of dipoles to fit</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kinematics</strong> – the beam kinematics</p></li>
+<li><p><strong>dipoles</strong> – a list of dipoles to fit</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.commands.contrib.iba.CGTR.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><em>artist: zgoubidoo.vis.plotly.ZgoubidooPlotlyArtist = None</em>, <em>start: Union[str</em>, <em>zgoubidoo.commands.commands.Command</em>, <em>None] = None</em>, <em>stop: Union[str</em>, <em>zgoubidoo.commands.commands.Command</em>, <em>None] = None</em>, <em>crosshair: bool = True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">artist</span><span class="p">:</span> <span class="n">zgoubidoo.vis.plotly.ZgoubidooPlotlyArtist</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">start</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span><a class="reference internal" href="zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" title="zgoubidoo.commands.commands.Command">zgoubidoo.commands.commands.Command</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">stop</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span><a class="reference internal" href="zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" title="zgoubidoo.commands.commands.Command">zgoubidoo.commands.commands.Command</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">crosshair</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the P1 beamline.</p>
 <p>TODO</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>artist</strong> – an artist object for the rendering</li>
-<li><strong>start</strong> – first element of the beamline to be plotted</li>
-<li><strong>stop</strong> – last element of the beamline to be plotted</li>
-<li><strong>crosshair</strong> – draw a crosshair indicating the isocenter</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>artist</strong> – an artist object for the rendering</p></li>
+<li><p><strong>start</strong> – first element of the beamline to be plotted</p></li>
+<li><p><strong>stop</strong> – last element of the beamline to be plotted</p></li>
+<li><p><strong>crosshair</strong> – draw a crosshair indicating the isocenter</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.commands.contrib.iba.CGTR.run">
-<code class="descname">run</code><span class="sig-paren">(</span><em>zgoubi: zgoubidoo.zgoubi.Zgoubi</em>, <em>identifier: Optional[Mapping[str</em>, <em>Union[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>float</em>, <em>str]]] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.run" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>zgoubi</strong> – TODO</li>
-<li><strong>identifier</strong> – TODO</li>
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">zgoubi: zgoubidoo.zgoubi.Zgoubi</em>, <em class="sig-param">identifier: Optional[Mapping[str</em>, <em class="sig-param">Union[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em class="sig-param">float</em>, <em class="sig-param">str]]] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.run" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>zgoubi</strong> – TODO</p></li>
+<li><p><strong>identifier</strong> – TODO</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.commands.contrib.iba.CGTR.shoot">
-<code class="descname">shoot</code><span class="sig-paren">(</span><em>x: float</em>, <em>y: float</em>, <em>zgoubi: zgoubidoo.zgoubi.Zgoubi</em>, <em>fit_type: zgoubidoo.commands.actions.FitType = &lt;class 'zgoubidoo.commands.actions.Fit'&gt;</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.commands.actions.Fit<a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.shoot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.shoot" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> – </li>
-<li><strong>y</strong> – </li>
-<li><strong>zgoubi</strong> – TODO</li>
-<li><strong>fit_type</strong> – </li>
+<code class="sig-name descname">shoot</code><span class="sig-paren">(</span><em class="sig-param">x: float</em>, <em class="sig-param">y: float</em>, <em class="sig-param">zgoubi: zgoubidoo.zgoubi.Zgoubi</em>, <em class="sig-param">fit_type: zgoubidoo.commands.actions.FitType = &lt;class 'zgoubidoo.commands.actions.Fit'&gt;</em><span class="sig-paren">)</span> &#x2192; zgoubidoo.commands.actions.Fit<a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.shoot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.shoot" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – </p></li>
+<li><p><strong>y</strong> – </p></li>
+<li><p><strong>zgoubi</strong> – TODO</p></li>
+<li><p><strong>fit_type</strong> – </p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The Fit command (instance object) with the results of the fit.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The Fit command (instance object) with the results of the fit.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.commands.contrib.iba.CGTR.spots">
-<code class="descname">spots</code><span class="sig-paren">(</span><em>spots: Iterable[Tuple[float, float]], fit_type: zgoubidoo.commands.actions.FitType = &lt;class 'zgoubidoo.commands.actions.Fit'&gt;, with_tracks: bool = False, debug_fit: bool = False</em><span class="sig-paren">)</span> &#x2192; Union[pandas.core.frame.DataFrame, List[zgoubidoo.commands.actions.Fit]]<a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.spots"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.spots" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>spots</strong> – </li>
-<li><strong>fit_type</strong> – </li>
-<li><strong>with_tracks</strong> – </li>
-<li><strong>debug_fit</strong> – </li>
+<code class="sig-name descname">spots</code><span class="sig-paren">(</span><em class="sig-param">spots: Iterable[Tuple[float, float]], fit_type: zgoubidoo.commands.actions.FitType = &lt;class 'zgoubidoo.commands.actions.Fit'&gt;, with_tracks: bool = False, debug_fit: bool = False</em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>pandas.core.frame.DataFrame<span class="p">, </span>List<span class="p">[</span>zgoubidoo.commands.actions.Fit<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.spots"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.spots" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>spots</strong> – </p></li>
+<li><p><strong>fit_type</strong> – </p></li>
+<li><p><strong>with_tracks</strong> – </p></li>
+<li><p><strong>debug_fit</strong> – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 

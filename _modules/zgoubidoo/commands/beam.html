@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -164,39 +164,39 @@
 <span></span><span class="sd">&quot;&quot;&quot;Zgoubidoo beam.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">annotations</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">randint</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">zgoubidoo</span> <span class="k">import</span> <span class="n">Q_</span> <span class="k">as</span> <span class="n">_Q</span>
-<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">CommandType</span> <span class="k">as</span> <span class="n">_CommandType</span>
-<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">_Command</span>
-<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">Comment</span> <span class="k">as</span> <span class="n">_Comment</span>
-<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">particules</span> <span class="k">as</span> <span class="n">_particules</span>
-<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">ParticuleType</span> <span class="k">as</span> <span class="n">_ParticuleType</span>
-<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">Proton</span> <span class="k">as</span> <span class="n">_Proton</span>
-<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">Objet2</span> <span class="k">as</span> <span class="n">_Objet2</span>
-<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">Objet5</span> <span class="k">as</span> <span class="n">_Objet5</span>
-<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">MCObjet3</span> <span class="k">as</span> <span class="n">_MCObjet3</span>
-<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">ObjetType</span> <span class="k">as</span> <span class="n">_ObjetType</span>
-<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">ZgoubidooAttributeException</span> <span class="k">as</span> <span class="n">_ZgoubidooAttributeException</span>
-<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="k">import</span> <span class="n">ZgoubidooException</span> <span class="k">as</span> <span class="n">_ZgoubidooException</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">Kinematics</span> <span class="k">as</span> <span class="n">_Kinematics</span>
-<span class="kn">from</span> <span class="nn">..mappings</span> <span class="k">import</span> <span class="n">ParametricMapping</span> <span class="k">as</span> <span class="n">_ParametricMapping</span>
-<span class="kn">from</span> <span class="nn">..mappings</span> <span class="k">import</span> <span class="n">MappedParametersListType</span> <span class="k">as</span> <span class="n">_MappedParametersListType</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo</span> <span class="kn">import</span> <span class="n">Q_</span> <span class="k">as</span> <span class="n">_Q</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="kn">import</span> <span class="n">CommandType</span> <span class="k">as</span> <span class="n">_CommandType</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="kn">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">_Command</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="kn">import</span> <span class="n">Comment</span> <span class="k">as</span> <span class="n">_Comment</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="kn">import</span> <span class="n">particules</span> <span class="k">as</span> <span class="n">_particules</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="kn">import</span> <span class="n">ParticuleType</span> <span class="k">as</span> <span class="n">_ParticuleType</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="kn">import</span> <span class="n">Proton</span> <span class="k">as</span> <span class="n">_Proton</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="kn">import</span> <span class="n">Objet2</span> <span class="k">as</span> <span class="n">_Objet2</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="kn">import</span> <span class="n">Objet5</span> <span class="k">as</span> <span class="n">_Objet5</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="kn">import</span> <span class="n">MCObjet3</span> <span class="k">as</span> <span class="n">_MCObjet3</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="kn">import</span> <span class="n">ObjetType</span> <span class="k">as</span> <span class="n">_ObjetType</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="kn">import</span> <span class="n">ZgoubidooAttributeException</span> <span class="k">as</span> <span class="n">_ZgoubidooAttributeException</span>
+<span class="kn">from</span> <span class="nn">zgoubidoo.commands</span> <span class="kn">import</span> <span class="n">ZgoubidooException</span> <span class="k">as</span> <span class="n">_ZgoubidooException</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Kinematics</span> <span class="k">as</span> <span class="n">_Kinematics</span>
+<span class="kn">from</span> <span class="nn">..mappings</span> <span class="kn">import</span> <span class="n">ParametricMapping</span> <span class="k">as</span> <span class="n">_ParametricMapping</span>
+<span class="kn">from</span> <span class="nn">..mappings</span> <span class="kn">import</span> <span class="n">MappedParametersListType</span> <span class="k">as</span> <span class="n">_MappedParametersListType</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">georges_core.sequences</span> <span class="k">import</span> <span class="n">BetaBlock</span> <span class="k">as</span> <span class="n">_BetaBlock</span>
-    <span class="kn">from</span> <span class="nn">georges_core.sequences</span> <span class="k">import</span> <span class="n">TwissSequence</span> <span class="k">as</span> <span class="n">_TwissSequence</span>
-    <span class="kn">from</span> <span class="nn">georges_core.sequences</span> <span class="k">import</span> <span class="n">Sequence</span> <span class="k">as</span> <span class="n">_Sequence</span>
+    <span class="kn">from</span> <span class="nn">georges_core.sequences</span> <span class="kn">import</span> <span class="n">BetaBlock</span> <span class="k">as</span> <span class="n">_BetaBlock</span>
+    <span class="kn">from</span> <span class="nn">georges_core.sequences</span> <span class="kn">import</span> <span class="n">TwissSequence</span> <span class="k">as</span> <span class="n">_TwissSequence</span>
+    <span class="kn">from</span> <span class="nn">georges_core.sequences</span> <span class="kn">import</span> <span class="n">Sequence</span> <span class="k">as</span> <span class="n">_Sequence</span>
 
 
 <div class="viewcode-block" id="ZgoubidooBeamException"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.beam.ZgoubidooBeamException.html#zgoubidoo.commands.beam.ZgoubidooBeamException">[docs]</a><span class="k">class</span> <span class="nc">ZgoubidooBeamException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Exception raised for errors when running Zgoubi.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">m</span></div>
 
 
@@ -209,8 +209,8 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Beam</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">_Comment</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Definition of </span><span class="si">{self.__class__.__name__}</span><span class="s2">&quot;</span><span class="p">))</span> \
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">_Comment</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Definition of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span> \
                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generate_object</span><span class="p">())</span> \
                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_particle</span><span class="p">)</span>
 
@@ -272,14 +272,14 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ALPHA_Y</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">alpha11</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">BETA_Y</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">beta11</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ALPHA_Z</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">alpha22</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">BETA_Z</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">beta22</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">D_Y</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">disp1</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">D_YP</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">disp2</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">D_Z</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">disp3</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">D_ZP</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">disp4</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ALPHA_Y</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">ALPHA11</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">BETA_Y</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">BETA11</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ALPHA_Z</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">ALPHA22</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">BETA_Z</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">BETA22</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">D_Y</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">DISP1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">D_YP</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">DISP2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">D_Z</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">DISP3</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">D_ZP</span> <span class="o">=</span> <span class="n">betablock</span><span class="o">.</span><span class="n">DISP4</span>
         <span class="k">except</span> <span class="n">_ZgoubidooAttributeException</span><span class="p">:</span>
             <span class="k">pass</span></div>
 
@@ -353,7 +353,7 @@
         <span class="k">return</span> <span class="n">_ParametricMapping</span><span class="p">(</span>
             <span class="p">[</span>
                 <span class="p">{</span>
-                    <span class="n">f</span><span class="s2">&quot;</span><span class="si">{self.LABEL1}</span><span class="s2">.SLICE&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slices</span><span class="p">))</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="si">}</span><span class="s2">.SLICE&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slices</span><span class="p">))</span>
                 <span class="p">}</span>
             <span class="p">]</span>
         <span class="p">)</span><span class="o">.</span><span class="n">combinations</span>
@@ -553,15 +553,15 @@
     <span class="k">def</span> <span class="nf">mappings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_MappedParametersListType</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;TODO&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">REFERENCE</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">[{</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{self.LABEL1}</span><span class="s2">.SLICE&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{self.LABEL1}</span><span class="s2">.REFERENCE&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}]</span>
+            <span class="k">return</span> <span class="p">[{</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="si">}</span><span class="s2">.SLICE&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="si">}</span><span class="s2">.REFERENCE&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">_ParametricMapping</span><span class="p">(</span>
                 <span class="p">[</span>
                     <span class="p">{</span>
-                        <span class="n">f</span><span class="s2">&quot;</span><span class="si">{self.LABEL1}</span><span class="s2">.SLICE&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slices</span><span class="p">))</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="si">}</span><span class="s2">.SLICE&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slices</span><span class="p">))</span>
                     <span class="p">},</span>
                     <span class="p">{</span>
-                        <span class="n">f</span><span class="s2">&quot;</span><span class="si">{self.LABEL1}</span><span class="s2">.REFERENCE&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="si">}</span><span class="s2">.REFERENCE&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="p">}</span>
                 <span class="p">]</span>
             <span class="p">)</span><span class="o">.</span><span class="n">combinations</span>
@@ -750,7 +750,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">numpy.random_intel</span>
             <span class="n">generator</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random_intel</span><span class="o">.</span><span class="n">multivariate_normal</span>
-        <span class="k">except</span> <span class="n">ModuleNotFoundError</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">numpy.random</span>
             <span class="n">generator</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span>
 

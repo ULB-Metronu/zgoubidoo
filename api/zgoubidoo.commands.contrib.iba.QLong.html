@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -208,424 +208,374 @@
             
   <div class="section" id="qlong">
 <h1>QLong<a class="headerlink" href="#qlong" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="zgoubidoo.commands.contrib.iba.QLong">
-<em class="property">class </em><code class="descclassname">zgoubidoo.commands.contrib.iba.</code><code class="descname">QLong</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#QLong"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.QLong" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.commands.contrib.iba.</code><code class="sig-name descname">QLong</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label1</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">label2</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">params</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#QLong"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.QLong" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.contrib.iba.QuadrupoleIBA.html#zgoubidoo.commands.contrib.iba.QuadrupoleIBA" title="zgoubidoo.commands.contrib.iba.QuadrupoleIBA"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.contrib.iba.QuadrupoleIBA</span></code></a></p>
 <p>Proteus One long quadrupole.</p>
 <p class="rubric">Command attributes</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL1=''</code></dt>
+<code class="sig-name descname">LABEL1=''</code></dt>
 <dd><p>Primary label for the Zgoubi command (default: auto-generated hash).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL2=''</code></dt>
+<code class="sig-name descname">LABEL2=''</code></dt>
 <dd><p>Secondary label for the Zgoubi command.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">HEIGHT='20 centimeter'</code></dt>
+<code class="sig-name descname">HEIGHT='20 centimeter'</code></dt>
 <dd><p>Height of the magnet (distance between poles), used by plotting functions.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">REFERENCE_FIELD_COMPONENT='BZ'</code></dt>
+<code class="sig-name descname">PIPE_THICKNESS='2 centimeter'</code></dt>
+<dd><p>Thickness of the pipe, used by plotting functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">PIPE_COLOR='grey'</code></dt>
+<dd><p>Color of the pipe, used by plotting functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">POLE_WIDTH='50 centimeter'</code></dt>
+<dd><p>Pole width (used for plotting only).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">REFERENCE_FIELD_COMPONENT='BZ'</code></dt>
 <dd><p>Orientation of the reference field (used by field maps)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">KINEMATICS='None'</code></dt>
+<code class="sig-name descname">KINEMATICS='None'</code></dt>
 <dd><p>A kinematics object.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">NoneType</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>NoneType</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">WIDTH='50 centimeter'</code></dt>
+<code class="sig-name descname">WIDTH='50 centimeter'</code></dt>
 <dd><p>Width of the magnetic poles (used for plotting only).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">APERTURE_LEFT='10 centimeter'</code></dt>
+<code class="sig-name descname">APERTURE_LEFT='10 centimeter'</code></dt>
 <dd><p>Aperture size of the magnet, left side (used for plotting only).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">APERTURE_RIGHT='10 centimeter'</code></dt>
+<code class="sig-name descname">APERTURE_RIGHT='10 centimeter'</code></dt>
 <dd><p>Aperture size of the magnet, right side (used for plotting only).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">APERTURE_TOP='10 centimeter'</code></dt>
+<code class="sig-name descname">APERTURE_TOP='10 centimeter'</code></dt>
 <dd><p>Aperture size of the magnet, top side (used for plotting only).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">APERTURE_BOTTOM='10 centimeter'</code></dt>
+<code class="sig-name descname">APERTURE_BOTTOM='10 centimeter'</code></dt>
 <dd><p>Aperture size of the magnet, bottom side (used for plotting only).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">COLOR='#FF0000'</code></dt>
+<code class="sig-name descname">COLOR='#FF0000'</code></dt>
 <dd><p>Magnet color for plotting.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LENGTH_IS_ARC_LENGTH='False'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">bool</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">LENGTH_IS_ARC_LENGTH='False'</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">IL='0'</code></dt>
+<code class="sig-name descname">IL='0'</code></dt>
 <dd><p>Print field and coordinates along trajectories</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">XL='490 millimeter'</code></dt>
+<code class="sig-name descname">XL='490 millimeter'</code></dt>
 <dd><p>Magnet length</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">R0='1.0 centimeter'</code></dt>
+<code class="sig-name descname">R0='1.0 centimeter'</code></dt>
 <dd><p>Radius of the pole tips</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">B0='0 kilogauss'</code></dt>
+<code class="sig-name descname">B0='0 kilogauss'</code></dt>
 <dd><p>Field at pole tips</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">X_E='0 centimeter'</code></dt>
+<code class="sig-name descname">X_E='0 centimeter'</code></dt>
 <dd><p>Entrance face integration zone for the fringe field</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LAM_E='0 centimeter'</code></dt>
+<code class="sig-name descname">LAM_E='0 centimeter'</code></dt>
 <dd><p>Entrance face fringe field extent</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">X_S='0 centimeter'</code></dt>
+<code class="sig-name descname">X_S='0 centimeter'</code></dt>
 <dd><p>Exit face integration zone for the fringe field</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LAM_S='0 centimeter'</code></dt>
+<code class="sig-name descname">LAM_S='0 centimeter'</code></dt>
 <dd><p>Exit face fringe field extent</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">XPAS='0.1 centimeter'</code></dt>
+<code class="sig-name descname">XPAS='0.1 centimeter'</code></dt>
 <dd><p>Integration step</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">KPOS='1'</code></dt>
+<code class="sig-name descname">KPOS='1'</code></dt>
 <dd><p>Misalignment type</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">XCE='0 centimeter'</code></dt>
+<code class="sig-name descname">XCE='0 centimeter'</code></dt>
 <dd><p>x offset</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">YCE='0 centimeter'</code></dt>
+<code class="sig-name descname">YCE='0 centimeter'</code></dt>
 <dd><p>y offset</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">ALE='0 radian'</code></dt>
+<code class="sig-name descname">ALE='0 radian'</code></dt>
 <dd><p>misalignment rotation</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
 <p>Default initializer for all Commands.</p>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.QLong.KEYWORD" title="zgoubidoo.commands.contrib.iba.QLong.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></td>
-<td></td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.QLong.KEYWORD" title="zgoubidoo.commands.contrib.iba.QLong.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.QLong.PARAMETERS" title="zgoubidoo.commands.contrib.iba.QLong.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></td>
-<td></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.QLong.PARAMETERS" title="zgoubidoo.commands.contrib.iba.QLong.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Methods Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.QLong.post_init" title="zgoubidoo.commands.contrib.iba.QLong.post_init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">post_init</span></code></a>(polarity,&nbsp;**kwargs)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param polarity:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.contrib.iba.QLong.post_init" title="zgoubidoo.commands.contrib.iba.QLong.post_init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">post_init</span></code></a>([polarity])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param polarity</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.contrib.iba.QLong.KEYWORD">
-<code class="descname">KEYWORD</code><em class="property"> = 'QUADRUPO'</em><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.QLong.KEYWORD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">KEYWORD</code><em class="property">: str</em><em class="property"> = 'QUADRUPO'</em><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.QLong.KEYWORD" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.contrib.iba.QLong.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'ALE': (&lt;Quantity(0, 'radian')&gt;, 'misalignment rotation', 73), 'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'B0': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tips', 12), 'C0_E': (0,), 'C0_S': (0,), 'C1_E': (1,), 'C1_S': (1,), 'C2_E': (0,), 'C2_S': (0,), 'C3_E': (0,), 'C3_S': (0,), 'C4_E': (0,), 'C4_S': (0,), 'C5_E': (0,), 'C5_S': (0,), 'COLOR': ('#FF0000', 'Magnet color for plotting.'), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'IL': (0, 'Print field and coordinates along trajectories', 0), 'KINEMATICS': (None, 'A kinematics object.'), 'KPOS': (1, 'Misalignment type', 70), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'LAM_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance face fringe field extent', 21), 'LAM_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit face fringe field extent'), 'LENGTH_IS_ARC_LENGTH': (False, ''), 'R0': (&lt;Quantity(1.0, 'centimeter')&gt;, 'Radius of the pole tips', 11), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'WIDTH': (&lt;Quantity(50, 'centimeter')&gt;, 'Width of the magnetic poles (used for plotting only).'), 'XCE': (&lt;Quantity(0, 'centimeter')&gt;, 'x offset', 71), 'XL': (&lt;Quantity(490, 'millimeter')&gt;, 'Magnet length', 10), 'XPAS': (&lt;Quantity(0.1, 'centimeter')&gt;, 'Integration step', 60), 'X_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance face integration zone for the fringe field', 20), 'X_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit face integration zone for the fringe field'), 'YCE': (&lt;Quantity(0, 'centimeter')&gt;, 'y offset', 72)}</em><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.QLong.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'ALE': (&lt;Quantity(0, 'radian')&gt;, 'misalignment rotation', 73), 'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'B0': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tips', 12), 'C0_E': (0,), 'C0_S': (0,), 'C1_E': (1,), 'C1_S': (1,), 'C2_E': (0,), 'C2_S': (0,), 'C3_E': (0,), 'C3_S': (0,), 'C4_E': (0,), 'C4_S': (0,), 'C5_E': (0,), 'C5_S': (0,), 'COLOR': ('#FF0000', 'Magnet color for plotting.'), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'IL': (0, 'Print field and coordinates along trajectories', 0), 'KINEMATICS': (None, 'A kinematics object.'), 'KPOS': (1, 'Misalignment type', 70), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'LAM_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance face fringe field extent', 21), 'LAM_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit face fringe field extent'), 'LENGTH_IS_ARC_LENGTH': (False, ''), 'PIPE_COLOR': ('grey', 'Color of the pipe, used by plotting functions.'), 'PIPE_THICKNESS': (&lt;Quantity(2, 'centimeter')&gt;, 'Thickness of the pipe, used by plotting functions.'), 'POLE_WIDTH': (&lt;Quantity(50, 'centimeter')&gt;, 'Pole width (used for plotting only).'), 'R0': (&lt;Quantity(1.0, 'centimeter')&gt;, 'Radius of the pole tips', 11), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'WIDTH': (&lt;Quantity(50, 'centimeter')&gt;, 'Width of the magnetic poles (used for plotting only).'), 'XCE': (&lt;Quantity(0, 'centimeter')&gt;, 'x offset', 71), 'XL': (&lt;Quantity(490, 'millimeter')&gt;, 'Magnet length', 10), 'XPAS': (&lt;Quantity(0.1, 'centimeter')&gt;, 'Integration step', 60), 'X_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance face integration zone for the fringe field', 20), 'X_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit face integration zone for the fringe field'), 'YCE': (&lt;Quantity(0, 'centimeter')&gt;, 'y offset', 72)}</em><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.QLong.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods Documentation</p>
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.commands.contrib.iba.QLong.post_init">
-<code class="descname">post_init</code><span class="sig-paren">(</span><em>polarity: zgoubidoo.polarity.PolarityType = &lt;class 'zgoubidoo.polarity.HorizontalPolarity'&gt;</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#QLong.post_init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.QLong.post_init" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>polarity</strong> – </li>
-<li><strong>**kwargs</strong> – </li>
+<code class="sig-name descname">post_init</code><span class="sig-paren">(</span><em class="sig-param">polarity: zgoubidoo.polarity.PolarityType = &lt;class 'zgoubidoo.polarity.HorizontalPolarity'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#QLong.post_init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.QLong.post_init" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>polarity</strong> – </p></li>
+<li><p><strong>**kwargs</strong> – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 

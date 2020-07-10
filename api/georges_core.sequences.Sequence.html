@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -99,6 +99,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../physics.html">Physics with Zgoubidoo high-level interfaces</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../physics.html#module-georges_core.sequences">Sequences</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../physics.html#classes">Classes</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.BDSIMSequence.html">BDSIMSequence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.BetaBlock.html">BetaBlock</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.BetaBlockType.html">BetaBlockType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.Element.html">Element</a></li>
@@ -188,193 +189,183 @@
             
   <div class="section" id="sequence">
 <h1>Sequence<a class="headerlink" href="#sequence" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="georges_core.sequences.Sequence">
-<em class="property">class </em><code class="descclassname">georges_core.sequences.</code><code class="descname">Sequence</code><span class="sig-paren">(</span><em>name: str = ''</em>, <em>data=None</em>, <em>metadata: Optional[georges_core.sequences.sequence.SequenceMetadata] = None</em>, <em>element_keys: Optional[Mapping[str</em>, <em>str]] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#Sequence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.Sequence" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">georges_core.sequences.</code><code class="sig-name descname">Sequence</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">metadata</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>georges_core.sequences.sequence.SequenceMetadata<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">element_keys</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#Sequence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.Sequence" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Sequence.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>name</strong> – the name of the physics</li>
-<li><strong>data</strong> – </li>
-<li><strong>metadata</strong> – </li>
-<li><strong>element_keys</strong> – </li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – the name of the physics</p></li>
+<li><p><strong>data</strong> – </p></li>
+<li><p><strong>metadata</strong> – </p></li>
+<li><p><strong>element_keys</strong> – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.Sequence.betablock" title="georges_core.sequences.Sequence.betablock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">betablock</span></code></a></td>
-<td>TODO</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.Sequence.betablock" title="georges_core.sequences.Sequence.betablock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">betablock</span></code></a></p></td>
+<td><p>TODO</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.Sequence.df" title="georges_core.sequences.Sequence.df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">df</span></code></a></td>
-<td>TODO</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.Sequence.df" title="georges_core.sequences.Sequence.df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">df</span></code></a></p></td>
+<td><p>TODO</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.Sequence.kinematics" title="georges_core.sequences.Sequence.kinematics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kinematics</span></code></a></td>
-<td>Provides the kinematics data associated with the sequence metadata.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.Sequence.kinematics" title="georges_core.sequences.Sequence.kinematics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kinematics</span></code></a></p></td>
+<td><p>Provides the kinematics data associated with the sequence metadata.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.Sequence.metadata" title="georges_core.sequences.Sequence.metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">metadata</span></code></a></td>
-<td>Provides the metadata associated with the sequence.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.Sequence.metadata" title="georges_core.sequences.Sequence.metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">metadata</span></code></a></p></td>
+<td><p>Provides the metadata associated with the sequence.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.Sequence.name" title="georges_core.sequences.Sequence.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></td>
-<td>Provides the name of the sequence.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.Sequence.name" title="georges_core.sequences.Sequence.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>Provides the name of the sequence.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.Sequence.particle" title="georges_core.sequences.Sequence.particle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">particle</span></code></a></td>
-<td>Provides the particle type associated with the sequence metadata.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.Sequence.particle" title="georges_core.sequences.Sequence.particle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">particle</span></code></a></p></td>
+<td><p>Provides the particle type associated with the sequence metadata.</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Methods Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.Sequence.apply" title="georges_core.sequences.Sequence.apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply</span></code></a>(func[,&nbsp;axis])</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param func:</th><td class="field-body"></td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.Sequence.apply" title="georges_core.sequences.Sequence.apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply</span></code></a>(func[, axis])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param func</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
-</tbody>
-</table>
-</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.Sequence.from_bdsim" title="georges_core.sequences.Sequence.from_bdsim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_bdsim</span></code></a>([filename, path])</p></td>
+<td><p>TODO</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.Sequence.from_madx_twiss" title="georges_core.sequences.Sequence.from_madx_twiss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_madx_twiss</span></code></a>(filename,&nbsp;path,&nbsp;columns,&nbsp;…)</td>
-<td>TODO</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.Sequence.from_madx_twiss" title="georges_core.sequences.Sequence.from_madx_twiss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_madx_twiss</span></code></a>([filename, path, columns, …])</p></td>
+<td><p>TODO</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.Sequence.from_survey" title="georges_core.sequences.Sequence.from_survey"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_survey</span></code></a>()</td>
-<td>TODO</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.Sequence.from_survey" title="georges_core.sequences.Sequence.from_survey"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_survey</span></code></a>()</p></td>
+<td><p>TODO</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.Sequence.from_transport" title="georges_core.sequences.Sequence.from_transport"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_transport</span></code></a>(filename,&nbsp;path)</td>
-<td>TODO</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.Sequence.from_transport" title="georges_core.sequences.Sequence.from_transport"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_transport</span></code></a>([filename, path])</p></td>
+<td><p>TODO</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.Sequence.to_df" title="georges_core.sequences.Sequence.to_df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_df</span></code></a>(df,&nbsp;strip_units)</td>
-<td>TODO</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.Sequence.to_df" title="georges_core.sequences.Sequence.to_df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_df</span></code></a>([df, strip_units])</p></td>
+<td><p>TODO</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.sequences.Sequence.betablock">
-<code class="descname">betablock</code><a class="headerlink" href="#georges_core.sequences.Sequence.betablock" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">betablock</code><a class="headerlink" href="#georges_core.sequences.Sequence.betablock" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.sequences.Sequence.df">
-<code class="descname">df</code><a class="headerlink" href="#georges_core.sequences.Sequence.df" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">df</code><a class="headerlink" href="#georges_core.sequences.Sequence.df" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.sequences.Sequence.kinematics">
-<code class="descname">kinematics</code><a class="headerlink" href="#georges_core.sequences.Sequence.kinematics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">kinematics</code><a class="headerlink" href="#georges_core.sequences.Sequence.kinematics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Provides the kinematics data associated with the sequence metadata.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.sequences.Sequence.metadata">
-<code class="descname">metadata</code><a class="headerlink" href="#georges_core.sequences.Sequence.metadata" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">metadata</code><a class="headerlink" href="#georges_core.sequences.Sequence.metadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Provides the metadata associated with the sequence.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.sequences.Sequence.name">
-<code class="descname">name</code><a class="headerlink" href="#georges_core.sequences.Sequence.name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">name</code><a class="headerlink" href="#georges_core.sequences.Sequence.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Provides the name of the sequence.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="georges_core.sequences.Sequence.particle">
-<code class="descname">particle</code><a class="headerlink" href="#georges_core.sequences.Sequence.particle" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">particle</code><a class="headerlink" href="#georges_core.sequences.Sequence.particle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Provides the particle type associated with the sequence metadata.</p>
 </dd></dl>
 
 <p class="rubric">Methods Documentation</p>
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.sequences.Sequence.apply">
-<code class="descname">apply</code><span class="sig-paren">(</span><em>func</em>, <em>axis=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#Sequence.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.Sequence.apply" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>func</strong> – </li>
-<li><strong>axis</strong> – </li>
+<code class="sig-name descname">apply</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#Sequence.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.Sequence.apply" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> – </p></li>
+<li><p><strong>axis</strong> – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="staticmethod">
-<dt id="georges_core.sequences.Sequence.from_madx_twiss">
-<em class="property">static </em><code class="descname">from_madx_twiss</code><span class="sig-paren">(</span><em>filename: str = 'twiss.outx'</em>, <em>path: str = '.'</em>, <em>columns: Optional[List[T]] = None</em>, <em>from_element: Optional[str] = None</em>, <em>to_element: Optional[str] = None</em><span class="sig-paren">)</span> &#x2192; georges_core.sequences.sequence.Sequence<a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#Sequence.from_madx_twiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.Sequence.from_madx_twiss" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="georges_core.sequences.Sequence.from_bdsim">
+<em class="property">static </em><code class="sig-name descname">from_bdsim</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'output.root'</span></em>, <em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'.'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#Sequence.from_bdsim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.Sequence.from_bdsim" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>filename</strong> – name of the Twiss table file</li>
-<li><strong>path</strong> – path to the Twiss table file</li>
-<li><strong>columns</strong> – the list of columns in the Twiss file</li>
-<li><strong>from_element</strong> – </li>
-<li><strong>to_element</strong> – </li>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="georges_core.sequences.Sequence.from_madx_twiss">
+<em class="property">static </em><code class="sig-name descname">from_madx_twiss</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'twiss.outx'</span></em>, <em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'.'</span></em>, <em class="sig-param"><span class="n">columns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">from_element</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">to_element</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; georges_core.sequences.sequence.Sequence<a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#Sequence.from_madx_twiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.Sequence.from_madx_twiss" title="Permalink to this definition">¶</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – name of the Twiss table file</p></li>
+<li><p><strong>path</strong> – path to the Twiss table file</p></li>
+<li><p><strong>columns</strong> – the list of columns in the Twiss file</p></li>
+<li><p><strong>from_element</strong> – </p></li>
+<li><p><strong>to_element</strong> – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>Returns:</p>
 <p class="rubric">Examples</p>
 <p>TODO</p>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="py method">
 <dt id="georges_core.sequences.Sequence.from_survey">
-<em class="property">static </em><code class="descname">from_survey</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#Sequence.from_survey"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.Sequence.from_survey" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_survey</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#Sequence.from_survey"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.Sequence.from_survey" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="py method">
 <dt id="georges_core.sequences.Sequence.from_transport">
-<em class="property">static </em><code class="descname">from_transport</code><span class="sig-paren">(</span><em>filename: str = 'transport.txt'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#Sequence.from_transport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.Sequence.from_transport" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">from_transport</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'transport.txt'</span></em>, <em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'.'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#Sequence.from_transport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.Sequence.from_transport" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>filename</strong> – </li>
-<li><strong>path</strong> – </li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – </p></li>
+<li><p><strong>path</strong> – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="georges_core.sequences.Sequence.to_df">
-<code class="descname">to_df</code><span class="sig-paren">(</span><em>df: Optional[pandas.core.frame.DataFrame] = None</em>, <em>strip_units: bool = False</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#Sequence.to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.Sequence.to_df" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>pandas.core.frame.DataFrame<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">strip_units</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="../_modules/georges_core/sequences/sequence.html#Sequence.to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.Sequence.to_df" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 </dd></dl>
 

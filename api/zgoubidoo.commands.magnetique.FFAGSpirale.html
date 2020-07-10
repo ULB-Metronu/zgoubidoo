@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -218,813 +218,853 @@
             
   <div class="section" id="ffagspirale">
 <h1>FFAGSpirale<a class="headerlink" href="#ffagspirale" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="zgoubidoo.commands.magnetique.FFAGSpirale">
-<em class="property">class </em><code class="descclassname">zgoubidoo.commands.magnetique.</code><code class="descname">FFAGSpirale</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#FFAGSpirale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.FFAGSpirale" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.commands.magnetique.</code><code class="sig-name descname">FFAGSpirale</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label1</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">label2</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">params</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#FFAGSpirale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.FFAGSpirale" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.magnetique.PolarMultiMagnet.html#zgoubidoo.commands.magnetique.PolarMultiMagnet" title="zgoubidoo.commands.magnetique.PolarMultiMagnet"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.magnetique.PolarMultiMagnet</span></code></a></p>
 <p>Spiral FFAG magnet, N-tuple.</p>
-<p>TODO</p>
+<p class="rubric">Zgoubi manual description</p>
+<p><code class="docutils literal notranslate"><span class="pre">FFAG-SPI</span></code> works much like <code class="docutils literal notranslate"><span class="pre">FFAG</span></code> asto the field modelling, with essentially a different axial dependence.
+The <a href="#id1"><span class="problematic" id="id2">``</span></a>FFAG-SPI` procedure allows overlapping of fringe fields of neighboring dipoles, thus simulating in some sort `
+the field in a dipole N -tuple (similar to Fig. 31, page 137). This allows for instance accounting for fringe field effects, or clamps, as schemed in Fig. 32.</p>
+<dl class="simple">
+<dt>The dimensioning of the magnet is defined by :</dt><dd><ul class="simple">
+<li><p>AT : total angular aperture</p></li>
+<li><p>RM : mean radius used for the positioning of field boundaries</p></li>
+</ul>
+</dd>
+</dl>
+<p>For each one of the N = 1 to (maximum) 5 dipoles of the N-tuple, the two effective field boundaries (entrance and exit EFBs) from which the dipole field is drawn
+are defined from geometric boundaries, the shape and position of which are determined by the following parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>ACN_i : arbitrary inner angle, used for EFBs positioning</p></li>
+<li><p>ω : azimuth of an EFB with respect to ACN</p></li>
+<li><p>ξ : spiral angle</p></li>
+</ul>
+</div></blockquote>
+<p>with ACN_i and ω as defined in Fig. 32 (similar to what can be found in Figs. 31 and 11-A).</p>
+<p>Calculation of the Field From a Single Dipole</p>
+<p>The magnetic field is calculated in polar coordinates. At all (R, θ) in the median plane (Z = 0),
+the magnetic field due a single one (index i) of the dipoles of a N -tuple spiral FFAG magnet is written</p>
+<blockquote>
+<div><p>BZ_i(R, θ) = BZ_{0,i} F_i(R, θ) (R/RM )^{K_i}</p>
+</div></blockquote>
+<p>wherein BZ_0,i is a reference field, at reference radius RMi, whereas F(R,θ) is calculated as described below.</p>
+<p>Calculation of F_i(R, θ)</p>
+<p>The fringe field coefficient F_i(R, θ) associated with a dipole is computed as in the procedure <code class="docutils literal notranslate"><span class="pre">DIPOLES</span></code> (eq. 6.4.16),
+including radial dependence of the gap size :</p>
+<blockquote>
+<div><p>g(R) = g_0 (RM/R)^κ (6.4.20)</p>
+</div></blockquote>
+<p>so to simulate the effect of gap shaping on BZ_i(R,θ)|R field fall-off, over the all radial extent of the dipole (with normally - yet not necessarily in practice - κ ≈ Ki).</p>
+<p>Calculation of the Full Field From All N Dipoles</p>
+<p>For the rest, namely calculation of the full field at particle position, as resulting from the N dipoles, calculation of the mid-plane field derivatives,
+extrapolation off median plane, etc., things are performed in the same manner as for the DIPOLES procedure (see page 125).</p>
 <p class="rubric">Command attributes</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL1=''</code></dt>
+<code class="sig-name descname">LABEL1=''</code></dt>
 <dd><p>Primary label for the Zgoubi command (default: auto-generated hash).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL2=''</code></dt>
+<code class="sig-name descname">LABEL2=''</code></dt>
 <dd><p>Secondary label for the Zgoubi command.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">HEIGHT='20 centimeter'</code></dt>
+<code class="sig-name descname">HEIGHT='20 centimeter'</code></dt>
 <dd><p>Height of the magnet (distance between poles), used by plotting functions.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">REFERENCE_FIELD_COMPONENT='BZ'</code></dt>
+<code class="sig-name descname">PIPE_THICKNESS='2 centimeter'</code></dt>
+<dd><p>Thickness of the pipe, used by plotting functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">PIPE_COLOR='grey'</code></dt>
+<dd><p>Color of the pipe, used by plotting functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">POLE_WIDTH='150 centimeter'</code></dt>
+<dd><p>Pole width (used for plotting only).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">REFERENCE_FIELD_COMPONENT='BZ'</code></dt>
 <dd><p>Orientation of the reference field (used by field maps)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">KINEMATICS='None'</code></dt>
+<code class="sig-name descname">KINEMATICS='None'</code></dt>
 <dd><p>A kinematics object.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">NoneType</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>NoneType</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">APERTURE_LEFT='10 centimeter'</code></dt>
+<code class="sig-name descname">APERTURE_LEFT='10 centimeter'</code></dt>
 <dd><p>Aperture size of the magnet, left side (used for plotting only).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">APERTURE_RIGHT='10 centimeter'</code></dt>
+<code class="sig-name descname">APERTURE_RIGHT='10 centimeter'</code></dt>
 <dd><p>Aperture size of the magnet, right side (used for plotting only).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">APERTURE_TOP='10 centimeter'</code></dt>
+<code class="sig-name descname">APERTURE_TOP='10 centimeter'</code></dt>
 <dd><p>Aperture size of the magnet, top side (used for plotting only).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">APERTURE_BOTTOM='10 centimeter'</code></dt>
+<code class="sig-name descname">APERTURE_BOTTOM='10 centimeter'</code></dt>
 <dd><p>Aperture size of the magnet, bottom side (used for plotting only).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">IL='0'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">IL='0'</code></dt>
+<dd><p>Print field and coordinates along trajectories</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">N='1'</code></dt>
-<dd><p>Number of dipoles in the FFAG n-tuple</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">N='1'</code></dt>
+<dd><p>Number of dipoles in the FFAG n-tuple (maximum 5)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">AT='0 degree'</code></dt>
-<dd><p>Total angular extent of the dipole</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">AT='0.0 degree'</code></dt>
+<dd><p>Total angular extent of the N dipoles</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">RM='100 centimeter'</code></dt>
-<dd><p>Reference radius</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">RM='0.0 centimeter'</code></dt>
+<dd><p>Reference radius: mean radius used for the positioning of field boundaries</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">ACN='[0 0] degree'</code></dt>
-<dd><p>Azymuth for dipole positioning</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">ACN='[0. 0. 0. 0. 0.] degree'</code></dt>
+<dd><p>Azimuth for dipole positioning</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">DELTA_RM='[0 0] centimeter'</code></dt>
-<dd><p>Reference radius offset</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">DRM='[0. 0. 0. 0. 0.] centimeter'</code></dt>
+<dd><p>Reference radius offset of each dipole : RM_i  = RM +DELTA_RM</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">BZ0='[0 0] kilogauss'</code></dt>
-<dd><p>Field at the reference radius</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">BZ0='[0. 0. 0. 0. 0.] kilogauss'</code></dt>
+<dd><p>Field at the reference radius of each dipole</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">K='[0, 0]'</code></dt>
-<dd><p>Field index</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">K='[0.0, 0.0, 0.0, 0.0, 0.0]'</code></dt>
+<dd><p>Field index for each dipole</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">G0_E='[0 0] centimeter'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">G0_E='[1.e-08 1.e-08 1.e-08 1.e-08 1.e-08] centimeter'</code></dt>
+<dd><p>Reference gaps for the entrance fringe fields of each dipole.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">K_E='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">K_E='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>Fringe field parameter kappa</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">NCE='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">NCE='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>UNUSED</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">C0_E='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">C0_E='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>Fringe field coefficient C0</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">C1_E='[1, 1]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">C1_E='[1, 1, 1, 1, 1]'</code></dt>
+<dd><p>Fringe field coefficient C1</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">C2_E='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">C2_E='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>Fringe field coefficient C2</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">C3_E='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">C3_E='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>Fringe field coefficient C3</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">C4_E='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">C4_E='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>Fringe field coefficient C4</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">C5_E='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">C5_E='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>Fringe field coefficient C5</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">SHIFT_E='[0 0] centimeter'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">SHIFT_E='[0. 0. 0. 0. 0.] centimeter'</code></dt>
+<dd><p>Shift of the EFB</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">OMEGA_E='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">OMEGA_E='[0. 0. 0. 0. 0.] degree'</code></dt>
+<dd><p>Azimuth of an EFB with respect to ACN</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">XI_E='[0 0] degree'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">XI_E='[0. 0. 0. 0. 0.] degree'</code></dt>
+<dd><p>Spiral angle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">G0_S='[0 0] centimeter'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">G0_S='[1.e-08 1.e-08 1.e-08 1.e-08 1.e-08] centimeter'</code></dt>
+<dd><p>Reference gaps for the exit fringe fields of each dipole.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">K_S='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">K_S='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>Fringe field parameter kappa</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">NCS='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">NCS='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>UNUSED</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">C0_S='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">C0_S='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>Fringe field coefficient C0</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">C1_S='[1, 1]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">C1_S='[1, 1, 1, 1, 1]'</code></dt>
+<dd><p>Fringe field coefficient C1</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">C2_S='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">C2_S='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>Fringe field coefficient C2</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">C3_S='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">C3_S='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>Fringe field coefficient C3</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">C4_S='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">C4_S='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>Fringe field coefficient C4</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">C5_S='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">C5_S='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>Fringe field coefficient C5</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">SHIFT_S='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">SHIFT_S='[0. 0. 0. 0. 0.] centimeter'</code></dt>
+<dd><p>Shift of the EFB</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">OMEGA_S='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">OMEGA_S='[0. 0. 0. 0. 0.] degree'</code></dt>
+<dd><p>Azimuth of an EFB with respect to ACN</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">XI_S='[0 0] degree'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">XI_S='[0. 0. 0. 0. 0.] degree'</code></dt>
+<dd><p>Spiral angle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">G0_L='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">G0_L='[0. 0. 0. 0. 0.] centimeter'</code></dt>
+<dd><p>UNUSED Reference gaps for the lateral fringe fields of each dipole.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">K_L='[-1, -1]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">K_L='[-1, -1, -1, -1, -1]'</code></dt>
+<dd><p>UNUSED Fringe field parameter kappa</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">NCL='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">NCL='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>UNUSED</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">C0_L='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">C0_L='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>UNUSED Fringe field coefficient C0</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">C1_L='[1, 1]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">C1_L='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>UNUSED Fringe field coefficient C1</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">C2_L='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">C2_L='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>UNUSED Fringe field coefficient C2</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">C3_L='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">C3_L='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>UNUSED Fringe field coefficient C3</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">C4_L='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">C4_L='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>UNUSED Fringe field coefficient C4</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">C5_L='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">C5_L='[0, 0, 0, 0, 0]'</code></dt>
+<dd><p>UNUSED Fringe field coefficient C5</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">SHIFT_L='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">SHIFT_L='[0. 0. 0. 0. 0.] centimeter'</code></dt>
+<dd><p>UNUSED  Shift of the EFB</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">OMEGA_L='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">OMEGA_L='[0. 0. 0. 0. 0.] degree'</code></dt>
+<dd><p>UNUSED</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">THETA_L='[0, 0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">THETA_L='[0. 0. 0. 0. 0.] degree'</code></dt>
+<dd><p>UNUSED Entrance face wedge angle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">R1_L='[1000000000.0, 1000000000.0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">R1_L='[1.e+09 1.e+09 1.e+09 1.e+09 1.e+09] centimeter'</code></dt>
+<dd><p>UNUSED Lateral EFB radius</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">U1_L='[1000000000.0, 1000000000.0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">U1_L='[1.e+09 1.e+09 1.e+09 1.e+09 1.e+09] centimeter'</code></dt>
+<dd><p>UNUSED Lateral EFB linear extent</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">U2_L='[1000000000.0, 1000000000.0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">U2_L='[1.e+09 1.e+09 1.e+09 1.e+09 1.e+09] centimeter'</code></dt>
+<dd><p>UNUSED Lateral EFB linear extent</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">R2_L='[1000000000.0, 1000000000.0]'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">R2_L='[1.e+09 1.e+09 1.e+09 1.e+09 1.e+09] centimeter'</code></dt>
+<dd><p>UNUSED Lateral EFB radius</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">XPAS='1.0 centimeter'</code></dt>
+<code class="sig-name descname">KIRD='2'</code></dt>
+<dd><p>Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">RESOL='2'</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">XPAS='1.0 millimeter'</code></dt>
 <dd><p>Integration step</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">RE='0.0 centimeter'</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">TE='0.0 radian'</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">RS='0.0 centimeter'</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">TS='0.0 radian'</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
 <p>Default initializer for all Commands.</p>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.FFAGSpirale.KEYWORD" title="zgoubidoo.commands.magnetique.FFAGSpirale.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></td>
-<td>Keyword of the command used for the Zgoubi input data.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.FFAGSpirale.KEYWORD" title="zgoubidoo.commands.magnetique.FFAGSpirale.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></p></td>
+<td><p>Keyword of the command used for the Zgoubi input data.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.FFAGSpirale.PARAMETERS" title="zgoubidoo.commands.magnetique.FFAGSpirale.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></td>
-<td>Parameters of the command, with their default value, their description and optinally an index used by other commands (e.g.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.FFAGSpirale.PARAMETERS" title="zgoubidoo.commands.magnetique.FFAGSpirale.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></p></td>
+<td><p>Parameters of the command, with their default value, their description and optinally an index used by other commands (e.g.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.FFAGSpirale.entry_wedge_angle" title="zgoubidoo.commands.magnetique.FFAGSpirale.entry_wedge_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entry_wedge_angle</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.FFAGSpirale.exit_wedge_angle" title="zgoubidoo.commands.magnetique.FFAGSpirale.exit_wedge_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exit_wedge_angle</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.FFAGSpirale.reference_angles" title="zgoubidoo.commands.magnetique.FFAGSpirale.reference_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reference_angles</span></code></a></p></td>
+<td><p>Returns:</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.FFAGSpirale.adjust_tracks_variables" title="zgoubidoo.commands.magnetique.FFAGSpirale.adjust_tracks_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adjust_tracks_variables</span></code></a>(tracks)</p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.FFAGSpirale.KEYWORD">
-<code class="descname">KEYWORD</code><em class="property"> = 'FFAG-SPI'</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.FFAGSpirale.KEYWORD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">KEYWORD</code><em class="property">: str</em><em class="property"> = 'FFAG-SPI'</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.FFAGSpirale.KEYWORD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Keyword of the command used for the Zgoubi input data.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.FFAGSpirale.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'ACN': (&lt;Quantity([0 0], 'degree')&gt;, 'Azymuth for dipole positioning'), 'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'AT': (&lt;Quantity(0, 'degree')&gt;, 'Total angular extent of the dipole'), 'BZ0': (&lt;Quantity([0 0], 'kilogauss')&gt;, 'Field at the reference radius'), 'C0_E': ([0, 0], ''), 'C0_L': ([0, 0], ''), 'C0_S': ([0, 0], ''), 'C1_E': ([1, 1], ''), 'C1_L': ([1, 1], ''), 'C1_S': ([1, 1], ''), 'C2_E': ([0, 0], ''), 'C2_L': ([0, 0], ''), 'C2_S': ([0, 0], ''), 'C3_E': ([0, 0], ''), 'C3_L': ([0, 0], ''), 'C3_S': ([0, 0], ''), 'C4_E': ([0, 0], ''), 'C4_L': ([0, 0], ''), 'C4_S': ([0, 0], ''), 'C5_E': ([0, 0], ''), 'C5_L': ([0, 0], ''), 'C5_S': ([0, 0], ''), 'COLOR': ('red',), 'DELTA_RM': (&lt;Quantity([0 0], 'centimeter')&gt;, 'Reference radius offset'), 'G0_E': (&lt;Quantity([0 0], 'centimeter')&gt;, ''), 'G0_L': ([0, 0], ''), 'G0_S': (&lt;Quantity([0 0], 'centimeter')&gt;, ''), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'IL': (0, ''), 'K': ([0, 0], 'Field index'), 'KINEMATICS': (None, 'A kinematics object.'), 'KIRD': (0,), 'K_E': ([0, 0], ''), 'K_L': ([-1, -1], ''), 'K_S': ([0, 0], ''), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'N': (1, 'Number of dipoles in the FFAG n-tuple'), 'NCE': ([0, 0], ''), 'NCL': ([0, 0], ''), 'NCS': ([0, 0], ''), 'OMEGA_E': ([0, 0], ''), 'OMEGA_L': ([0, 0], ''), 'OMEGA_S': ([0, 0], ''), 'R1_L': ([1000000000.0, 1000000000.0], ''), 'R2_L': ([1000000000.0, 1000000000.0], ''), 'RE': (&lt;Quantity(0, 'centimeter')&gt;,), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'RESOL': (2,), 'RM': (&lt;Quantity(100, 'centimeter')&gt;, 'Reference radius'), 'RS': (&lt;Quantity(0, 'centimeter')&gt;,), 'SHIFT_E': (&lt;Quantity([0 0], 'centimeter')&gt;, ''), 'SHIFT_L': ([0, 0], ''), 'SHIFT_S': ([0, 0], ''), 'TE': (&lt;Quantity(0, 'radian')&gt;,), 'THETA_L': ([0, 0], ''), 'TS': (&lt;Quantity(0, 'radian')&gt;,), 'U1_L': ([1000000000.0, 1000000000.0], ''), 'U2_L': ([1000000000.0, 1000000000.0], ''), 'WIDTH': (&lt;Quantity(150, 'centimeter')&gt;,), 'XI_E': (&lt;Quantity([0 0], 'degree')&gt;, ''), 'XI_S': (&lt;Quantity([0 0], 'degree')&gt;, ''), 'XPAS': (&lt;Quantity(1.0, 'centimeter')&gt;, 'Integration step')}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.FFAGSpirale.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'ACN': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, 'Azimuth for dipole positioning', 5), 'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'AT': (&lt;Quantity(0.0, 'degree')&gt;, 'Total angular extent of the N dipoles', 3), 'BZ0': (&lt;Quantity([0. 0. 0. 0. 0.], 'kilogauss')&gt;, 'Field at the reference radius of each dipole', 7), 'C0_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 12), 'C0_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C0', 44), 'C0_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 28), 'C1_E': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 13), 'C1_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C1', 45), 'C1_S': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 29), 'C2_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 14), 'C2_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C2', 46), 'C2_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 30), 'C3_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 15), 'C3_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C3', 47), 'C3_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 31), 'C4_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 16), 'C4_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C4', 48), 'C4_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 32), 'C5_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 17), 'C5_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C5', 49), 'C5_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 33), 'COLOR': ('blue',), 'DRM': (&lt;Quantity([0. 0. 0. 0. 0.], 'centimeter')&gt;, 'Reference radius offset of each dipole : RM_i  = RM +DELTA_RM', 6), 'G0_E': (&lt;Quantity([1.e-08 1.e-08 1.e-08 1.e-08 1.e-08], 'centimeter')&gt;, 'Reference gaps for the entrance fringe fields of each dipole.', 9), 'G0_L': (&lt;Quantity([0. 0. 0. 0. 0.], 'centimeter')&gt;, 'UNUSED Reference gaps for the lateral fringe fields of each dipole.', 41), 'G0_S': (&lt;Quantity([1.e-08 1.e-08 1.e-08 1.e-08 1.e-08], 'centimeter')&gt;, 'Reference gaps for the exit fringe fields of each dipole.', 25), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'IL': (0, 'Print field and coordinates along trajectories', 1), 'K': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Field index for each dipole', 8), 'KINEMATICS': (None, 'A kinematics object.'), 'KIRD': (2, 'Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives', 57), 'K_E': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 10), 'K_L': ([-1, -1, -1, -1, -1], 'UNUSED Fringe field parameter kappa', 42), 'K_S': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 26), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'N': (1, 'Number of dipoles in the FFAG n-tuple (maximum 5)', 2), 'NCE': ([0, 0, 0, 0, 0], 'UNUSED', 11), 'NCL': ([0, 0, 0, 0, 0], 'UNUSED', 43), 'NCS': ([0, 0, 0, 0, 0], 'UNUSED', 27), 'OMEGA_E': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, 'Azimuth of an EFB with respect to ACN', 19), 'OMEGA_L': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, 'UNUSED ', 51), 'OMEGA_S': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, 'Azimuth of an EFB with respect to ACN', 35), 'PIPE_COLOR': ('grey', 'Color of the pipe, used by plotting functions.'), 'PIPE_THICKNESS': (&lt;Quantity(2, 'centimeter')&gt;, 'Thickness of the pipe, used by plotting functions.'), 'POLE_WIDTH': (&lt;Quantity(150, 'centimeter')&gt;, 'Pole width (used for plotting only).'), 'R1_L': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'UNUSED Lateral EFB radius', 53), 'R2_L': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'UNUSED Lateral EFB radius', 56), 'RE': (&lt;Quantity(0.0, 'centimeter')&gt;, '', 61), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'RESOL': (2, '', 58), 'RM': (&lt;Quantity(0.0, 'centimeter')&gt;, 'Reference radius: mean radius used for the positioning of field boundaries', 4), 'RS': (&lt;Quantity(0.0, 'centimeter')&gt;, '', 63), 'SHIFT_E': (&lt;Quantity([0. 0. 0. 0. 0.], 'centimeter')&gt;, 'Shift of the EFB', 18), 'SHIFT_L': (&lt;Quantity([0. 0. 0. 0. 0.], 'centimeter')&gt;, 'UNUSED  Shift of the EFB', 50), 'SHIFT_S': (&lt;Quantity([0. 0. 0. 0. 0.], 'centimeter')&gt;, 'Shift of the EFB', 34), 'TE': (&lt;Quantity(0.0, 'radian')&gt;, '', 62), 'THETA_L': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, 'UNUSED Entrance face wedge angle', 52), 'TS': (&lt;Quantity(0.0, 'radian')&gt;, '', 64), 'U1_L': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'UNUSED Lateral EFB linear extent', 54), 'U2_L': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'UNUSED Lateral EFB linear extent', 55), 'XI_E': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, 'Spiral angle', 20), 'XI_S': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, 'Spiral angle', 36), 'XPAS': (&lt;Quantity(1.0, 'millimeter')&gt;, 'Integration step', 59)}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.FFAGSpirale.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parameters of the command, with their default value, their description and optinally an index used by other
 commands (e.g. fit).</p>
 </dd></dl>
+
+<dl class="py attribute">
+<dt id="zgoubidoo.commands.magnetique.FFAGSpirale.entry_wedge_angle">
+<code class="sig-name descname">entry_wedge_angle</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.FFAGSpirale.entry_wedge_angle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="zgoubidoo.commands.magnetique.FFAGSpirale.exit_wedge_angle">
+<code class="sig-name descname">exit_wedge_angle</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.FFAGSpirale.exit_wedge_angle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="zgoubidoo.commands.magnetique.FFAGSpirale.reference_angles">
+<code class="sig-name descname">reference_angles</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.FFAGSpirale.reference_angles" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="zgoubidoo.commands.magnetique.FFAGSpirale.adjust_tracks_variables">
+<code class="sig-name descname">adjust_tracks_variables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tracks</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#FFAGSpirale.adjust_tracks_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.FFAGSpirale.adjust_tracks_variables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 

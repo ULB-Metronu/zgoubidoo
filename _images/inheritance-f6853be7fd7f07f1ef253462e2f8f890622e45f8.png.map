@@ -1,0 +1,5 @@
+<map id="inheritanceea2bc6ff94" name="inheritanceea2bc6ff94">
+<area shape="rect" id="node1" href="api/georges_core.frame.Frame.html#georges_core.frame.Frame" target="_top" title="A Frame object represents a reference frame for affine geometry transformations (rotations and translations)." alt="" coords="29,53,101,77"/>
+<area shape="rect" id="node3" href="api/georges_core.frame.FrameFrenet.html#georges_core.frame.FrameFrenet" target="_top" title="FrameFrenet" alt="" coords="172,53,270,77"/>
+<area shape="rect" id="node2" href="api/georges_core.frame.FrameException.html#georges_core.frame.FrameException" target="_top" title="Exception raised for errors in the Frame module." alt="" coords="5,5,124,29"/>
+</map>

@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -177,126 +177,103 @@
             
   <div class="section" id="zgoubidooplotlyartist">
 <h1>ZgoubidooPlotlyArtist<a class="headerlink" href="#zgoubidooplotlyartist" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="zgoubidoo.vis.ZgoubidooPlotlyArtist">
-<em class="property">class </em><code class="descclassname">zgoubidoo.vis.</code><code class="descname">ZgoubidooPlotlyArtist</code><span class="sig-paren">(</span><em>config: Optional[Mapping[KT</em>, <em>VT_co]] = None</em>, <em>layout: Optional[Mapping[KT</em>, <em>VT_co]] = None</em>, <em>width: Optional[float] = None</em>, <em>height: Optional[float] = None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/plotly.html#ZgoubidooPlotlyArtist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubidooPlotlyArtist" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.vis.</code><code class="sig-name descname">ZgoubidooPlotlyArtist</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">layout</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">width</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">height</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/plotly.html#ZgoubidooPlotlyArtist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubidooPlotlyArtist" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">georges_core.vis.plotly.PlotlyArtist</span></code></p>
 <p>TODO</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>config</strong> – </li>
-<li><strong>layout</strong> – </li>
-<li><strong>width</strong> – </li>
-<li><strong>height</strong> – </li>
-<li><strong>**kwargs</strong> – </li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> – </p></li>
+<li><p><strong>layout</strong> – </p></li>
+<li><p><strong>width</strong> – </p></li>
+<li><p><strong>height</strong> – </p></li>
+<li><p><strong>**kwargs</strong> – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Methods Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_beamline" title="zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_beamline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_beamline</span></code></a>(beamline,&nbsp;apertures,&nbsp;body,&nbsp;…)</td>
-<td>Use a <cite>ZgoubiPlot</cite> artist to perform the rendering of the beamline with elements and tracks.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_beamline" title="zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_beamline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_beamline</span></code></a>(beamline[, start, stop, …])</p></td>
+<td><p>Use a <cite>ZgoubiPlot</cite> artist to perform the rendering of the beamline with elements and tracks.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_cartouche" title="zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_cartouche"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_cartouche</span></code></a>(beamline,&nbsp;vertical_position)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param beamline:</th><td class="field-body"></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_cartouche" title="zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_cartouche"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_cartouche</span></code></a>(beamline[, vertical_position])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param beamline</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_twiss" title="zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_twiss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_twiss</span></code></a>(beamline,&nbsp;twiss,&nbsp;twiss_madx,&nbsp;…)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param beamline:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_twiss" title="zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_twiss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_twiss</span></code></a>(beamline, twiss, twiss_madx[, …])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param beamline</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Methods Documentation</p>
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_beamline">
-<code class="descname">plot_beamline</code><span class="sig-paren">(</span><em>beamline: _Input</em>, <em>apertures: bool = True</em>, <em>body: bool = False</em>, <em>with_drifts: bool = False</em>, <em>points_in_polar_paths: int = 20</em>, <em>opacity: float = 0.5</em>, <em>magnet_poles: float = 0.0</em>, <em>start: Optional[Union[str</em>, <em>_Command]] = None</em>, <em>stop: Optional[Union[str</em>, <em>_Command]] = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/zgoubidoo/vis/plotly.html#ZgoubidooPlotlyArtist.plot_beamline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_beamline" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">plot_beamline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">beamline</span><span class="p">:</span> <span class="n">_Input</span></em>, <em class="sig-param"><span class="n">start</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span>_Command<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">stop</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span>_Command<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">with_drifts</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">with_magnet_poles</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">with_apertures</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">with_frames</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">points_in_polar_paths</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">20</span></em>, <em class="sig-param"><span class="n">opacity</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">reference_frame</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'entry_patched'</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/zgoubidoo/vis/plotly.html#ZgoubidooPlotlyArtist.plot_beamline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_beamline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use a <cite>ZgoubiPlot</cite> artist to perform the rendering of the beamline with elements and tracks.</p>
 <p>The <cite>Input</cite> must be surveyed first so that all the placements are taken into account for the plotting.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>beamline</strong> – </li>
-<li><strong>apertures</strong> – </li>
-<li><strong>body</strong> – </li>
-<li><strong>with_drifts</strong> – </li>
-<li><strong>points_in_polar_paths</strong> – </li>
-<li><strong>opacity</strong> – </li>
-<li><strong>magnet_poles</strong> – </li>
-<li><strong>start</strong> – </li>
-<li><strong>stop</strong> – </li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>beamline</strong> – </p></li>
+<li><p><strong>start</strong> – </p></li>
+<li><p><strong>stop</strong> – </p></li>
+<li><p><strong>with_drifts</strong> – </p></li>
+<li><p><strong>with_magnet_poles</strong> – </p></li>
+<li><p><strong>with_apertures</strong> – </p></li>
+<li><p><strong>with_frames</strong> – </p></li>
+<li><p><strong>points_in_polar_paths</strong> – </p></li>
+<li><p><strong>opacity</strong> – </p></li>
+<li><p><strong>reference_frame</strong> – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_cartouche">
-<code class="descname">plot_cartouche</code><span class="sig-paren">(</span><em>beamline: _Input</em>, <em>vertical_position: float = 1.2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/plotly.html#ZgoubidooPlotlyArtist.plot_cartouche"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_cartouche" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>beamline</strong> – </li>
-<li><strong>vertical_position</strong> – </li>
+<code class="sig-name descname">plot_cartouche</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">beamline</span><span class="p">:</span> <span class="n">_Input</span></em>, <em class="sig-param"><span class="n">vertical_position</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.2</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/plotly.html#ZgoubidooPlotlyArtist.plot_cartouche"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_cartouche" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>beamline</strong> – </p></li>
+<li><p><strong>vertical_position</strong> – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="py method">
 <dt id="zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_twiss">
-<em class="property">classmethod </em><code class="descname">plot_twiss</code><span class="sig-paren">(</span><em>beamline, twiss: pandas.core.frame.DataFrame, twiss_madx: Optional[pandas.core.frame.DataFrame], beta: bool = True, dispersion: bool = True, dispersion_prime: bool = False, alpha: bool = False, mu: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/plotly.html#ZgoubidooPlotlyArtist.plot_twiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_twiss" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>beamline</strong> – </li>
-<li><strong>twiss</strong> – </li>
-<li><strong>twiss_madx</strong> – </li>
-<li><strong>beta</strong> – </li>
-<li><strong>dispersion</strong> – </li>
-<li><strong>dispersion_prime</strong> – </li>
-<li><strong>alpha</strong> – </li>
-<li><strong>mu</strong> – </li>
+<em class="property">classmethod </em><code class="sig-name descname">plot_twiss</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">beamline</span></em>, <em class="sig-param"><span class="n">twiss</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em>, <em class="sig-param"><span class="n">twiss_madx</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>pandas.core.frame.DataFrame<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">beta</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">dispersion</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">dispersion_prime</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">mu</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/plotly.html#ZgoubidooPlotlyArtist.plot_twiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.ZgoubidooPlotlyArtist.plot_twiss" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>beamline</strong> – </p></li>
+<li><p><strong>twiss</strong> – </p></li>
+<li><p><strong>twiss_madx</strong> – </p></li>
+<li><p><strong>beta</strong> – </p></li>
+<li><p><strong>dispersion</strong> – </p></li>
+<li><p><strong>dispersion_prime</strong> – </p></li>
+<li><p><strong>alpha</strong> – </p></li>
+<li><p><strong>mu</strong> – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 

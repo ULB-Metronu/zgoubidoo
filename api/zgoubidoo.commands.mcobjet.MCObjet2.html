@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -190,260 +190,212 @@
             
   <div class="section" id="mcobjet2">
 <h1>MCObjet2<a class="headerlink" href="#mcobjet2" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="zgoubidoo.commands.mcobjet.MCObjet2">
-<em class="property">class </em><code class="descclassname">zgoubidoo.commands.mcobjet.</code><code class="descname">MCObjet2</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/mcobjet.html#MCObjet2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.mcobjet.MCObjet2" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.commands.mcobjet.</code><code class="sig-name descname">MCObjet2</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label1</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">label2</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">params</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/mcobjet.html#MCObjet2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.mcobjet.MCObjet2" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.mcobjet.MCObjet.html#zgoubidoo.commands.mcobjet.MCObjet" title="zgoubidoo.commands.mcobjet.MCObjet"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.mcobjet.MCObjet</span></code></a></p>
 <p class="rubric">Command attributes</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL1=''</code></dt>
+<code class="sig-name descname">LABEL1=''</code></dt>
 <dd><p>Primary label for the Zgoubi command (default: auto-generated hash).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL2=''</code></dt>
+<code class="sig-name descname">LABEL2=''</code></dt>
 <dd><p>Secondary label for the Zgoubi command.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">BORO='1.0 meter * tesla'</code></dt>
+<code class="sig-name descname">BORO='1.0 meter * tesla'</code></dt>
 <dd><p>Reference rigidity</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">IMAX='1'</code></dt>
+<code class="sig-name descname">IMAX='1'</code></dt>
 <dd><p>Number of particles to be generated</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">KY='2'</code></dt>
+<code class="sig-name descname">KY='2'</code></dt>
 <dd><p>1 - Uniform, 2 - Gaussian, 3 - Parabolic</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">KT='2'</code></dt>
+<code class="sig-name descname">KT='2'</code></dt>
 <dd><p>1 - Uniform, 2 - Gaussian, 3 - Parabolic</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">KZ='2'</code></dt>
+<code class="sig-name descname">KZ='2'</code></dt>
 <dd><p>1 - Uniform, 2 - Gaussian, 3 - Parabolic</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">KP='2'</code></dt>
+<code class="sig-name descname">KP='2'</code></dt>
 <dd><p>1 - Uniform, 2 - Gaussian, 3 - Parabolic</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">KX='2'</code></dt>
+<code class="sig-name descname">KX='2'</code></dt>
 <dd><p>1 - Uniform, 2 - Gaussian, 3 - Parabolic</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">KD='1'</code></dt>
+<code class="sig-name descname">KD='1'</code></dt>
 <dd><p>1 - Uniform, 2 - Exponential, 3 - Kinematic</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">Y0='0 centimeter'</code></dt>
+<code class="sig-name descname">Y0='0 centimeter'</code></dt>
 <dd><p>Mean value</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">T0='0 radian'</code></dt>
+<code class="sig-name descname">T0='0 radian'</code></dt>
 <dd><p>Mean value</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">Z0='0 centimeter'</code></dt>
+<code class="sig-name descname">Z0='0 centimeter'</code></dt>
 <dd><p>Mean value</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">P0='0 radian'</code></dt>
+<code class="sig-name descname">P0='0 radian'</code></dt>
 <dd><p>Mean value</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">X0='0 centimeter'</code></dt>
+<code class="sig-name descname">X0='0 centimeter'</code></dt>
 <dd><p>Mean value</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">D0='1'</code></dt>
+<code class="sig-name descname">D0='1'</code></dt>
 <dd><p>Mean value</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
 <p>Default initializer for all Commands.</p>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.mcobjet.MCObjet2.KEYWORD" title="zgoubidoo.commands.mcobjet.MCObjet2.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></td>
-<td></td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.mcobjet.MCObjet2.KEYWORD" title="zgoubidoo.commands.mcobjet.MCObjet2.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.mcobjet.MCObjet2.PARAMETERS" title="zgoubidoo.commands.mcobjet.MCObjet2.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></td>
-<td></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.mcobjet.MCObjet2.PARAMETERS" title="zgoubidoo.commands.mcobjet.MCObjet2.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.mcobjet.MCObjet2.KEYWORD">
-<code class="descname">KEYWORD</code><em class="property"> = 'MCOBJET'</em><a class="headerlink" href="#zgoubidoo.commands.mcobjet.MCObjet2.KEYWORD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">KEYWORD</code><em class="property">: str</em><em class="property"> = 'MCOBJET'</em><a class="headerlink" href="#zgoubidoo.commands.mcobjet.MCObjet2.KEYWORD" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.mcobjet.MCObjet2.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'BORO': (&lt;Quantity(1.0, 'meter * tesla')&gt;, 'Reference rigidity'), 'D0': (1, 'Mean value'), 'IMAX': (1, 'Number of particles to be generated'), 'KD': (1, '1 - Uniform, 2 - Exponential, 3 - Kinematic'), 'KP': (2, '1 - Uniform, 2 - Gaussian, 3 - Parabolic'), 'KT': (2, '1 - Uniform, 2 - Gaussian, 3 - Parabolic'), 'KX': (2, '1 - Uniform, 2 - Gaussian, 3 - Parabolic'), 'KY': (2, '1 - Uniform, 2 - Gaussian, 3 - Parabolic'), 'KZ': (2, '1 - Uniform, 2 - Gaussian, 3 - Parabolic'), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'P0': (&lt;Quantity(0, 'radian')&gt;, 'Mean value'), 'T0': (&lt;Quantity(0, 'radian')&gt;, 'Mean value'), 'X0': (&lt;Quantity(0, 'centimeter')&gt;, 'Mean value'), 'Y0': (&lt;Quantity(0, 'centimeter')&gt;, 'Mean value'), 'Z0': (&lt;Quantity(0, 'centimeter')&gt;, 'Mean value')}</em><a class="headerlink" href="#zgoubidoo.commands.mcobjet.MCObjet2.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'BORO': (&lt;Quantity(1.0, 'meter * tesla')&gt;, 'Reference rigidity'), 'D0': (1, 'Mean value'), 'IMAX': (1, 'Number of particles to be generated'), 'KD': (1, '1 - Uniform, 2 - Exponential, 3 - Kinematic'), 'KP': (2, '1 - Uniform, 2 - Gaussian, 3 - Parabolic'), 'KT': (2, '1 - Uniform, 2 - Gaussian, 3 - Parabolic'), 'KX': (2, '1 - Uniform, 2 - Gaussian, 3 - Parabolic'), 'KY': (2, '1 - Uniform, 2 - Gaussian, 3 - Parabolic'), 'KZ': (2, '1 - Uniform, 2 - Gaussian, 3 - Parabolic'), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'P0': (&lt;Quantity(0, 'radian')&gt;, 'Mean value'), 'T0': (&lt;Quantity(0, 'radian')&gt;, 'Mean value'), 'X0': (&lt;Quantity(0, 'centimeter')&gt;, 'Mean value'), 'Y0': (&lt;Quantity(0, 'centimeter')&gt;, 'Mean value'), 'Z0': (&lt;Quantity(0, 'centimeter')&gt;, 'Mean value')}</em><a class="headerlink" href="#zgoubidoo.commands.mcobjet.MCObjet2.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

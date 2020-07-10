@@ -1,0 +1,13 @@
+<map id="inheritance470ccb1476" name="inheritance470ccb1476">
+<area shape="rect" id="node1" href="api/zgoubidoo.commands.electrique.Cavite.html#zgoubidoo.commands.electrique.Cavite" target="_top" title="Accelerating cavity." alt="" coords="151,29,223,53"/>
+<area shape="rect" id="node2" href="api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" target="_top" title="Test test test." alt="" coords="5,197,88,221"/>
+<area shape="rect" id="node5" href="api/zgoubidoo.commands.electrique.EBMult.html#zgoubidoo.commands.electrique.EBMult" target="_top" title="Electro&#45;magnetic multipole." alt="" coords="151,77,223,101"/>
+<area shape="rect" id="node6" href="api/zgoubidoo.commands.electrique.EL2Tub.html#zgoubidoo.commands.electrique.EL2Tub" target="_top" title="Two&#45;tube electrostatic lens." alt="" coords="151,125,223,149"/>
+<area shape="rect" id="node7" href="api/zgoubidoo.commands.electrique.ELMir.html#zgoubidoo.commands.electrique.ELMir" target="_top" title="Electrostatic N&#45;electrode mirror/lens,straight slits." alt="" coords="151,173,223,197"/>
+<area shape="rect" id="node8" href="api/zgoubidoo.commands.electrique.ELMirCircular.html#zgoubidoo.commands.electrique.ELMirCircular" target="_top" title="Electrostatic N&#45;electrode mirror/lens, circular slits." alt="" coords="136,221,238,245"/>
+<area shape="rect" id="node9" href="api/zgoubidoo.commands.electrique.ELMulti.html#zgoubidoo.commands.electrique.ELMulti" target="_top" title="Electric multipole." alt="" coords="151,269,223,293"/>
+<area shape="rect" id="node10" href="api/zgoubidoo.commands.electrique.ELRevol.html#zgoubidoo.commands.electrique.ELRevol" target="_top" title="1&#45;D uniform mesh electric field map." alt="" coords="151,317,223,341"/>
+<area shape="rect" id="node11" href="api/zgoubidoo.commands.electrique.Unipot.html#zgoubidoo.commands.electrique.Unipot" target="_top" title="Unipotential cylindrical electrostatic lens." alt="" coords="151,365,223,389"/>
+<area shape="rect" id="node3" href="api/zgoubidoo.commands.patchable.Patchable.html#zgoubidoo.commands.patchable.Patchable" target="_top" title="Patchable elements are Zgoubi commands that affect the placement of the reference frame." alt="" coords="6,5,87,29"/>
+<area shape="rect" id="node4" href="api/zgoubidoo.commands.plotable.Plotable.html#zgoubidoo.commands.plotable.Plotable" target="_top" title="Plotable type." alt="" coords="11,53,83,77"/>
+</map>

@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -111,6 +111,7 @@
 <li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.beta_to_range.html">beta_to_range</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.brho_to_beta.html">brho_to_beta</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.brho_to_ekin.html">brho_to_ekin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.brho_to_etot.html">brho_to_etot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.brho_to_gamma.html">brho_to_gamma</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.brho_to_momentum.html">brho_to_momentum</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.brho_to_pv.html">brho_to_pv</a></li>
@@ -228,29 +229,25 @@
             
   <div class="section" id="momentum-to-ekin">
 <h1>momentum_to_ekin<a class="headerlink" href="#momentum-to-ekin" title="Permalink to this headline">¶</a></h1>
-<dl class="function">
+<dl class="py function">
 <dt id="georges_core.kinematics.momentum_to_ekin">
-<code class="descclassname">georges_core.kinematics.</code><code class="descname">momentum_to_ekin</code><span class="sig-paren">(</span><em>p: _Q</em>, <em>particle: _ParticuleType = &lt;class 'georges_core.particles.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; _Q<a class="reference internal" href="../_modules/georges_core/kinematics.html#momentum_to_ekin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.momentum_to_ekin" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">georges_core.kinematics.</code><code class="sig-name descname">momentum_to_ekin</code><span class="sig-paren">(</span><em class="sig-param">p: _Q</em>, <em class="sig-param">particle: _ParticuleType = &lt;class 'georges_core.particles.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; _Q<a class="reference internal" href="../_modules/georges_core/kinematics.html#momentum_to_ekin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.momentum_to_ekin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts momentum to kinetic energy.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">momentum_to_energy</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">momentum_to_energy</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span>
 <span class="go">&lt;Quantity(5.313897343302641, &#39;megaelectronvolt&#39;)&gt;</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>p</strong> – relativistic momentum</li>
-<li><strong>particle</strong> – the particle type (default: proton)</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p</strong> – relativistic momentum</p></li>
+<li><p><strong>particle</strong> – the particle type (default: proton)</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>

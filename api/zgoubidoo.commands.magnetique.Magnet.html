@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -218,184 +218,186 @@
             
   <div class="section" id="magnet">
 <h1>Magnet<a class="headerlink" href="#magnet" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="zgoubidoo.commands.magnetique.Magnet">
-<em class="property">class </em><code class="descclassname">zgoubidoo.commands.magnetique.</code><code class="descname">Magnet</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#Magnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.Magnet" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.commands.magnetique.</code><code class="sig-name descname">Magnet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label1</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">label2</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">params</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#Magnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.Magnet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" title="zgoubidoo.commands.commands.Command"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.commands.Command</span></code></a>, <a class="reference internal" href="zgoubidoo.commands.patchable.Patchable.html#zgoubidoo.commands.patchable.Patchable" title="zgoubidoo.commands.patchable.Patchable"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.patchable.Patchable</span></code></a>, <a class="reference internal" href="zgoubidoo.commands.plotable.Plotable.html#zgoubidoo.commands.plotable.Plotable" title="zgoubidoo.commands.plotable.Plotable"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.plotable.Plotable</span></code></a></p>
 <p>Base class for all magnetic elements.</p>
 <p>TODO</p>
 <p class="rubric">Command attributes</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL1=''</code></dt>
+<code class="sig-name descname">LABEL1=''</code></dt>
 <dd><p>Primary label for the Zgoubi command (default: auto-generated hash).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL2=''</code></dt>
+<code class="sig-name descname">LABEL2=''</code></dt>
 <dd><p>Secondary label for the Zgoubi command.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">HEIGHT='20 centimeter'</code></dt>
+<code class="sig-name descname">HEIGHT='20 centimeter'</code></dt>
 <dd><p>Height of the magnet (distance between poles), used by plotting functions.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">REFERENCE_FIELD_COMPONENT='BZ'</code></dt>
+<code class="sig-name descname">PIPE_THICKNESS='2 centimeter'</code></dt>
+<dd><p>Thickness of the pipe, used by plotting functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">PIPE_COLOR='grey'</code></dt>
+<dd><p>Color of the pipe, used by plotting functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">POLE_WIDTH='50 centimeter'</code></dt>
+<dd><p>Pole width (used for plotting only).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">REFERENCE_FIELD_COMPONENT='BZ'</code></dt>
 <dd><p>Orientation of the reference field (used by field maps)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">KINEMATICS='None'</code></dt>
+<code class="sig-name descname">KINEMATICS='None'</code></dt>
 <dd><p>A kinematics object.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">NoneType</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>NoneType</p>
+</dd>
+</dl>
 </dd></dl>
 
 <p>Default initializer for all Commands.</p>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.Magnet.PARAMETERS" title="zgoubidoo.commands.magnetique.Magnet.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></td>
-<td>Parameters of the command, with their default value, their description and optinally an index used by other commands (e.g.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.Magnet.PARAMETERS" title="zgoubidoo.commands.magnetique.Magnet.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></p></td>
+<td><p>Parameters of the command, with their default value, their description and optinally an index used by other commands (e.g.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.Magnet.field_map" title="zgoubidoo.commands.magnetique.Magnet.field_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">field_map</span></code></a></td>
-<td>Attach a field map to the element.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.Magnet.field_map" title="zgoubidoo.commands.magnetique.Magnet.field_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">field_map</span></code></a></p></td>
+<td><p>Attach a field map to the element.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.Magnet.field_profile_model" title="zgoubidoo.commands.magnetique.Magnet.field_profile_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">field_profile_model</span></code></a></td>
-<td>A model for the field profile.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.Magnet.field_profile_model" title="zgoubidoo.commands.magnetique.Magnet.field_profile_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">field_profile_model</span></code></a></p></td>
+<td><p>A model for the field profile.</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Methods Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.Magnet.post_init" title="zgoubidoo.commands.magnetique.Magnet.post_init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">post_init</span></code></a>(field_map,&nbsp;**kwargs)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">param field_map:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"></td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.Magnet.post_init" title="zgoubidoo.commands.magnetique.Magnet.post_init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">post_init</span></code></a>([field_map])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param field_map</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.Magnet.process_fit_field_profile" title="zgoubidoo.commands.magnetique.Magnet.process_fit_field_profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">process_fit_field_profile</span></code></a>(fit)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param fit:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.Magnet.process_fit_field_profile" title="zgoubidoo.commands.magnetique.Magnet.process_fit_field_profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">process_fit_field_profile</span></code></a>(fit)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param fit</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.Magnet.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'KINEMATICS': (None, 'A kinematics object.'), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)')}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.Magnet.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'KINEMATICS': (None, 'A kinematics object.'), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'PIPE_COLOR': ('grey', 'Color of the pipe, used by plotting functions.'), 'PIPE_THICKNESS': (&lt;Quantity(2, 'centimeter')&gt;, 'Thickness of the pipe, used by plotting functions.'), 'POLE_WIDTH': (&lt;Quantity(50, 'centimeter')&gt;, 'Pole width (used for plotting only).'), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)')}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.Magnet.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parameters of the command, with their default value, their description and optinally an index used by other
 commands (e.g. fit).</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.Magnet.field_map">
-<code class="descname">field_map</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.Magnet.field_map" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">field_map</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.Magnet.field_map" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attach a field map to the element.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.Magnet.field_profile_model">
-<code class="descname">field_profile_model</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.Magnet.field_profile_model" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">field_profile_model</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.Magnet.field_profile_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>A model for the field profile.</p>
 </dd></dl>
 
 <p class="rubric">Methods Documentation</p>
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.commands.magnetique.Magnet.post_init">
-<code class="descname">post_init</code><span class="sig-paren">(</span><em>field_map: Optional[zgoubidoo.fieldmaps.fieldmap.FieldMap] = None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#Magnet.post_init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.Magnet.post_init" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>field_map</strong> – </li>
-<li><strong>**kwargs</strong> – </li>
+<code class="sig-name descname">post_init</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">field_map</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap" title="zgoubidoo.fieldmaps.fieldmap.FieldMap">zgoubidoo.fieldmaps.fieldmap.FieldMap</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#Magnet.post_init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.Magnet.post_init" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>field_map</strong> – </p></li>
+<li><p><strong>**kwargs</strong> – </p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.commands.magnetique.Magnet.process_fit_field_profile">
-<code class="descname">process_fit_field_profile</code><span class="sig-paren">(</span><em>fit: lmfit.model.ModelResult</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#Magnet.process_fit_field_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.Magnet.process_fit_field_profile" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fit</strong> – </td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">process_fit_field_profile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fit</span><span class="p">:</span> <span class="n">lmfit.model.ModelResult</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#Magnet.process_fit_field_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.Magnet.process_fit_field_profile" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fit</strong> – </p>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 

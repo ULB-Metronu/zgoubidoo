@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -162,11 +162,11 @@
             
   <h1>Source code for zgoubidoo.commands.patchable</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Patchable elements module.&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">Q_</span> <span class="k">as</span> <span class="n">_Q</span>
-<span class="kn">from</span> <span class="nn">georges_core.frame</span> <span class="k">import</span> <span class="n">Frame</span> <span class="k">as</span> <span class="n">_Frame</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">Q_</span> <span class="k">as</span> <span class="n">_Q</span>
+<span class="kn">from</span> <span class="nn">georges_core.frame</span> <span class="kn">import</span> <span class="n">Frame</span> <span class="k">as</span> <span class="n">_Frame</span>
 
 
 <div class="viewcode-block" id="Patchable"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.patchable.Patchable.html#zgoubidoo.commands.patchable.Patchable">[docs]</a><span class="k">class</span> <span class="nc">Patchable</span><span class="p">:</span>
@@ -176,7 +176,7 @@
 <span class="sd">    at the location of the placement frame and all other frames are set to the entrance frame (&#39;point-like&#39; element).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initializes a un-patched patchable element.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_entry</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -191,9 +191,15 @@
         <span class="n">t</span> <span class="o">=</span> <span class="n">tracks</span><span class="p">[</span><span class="n">tracks</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">]</span>
         <span class="n">tracks</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tracks</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">,</span> <span class="s1">&#39;SREF&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">entry_s</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
         <span class="n">tracks</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tracks</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">,</span> <span class="s1">&#39;YT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">]</span>
-        <span class="n">tracks</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tracks</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">,</span> <span class="s1">&#39;YT0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;Yo&#39;</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">tracks</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tracks</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">,</span> <span class="s1">&#39;YT0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;Yo&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
         <span class="n">tracks</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tracks</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">,</span> <span class="s1">&#39;ZT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span>
-        <span class="n">tracks</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tracks</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">,</span> <span class="s1">&#39;ZT0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;Zo&#39;</span><span class="p">]</span></div>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">tracks</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tracks</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">,</span> <span class="s1">&#39;ZT0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;Zo&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="Patchable.place"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.patchable.Patchable.html#zgoubidoo.commands.patchable.Patchable.place">[docs]</a>    <span class="k">def</span> <span class="nf">place</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">_Frame</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Place the element with a reference frame.</span>

@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -173,208 +173,183 @@
 <p>Test</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#module-zgoubidoo.outputs" id="id1">Reading Zgoubi output files</a></li>
-<li><a class="reference internal" href="#module-zgoubidoo.twiss" id="id2">Computing Twiss parameters</a></li>
+<li><p><a class="reference internal" href="#module-zgoubidoo.outputs" id="id1">Reading Zgoubi output files</a></p></li>
+<li><p><a class="reference internal" href="#module-zgoubidoo.twiss" id="id2">Computing Twiss parameters</a></p></li>
 </ul>
 </div>
 <div class="section" id="module-zgoubidoo.outputs">
 <span id="reading-zgoubi-output-files"></span><h2><a class="toc-backref" href="#id1">Reading Zgoubi output files</a><a class="headerlink" href="#module-zgoubidoo.outputs" title="Permalink to this headline">¶</a></h2>
 <p>TODO</p>
-<dl class="function">
+<dl class="py function">
 <dt id="zgoubidoo.outputs.read_fai_file">
-<code class="descclassname">zgoubidoo.outputs.</code><code class="descname">read_fai_file</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.fai'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/outputs.html#read_fai_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.outputs.read_fai_file" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">zgoubidoo.outputs.</code><code class="sig-name descname">read_fai_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'zgoubi.fai'</span></em>, <em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'.'</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/outputs.html#read_fai_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.outputs.read_fai_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to read Zgoubi .fai files.</p>
 <p>Reads the content of a Zgoubi .fai file (‘faisceau’, ‘beam’ file) and formats it as a valid Pandas DataFrame with
 headers.</p>
 <p class="rubric">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read_fai_file</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read_fai_file</span><span class="p">()</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>filename</strong> – the name of the file</li>
-<li><strong>path</strong> – the path to the .fai file</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – the name of the file</p></li>
+<li><p><strong>path</strong> – the path to the .fai file</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a Pandas DataFrame with the .fai file content.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">a FileNotFoundError in case the file is not found.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a Pandas DataFrame with the .fai file content.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>a FileNotFoundError in case the file is not found.</strong> – </p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="zgoubidoo.outputs.read_matrix_file">
-<code class="descclassname">zgoubidoo.outputs.</code><code class="descname">read_matrix_file</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.MATRIX.out'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/outputs.html#read_matrix_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.outputs.read_matrix_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read Zgoubi MATRIX files to a DataFrame.</p>
-<p>Reads the content of a Zgoubi matrix file (output from a Twiss command) and formats it as a valid Pandas
-DataFrame with headers.</p>
-<p class="rubric">Notes</p>
-<p>the resulting DataFrame uses SI units.</p>
-<p class="rubric">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read_matrix_file</span><span class="p">()</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>filename</strong> – the name of the file</li>
-<li><strong>path</strong> – the path to the zgoubi.MATRIX.out file</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a Pandas DataFrame with the zgoubi.MATRIX.out file content.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">a FileNotFoundError in case the file is not found.</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.outputs.read_optics_file">
-<code class="descclassname">zgoubidoo.outputs.</code><code class="descname">read_optics_file</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.OPTICS.out'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/outputs.html#read_optics_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.outputs.read_optics_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read Zgoubi OPTICS files to a DataFrame.</p>
-<p>Reads the content of a Zgoubi optics file (output from a Optics) and formats it as a valid Pandas
-DataFrame with headers.</p>
-<p class="rubric">Notes</p>
-<p>the resulting DataFrame uses SI units.</p>
-<p class="rubric">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read_optcs_file</span><span class="p">()</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>filename</strong> – the name of the file</li>
-<li><strong>path</strong> – the path to the zgoubi.OPTICS.out file</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a Pandas DataFrame with the zgoubi.OPTICS.out file content.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">a FileNotFoundError in case the file is not found.</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
+<dl class="py function">
 <dt id="zgoubidoo.outputs.read_plt_file">
-<code class="descclassname">zgoubidoo.outputs.</code><code class="descname">read_plt_file</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.plt'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/outputs.html#read_plt_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.outputs.read_plt_file" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">zgoubidoo.outputs.</code><code class="sig-name descname">read_plt_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'zgoubi.plt'</span></em>, <em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'.'</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/outputs.html#read_plt_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.outputs.read_plt_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to read Zgoubi .plt files.</p>
 <p>Reads the content of a Zgoubi .plt file (‘plot’ file) and formats it as a valid Pandas DataFrame with headers.</p>
 <p class="rubric">Notes</p>
 <p>each coordinate is converted from the Zgoubi internal unit system onto the SI system. This means, in particular,
 that the positions are in meters and the angles in mrad.</p>
-<dl class="docutils">
-<dt>The special columns have the following meaning:</dt>
-<dd><ul class="first simple">
-<li><em>LET</em>: one character string (for tagging (groups of) particles)</li>
-<li><em>IREP</em> is an index which indicates a symmetry with respect to the median plane. For instance,</li>
+<dl>
+<dt>The special columns have the following meaning:</dt><dd><ul class="simple">
+<li><p><em>LET</em>: one character string (for tagging (groups of) particles)</p></li>
+<li><p><em>IREP</em> is an index which indicates a symmetry with respect to the median plane. For instance,</p></li>
 </ul>
-<p class="last">if Z(I + 1) = −Z(I), then normally IREP(I + 1) = IREP(I ). Consequently the coordinates of particle I + 1
+<p>if Z(I + 1) = −Z(I), then normally IREP(I + 1) = IREP(I ). Consequently the coordinates of particle I + 1
 will not be obtained from ray-tracing but instead deduced from those of particle I by simple symmetry.
 This saves on computing time.</p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read_plt_file</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read_plt_file</span><span class="p">()</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>filename</strong> – the name of the file</li>
-<li><strong>path</strong> – the path to the .plt file</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – the name of the file</p></li>
+<li><p><strong>path</strong> – the path to the .plt file</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a Pandas DataFrame with the .plt file content.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">a FileNotFoundError in case the file is not found.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a Pandas DataFrame with the .plt file content.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>a FileNotFoundError in case the file is not found.</strong> – </p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="zgoubidoo.outputs.read_srloss_file">
-<code class="descclassname">zgoubidoo.outputs.</code><code class="descname">read_srloss_file</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.SRLOSS.out'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/outputs.html#read_srloss_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.outputs.read_srloss_file" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">zgoubidoo.outputs.</code><code class="sig-name descname">read_srloss_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'zgoubi.SRLOSS.out'</span></em>, <em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'.'</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/outputs.html#read_srloss_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.outputs.read_srloss_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read Zgoubi SRLOSS files to a DataFrame.</p>
 <p>Reads the content of a Zgoubi SRLOSS (synchrotron radiation losses) file (produced with SRPrint) and formats it as a
 valid Pandas DataFrame with headers.</p>
 <p class="rubric">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read_srloss_file</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read_srloss_file</span><span class="p">()</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>filename</strong> – the name of the file</li>
-<li><strong>path</strong> – the path to the SRLOSS file</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – the name of the file</p></li>
+<li><p><strong>path</strong> – the path to the SRLOSS file</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a Pandas DataFrame with the SRLOSS file content.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">a FileNotFoundException in case the file is not found.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a Pandas DataFrame with the SRLOSS file content.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>a FileNotFoundException in case the file is not found.</strong> – </p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="zgoubidoo.outputs.read_srloss_steps_file">
-<code class="descclassname">zgoubidoo.outputs.</code><code class="descname">read_srloss_steps_file</code><span class="sig-paren">(</span><em>filename: str = 'zgoubi.SRLOSS.STEPS.out'</em>, <em>path: str = '.'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/outputs.html#read_srloss_steps_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.outputs.read_srloss_steps_file" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">zgoubidoo.outputs.</code><code class="sig-name descname">read_srloss_steps_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'zgoubi.SRLOSS.STEPS.out'</span></em>, <em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'.'</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/outputs.html#read_srloss_steps_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.outputs.read_srloss_steps_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read Zgoubi SRLOSS STEPS files to a DataFrame.</p>
 <p>Reads the content of a Zgoubi SRLOSS STEPS (synchrotron radiation losses for each integration steps) file
 (produced with SRPrint) and formats it as a valid Pandas DataFrame with headers.</p>
 <p class="rubric">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read_srloss_steps_file</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read_srloss_steps_file</span><span class="p">()</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>filename</strong> – the name of the file</li>
-<li><strong>path</strong> – the path to the SRLOSS STEPS file</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – the name of the file</p></li>
+<li><p><strong>path</strong> – the path to the SRLOSS STEPS file</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a Pandas DataFrame with the SRLOSS STEPS file content.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">a FileNotFoundException in case the file is not found.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a Pandas DataFrame with the SRLOSS STEPS file content.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>a FileNotFoundException in case the file is not found.</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="zgoubidoo.outputs.read_matrix_file">
+<code class="sig-prename descclassname">zgoubidoo.outputs.</code><code class="sig-name descname">read_matrix_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'zgoubi.MATRIX.out'</span></em>, <em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'.'</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/outputs.html#read_matrix_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.outputs.read_matrix_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read Zgoubi MATRIX files to a DataFrame.</p>
+<p>Reads the content of a Zgoubi matrix file (parent from a Twiss command) and formats it as a valid Pandas
+DataFrame with headers.</p>
+<p class="rubric">Notes</p>
+<p>the resulting DataFrame uses SI units.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read_matrix_file</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – the name of the file</p></li>
+<li><p><strong>path</strong> – the path to the zgoubi.MATRIX.out file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a Pandas DataFrame with the zgoubi.MATRIX.out file content.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>a FileNotFoundError in case the file is not found.</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="zgoubidoo.outputs.read_optics_file">
+<code class="sig-prename descclassname">zgoubidoo.outputs.</code><code class="sig-name descname">read_optics_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'zgoubi.OPTICS.out'</span></em>, <em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'.'</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/outputs.html#read_optics_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.outputs.read_optics_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read Zgoubi OPTICS files to a DataFrame.</p>
+<p>Reads the content of a Zgoubi optics file (parent from a Optics) and formats it as a valid Pandas
+DataFrame with headers.</p>
+<p class="rubric">Notes</p>
+<p>the resulting DataFrame uses SI units.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read_optcs_file</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – the name of the file</p></li>
+<li><p><strong>path</strong> – the path to the zgoubi.OPTICS.out file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a Pandas DataFrame with the zgoubi.OPTICS.out file content.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>a FileNotFoundError in case the file is not found.</strong> – </p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -393,262 +368,70 @@ import numpy as np
 import zgoubidoo
 from zgoubidoo.commands import *
 _ = zgoubidoo.ureg</p>
-<dl class="function">
+<dl class="py function">
+<dt id="zgoubidoo.twiss.compute_twiss">
+<code class="sig-prename descclassname">zgoubidoo.twiss.</code><code class="sig-name descname">compute_twiss</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em>, <em class="sig-param"><span class="n">twiss_init</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>georges_core.sequences.betablock.BetaBlock<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">with_phase_unrolling</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_twiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_twiss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses a step-by-step transfer matrix to compute the Twiss parameters (uncoupled). The phase advance and the
+determinants of the jacobians are computed as well.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>matrix</strong> – the input step-by-step transfer matrix</p></li>
+<li><p><strong>twiss_init</strong> – the initial values for the Twiss computation (if None, periodic conditions are assumed and the</p></li>
+<li><p><strong>parameters are computed from the transfer matrix</strong><strong>)</strong><strong></strong> (<a class="reference internal" href="api/zgoubidoo.commands.commands.Twiss.html#zgoubidoo.commands.commands.Twiss" title="zgoubidoo.commands.commands.Twiss"><em>Twiss</em></a>) – </p></li>
+<li><p><strong>with_phase_unrolling</strong> – TODO</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the same DataFrame as the input, but with added columns for the computed quantities.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="zgoubidoo.twiss.align_tracks">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">align_tracks</code><span class="sig-paren">(</span><em>tracks: pandas.core.frame.DataFrame</em>, <em>align_on: str = 'SREF'</em>, <em>identifier: str = 'LET'</em>, <em>reference_track: str = 'O'</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.array, pandas.core.frame.DataFrame]<a class="reference internal" href="_modules/zgoubidoo/twiss.html#align_tracks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.align_tracks" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">zgoubidoo.twiss.</code><code class="sig-name descname">align_tracks</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tracks</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em>, <em class="sig-param"><span class="n">align_on</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'SREF'</span></em>, <em class="sig-param"><span class="n">identifier</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'LET'</span></em>, <em class="sig-param"><span class="n">reference_track</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'O'</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>numpy.array<span class="p">, </span>pandas.core.frame.DataFrame<span class="p">]</span><a class="reference internal" href="_modules/zgoubidoo/twiss.html#align_tracks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.align_tracks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Align the tracks to obtain a homegenous array with all coordinates given at the same location.</p>
 <p>Required for example to compute the transfer matrix (not all particules would have integration step at the
 same coordinate and must be aligned. Uses a linear interpolation.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>tracks</strong> – tracking data</li>
-<li><strong>align_on</strong> – coordinates on which the tracks are aligned (typically ‘X’ or ‘S’)</li>
-<li><strong>identifier</strong> – identifier of the column used for the particles indexing</li>
-<li><strong>reference_track</strong> – </li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tracks</strong> – tracking data</p></li>
+<li><p><strong>align_on</strong> – coordinates on which the tracks are aligned (typically ‘X’ or ‘S’)</p></li>
+<li><p><strong>identifier</strong> – identifier of the column used for the particles indexing</p></li>
+<li><p><strong>reference_track</strong> – </p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">aligned data and reference data</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>aligned data and reference data</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="zgoubidoo.twiss.compute_alpha_from_matrix">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_alpha_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: georges_core.sequences.betablock.BetaBlock</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_alpha_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_alpha_from_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the Twiss alpha values at every steps of the input step-by-step transfer matrix.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>m</strong> – the step-by-step transfer matrix for which the alpha values should be computed</li>
-<li><strong>twiss</strong> – the initial Twiss values</li>
-<li><strong>plane</strong> – an integer representing the plane (1 or 2)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Pandas Series with the alpha values computed at all steps of the input step-by-step transfer matrix</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.twiss.compute_beta_from_matrix">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_beta_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: georges_core.sequences.betablock.BetaBlock</em>, <em>plane: int = 1</em>, <em>strict: bool = False</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_beta_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_beta_from_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the Twiss beta values at every steps of the input step-by-step transfer matrix.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>m</strong> – the step-by-step transfer matrix for which the beta values should be computed</li>
-<li><strong>twiss</strong> – the initial Twiss values</li>
-<li><strong>plane</strong> – an integer representing the plane (1 or 2)</li>
-<li><strong>strict</strong> – flag to activate the strict mode: checks and ensures that all computed beta are positive</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Pandas Series with the beta values computed at all steps of the input step-by-step transfer matrix</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.twiss.compute_dispersion_from_matrix">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_dispersion_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: georges_core.sequences.betablock.BetaBlock</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_dispersion_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_dispersion_from_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the dispersion function at every steps of the input step-by-step transfer matrix.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>m</strong> – the step-by-step transfer matrix for which the dispersion function should be computed</li>
-<li><strong>twiss</strong> – initial values for the Twiss parameters</li>
-<li><strong>plane</strong> – an integer representing the plane (1 or 2)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Pandas Series with the dispersion function computed at all steps of the input step-by-step transfer matrix</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.twiss.compute_dispersion_prime_from_matrix">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_dispersion_prime_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: georges_core.sequences.betablock.BetaBlock</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_dispersion_prime_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_dispersion_prime_from_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the dispersion prime function at every steps of the input step-by-step transfer matrix.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>m</strong> – the step-by-step transfer matrix for which the dispersion prime function should be computed</li>
-<li><strong>twiss</strong> – initial values for the Twiss parameters</li>
-<li><strong>plane</strong> – an integer representing the plane (1 or 2)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Pandas Series with the dispersion prime function computed at all steps of the input step-by-step transfer
-matrix</p>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1"># TODO</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.twiss.compute_gamma_from_matrix">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_gamma_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: georges_core.sequences.betablock.BetaBlock</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_gamma_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_gamma_from_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the Twiss gamma values at every steps of the input step-by-step transfer matrix.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>m</strong> – the step-by-step transfer matrix for which the beta values should be computed</li>
-<li><strong>twiss</strong> – the initial Twiss values</li>
-<li><strong>plane</strong> – an integer representing the plane (1 or 2)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Pandas Series with the gamma values computed at all steps of the input step-by-step transfer matrix</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.twiss.compute_jacobian_from_matrix">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_jacobian_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_jacobian_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_jacobian_from_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the jacobian of the 2x2 transfer matrix (useful to verify the simplecticity).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>m</strong> – the step-by-step transfer matrix for which the jacobians should be computed</li>
-<li><strong>plane</strong> – an integer representing the plane (1 or 2)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Pandas Series with the jacobian computed at all steps of the input step-by-step transfer matrix</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.twiss.compute_mu_from_matrix">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_mu_from_matrix</code><span class="sig-paren">(</span><em>m: pandas.core.frame.DataFrame</em>, <em>twiss: georges_core.sequences.betablock.BetaBlock</em>, <em>plane: int = 1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_mu_from_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_mu_from_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the phase advance values at every steps of the input step-by-step transfer matrix.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>m</strong> – the step-by-step transfer matrix for which the beta values should be computed</li>
-<li><strong>twiss</strong> – the initial Twiss values</li>
-<li><strong>plane</strong> – an integer representing the plane (1 or 2)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Pandas Series with the phase advance computed at all steps of the input step-by-step transfer matrix</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.twiss.compute_periodic_twiss">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_periodic_twiss</code><span class="sig-paren">(</span><em>matrix: pandas.core.frame.DataFrame</em>, <em>end: Union[int</em>, <em>str] = -1</em><span class="sig-paren">)</span> &#x2192; pandas.core.series.Series<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_periodic_twiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_periodic_twiss" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute twiss parameters from a transfer matrix which is assumed to be a periodic transfer matrix.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>matrix</strong> – the (periodic) transfer matrix</li>
-<li><strong>end</strong> – </li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Series object with the values of the periodic Twiss parameters.</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
+<dl class="py function">
 <dt id="zgoubidoo.twiss.compute_transfer_matrix">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_transfer_matrix</code><span class="sig-paren">(</span><em>beamline: zgoubidoo.input.Input</em>, <em>tracks: pandas.core.frame.DataFrame</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_transfer_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_transfer_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">zgoubidoo.twiss.</code><code class="sig-name descname">compute_transfer_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">beamline</span><span class="p">:</span> <span class="n"><a class="reference internal" href="input.html#zgoubidoo.input.Input" title="zgoubidoo.input.Input">zgoubidoo.input.Input</a></span></em>, <em class="sig-param"><span class="n">tracks</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_transfer_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_transfer_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructs the step-by-step transfer matrix from tracking data (finite differences). The approximation
 uses the O(3) formula (not just the O(1) formula) and therefore makes use of all the 11 particles.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>beamline</strong> – the Zgoubidoo Input beamline</li>
-<li><strong>tracks</strong> – tracking data</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>beamline</strong> – the Zgoubidoo Input beamline</p></li>
+<li><p><strong>tracks</strong> – tracking data</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a Panda DataFrame representing the transfer matrix</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a Panda DataFrame representing the transfer matrix</p>
+</dd>
+</dl>
 <p class="rubric">Example</p>
 <p>Here is a typical example to call <code class="docutils literal notranslate"><span class="pre">compute_transfer_matrix</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tracks</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">read_plt_file</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tracks</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">read_plt_file</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">zi</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">Input</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">matrix</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">twiss</span><span class="o">.</span><span class="n">compute_transfer_matrix</span><span class="p">(</span><span class="n">zi</span><span class="p">,</span> <span class="n">tracks</span><span class="p">)</span>
 </pre></div>
 </div>
-</dd></dl>
-
-<dl class="function">
-<dt id="zgoubidoo.twiss.compute_twiss">
-<code class="descclassname">zgoubidoo.twiss.</code><code class="descname">compute_twiss</code><span class="sig-paren">(</span><em>matrix: pandas.core.frame.DataFrame</em>, <em>twiss_init: Optional[georges_core.sequences.betablock.BetaBlock] = None</em>, <em>with_phase_unrolling: bool = True</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_twiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_twiss" title="Permalink to this definition">¶</a></dt>
-<dd><p>Uses a step-by-step transfer matrix to compute the Twiss parameters (uncoupled). The phase advance and the
-determinants of the jacobians are computed as well.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>matrix</strong> – the input step-by-step transfer matrix</li>
-<li><strong>twiss_init</strong> – the initial values for the Twiss computation (if None, periodic conditions are assumed and the</li>
-<li><strong>parameters are computed from the transfer matrix</strong><strong>)</strong><strong></strong> (<a class="reference internal" href="api/zgoubidoo.commands.commands.Twiss.html#zgoubidoo.commands.commands.Twiss" title="zgoubidoo.commands.commands.Twiss"><em>Twiss</em></a>) – </li>
-<li><strong>with_phase_unrolling</strong> – TODO</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the same DataFrame as the input, but with added columns for the computed quantities.</p>
-</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 </div>

@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="OxygenIon" href="zgoubidoo.commands.particules.OxygenIon.html" />
+    <link rel="next" title="NegativePion" href="zgoubidoo.commands.particules.NegativePion.html" />
     <link rel="prev" title="NativeParticule" href="zgoubidoo.commands.particules.NativeParticule.html" /> 
 </head>
 
@@ -101,6 +101,7 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.CarbonIon.html">CarbonIon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Electron.html">Electron</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.HMinus.html">HMinus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Helion.html">Helion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.HeliumIon.html">HeliumIon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.ImmortalAntiMuon.html">ImmortalAntiMuon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.ImmortalMuon.html">ImmortalMuon</a></li>
@@ -109,10 +110,12 @@
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Muon.html">Muon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.NativeParticule.html">NativeParticule</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">NativeParticuleType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.NegativePion.html">NegativePion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.OxygenIon.html">OxygenIon</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Particule.html">Particule</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.ParticuleType.html">ParticuleType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Pion.html">Pion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.PositivePion.html">PositivePion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Positron.html">Positron</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.Proton.html">Proton</a></li>
 <li class="toctree-l4"><a class="reference internal" href="zgoubidoo.commands.particules.SulfurIon.html">SulfurIon</a></li>
@@ -207,9 +210,9 @@
             
   <div class="section" id="nativeparticuletype">
 <h1>NativeParticuleType<a class="headerlink" href="#nativeparticuletype" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="zgoubidoo.commands.particules.NativeParticuleType">
-<em class="property">class </em><code class="descclassname">zgoubidoo.commands.particules.</code><code class="descname">NativeParticuleType</code><span class="sig-paren">(</span><em>name: str, bases: Tuple[type, ...], dct: Dict[str, Any]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/particules.html#NativeParticuleType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.particules.NativeParticuleType" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.commands.particules.</code><code class="sig-name descname">NativeParticuleType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">bases</span><span class="p">:</span> <span class="n">Tuple[CommandType, type, …]</span></em>, <em class="sig-param"><span class="n">dct</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/particules.html#NativeParticuleType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.particules.NativeParticuleType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.particules.ParticuleType.html#zgoubidoo.commands.particules.ParticuleType" title="zgoubidoo.commands.particules.ParticuleType"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.particules.ParticuleType</span></code></a></p>
 <p>TODO</p>
 </dd></dl>
@@ -224,7 +227,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="zgoubidoo.commands.particules.OxygenIon.html" class="btn btn-neutral float-right" title="OxygenIon" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="zgoubidoo.commands.particules.NegativePion.html" class="btn btn-neutral float-right" title="NegativePion" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="zgoubidoo.commands.particules.NativeParticule.html" class="btn btn-neutral float-left" title="NativeParticule" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

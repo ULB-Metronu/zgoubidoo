@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="BetaBlock" href="api/georges_core.sequences.BetaBlock.html" />
+    <link rel="next" title="BDSIMSequence" href="api/georges_core.sequences.BDSIMSequence.html" />
     <link rel="prev" title="FieldMap" href="api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html" /> 
 </head>
 
@@ -99,6 +99,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Physics with Zgoubidoo high-level interfaces</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-georges_core.sequences">Sequences</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/georges_core.sequences.BDSIMSequence.html">BDSIMSequence</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/georges_core.sequences.BetaBlock.html">BetaBlock</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/georges_core.sequences.BetaBlockType.html">BetaBlockType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/georges_core.sequences.Element.html">Element</a></li>
@@ -202,8 +203,8 @@
 <p>The high-level API adds a level of abstraction on top of low-level API (using <cite>Input</cite> and <cite>Command</cite>).</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#module-georges_core.sequences" id="id3">Sequences</a></li>
-<li><a class="reference internal" href="#module-zgoubidoo.commands.beam" id="id4">Beams</a></li>
+<li><p><a class="reference internal" href="#module-georges_core.sequences" id="id3">Sequences</a></p></li>
+<li><p><a class="reference internal" href="#module-zgoubidoo.commands.beam" id="id4">Beams</a></p></li>
 </ul>
 </div>
 <div class="section" id="module-georges_core.sequences">
@@ -211,48 +212,56 @@
 <p>TODO</p>
 <div class="section" id="classes">
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="api/georges_core.sequences.BetaBlock.html#georges_core.sequences.BetaBlock" title="georges_core.sequences.BetaBlock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BetaBlock</span></code></a>(beta11,&nbsp;)&gt;,&nbsp;alpha11,&nbsp;gamma11,&nbsp;…)</td>
-<td>TODO</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.sequences.BDSIMSequence.html#georges_core.sequences.BDSIMSequence" title="georges_core.sequences.BDSIMSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BDSIMSequence</span></code></a>(filename, path, from_element, …)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param filename</dt>
+<dd class="field-odd"><p>the name of the physics</p>
+</dd>
+</dl>
+</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/georges_core.sequences.BetaBlockType.html#georges_core.sequences.BetaBlockType" title="georges_core.sequences.BetaBlockType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BetaBlockType</span></code></a></td>
-<td>TODO</td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.sequences.BetaBlock.html#georges_core.sequences.BetaBlock" title="georges_core.sequences.BetaBlock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BetaBlock</span></code></a>(BETA11, ALPHA11, GAMMA11, BETA22, …)</p></td>
+<td><p>TODO</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/georges_core.sequences.Element.html#georges_core.sequences.Element" title="georges_core.sequences.Element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Element</span></code></a>(name,&nbsp;**kwargs)</td>
-<td>TODO</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.sequences.BetaBlockType.html#georges_core.sequences.BetaBlockType" title="georges_core.sequences.BetaBlockType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BetaBlockType</span></code></a></p></td>
+<td><p>TODO</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/georges_core.sequences.ElementClass.html#georges_core.sequences.ElementClass" title="georges_core.sequences.ElementClass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElementClass</span></code></a>(name,&nbsp;bases,&nbsp;Tuple[type],&nbsp;…)</td>
-<td>TODO</td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.sequences.Element.html#georges_core.sequences.Element" title="georges_core.sequences.Element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Element</span></code></a>(name, **kwargs)</p></td>
+<td><p>TODO</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/georges_core.sequences.PlacementSequence.html#georges_core.sequences.PlacementSequence" title="georges_core.sequences.PlacementSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PlacementSequence</span></code></a>(name,&nbsp;data,&nbsp;…)</td>
-<td>Placement Sequence.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.sequences.ElementClass.html#georges_core.sequences.ElementClass" title="georges_core.sequences.ElementClass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElementClass</span></code></a>(name, bases, …)</p></td>
+<td><p>TODO</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/georges_core.sequences.Sequence.html#georges_core.sequences.Sequence" title="georges_core.sequences.Sequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sequence</span></code></a>(name[,&nbsp;data])</td>
-<td>Sequence.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.sequences.PlacementSequence.html#georges_core.sequences.PlacementSequence" title="georges_core.sequences.PlacementSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PlacementSequence</span></code></a>(name, data, …)</p></td>
+<td><p>Placement Sequence.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/georges_core.sequences.SequenceException.html#georges_core.sequences.SequenceException" title="georges_core.sequences.SequenceException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SequenceException</span></code></a>(m)</td>
-<td>Exception raised for errors when using zgoubidoo.Sequence</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.sequences.Sequence.html#georges_core.sequences.Sequence" title="georges_core.sequences.Sequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sequence</span></code></a>(name[, data])</p></td>
+<td><p>Sequence.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/georges_core.sequences.SequenceMetadata.html#georges_core.sequences.SequenceMetadata" title="georges_core.sequences.SequenceMetadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SequenceMetadata</span></code></a>(data,&nbsp;kinematics,&nbsp;particle,&nbsp;…)</td>
-<td>TODO</td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.sequences.SequenceException.html#georges_core.sequences.SequenceException" title="georges_core.sequences.SequenceException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SequenceException</span></code></a>(m)</p></td>
+<td><p>Exception raised for errors when using zgoubidoo.Sequence</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/georges_core.sequences.TransportSequence.html#georges_core.sequences.TransportSequence" title="georges_core.sequences.TransportSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TransportSequence</span></code></a>(filename,&nbsp;path,&nbsp;flavor)</td>
-<td>TODO</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.sequences.SequenceMetadata.html#georges_core.sequences.SequenceMetadata" title="georges_core.sequences.SequenceMetadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SequenceMetadata</span></code></a>(data, kinematics, particle, …)</p></td>
+<td><p>TODO</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/georges_core.sequences.TwissSequence.html#georges_core.sequences.TwissSequence" title="georges_core.sequences.TwissSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TwissSequence</span></code></a>(filename,&nbsp;path,&nbsp;*,&nbsp;columns,&nbsp;…)</td>
-<td>TODO</td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.sequences.TransportSequence.html#georges_core.sequences.TransportSequence" title="georges_core.sequences.TransportSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TransportSequence</span></code></a>(filename, path, flavor)</p></td>
+<td><p>TODO</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.sequences.TwissSequence.html#georges_core.sequences.TwissSequence" title="georges_core.sequences.TwissSequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TwissSequence</span></code></a>(filename, path, *, columns, …)</p></td>
+<td><p>TODO</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="class-inheritance-diagram">
 <h3>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h3>
-<div class="graphviz"><img src="_images/inheritance-a9eac988b290ec91e70964bb0f40cafa04f923db.png" alt="Inheritance diagram of georges_core.sequences.betablock.BetaBlock, georges_core.sequences.betablock.BetaBlockType, georges_core.sequences.elements.Element, georges_core.sequences.elements.ElementClass, georges_core.sequences.sequence.PlacementSequence, georges_core.sequences.sequence.Sequence, georges_core.sequences.sequence.SequenceException, georges_core.sequences.sequence.SequenceMetadata, georges_core.sequences.sequence.TransportSequence, georges_core.sequences.sequence.TwissSequence" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="_images/inheritance-8c2b2160edc34dbbad0bda42eaf8292be611780a.png" alt="Inheritance diagram of georges_core.sequences.sequence.BDSIMSequence, georges_core.sequences.betablock.BetaBlock, georges_core.sequences.betablock.BetaBlockType, georges_core.sequences.elements.Element, georges_core.sequences.elements.ElementClass, georges_core.sequences.sequence.PlacementSequence, georges_core.sequences.sequence.Sequence, georges_core.sequences.sequence.SequenceException, georges_core.sequences.sequence.SequenceMetadata, georges_core.sequences.sequence.TransportSequence, georges_core.sequences.sequence.TwissSequence" class="inheritance graphviz" /></div>
 </div>
 </div>
 <div class="section" id="module-zgoubidoo.commands.beam">
@@ -260,37 +269,37 @@
 <p>Zgoubidoo beam.</p>
 <div class="section" id="id1">
 <h3>Classes<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.beam.Beam.html#zgoubidoo.commands.beam.Beam" title="zgoubidoo.commands.beam.Beam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Beam</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
-<td><p class="rubric">Command attributes</p>
-</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.beam.Beam.html#zgoubidoo.commands.beam.Beam" title="zgoubidoo.commands.beam.Beam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Beam</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<td><p><p class="rubric">Command attributes</p>
+</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution" title="zgoubidoo.commands.beam.BeamInputDistribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BeamInputDistribution</span></code></a>(label1,&nbsp;label2,&nbsp;…)</td>
-<td>A beam using an explicit beam distribution.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution" title="zgoubidoo.commands.beam.BeamInputDistribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BeamInputDistribution</span></code></a>(label1, label2, …)</p></td>
+<td><p>A beam using an explicit beam distribution.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.beam.BeamTwiss.html#zgoubidoo.commands.beam.BeamTwiss" title="zgoubidoo.commands.beam.BeamTwiss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BeamTwiss</span></code></a>(label1,&nbsp;label2,&nbsp;*params,&nbsp;**kwargs)</td>
-<td>A beam to be used for transfer map and Twiss computations.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.beam.BeamTwiss.html#zgoubidoo.commands.beam.BeamTwiss" title="zgoubidoo.commands.beam.BeamTwiss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BeamTwiss</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<td><p>A beam to be used for transfer map and Twiss computations.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.beam.BeamType.html#zgoubidoo.commands.beam.BeamType" title="zgoubidoo.commands.beam.BeamType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BeamType</span></code></a>(name,&nbsp;bases,&nbsp;…],&nbsp;dct,&nbsp;Any])</td>
-<td>Type system for Objet types.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.beam.BeamType.html#zgoubidoo.commands.beam.BeamType" title="zgoubidoo.commands.beam.BeamType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BeamType</span></code></a>(name, bases, type, …], dct, Any])</p></td>
+<td><p>Type system for Objet types.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.commands.beam.BeamZgoubiDistribution.html#zgoubidoo.commands.beam.BeamZgoubiDistribution" title="zgoubidoo.commands.beam.BeamZgoubiDistribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BeamZgoubiDistribution</span></code></a>(label1,&nbsp;label2,&nbsp;…)</td>
-<td>TODO</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.beam.BeamZgoubiDistribution.html#zgoubidoo.commands.beam.BeamZgoubiDistribution" title="zgoubidoo.commands.beam.BeamZgoubiDistribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BeamZgoubiDistribution</span></code></a>(label1, label2, …)</p></td>
+<td><p>TODO</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.commands.beam.ZgoubidooBeamException.html#zgoubidoo.commands.beam.ZgoubidooBeamException" title="zgoubidoo.commands.beam.ZgoubidooBeamException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZgoubidooBeamException</span></code></a>(m)</td>
-<td>Exception raised for errors when running Zgoubi.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.beam.ZgoubidooBeamException.html#zgoubidoo.commands.beam.ZgoubidooBeamException" title="zgoubidoo.commands.beam.ZgoubidooBeamException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZgoubidooBeamException</span></code></a>(m)</p></td>
+<td><p>Exception raised for errors when running Zgoubi.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="id2">
 <h3>Class Inheritance Diagram<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<div class="graphviz"><img src="_images/inheritance-a694c5ded6c1a5d12a89498a66c5ebcc6847c060.png" alt="Inheritance diagram of zgoubidoo.commands.beam.Beam, zgoubidoo.commands.beam.BeamInputDistribution, zgoubidoo.commands.beam.BeamTwiss, zgoubidoo.commands.beam.BeamType, zgoubidoo.commands.beam.BeamZgoubiDistribution, zgoubidoo.commands.beam.ZgoubidooBeamException" usemap="#inheritance807b3a38ad" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="_images/inheritance-e0eca8b11315959c07487f6b08611d9b2ff8ab47.png" alt="Inheritance diagram of zgoubidoo.commands.beam.Beam, zgoubidoo.commands.beam.BeamInputDistribution, zgoubidoo.commands.beam.BeamTwiss, zgoubidoo.commands.beam.BeamType, zgoubidoo.commands.beam.BeamZgoubiDistribution, zgoubidoo.commands.beam.ZgoubidooBeamException" usemap="#inheritance807b3a38ad" class="inheritance graphviz" /></div>
 <map id="inheritance807b3a38ad" name="inheritance807b3a38ad">
 <area shape="rect" id="node1" href="api/zgoubidoo.commands.beam.Beam.html#zgoubidoo.commands.beam.Beam" target="_top" title="Beam" alt="" coords="238,101,310,125"/>
 <area shape="rect" id="node3" href="api/zgoubidoo.commands.beam.BeamInputDistribution.html#zgoubidoo.commands.beam.BeamInputDistribution" target="_top" title="A beam using an explicit beam distribution." alt="" coords="370,53,522,77"/>
@@ -312,7 +321,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="api/georges_core.sequences.BetaBlock.html" class="btn btn-neutral float-right" title="BetaBlock" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="api/georges_core.sequences.BDSIMSequence.html" class="btn btn-neutral float-right" title="BDSIMSequence" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html" class="btn btn-neutral float-left" title="FieldMap" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

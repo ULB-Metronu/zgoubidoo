@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../../../_static/language_data.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
 
@@ -163,13 +163,13 @@
   <h1>Source code for zgoubidoo.commands.contrib.cern.lhec</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;TODO&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
-<span class="kn">from</span> <span class="nn">....</span> <span class="k">import</span> <span class="n">Kinematics</span> <span class="k">as</span> <span class="n">_Kinematics</span>
-<span class="kn">from</span> <span class="nn">...particules</span> <span class="k">import</span> <span class="n">Electron</span> <span class="k">as</span> <span class="n">_Electron</span>
-<span class="kn">from</span> <span class="nn">...magnetique</span> <span class="k">import</span> <span class="n">Solenoid</span> <span class="k">as</span> <span class="n">_Solenoid</span>
-<span class="kn">from</span> <span class="nn">...magnetique</span> <span class="k">import</span> <span class="n">Multipol</span> <span class="k">as</span> <span class="n">_Multipol</span>
-<span class="kn">from</span> <span class="nn">...commands</span> <span class="k">import</span> <span class="n">Marker</span> <span class="k">as</span> <span class="n">_Marker</span>
-<span class="kn">from</span> <span class="nn">...commands</span> <span class="k">import</span> <span class="n">ChangeRef</span> <span class="k">as</span> <span class="n">_ChangeRef</span>
-<span class="kn">from</span> <span class="nn">....</span> <span class="k">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
+<span class="kn">from</span> <span class="nn">....</span> <span class="kn">import</span> <span class="n">Kinematics</span> <span class="k">as</span> <span class="n">_Kinematics</span>
+<span class="kn">from</span> <span class="nn">...particules</span> <span class="kn">import</span> <span class="n">Electron</span> <span class="k">as</span> <span class="n">_Electron</span>
+<span class="kn">from</span> <span class="nn">...magnetique</span> <span class="kn">import</span> <span class="n">Solenoid</span> <span class="k">as</span> <span class="n">_Solenoid</span>
+<span class="kn">from</span> <span class="nn">...magnetique</span> <span class="kn">import</span> <span class="n">Multipol</span> <span class="k">as</span> <span class="n">_Multipol</span>
+<span class="kn">from</span> <span class="nn">...commands</span> <span class="kn">import</span> <span class="n">Marker</span> <span class="k">as</span> <span class="n">_Marker</span>
+<span class="kn">from</span> <span class="nn">...commands</span> <span class="kn">import</span> <span class="n">ChangeRef</span> <span class="k">as</span> <span class="n">_ChangeRef</span>
+<span class="kn">from</span> <span class="nn">....</span> <span class="kn">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
 
 <span class="n">lhec_database</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;KIN&#39;</span><span class="p">:</span> <span class="n">_Kinematics</span><span class="p">(</span><span class="mi">50</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">GeV_c</span><span class="p">,</span> <span class="n">particle</span><span class="o">=</span><span class="n">_Electron</span><span class="p">),</span>

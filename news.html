@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -194,27 +194,27 @@ interface and support for interactive use cases (Jupyter Notebook, etc.).</p>
 <a class="reference external" href="https://chernals.github.io/zgoubidoo/">https://chernals.github.io/zgoubidoo/</a> .</p>
 <p>Compared to the interface from Sam (pyZgoubi) the following points are, I believe, important:</p>
 <ul class="simple">
-<li>Full support of Python 3;</li>
-<li>The whole library uses the type-hinting mechanism available since Python 3.5 and its extension in Python 3.7. This is
-especially useful when coding, in the library itself, or for user programs, with a fully featured IDE like PyCharm;</li>
-<li>Complete support of 3D geometry: 3D “surveys” are available and exploited for rich visualizations (implemented with
-matplotlib and with plotly);</li>
-<li>Every Zgoubi command is explicitly present in the library, there is no auto-generation mechanism. This might seem
-backward but I realized that past the first painful effort this is more modular and easier to maintain;</li>
-<li>A complete hierarchy of command is put in place and a major effort has been put on the extensibility: defining user
-defined commands is very easy and powerful;</li>
-<li>This capability is already exploited to define a complete set of elements for the IBA Proteus One system;</li>
-<li>The library supports running Zgoubi in parallel. In particular, when operating with a beamline (sequence) and a beam
-(collection of particles), Zgoubidoo can automatically split the beam in multiple slices, run them in a multi-core fashion and collect the results into a single data structure in the end.</li>
+<li><p>Full support of Python 3;</p></li>
+<li><p>The whole library uses the type-hinting mechanism available since Python 3.5 and its extension in Python 3.7. This is
+especially useful when coding, in the library itself, or for user programs, with a fully featured IDE like PyCharm;</p></li>
+<li><p>Complete support of 3D geometry: 3D “surveys” are available and exploited for rich visualizations (implemented with
+matplotlib and with plotly);</p></li>
+<li><p>Every Zgoubi command is explicitly present in the library, there is no auto-generation mechanism. This might seem
+backward but I realized that past the first painful effort this is more modular and easier to maintain;</p></li>
+<li><p>A complete hierarchy of command is put in place and a major effort has been put on the extensibility: defining user
+defined commands is very easy and powerful;</p></li>
+<li><p>This capability is already exploited to define a complete set of elements for the IBA Proteus One system;</p></li>
+<li><p>The library supports running Zgoubi in parallel. In particular, when operating with a beamline (sequence) and a beam
+(collection of particles), Zgoubidoo can automatically split the beam in multiple slices, run them in a multi-core fashion and collect the results into a single data structure in the end.</p></li>
 </ul>
 <p>I had a discussion with Sam a few months ago, it was not clear for me at the time which direction I would follow, and
 it seems that there are discussions about the next steps for pyZgoubi, I would be delighted to continue those discussions and see if a collaborative effort is possible.</p>
 <p>The focus toward the next release will be:</p>
 <ul class="simple">
-<li>A complete suite of documented examples in the form of Jupyter Notebooks;</li>
-<li>Better and more complete documentation;</li>
-<li>Support for more “physics” (beam physics algorithms and methods not present in Zgoubi or re-implemented in Zgoubidoo);</li>
-<li>Ideas regarding a REST interface (because I have ideas for a web interface for IBA use cases).</li>
+<li><p>A complete suite of documented examples in the form of Jupyter Notebooks;</p></li>
+<li><p>Better and more complete documentation;</p></li>
+<li><p>Support for more “physics” (beam physics algorithms and methods not present in Zgoubi or re-implemented in Zgoubidoo);</p></li>
+<li><p>Ideas regarding a REST interface (because I have ideas for a web interface for IBA use cases).</p></li>
 </ul>
 <p>I would be glad to discuss how this could be used in combination with Sirepo.</p>
 <p>Please feel free to come back with any comment or suggestion. Bug reports and contributions can be made on Github directly.</p>

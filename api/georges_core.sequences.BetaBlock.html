@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="BetaBlockType" href="georges_core.sequences.BetaBlockType.html" />
-    <link rel="prev" title="Physics with Zgoubidoo high-level interfaces" href="../physics.html" /> 
+    <link rel="prev" title="BDSIMSequence" href="georges_core.sequences.BDSIMSequence.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -99,6 +99,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../physics.html">Physics with Zgoubidoo high-level interfaces</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../physics.html#module-georges_core.sequences">Sequences</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../physics.html#classes">Classes</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.BDSIMSequence.html">BDSIMSequence</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">BetaBlock</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.BetaBlockType.html">BetaBlockType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.sequences.Element.html">Element</a></li>
@@ -188,123 +189,203 @@
             
   <div class="section" id="betablock">
 <h1>BetaBlock<a class="headerlink" href="#betablock" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="georges_core.sequences.BetaBlock">
-<em class="property">class </em><code class="descclassname">georges_core.sequences.</code><code class="descname">BetaBlock</code><span class="sig-paren">(</span><em>beta11: float = &lt;Quantity(1.0</em>, <em>'meter')&gt;</em>, <em>alpha11: float = 0.0</em>, <em>gamma11: Optional[float] = None</em>, <em>beta22: float = &lt;Quantity(1.0</em>, <em>'meter')&gt;</em>, <em>alpha22: float = 0.0</em>, <em>gamma22: Optional[float] = None</em>, <em>disp1: float = &lt;Quantity(0.0</em>, <em>'meter')&gt;</em>, <em>disp2: float = 0.0</em>, <em>disp3: float = &lt;Quantity(0.0</em>, <em>'meter')&gt;</em>, <em>disp4: float = 0.0</em>, <em>emit1: float = 1e-09</em>, <em>emit2: float = 1e-09</em>, <em>emit3: float = 1e-09</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/betablock.html#BetaBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.BetaBlock" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">georges_core.sequences.</code><code class="sig-name descname">BetaBlock</code><span class="sig-paren">(</span><em class="sig-param">BETA11: float = &lt;Quantity(1.0</em>, <em class="sig-param">'meter')&gt;</em>, <em class="sig-param">ALPHA11: float = 0.0</em>, <em class="sig-param">GAMMA11: Optional[float] = None</em>, <em class="sig-param">BETA22: float = &lt;Quantity(1.0</em>, <em class="sig-param">'meter')&gt;</em>, <em class="sig-param">ALPHA22: float = 0.0</em>, <em class="sig-param">GAMMA22: Optional[float] = None</em>, <em class="sig-param">DISP1: float = &lt;Quantity(0.0</em>, <em class="sig-param">'meter')&gt;</em>, <em class="sig-param">DISP2: float = 0.0</em>, <em class="sig-param">DISP3: float = &lt;Quantity(0.0</em>, <em class="sig-param">'meter')&gt;</em>, <em class="sig-param">DISP4: float = 0.0</em>, <em class="sig-param">EMIT1: float = 1e-09</em>, <em class="sig-param">EMIT2: float = 1e-09</em>, <em class="sig-param">EMIT3: float = 1e-09</em>, <em class="sig-param">MU1: float = 0.0</em>, <em class="sig-param">MU2: float = 0.0</em>, <em class="sig-param">CMU1: float = 1.0</em>, <em class="sig-param">CMU2: float = 1.0</em>, <em class="sig-param">DY: float = 0.0</em>, <em class="sig-param">DX: float = 0.0</em>, <em class="sig-param">DYP: float = 0.0</em>, <em class="sig-param">DXP: float = 0.0</em>, <em class="sig-param">DZ: float = 0.0</em>, <em class="sig-param">DZP: float = 0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/georges_core/sequences/betablock.html#BetaBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.sequences.BetaBlock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>TODO</p>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.alpha11" title="georges_core.sequences.BetaBlock.alpha11"><code class="xref py py-obj docutils literal notranslate"><span class="pre">alpha11</span></code></a></td>
-<td></td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.ALPHA11" title="georges_core.sequences.BetaBlock.ALPHA11"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ALPHA11</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.alpha22" title="georges_core.sequences.BetaBlock.alpha22"><code class="xref py py-obj docutils literal notranslate"><span class="pre">alpha22</span></code></a></td>
-<td></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.ALPHA22" title="georges_core.sequences.BetaBlock.ALPHA22"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ALPHA22</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.beta11" title="georges_core.sequences.BetaBlock.beta11"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta11</span></code></a></td>
-<td></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.BETA11" title="georges_core.sequences.BetaBlock.BETA11"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BETA11</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.beta22" title="georges_core.sequences.BetaBlock.beta22"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta22</span></code></a></td>
-<td></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.BETA22" title="georges_core.sequences.BetaBlock.BETA22"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BETA22</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.disp1" title="georges_core.sequences.BetaBlock.disp1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">disp1</span></code></a></td>
-<td></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.CMU1" title="georges_core.sequences.BetaBlock.CMU1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CMU1</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.disp2" title="georges_core.sequences.BetaBlock.disp2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">disp2</span></code></a></td>
-<td></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.CMU2" title="georges_core.sequences.BetaBlock.CMU2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CMU2</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.disp3" title="georges_core.sequences.BetaBlock.disp3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">disp3</span></code></a></td>
-<td></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.DISP1" title="georges_core.sequences.BetaBlock.DISP1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DISP1</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.disp4" title="georges_core.sequences.BetaBlock.disp4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">disp4</span></code></a></td>
-<td></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.DISP2" title="georges_core.sequences.BetaBlock.DISP2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DISP2</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.emit1" title="georges_core.sequences.BetaBlock.emit1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">emit1</span></code></a></td>
-<td></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.DISP3" title="georges_core.sequences.BetaBlock.DISP3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DISP3</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.emit2" title="georges_core.sequences.BetaBlock.emit2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">emit2</span></code></a></td>
-<td></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.DISP4" title="georges_core.sequences.BetaBlock.DISP4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DISP4</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.emit3" title="georges_core.sequences.BetaBlock.emit3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">emit3</span></code></a></td>
-<td></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.DX" title="georges_core.sequences.BetaBlock.DX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DX</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.gamma11" title="georges_core.sequences.BetaBlock.gamma11"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma11</span></code></a></td>
-<td></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.DXP" title="georges_core.sequences.BetaBlock.DXP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DXP</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#georges_core.sequences.BetaBlock.gamma22" title="georges_core.sequences.BetaBlock.gamma22"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma22</span></code></a></td>
-<td></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.DY" title="georges_core.sequences.BetaBlock.DY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DY</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.DYP" title="georges_core.sequences.BetaBlock.DYP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DYP</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.DZ" title="georges_core.sequences.BetaBlock.DZ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DZ</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.DZP" title="georges_core.sequences.BetaBlock.DZP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DZP</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.EMIT1" title="georges_core.sequences.BetaBlock.EMIT1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EMIT1</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.EMIT2" title="georges_core.sequences.BetaBlock.EMIT2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EMIT2</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.EMIT3" title="georges_core.sequences.BetaBlock.EMIT3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EMIT3</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.GAMMA11" title="georges_core.sequences.BetaBlock.GAMMA11"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GAMMA11</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.GAMMA22" title="georges_core.sequences.BetaBlock.GAMMA22"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GAMMA22</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.MU1" title="georges_core.sequences.BetaBlock.MU1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MU1</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#georges_core.sequences.BetaBlock.MU2" title="georges_core.sequences.BetaBlock.MU2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MU2</span></code></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
-<dt id="georges_core.sequences.BetaBlock.alpha11">
-<code class="descname">alpha11</code><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.alpha11" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.ALPHA11">
+<code class="sig-name descname">ALPHA11</code><em class="property">: float</em><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.ALPHA11" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="georges_core.sequences.BetaBlock.alpha22">
-<code class="descname">alpha22</code><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.alpha22" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.ALPHA22">
+<code class="sig-name descname">ALPHA22</code><em class="property">: float</em><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.ALPHA22" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="georges_core.sequences.BetaBlock.beta11">
-<code class="descname">beta11</code><em class="property"> = &lt;Quantity(1.0, 'meter')&gt;</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.beta11" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.BETA11">
+<code class="sig-name descname">BETA11</code><em class="property">: float</em><em class="property"> = &lt;Quantity(1.0, 'meter')&gt;</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.BETA11" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="georges_core.sequences.BetaBlock.beta22">
-<code class="descname">beta22</code><em class="property"> = &lt;Quantity(1.0, 'meter')&gt;</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.beta22" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.BETA22">
+<code class="sig-name descname">BETA22</code><em class="property">: float</em><em class="property"> = &lt;Quantity(1.0, 'meter')&gt;</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.BETA22" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="georges_core.sequences.BetaBlock.disp1">
-<code class="descname">disp1</code><em class="property"> = &lt;Quantity(0.0, 'meter')&gt;</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.disp1" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.CMU1">
+<code class="sig-name descname">CMU1</code><em class="property">: float</em><em class="property"> = 1.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.CMU1" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="georges_core.sequences.BetaBlock.disp2">
-<code class="descname">disp2</code><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.disp2" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.CMU2">
+<code class="sig-name descname">CMU2</code><em class="property">: float</em><em class="property"> = 1.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.CMU2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="georges_core.sequences.BetaBlock.disp3">
-<code class="descname">disp3</code><em class="property"> = &lt;Quantity(0.0, 'meter')&gt;</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.disp3" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.DISP1">
+<code class="sig-name descname">DISP1</code><em class="property">: float</em><em class="property"> = &lt;Quantity(0.0, 'meter')&gt;</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.DISP1" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="georges_core.sequences.BetaBlock.disp4">
-<code class="descname">disp4</code><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.disp4" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.DISP2">
+<code class="sig-name descname">DISP2</code><em class="property">: float</em><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.DISP2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="georges_core.sequences.BetaBlock.emit1">
-<code class="descname">emit1</code><em class="property"> = 1e-09</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.emit1" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.DISP3">
+<code class="sig-name descname">DISP3</code><em class="property">: float</em><em class="property"> = &lt;Quantity(0.0, 'meter')&gt;</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.DISP3" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="georges_core.sequences.BetaBlock.emit2">
-<code class="descname">emit2</code><em class="property"> = 1e-09</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.emit2" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.DISP4">
+<code class="sig-name descname">DISP4</code><em class="property">: float</em><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.DISP4" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="georges_core.sequences.BetaBlock.emit3">
-<code class="descname">emit3</code><em class="property"> = 1e-09</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.emit3" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.DX">
+<code class="sig-name descname">DX</code><em class="property">: float</em><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.DX" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="georges_core.sequences.BetaBlock.gamma11">
-<code class="descname">gamma11</code><em class="property"> = None</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.gamma11" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.DXP">
+<code class="sig-name descname">DXP</code><em class="property">: float</em><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.DXP" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="georges_core.sequences.BetaBlock.gamma22">
-<code class="descname">gamma22</code><em class="property"> = None</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.gamma22" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.DY">
+<code class="sig-name descname">DY</code><em class="property">: float</em><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.DY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.DYP">
+<code class="sig-name descname">DYP</code><em class="property">: float</em><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.DYP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.DZ">
+<code class="sig-name descname">DZ</code><em class="property">: float</em><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.DZ" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.DZP">
+<code class="sig-name descname">DZP</code><em class="property">: float</em><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.DZP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.EMIT1">
+<code class="sig-name descname">EMIT1</code><em class="property">: float</em><em class="property"> = 1e-09</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.EMIT1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.EMIT2">
+<code class="sig-name descname">EMIT2</code><em class="property">: float</em><em class="property"> = 1e-09</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.EMIT2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.EMIT3">
+<code class="sig-name descname">EMIT3</code><em class="property">: float</em><em class="property"> = 1e-09</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.EMIT3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.GAMMA11">
+<code class="sig-name descname">GAMMA11</code><em class="property">: Optional<span class="p">[</span>float<span class="p">]</span></em><em class="property"> = None</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.GAMMA11" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.GAMMA22">
+<code class="sig-name descname">GAMMA22</code><em class="property">: Optional<span class="p">[</span>float<span class="p">]</span></em><em class="property"> = None</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.GAMMA22" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.MU1">
+<code class="sig-name descname">MU1</code><em class="property">: float</em><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.MU1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="georges_core.sequences.BetaBlock.MU2">
+<code class="sig-name descname">MU2</code><em class="property">: float</em><em class="property"> = 0.0</em><a class="headerlink" href="#georges_core.sequences.BetaBlock.MU2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -322,7 +403,7 @@
         <a href="georges_core.sequences.BetaBlockType.html" class="btn btn-neutral float-right" title="BetaBlockType" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../physics.html" class="btn btn-neutral float-left" title="Physics with Zgoubidoo high-level interfaces" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="georges_core.sequences.BDSIMSequence.html" class="btn btn-neutral float-left" title="BDSIMSequence" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

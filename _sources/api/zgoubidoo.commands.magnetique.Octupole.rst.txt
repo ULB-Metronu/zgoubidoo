@@ -12,8 +12,20 @@ Octupole
 
       ~Octupole.KEYWORD
       ~Octupole.PARAMETERS
+      ~Octupole.gradient
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Octupole.post_init
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS
+   .. autoattribute:: gradient
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: post_init

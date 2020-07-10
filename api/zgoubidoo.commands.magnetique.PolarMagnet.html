@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -218,355 +218,355 @@
             
   <div class="section" id="polarmagnet">
 <h1>PolarMagnet<a class="headerlink" href="#polarmagnet" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="zgoubidoo.commands.magnetique.PolarMagnet">
-<em class="property">class </em><code class="descclassname">zgoubidoo.commands.magnetique.</code><code class="descname">PolarMagnet</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#PolarMagnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.commands.magnetique.</code><code class="sig-name descname">PolarMagnet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label1</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">label2</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">params</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#PolarMagnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.magnetique.Magnet.html#zgoubidoo.commands.magnetique.Magnet" title="zgoubidoo.commands.magnetique.Magnet"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.magnetique.Magnet</span></code></a></p>
 <p>Base class for magnetic elements in polar coordinates.</p>
 <p>TODO</p>
 <p class="rubric">Command attributes</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL1=''</code></dt>
+<code class="sig-name descname">LABEL1=''</code></dt>
 <dd><p>Primary label for the Zgoubi command (default: auto-generated hash).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL2=''</code></dt>
+<code class="sig-name descname">LABEL2=''</code></dt>
 <dd><p>Secondary label for the Zgoubi command.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">HEIGHT='20 centimeter'</code></dt>
+<code class="sig-name descname">HEIGHT='20 centimeter'</code></dt>
 <dd><p>Height of the magnet (distance between poles), used by plotting functions.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">REFERENCE_FIELD_COMPONENT='BZ'</code></dt>
+<code class="sig-name descname">PIPE_THICKNESS='2 centimeter'</code></dt>
+<dd><p>Thickness of the pipe, used by plotting functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">PIPE_COLOR='grey'</code></dt>
+<dd><p>Color of the pipe, used by plotting functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">POLE_WIDTH='150 centimeter'</code></dt>
+<dd><p>Pole width (used for plotting only).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">REFERENCE_FIELD_COMPONENT='BZ'</code></dt>
 <dd><p>Orientation of the reference field (used by field maps)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">KINEMATICS='None'</code></dt>
+<code class="sig-name descname">KINEMATICS='None'</code></dt>
 <dd><p>A kinematics object.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">NoneType</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>NoneType</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">APERTURE_LEFT='10 centimeter'</code></dt>
+<code class="sig-name descname">APERTURE_LEFT='10 centimeter'</code></dt>
 <dd><p>Aperture size of the magnet, left side (used for plotting only).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">APERTURE_RIGHT='10 centimeter'</code></dt>
+<code class="sig-name descname">APERTURE_RIGHT='10 centimeter'</code></dt>
 <dd><p>Aperture size of the magnet, right side (used for plotting only).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">APERTURE_TOP='10 centimeter'</code></dt>
+<code class="sig-name descname">APERTURE_TOP='10 centimeter'</code></dt>
 <dd><p>Aperture size of the magnet, top side (used for plotting only).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">APERTURE_BOTTOM='10 centimeter'</code></dt>
+<code class="sig-name descname">APERTURE_BOTTOM='10 centimeter'</code></dt>
 <dd><p>Aperture size of the magnet, bottom side (used for plotting only).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
 <p>Default initializer for all Commands.</p>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.PARAMETERS" title="zgoubidoo.commands.magnetique.PolarMagnet.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></td>
-<td>Parameters of the command, with their default value, their description and optinally an index used by other commands (e.g.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.PARAMETERS" title="zgoubidoo.commands.magnetique.PolarMagnet.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></p></td>
+<td><p>Parameters of the command, with their default value, their description and optionally an index used by other commands (e.g.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.angular_opening" title="zgoubidoo.commands.magnetique.PolarMagnet.angular_opening"><code class="xref py py-obj docutils literal notranslate"><span class="pre">angular_opening</span></code></a></td>
-<td>type: Returns</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.angular_opening" title="zgoubidoo.commands.magnetique.PolarMagnet.angular_opening"><code class="xref py py-obj docutils literal notranslate"><span class="pre">angular_opening</span></code></a></p></td>
+<td><p>Returns:</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.center" title="zgoubidoo.commands.magnetique.PolarMagnet.center"><code class="xref py py-obj docutils literal notranslate"><span class="pre">center</span></code></a></td>
-<td>type: Returns</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.center" title="zgoubidoo.commands.magnetique.PolarMagnet.center"><code class="xref py py-obj docutils literal notranslate"><span class="pre">center</span></code></a></p></td>
+<td><p>Returns:</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.entrance_efb" title="zgoubidoo.commands.magnetique.PolarMagnet.entrance_efb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entrance_efb</span></code></a></td>
-<td>type: Returns</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.entrance_efb" title="zgoubidoo.commands.magnetique.PolarMagnet.entrance_efb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entrance_efb</span></code></a></p></td>
+<td><p>Returns:</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.entry_patched" title="zgoubidoo.commands.magnetique.PolarMagnet.entry_patched"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entry_patched</span></code></a></td>
-<td>type: Returns</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.entry_patched" title="zgoubidoo.commands.magnetique.PolarMagnet.entry_patched"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entry_patched</span></code></a></p></td>
+<td><p>Returns:</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.exit" title="zgoubidoo.commands.magnetique.PolarMagnet.exit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exit</span></code></a></td>
-<td>type: Returns</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.entry_wedge_angle" title="zgoubidoo.commands.magnetique.PolarMagnet.entry_wedge_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entry_wedge_angle</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.exit_efb" title="zgoubidoo.commands.magnetique.PolarMagnet.exit_efb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exit_efb</span></code></a></td>
-<td>type: Returns</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.exit" title="zgoubidoo.commands.magnetique.PolarMagnet.exit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exit</span></code></a></p></td>
+<td><p>Returns:</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.exit_patched" title="zgoubidoo.commands.magnetique.PolarMagnet.exit_patched"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exit_patched</span></code></a></td>
-<td>type: Returns</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.exit_efb" title="zgoubidoo.commands.magnetique.PolarMagnet.exit_efb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exit_efb</span></code></a></p></td>
+<td><p>Returns:</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.length" title="zgoubidoo.commands.magnetique.PolarMagnet.length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">length</span></code></a></td>
-<td>type: Returns</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.exit_patched" title="zgoubidoo.commands.magnetique.PolarMagnet.exit_patched"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exit_patched</span></code></a></p></td>
+<td><p>Returns:</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.radius" title="zgoubidoo.commands.magnetique.PolarMagnet.radius"><code class="xref py py-obj docutils literal notranslate"><span class="pre">radius</span></code></a></td>
-<td>type: Returns</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.exit_wedge_angle" title="zgoubidoo.commands.magnetique.PolarMagnet.exit_wedge_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exit_wedge_angle</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.reference_angle" title="zgoubidoo.commands.magnetique.PolarMagnet.reference_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reference_angle</span></code></a></td>
-<td>type: Returns</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.length" title="zgoubidoo.commands.magnetique.PolarMagnet.length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">length</span></code></a></p></td>
+<td><p>Returns:</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.radius" title="zgoubidoo.commands.magnetique.PolarMagnet.radius"><code class="xref py py-obj docutils literal notranslate"><span class="pre">radius</span></code></a></p></td>
+<td><p>Returns:</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.reference_angles" title="zgoubidoo.commands.magnetique.PolarMagnet.reference_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reference_angles</span></code></a></p></td>
+<td><p>Returns:</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Methods Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.adjust_tracks_variables" title="zgoubidoo.commands.magnetique.PolarMagnet.adjust_tracks_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adjust_tracks_variables</span></code></a>(tracks)</td>
-<td></td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.adjust_tracks_variables" title="zgoubidoo.commands.magnetique.PolarMagnet.adjust_tracks_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adjust_tracks_variables</span></code></a>(tracks)</p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.drift_length_from_polar" title="zgoubidoo.commands.magnetique.PolarMagnet.drift_length_from_polar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drift_length_from_polar</span></code></a>(radius,&nbsp;…)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param radius:</th><td class="field-body">the reference radius of the magnet</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.drift_length_from_polar" title="zgoubidoo.commands.magnetique.PolarMagnet.drift_length_from_polar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drift_length_from_polar</span></code></a>(radius, …)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param radius</dt>
+<dd class="field-odd"><p>the reference radius of the magnet</p>
+</dd>
+</dl>
+</p></td>
 </tr>
-</tbody>
-</table>
-</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.efb_angle_from_polar" title="zgoubidoo.commands.magnetique.PolarMagnet.efb_angle_from_polar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">efb_angle_from_polar</span></code></a>(magnet_angle, poles_angle)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param magnet_angle</dt>
+<dd class="field-odd"><p>total angular opening of the magnet (i.e. of the field-map)</p>
+</dd>
+</dl>
+</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.efb_angle_from_polar" title="zgoubidoo.commands.magnetique.PolarMagnet.efb_angle_from_polar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">efb_angle_from_polar</span></code></a>(magnet_angle,&nbsp;poles_angle)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">param magnet_angle:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">total angular opening of the magnet (i.e. of the field-map)</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.efb_offset_from_polar" title="zgoubidoo.commands.magnetique.PolarMagnet.efb_offset_from_polar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">efb_offset_from_polar</span></code></a>(radius,&nbsp;magnet_angle,&nbsp;…)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param radius:</th><td class="field-body">the reference radius of the magnet</td>
-</tr>
-</tbody>
-</table>
-</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.magnetique.PolarMagnet.efb_offset_from_polar" title="zgoubidoo.commands.magnetique.PolarMagnet.efb_offset_from_polar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">efb_offset_from_polar</span></code></a>(radius, magnet_angle, …)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param radius</dt>
+<dd class="field-odd"><p>the reference radius of the magnet</p>
+</dd>
+</dl>
+</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.PolarMagnet.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'COLOR': ('red',), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'KINEMATICS': (None, 'A kinematics object.'), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'WIDTH': (&lt;Quantity(150, 'centimeter')&gt;,)}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.PARAMETERS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parameters of the command, with their default value, their description and optinally an index used by other
+<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'COLOR': ('blue',), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'KINEMATICS': (None, 'A kinematics object.'), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'PIPE_COLOR': ('grey', 'Color of the pipe, used by plotting functions.'), 'PIPE_THICKNESS': (&lt;Quantity(2, 'centimeter')&gt;, 'Thickness of the pipe, used by plotting functions.'), 'POLE_WIDTH': (&lt;Quantity(150, 'centimeter')&gt;, 'Pole width (used for plotting only).'), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)')}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameters of the command, with their default value, their description and optionally an index used by other
 commands (e.g. fit).</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.PolarMagnet.angular_opening">
-<code class="descname">angular_opening</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.angular_opening" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<code class="sig-name descname">angular_opening</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.angular_opening" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.PolarMagnet.center">
-<code class="descname">center</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.center" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<code class="sig-name descname">center</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.center" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.PolarMagnet.entrance_efb">
-<code class="descname">entrance_efb</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.entrance_efb" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<code class="sig-name descname">entrance_efb</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.entrance_efb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.PolarMagnet.entry_patched">
-<code class="descname">entry_patched</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.entry_patched" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<code class="sig-name descname">entry_patched</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.entry_patched" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
+<dt id="zgoubidoo.commands.magnetique.PolarMagnet.entry_wedge_angle">
+<code class="sig-name descname">entry_wedge_angle</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.entry_wedge_angle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.PolarMagnet.exit">
-<code class="descname">exit</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.exit" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<code class="sig-name descname">exit</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.exit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.PolarMagnet.exit_efb">
-<code class="descname">exit_efb</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.exit_efb" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<code class="sig-name descname">exit_efb</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.exit_efb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.PolarMagnet.exit_patched">
-<code class="descname">exit_patched</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.exit_patched" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<code class="sig-name descname">exit_patched</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.exit_patched" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
+<dt id="zgoubidoo.commands.magnetique.PolarMagnet.exit_wedge_angle">
+<code class="sig-name descname">exit_wedge_angle</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.exit_wedge_angle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.PolarMagnet.length">
-<code class="descname">length</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.length" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<code class="sig-name descname">length</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.PolarMagnet.radius">
-<code class="descname">radius</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.radius" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<code class="sig-name descname">radius</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.radius" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="zgoubidoo.commands.magnetique.PolarMagnet.reference_angle">
-<code class="descname">reference_angle</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.reference_angle" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<dl class="py attribute">
+<dt id="zgoubidoo.commands.magnetique.PolarMagnet.reference_angles">
+<code class="sig-name descname">reference_angles</code><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.reference_angles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
 </dd></dl>
 
 <p class="rubric">Methods Documentation</p>
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.commands.magnetique.PolarMagnet.adjust_tracks_variables">
-<code class="descname">adjust_tracks_variables</code><span class="sig-paren">(</span><em>tracks: pandas.core.frame.DataFrame</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#PolarMagnet.adjust_tracks_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.adjust_tracks_variables" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">adjust_tracks_variables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tracks</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#PolarMagnet.adjust_tracks_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.adjust_tracks_variables" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="staticmethod">
+<dl class="py method">
 <dt id="zgoubidoo.commands.magnetique.PolarMagnet.drift_length_from_polar">
-<em class="property">static </em><code class="descname">drift_length_from_polar</code><span class="sig-paren">(</span><em>radius: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>magnet_angle: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>poles_angle: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#PolarMagnet.drift_length_from_polar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.drift_length_from_polar" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>radius</strong> – the reference radius of the magnet</li>
-<li><strong>magnet_angle</strong> – total angular opening of the magnet (i.e. of the field-map)</li>
-<li><strong>poles_angle</strong> – angular opening of the poles</li>
+<em class="property">static </em><code class="sig-name descname">drift_length_from_polar</code><span class="sig-paren">(</span><em class="sig-param">radius: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em class="sig-param">magnet_angle: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em class="sig-param">poles_angle: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#PolarMagnet.drift_length_from_polar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.drift_length_from_polar" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>radius</strong> – the reference radius of the magnet</p></li>
+<li><p><strong>magnet_angle</strong> – total angular opening of the magnet (i.e. of the field-map)</p></li>
+<li><p><strong>poles_angle</strong> – angular opening of the poles</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="py method">
 <dt id="zgoubidoo.commands.magnetique.PolarMagnet.efb_angle_from_polar">
-<em class="property">static </em><code class="descname">efb_angle_from_polar</code><span class="sig-paren">(</span><em>magnet_angle: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>poles_angle: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#PolarMagnet.efb_angle_from_polar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.efb_angle_from_polar" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>magnet_angle</strong> – total angular opening of the magnet (i.e. of the field-map)</li>
-<li><strong>poles_angle</strong> – angular opening of the poles</li>
+<em class="property">static </em><code class="sig-name descname">efb_angle_from_polar</code><span class="sig-paren">(</span><em class="sig-param">magnet_angle: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em class="sig-param">poles_angle: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#PolarMagnet.efb_angle_from_polar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.efb_angle_from_polar" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>magnet_angle</strong> – total angular opening of the magnet (i.e. of the field-map)</p></li>
+<li><p><strong>poles_angle</strong> – angular opening of the poles</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="py method">
 <dt id="zgoubidoo.commands.magnetique.PolarMagnet.efb_offset_from_polar">
-<em class="property">static </em><code class="descname">efb_offset_from_polar</code><span class="sig-paren">(</span><em>radius: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>magnet_angle: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em>poles_angle: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#PolarMagnet.efb_offset_from_polar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.efb_offset_from_polar" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>radius</strong> – the reference radius of the magnet</li>
-<li><strong>magnet_angle</strong> – total angular opening of the magnet (i.e. of the field-map)</li>
-<li><strong>poles_angle</strong> – angular opening of the poles</li>
+<em class="property">static </em><code class="sig-name descname">efb_offset_from_polar</code><span class="sig-paren">(</span><em class="sig-param">radius: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em class="sig-param">magnet_angle: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em>, <em class="sig-param">poles_angle: pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity</em><span class="sig-paren">)</span> &#x2192; pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity<a class="reference internal" href="../_modules/zgoubidoo/commands/magnetique.html#PolarMagnet.efb_offset_from_polar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.magnetique.PolarMagnet.efb_offset_from_polar" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>radius</strong> – the reference radius of the magnet</p></li>
+<li><p><strong>magnet_angle</strong> – total angular opening of the magnet (i.e. of the field-map)</p></li>
+<li><p><strong>poles_angle</strong> – angular opening of the poles</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 

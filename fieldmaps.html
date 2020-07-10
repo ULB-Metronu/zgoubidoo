@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -186,75 +186,65 @@
 <span class="target" id="module-zgoubidoo.fieldmaps.fieldmap"></span><p>Field map module.</p>
 <div class="section" id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.fieldmaps.fieldmap.enge.html#zgoubidoo.fieldmaps.fieldmap.enge" title="zgoubidoo.fieldmaps.fieldmap.enge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enge</span></code></a>(s,&nbsp;numpy.array],&nbsp;ce_0,&nbsp;ce_1,&nbsp;ce_2,&nbsp;…)</td>
-<td>Enge function for the modelling of fringe fields.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.fieldmaps.fieldmap.enge.html#zgoubidoo.fieldmaps.fieldmap.enge" title="zgoubidoo.fieldmaps.fieldmap.enge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enge</span></code></a>(s[, ce_0, ce_1, ce_2, ce_3, ce_4, …])</p></td>
+<td><p>Enge function for the modelling of fringe fields.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.fieldmaps.fieldmap.load_field_data.html#zgoubidoo.fieldmaps.fieldmap.load_field_data" title="zgoubidoo.fieldmaps.fieldmap.load_field_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_field_data</span></code></a>(file,&nbsp;path)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param file:</th><td class="field-body">the file containing the field map data</td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.fieldmaps.fieldmap.load_field_data.html#zgoubidoo.fieldmaps.fieldmap.load_field_data" title="zgoubidoo.fieldmaps.fieldmap.load_field_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_field_data</span></code></a>(file[, path])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param file</dt>
+<dd class="field-odd"><p>the file containing the field map data</p>
+</dd>
+</dl>
+</p></td>
 </tr>
-</tbody>
-</table>
-</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.fieldmaps.fieldmap.load_mesh_data.html#zgoubidoo.fieldmaps.fieldmap.load_mesh_data" title="zgoubidoo.fieldmaps.fieldmap.load_mesh_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_mesh_data</span></code></a>(file[, path])</p></td>
+<td><p>Load a mesh data file and creates a complete mesh grid using numpy.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.fieldmaps.fieldmap.load_mesh_data.html#zgoubidoo.fieldmaps.fieldmap.load_mesh_data" title="zgoubidoo.fieldmaps.fieldmap.load_mesh_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_mesh_data</span></code></a>(file,&nbsp;path)</td>
-<td>Load a mesh data file and creates a complete mesh grid using numpy.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.fieldmaps.fieldmap.load_opera_fieldmap.html#zgoubidoo.fieldmaps.fieldmap.load_opera_fieldmap" title="zgoubidoo.fieldmaps.fieldmap.load_opera_fieldmap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_opera_fieldmap</span></code></a>(file[, path])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param file</dt>
+<dd class="field-odd"><p>the file containing the field map data</p>
+</dd>
+</dl>
+</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.fieldmaps.fieldmap.load_opera_fieldmap.html#zgoubidoo.fieldmaps.fieldmap.load_opera_fieldmap" title="zgoubidoo.fieldmaps.fieldmap.load_opera_fieldmap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_opera_fieldmap</span></code></a>(file,&nbsp;path)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param file:</th><td class="field-body">the file containing the field map data</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.fieldmaps.fieldmap.load_opera_fieldmap_with_mesh.html#zgoubidoo.fieldmaps.fieldmap.load_opera_fieldmap_with_mesh" title="zgoubidoo.fieldmaps.fieldmap.load_opera_fieldmap_with_mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_opera_fieldmap_with_mesh</span></code></a>(field_file,&nbsp;…)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">param field_file:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">the file containing the field map data</td>
-</tr>
-</tbody>
-</table>
-</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.fieldmaps.fieldmap.load_opera_fieldmap_with_mesh.html#zgoubidoo.fieldmaps.fieldmap.load_opera_fieldmap_with_mesh" title="zgoubidoo.fieldmaps.fieldmap.load_opera_fieldmap_with_mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_opera_fieldmap_with_mesh</span></code></a>(field_file, …)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param field_file</dt>
+<dd class="field-odd"><p>the file containing the field map data</p>
+</dd>
+</dl>
+</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="classes">
 <h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="api/zgoubidoo.fieldmaps.fieldmap.EngeModel.html#zgoubidoo.fieldmaps.fieldmap.EngeModel" title="zgoubidoo.fieldmaps.fieldmap.EngeModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EngeModel</span></code></a>()</td>
-<td>Enge model to be used with lmfit.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.fieldmaps.fieldmap.EngeModel.html#zgoubidoo.fieldmaps.fieldmap.EngeModel" title="zgoubidoo.fieldmaps.fieldmap.EngeModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EngeModel</span></code></a>()</p></td>
+<td><p>Enge model to be used with lmfit.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap" title="zgoubidoo.fieldmaps.fieldmap.FieldMap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FieldMap</span></code></a>(field_map)</td>
-<td>TODO</td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap" title="zgoubidoo.fieldmaps.fieldmap.FieldMap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FieldMap</span></code></a>(field_map)</p></td>
+<td><p>TODO</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="class-inheritance-diagram">
 <h2>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h2>
-<div class="graphviz"><img src="_images/inheritance-526737fbdf240a042186f50586800f3cb9a1e01c.png" alt="Inheritance diagram of zgoubidoo.fieldmaps.fieldmap.EngeModel, zgoubidoo.fieldmaps.fieldmap.FieldMap" usemap="#inheritance57d5136d90" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="_images/inheritance-829b7b2e58366e07d0d348a772c15d40e958c461.png" alt="Inheritance diagram of zgoubidoo.fieldmaps.fieldmap.EngeModel, zgoubidoo.fieldmaps.fieldmap.FieldMap" usemap="#inheritance57d5136d90" class="inheritance graphviz" /></div>
 <map id="inheritance57d5136d90" name="inheritance57d5136d90">
 <area shape="rect" id="node1" href="api/zgoubidoo.fieldmaps.fieldmap.EngeModel.html#zgoubidoo.fieldmaps.fieldmap.EngeModel" target="_top" title="Enge model to be used with lmfit." alt="" coords="130,53,218,77"/>
 <area shape="rect" id="node3" href="api/zgoubidoo.fieldmaps.fieldmap.FieldMap.html#zgoubidoo.fieldmaps.fieldmap.FieldMap" target="_top" title="TODO" alt="" coords="5,5,82,29"/>

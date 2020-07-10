@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -197,15 +197,15 @@
             
   <div class="section" id="objet2">
 <h1>Objet2<a class="headerlink" href="#objet2" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="zgoubidoo.commands.objet.Objet2">
-<em class="property">class </em><code class="descclassname">zgoubidoo.commands.objet.</code><code class="descname">Objet2</code><span class="sig-paren">(</span><em>label1: str = ''</em>, <em>label2: str = ''</em>, <em>*params</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/objet.html#Objet2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.commands.objet.</code><code class="sig-name descname">Objet2</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label1</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">label2</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">params</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/objet.html#Objet2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.objet.Objet.html#zgoubidoo.commands.objet.Objet" title="zgoubidoo.commands.objet.Objet"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.objet.Objet</span></code></a></p>
 <p>Objet with all initial coordinates entered explicitely.</p>
 <p>This object type can be used to simulate a bunch with an explicit list of coordinates. That’s the method Zgoubidoo
 uses when tracking bunches.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">zi</span> <span class="o">=</span> <span class="n">Input</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">zi</span> <span class="o">=</span> <span class="n">Input</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">objet</span> <span class="o">=</span> <span class="n">Objet2</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">objet</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">zi</span> <span class="o">+=</span> <span class="n">objet</span>
@@ -215,244 +215,217 @@ uses when tracking bunches.</p>
 </pre></div>
 </div>
 <p class="rubric">Command attributes</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL1=''</code></dt>
+<code class="sig-name descname">LABEL1=''</code></dt>
 <dd><p>Primary label for the Zgoubi command (default: auto-generated hash).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">LABEL2=''</code></dt>
+<code class="sig-name descname">LABEL2=''</code></dt>
 <dd><p>Secondary label for the Zgoubi command.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">BORO='1.0 centimeter * kilogauss'</code></dt>
+<code class="sig-name descname">BORO='1.0 centimeter * kilogauss'</code></dt>
 <dd><p>Reference magnetic rigidity.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">Quantity</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">KOBJ='2'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">KOBJ='2'</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">K2='0'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">K2='0'</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt>
-<code class="descname">IDMAX='1'</code></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">IDMAX='1'</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
 <p>Default initializer for all Commands.</p>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.IEX" title="zgoubidoo.commands.objet.Objet2.IEX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IEX</span></code></a></td>
-<td>type: Returns</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.IEX" title="zgoubidoo.commands.objet.Objet2.IEX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IEX</span></code></a></p></td>
+<td><p>Returns:</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.IMAX" title="zgoubidoo.commands.objet.Objet2.IMAX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IMAX</span></code></a></td>
-<td>type: Returns</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.IMAX" title="zgoubidoo.commands.objet.Objet2.IMAX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IMAX</span></code></a></p></td>
+<td><p>Returns:</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.KEYWORD" title="zgoubidoo.commands.objet.Objet2.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></td>
-<td></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.KEYWORD" title="zgoubidoo.commands.objet.Objet2.KEYWORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KEYWORD</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.PARAMETERS" title="zgoubidoo.commands.objet.Objet2.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></td>
-<td>Parameters of the command, with their default value, their description and optinally an index used by other commands (e.g.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.PARAMETERS" title="zgoubidoo.commands.objet.Objet2.PARAMETERS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETERS</span></code></a></p></td>
+<td><p>Parameters of the command, with their default value, their description and optinally an index used by other commands (e.g.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.PARTICULES" title="zgoubidoo.commands.objet.Objet2.PARTICULES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARTICULES</span></code></a></td>
-<td>The particles list.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.PARTICULES" title="zgoubidoo.commands.objet.Objet2.PARTICULES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARTICULES</span></code></a></p></td>
+<td><p>The particles list.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.P_" title="zgoubidoo.commands.objet.Objet2.P_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">P_</span></code></a></td>
-<td></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.P_" title="zgoubidoo.commands.objet.Objet2.P_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">P_</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.T_" title="zgoubidoo.commands.objet.Objet2.T_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T_</span></code></a></td>
-<td></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.T_" title="zgoubidoo.commands.objet.Objet2.T_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T_</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.Y_" title="zgoubidoo.commands.objet.Objet2.Y_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Y_</span></code></a></td>
-<td></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.Y_" title="zgoubidoo.commands.objet.Objet2.Y_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Y_</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.Z_" title="zgoubidoo.commands.objet.Objet2.Z_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Z_</span></code></a></td>
-<td></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.Z_" title="zgoubidoo.commands.objet.Objet2.Z_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Z_</span></code></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Methods Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.add" title="zgoubidoo.commands.objet.Objet2.add"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add</span></code></a>(p)</td>
-<td><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param p:</th><td class="field-body"></td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.add" title="zgoubidoo.commands.objet.Objet2.add"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add</span></code></a>(p)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">param p</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
 </tr>
-</tbody>
-</table>
-</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.add_references" title="zgoubidoo.commands.objet.Objet2.add_references"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_references</span></code></a>([n])</p></td>
+<td><p>Add a reference particle to the Objet.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.add_references" title="zgoubidoo.commands.objet.Objet2.add_references"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_references</span></code></a>(n)</td>
-<td>Add a reference particle to the Objet.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.clear" title="zgoubidoo.commands.objet.Objet2.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear</span></code></a>()</p></td>
+<td><p>Reset the object’s content, remove all particles.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.clear" title="zgoubidoo.commands.objet.Objet2.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear</span></code></a>()</td>
-<td>Reset the object’s content, remove all particles.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.post_init" title="zgoubidoo.commands.objet.Objet2.post_init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">post_init</span></code></a>(reference_y,&nbsp;reference_t,&nbsp;…)</td>
-<td>Post initialization routine.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.objet.Objet2.post_init" title="zgoubidoo.commands.objet.Objet2.post_init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">post_init</span></code></a>([reference_y, reference_t, …])</p></td>
+<td><p>Post initialization routine.</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.objet.Objet2.IEX">
-<code class="descname">IEX</code><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.IEX" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<code class="sig-name descname">IEX</code><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.IEX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.objet.Objet2.IMAX">
-<code class="descname">IMAX</code><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.IMAX" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<code class="sig-name descname">IMAX</code><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.IMAX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.objet.Objet2.KEYWORD">
-<code class="descname">KEYWORD</code><em class="property"> = 'OBJET'</em><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.KEYWORD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">KEYWORD</code><em class="property">: str</em><em class="property"> = 'OBJET'</em><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.KEYWORD" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.objet.Objet2.PARAMETERS">
-<code class="descname">PARAMETERS</code><em class="property"> = {'BORO': (&lt;Quantity(1.0, 'centimeter * kilogauss')&gt;, 'Reference magnetic rigidity.'), 'IDMAX': (1, ''), 'K2': (0, ''), 'KOBJ': (2, ''), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.')}</em><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'BORO': (&lt;Quantity(1.0, 'centimeter * kilogauss')&gt;, 'Reference magnetic rigidity.'), 'IDMAX': (1, ''), 'K2': (0, ''), 'KOBJ': (2, ''), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.')}</em><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parameters of the command, with their default value, their description and optinally an index used by other
 commands (e.g. fit).</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.objet.Objet2.PARTICULES">
-<code class="descname">PARTICULES</code><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.PARTICULES" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PARTICULES</code><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.PARTICULES" title="Permalink to this definition">¶</a></dt>
 <dd><p>The particles list.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.objet.Objet2.P_">
-<code class="descname">P_</code><em class="property"> = 33</em><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.P_" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">P_</code><em class="property"> = 33</em><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.P_" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.objet.Objet2.T_">
-<code class="descname">T_</code><em class="property"> = 31</em><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.T_" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">T_</code><em class="property"> = 31</em><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.T_" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.objet.Objet2.Y_">
-<code class="descname">Y_</code><em class="property"> = 30</em><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.Y_" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">Y_</code><em class="property"> = 30</em><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.Y_" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.objet.Objet2.Z_">
-<code class="descname">Z_</code><em class="property"> = 32</em><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.Z_" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">Z_</code><em class="property"> = 32</em><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.Z_" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods Documentation</p>
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.commands.objet.Objet2.add">
-<code class="descname">add</code><span class="sig-paren">(</span><em>p</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/objet.html#Objet2.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.add" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>p</strong> – </td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/objet.html#Objet2.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.add" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>p</strong> – </p>
+</dd>
+</dl>
 <p>Returns:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.commands.objet.Objet2.add_references">
-<code class="descname">add_references</code><span class="sig-paren">(</span><em>n: int = 1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/objet.html#Objet2.add_references"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.add_references" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_references</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/objet.html#Objet2.add_references"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.add_references" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a reference particle to the Objet.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> – the number of reference particles to add</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the object itself.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> – the number of reference particles to add</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the object itself.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.commands.objet.Objet2.clear">
-<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/objet.html#Objet2.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.clear" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/objet.html#Objet2.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.clear" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reset the object’s content, remove all particles.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.commands.objet.Objet2.post_init">
-<code class="descname">post_init</code><span class="sig-paren">(</span><em>reference_y: float = 0.0</em>, <em>reference_t: float = 0.0</em>, <em>reference_z: float = 0.0</em>, <em>reference_p: float = 0.0</em>, <em>reference_x: float = 0.0</em>, <em>reference_d: float = 1.0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/objet.html#Objet2.post_init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.post_init" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">post_init</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reference_y</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">reference_t</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">reference_z</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">reference_p</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">reference_x</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">reference_d</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/objet.html#Objet2.post_init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.objet.Objet2.post_init" title="Permalink to this definition">¶</a></dt>
 <dd><p>Post initialization routine.</p>
 </dd></dl>
 

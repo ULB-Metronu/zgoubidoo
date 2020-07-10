@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -191,214 +191,193 @@
             
   <div class="section" id="patchable">
 <h1>Patchable<a class="headerlink" href="#patchable" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="zgoubidoo.commands.patchable.Patchable">
-<em class="property">class </em><code class="descclassname">zgoubidoo.commands.patchable.</code><code class="descname">Patchable</code><a class="reference internal" href="../_modules/zgoubidoo/commands/patchable.html#Patchable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.commands.patchable.</code><code class="sig-name descname">Patchable</code><a class="reference internal" href="../_modules/zgoubidoo/commands/patchable.html#Patchable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Patchable elements are Zgoubi commands that affect the placement of the reference frame.</p>
 <p>A default implementation of the placement methods is provided for subclasses. It only places the entrance frame
 at the location of the placement frame and all other frames are set to the entrance frame (‘point-like’ element).</p>
 <p>Initializes a un-patched patchable element.</p>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.center" title="zgoubidoo.commands.patchable.Patchable.center"><code class="xref py py-obj docutils literal notranslate"><span class="pre">center</span></code></a></td>
-<td>Center frame.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.center" title="zgoubidoo.commands.patchable.Patchable.center"><code class="xref py py-obj docutils literal notranslate"><span class="pre">center</span></code></a></p></td>
+<td><p>Center frame.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.entry" title="zgoubidoo.commands.patchable.Patchable.entry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entry</span></code></a></td>
-<td>Entrance frame.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.entry" title="zgoubidoo.commands.patchable.Patchable.entry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entry</span></code></a></p></td>
+<td><p>Entrance frame.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.entry_patched" title="zgoubidoo.commands.patchable.Patchable.entry_patched"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entry_patched</span></code></a></td>
-<td>Entrance patched frame.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.entry_patched" title="zgoubidoo.commands.patchable.Patchable.entry_patched"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entry_patched</span></code></a></p></td>
+<td><p>Entrance patched frame.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.entry_s" title="zgoubidoo.commands.patchable.Patchable.entry_s"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entry_s</span></code></a></td>
-<td>type: Returns</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.entry_s" title="zgoubidoo.commands.patchable.Patchable.entry_s"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entry_s</span></code></a></p></td>
+<td><p>Returns:</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.exit" title="zgoubidoo.commands.patchable.Patchable.exit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exit</span></code></a></td>
-<td>Exit frame.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.exit" title="zgoubidoo.commands.patchable.Patchable.exit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exit</span></code></a></p></td>
+<td><p>Exit frame.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.exit_patched" title="zgoubidoo.commands.patchable.Patchable.exit_patched"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exit_patched</span></code></a></td>
-<td>Exit patched frame.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.exit_patched" title="zgoubidoo.commands.patchable.Patchable.exit_patched"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exit_patched</span></code></a></p></td>
+<td><p>Exit patched frame.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.exit_s" title="zgoubidoo.commands.patchable.Patchable.exit_s"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exit_s</span></code></a></td>
-<td>type: Returns</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.exit_s" title="zgoubidoo.commands.patchable.Patchable.exit_s"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exit_s</span></code></a></p></td>
+<td><p>Returns:</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.frenet_orientation" title="zgoubidoo.commands.patchable.Patchable.frenet_orientation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frenet_orientation</span></code></a></td>
-<td></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.frenet_orientation" title="zgoubidoo.commands.patchable.Patchable.frenet_orientation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frenet_orientation</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.length" title="zgoubidoo.commands.patchable.Patchable.length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">length</span></code></a></td>
-<td>Length of the element.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.length" title="zgoubidoo.commands.patchable.Patchable.length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">length</span></code></a></p></td>
+<td><p>Length of the element.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.optical_length" title="zgoubidoo.commands.patchable.Patchable.optical_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optical_length</span></code></a></td>
-<td>type: Returns</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.optical_length" title="zgoubidoo.commands.patchable.Patchable.optical_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optical_length</span></code></a></p></td>
+<td><p>Returns:</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.reference_trajectory" title="zgoubidoo.commands.patchable.Patchable.reference_trajectory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reference_trajectory</span></code></a></td>
-<td>type: Returns</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.reference_trajectory" title="zgoubidoo.commands.patchable.Patchable.reference_trajectory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reference_trajectory</span></code></a></p></td>
+<td><p>Returns:</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Methods Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.adjust_tracks_variables" title="zgoubidoo.commands.patchable.Patchable.adjust_tracks_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adjust_tracks_variables</span></code></a>(tracks)</td>
-<td></td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.adjust_tracks_variables" title="zgoubidoo.commands.patchable.Patchable.adjust_tracks_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adjust_tracks_variables</span></code></a>(tracks)</p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.clear_placement" title="zgoubidoo.commands.patchable.Patchable.clear_placement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear_placement</span></code></a>()</td>
-<td>Clears all the frames.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.clear_placement" title="zgoubidoo.commands.patchable.Patchable.clear_placement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear_placement</span></code></a>()</p></td>
+<td><p>Clears all the frames.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.place" title="zgoubidoo.commands.patchable.Patchable.place"><code class="xref py py-obj docutils literal notranslate"><span class="pre">place</span></code></a>(frame)</td>
-<td>Place the element with a reference frame.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.commands.patchable.Patchable.place" title="zgoubidoo.commands.patchable.Patchable.place"><code class="xref py py-obj docutils literal notranslate"><span class="pre">place</span></code></a>(frame)</p></td>
+<td><p>Place the element with a reference frame.</p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Attributes Documentation</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.patchable.Patchable.center">
-<code class="descname">center</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.center" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">center</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.center" title="Permalink to this definition">¶</a></dt>
 <dd><p>Center frame.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the frame of the center of the element.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the frame of the center of the element.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.patchable.Patchable.entry">
-<code class="descname">entry</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.entry" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">entry</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.entry" title="Permalink to this definition">¶</a></dt>
 <dd><p>Entrance frame.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the frame of the entrance of the element.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the frame of the entrance of the element.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.patchable.Patchable.entry_patched">
-<code class="descname">entry_patched</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.entry_patched" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">entry_patched</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.entry_patched" title="Permalink to this definition">¶</a></dt>
 <dd><p>Entrance patched frame.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the frame of the entrance of the element with the patch applied.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the frame of the entrance of the element with the patch applied.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.patchable.Patchable.entry_s">
-<code class="descname">entry_s</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.entry_s" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<code class="sig-name descname">entry_s</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.entry_s" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.patchable.Patchable.exit">
-<code class="descname">exit</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.exit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">exit</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.exit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Exit frame.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the frame of the exit of the element.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the frame of the exit of the element.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.patchable.Patchable.exit_patched">
-<code class="descname">exit_patched</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.exit_patched" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">exit_patched</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.exit_patched" title="Permalink to this definition">¶</a></dt>
 <dd><p>Exit patched frame.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the frame of the exit of the element with the patch applied.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the frame of the exit of the element with the patch applied.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.patchable.Patchable.exit_s">
-<code class="descname">exit_s</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.exit_s" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<code class="sig-name descname">exit_s</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.exit_s" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.patchable.Patchable.frenet_orientation">
-<code class="descname">frenet_orientation</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.frenet_orientation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">frenet_orientation</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.frenet_orientation" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.patchable.Patchable.length">
-<code class="descname">length</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.length" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">length</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.length" title="Permalink to this definition">¶</a></dt>
 <dd><p>Length of the element.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the length of the element with units.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the length of the element with units.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.patchable.Patchable.optical_length">
-<code class="descname">optical_length</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.optical_length" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<code class="sig-name descname">optical_length</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.optical_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="zgoubidoo.commands.patchable.Patchable.reference_trajectory">
-<code class="descname">reference_trajectory</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.reference_trajectory" title="Permalink to this definition">¶</a></dt>
-<dd><p>type: Returns</p>
+<code class="sig-name descname">reference_trajectory</code><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.reference_trajectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
 </dd></dl>
 
 <p class="rubric">Methods Documentation</p>
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.commands.patchable.Patchable.adjust_tracks_variables">
-<code class="descname">adjust_tracks_variables</code><span class="sig-paren">(</span><em>tracks: pandas.core.frame.DataFrame</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/patchable.html#Patchable.adjust_tracks_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.adjust_tracks_variables" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">adjust_tracks_variables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tracks</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/patchable.html#Patchable.adjust_tracks_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.adjust_tracks_variables" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.commands.patchable.Patchable.clear_placement">
-<code class="descname">clear_placement</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/patchable.html#Patchable.clear_placement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.clear_placement" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">clear_placement</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/patchable.html#Patchable.clear_placement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.clear_placement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clears all the frames.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zgoubidoo.commands.patchable.Patchable.place">
-<code class="descname">place</code><span class="sig-paren">(</span><em>frame: georges_core.frame.Frame</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/patchable.html#Patchable.place"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.place" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">place</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span><span class="p">:</span> <span class="n"><a class="reference internal" href="georges_core.frame.Frame.html#georges_core.frame.Frame" title="georges_core.frame.Frame">georges_core.frame.Frame</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/patchable.html#Patchable.place"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.patchable.Patchable.place" title="Permalink to this definition">¶</a></dt>
 <dd><p>Place the element with a reference frame.</p>
 <p>All the frames of the element are reset and the entrance frame is then placed with respect to the reference
 frame.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frame</strong> – the reference frame for the placement of the entrance frame.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>frame</strong> – the reference frame for the placement of the entrance frame.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
