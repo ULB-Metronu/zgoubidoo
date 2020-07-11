@@ -53,7 +53,7 @@ Publications
 - Coming soon.
 
 """
-__version__ = "2019.4"
+__version__ = "2020.1"
 
 try:
     from georges_core import ureg, Q_

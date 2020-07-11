@@ -1,5 +1,7 @@
-2019.4 - What will it be?
-    - Surprise.
+2020.1 - Major stability improvements
+    - Refactoring of multiple classes in `georges-core` (`Kinematics` and `Sequence`, among others);
+    - Major clean up and testings of the elements classes;
+    - Improvements in the plotting module.
 
 2019.3 - Coherent support of the high-level 'sequence' API and synchrotron radiation
     - [FEATURE] A brand new 'sequence' API (see the 'sequences' module) supporting lattice description that are

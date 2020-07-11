@@ -46,7 +46,6 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
         'POLE_WIDTH': (30 * _ureg.cm, 'Pole width (used for plotting only).'),
         'PIPE_THICKNESS': (2 * _ureg.cm, 'Thickness of the pipe, used by plotting functions.'),
         'PIPE_COLOR': ('grey', 'Color of the pipe, used by plotting functions.'),
-        'POLE_WIDTH': (50 * _ureg.cm, 'Pole width (used for plotting only).'),
         'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'),
         'KINEMATICS': (None, 'A kinematics object.'),
     }
@@ -105,7 +104,6 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
     TODO
     """
     PARAMETERS = {
-        'WIDTH': (50 * _ureg.cm, 'Width of the magnetic poles (used for plotting only).'),
         'APERTURE_LEFT': (10 * _ureg.cm, 'Aperture size of the magnet, left side (used for plotting only).'),
         'APERTURE_RIGHT': (10 * _ureg.cm, 'Aperture size of the magnet, right side (used for plotting only).'),
         'APERTURE_TOP': (10 * _ureg.cm, 'Aperture size of the magnet, top side (used for plotting only).'),
