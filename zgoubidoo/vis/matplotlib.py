@@ -324,8 +324,6 @@ class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
         offset = 1.1
         self._ax2.hlines(offset, _m(s_location), _m(s_location) + _m(magnet.length), clip_on=False)
 
-    cartouche_fakedrift = cartouche_drift
-
     def cartouche_cartesianmagnet(self, s_location, magnet: zgoubidoo.commands.CartesianMagnet):
         """
 
