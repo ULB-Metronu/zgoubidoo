@@ -482,4 +482,4 @@ class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
                   )
 
 
-MplArtist = MatplotlibArtist
+MplArtist = ZgoubidooMatplotlibArtist
