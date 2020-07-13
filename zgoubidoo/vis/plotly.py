@@ -154,14 +154,15 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
         def add_svg_path(points, reference_frame: str = 'entry_patched',
                          color: Optional[str] = None,
-                         opacity: Optional[float] = 0.5, type=''):
+                         opacity: Optional[float] = 0.5, shape=''):
             points = points.dot(_np.linalg.inv(getattr(e, reference_frame).get_rotation_matrix())) + _np.array([
                 getattr(e, reference_frame).x_, getattr(e, reference_frame).y_, 0.0
             ])
-            if type == 'points':
-                self.scatter(x=[points[0, 0]],
-                             y=[points[0, 1]],
-                             marker={'size': 5, 'color': color},
+            if shape == 'lines':
+                self.scatter(x=points[0],
+                             y=points[1],
+                             line={'width': 2, 'color': 'black'},
+                             mode='lines',
                              showlegend=False)
             else:
                 path = f"M{points[0, 0]},{points[0, 1]} "
@@ -213,142 +214,28 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
             return [entrance_up, entrance_down, exit_up, exit_down]
 
-        def plot_left_up():
-            entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=entrance_efb_extent_up)
-            theta_init = reference_angle - omega_e - entrance_up
-            xa = (r + entrance_efb_extent_up) * _np.sin(theta_init)
-            ya = -r + (r + entrance_efb_extent_up) * _np.cos(theta_init)
+        def plot_fringes(theta_init, omega, face_angle, radius, linear_extent, sign_up=1):
+            xa = (r + sign_up * linear_extent) * _np.sin(theta_init)
+            ya = -r + (r + sign_up * linear_extent) * _np.cos(theta_init)
 
             # Draw the arc circle
-            beta = reference_angle - omega_e - entrance_face_angle
-            xr = xa + entrance_efb_radius_up * _np.cos(beta)
-            yr = ya - entrance_efb_radius_up * _np.sin(beta)
-            delta_mu = entrance_efb_extent_up / entrance_efb_radius_up
+            beta = reference_angle - omega - sign_up * face_angle
+            xr = xa + radius * _np.cos(beta)
+            yr = ya - radius * _np.sin(beta)
+            delta_mu = linear_extent / radius
 
-            if entrance_efb_radius_up > 0:
-                mu0 = _np.pi - (reference_angle - omega_e) + entrance_face_angle
+            if radius > 0:
+                mu0 = sign_up*_np.pi - (reference_angle - omega) + sign_up*face_angle
             else:
-                mu0 = -(reference_angle - omega_e) + entrance_face_angle
+                mu0 = -(reference_angle - omega) + sign_up*face_angle
 
-            mus = _np.linspace(mu0, mu0 - delta_mu, 20)
-            for mu in mus:
-                x = xr + _np.abs(entrance_efb_radius_up) * _np.cos(mu)
-                y = yr + _np.abs(entrance_efb_radius_up) * _np.sin(mu)
-
-                u = [[x, y, 0]]
-                add_svg_path(_np.array(u), reference_frame=reference_frame,
-                             color='black', type='points')
-
-            # # Continue the arc circle
-            # xb = (xr + _np.abs(entrance_efb_radius_up) * _np.cos(mus[-1]))
-            # yb = (yr + _np.abs(entrance_efb_radius_up) * _np.sin(mus[-1]))
-            # beta = _np.arctan(xb / (yb + r))
-            # thetas_up = _np.linspace(
-            #     beta,
-            #     reference_angle - omega_s + exit_up,
-            #     points_in_polar_paths)
-            #
-            # dr = _np.sqrt(xb ** 2 + (yb + r) ** 2) - r
-            # for theta in thetas_up:
-            #     x = (r + dr) * _np.sin(theta)
-            #     y = -r + (r + dr) * _np.cos(theta)
-            #     u = [[x, y, 0]]
-            #     add_svg_path(_np.array(u), reference_frame=reference_frame,
-            #                  color='black', type='points')
-
-        def plot_right_up():
-
-            # Compute the first point up to U2
-            entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=exit_efb_extent_up)
-            theta_init = reference_angle - omega_s + exit_up
-            xa = (r + exit_efb_extent_up) * _np.sin(theta_init)
-            ya = -r + (r + exit_efb_extent_up) * _np.cos(theta_init)
-
-            # Draw the arc circle
-            beta = reference_angle - omega_s - exit_face_angle
-            xr = xa + exit_efb_radius_up * _np.cos(beta)
-            yr = ya - exit_efb_radius_up * _np.sin(beta)
-            delta_mu = exit_efb_extent_up / exit_efb_radius_up
-
-            if exit_efb_radius_up > 0:
-                mu0 = _np.pi - (reference_angle - omega_s) + exit_face_angle
-            else:
-                mu0 = -(reference_angle - omega_s) + exit_face_angle
-
-            mu1 = mu0 - delta_mu
-            mus = _np.linspace(mu0, mu1, 20)
-            for mu in mus:
-                x = xr + _np.abs(exit_efb_radius_up) * _np.cos(mu)
-                y = yr + _np.abs(exit_efb_radius_up) * _np.sin(mu)
-
-                u = [[x, y, 0]]
-                add_svg_path(_np.array(u), reference_frame=reference_frame,
-                             color='black', type='points')
-
-        def plot_left_down():
-            # Compute the first point up to U1
-            entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=entrance_efb_extent_down)
-            theta_init = reference_angle - omega_e + entrance_down
-            xa = (r - entrance_efb_extent_down) * _np.sin(theta_init)
-            ya = -r + (r - entrance_efb_extent_down) * _np.cos(theta_init)
-
-            # Draw the arc circle
-            beta = (reference_angle - omega_e) + entrance_face_angle
-            xr = xa + entrance_efb_radius_down * _np.cos(beta)
-            yr = ya - entrance_efb_radius_down * _np.sin(beta)
-            delta_mu = entrance_efb_extent_down / entrance_efb_radius_down
-
-            if entrance_efb_radius_down < 0:
-                mu0 = -((reference_angle - omega_e) + entrance_face_angle)
-            else:
-                mu0 = -_np.pi - ((reference_angle - omega_e) + entrance_face_angle)
-
-            mu1 = mu0 + delta_mu
-            mus = _np.linspace(mu0, mu1, 20)
-            for mu in mus:
-                x = xr + _np.abs(entrance_efb_radius_down) * _np.cos(mu)
-                y = yr + _np.abs(entrance_efb_radius_down) * _np.sin(mu)
-
-                u = [[x, y, 0]]
-                add_svg_path(_np.array(u), reference_frame=reference_frame,
-                             color='green', type='points')
-
-        def plot_right_down():
-            # Compute the first point up to U1
-            entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=exit_efb_extent_down)
-            theta_init = reference_angle - omega_s - exit_down
-            xa = (r - exit_efb_extent_down) * _np.sin(theta_init)
-            ya = -r + (r - exit_efb_extent_down) * _np.cos(theta_init)
-
-            # Draw the arc circle
-            beta = (reference_angle - omega_s) + exit_face_angle
-            xr = xa + exit_efb_radius_down * _np.cos(beta)
-            yr = ya - exit_efb_radius_down * _np.sin(beta)
-
-            delta_mu = exit_efb_extent_down / exit_efb_radius_down
-            if exit_efb_radius_down < 0:
-                mu0 = -((reference_angle - omega_s) + exit_face_angle)
-            else:
-                mu0 = _np.pi -((reference_angle - omega_s) + exit_face_angle)
-
-            mu1 = mu0 + delta_mu
-            mus = _np.linspace(mu0, mu1, 20)
-            for mu in mus:
-                x = xr + _np.abs(exit_efb_radius_down) * _np.cos(mu)
-                y = yr + _np.abs(exit_efb_radius_down) * _np.sin(mu)
-
-                u = [[x, y, 0]]
-                add_svg_path(_np.array(u), reference_frame=reference_frame,
-                             color='green', type='points')
+            mus = _np.linspace(mu0, mu0 - sign_up * delta_mu, points_in_polar_paths)
+            x = xr + _np.abs(radius) * _np.cos(mus)
+            y = yr + _np.abs(radius) * _np.sin(mus)
+            add_svg_path(points=_np.array([x, y, 0]), reference_frame=reference_frame, shape='lines')
 
         def plot_polar_magnet():
             if with_magnet_poles:
-
-                plot_left_up()
-                plot_right_up()
-                plot_left_down()
-                plot_right_down()
-
                 entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=width / 2)
                 thetas_up = _np.linspace(
                     reference_angle - omega_e - entrance_up,
@@ -429,6 +316,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 pts.append([(r - 1.2 * width / 2) * _np.sin(theta), -r + (r - 1.2 * width / 2) * _np.cos(theta), 0.0])
 
             add_svg_path(_np.array(pts), reference_frame=reference_frame, opacity=0.2)
+
             self.scatter(x=[0, (r + 1.2 * width / 2) * _np.sin(reference_angle)],
                          y=[-r, -r + (r + 1.2 * width / 2) * _np.cos(reference_angle)],
                          line={'color': 'black',
@@ -452,6 +340,33 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                                'dash': 'dash'},
                          mode='lines',
                          showlegend=False)
+
+            # Plot the fringes
+            # TODO better notation or default values
+            # Left up
+            if entrance_efb_extent_up < width and entrance_efb_radius_up < width:
+                entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=entrance_efb_extent_up)
+                theta_init = reference_angle - omega_e - entrance_up
+                plot_fringes(theta_init, omega_e, entrance_face_angle, entrance_efb_radius_up, entrance_efb_extent_up)
+
+            # Right up
+            if exit_efb_extent_up < width and exit_efb_radius_up < width:
+                entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=exit_efb_extent_up)
+                theta_init = reference_angle - omega_s + exit_up
+                plot_fringes(theta_init, omega_s, exit_face_angle, exit_efb_radius_up, exit_efb_extent_up)
+
+            # Left down
+            if entrance_efb_extent_down < width and entrance_efb_radius_down < width:
+                entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=entrance_efb_extent_down)
+                theta_init = reference_angle - omega_e + entrance_down
+                plot_fringes(theta_init, omega_e, entrance_face_angle, entrance_efb_radius_down,
+                             entrance_efb_extent_down, -1)
+
+            # Right down
+            if exit_efb_extent_down < width and exit_efb_radius_down < width:
+                entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=exit_efb_extent_down)
+                theta_init = reference_angle - omega_s - exit_down
+                plot_fringes(theta_init, omega_s, exit_face_angle, exit_efb_radius_down, exit_efb_extent_down, -1)
 
         def plot_frames():
             color = ['red', 'green', 'blue', 'magenta', 'darkorange']
