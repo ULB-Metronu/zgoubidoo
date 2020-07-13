@@ -4,7 +4,7 @@ More details here.
 TODO
 """
 
-from typing import Optional
+from typing import Optional, List
 import numpy as _np
 import pandas as _pd
 import parse as _parse
