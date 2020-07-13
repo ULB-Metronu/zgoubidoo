@@ -9,12 +9,12 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import matplotlib.transforms as transforms
 from .. import ureg as _ureg
-from georges_core import Artist as _Artist
+from georges_core.vis import MatplotlibArtist as _MatplotlibArtist
 from ..units import _m, _cm, _degree, _radian
 import zgoubidoo.commands
 
 
-class MatplotlibArtist(_Artist):
+class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
     """A matplotlib implementation of a `ZgoubiPlot` artist."""
     def __init__(self,
                  ax=None,
