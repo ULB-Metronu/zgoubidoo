@@ -272,10 +272,10 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 else:
                     if with_magnet_poles:
                         add_svg_path(_np.array([
-                            [0.0, -e.WIDTH.m_as('m') / 2, 0.0],
-                            [0.0, e.WIDTH.m_as('m') / 2, 0.0],
-                            [e.length.m_as('m'), e.WIDTH.m_as('m') / 2, 0.0],
-                            [e.length.m_as('m'), -e.WIDTH.m_as('m') / 2, 0.0],
+                            [0.0, -e.POLE_WIDTH.m_as('m') / 2, 0.0],
+                            [0.0, e.POLE_WIDTH.m_as('m') / 2, 0.0],
+                            [e.length.m_as('m'), e.POLE_WIDTH.m_as('m') / 2, 0.0],
+                            [e.length.m_as('m'), -e.POLE_WIDTH.m_as('m') / 2, 0.0],
                         ]))
 
                     if with_apertures:
