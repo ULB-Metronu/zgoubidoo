@@ -86,6 +86,7 @@ class Input:
         self._line: Deque[_Command] = deque(line)
         self._paths: PathsListType = list()
         self._reference_frame: Optional[_Frame] = None
+        self._survey_is_valid: bool = False
 
     def __del__(self):
         _logger.debug(f"Input object '{self.name }' for paths {self.paths} is being destroyed.")
@@ -636,6 +637,23 @@ class Input:
                                 output=output
                                 )
 
+    @property
+    def valid_survey(self):
+        """
+
+        Returns:
+
+        """
+        return self._survey_is_valid
+
+    def set_valid_survey(self):
+        """
+
+        Returns:
+
+        """
+        self._survey_is_valid = True
+
     def clear_survey(self):
         """
 
@@ -643,7 +661,9 @@ class Input:
 
         """
         zgoubidoo.clear_survey(self)
+        self._survey_is_valid = False
         self._reference_frame = None
+
 
     def execute(self):
         """
@@ -652,50 +672,6 @@ class Input:
 
         """
         return _Zgoubi()(self).collect()
-
-    def plot(self,
-             ax=None,
-             tracks=None,
-             artist: zgoubidoo.vis.Artist = None,
-             start: Optional[Union[str, _Command]] = None,
-             stop: Optional[Union[str, _Command]] = None,
-             with_frames: bool = True,
-             with_elements: bool = True,
-             with_apertures: bool = False,
-             set_equal_aspect: bool = True,
-             ) -> zgoubidoo.vis.Artist:
-        """Plot the input sequence.
-
-        TODO
-
-        Args:
-            ax: an optional matplotlib axis to draw on
-            tracks: TODO
-            artist: an artist object for the rendering
-            start: first element of the beamline to be plotted
-            stop: last element of the beamline to be plotted
-            with_frames:
-            with_elements:
-            with_apertures:
-            set_equal_aspect:
-        """
-        if self._reference_frame is None:
-            raise ZgoubiInputException("The input must be surveyed explicitely before plotting.")
-        if artist is None:
-            artist = zgoubidoo.vis.MatplotlibArtist(ax=ax, with_frames=with_frames)
-        if ax is not None:
-            artist.ax = ax
-
-        zgoubidoo.vis.beamline(line=self[start:stop],
-                               tracks=tracks,
-                               artist=artist,
-                               with_elements=with_elements,
-                               with_apertures=with_apertures,
-                               )
-        artist.ax.autoscale_view()
-        if set_equal_aspect:
-            artist.ax.set_aspect('equal', 'datalim')
-        return artist
 
     def save(self, destination: str = '.',
              what: Optional[List[str]] = None,

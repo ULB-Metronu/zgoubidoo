@@ -41,6 +41,9 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
         Returns:
 
         """
+        if not beamline.valid_survey:
+            print("You should do a survey")
+
         self.shapes.append(
             {
                 'type': 'line',
