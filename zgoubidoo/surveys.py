@@ -76,7 +76,7 @@ def survey(beamline: _Input,
         frame = e.exit_patched
     if with_reference_trajectory:
         survey_reference_trajectory(beamline, reference_kinematics, reference_particle, reference_closed_orbit)
-    beamline.set_valid_survey()
+        beamline.set_valid_survey()
     if output:
         return process_survey_output(beamline)
     else:
