@@ -1,15 +1,19 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Octupole &mdash; Zgoubidoo 2019.4 documentation</title>
+  <title>Octupole &mdash; Zgoubidoo 2020.1 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
 
   
   
@@ -17,7 +21,9 @@
   
 
   
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -29,11 +35,6 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="PS170" href="zgoubidoo.commands.magnetique.PS170.html" />
@@ -51,7 +52,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> Zgoubidoo
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> Zgoubidoo
           
 
           
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                2019.4
+                2020.1
               </div>
             
           
@@ -78,6 +79,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -155,6 +157,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -193,7 +196,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../commands.html">Zgoubi commands</a> &raquo;</li>
         
@@ -260,6 +263,17 @@
 
 <dl class="py attribute">
 <dt>
+<code class="sig-name descname">POLE_WIDTH='30 centimeter'</code></dt>
+<dd><p>Pole width (used for plotting only).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
 <code class="sig-name descname">PIPE_THICKNESS='2 centimeter'</code></dt>
 <dd><p>Thickness of the pipe, used by plotting functions.</p>
 <dl class="field-list simple">
@@ -282,17 +296,6 @@
 
 <dl class="py attribute">
 <dt>
-<code class="sig-name descname">POLE_WIDTH='50 centimeter'</code></dt>
-<dd><p>Pole width (used for plotting only).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>Quantity</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt>
 <code class="sig-name descname">REFERENCE_FIELD_COMPONENT='BZ'</code></dt>
 <dd><p>Orientation of the reference field (used by field maps)</p>
 <dl class="field-list simple">
@@ -309,17 +312,6 @@
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>NoneType</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt>
-<code class="sig-name descname">WIDTH='50 centimeter'</code></dt>
-<dd><p>Width of the magnetic poles (used for plotting only).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>Quantity</p>
 </dd>
 </dl>
 </dd></dl>
@@ -576,7 +568,7 @@
 
 <dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.Octupole.PARAMETERS">
-<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'ALE': (&lt;Quantity(0, 'radian')&gt;, 'misalignment rotation', 73), 'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'B0': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tips', 12), 'C0_E': (0,), 'C0_S': (0,), 'C1_E': (1,), 'C1_S': (1,), 'C2_E': (0,), 'C2_S': (0,), 'C3_E': (0,), 'C3_S': (0,), 'C4_E': (0,), 'C4_S': (0,), 'C5_E': (0,), 'C5_S': (0,), 'COLOR': ('#FF33E9', 'Magnet color for plotting.'), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'IL': (0, 'Print field and coordinates along trajectories', 0), 'KINEMATICS': (None, 'A kinematics object.'), 'KPOS': (1, 'Misalignment type', 70), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'LAM_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance face fringe field extent', 21), 'LAM_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit face fringe field extent'), 'LENGTH_IS_ARC_LENGTH': (False, ''), 'PIPE_COLOR': ('grey', 'Color of the pipe, used by plotting functions.'), 'PIPE_THICKNESS': (&lt;Quantity(2, 'centimeter')&gt;, 'Thickness of the pipe, used by plotting functions.'), 'POLE_WIDTH': (&lt;Quantity(50, 'centimeter')&gt;, 'Pole width (used for plotting only).'), 'R0': (&lt;Quantity(1.0, 'centimeter')&gt;, 'Radius of the pole tips', 11), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'WIDTH': (&lt;Quantity(50, 'centimeter')&gt;, 'Width of the magnetic poles (used for plotting only).'), 'XCE': (&lt;Quantity(0, 'centimeter')&gt;, 'x offset', 71), 'XL': (&lt;Quantity(0, 'centimeter')&gt;, 'Magnet length', 10), 'XPAS': (&lt;Quantity(0.1, 'centimeter')&gt;, 'Integration step', 60), 'X_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance face integration zone for the fringe field', 20), 'X_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit face integration zone for the fringe field'), 'YCE': (&lt;Quantity(0, 'centimeter')&gt;, 'y offset', 72)}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.Octupole.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'ALE': (&lt;Quantity(0, 'radian')&gt;, 'misalignment rotation', 73), 'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'B0': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tips', 12), 'C0_E': (0,), 'C0_S': (0,), 'C1_E': (1,), 'C1_S': (1,), 'C2_E': (0,), 'C2_S': (0,), 'C3_E': (0,), 'C3_S': (0,), 'C4_E': (0,), 'C4_S': (0,), 'C5_E': (0,), 'C5_S': (0,), 'COLOR': ('#FF33E9', 'Magnet color for plotting.'), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'IL': (0, 'Print field and coordinates along trajectories', 0), 'KINEMATICS': (None, 'A kinematics object.'), 'KPOS': (1, 'Misalignment type', 70), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'LAM_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance face fringe field extent', 21), 'LAM_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit face fringe field extent'), 'LENGTH_IS_ARC_LENGTH': (False, ''), 'PIPE_COLOR': ('grey', 'Color of the pipe, used by plotting functions.'), 'PIPE_THICKNESS': (&lt;Quantity(2, 'centimeter')&gt;, 'Thickness of the pipe, used by plotting functions.'), 'POLE_WIDTH': (&lt;Quantity(30, 'centimeter')&gt;, 'Pole width (used for plotting only).'), 'R0': (&lt;Quantity(1.0, 'centimeter')&gt;, 'Radius of the pole tips', 11), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'XCE': (&lt;Quantity(0, 'centimeter')&gt;, 'x offset', 71), 'XL': (&lt;Quantity(0, 'centimeter')&gt;, 'Magnet length', 10), 'XPAS': (&lt;Quantity(0.1, 'centimeter')&gt;, 'Integration step', 60), 'X_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance face integration zone for the fringe field', 20), 'X_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit face integration zone for the fringe field'), 'YCE': (&lt;Quantity(0, 'centimeter')&gt;, 'y offset', 72)}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.Octupole.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parameters of the command, with their default value, their description and optinally an index used by other
 commands (e.g. fit).</p>
 </dd></dl>
@@ -623,11 +615,19 @@ commands (e.g. fit).</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+        
+        &copy; Copyright 2018-2020, Cédric Hernalsteens (cedric.hernalsteens@ulb.be)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -638,7 +638,6 @@ commands (e.g. fit).</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

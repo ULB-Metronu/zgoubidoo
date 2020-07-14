@@ -1,15 +1,19 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Zgoubi commands &mdash; Zgoubidoo 2019.4 documentation</title>
+  <title>Zgoubi commands &mdash; Zgoubidoo 2020.1 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
 
   
   
@@ -17,7 +21,9 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -29,11 +35,6 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Patchable" href="api/zgoubidoo.commands.patchable.Patchable.html" />
@@ -51,7 +52,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Zgoubidoo
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Zgoubidoo
           
 
           
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                2019.4
+                2020.1
               </div>
             
           
@@ -78,6 +79,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -330,6 +332,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -368,7 +371,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Zgoubi commands</li>
     
@@ -446,7 +449,7 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.plotable.Plotable.html#zgoubidoo.commands.plotable.Plotable" title="zgoubidoo.commands.plotable.Plotable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Plotable</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.plotable.Plotable.html#zgoubidoo.commands.plotable.Plotable" title="zgoubidoo.commands.plotable.Plotable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Plotable</span></code></a></p></td>
 <td><p>Plotable type.</p></td>
 </tr>
 </tbody>
@@ -471,13 +474,13 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.AutoRef.html#zgoubidoo.commands.commands.AutoRef" title="zgoubidoo.commands.commands.AutoRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AutoRef</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.AutoRef.html#zgoubidoo.commands.commands.AutoRef" title="zgoubidoo.commands.commands.AutoRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AutoRef</span></code></a>([label1, label2])</p></td>
 <td><p>Automatic transformation to a new reference frame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.BeamBeam.html#zgoubidoo.commands.commands.BeamBeam" title="zgoubidoo.commands.commands.BeamBeam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BeamBeam</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.BeamBeam.html#zgoubidoo.commands.commands.BeamBeam" title="zgoubidoo.commands.commands.BeamBeam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BeamBeam</span></code></a>([label1, label2])</p></td>
 <td><p>Beam-beam lens.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Binary.html#zgoubidoo.commands.commands.Binary" title="zgoubidoo.commands.commands.Binary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Binary</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Binary.html#zgoubidoo.commands.commands.Binary" title="zgoubidoo.commands.commands.Binary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Binary</span></code></a>([label1, label2])</p></td>
 <td><p>BINARY/FORMATTED data converter.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Chamber.html#zgoubidoo.commands.commands.Chamber" title="zgoubidoo.commands.commands.Chamber"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Chamber</span></code></a></p></td>
@@ -486,118 +489,118 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Chambr.html#zgoubidoo.commands.commands.Chambr" title="zgoubidoo.commands.commands.Chambr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Chambr</span></code></a></p></td>
 <td><p>alias of <a class="reference internal" href="api/zgoubidoo.commands.commands.Chambre.html#zgoubidoo.commands.commands.Chambre" title="zgoubidoo.commands.commands.Chambre"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.commands.Chambre</span></code></a></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Chambre.html#zgoubidoo.commands.commands.Chambre" title="zgoubidoo.commands.commands.Chambre"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Chambre</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Chambre.html#zgoubidoo.commands.commands.Chambre" title="zgoubidoo.commands.commands.Chambre"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Chambre</span></code></a>([label1, label2])</p></td>
 <td><p>Long transverse aperture limitation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.ChangRef.html#zgoubidoo.commands.commands.ChangRef" title="zgoubidoo.commands.commands.ChangRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChangRef</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.ChangRef.html#zgoubidoo.commands.commands.ChangRef" title="zgoubidoo.commands.commands.ChangRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChangRef</span></code></a>([label1, label2])</p></td>
 <td><p>Transformation to a new reference frame.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.ChangeRef.html#zgoubidoo.commands.commands.ChangeRef" title="zgoubidoo.commands.commands.ChangeRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChangeRef</span></code></a></p></td>
 <td><p>alias of <a class="reference internal" href="api/zgoubidoo.commands.commands.ChangRef.html#zgoubidoo.commands.commands.ChangRef" title="zgoubidoo.commands.commands.ChangRef"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.commands.ChangRef</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Cible.html#zgoubidoo.commands.commands.Cible" title="zgoubidoo.commands.commands.Cible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Cible</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Cible.html#zgoubidoo.commands.commands.Cible" title="zgoubidoo.commands.commands.Cible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Cible</span></code></a>([label1, label2])</p></td>
 <td><p>Generate a secondary beam following target interaction.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Collima.html#zgoubidoo.commands.commands.Collima" title="zgoubidoo.commands.commands.Collima"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Collima</span></code></a></p></td>
 <td><p>alias of <a class="reference internal" href="api/zgoubidoo.commands.commands.Collimateur.html#zgoubidoo.commands.commands.Collimateur" title="zgoubidoo.commands.commands.Collimateur"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.commands.Collimateur</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Collimateur.html#zgoubidoo.commands.commands.Collimateur" title="zgoubidoo.commands.commands.Collimateur"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Collimateur</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Collimateur.html#zgoubidoo.commands.commands.Collimateur" title="zgoubidoo.commands.commands.Collimateur"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Collimateur</span></code></a>([label1, label2])</p></td>
 <td><p>Collimator.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Collimator.html#zgoubidoo.commands.commands.Collimator" title="zgoubidoo.commands.commands.Collimator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Collimator</span></code></a></p></td>
 <td><p>alias of <a class="reference internal" href="api/zgoubidoo.commands.commands.Collimateur.html#zgoubidoo.commands.commands.Collimateur" title="zgoubidoo.commands.commands.Collimateur"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.commands.Collimateur</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" title="zgoubidoo.commands.commands.Command"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Command</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" title="zgoubidoo.commands.commands.Command"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Command</span></code></a>([label1, label2])</p></td>
 <td><p>Test test test.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.CommandType.html#zgoubidoo.commands.commands.CommandType" title="zgoubidoo.commands.commands.CommandType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CommandType</span></code></a>(name, bases, type, …], dct, Any])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.CommandType.html#zgoubidoo.commands.commands.CommandType" title="zgoubidoo.commands.commands.CommandType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CommandType</span></code></a>(name, bases, dct)</p></td>
 <td><p>Dark magic.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Comment.html#zgoubidoo.commands.commands.Comment" title="zgoubidoo.commands.commands.Comment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Comment</span></code></a>(comment)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Comment.html#zgoubidoo.commands.commands.Comment" title="zgoubidoo.commands.commands.Comment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Comment</span></code></a>([comment])</p></td>
 <td><p>Fake comment allowing to insert comments in the Zgoubi input.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.FaiStore.html#zgoubidoo.commands.commands.FaiStore" title="zgoubidoo.commands.commands.FaiStore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FaiStore</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.FaiStore.html#zgoubidoo.commands.commands.FaiStore" title="zgoubidoo.commands.commands.FaiStore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FaiStore</span></code></a>([label1, label2])</p></td>
 <td><p>Store coordinates at labeled elements.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Fake.html#zgoubidoo.commands.commands.Fake" title="zgoubidoo.commands.commands.Fake"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Fake</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Fake.html#zgoubidoo.commands.commands.Fake" title="zgoubidoo.commands.commands.Fake"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Fake</span></code></a>([label1, label2])</p></td>
 <td><p>Fake command for Zgoubi input.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Focale.html#zgoubidoo.commands.commands.Focale" title="zgoubidoo.commands.commands.Focale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Focale</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Focale.html#zgoubidoo.commands.commands.Focale" title="zgoubidoo.commands.commands.Focale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Focale</span></code></a>([label1, label2])</p></td>
 <td><p>Particle coordinates and horizontal beam size at distance XL.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.FocaleZ.html#zgoubidoo.commands.commands.FocaleZ" title="zgoubidoo.commands.commands.FocaleZ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FocaleZ</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.FocaleZ.html#zgoubidoo.commands.commands.FocaleZ" title="zgoubidoo.commands.commands.FocaleZ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FocaleZ</span></code></a>([label1, label2])</p></td>
 <td><p>Particle coordinates and vertical beam size at distance XL.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.GasScattering.html#zgoubidoo.commands.commands.GasScattering" title="zgoubidoo.commands.commands.GasScattering"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GasScattering</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.GasScattering.html#zgoubidoo.commands.commands.GasScattering" title="zgoubidoo.commands.commands.GasScattering"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GasScattering</span></code></a>([label1, label2])</p></td>
 <td><p>Gas scattering.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.GetFitVal.html#zgoubidoo.commands.commands.GetFitVal" title="zgoubidoo.commands.commands.GetFitVal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GetFitVal</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.GetFitVal.html#zgoubidoo.commands.commands.GetFitVal" title="zgoubidoo.commands.commands.GetFitVal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GetFitVal</span></code></a>([label1, label2])</p></td>
 <td><p>Get values of variables as saved from former FIT[2] run.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Histo.html#zgoubidoo.commands.commands.Histo" title="zgoubidoo.commands.commands.Histo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Histo</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Histo.html#zgoubidoo.commands.commands.Histo" title="zgoubidoo.commands.commands.Histo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Histo</span></code></a>([label1, label2])</p></td>
 <td><p>1-Dhistogram</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Image.html#zgoubidoo.commands.commands.Image" title="zgoubidoo.commands.commands.Image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Image</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Image.html#zgoubidoo.commands.commands.Image" title="zgoubidoo.commands.commands.Image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Image</span></code></a>([label1, label2])</p></td>
 <td><p>Localization and size of horizontal waist.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.ImageZ.html#zgoubidoo.commands.commands.ImageZ" title="zgoubidoo.commands.commands.ImageZ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ImageZ</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.ImageZ.html#zgoubidoo.commands.commands.ImageZ" title="zgoubidoo.commands.commands.ImageZ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ImageZ</span></code></a>([label1, label2])</p></td>
 <td><p>Localization and size of vertical waist.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Images.html#zgoubidoo.commands.commands.Images" title="zgoubidoo.commands.commands.Images"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Images</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Images.html#zgoubidoo.commands.commands.Images" title="zgoubidoo.commands.commands.Images"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Images</span></code></a>([label1, label2])</p></td>
 <td><p>Localization and size of horizontal waists.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.ImagesZ.html#zgoubidoo.commands.commands.ImagesZ" title="zgoubidoo.commands.commands.ImagesZ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ImagesZ</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.ImagesZ.html#zgoubidoo.commands.commands.ImagesZ" title="zgoubidoo.commands.commands.ImagesZ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ImagesZ</span></code></a>([label1, label2])</p></td>
 <td><p>Localization and size of vertical waists.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.MCDesintegration.html#zgoubidoo.commands.commands.MCDesintegration" title="zgoubidoo.commands.commands.MCDesintegration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MCDesintegration</span></code></a>(label1, label2, *params, …)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.MCDesintegration.html#zgoubidoo.commands.commands.MCDesintegration" title="zgoubidoo.commands.commands.MCDesintegration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MCDesintegration</span></code></a>([label1, label2])</p></td>
 <td><p>Monte-Carlo simulation of in-flight decay.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Marker.html#zgoubidoo.commands.commands.Marker" title="zgoubidoo.commands.commands.Marker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Marker</span></code></a>([label1, label2, with_plt])</p></td>
 <td><p>Marker.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Matrix.html#zgoubidoo.commands.commands.Matrix" title="zgoubidoo.commands.commands.Matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Matrix</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Matrix.html#zgoubidoo.commands.commands.Matrix" title="zgoubidoo.commands.commands.Matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Matrix</span></code></a>([label1, label2])</p></td>
 <td><p>Calculation of transfer coefficients, periodic parameters.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Optics.html#zgoubidoo.commands.commands.Optics" title="zgoubidoo.commands.commands.Optics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optics</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Optics.html#zgoubidoo.commands.commands.Optics" title="zgoubidoo.commands.commands.Optics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optics</span></code></a>([label1, label2])</p></td>
 <td><p>Write out optical functions.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Ordre.html#zgoubidoo.commands.commands.Ordre" title="zgoubidoo.commands.commands.Ordre"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ordre</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Ordre.html#zgoubidoo.commands.commands.Ordre" title="zgoubidoo.commands.commands.Ordre"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ordre</span></code></a>([label1, label2])</p></td>
 <td><p>Taylor expansions order.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Pickups.html#zgoubidoo.commands.commands.Pickups" title="zgoubidoo.commands.commands.Pickups"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pickups</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Pickups.html#zgoubidoo.commands.commands.Pickups" title="zgoubidoo.commands.commands.Pickups"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pickups</span></code></a>([label1, label2])</p></td>
 <td><p>Beam centroid path; closed orbit.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.PlotData.html#zgoubidoo.commands.commands.PlotData" title="zgoubidoo.commands.commands.PlotData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PlotData</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.PlotData.html#zgoubidoo.commands.commands.PlotData" title="zgoubidoo.commands.commands.PlotData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PlotData</span></code></a>([label1, label2])</p></td>
 <td><p>Intermediate output for the PLOTDATA graphic software.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Rebelote.html#zgoubidoo.commands.commands.Rebelote" title="zgoubidoo.commands.commands.Rebelote"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rebelote</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Rebelote.html#zgoubidoo.commands.commands.Rebelote" title="zgoubidoo.commands.commands.Rebelote"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rebelote</span></code></a>([label1, label2])</p></td>
 <td><p>’Do it again’.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Reset.html#zgoubidoo.commands.commands.Reset" title="zgoubidoo.commands.commands.Reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Reset</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Reset.html#zgoubidoo.commands.commands.Reset" title="zgoubidoo.commands.commands.Reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Reset</span></code></a>([label1, label2])</p></td>
 <td><p>Reset counters and flags.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Scaling.html#zgoubidoo.commands.commands.Scaling" title="zgoubidoo.commands.commands.Scaling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Scaling</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Scaling.html#zgoubidoo.commands.commands.Scaling" title="zgoubidoo.commands.commands.Scaling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Scaling</span></code></a>([label1, label2])</p></td>
 <td><p>Power supplies and R.F.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Separa.html#zgoubidoo.commands.commands.Separa" title="zgoubidoo.commands.commands.Separa"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Separa</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Separa.html#zgoubidoo.commands.commands.Separa" title="zgoubidoo.commands.commands.Separa"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Separa</span></code></a>([label1, label2])</p></td>
 <td><p>Wien Filter - analytical simulation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Target.html#zgoubidoo.commands.commands.Target" title="zgoubidoo.commands.commands.Target"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Target</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Target.html#zgoubidoo.commands.commands.Target" title="zgoubidoo.commands.commands.Target"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Target</span></code></a>([label1, label2])</p></td>
 <td><p>Generate a secondary beam following target interaction.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.TraRot.html#zgoubidoo.commands.commands.TraRot" title="zgoubidoo.commands.commands.TraRot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TraRot</span></code></a></p></td>
 <td><p>alias of <a class="reference internal" href="api/zgoubidoo.commands.commands.TranslationRotation.html#zgoubidoo.commands.commands.TranslationRotation" title="zgoubidoo.commands.commands.TranslationRotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.commands.TranslationRotation</span></code></a></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.TransferMatrix.html#zgoubidoo.commands.commands.TransferMatrix" title="zgoubidoo.commands.commands.TransferMatrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TransferMatrix</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.TransferMatrix.html#zgoubidoo.commands.commands.TransferMatrix" title="zgoubidoo.commands.commands.TransferMatrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TransferMatrix</span></code></a>([label1, label2])</p></td>
 <td><p>Transfer matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.TranslationRotation.html#zgoubidoo.commands.commands.TranslationRotation" title="zgoubidoo.commands.commands.TranslationRotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TranslationRotation</span></code></a>(label1, label2, *params, …)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.TranslationRotation.html#zgoubidoo.commands.commands.TranslationRotation" title="zgoubidoo.commands.commands.TranslationRotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TranslationRotation</span></code></a>([label1, label2])</p></td>
 <td><p>Translation-Rotation of the reference frame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Twiss.html#zgoubidoo.commands.commands.Twiss" title="zgoubidoo.commands.commands.Twiss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Twiss</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Twiss.html#zgoubidoo.commands.commands.Twiss" title="zgoubidoo.commands.commands.Twiss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Twiss</span></code></a>([label1, label2])</p></td>
 <td><p>Calculation of periodic optical parameters.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Ymy.html#zgoubidoo.commands.commands.Ymy" title="zgoubidoo.commands.commands.Ymy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ymy</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.Ymy.html#zgoubidoo.commands.commands.Ymy" title="zgoubidoo.commands.commands.Ymy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ymy</span></code></a>([label1, label2])</p></td>
 <td><p>Reverse signs of Y and Z reference axes, equivalent to a 180 degree rotation around the X axis.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.commands.ZgoubidooAttributeException.html#zgoubidoo.commands.commands.ZgoubidooAttributeException" title="zgoubidoo.commands.commands.ZgoubidooAttributeException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZgoubidooAttributeException</span></code></a>(m)</p></td>
@@ -667,76 +670,76 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.AntiMuon.html#zgoubidoo.commands.particules.AntiMuon" title="zgoubidoo.commands.particules.AntiMuon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AntiMuon</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.AntiMuon.html#zgoubidoo.commands.particules.AntiMuon" title="zgoubidoo.commands.particules.AntiMuon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AntiMuon</span></code></a>([label1, label2])</p></td>
 <td><p>An anti-muon particle.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.AntiProton.html#zgoubidoo.commands.particules.AntiProton" title="zgoubidoo.commands.particules.AntiProton"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AntiProton</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.AntiProton.html#zgoubidoo.commands.particules.AntiProton" title="zgoubidoo.commands.particules.AntiProton"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AntiProton</span></code></a>([label1, label2])</p></td>
 <td><p>An anti-proton particle.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.CarbonIon.html#zgoubidoo.commands.particules.CarbonIon" title="zgoubidoo.commands.particules.CarbonIon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CarbonIon</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.CarbonIon.html#zgoubidoo.commands.particules.CarbonIon" title="zgoubidoo.commands.particules.CarbonIon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CarbonIon</span></code></a>([label1, label2])</p></td>
 <td><p>A fully stripped Carbon ion</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.Electron.html#zgoubidoo.commands.particules.Electron" title="zgoubidoo.commands.particules.Electron"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Electron</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.Electron.html#zgoubidoo.commands.particules.Electron" title="zgoubidoo.commands.particules.Electron"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Electron</span></code></a>([label1, label2])</p></td>
 <td><p>An electron particle.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.HMinus.html#zgoubidoo.commands.particules.HMinus" title="zgoubidoo.commands.particules.HMinus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HMinus</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.HMinus.html#zgoubidoo.commands.particules.HMinus" title="zgoubidoo.commands.particules.HMinus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HMinus</span></code></a>([label1, label2])</p></td>
 <td><p>An H- ion.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.Helion.html#zgoubidoo.commands.particules.Helion" title="zgoubidoo.commands.particules.Helion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Helion</span></code></a></p></td>
 <td><p>alias of <a class="reference internal" href="api/zgoubidoo.commands.particules.HeliumIon.html#zgoubidoo.commands.particules.HeliumIon" title="zgoubidoo.commands.particules.HeliumIon"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.particules.HeliumIon</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.HeliumIon.html#zgoubidoo.commands.particules.HeliumIon" title="zgoubidoo.commands.particules.HeliumIon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HeliumIon</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.HeliumIon.html#zgoubidoo.commands.particules.HeliumIon" title="zgoubidoo.commands.particules.HeliumIon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HeliumIon</span></code></a>([label1, label2])</p></td>
 <td><p>A fully stripped Helium ion</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.ImmortalAntiMuon.html#zgoubidoo.commands.particules.ImmortalAntiMuon" title="zgoubidoo.commands.particules.ImmortalAntiMuon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ImmortalAntiMuon</span></code></a>(label1, label2, *params, …)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.ImmortalAntiMuon.html#zgoubidoo.commands.particules.ImmortalAntiMuon" title="zgoubidoo.commands.particules.ImmortalAntiMuon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ImmortalAntiMuon</span></code></a>([label1, label2])</p></td>
 <td><p>An anti-muon particle (no decay).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.ImmortalMuon.html#zgoubidoo.commands.particules.ImmortalMuon" title="zgoubidoo.commands.particules.ImmortalMuon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ImmortalMuon</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.ImmortalMuon.html#zgoubidoo.commands.particules.ImmortalMuon" title="zgoubidoo.commands.particules.ImmortalMuon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ImmortalMuon</span></code></a>([label1, label2])</p></td>
 <td><p>A muon particle (no decay).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.Ion.html#zgoubidoo.commands.particules.Ion" title="zgoubidoo.commands.particules.Ion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ion</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.Ion.html#zgoubidoo.commands.particules.Ion" title="zgoubidoo.commands.particules.Ion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ion</span></code></a>([label1, label2])</p></td>
 <td><p>Base class for ion particles.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.LeadIon.html#zgoubidoo.commands.particules.LeadIon" title="zgoubidoo.commands.particules.LeadIon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LeadIon</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.LeadIon.html#zgoubidoo.commands.particules.LeadIon" title="zgoubidoo.commands.particules.LeadIon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LeadIon</span></code></a>([label1, label2])</p></td>
 <td><p>A fully stripped Lead ion</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.Muon.html#zgoubidoo.commands.particules.Muon" title="zgoubidoo.commands.particules.Muon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Muon</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.Muon.html#zgoubidoo.commands.particules.Muon" title="zgoubidoo.commands.particules.Muon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Muon</span></code></a>([label1, label2])</p></td>
 <td><p>A muon particle.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.NativeParticule.html#zgoubidoo.commands.particules.NativeParticule" title="zgoubidoo.commands.particules.NativeParticule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NativeParticule</span></code></a>(label1, label2, *params, …)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.NativeParticule.html#zgoubidoo.commands.particules.NativeParticule" title="zgoubidoo.commands.particules.NativeParticule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NativeParticule</span></code></a>([label1, label2])</p></td>
 <td><p>TODO</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.NativeParticuleType.html#zgoubidoo.commands.particules.NativeParticuleType" title="zgoubidoo.commands.particules.NativeParticuleType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NativeParticuleType</span></code></a>(name, bases, type, …], …)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.NativeParticuleType.html#zgoubidoo.commands.particules.NativeParticuleType" title="zgoubidoo.commands.particules.NativeParticuleType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NativeParticuleType</span></code></a>(name, bases, dct)</p></td>
 <td><p>TODO</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.NegativePion.html#zgoubidoo.commands.particules.NegativePion" title="zgoubidoo.commands.particules.NegativePion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NegativePion</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.NegativePion.html#zgoubidoo.commands.particules.NegativePion" title="zgoubidoo.commands.particules.NegativePion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NegativePion</span></code></a>([label1, label2])</p></td>
 <td><p>A pion particle.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.OxygenIon.html#zgoubidoo.commands.particules.OxygenIon" title="zgoubidoo.commands.particules.OxygenIon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OxygenIon</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.OxygenIon.html#zgoubidoo.commands.particules.OxygenIon" title="zgoubidoo.commands.particules.OxygenIon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OxygenIon</span></code></a>([label1, label2])</p></td>
 <td><p>A fully stripped Oxygen ion</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.Particule.html#zgoubidoo.commands.particules.Particule" title="zgoubidoo.commands.particules.Particule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Particule</span></code></a>([label1, label2])</p></td>
 <td><p>Particle characteristics.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.ParticuleType.html#zgoubidoo.commands.particules.ParticuleType" title="zgoubidoo.commands.particules.ParticuleType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ParticuleType</span></code></a>(name, bases, type, …], dct, Any])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.ParticuleType.html#zgoubidoo.commands.particules.ParticuleType" title="zgoubidoo.commands.particules.ParticuleType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ParticuleType</span></code></a>(name, bases, dct)</p></td>
 <td><p>TODO</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.Pion.html#zgoubidoo.commands.particules.Pion" title="zgoubidoo.commands.particules.Pion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pion</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.Pion.html#zgoubidoo.commands.particules.Pion" title="zgoubidoo.commands.particules.Pion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pion</span></code></a>([label1, label2])</p></td>
 <td><p>A pion particle.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.PositivePion.html#zgoubidoo.commands.particules.PositivePion" title="zgoubidoo.commands.particules.PositivePion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PositivePion</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.PositivePion.html#zgoubidoo.commands.particules.PositivePion" title="zgoubidoo.commands.particules.PositivePion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PositivePion</span></code></a>([label1, label2])</p></td>
 <td><p>A pion particle.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.Positron.html#zgoubidoo.commands.particules.Positron" title="zgoubidoo.commands.particules.Positron"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Positron</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.Positron.html#zgoubidoo.commands.particules.Positron" title="zgoubidoo.commands.particules.Positron"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Positron</span></code></a>([label1, label2])</p></td>
 <td><p>A positron particle.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.Proton.html#zgoubidoo.commands.particules.Proton" title="zgoubidoo.commands.particules.Proton"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Proton</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.Proton.html#zgoubidoo.commands.particules.Proton" title="zgoubidoo.commands.particules.Proton"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Proton</span></code></a>([label1, label2])</p></td>
 <td><p>A proton particle.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.SulfurIon.html#zgoubidoo.commands.particules.SulfurIon" title="zgoubidoo.commands.particules.SulfurIon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SulfurIon</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.SulfurIon.html#zgoubidoo.commands.particules.SulfurIon" title="zgoubidoo.commands.particules.SulfurIon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SulfurIon</span></code></a>([label1, label2])</p></td>
 <td><p>A fully stripped Sulfur ion</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.XenonIon.html#zgoubidoo.commands.particules.XenonIon" title="zgoubidoo.commands.particules.XenonIon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XenonIon</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.particules.XenonIon.html#zgoubidoo.commands.particules.XenonIon" title="zgoubidoo.commands.particules.XenonIon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XenonIon</span></code></a>([label1, label2])</p></td>
 <td><p>A fully stripped Sulfur ion</p></td>
 </tr>
 </tbody>
@@ -800,37 +803,37 @@ The maximum value allowed for IMAX can be changed at leisure in the include file
 <tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet.html#zgoubidoo.commands.objet.Objet" title="zgoubidoo.commands.objet.Objet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Objet</span></code></a>([label1, label2])</p></td>
 <td><p>Generation of an object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet1.html#zgoubidoo.commands.objet.Objet1" title="zgoubidoo.commands.objet.Objet1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Objet1</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet1.html#zgoubidoo.commands.objet.Objet1" title="zgoubidoo.commands.objet.Objet1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Objet1</span></code></a>([label1, label2])</p></td>
 <td><p>Objet with initial coordinates drawn from a regular grid</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet2.html#zgoubidoo.commands.objet.Objet2" title="zgoubidoo.commands.objet.Objet2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Objet2</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet2.html#zgoubidoo.commands.objet.Objet2" title="zgoubidoo.commands.objet.Objet2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Objet2</span></code></a>([label1, label2])</p></td>
 <td><p>Objet with all initial coordinates entered explicitely.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet3.html#zgoubidoo.commands.objet.Objet3" title="zgoubidoo.commands.objet.Objet3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Objet3</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet3.html#zgoubidoo.commands.objet.Objet3" title="zgoubidoo.commands.objet.Objet3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Objet3</span></code></a>([label1, label2])</p></td>
 <td><p><p class="rubric">Examples</p>
 </p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet4.html#zgoubidoo.commands.objet.Objet4" title="zgoubidoo.commands.objet.Objet4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Objet4</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet4.html#zgoubidoo.commands.objet.Objet4" title="zgoubidoo.commands.objet.Objet4"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Objet4</span></code></a>([label1, label2])</p></td>
 <td><p>Default initializer for all Commands.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet5.html#zgoubidoo.commands.objet.Objet5" title="zgoubidoo.commands.objet.Objet5"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Objet5</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet5.html#zgoubidoo.commands.objet.Objet5" title="zgoubidoo.commands.objet.Objet5"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Objet5</span></code></a>([label1, label2])</p></td>
 <td><p>Generation of 11 particles, or 11*NN if I ≥ 2 (for use with MATRIX, IORD = 1).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet6.html#zgoubidoo.commands.objet.Objet6" title="zgoubidoo.commands.objet.Objet6"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Objet6</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet6.html#zgoubidoo.commands.objet.Objet6" title="zgoubidoo.commands.objet.Objet6"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Objet6</span></code></a>([label1, label2])</p></td>
 <td><p>Generation of 61 particles.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet7.html#zgoubidoo.commands.objet.Objet7" title="zgoubidoo.commands.objet.Objet7"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Objet7</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet7.html#zgoubidoo.commands.objet.Objet7" title="zgoubidoo.commands.objet.Objet7"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Objet7</span></code></a>([label1, label2])</p></td>
 <td><p><p class="rubric">Command attributes</p>
 </p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet8.html#zgoubidoo.commands.objet.Objet8" title="zgoubidoo.commands.objet.Objet8"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Objet8</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.Objet8.html#zgoubidoo.commands.objet.Objet8" title="zgoubidoo.commands.objet.Objet8"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Objet8</span></code></a>([label1, label2])</p></td>
 <td><p><p class="rubric">Command attributes</p>
 </p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.ObjetA.html#zgoubidoo.commands.objet.ObjetA" title="zgoubidoo.commands.objet.ObjetA"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ObjetA</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.ObjetA.html#zgoubidoo.commands.objet.ObjetA" title="zgoubidoo.commands.objet.ObjetA"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ObjetA</span></code></a>([label1, label2])</p></td>
 <td><p>Object from Monte-Carlo simulation of decay reaction.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.ObjetType.html#zgoubidoo.commands.objet.ObjetType" title="zgoubidoo.commands.objet.ObjetType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ObjetType</span></code></a>(name, bases, type, …], dct, Any])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.objet.ObjetType.html#zgoubidoo.commands.objet.ObjetType" title="zgoubidoo.commands.objet.ObjetType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ObjetType</span></code></a>(name, bases, dct)</p></td>
 <td><p>Type system for Objet types.</p></td>
 </tr>
 </tbody>
@@ -867,18 +870,18 @@ The maximum value allowed for IMAX can be changed at leisure in the include file
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.mcobjet.MCObjet.html#zgoubidoo.commands.mcobjet.MCObjet" title="zgoubidoo.commands.mcobjet.MCObjet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MCObjet</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.mcobjet.MCObjet.html#zgoubidoo.commands.mcobjet.MCObjet" title="zgoubidoo.commands.mcobjet.MCObjet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MCObjet</span></code></a>([label1, label2])</p></td>
 <td><p>Monte-Carlo generation of a 6-D object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.mcobjet.MCObjet1.html#zgoubidoo.commands.mcobjet.MCObjet1" title="zgoubidoo.commands.mcobjet.MCObjet1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MCObjet1</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.mcobjet.MCObjet1.html#zgoubidoo.commands.mcobjet.MCObjet1" title="zgoubidoo.commands.mcobjet.MCObjet1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MCObjet1</span></code></a>([label1, label2])</p></td>
 <td><p><p class="rubric">Command attributes</p>
 </p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.mcobjet.MCObjet2.html#zgoubidoo.commands.mcobjet.MCObjet2" title="zgoubidoo.commands.mcobjet.MCObjet2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MCObjet2</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.mcobjet.MCObjet2.html#zgoubidoo.commands.mcobjet.MCObjet2" title="zgoubidoo.commands.mcobjet.MCObjet2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MCObjet2</span></code></a>([label1, label2])</p></td>
 <td><p><p class="rubric">Command attributes</p>
 </p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.mcobjet.MCObjet3.html#zgoubidoo.commands.mcobjet.MCObjet3" title="zgoubidoo.commands.mcobjet.MCObjet3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MCObjet3</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.mcobjet.MCObjet3.html#zgoubidoo.commands.mcobjet.MCObjet3" title="zgoubidoo.commands.mcobjet.MCObjet3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MCObjet3</span></code></a>([label1, label2])</p></td>
 <td><p>Monte-Carlo generation of a 6-D object.</p></td>
 </tr>
 </tbody>
@@ -908,100 +911,100 @@ TODO</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.AGSMainMagnet.html#zgoubidoo.commands.magnetique.AGSMainMagnet" title="zgoubidoo.commands.magnetique.AGSMainMagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AGSMainMagnet</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.AGSMainMagnet.html#zgoubidoo.commands.magnetique.AGSMainMagnet" title="zgoubidoo.commands.magnetique.AGSMainMagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AGSMainMagnet</span></code></a>([label1, label2])</p></td>
 <td><p>AGS main magnet.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.AGSQuadrupole.html#zgoubidoo.commands.magnetique.AGSQuadrupole" title="zgoubidoo.commands.magnetique.AGSQuadrupole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AGSQuadrupole</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.AGSQuadrupole.html#zgoubidoo.commands.magnetique.AGSQuadrupole" title="zgoubidoo.commands.magnetique.AGSQuadrupole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AGSQuadrupole</span></code></a>([label1, label2])</p></td>
 <td><p>AGS quadrupole.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Aimant.html#zgoubidoo.commands.magnetique.Aimant" title="zgoubidoo.commands.magnetique.Aimant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Aimant</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Aimant.html#zgoubidoo.commands.magnetique.Aimant" title="zgoubidoo.commands.magnetique.Aimant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Aimant</span></code></a>([label1, label2])</p></td>
 <td><p>Generation of dipole mid-plane 2-D map, polar frame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Bend.html#zgoubidoo.commands.magnetique.Bend" title="zgoubidoo.commands.magnetique.Bend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bend</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Bend.html#zgoubidoo.commands.magnetique.Bend" title="zgoubidoo.commands.magnetique.Bend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bend</span></code></a>([label1, label2])</p></td>
 <td><p>Bending magnet, Cartesian frame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet" title="zgoubidoo.commands.magnetique.CartesianMagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CartesianMagnet</span></code></a>(label1, label2, *params, …)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet" title="zgoubidoo.commands.magnetique.CartesianMagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CartesianMagnet</span></code></a>([label1, label2])</p></td>
 <td><p>Base class for magnetic elements in cartesian coordinates.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.CartesianMagnetType.html#zgoubidoo.commands.magnetique.CartesianMagnetType" title="zgoubidoo.commands.magnetique.CartesianMagnetType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CartesianMagnetType</span></code></a>(name, bases, type, …], …)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.CartesianMagnetType.html#zgoubidoo.commands.magnetique.CartesianMagnetType" title="zgoubidoo.commands.magnetique.CartesianMagnetType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CartesianMagnetType</span></code></a>(name, bases, dct)</p></td>
 <td><p>Type for cartesian magnets.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Decapole.html#zgoubidoo.commands.magnetique.Decapole" title="zgoubidoo.commands.magnetique.Decapole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Decapole</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Decapole.html#zgoubidoo.commands.magnetique.Decapole" title="zgoubidoo.commands.magnetique.Decapole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Decapole</span></code></a>([label1, label2])</p></td>
 <td><p>Decapole magnet.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Dipole.html#zgoubidoo.commands.magnetique.Dipole" title="zgoubidoo.commands.magnetique.Dipole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dipole</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Dipole.html#zgoubidoo.commands.magnetique.Dipole" title="zgoubidoo.commands.magnetique.Dipole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dipole</span></code></a>([label1, label2])</p></td>
 <td><p>Dipole magnet, polar frame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.DipoleM.html#zgoubidoo.commands.magnetique.DipoleM" title="zgoubidoo.commands.magnetique.DipoleM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DipoleM</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.DipoleM.html#zgoubidoo.commands.magnetique.DipoleM" title="zgoubidoo.commands.magnetique.DipoleM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DipoleM</span></code></a>([label1, label2])</p></td>
 <td><p>TODO.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Dipoles.html#zgoubidoo.commands.magnetique.Dipoles" title="zgoubidoo.commands.magnetique.Dipoles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dipoles</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Dipoles.html#zgoubidoo.commands.magnetique.Dipoles" title="zgoubidoo.commands.magnetique.Dipoles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dipoles</span></code></a>([label1, label2])</p></td>
 <td><p>Dipole magnet N-tuple, polar frame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Dodecapole.html#zgoubidoo.commands.magnetique.Dodecapole" title="zgoubidoo.commands.magnetique.Dodecapole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dodecapole</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Dodecapole.html#zgoubidoo.commands.magnetique.Dodecapole" title="zgoubidoo.commands.magnetique.Dodecapole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dodecapole</span></code></a>([label1, label2])</p></td>
 <td><p>Dodecapole magnet.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Drift.html#zgoubidoo.commands.magnetique.Drift" title="zgoubidoo.commands.magnetique.Drift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Drift</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Drift.html#zgoubidoo.commands.magnetique.Drift" title="zgoubidoo.commands.magnetique.Drift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Drift</span></code></a>([label1, label2])</p></td>
 <td><p>Field free drift space.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.ESL.html#zgoubidoo.commands.magnetique.ESL" title="zgoubidoo.commands.magnetique.ESL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ESL</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.ESL.html#zgoubidoo.commands.magnetique.ESL" title="zgoubidoo.commands.magnetique.ESL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ESL</span></code></a>([label1, label2])</p></td>
 <td><p>Field free drift space (“espace libre”).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Emma.html#zgoubidoo.commands.magnetique.Emma" title="zgoubidoo.commands.magnetique.Emma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Emma</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Emma.html#zgoubidoo.commands.magnetique.Emma" title="zgoubidoo.commands.magnetique.Emma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Emma</span></code></a>([label1, label2])</p></td>
 <td><p>2-D Cartesian or cylindrical mesh field map for EMMA FFAG.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.FFAG.html#zgoubidoo.commands.magnetique.FFAG" title="zgoubidoo.commands.magnetique.FFAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FFAG</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.FFAG.html#zgoubidoo.commands.magnetique.FFAG" title="zgoubidoo.commands.magnetique.FFAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FFAG</span></code></a>([label1, label2])</p></td>
 <td><p>FFAG magnet, N-tuple.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.FFAGSpirale.html#zgoubidoo.commands.magnetique.FFAGSpirale" title="zgoubidoo.commands.magnetique.FFAGSpirale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FFAGSpirale</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.FFAGSpirale.html#zgoubidoo.commands.magnetique.FFAGSpirale" title="zgoubidoo.commands.magnetique.FFAGSpirale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FFAGSpirale</span></code></a>([label1, label2])</p></td>
 <td><p>Spiral FFAG magnet, N-tuple.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Magnet.html#zgoubidoo.commands.magnetique.Magnet" title="zgoubidoo.commands.magnetique.Magnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Magnet</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Magnet.html#zgoubidoo.commands.magnetique.Magnet" title="zgoubidoo.commands.magnetique.Magnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Magnet</span></code></a>([label1, label2])</p></td>
 <td><p>Base class for all magnetic elements.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.MagnetType.html#zgoubidoo.commands.magnetique.MagnetType" title="zgoubidoo.commands.magnetique.MagnetType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MagnetType</span></code></a>(name, bases, type, …], dct, Any])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.MagnetType.html#zgoubidoo.commands.magnetique.MagnetType" title="zgoubidoo.commands.magnetique.MagnetType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MagnetType</span></code></a>(name, bases, dct)</p></td>
 <td><p>Type for magnetic element commands.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Multipol.html#zgoubidoo.commands.magnetique.Multipol" title="zgoubidoo.commands.magnetique.Multipol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Multipol</span></code></a></p></td>
 <td><p>alias of <a class="reference internal" href="api/zgoubidoo.commands.magnetique.Multipole.html#zgoubidoo.commands.magnetique.Multipole" title="zgoubidoo.commands.magnetique.Multipole"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.magnetique.Multipole</span></code></a></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Multipole.html#zgoubidoo.commands.magnetique.Multipole" title="zgoubidoo.commands.magnetique.Multipole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Multipole</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Multipole.html#zgoubidoo.commands.magnetique.Multipole" title="zgoubidoo.commands.magnetique.Multipole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Multipole</span></code></a>([label1, label2])</p></td>
 <td><p>Magnetic multipole.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Octupole.html#zgoubidoo.commands.magnetique.Octupole" title="zgoubidoo.commands.magnetique.Octupole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Octupole</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Octupole.html#zgoubidoo.commands.magnetique.Octupole" title="zgoubidoo.commands.magnetique.Octupole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Octupole</span></code></a>([label1, label2])</p></td>
 <td><p>Octupole magnet.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.PS170.html#zgoubidoo.commands.magnetique.PS170" title="zgoubidoo.commands.magnetique.PS170"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PS170</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.PS170.html#zgoubidoo.commands.magnetique.PS170" title="zgoubidoo.commands.magnetique.PS170"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PS170</span></code></a>([label1, label2])</p></td>
 <td><p>Simulation of a round shape dipole magnet.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.PolarMagnet.html#zgoubidoo.commands.magnetique.PolarMagnet" title="zgoubidoo.commands.magnetique.PolarMagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PolarMagnet</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.PolarMagnet.html#zgoubidoo.commands.magnetique.PolarMagnet" title="zgoubidoo.commands.magnetique.PolarMagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PolarMagnet</span></code></a>([label1, label2])</p></td>
 <td><p>Base class for magnetic elements in polar coordinates.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.PolarMagnetType.html#zgoubidoo.commands.magnetique.PolarMagnetType" title="zgoubidoo.commands.magnetique.PolarMagnetType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PolarMagnetType</span></code></a>(name, bases, type, …], …)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.PolarMagnetType.html#zgoubidoo.commands.magnetique.PolarMagnetType" title="zgoubidoo.commands.magnetique.PolarMagnetType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PolarMagnetType</span></code></a>(name, bases, dct)</p></td>
 <td><p>Type for polar magnets.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.PolarMultiMagnet.html#zgoubidoo.commands.magnetique.PolarMultiMagnet" title="zgoubidoo.commands.magnetique.PolarMultiMagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PolarMultiMagnet</span></code></a>(label1, label2, *params, …)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.PolarMultiMagnet.html#zgoubidoo.commands.magnetique.PolarMultiMagnet" title="zgoubidoo.commands.magnetique.PolarMultiMagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PolarMultiMagnet</span></code></a>([label1, label2])</p></td>
 <td><p>Default initializer for all Commands.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Quadisex.html#zgoubidoo.commands.magnetique.Quadisex" title="zgoubidoo.commands.magnetique.Quadisex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Quadisex</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Quadisex.html#zgoubidoo.commands.magnetique.Quadisex" title="zgoubidoo.commands.magnetique.Quadisex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Quadisex</span></code></a>([label1, label2])</p></td>
 <td><p>Sharp edge magnetic multipoles.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Quadrupole.html#zgoubidoo.commands.magnetique.Quadrupole" title="zgoubidoo.commands.magnetique.Quadrupole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Quadrupole</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Quadrupole.html#zgoubidoo.commands.magnetique.Quadrupole" title="zgoubidoo.commands.magnetique.Quadrupole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Quadrupole</span></code></a>([label1, label2])</p></td>
 <td><p>Quadrupole magnet.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.SexQuad.html#zgoubidoo.commands.magnetique.SexQuad" title="zgoubidoo.commands.magnetique.SexQuad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SexQuad</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.SexQuad.html#zgoubidoo.commands.magnetique.SexQuad" title="zgoubidoo.commands.magnetique.SexQuad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SexQuad</span></code></a>([label1, label2])</p></td>
 <td><p>Sharp edge magnetic multipole.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Sextupole.html#zgoubidoo.commands.magnetique.Sextupole" title="zgoubidoo.commands.magnetique.Sextupole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sextupole</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Sextupole.html#zgoubidoo.commands.magnetique.Sextupole" title="zgoubidoo.commands.magnetique.Sextupole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sextupole</span></code></a>([label1, label2])</p></td>
 <td><p>Sextupole magnet.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Solenoid.html#zgoubidoo.commands.magnetique.Solenoid" title="zgoubidoo.commands.magnetique.Solenoid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solenoid</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Solenoid.html#zgoubidoo.commands.magnetique.Solenoid" title="zgoubidoo.commands.magnetique.Solenoid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solenoid</span></code></a>([label1, label2])</p></td>
 <td><p>Solenoid.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Undulator.html#zgoubidoo.commands.magnetique.Undulator" title="zgoubidoo.commands.magnetique.Undulator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Undulator</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Undulator.html#zgoubidoo.commands.magnetique.Undulator" title="zgoubidoo.commands.magnetique.Undulator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Undulator</span></code></a>([label1, label2])</p></td>
 <td><p>Undulator magnet.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Venus.html#zgoubidoo.commands.magnetique.Venus" title="zgoubidoo.commands.magnetique.Venus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Venus</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.magnetique.Venus.html#zgoubidoo.commands.magnetique.Venus" title="zgoubidoo.commands.magnetique.Venus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Venus</span></code></a>([label1, label2])</p></td>
 <td><p>Simulation of a rectangular shaped dipole magnet.</p></td>
 </tr>
 </tbody>
@@ -1060,34 +1063,34 @@ TODO</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.electrique.Cavite.html#zgoubidoo.commands.electrique.Cavite" title="zgoubidoo.commands.electrique.Cavite"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Cavite</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.electrique.Cavite.html#zgoubidoo.commands.electrique.Cavite" title="zgoubidoo.commands.electrique.Cavite"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Cavite</span></code></a>([label1, label2])</p></td>
 <td><p>Accelerating cavity.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.electrique.Cavity.html#zgoubidoo.commands.electrique.Cavity" title="zgoubidoo.commands.electrique.Cavity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Cavity</span></code></a></p></td>
 <td><p>alias of <a class="reference internal" href="api/zgoubidoo.commands.electrique.Cavite.html#zgoubidoo.commands.electrique.Cavite" title="zgoubidoo.commands.electrique.Cavite"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.electrique.Cavite</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.electrique.EBMult.html#zgoubidoo.commands.electrique.EBMult" title="zgoubidoo.commands.electrique.EBMult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBMult</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.electrique.EBMult.html#zgoubidoo.commands.electrique.EBMult" title="zgoubidoo.commands.electrique.EBMult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBMult</span></code></a>([label1, label2])</p></td>
 <td><p>Electro-magnetic multipole.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.electrique.EBMultipole.html#zgoubidoo.commands.electrique.EBMultipole" title="zgoubidoo.commands.electrique.EBMultipole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBMultipole</span></code></a></p></td>
 <td><p>alias of <a class="reference internal" href="api/zgoubidoo.commands.electrique.EBMult.html#zgoubidoo.commands.electrique.EBMult" title="zgoubidoo.commands.electrique.EBMult"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.electrique.EBMult</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.electrique.EL2Tub.html#zgoubidoo.commands.electrique.EL2Tub" title="zgoubidoo.commands.electrique.EL2Tub"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EL2Tub</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.electrique.EL2Tub.html#zgoubidoo.commands.electrique.EL2Tub" title="zgoubidoo.commands.electrique.EL2Tub"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EL2Tub</span></code></a>([label1, label2])</p></td>
 <td><p>Two-tube electrostatic lens.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.electrique.ELMir.html#zgoubidoo.commands.electrique.ELMir" title="zgoubidoo.commands.electrique.ELMir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ELMir</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.electrique.ELMir.html#zgoubidoo.commands.electrique.ELMir" title="zgoubidoo.commands.electrique.ELMir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ELMir</span></code></a>([label1, label2])</p></td>
 <td><p>Electrostatic N-electrode mirror/lens,straight slits.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.electrique.ELMirCircular.html#zgoubidoo.commands.electrique.ELMirCircular" title="zgoubidoo.commands.electrique.ELMirCircular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ELMirCircular</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.electrique.ELMirCircular.html#zgoubidoo.commands.electrique.ELMirCircular" title="zgoubidoo.commands.electrique.ELMirCircular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ELMirCircular</span></code></a>([label1, label2])</p></td>
 <td><p>Electrostatic N-electrode mirror/lens, circular slits.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.electrique.ELMulti.html#zgoubidoo.commands.electrique.ELMulti" title="zgoubidoo.commands.electrique.ELMulti"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ELMulti</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.electrique.ELMulti.html#zgoubidoo.commands.electrique.ELMulti" title="zgoubidoo.commands.electrique.ELMulti"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ELMulti</span></code></a>([label1, label2])</p></td>
 <td><p>Electric multipole.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.electrique.ELRevol.html#zgoubidoo.commands.electrique.ELRevol" title="zgoubidoo.commands.electrique.ELRevol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ELRevol</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.electrique.ELRevol.html#zgoubidoo.commands.electrique.ELRevol" title="zgoubidoo.commands.electrique.ELRevol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ELRevol</span></code></a>([label1, label2])</p></td>
 <td><p>1-D uniform mesh electric field map.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.electrique.Unipot.html#zgoubidoo.commands.electrique.Unipot" title="zgoubidoo.commands.electrique.Unipot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Unipot</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.electrique.Unipot.html#zgoubidoo.commands.electrique.Unipot" title="zgoubidoo.commands.electrique.Unipot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Unipot</span></code></a>([label1, label2])</p></td>
 <td><p>Unipotential cylindrical electrostatic lens.</p></td>
 </tr>
 </tbody>
@@ -1122,25 +1125,25 @@ TODO</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.fieldmaps.Brevol.html#zgoubidoo.commands.fieldmaps.Brevol" title="zgoubidoo.commands.fieldmaps.Brevol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Brevol</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.fieldmaps.Brevol.html#zgoubidoo.commands.fieldmaps.Brevol" title="zgoubidoo.commands.fieldmaps.Brevol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Brevol</span></code></a>([label1, label2])</p></td>
 <td><p>1-D uniform mesh magnetic field map.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.fieldmaps.CartesianMesh.html#zgoubidoo.commands.fieldmaps.CartesianMesh" title="zgoubidoo.commands.fieldmaps.CartesianMesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CartesianMesh</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.fieldmaps.CartesianMesh.html#zgoubidoo.commands.fieldmaps.CartesianMesh" title="zgoubidoo.commands.fieldmaps.CartesianMesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CartesianMesh</span></code></a>([label1, label2])</p></td>
 <td><p>2-D Cartesian uniform mesh magnetic field map.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.fieldmaps.Map2D.html#zgoubidoo.commands.fieldmaps.Map2D" title="zgoubidoo.commands.fieldmaps.Map2D"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Map2D</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.fieldmaps.Map2D.html#zgoubidoo.commands.fieldmaps.Map2D" title="zgoubidoo.commands.fieldmaps.Map2D"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Map2D</span></code></a>([label1, label2])</p></td>
 <td><p>2-D Cartesian uniform mesh field map - arbitrary magnetic field.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.fieldmaps.Map2DElectric.html#zgoubidoo.commands.fieldmaps.Map2DElectric" title="zgoubidoo.commands.fieldmaps.Map2DElectric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Map2DElectric</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.fieldmaps.Map2DElectric.html#zgoubidoo.commands.fieldmaps.Map2DElectric" title="zgoubidoo.commands.fieldmaps.Map2DElectric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Map2DElectric</span></code></a>([label1, label2])</p></td>
 <td><p>2-D Cartesian uniform mesh field map - arbitrary electric field.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.fieldmaps.Poisson.html#zgoubidoo.commands.fieldmaps.Poisson" title="zgoubidoo.commands.fieldmaps.Poisson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Poisson</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.fieldmaps.Poisson.html#zgoubidoo.commands.fieldmaps.Poisson" title="zgoubidoo.commands.fieldmaps.Poisson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Poisson</span></code></a>([label1, label2])</p></td>
 <td><p>Read magnetic field data from POISSON parent.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.fieldmaps.PolarMesh.html#zgoubidoo.commands.fieldmaps.PolarMesh" title="zgoubidoo.commands.fieldmaps.PolarMesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PolarMesh</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.fieldmaps.PolarMesh.html#zgoubidoo.commands.fieldmaps.PolarMesh" title="zgoubidoo.commands.fieldmaps.PolarMesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PolarMesh</span></code></a>([label1, label2])</p></td>
 <td><p>2-D polar mesh magnetic field map.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.fieldmaps.Tosca.html#zgoubidoo.commands.fieldmaps.Tosca" title="zgoubidoo.commands.fieldmaps.Tosca"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tosca</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.fieldmaps.Tosca.html#zgoubidoo.commands.fieldmaps.Tosca" title="zgoubidoo.commands.fieldmaps.Tosca"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tosca</span></code></a>([label1, label2])</p></td>
 <td><p>2-D and 3-D Cartesian or cylindrical mesh field map.</p></td>
 </tr>
 </tbody>
@@ -1179,22 +1182,22 @@ TODO</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.spin.SpinPrint.html#zgoubidoo.commands.spin.SpinPrint" title="zgoubidoo.commands.spin.SpinPrint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpinPrint</span></code></a></p></td>
 <td><p>alias of <a class="reference internal" href="api/zgoubidoo.commands.spin.SpnPrt.html#zgoubidoo.commands.spin.SpnPrt" title="zgoubidoo.commands.spin.SpnPrt"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.spin.SpnPrt</span></code></a></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.spin.SpinRotation.html#zgoubidoo.commands.spin.SpinRotation" title="zgoubidoo.commands.spin.SpinRotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpinRotation</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.spin.SpinRotation.html#zgoubidoo.commands.spin.SpinRotation" title="zgoubidoo.commands.spin.SpinRotation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpinRotation</span></code></a>([label1, label2])</p></td>
 <td><p>Spin rotation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.spin.SpinStore.html#zgoubidoo.commands.spin.SpinStore" title="zgoubidoo.commands.spin.SpinStore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpinStore</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.spin.SpinStore.html#zgoubidoo.commands.spin.SpinStore" title="zgoubidoo.commands.spin.SpinStore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpinStore</span></code></a>([label1, label2])</p></td>
 <td><p>Store spin coordinates every IP other pass at labeled elements.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.spin.SpinTracking.html#zgoubidoo.commands.spin.SpinTracking" title="zgoubidoo.commands.spin.SpinTracking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpinTracking</span></code></a></p></td>
 <td><p>alias of <a class="reference internal" href="api/zgoubidoo.commands.spin.SpnTrk.html#zgoubidoo.commands.spin.SpnTrk" title="zgoubidoo.commands.spin.SpnTrk"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.spin.SpnTrk</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.spin.SpnPrt.html#zgoubidoo.commands.spin.SpnPrt" title="zgoubidoo.commands.spin.SpnPrt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpnPrt</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.spin.SpnPrt.html#zgoubidoo.commands.spin.SpnPrt" title="zgoubidoo.commands.spin.SpnPrt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpnPrt</span></code></a>([label1, label2])</p></td>
 <td><p>Print spin coordinates.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.spin.SpnTrk.html#zgoubidoo.commands.spin.SpnTrk" title="zgoubidoo.commands.spin.SpnTrk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpnTrk</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.spin.SpnTrk.html#zgoubidoo.commands.spin.SpnTrk" title="zgoubidoo.commands.spin.SpnTrk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpnTrk</span></code></a>([label1, label2])</p></td>
 <td><p>Spin tracking.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.spin.Spnprnl.html#zgoubidoo.commands.spin.Spnprnl" title="zgoubidoo.commands.spin.Spnprnl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Spnprnl</span></code></a>(label1, label2, *params, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.spin.Spnprnl.html#zgoubidoo.commands.spin.Spnprnl" title="zgoubidoo.commands.spin.Spnprnl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Spnprnl</span></code></a>([label1, label2])</p></td>
 <td><p>Store spin coordinates into file FNAME.</p></td>
 </tr>
 </tbody>
@@ -1230,13 +1233,13 @@ TODO</p>
 <tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.radiation.SRPrint.html#zgoubidoo.commands.radiation.SRPrint" title="zgoubidoo.commands.radiation.SRPrint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SRPrint</span></code></a></p></td>
 <td><p>alias of <a class="reference internal" href="api/zgoubidoo.commands.radiation.SynchrotronRadiationPrint.html#zgoubidoo.commands.radiation.SynchrotronRadiationPrint" title="zgoubidoo.commands.radiation.SynchrotronRadiationPrint"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.radiation.SynchrotronRadiationPrint</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.radiation.SynchrotronRadiationLosses.html#zgoubidoo.commands.radiation.SynchrotronRadiationLosses" title="zgoubidoo.commands.radiation.SynchrotronRadiationLosses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SynchrotronRadiationLosses</span></code></a>(label1, label2, …)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.radiation.SynchrotronRadiationLosses.html#zgoubidoo.commands.radiation.SynchrotronRadiationLosses" title="zgoubidoo.commands.radiation.SynchrotronRadiationLosses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SynchrotronRadiationLosses</span></code></a>([label1, label2])</p></td>
 <td><p>Synchrotron radiation loss.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.radiation.SynchrotronRadiationPrint.html#zgoubidoo.commands.radiation.SynchrotronRadiationPrint" title="zgoubidoo.commands.radiation.SynchrotronRadiationPrint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SynchrotronRadiationPrint</span></code></a>(label1, label2, …)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.commands.radiation.SynchrotronRadiationPrint.html#zgoubidoo.commands.radiation.SynchrotronRadiationPrint" title="zgoubidoo.commands.radiation.SynchrotronRadiationPrint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SynchrotronRadiationPrint</span></code></a>([label1, label2])</p></td>
 <td><p>Print SR loss statistics.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.radiation.SynchrotronRadiationSpectral.html#zgoubidoo.commands.radiation.SynchrotronRadiationSpectral" title="zgoubidoo.commands.radiation.SynchrotronRadiationSpectral"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SynchrotronRadiationSpectral</span></code></a>(label1, label2, …)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.commands.radiation.SynchrotronRadiationSpectral.html#zgoubidoo.commands.radiation.SynchrotronRadiationSpectral" title="zgoubidoo.commands.radiation.SynchrotronRadiationSpectral"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SynchrotronRadiationSpectral</span></code></a>([label1, label2])</p></td>
 <td><p>Synchrotron radiation spectral-angular densities.</p></td>
 </tr>
 </tbody>
@@ -1274,11 +1277,19 @@ TODO</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+        
+        &copy; Copyright 2018-2020, Cédric Hernalsteens (cedric.hernalsteens@ulb.be)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1289,7 +1300,6 @@ TODO</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

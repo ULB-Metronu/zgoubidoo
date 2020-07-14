@@ -1,15 +1,19 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Working with Zgoubi Input &mdash; Zgoubidoo 2019.4 documentation</title>
+  <title>Working with Zgoubi Input &mdash; Zgoubidoo 2020.1 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
 
   
   
@@ -17,7 +21,9 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -29,11 +35,6 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Using the Zgoubidoo low-level interface" href="lowlevel.html" />
@@ -51,7 +52,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Zgoubidoo
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Zgoubidoo
           
 
           
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                2019.4
+                2020.1
               </div>
             
           
@@ -78,6 +79,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -105,6 +107,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -143,7 +146,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Working with Zgoubi Input</li>
     
@@ -175,9 +178,8 @@ to provide a parametric mapping (combinations of the variations of one or more p
 input files.</p>
 <dl class="py data">
 <dt id="zgoubidoo.input.PathsListType">
-<code class="sig-prename descclassname">zgoubidoo.input.</code><code class="sig-name descname">PathsListType</code><a class="headerlink" href="#zgoubidoo.input.PathsListType" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">zgoubidoo.input.</code><code class="sig-name descname">PathsListType</code><em class="property"> = typing.List[typing.Tuple[typing.Mapping[str, typing.Union[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity, float, str]], typing.Union[str, tempfile.TemporaryDirectory], bool]]</em><a class="headerlink" href="#zgoubidoo.input.PathsListType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Type alias for a list of parametric keys and paths values.</p>
-<p>alias of List[Tuple[Mapping[str, Union[pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity, float, str]], Union[str, tempfile.TemporaryDirectory], bool]]</p>
 </dd></dl>
 
 <dl class="py exception">
@@ -570,12 +572,6 @@ and can be used as such, for example, as a parameter to the Fit command.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="zgoubidoo.input.Input.valid_survey">
-<em class="property">property </em><code class="sig-name descname">valid_survey</code><a class="headerlink" href="#zgoubidoo.input.Input.valid_survey" title="Permalink to this definition">¶</a></dt>
-<dd><p>Boolean indicating if the line has been surveyed.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt id="zgoubidoo.input.Input.survey_reference_frame">
 <em class="property">property </em><code class="sig-name descname">survey_reference_frame</code><a class="headerlink" href="#zgoubidoo.input.Input.survey_reference_frame" title="Permalink to this definition">¶</a></dt>
 <dd><p>Provides the reference frame which was used for the prior survey of the line.</p>
@@ -600,7 +596,7 @@ and can be used as such, for example, as a parameter to the Fit command.</p>
 
 <dl class="py method">
 <dt id="zgoubidoo.input.Input.survey">
-<code class="sig-name descname">survey</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reference_frame</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="api/georges_core.frame.Frame.html#georges_core.frame.Frame" title="georges_core.frame.Frame">georges_core.frame.Frame</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">with_reference_trajectory</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">reference_kinematics</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="api/georges_core.kinematics.Kinematics.html#georges_core.kinematics.Kinematics" title="georges_core.kinematics.Kinematics">georges_core.kinematics.Kinematics</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">reference_particle</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span><a class="reference internal" href="api/zgoubidoo.commands.particules.Particule.html#zgoubidoo.commands.particules.Particule" title="zgoubidoo.commands.particules.Particule">zgoubidoo.commands.particules.Particule</a><span class="p">, </span><a class="reference internal" href="api/zgoubidoo.commands.particules.ParticuleType.html#zgoubidoo.commands.particules.ParticuleType" title="zgoubidoo.commands.particules.ParticuleType">zgoubidoo.commands.particules.ParticuleType</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">reference_closed_orbit</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>numpy.ndarray<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">output</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.survey"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.survey" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">survey</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reference_frame</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="api/georges_core.frame.Frame.html#georges_core.frame.Frame" title="georges_core.frame.Frame">georges_core.frame.Frame</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">with_reference_trajectory</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">reference_kinematics</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="api/georges_core.kinematics.Kinematics.html#georges_core.kinematics.Kinematics" title="georges_core.kinematics.Kinematics">georges_core.kinematics.Kinematics</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">reference_particle</span><span class="p">:</span> <span class="n">Union[zgoubidoo.commands.particules.Particule, zgoubidoo.commands.particules.ParticuleType, None]</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">reference_closed_orbit</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>numpy.ndarray<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">output</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.survey"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.survey" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform a survey on the input sequence.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -620,6 +616,18 @@ and can be used as such, for example, as a parameter to the Fit command.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="zgoubidoo.input.Input.valid_survey">
+<em class="property">property </em><code class="sig-name descname">valid_survey</code><a class="headerlink" href="#zgoubidoo.input.Input.valid_survey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="zgoubidoo.input.Input.set_valid_survey">
+<code class="sig-name descname">set_valid_survey</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#Input.set_valid_survey"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.set_valid_survey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="zgoubidoo.input.Input.clear_survey">
 <code class="sig-name descname">clear_survey</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#Input.clear_survey"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.clear_survey" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns:</p>
@@ -629,28 +637,6 @@ and can be used as such, for example, as a parameter to the Fit command.</p>
 <dt id="zgoubidoo.input.Input.execute">
 <code class="sig-name descname">execute</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/zgoubidoo/input.html#Input.execute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.execute" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns:</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="zgoubidoo.input.Input.plot">
-<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tracks</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">artist</span><span class="p">:</span> <span class="n">zgoubidoo.vis.Artist</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">start</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span>_Command<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">stop</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span>_Command<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">with_frames</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">with_elements</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">with_apertures</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">set_equal_aspect</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; zgoubidoo.vis.Artist<a class="reference internal" href="_modules/zgoubidoo/input.html#Input.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.input.Input.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the input sequence.</p>
-<p>TODO</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>ax</strong> – an optional matplotlib axis to draw on</p></li>
-<li><p><strong>tracks</strong> – TODO</p></li>
-<li><p><strong>artist</strong> – an artist object for the rendering</p></li>
-<li><p><strong>start</strong> – first element of the beamline to be plotted</p></li>
-<li><p><strong>stop</strong> – last element of the beamline to be plotted</p></li>
-<li><p><strong>with_frames</strong> – </p></li>
-<li><p><strong>with_elements</strong> – </p></li>
-<li><p><strong>with_apertures</strong> – </p></li>
-<li><p><strong>set_equal_aspect</strong> – </p></li>
-</ul>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -780,11 +766,19 @@ and can be used as such, for example, as a parameter to the Fit command.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+        
+        &copy; Copyright 2018-2020, Cédric Hernalsteens (cedric.hernalsteens@ulb.be)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -795,7 +789,6 @@ and can be used as such, for example, as a parameter to the Fit command.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

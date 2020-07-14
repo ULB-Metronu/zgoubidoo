@@ -1,15 +1,19 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>momentum_to_pv &mdash; Zgoubidoo 2019.4 documentation</title>
+  <title>momentum_to_pv &mdash; Zgoubidoo 2020.1 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
 
   
   
@@ -17,7 +21,9 @@
   
 
   
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -29,11 +35,6 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="momentum_to_range" href="georges_core.kinematics.momentum_to_range.html" />
@@ -51,7 +52,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> Zgoubidoo
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> Zgoubidoo
           
 
           
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                2019.4
+                2020.1
               </div>
             
           
@@ -78,6 +79,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -147,6 +149,7 @@
 <li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.range_to_beta.html">range_to_beta</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.range_to_brho.html">range_to_brho</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.range_to_ekin.html">range_to_ekin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.range_to_etot.html">range_to_etot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.range_to_gamma.html">range_to_gamma</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.range_to_momentum.html">range_to_momentum</a></li>
 <li class="toctree-l4"><a class="reference internal" href="georges_core.kinematics.range_to_pv.html">range_to_pv</a></li>
@@ -166,6 +169,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -204,7 +208,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../utilities.html">Zgoubidoo’s utility modules</a> &raquo;</li>
         
@@ -232,9 +236,9 @@
 <dl class="py function">
 <dt id="georges_core.kinematics.momentum_to_pv">
 <code class="sig-prename descclassname">georges_core.kinematics.</code><code class="sig-name descname">momentum_to_pv</code><span class="sig-paren">(</span><em class="sig-param">p: _Q</em>, <em class="sig-param">particle: _ParticuleType = &lt;class 'georges_core.particles.Proton'&gt;</em><span class="sig-paren">)</span> &#x2192; _Q<a class="reference internal" href="../_modules/georges_core/kinematics.html#momentum_to_pv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#georges_core.kinematics.momentum_to_pv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts momentum to proton range in water; following IEC-60601.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">momentum_to_range</span><span class="p">(</span><span class="mi">696</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">)</span>
-<span class="go">&lt;Quantity(32.93315610400117, &#39;centimeter&#39;)&gt;</span>
+<dd><p>Converts momentum to relativistic pv.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">momentum_to_pv</span><span class="p">(</span><span class="mi">696</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV_c</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;megaelectronvolt&#39;</span><span class="p">)</span>
+<span class="go">&lt;Quantity(414.65669469180085, &#39;megaelectronvolt&#39;)&gt;</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -245,7 +249,7 @@
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>Relativistic pv of the particle</p>
 </dd>
 </dl>
 </dd></dl>
@@ -272,11 +276,19 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+        
+        &copy; Copyright 2018-2020, Cédric Hernalsteens (cedric.hernalsteens@ulb.be)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -287,7 +299,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

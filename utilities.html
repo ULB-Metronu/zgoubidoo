@@ -1,15 +1,19 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Zgoubidoo’s utility modules &mdash; Zgoubidoo 2019.4 documentation</title>
+  <title>Zgoubidoo’s utility modules &mdash; Zgoubidoo 2020.1 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
 
   
   
@@ -17,7 +21,9 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -29,11 +35,6 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Frame" href="api/georges_core.frame.Frame.html" />
@@ -51,7 +52,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Zgoubidoo
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Zgoubidoo
           
 
           
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                2019.4
+                2020.1
               </div>
             
           
@@ -78,6 +79,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -156,6 +158,7 @@
 <li class="toctree-l4"><a class="reference internal" href="api/georges_core.kinematics.range_to_beta.html">range_to_beta</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/georges_core.kinematics.range_to_brho.html">range_to_brho</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/georges_core.kinematics.range_to_ekin.html">range_to_ekin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/georges_core.kinematics.range_to_etot.html">range_to_etot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/georges_core.kinematics.range_to_gamma.html">range_to_gamma</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/georges_core.kinematics.range_to_momentum.html">range_to_momentum</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/georges_core.kinematics.range_to_pv.html">range_to_pv</a></li>
@@ -185,6 +188,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -223,7 +227,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Zgoubidoo’s utility modules</li>
     
@@ -277,13 +281,13 @@ frame.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.frame.Frame.html#georges_core.frame.Frame" title="georges_core.frame.Frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame</span></code></a>(parent, reference)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.frame.Frame.html#georges_core.frame.Frame" title="georges_core.frame.Frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame</span></code></a>([parent, reference])</p></td>
 <td><p>A Frame object represents a reference frame for affine geometry transformations (rotations and translations).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.frame.FrameException.html#georges_core.frame.FrameException" title="georges_core.frame.FrameException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameException</span></code></a>(m)</p></td>
 <td><p>Exception raised for errors in the Frame module.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.frame.FrameFrenet.html#georges_core.frame.FrameFrenet" title="georges_core.frame.FrameFrenet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameFrenet</span></code></a>(parent, reference)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.frame.FrameFrenet.html#georges_core.frame.FrameFrenet" title="georges_core.frame.FrameFrenet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameFrenet</span></code></a>([parent, reference])</p></td>
 <td><p>Initialize a Frame with respect to a parent frame.</p></td>
 </tr>
 </tbody>
@@ -318,46 +322,46 @@ helper class (<code class="docutils literal notranslate"><span class="pre">Kinem
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.beta_to_brho.html#georges_core.kinematics.beta_to_brho" title="georges_core.kinematics.beta_to_brho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta_to_brho</span></code></a>(beta[, particle])</p></td>
-<td><p>Converts relativistic beta to kinetic energy.</p></td>
+<td><p>Converts relativistic beta to magnetic rigidity.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.beta_to_ekin.html#georges_core.kinematics.beta_to_ekin" title="georges_core.kinematics.beta_to_ekin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta_to_ekin</span></code></a>(beta[, particle])</p></td>
 <td><p>Converts relativistic beta to kinetic energy.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.beta_to_etot.html#georges_core.kinematics.beta_to_etot" title="georges_core.kinematics.beta_to_etot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta_to_etot</span></code></a>(beta[, particle])</p></td>
-<td><p>Converts relativistic beta to kinetic energy.</p></td>
+<td><p>Converts relativistic beta to total energy.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.beta_to_gamma.html#georges_core.kinematics.beta_to_gamma" title="georges_core.kinematics.beta_to_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta_to_gamma</span></code></a>(beta)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.beta_to_gamma.html#georges_core.kinematics.beta_to_gamma" title="georges_core.kinematics.beta_to_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta_to_gamma</span></code></a>(beta[, particle])</p></td>
 <td><p>Converts relativistic beta to relativistic gamma.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.beta_to_momentum.html#georges_core.kinematics.beta_to_momentum" title="georges_core.kinematics.beta_to_momentum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta_to_momentum</span></code></a>(beta[, particle])</p></td>
-<td><p>Converts relativistic beta to kinetic energy.</p></td>
+<td><p>Converts relativistic beta to momentum.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.beta_to_pv.html#georges_core.kinematics.beta_to_pv" title="georges_core.kinematics.beta_to_pv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta_to_pv</span></code></a>(beta[, particle])</p></td>
-<td><p>Converts relativistic beta to kinetic energy.</p></td>
+<td><p>Converts relativistic beta to relativistic pv.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.beta_to_range.html#georges_core.kinematics.beta_to_range" title="georges_core.kinematics.beta_to_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beta_to_range</span></code></a>(beta[, particle])</p></td>
-<td><p>Converts relativistic beta to kinetic energy.</p></td>
+<td><p>Converts relativistic beta to range.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.brho_to_beta.html#georges_core.kinematics.brho_to_beta" title="georges_core.kinematics.brho_to_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brho_to_beta</span></code></a>(brho[, particle])</p></td>
-<td><p>Converts magnetic rigidity (brho) to momentum.</p></td>
+<td><p>Converts magnetic rigidity (brho) to relativistic beta.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.brho_to_ekin.html#georges_core.kinematics.brho_to_ekin" title="georges_core.kinematics.brho_to_ekin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brho_to_ekin</span></code></a>(brho[, particle])</p></td>
 <td><p>Converts magnetic rigidity (brho) to kinetic energy.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.brho_to_etot.html#georges_core.kinematics.brho_to_etot" title="georges_core.kinematics.brho_to_etot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brho_to_etot</span></code></a>(brho[, particle])</p></td>
-<td><p>Converts magnetic rigidity (brho) to momentum.</p></td>
+<td><p>Converts magnetic rigidity (brho) to total energy.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.brho_to_gamma.html#georges_core.kinematics.brho_to_gamma" title="georges_core.kinematics.brho_to_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brho_to_gamma</span></code></a>(brho[, particle])</p></td>
-<td><p>Converts magnetic rigidity (brho) to momentum.</p></td>
+<td><p>Converts magnetic rigidity (brho) to relativistic gamma.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.brho_to_momentum.html#georges_core.kinematics.brho_to_momentum" title="georges_core.kinematics.brho_to_momentum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brho_to_momentum</span></code></a>(brho[, particle])</p></td>
 <td><p>Converts magnetic rigidity (brho) to momentum.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.brho_to_pv.html#georges_core.kinematics.brho_to_pv" title="georges_core.kinematics.brho_to_pv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brho_to_pv</span></code></a>(brho[, particle])</p></td>
-<td><p>Converts magnetic rigidity (brho) to momentum.</p></td>
+<td><p>Converts magnetic rigidity (brho) to relativistic pv.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.brho_to_range.html#georges_core.kinematics.brho_to_range" title="georges_core.kinematics.brho_to_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brho_to_range</span></code></a>(brho[, particle])</p></td>
-<td><p>Converts magnetic rigidity (brho) to momentum.</p></td>
+<td><p>Converts magnetic rigidity (brho) to range.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.ekin_to_beta.html#georges_core.kinematics.ekin_to_beta" title="georges_core.kinematics.ekin_to_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ekin_to_beta</span></code></a>(e[, particle])</p></td>
 <td><p>Converts the kinetic energy to relativistic beta.</p></td>
@@ -366,17 +370,13 @@ helper class (<code class="docutils literal notranslate"><span class="pre">Kinem
 <td><p>Converts kinetic energy to magnetic rigidity (brho).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.ekin_to_etot.html#georges_core.kinematics.ekin_to_etot" title="georges_core.kinematics.ekin_to_etot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ekin_to_etot</span></code></a>(e[, particle])</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param e</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p>Converts kinetic energy to total energy</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.ekin_to_gamma.html#georges_core.kinematics.ekin_to_gamma" title="georges_core.kinematics.ekin_to_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ekin_to_gamma</span></code></a>(e[, particle])</p></td>
 <td><p>Converts the kinetic energy to relativistic gamma.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.ekin_to_momentum.html#georges_core.kinematics.ekin_to_momentum" title="georges_core.kinematics.ekin_to_momentum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ekin_to_momentum</span></code></a>(e[, particle])</p></td>
-<td><p>Converts momentum to kinetic energy.</p></td>
+<td><p>Converts kinetic energy to momentum</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.ekin_to_pv.html#georges_core.kinematics.ekin_to_pv" title="georges_core.kinematics.ekin_to_pv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ekin_to_pv</span></code></a>(e[, particle])</p></td>
 <td><p>Converts kinetic energy to relativistic pv.</p></td>
@@ -385,81 +385,49 @@ helper class (<code class="docutils literal notranslate"><span class="pre">Kinem
 <td><p>Converts kinetic energy to proton range in water; following IEC-60601.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.etot_to_beta.html#georges_core.kinematics.etot_to_beta" title="georges_core.kinematics.etot_to_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etot_to_beta</span></code></a>(e[, particle])</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param e</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p>Converts total energy to relativistic beta.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.etot_to_brho.html#georges_core.kinematics.etot_to_brho" title="georges_core.kinematics.etot_to_brho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etot_to_brho</span></code></a>(e[, particle])</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param e</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p>Converts total energy to magnetic rigidity (brho).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.etot_to_ekin.html#georges_core.kinematics.etot_to_ekin" title="georges_core.kinematics.etot_to_ekin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etot_to_ekin</span></code></a>(e[, particle])</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param e</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p>Converts total energy to kinetic energy.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.etot_to_gamma.html#georges_core.kinematics.etot_to_gamma" title="georges_core.kinematics.etot_to_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etot_to_gamma</span></code></a>(e[, particle])</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param e</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p>Converts total energy to relativistic gamma.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.etot_to_momentum.html#georges_core.kinematics.etot_to_momentum" title="georges_core.kinematics.etot_to_momentum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etot_to_momentum</span></code></a>(e[, particle])</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param e</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p>Converts total energy to momentum.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.etot_to_pv.html#georges_core.kinematics.etot_to_pv" title="georges_core.kinematics.etot_to_pv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etot_to_pv</span></code></a>(e[, particle])</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param e</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p>Converts total energy to relativistic pv.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.etot_to_range.html#georges_core.kinematics.etot_to_range" title="georges_core.kinematics.etot_to_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etot_to_range</span></code></a>(e[, particle])</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param e</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p>Converts total energy to proton range in water; following IEC-60601.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.gamma_to_beta.html#georges_core.kinematics.gamma_to_beta" title="georges_core.kinematics.gamma_to_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma_to_beta</span></code></a>(gamma[, particle])</p></td>
-<td><p>Converts relativistic gamma to kinetic energy.</p></td>
+<td><p>Converts relativistic gamma to relativistic beta.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.gamma_to_brho.html#georges_core.kinematics.gamma_to_brho" title="georges_core.kinematics.gamma_to_brho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma_to_brho</span></code></a>(gamma[, particle])</p></td>
-<td><p>Converts relativistic gamma to kinetic energy.</p></td>
+<td><p>Converts relativistic gamma to magnetic rigidity.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.gamma_to_ekin.html#georges_core.kinematics.gamma_to_ekin" title="georges_core.kinematics.gamma_to_ekin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma_to_ekin</span></code></a>(gamma[, particle])</p></td>
 <td><p>Converts relativistic gamma to kinetic energy.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.gamma_to_etot.html#georges_core.kinematics.gamma_to_etot" title="georges_core.kinematics.gamma_to_etot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma_to_etot</span></code></a>(gamma[, particle])</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param gamma</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p>Converts relativistic gamma to total energy.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.gamma_to_momentum.html#georges_core.kinematics.gamma_to_momentum" title="georges_core.kinematics.gamma_to_momentum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma_to_momentum</span></code></a>(gamma[, particle])</p></td>
-<td><p>Converts relativistic gamma to kinetic energy.</p></td>
+<td><p>Converts relativistic gamma to momentum.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.gamma_to_pv.html#georges_core.kinematics.gamma_to_pv" title="georges_core.kinematics.gamma_to_pv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma_to_pv</span></code></a>(gamma[, particle])</p></td>
-<td><p>Converts relativistic gamma to kinetic energy.</p></td>
+<td><p>Converts relativistic gamma to relativistic pv.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.gamma_to_range.html#georges_core.kinematics.gamma_to_range" title="georges_core.kinematics.gamma_to_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma_to_range</span></code></a>(gamma[, particle])</p></td>
-<td><p>Converts relativistic gamma to kinetic energy.</p></td>
+<td><p>Converts relativistic gamma to range (protons only).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.momentum_to_beta.html#georges_core.kinematics.momentum_to_beta" title="georges_core.kinematics.momentum_to_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">momentum_to_beta</span></code></a>(p[, particle])</p></td>
-<td><p>Converts momentum to proton range in water; following IEC-60601.</p></td>
+<td><p>Converts momentum to relativistic beta.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.momentum_to_brho.html#georges_core.kinematics.momentum_to_brho" title="georges_core.kinematics.momentum_to_brho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">momentum_to_brho</span></code></a>(p[, particle])</p></td>
 <td><p>Converts momentum to magnetic rigidity (brho).</p></td>
@@ -468,34 +436,38 @@ helper class (<code class="docutils literal notranslate"><span class="pre">Kinem
 <td><p>Converts momentum to kinetic energy.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.momentum_to_etot.html#georges_core.kinematics.momentum_to_etot" title="georges_core.kinematics.momentum_to_etot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">momentum_to_etot</span></code></a>(p[, particle])</p></td>
-<td><p>Converts momentum to kinetic energy.</p></td>
+<td><p>Converts momentum to total energy.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.momentum_to_gamma.html#georges_core.kinematics.momentum_to_gamma" title="georges_core.kinematics.momentum_to_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">momentum_to_gamma</span></code></a>(p[, particle])</p></td>
-<td><p>Converts momentum to proton range in water; following IEC-60601.</p></td>
+<td><p>Converts momentum to relativistic gamma.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.momentum_to_pv.html#georges_core.kinematics.momentum_to_pv" title="georges_core.kinematics.momentum_to_pv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">momentum_to_pv</span></code></a>(p[, particle])</p></td>
-<td><p>Converts momentum to proton range in water; following IEC-60601.</p></td>
+<td><p>Converts momentum to relativistic pv.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.momentum_to_range.html#georges_core.kinematics.momentum_to_range" title="georges_core.kinematics.momentum_to_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">momentum_to_range</span></code></a>(p[, particle])</p></td>
 <td><p>Converts momentum to proton range in water; following IEC-60601.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.range_to_beta.html#georges_core.kinematics.range_to_beta" title="georges_core.kinematics.range_to_beta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_to_beta</span></code></a>(r[, particle])</p></td>
-<td><p>Converts proton range in water to kinetic energy following IEC60601.</p></td>
+<td><p>Converts proton range in water to relativistic beta.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.range_to_brho.html#georges_core.kinematics.range_to_brho" title="georges_core.kinematics.range_to_brho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_to_brho</span></code></a>(r[, particle])</p></td>
-<td><p>Converts proton range in water to kinetic energy following IEC60601.</p></td>
+<td><p>Converts proton range in water to magnetic rigidity (brho).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.range_to_ekin.html#georges_core.kinematics.range_to_ekin" title="georges_core.kinematics.range_to_ekin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_to_ekin</span></code></a>(r[, particle])</p></td>
 <td><p>Converts proton range in water to kinetic energy following IEC60601.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.range_to_gamma.html#georges_core.kinematics.range_to_gamma" title="georges_core.kinematics.range_to_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_to_gamma</span></code></a>(r[, particle])</p></td>
-<td><p>Converts proton range in water to kinetic energy following IEC60601.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.range_to_etot.html#georges_core.kinematics.range_to_etot" title="georges_core.kinematics.range_to_etot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_to_etot</span></code></a>(r[, particle])</p></td>
+<td><p><p class="rubric">Examples</p>
+</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.range_to_momentum.html#georges_core.kinematics.range_to_momentum" title="georges_core.kinematics.range_to_momentum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_to_momentum</span></code></a>(r[, particle])</p></td>
-<td><p>Converts proton range in water to kinetic energy following IEC60601.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.range_to_gamma.html#georges_core.kinematics.range_to_gamma" title="georges_core.kinematics.range_to_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_to_gamma</span></code></a>(r[, particle])</p></td>
+<td><p>Converts proton range in water to relativistic beta.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.range_to_pv.html#georges_core.kinematics.range_to_pv" title="georges_core.kinematics.range_to_pv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_to_pv</span></code></a>(r[, particle])</p></td>
-<td><p>Converts proton range in water to kinetic energy following IEC60601.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/georges_core.kinematics.range_to_momentum.html#georges_core.kinematics.range_to_momentum" title="georges_core.kinematics.range_to_momentum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_to_momentum</span></code></a>(r[, particle])</p></td>
+<td><p>Converts proton range in water to momentum.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.range_to_pv.html#georges_core.kinematics.range_to_pv" title="georges_core.kinematics.range_to_pv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_to_pv</span></code></a>(r[, particle])</p></td>
+<td><p>Converts proton range in water to relativistic pv.</p></td>
 </tr>
 </tbody>
 </table>
@@ -508,7 +480,7 @@ helper class (<code class="docutils literal notranslate"><span class="pre">Kinem
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.Kinematics.html#georges_core.kinematics.Kinematics" title="georges_core.kinematics.Kinematics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Kinematics</span></code></a>(q, _Q], particle, kinetic)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/georges_core.kinematics.Kinematics.html#georges_core.kinematics.Kinematics" title="georges_core.kinematics.Kinematics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Kinematics</span></code></a>(q[, particle, kinetic])</p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">param q</dt>
 <dd class="field-odd"><p></p></dd>
@@ -565,6 +537,24 @@ helper class (<code class="docutils literal notranslate"><span class="pre">Kinem
 <dd><p>Metaclass to construct polarity types. Supports conversion to float and int.</p>
 </dd></dl>
 
+<dl class="py class">
+<dt id="zgoubidoo.polarity.Polarity">
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.polarity.</code><code class="sig-name descname">Polarity</code><a class="reference internal" href="_modules/zgoubidoo/polarity.html#Polarity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.polarity.Polarity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class to build polarity.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="zgoubidoo.polarity.HorizontalPolarity">
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.polarity.</code><code class="sig-name descname">HorizontalPolarity</code><a class="reference internal" href="_modules/zgoubidoo/polarity.html#HorizontalPolarity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.polarity.HorizontalPolarity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Positive polarity.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="zgoubidoo.polarity.VerticalPolarity">
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.polarity.</code><code class="sig-name descname">VerticalPolarity</code><a class="reference internal" href="_modules/zgoubidoo/polarity.html#VerticalPolarity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.polarity.VerticalPolarity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Negative polarity.</p>
+</dd></dl>
+
 </div>
 </div>
 
@@ -588,11 +578,19 @@ helper class (<code class="docutils literal notranslate"><span class="pre">Kinem
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+        
+        &copy; Copyright 2018-2020, Cédric Hernalsteens (cedric.hernalsteens@ulb.be)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -603,7 +601,6 @@ helper class (<code class="docutils literal notranslate"><span class="pre">Kinem
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

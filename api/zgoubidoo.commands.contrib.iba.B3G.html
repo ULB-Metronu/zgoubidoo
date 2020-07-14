@@ -1,15 +1,19 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>B3G &mdash; Zgoubidoo 2019.4 documentation</title>
+  <title>B3G &mdash; Zgoubidoo 2020.1 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
 
   
   
@@ -17,7 +21,9 @@
   
 
   
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -29,11 +35,6 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="CGTR" href="zgoubidoo.commands.contrib.iba.CGTR.html" />
@@ -51,7 +52,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> Zgoubidoo
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> Zgoubidoo
           
 
           
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                2019.4
+                2020.1
               </div>
             
           
@@ -78,6 +79,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -145,6 +147,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -183,7 +186,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../contrib.html">Zgoubidoo specialized and contributed commands</a> &raquo;</li>
         
@@ -253,6 +256,17 @@
 
 <dl class="py attribute">
 <dt>
+<code class="sig-name descname">POLE_WIDTH='150 centimeter'</code></dt>
+<dd><p>Pole width (used for plotting only).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
 <code class="sig-name descname">PIPE_THICKNESS='2 centimeter'</code></dt>
 <dd><p>Thickness of the pipe, used by plotting functions.</p>
 <dl class="field-list simple">
@@ -269,17 +283,6 @@
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt>
-<code class="sig-name descname">POLE_WIDTH='150 centimeter'</code></dt>
-<dd><p>Pole width (used for plotting only).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>Quantity</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1046,13 +1049,13 @@
 
 <dl class="py attribute">
 <dt id="zgoubidoo.commands.contrib.iba.B3G.PARAMETERS">
-<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'ACENT': (&lt;Quantity(0, 'degree')&gt;, 'Azimuth for positioning of EFBs', 4), 'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'AT': (&lt;Quantity(0, 'degree')&gt;, 'Total angular extent of the dipole (positive value in all cases)', 2), 'B': (0, 'Field index (radial sextupolar)', 7), 'B0': (&lt;Quantity(14, 'kilogauss')&gt;, 'Reference field', 5), 'C0_E': (0.67634054, 'Fringe field coefficient C0', 12), 'C0_L': (0, 'Fringe field coefficient C0', 41), 'C0_S': (0.7789082, 'Fringe field coefficient C0', 26), 'C1_E': (1.15776841, 'Fringe field coefficient C1', 13), 'C1_L': (1, 'Fringe field coefficient C1', 42), 'C1_S': (0.94490545, 'Fringe field coefficient C1', 27), 'C2_E': (-0.16937986, 'Fringe field coefficient C2', 14), 'C2_L': (0, 'Fringe field coefficient C2', 43), 'C2_S': (-0.13034787, 'Fringe field coefficient C2', 28), 'C3_E': (0.07696388, 'Fringe field coefficient C3', 15), 'C3_L': (0, 'Fringe field coefficient C3', 44), 'C3_S': (0.02948957, 'Fringe field coefficient C3', 29), 'C4_E': (0, 'Fringe field coefficient C4', 16), 'C4_L': (0, 'Fringe field coefficient C4', 45), 'C4_S': (0, 'Fringe field coefficient C4', 30), 'C5_E': (0, 'Fringe field coefficient C5', 17), 'C5_L': (0, 'Fringe field coefficient C5', 46), 'C5_S': (0, 'Fringe field coefficient C5', 31), 'COLOR': ('#4169E1',), 'DP': (0.0, '', 63), 'G': (0, 'Field index (radial octupolar)', 8), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'IL': (0, 'Print field and coordinates along trajectories', 1), 'IORDRE': (2, '', 55), 'KINEMATICS': (None, 'A kinematics object.'), 'KPOS': (2, '', 58), 'LABEL1': ('B3G', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'LAM_E': (&lt;Quantity(9, 'centimeter')&gt;, 'Entrance fringe field extent (normally ≃ gap size)', 9), 'LAM_L': (&lt;Quantity(0.0, 'centimeter')&gt;, 'Lateral fringe field extent (normally ≃ gap size)', 39), 'LAM_S': (&lt;Quantity(9, 'centimeter')&gt;, 'Exit fringe field extent (normally ≃ gap size)', 25), 'N': (0, 'Field index (radial quadrupolar)', 6), 'OMEGA_E': (&lt;Quantity(0, 'degree')&gt;, '', 19), 'OMEGA_L': (&lt;Quantity(0, 'degree')&gt;, '', 48), 'OMEGA_S': (&lt;Quantity(0, 'degree')&gt;, '', 33), 'PIPE_COLOR': ('grey', 'Color of the pipe, used by plotting functions.'), 'PIPE_THICKNESS': (&lt;Quantity(2, 'centimeter')&gt;, 'Thickness of the pipe, used by plotting functions.'), 'POLE_WIDTH': (&lt;Quantity(150, 'centimeter')&gt;, 'Pole width (used for plotting only).'), 'R1_E': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Entrance EFB radius', 21), 'R1_L': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Lateral EFB radius', 50), 'R1_S': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Exit EFB radius', 35), 'R2_E': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Entrance EFB radius', 24), 'R2_L': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Lateral EFB radius', 53), 'R2_S': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Exit EFB radius', 38), 'RE': (&lt;Quantity(0, 'centimeter')&gt;, '', 64), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'RESOL': (10, '', 56), 'RM': (&lt;Quantity(1600, 'millimeter')&gt;, 'Reference radius', 3), 'RM3': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Reference radius of the lateral EFB', 54), 'RS': (&lt;Quantity(0, 'centimeter')&gt;, '', 66), 'SHIFT_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Shift of the EFB', 18), 'SHIFT_L': (&lt;Quantity(0, 'centimeter')&gt;, 'Shift of the EFB', 47), 'SHIFT_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Shift of the EFB', 32), 'TE': (&lt;Quantity(0, 'radian')&gt;, '', 65), 'THETA_E': (&lt;Quantity(0, 'degree')&gt;, 'Entrance face wedge angle', 20), 'THETA_L': (&lt;Quantity(0, 'degree')&gt;, 'Lateral field boundary wedge angle', 49), 'THETA_S': (&lt;Quantity(0, 'degree')&gt;, 'Exit face wedge angle', 34), 'TS': (&lt;Quantity(0, 'radian')&gt;, '', 67), 'U1_E': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Entrance EFB linear extent', 22), 'U1_L': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Lateral EFB linear extent', 51), 'U1_S': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Exit EFB linear extent', 36), 'U2_E': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Entrance EFB linear extent', 23), 'U2_L': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Lateral EFB linear extent', 52), 'U2_S': (&lt;Quantity(1000000000.0, 'centimeter')&gt;, 'Exit EFB linear extent', 37), 'XI_L': (0, 'Flag to activate/deactivate the lateral EFB (0 to deactivate)', 40), 'XPAS': (&lt;Quantity(1.0, 'millimeter')&gt;, 'Integration step', 57)}</em><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.B3G.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'ACENT': (&lt;Quantity(0, 'degree')&gt;, 'Azimuth for positioning of EFBs', 4), 'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'AT': (&lt;Quantity(0, 'degree')&gt;, 'Total angular extent of the dipole (positive value in all cases)', 2), 'B': (0, 'Field index (radial sextupolar)', 7), 'B0': (&lt;Quantity(14, 'kilogauss')&gt;, 'Reference field', 5), 'C0_E': (0.67634054, 'Fringe field coefficient C0', 12), 'C0_L': (0, 'Fringe field coefficient C0', 41), 'C0_S': (0.7789082, 'Fringe field coefficient C0', 26), 'C1_E': (1.15776841, 'Fringe field coefficient C1', 13), 'C1_L': (1, 'Fringe field coefficient C1', 42), 'C1_S': (0.94490545, 'Fringe field coefficient C1', 27), 'C2_E': (-0.16937986, 'Fringe field coefficient C2', 14), 'C2_L': (0, 'Fringe field coefficient C2', 43), 'C2_S': (-0.13034787, 'Fringe field coefficient C2', 28), 'C3_E': (0.07696388, 'Fringe field coefficient C3', 15), 'C3_L': (0, 'Fringe field coefficient C3', 44), 'C3_S': (0.02948957, 'Fringe field coefficient C3', 29), 'C4_E': (0, 'Fringe field coefficient C4', 16), 'C4_L': (0, 'Fringe field coefficient C4', 45), 'C4_S': (0, 'Fringe field coefficient C4', 30), 'C5_E': (0, 'Fringe field coefficient C5', 17), 'C5_L': (0, 'Fringe field coefficient C5', 46), 'C5_S': (0, 'Fringe field coefficient C5', 31), 'COLOR': ('#4169E1',), 'DP': (0.0, '', 63), 'G': (0, 'Field index (radial octupolar)', 8), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'IL': (0, 'Print field and coordinates along trajectories', 1), 'IORDRE': (2, '', 55), 'KINEMATICS': (None, 'A kinematics object.'), 'KPOS': (2, '', 58), 'LABEL1': ('B3G', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'LAM_E': (&lt;Quantity(9, 'centimeter')&gt;, 'Entrance fringe field extent (normally ≃ gap size)', 9), 'LAM_L': (&lt;Quantity(0.0, 'centimeter')&gt;, 'Lateral fringe field extent (normally ≃ gap size)', 39), 'LAM_S': (&lt;Quantity(9, 'centimeter')&gt;, 'Exit fringe field extent (normally ≃ gap size)', 25), 'N': (0, 'Field index (radial quadrupolar)', 6), 'OMEGA_E': (&lt;Quantity(0, 'degree')&gt;, '', 19), 'OMEGA_L': (&lt;Quantity(0, 'degree')&gt;, '', 48), 'OMEGA_S': (&lt;Quantity(0, 'degree')&gt;, '', 33), 'PIPE_COLOR': ('grey', 'Color of the pipe, used by plotting functions.'), 'PIPE_THICKNESS': (&lt;Quantity(2, 'centimeter')&gt;, 'Thickness of the pipe, used by plotting functions.'), 'POLE_WIDTH': (&lt;Quantity(150, 'centimeter')&gt;, 'Pole width (used for plotting only).'), 'R1_E': (&lt;Quantity(1e+09, 'centimeter')&gt;, 'Entrance EFB radius', 21), 'R1_L': (&lt;Quantity(1e+09, 'centimeter')&gt;, 'Lateral EFB radius', 50), 'R1_S': (&lt;Quantity(1e+09, 'centimeter')&gt;, 'Exit EFB radius', 35), 'R2_E': (&lt;Quantity(1e+09, 'centimeter')&gt;, 'Entrance EFB radius', 24), 'R2_L': (&lt;Quantity(1e+09, 'centimeter')&gt;, 'Lateral EFB radius', 53), 'R2_S': (&lt;Quantity(1e+09, 'centimeter')&gt;, 'Exit EFB radius', 38), 'RE': (&lt;Quantity(0, 'centimeter')&gt;, '', 64), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'RESOL': (10, '', 56), 'RM': (&lt;Quantity(1600, 'millimeter')&gt;, 'Reference radius', 3), 'RM3': (&lt;Quantity(1e+09, 'centimeter')&gt;, 'Reference radius of the lateral EFB', 54), 'RS': (&lt;Quantity(0, 'centimeter')&gt;, '', 66), 'SHIFT_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Shift of the EFB', 18), 'SHIFT_L': (&lt;Quantity(0, 'centimeter')&gt;, 'Shift of the EFB', 47), 'SHIFT_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Shift of the EFB', 32), 'TE': (&lt;Quantity(0, 'radian')&gt;, '', 65), 'THETA_E': (&lt;Quantity(0, 'degree')&gt;, 'Entrance face wedge angle', 20), 'THETA_L': (&lt;Quantity(0, 'degree')&gt;, 'Lateral field boundary wedge angle', 49), 'THETA_S': (&lt;Quantity(0, 'degree')&gt;, 'Exit face wedge angle', 34), 'TS': (&lt;Quantity(0, 'radian')&gt;, '', 67), 'U1_E': (&lt;Quantity(1e+09, 'centimeter')&gt;, 'Entrance EFB linear extent', 22), 'U1_L': (&lt;Quantity(1e+09, 'centimeter')&gt;, 'Lateral EFB linear extent', 51), 'U1_S': (&lt;Quantity(1e+09, 'centimeter')&gt;, 'Exit EFB linear extent', 36), 'U2_E': (&lt;Quantity(1e+09, 'centimeter')&gt;, 'Entrance EFB linear extent', 23), 'U2_L': (&lt;Quantity(1e+09, 'centimeter')&gt;, 'Lateral EFB linear extent', 52), 'U2_S': (&lt;Quantity(1e+09, 'centimeter')&gt;, 'Exit EFB linear extent', 37), 'XI_L': (0, 'Flag to activate/deactivate the lateral EFB (0 to deactivate)', 40), 'XPAS': (&lt;Quantity(1.0, 'millimeter')&gt;, 'Integration step', 57)}</em><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.B3G.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods Documentation</p>
 <dl class="py method">
 <dt id="zgoubidoo.commands.contrib.iba.B3G.post_init">
-<code class="sig-name descname">post_init</code><span class="sig-paren">(</span><em class="sig-param">magnet_opening=&lt;Quantity(70</em>, <em class="sig-param">'degree')&gt;</em>, <em class="sig-param">poles_opening=&lt;Quantity(60</em>, <em class="sig-param">'degree')&gt;</em>, <em class="sig-param">entrance_pole_trim=&lt;Quantity(1.125</em>, <em class="sig-param">'degree')&gt;</em>, <em class="sig-param">exit_pole_trim=&lt;Quantity(1.125</em>, <em class="sig-param">'degree')&gt;</em>, <em class="sig-param">entrance_fringe_lambda=&lt;Quantity(9</em>, <em class="sig-param">'centimeter')&gt;</em>, <em class="sig-param">exit_fringe_lambda=&lt;Quantity(9</em>, <em class="sig-param">'centimeter')&gt;</em>, <em class="sig-param">entrance_pole_curvature=&lt;Quantity(1000000000.0</em>, <em class="sig-param">'centimeter')&gt;</em>, <em class="sig-param">exit_pole_curvature=&lt;Quantity(1000000000.0</em>, <em class="sig-param">'centimeter')&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#B3G.post_init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.B3G.post_init" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">post_init</code><span class="sig-paren">(</span><em class="sig-param">magnet_opening=&lt;Quantity(70</em>, <em class="sig-param">'degree')&gt;</em>, <em class="sig-param">poles_opening=&lt;Quantity(60</em>, <em class="sig-param">'degree')&gt;</em>, <em class="sig-param">entrance_pole_trim=&lt;Quantity(1.125</em>, <em class="sig-param">'degree')&gt;</em>, <em class="sig-param">exit_pole_trim=&lt;Quantity(1.125</em>, <em class="sig-param">'degree')&gt;</em>, <em class="sig-param">entrance_fringe_lambda=&lt;Quantity(9</em>, <em class="sig-param">'centimeter')&gt;</em>, <em class="sig-param">exit_fringe_lambda=&lt;Quantity(9</em>, <em class="sig-param">'centimeter')&gt;</em>, <em class="sig-param">entrance_pole_curvature=&lt;Quantity(1e+09</em>, <em class="sig-param">'centimeter')&gt;</em>, <em class="sig-param">exit_pole_curvature=&lt;Quantity(1e+09</em>, <em class="sig-param">'centimeter')&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#B3G.post_init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.B3G.post_init" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO
 :param magnet_opening: total angular opening of the magnet (i.e. of the field map)
 :param poles_opening: angular opening of the poles
@@ -1093,11 +1096,19 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+        
+        &copy; Copyright 2018-2020, Cédric Hernalsteens (cedric.hernalsteens@ulb.be)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1108,7 +1119,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

@@ -1,15 +1,19 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; Zgoubidoo 2019.4 documentation</title>
+  <title>Installation &mdash; Zgoubidoo 2020.1 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
 
   
   
@@ -17,7 +21,9 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -29,11 +35,6 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Getting started" href="gettingstarted.html" />
@@ -51,7 +52,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Zgoubidoo
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Zgoubidoo
           
 
           
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                2019.4
+                2020.1
               </div>
             
           
@@ -78,6 +79,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -89,7 +91,10 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="news.html">News and announcements</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#compiling-and-installing-zgoubi">Compiling and installing Zgoubi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compiling-and-installing-zgoubi">Compiling and installing Zgoubi</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#compiling-zgoubi-from-the-official-sourceforge-repository">Compiling Zgoubi from the official SourceForge repository</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#obtaining-zgoubidoo">Obtaining Zgoubidoo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#creating-a-python-3-7-environment-with-conda">Creating a Python 3.7 environment with Conda</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation-zgoubidoo-using-pip">Installation Zgoubidoo using <code class="docutils literal notranslate"><span class="pre">pip</span></code></a></li>
@@ -112,6 +117,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -150,7 +156,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Installation</li>
     
@@ -173,19 +179,53 @@
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>Installing and using the <code class="docutils literal notranslate"><span class="pre">Zgoubidoo</span></code> Python library requires a working Python 3.7 environment.</p>
-<p>The easiest way is to
-proceed with <code class="docutils literal notranslate"><span class="pre">conda</span></code> to set it up. In case you already have a Python 3.7 environment available, you can simply install
-<code class="docutils literal notranslate"><span class="pre">Zgoubidoo</span></code> with <code class="docutils literal notranslate"><span class="pre">pip</span></code> directly. <code class="docutils literal notranslate"><span class="pre">Zgoubidoo</span></code> has a relatively small number of dependencies, and no non-Python
-dependencies, except of course for <code class="docutils literal notranslate"><span class="pre">Zgoubi</span></code> itself.</p>
+<p>Installing and using the <code class="docutils literal notranslate"><span class="pre">Zgoubidoo</span></code> Python library requires a working Python 3.7+ environment.</p>
+<p>The easiest way is to proceed with <code class="docutils literal notranslate"><span class="pre">conda</span></code> to set it up. In case you already have a Python 3.7 environment available,
+you can simply install <code class="docutils literal notranslate"><span class="pre">Zgoubidoo</span></code> with <code class="docutils literal notranslate"><span class="pre">pip</span></code> directly. <code class="docutils literal notranslate"><span class="pre">Zgoubidoo</span></code> has a relatively small number of
+dependencies, and no non-Python dependencies, except of course for <code class="docutils literal notranslate"><span class="pre">Zgoubi</span></code> itself. Detailed step-by-step
+instructions are provided in the following sections.</p>
 <div class="section" id="compiling-and-installing-zgoubi">
 <h2>Compiling and installing Zgoubi<a class="headerlink" href="#compiling-and-installing-zgoubi" title="Permalink to this headline">¶</a></h2>
+<p>Zgoubi can be obtained from the official SourceForge repository, although we do not explicitely support the
+compilation and installation of Zgoubi with that method. Indeed, no platform-independent build system is provided and
+it is difficult to support compilation over a variety of platforms. A selection of <a href="#id1"><span class="problematic" id="id2">``</span></a>Makefile``s is provided. In case
+one of them suits your needs, a brief description of the build process is given in the next section.</p>
+<p>A non-official <code class="docutils literal notranslate"><span class="pre">git</span></code> repository, tracking the SVN repository (using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">svn</span></code>) is maintained in parallel with
+Zgoubidoo. You can contact us to obtain access. That repository provides a build system using <code class="docutils literal notranslate"><span class="pre">cmake</span></code>, which allow to
+compile over a variety of platforms and compilers.</p>
+<p>In particular, the build process for recent versions of <code class="docutils literal notranslate"><span class="pre">gfortran</span></code> on Mac OS is actively supported. The dependencies
+are <code class="docutils literal notranslate"><span class="pre">cmake</span></code> and <code class="docutils literal notranslate"><span class="pre">gfortran</span></code>. They can be installed using your package manager, <code class="docutils literal notranslate"><span class="pre">brew</span></code> on Mac OS works just fine.</p>
+<p>The following steps are recommended on a Mac:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install cmake on Mac OS</span>
+<span class="n">brew</span> <span class="n">install</span> <span class="n">cmake</span>
+<span class="c1"># Install gfortran on Mac OS</span>
+<span class="n">brew</span> <span class="n">install</span> <span class="n">gcc</span>
+<span class="c1"># Clone the git repository in a source directory</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">ulb</span><span class="o">-</span><span class="n">metronu</span><span class="o">/</span><span class="n">zgoubi</span><span class="o">.</span><span class="n">git</span> <span class="n">zgoubi</span><span class="o">-</span><span class="n">source</span>
+<span class="n">cd</span> <span class="n">zgoubi</span><span class="o">-</span><span class="n">source</span>
+<span class="n">git</span> <span class="n">checkout</span> <span class="n">develop</span>
+<span class="n">cd</span> <span class="o">..</span>
+<span class="n">mkdir</span> <span class="n">zgoubi</span><span class="o">-</span><span class="n">build</span>
+<span class="n">cd</span> <span class="n">zgoubi</span><span class="o">-</span><span class="n">build</span>
+<span class="n">cmake</span> <span class="o">../</span><span class="n">zgoubi</span><span class="o">-</span><span class="n">source</span>
+<span class="n">make</span>
+</pre></div>
+</div>
+<p>The Zgoubi executable is then available in the <code class="docutils literal notranslate"><span class="pre">bin</span></code> directory. No specific step is required to “install” Zgoubi, but
+a symbolic link can be a good idea:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">zgoubi</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">zgoubi</span>
+</pre></div>
+</div>
+<div class="section" id="compiling-zgoubi-from-the-official-sourceforge-repository">
+<h3>Compiling Zgoubi from the official SourceForge repository<a class="headerlink" href="#compiling-zgoubi-from-the-official-sourceforge-repository" title="Permalink to this headline">¶</a></h3>
 <p>Zgoubi can be obtained from SourceForge (download or <code class="docutils literal notranslate"><span class="pre">svn</span> <span class="pre">checkout</span></code>). A Fortran compiler is required: both <code class="docutils literal notranslate"><span class="pre">ifort</span></code>
 and <code class="docutils literal notranslate"><span class="pre">gfortran</span></code> are supported (‘Makefile’s are provided).</p>
 <p>After the compilation the <code class="docutils literal notranslate"><span class="pre">zgoubi</span></code> executable will be available in the <cite>zgoubi</cite> directory. Depending on the Makefile
-you use, <cite>zpop</cite> will also be built. It is not used by Zgoubidoo.</p>
+you use, <cite>zpop</cite> will also be built. <cite>zpop</cite> is <em>not</em> used by Zgoubidoo.</p>
 <p>Zgoubidoo needs to be able to locate the <code class="docutils literal notranslate"><span class="pre">zgoubi</span></code> executable. The easiest way is to have it somewhere in your <cite>$PATH</cite>
-so that <code class="docutils literal notranslate"><span class="pre">which</span></code> (via <cite>shutil.which</cite>) is able to find it. Alternatively, it is possible to provide the path at runtime.</p>
+so that <code class="docutils literal notranslate"><span class="pre">which</span></code> (via Python <cite>shutil.which</cite>) is able to find it. Alternatively, it is possible to provide the path
+at runtime (see the <code class="docutils literal notranslate"><span class="pre">zgoubidoo.Zgoubi</span></code> class).</p>
+</div>
 </div>
 <div class="section" id="obtaining-zgoubidoo">
 <h2>Obtaining Zgoubidoo<a class="headerlink" href="#obtaining-zgoubidoo" title="Permalink to this headline">¶</a></h2>
@@ -204,8 +244,10 @@ versions are merged onto the master branch.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <dl>
-<dt>2019.4 - What will it be?</dt><dd><ul class="simple">
-<li><p>Surprise.</p></li>
+<dt>2020.1 - Major stability improvements</dt><dd><ul class="simple">
+<li><p>Refactoring of multiple classes in <cite>georges-core</cite> (<cite>Kinematics</cite> and <cite>Sequence</cite>, among others);</p></li>
+<li><p>Major clean up and testings of the elements classes;</p></li>
+<li><p>Improvements in the plotting module.</p></li>
 </ul>
 </dd>
 <dt>2019.3 - Coherent support of the high-level ‘sequence’ API and synchrotron radiation</dt><dd><ul class="simple">
@@ -283,6 +325,8 @@ For that it is best to install the extension <code class="docutils literal notra
 installation of <code class="docutils literal notranslate"><span class="pre">jupyter</span></code> with the <code class="docutils literal notranslate"><span class="pre">conda</span></code> extensions:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">activate</span> <span class="n">py37</span>
 <span class="n">jupyter</span> <span class="n">notebook</span>
+<span class="c1"># Or using Jupyter Lab</span>
+<span class="n">jupyter</span> <span class="n">lab</span>
 </pre></div>
 </div>
 <p>From there you can create a new notebook and simply import Zgoubidoo:</p>
@@ -312,11 +356,19 @@ installation of <code class="docutils literal notranslate"><span class="pre">jup
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+        
+        &copy; Copyright 2018-2020, Cédric Hernalsteens (cedric.hernalsteens@ulb.be)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -327,7 +379,6 @@ installation of <code class="docutils literal notranslate"><span class="pre">jup
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

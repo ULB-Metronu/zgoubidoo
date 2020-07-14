@@ -1,15 +1,19 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>MatplotlibArtist &mdash; Zgoubidoo 2019.4 documentation</title>
+  <title>MatplotlibArtist &mdash; Zgoubidoo 2020.1 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
 
   
   
@@ -17,7 +21,9 @@
   
 
   
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -29,15 +35,8 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="MplArtist" href="zgoubidoo.vis.MplArtist.html" />
-    <link rel="prev" title="Zgoubidoo’s visualization and plotting module" href="../vis.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -51,7 +50,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> Zgoubidoo
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> Zgoubidoo
           
 
           
@@ -61,7 +60,7 @@
             
             
               <div class="version">
-                2019.4
+                2020.1
               </div>
             
           
@@ -78,6 +77,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -86,7 +86,7 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../news.html">News and announcements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting started</a></li>
@@ -97,16 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../lowlevel.html">Using the Zgoubidoo low-level interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../fieldmaps.html">Field maps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../vis.html#classes">Classes</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">MatplotlibArtist</a></li>
-<li class="toctree-l3"><a class="reference internal" href="zgoubidoo.vis.MplArtist.html">MplArtist</a></li>
-<li class="toctree-l3"><a class="reference internal" href="zgoubidoo.vis.ZgoubidooPlotlyArtist.html">ZgoubidooPlotlyArtist</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../vis.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../vis.html">Zgoubidoo’s visualization and plotting module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities.html">Zgoubidoo’s utility modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
 </ul>
@@ -114,6 +105,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -152,9 +144,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
-        
-          <li><a href="../vis.html">Zgoubidoo’s visualization and plotting module</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>MatplotlibArtist</li>
     
@@ -177,317 +167,6 @@
             
   <div class="section" id="matplotlibartist">
 <h1>MatplotlibArtist<a class="headerlink" href="#matplotlibartist" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
-<dt id="zgoubidoo.vis.MatplotlibArtist">
-<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.vis.</code><code class="sig-name descname">MatplotlibArtist</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">with_boxes</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">with_frames</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">with_centers</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">tracks_color</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'b'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#MatplotlibArtist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.MatplotlibArtist" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">georges_core.vis.artist.Artist</span></code></p>
-<p>A matplotlib implementation of a <cite>ZgoubiPlot</cite> artist.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>ax</strong> (<em>param</em>) – the matplotlib ax used for plotting. If None it will be created with <cite>init_plot</cite> (kwargs are</p></li>
-<li><p><strong>forwarded</strong><strong>)</strong><strong></strong> – </p></li>
-<li><p><strong>with_boxes</strong> – draw the body of each elements</p></li>
-<li><p><strong>with_frames</strong> – draw the entry and exit frames of each elements</p></li>
-<li><p><strong>with_centers</strong> – draw the center of each polar coordinate elements</p></li>
-<li><p><strong>tracks_color</strong> – color for the plotting of tracks</p></li>
-<li><p><strong>kwargs</strong> – forwarded to <cite>ZgoubiPlot</cite> and to <cite>init_plot</cite>.</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Attributes Summary</p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.vis.MatplotlibArtist.ax" title="zgoubidoo.vis.MatplotlibArtist.ax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ax</span></code></a></p></td>
-<td><p>Current Matplotlib ax.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.vis.MatplotlibArtist.ax2" title="zgoubidoo.vis.MatplotlibArtist.ax2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ax2</span></code></a></p></td>
-<td><p>Returns:</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.vis.MatplotlibArtist.figure" title="zgoubidoo.vis.MatplotlibArtist.figure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">figure</span></code></a></p></td>
-<td><p>Current Matplotlib figure.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.vis.MatplotlibArtist.tracks_color" title="zgoubidoo.vis.MatplotlibArtist.tracks_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tracks_color</span></code></a></p></td>
-<td><p>The color for the rendering of the tracks.</p></td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Methods Summary</p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.vis.MatplotlibArtist.cartesianmagnet" title="zgoubidoo.vis.MatplotlibArtist.cartesianmagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cartesianmagnet</span></code></a>(magnet[, apertures])</p></td>
-<td><p>Rendering of magnets in cartesian coordinates.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.vis.MatplotlibArtist.cartouche_cartesianmagnet" title="zgoubidoo.vis.MatplotlibArtist.cartouche_cartesianmagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cartouche_cartesianmagnet</span></code></a>(s_location, magnet)</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param s_location</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.vis.MatplotlibArtist.cartouche_cavite" title="zgoubidoo.vis.MatplotlibArtist.cartouche_cavite"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cartouche_cavite</span></code></a>(s_location, cavite)</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param s_location</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.vis.MatplotlibArtist.cartouche_drift" title="zgoubidoo.vis.MatplotlibArtist.cartouche_drift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cartouche_drift</span></code></a>(s_location, magnet)</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param s_location</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.vis.MatplotlibArtist.cartouche_fakedrift" title="zgoubidoo.vis.MatplotlibArtist.cartouche_fakedrift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cartouche_fakedrift</span></code></a>(s_location, magnet)</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param s_location</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.vis.MatplotlibArtist.cartouche_quadrupole" title="zgoubidoo.vis.MatplotlibArtist.cartouche_quadrupole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cartouche_quadrupole</span></code></a>(s_location, magnet)</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param s_location</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.vis.MatplotlibArtist.cartouche_solenoid" title="zgoubidoo.vis.MatplotlibArtist.cartouche_solenoid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cartouche_solenoid</span></code></a>(s_location, magnet)</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">param s_location</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.vis.MatplotlibArtist.init_plot" title="zgoubidoo.vis.MatplotlibArtist.init_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_plot</span></code></a>([figsize, subplots])</p></td>
-<td><p>Initialize the Matplotlib figure and ax.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.vis.MatplotlibArtist.plot" title="zgoubidoo.vis.MatplotlibArtist.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Proxy for matplotlib.pyplot.plot</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.vis.MatplotlibArtist.polarmagnet" title="zgoubidoo.vis.MatplotlibArtist.polarmagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">polarmagnet</span></code></a>(magnet)</p></td>
-<td><p>Rendering of magnets in polar coordinates.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#zgoubidoo.vis.MatplotlibArtist.tracks_cartesianmagnet" title="zgoubidoo.vis.MatplotlibArtist.tracks_cartesianmagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tracks_cartesianmagnet</span></code></a>(magnet, tracks)</p></td>
-<td><p>Plot tracks for a cartesian magnet.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#zgoubidoo.vis.MatplotlibArtist.tracks_polarmagnet" title="zgoubidoo.vis.MatplotlibArtist.tracks_polarmagnet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tracks_polarmagnet</span></code></a>(magnet, tracks)</p></td>
-<td><p>Plot tracks for a polar magnet.</p></td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Attributes Documentation</p>
-<dl class="py attribute">
-<dt id="zgoubidoo.vis.MatplotlibArtist.ax">
-<code class="sig-name descname">ax</code><a class="headerlink" href="#zgoubidoo.vis.MatplotlibArtist.ax" title="Permalink to this definition">¶</a></dt>
-<dd><p>Current Matplotlib ax.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>the Matplotlib ax.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="zgoubidoo.vis.MatplotlibArtist.ax2">
-<code class="sig-name descname">ax2</code><a class="headerlink" href="#zgoubidoo.vis.MatplotlibArtist.ax2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns:</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="zgoubidoo.vis.MatplotlibArtist.figure">
-<code class="sig-name descname">figure</code><a class="headerlink" href="#zgoubidoo.vis.MatplotlibArtist.figure" title="Permalink to this definition">¶</a></dt>
-<dd><p>Current Matplotlib figure.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>the Matplotlib figure.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="zgoubidoo.vis.MatplotlibArtist.tracks_color">
-<code class="sig-name descname">tracks_color</code><a class="headerlink" href="#zgoubidoo.vis.MatplotlibArtist.tracks_color" title="Permalink to this definition">¶</a></dt>
-<dd><p>The color for the rendering of the tracks.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>color as a string</p>
-</dd>
-</dl>
-</dd></dl>
-
-<p class="rubric">Methods Documentation</p>
-<dl class="py method">
-<dt id="zgoubidoo.vis.MatplotlibArtist.cartesianmagnet">
-<code class="sig-name descname">cartesianmagnet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">magnet</span><span class="p">:</span> <span class="n"><a class="reference internal" href="zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet" title="zgoubidoo.commands.magnetique.CartesianMagnet">zgoubidoo.commands.magnetique.CartesianMagnet</a></span></em>, <em class="sig-param"><span class="n">apertures</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#MatplotlibArtist.cartesianmagnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.MatplotlibArtist.cartesianmagnet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rendering of magnets in cartesian coordinates.</p>
-<p>Plot magnets in cartesian coordinates using rectangles.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>magnet</strong> – the magnet to be rendered.</p></li>
-<li><p><strong>apertures</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="zgoubidoo.vis.MatplotlibArtist.cartouche_cartesianmagnet">
-<code class="sig-name descname">cartouche_cartesianmagnet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s_location</span></em>, <em class="sig-param"><span class="n">magnet</span><span class="p">:</span> <span class="n"><a class="reference internal" href="zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet" title="zgoubidoo.commands.magnetique.CartesianMagnet">zgoubidoo.commands.magnetique.CartesianMagnet</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#MatplotlibArtist.cartouche_cartesianmagnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.MatplotlibArtist.cartouche_cartesianmagnet" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>s_location</strong> – </p></li>
-<li><p><strong>magnet</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-<p>Returns:</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="zgoubidoo.vis.MatplotlibArtist.cartouche_cavite">
-<code class="sig-name descname">cartouche_cavite</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s_location</span></em>, <em class="sig-param"><span class="n">cavite</span><span class="p">:</span> <span class="n"><a class="reference internal" href="zgoubidoo.commands.electrique.Cavite.html#zgoubidoo.commands.electrique.Cavite" title="zgoubidoo.commands.electrique.Cavite">zgoubidoo.commands.electrique.Cavite</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#MatplotlibArtist.cartouche_cavite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.MatplotlibArtist.cartouche_cavite" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>s_location</strong> – </p></li>
-<li><p><strong>cavite</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-<p>Returns:</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="zgoubidoo.vis.MatplotlibArtist.cartouche_drift">
-<code class="sig-name descname">cartouche_drift</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s_location</span></em>, <em class="sig-param"><span class="n">magnet</span><span class="p">:</span> <span class="n"><a class="reference internal" href="zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet" title="zgoubidoo.commands.magnetique.CartesianMagnet">zgoubidoo.commands.magnetique.CartesianMagnet</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#MatplotlibArtist.cartouche_drift"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.MatplotlibArtist.cartouche_drift" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>s_location</strong> – </p></li>
-<li><p><strong>magnet</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-<p>Returns:</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="zgoubidoo.vis.MatplotlibArtist.cartouche_fakedrift">
-<code class="sig-name descname">cartouche_fakedrift</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s_location</span></em>, <em class="sig-param"><span class="n">magnet</span><span class="p">:</span> <span class="n"><a class="reference internal" href="zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet" title="zgoubidoo.commands.magnetique.CartesianMagnet">zgoubidoo.commands.magnetique.CartesianMagnet</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#zgoubidoo.vis.MatplotlibArtist.cartouche_fakedrift" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>s_location</strong> – </p></li>
-<li><p><strong>magnet</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-<p>Returns:</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="zgoubidoo.vis.MatplotlibArtist.cartouche_quadrupole">
-<code class="sig-name descname">cartouche_quadrupole</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s_location</span></em>, <em class="sig-param"><span class="n">magnet</span><span class="p">:</span> <span class="n"><a class="reference internal" href="zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet" title="zgoubidoo.commands.magnetique.CartesianMagnet">zgoubidoo.commands.magnetique.CartesianMagnet</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#MatplotlibArtist.cartouche_quadrupole"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.MatplotlibArtist.cartouche_quadrupole" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>s_location</strong> – </p></li>
-<li><p><strong>magnet</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-<p>Returns:</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="zgoubidoo.vis.MatplotlibArtist.cartouche_solenoid">
-<code class="sig-name descname">cartouche_solenoid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s_location</span></em>, <em class="sig-param"><span class="n">magnet</span><span class="p">:</span> <span class="n"><a class="reference internal" href="zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet" title="zgoubidoo.commands.magnetique.CartesianMagnet">zgoubidoo.commands.magnetique.CartesianMagnet</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#MatplotlibArtist.cartouche_solenoid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.MatplotlibArtist.cartouche_solenoid" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>s_location</strong> – </p></li>
-<li><p><strong>magnet</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-<p>Returns:</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="zgoubidoo.vis.MatplotlibArtist.init_plot">
-<code class="sig-name descname">init_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">12, 8</span></em>, <em class="sig-param"><span class="n">subplots</span><span class="o">=</span><span class="default_value">111</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#MatplotlibArtist.init_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.MatplotlibArtist.init_plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize the Matplotlib figure and ax.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>subplots</strong> – number of subplots</p></li>
-<li><p><strong>figsize</strong> – figure size</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="zgoubidoo.vis.MatplotlibArtist.plot">
-<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#MatplotlibArtist.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.MatplotlibArtist.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Proxy for matplotlib.pyplot.plot</p>
-<p>Same as <cite>matplotlib.pyplot.plot</cite>, forwards all arguments.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="zgoubidoo.vis.MatplotlibArtist.polarmagnet">
-<code class="sig-name descname">polarmagnet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">magnet</span><span class="p">:</span> <span class="n"><a class="reference internal" href="zgoubidoo.commands.magnetique.PolarMagnet.html#zgoubidoo.commands.magnetique.PolarMagnet" title="zgoubidoo.commands.magnetique.PolarMagnet">zgoubidoo.commands.magnetique.PolarMagnet</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#MatplotlibArtist.polarmagnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.MatplotlibArtist.polarmagnet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rendering of magnets in polar coordinates.</p>
-<p>Plot magnets in polar coordinates using wedges.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>magnet</strong> – the magnet to be rendered.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="zgoubidoo.vis.MatplotlibArtist.tracks_cartesianmagnet">
-<code class="sig-name descname">tracks_cartesianmagnet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">magnet</span><span class="p">:</span> <span class="n"><a class="reference internal" href="zgoubidoo.commands.magnetique.CartesianMagnet.html#zgoubidoo.commands.magnetique.CartesianMagnet" title="zgoubidoo.commands.magnetique.CartesianMagnet">zgoubidoo.commands.magnetique.CartesianMagnet</a></span></em>, <em class="sig-param"><span class="n">tracks</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#MatplotlibArtist.tracks_cartesianmagnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.MatplotlibArtist.tracks_cartesianmagnet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot tracks for a cartesian magnet.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>magnet</strong> – the magnet to which the tracks are attached</p></li>
-<li><p><strong>tracks</strong> – a dataframe containing the tracks</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="zgoubidoo.vis.MatplotlibArtist.tracks_polarmagnet">
-<code class="sig-name descname">tracks_polarmagnet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">magnet</span><span class="p">:</span> <span class="n"><a class="reference internal" href="zgoubidoo.commands.magnetique.PolarMagnet.html#zgoubidoo.commands.magnetique.PolarMagnet" title="zgoubidoo.commands.magnetique.PolarMagnet">zgoubidoo.commands.magnetique.PolarMagnet</a></span></em>, <em class="sig-param"><span class="n">tracks</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/vis/matplotlib.html#MatplotlibArtist.tracks_polarmagnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.vis.MatplotlibArtist.tracks_polarmagnet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot tracks for a polar magnet.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>magnet</strong> – the magnet to which the tracks are attached</p></li>
-<li><p><strong>tracks</strong> – a dataframe containing the tracks</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 
 
@@ -496,25 +175,24 @@
           </div>
           <footer>
   
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="zgoubidoo.vis.MplArtist.html" class="btn btn-neutral float-right" title="MplArtist" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="../vis.html" class="btn btn-neutral float-left" title="Zgoubidoo’s visualization and plotting module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+        
+        &copy; Copyright 2018-2020, Cédric Hernalsteens (cedric.hernalsteens@ulb.be)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -525,7 +203,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

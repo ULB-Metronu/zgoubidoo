@@ -1,15 +1,19 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>zgoubidoo.vis.matplotlib &mdash; Zgoubidoo 2019.4 documentation</title>
+  <title>zgoubidoo.vis.matplotlib &mdash; Zgoubidoo 2020.1 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
 
   
   
@@ -17,7 +21,9 @@
   
 
   
-  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -29,11 +35,6 @@
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -49,7 +50,7 @@
           
 
           
-            <a href="../../../index.html" class="icon icon-home"> Zgoubidoo
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> Zgoubidoo
           
 
           
@@ -59,7 +60,7 @@
             
             
               <div class="version">
-                2019.4
+                2020.1
               </div>
             
           
@@ -76,6 +77,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -103,6 +105,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -141,7 +144,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
@@ -172,12 +175,12 @@
 <span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">patches</span>
 <span class="kn">import</span> <span class="nn">matplotlib.transforms</span> <span class="k">as</span> <span class="nn">transforms</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
-<span class="kn">from</span> <span class="nn">georges_core</span> <span class="kn">import</span> <span class="n">Artist</span> <span class="k">as</span> <span class="n">_Artist</span>
+<span class="kn">from</span> <span class="nn">georges_core.vis</span> <span class="kn">import</span> <span class="n">MatplotlibArtist</span> <span class="k">as</span> <span class="n">_MatplotlibArtist</span>
 <span class="kn">from</span> <span class="nn">..units</span> <span class="kn">import</span> <span class="n">_m</span><span class="p">,</span> <span class="n">_cm</span><span class="p">,</span> <span class="n">_degree</span><span class="p">,</span> <span class="n">_radian</span>
 <span class="kn">import</span> <span class="nn">zgoubidoo.commands</span>
 
 
-<div class="viewcode-block" id="MatplotlibArtist"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.MatplotlibArtist.html#zgoubidoo.vis.MatplotlibArtist">[docs]</a><span class="k">class</span> <span class="nc">MatplotlibArtist</span><span class="p">(</span><span class="n">_Artist</span><span class="p">):</span>
+<div class="viewcode-block" id="ZgoubidooMatplotlibArtist"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubidooMatplotlibArtist.html#zgoubidoo.vis.ZgoubidooMatplotlibArtist">[docs]</a><span class="k">class</span> <span class="nc">ZgoubidooMatplotlibArtist</span><span class="p">(</span><span class="n">_MatplotlibArtist</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A matplotlib implementation of a `ZgoubiPlot` artist.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -252,7 +255,7 @@
     <span class="k">def</span> <span class="nf">ax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span> <span class="o">=</span> <span class="n">ax</span>
 
-<div class="viewcode-block" id="MatplotlibArtist.init_plot"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.MatplotlibArtist.html#zgoubidoo.vis.MatplotlibArtist.init_plot">[docs]</a>    <span class="k">def</span> <span class="nf">init_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">subplots</span><span class="o">=</span><span class="mi">111</span><span class="p">):</span>
+<div class="viewcode-block" id="ZgoubidooMatplotlibArtist.init_plot"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubidooMatplotlibArtist.html#zgoubidoo.vis.ZgoubidooMatplotlibArtist.init_plot">[docs]</a>    <span class="k">def</span> <span class="nf">init_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">subplots</span><span class="o">=</span><span class="mi">111</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize the Matplotlib figure and ax.</span>
 
@@ -263,14 +266,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">subplots</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MatplotlibArtist.plot"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.MatplotlibArtist.html#zgoubidoo.vis.MatplotlibArtist.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ZgoubidooMatplotlibArtist.plot"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubidooMatplotlibArtist.html#zgoubidoo.vis.ZgoubidooMatplotlibArtist.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Proxy for matplotlib.pyplot.plot</span>
 
 <span class="sd">        Same as `matplotlib.pyplot.plot`, forwards all arguments.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MatplotlibArtist.polarmagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.MatplotlibArtist.html#zgoubidoo.vis.MatplotlibArtist.polarmagnet">[docs]</a>    <span class="k">def</span> <span class="nf">polarmagnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">PolarMagnet</span><span class="p">):</span>
+<div class="viewcode-block" id="ZgoubidooMatplotlibArtist.polarmagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubidooMatplotlibArtist.html#zgoubidoo.vis.ZgoubidooMatplotlibArtist.polarmagnet">[docs]</a>    <span class="k">def</span> <span class="nf">polarmagnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">PolarMagnet</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Rendering of magnets in polar coordinates.</span>
 
 <span class="sd">        Plot magnets in polar coordinates using wedges.</span>
@@ -372,7 +375,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_frames</span><span class="p">:</span>
             <span class="n">do_frame</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="MatplotlibArtist.cartesianmagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.MatplotlibArtist.html#zgoubidoo.vis.MatplotlibArtist.cartesianmagnet">[docs]</a>    <span class="k">def</span> <span class="nf">cartesianmagnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">CartesianMagnet</span><span class="p">,</span> <span class="n">apertures</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="ZgoubidooMatplotlibArtist.cartesianmagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubidooMatplotlibArtist.html#zgoubidoo.vis.ZgoubidooMatplotlibArtist.cartesianmagnet">[docs]</a>    <span class="k">def</span> <span class="nf">cartesianmagnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">CartesianMagnet</span><span class="p">,</span> <span class="n">apertures</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Rendering of magnets in cartesian coordinates.</span>
 
 <span class="sd">        Plot magnets in cartesian coordinates using rectangles.</span>
@@ -474,7 +477,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_frames</span><span class="p">:</span>
             <span class="n">do_frame</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="MatplotlibArtist.cartouche_drift"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.MatplotlibArtist.html#zgoubidoo.vis.MatplotlibArtist.cartouche_drift">[docs]</a>    <span class="k">def</span> <span class="nf">cartouche_drift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s_location</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">CartesianMagnet</span><span class="p">):</span>
+<div class="viewcode-block" id="ZgoubidooMatplotlibArtist.cartouche_drift"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubidooMatplotlibArtist.html#zgoubidoo.vis.ZgoubidooMatplotlibArtist.cartouche_drift">[docs]</a>    <span class="k">def</span> <span class="nf">cartouche_drift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s_location</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">CartesianMagnet</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
@@ -487,9 +490,7 @@
         <span class="n">offset</span> <span class="o">=</span> <span class="mf">1.1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ax2</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="n">_m</span><span class="p">(</span><span class="n">s_location</span><span class="p">),</span> <span class="n">_m</span><span class="p">(</span><span class="n">s_location</span><span class="p">)</span> <span class="o">+</span> <span class="n">_m</span><span class="p">(</span><span class="n">magnet</span><span class="o">.</span><span class="n">length</span><span class="p">),</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
-    <span class="n">cartouche_fakedrift</span> <span class="o">=</span> <span class="n">cartouche_drift</span>
-
-<div class="viewcode-block" id="MatplotlibArtist.cartouche_cartesianmagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.MatplotlibArtist.html#zgoubidoo.vis.MatplotlibArtist.cartouche_cartesianmagnet">[docs]</a>    <span class="k">def</span> <span class="nf">cartouche_cartesianmagnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s_location</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">CartesianMagnet</span><span class="p">):</span>
+<div class="viewcode-block" id="ZgoubidooMatplotlibArtist.cartouche_cartesianmagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubidooMatplotlibArtist.html#zgoubidoo.vis.ZgoubidooMatplotlibArtist.cartouche_cartesianmagnet">[docs]</a>    <span class="k">def</span> <span class="nf">cartouche_cartesianmagnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s_location</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">CartesianMagnet</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
@@ -517,7 +518,7 @@
             <span class="p">)</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="MatplotlibArtist.cartouche_quadrupole"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.MatplotlibArtist.html#zgoubidoo.vis.MatplotlibArtist.cartouche_quadrupole">[docs]</a>    <span class="k">def</span> <span class="nf">cartouche_quadrupole</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s_location</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">CartesianMagnet</span><span class="p">):</span>
+<div class="viewcode-block" id="ZgoubidooMatplotlibArtist.cartouche_quadrupole"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubidooMatplotlibArtist.html#zgoubidoo.vis.ZgoubidooMatplotlibArtist.cartouche_quadrupole">[docs]</a>    <span class="k">def</span> <span class="nf">cartouche_quadrupole</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s_location</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">CartesianMagnet</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
@@ -549,7 +550,7 @@
             <span class="p">)</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="MatplotlibArtist.cartouche_solenoid"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.MatplotlibArtist.html#zgoubidoo.vis.MatplotlibArtist.cartouche_solenoid">[docs]</a>    <span class="k">def</span> <span class="nf">cartouche_solenoid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s_location</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">CartesianMagnet</span><span class="p">):</span>
+<div class="viewcode-block" id="ZgoubidooMatplotlibArtist.cartouche_solenoid"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubidooMatplotlibArtist.html#zgoubidoo.vis.ZgoubidooMatplotlibArtist.cartouche_solenoid">[docs]</a>    <span class="k">def</span> <span class="nf">cartouche_solenoid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s_location</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">CartesianMagnet</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
@@ -578,7 +579,7 @@
             <span class="p">),</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="MatplotlibArtist.cartouche_cavite"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.MatplotlibArtist.html#zgoubidoo.vis.MatplotlibArtist.cartouche_cavite">[docs]</a>    <span class="k">def</span> <span class="nf">cartouche_cavite</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s_location</span><span class="p">,</span> <span class="n">cavite</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Cavite</span><span class="p">):</span>
+<div class="viewcode-block" id="ZgoubidooMatplotlibArtist.cartouche_cavite"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubidooMatplotlibArtist.html#zgoubidoo.vis.ZgoubidooMatplotlibArtist.cartouche_cavite">[docs]</a>    <span class="k">def</span> <span class="nf">cartouche_cavite</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s_location</span><span class="p">,</span> <span class="n">cavite</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">Cavite</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Args:</span>
@@ -606,7 +607,7 @@
             <span class="p">)</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="MatplotlibArtist.tracks_cartesianmagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.MatplotlibArtist.html#zgoubidoo.vis.MatplotlibArtist.tracks_cartesianmagnet">[docs]</a>    <span class="k">def</span> <span class="nf">tracks_cartesianmagnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">CartesianMagnet</span><span class="p">,</span> <span class="n">tracks</span><span class="p">:</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+<div class="viewcode-block" id="ZgoubidooMatplotlibArtist.tracks_cartesianmagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubidooMatplotlibArtist.html#zgoubidoo.vis.ZgoubidooMatplotlibArtist.tracks_cartesianmagnet">[docs]</a>    <span class="k">def</span> <span class="nf">tracks_cartesianmagnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">CartesianMagnet</span><span class="p">,</span> <span class="n">tracks</span><span class="p">:</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Plot tracks for a cartesian magnet.</span>
 
 <span class="sd">        Args:</span>
@@ -621,7 +622,7 @@
                   <span class="n">ms</span><span class="o">=</span><span class="mi">1</span>
                   <span class="p">)</span></div>
 
-<div class="viewcode-block" id="MatplotlibArtist.tracks_polarmagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.MatplotlibArtist.html#zgoubidoo.vis.MatplotlibArtist.tracks_polarmagnet">[docs]</a>    <span class="k">def</span> <span class="nf">tracks_polarmagnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">PolarMagnet</span><span class="p">,</span> <span class="n">tracks</span><span class="p">):</span>
+<div class="viewcode-block" id="ZgoubidooMatplotlibArtist.tracks_polarmagnet"><a class="viewcode-back" href="../../../api/zgoubidoo.vis.ZgoubidooMatplotlibArtist.html#zgoubidoo.vis.ZgoubidooMatplotlibArtist.tracks_polarmagnet">[docs]</a>    <span class="k">def</span> <span class="nf">tracks_polarmagnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnet</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">PolarMagnet</span><span class="p">,</span> <span class="n">tracks</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Plot tracks for a polar magnet.</span>
 
 <span class="sd">        Args:</span>
@@ -645,7 +646,7 @@
                   <span class="p">)</span></div></div>
 
 
-<span class="n">MplArtist</span> <span class="o">=</span> <span class="n">MatplotlibArtist</span>
+<span class="n">MplArtist</span> <span class="o">=</span> <span class="n">ZgoubidooMatplotlibArtist</span>
 </pre></div>
 
            </div>
@@ -658,11 +659,19 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+        
+        &copy; Copyright 2018-2020, Cédric Hernalsteens (cedric.hernalsteens@ulb.be)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -673,7 +682,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

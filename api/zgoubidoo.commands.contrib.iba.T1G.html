@@ -1,15 +1,19 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>T1G &mdash; Zgoubidoo 2019.4 documentation</title>
+  <title>T1G &mdash; Zgoubidoo 2020.1 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
 
   
   
@@ -17,7 +21,9 @@
   
 
   
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -29,11 +35,6 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="T2G" href="zgoubidoo.commands.contrib.iba.T2G.html" />
@@ -51,7 +52,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> Zgoubidoo
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> Zgoubidoo
           
 
           
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                2019.4
+                2020.1
               </div>
             
           
@@ -78,6 +79,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -145,6 +147,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -183,7 +186,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../contrib.html">Zgoubidoo specialized and contributed commands</a> &raquo;</li>
         
@@ -249,6 +252,17 @@
 
 <dl class="py attribute">
 <dt>
+<code class="sig-name descname">POLE_WIDTH='30 centimeter'</code></dt>
+<dd><p>Pole width (used for plotting only).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Quantity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
 <code class="sig-name descname">PIPE_THICKNESS='2 centimeter'</code></dt>
 <dd><p>Thickness of the pipe, used by plotting functions.</p>
 <dl class="field-list simple">
@@ -271,17 +285,6 @@
 
 <dl class="py attribute">
 <dt>
-<code class="sig-name descname">POLE_WIDTH='50 centimeter'</code></dt>
-<dd><p>Pole width (used for plotting only).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>Quantity</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt>
 <code class="sig-name descname">REFERENCE_FIELD_COMPONENT='BZ'</code></dt>
 <dd><p>Orientation of the reference field (used by field maps)</p>
 <dl class="field-list simple">
@@ -298,17 +301,6 @@
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>NoneType</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt>
-<code class="sig-name descname">WIDTH='50 centimeter'</code></dt>
-<dd><p>Width of the magnetic poles (used for plotting only).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>Quantity</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1096,7 +1088,7 @@
 
 <dl class="py attribute">
 <dt id="zgoubidoo.commands.contrib.iba.T1G.PARAMETERS">
-<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'ALE': (&lt;Quantity(0, 'radian')&gt;, ''), 'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'B1': (&lt;Quantity(1e-06, 'gauss')&gt;, 'Field at pole tip for dipolar component.', 4), 'B10': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for 20-polar component.', 13), 'B2': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for quadrupolar component.', 5), 'B3': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for sextupolar component.', 6), 'B4': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for octupolar component.', 7), 'B5': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for decapolar component.', 8), 'B6': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for dodecapolar component.', 9), 'B7': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for 14-polar component.', 10), 'B8': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for 16-polar component.', 11), 'B9': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for 18-polar component.', 12), 'C0_E': (0, 'Zeroth-order Enge coefficient for entrance fringe field.'), 'C0_S': (0, 'Zeroth-order Enge coefficient for entrance fringe field.'), 'C1_E': (1, 'First-order Enge coefficient for entrance fringe field.'), 'C1_S': (1, 'First-order Enge coefficient for exit fringe field.'), 'C2_E': (0, 'Second-order Enge coefficient for entrance fringe field.'), 'C2_S': (0, 'Second-order Enge coefficient for exit fringe field.'), 'C3_E': (0, 'Third-order Enge coefficient for entrance fringe field.'), 'C3_S': (0, 'Third-order Enge coefficient for exit fringe field.'), 'C4_E': (0, 'Fourth-order Enge coefficient for entrance fringe field.'), 'C4_S': (0, 'Fourth-order Enge coefficient for exit fringe field.'), 'C5_E': (0, 'Fifth-order Enge coefficient for entrance fringe field.'), 'C5_S': (0, 'Fifth-order Enge coefficient for exit fringe field.'), 'COLOR': ('green', 'Magnet color for plotting.'), 'E10': (1, '20-polar entrance fringe field extent (E_10 * LAM_E).'), 'E2': (1, 'Quadrupole entrance fringe field extent (E_2 * LAM_E).'), 'E3': (1, 'Sextupolar entrance fringe field extent (E_3 * LAM_E).'), 'E4': (1, 'Octupolar entrance fringe field extent (E_4 * LAM_E).'), 'E5': (1, 'Decapolar entrance fringe field extent (E_5 * LAM_E).'), 'E6': (1, 'Dodecapolar entrance fringe field extent (E_6 * LAM_E).'), 'E7': (1, '14-polar entrance fringe field extent (E_7 * LAM_E).'), 'E8': (1, '16-polar entrance fringe field extent (E_8 * LAM_E).'), 'E9': (1, '18-polar entrance fringe field extent (E_9 * LAM_E).'), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'IL': (0, 'Print field and coordinates along trajectories', 1), 'KINEMATICS': (None, 'A kinematics object.'), 'KPOS': (1, ''), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'LAM_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance face fringe field extent'), 'LAM_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit face fringe field extent'), 'LENGTH_IS_ARC_LENGTH': (False, ''), 'PIPE_COLOR': ('grey', 'Color of the pipe, used by plotting functions.'), 'PIPE_THICKNESS': (&lt;Quantity(2, 'centimeter')&gt;, 'Thickness of the pipe, used by plotting functions.'), 'POLE_WIDTH': (&lt;Quantity(50, 'centimeter')&gt;, 'Pole width (used for plotting only).'), 'R0': (&lt;Quantity(10.0, 'centimeter')&gt;, 'Radius of the pole tips', 3), 'R1': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the dipolar component'), 'R10': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the 20-polar component'), 'R2': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the quadrupolar component'), 'R3': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the sextupolar component'), 'R4': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the octupolar component'), 'R5': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the decapolar component'), 'R6': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the dodecapolar component'), 'R7': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the 14-polar component'), 'R8': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the 16-polar component'), 'R9': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the 18-polar component'), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'S10': (1, '20-polar exit fringe field extent (E_10 * LAM_S).'), 'S2': (1, 'Quadrupole exit fringe field extent (E_2 * LAM_S).'), 'S3': (1, 'Sextupolar exit fringe field extent (E_3 * LAM_S).'), 'S4': (1, 'Octupolar exit fringe field extent (E_4 * LAM_S).'), 'S5': (1, 'Decapolar exit fringe field extent (E_5 * LAM_S).'), 'S6': (1, 'Dodecapolar exit fringe field extent (E_6 * LAM_S).'), 'S7': (1, '14-polar exit fringe field extent (E_7 * LAM_S).'), 'S8': (1, '16-polar exit fringe field extent (E_8 * LAM_S).'), 'S9': (1, '18-polar exit fringe field extent (E_9 * LAM_S).'), 'WIDTH': (&lt;Quantity(50, 'centimeter')&gt;, 'Width of the magnetic poles (used for plotting only).'), 'XCE': (&lt;Quantity(0, 'centimeter')&gt;, ''), 'XL': (&lt;Quantity(209.1, 'millimeter')&gt;, 'Magnet length', 2), 'XPAS': (&lt;Quantity(1.0, 'centimeter')&gt;, 'Integration step.'), 'X_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance face integration zone for the fringe field.'), 'X_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit face integration zone for the fringe field.'), 'YCE': (&lt;Quantity(0, 'centimeter')&gt;, '')}</em><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.T1G.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'ALE': (&lt;Quantity(0, 'radian')&gt;, ''), 'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'B1': (&lt;Quantity(1e-06, 'gauss')&gt;, 'Field at pole tip for dipolar component.', 4), 'B10': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for 20-polar component.', 13), 'B2': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for quadrupolar component.', 5), 'B3': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for sextupolar component.', 6), 'B4': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for octupolar component.', 7), 'B5': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for decapolar component.', 8), 'B6': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for dodecapolar component.', 9), 'B7': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for 14-polar component.', 10), 'B8': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for 16-polar component.', 11), 'B9': (&lt;Quantity(0, 'kilogauss')&gt;, 'Field at pole tip for 18-polar component.', 12), 'C0_E': (0, 'Zeroth-order Enge coefficient for entrance fringe field.'), 'C0_S': (0, 'Zeroth-order Enge coefficient for entrance fringe field.'), 'C1_E': (1, 'First-order Enge coefficient for entrance fringe field.'), 'C1_S': (1, 'First-order Enge coefficient for exit fringe field.'), 'C2_E': (0, 'Second-order Enge coefficient for entrance fringe field.'), 'C2_S': (0, 'Second-order Enge coefficient for exit fringe field.'), 'C3_E': (0, 'Third-order Enge coefficient for entrance fringe field.'), 'C3_S': (0, 'Third-order Enge coefficient for exit fringe field.'), 'C4_E': (0, 'Fourth-order Enge coefficient for entrance fringe field.'), 'C4_S': (0, 'Fourth-order Enge coefficient for exit fringe field.'), 'C5_E': (0, 'Fifth-order Enge coefficient for entrance fringe field.'), 'C5_S': (0, 'Fifth-order Enge coefficient for exit fringe field.'), 'COLOR': ('green', 'Magnet color for plotting.'), 'E10': (1, '20-polar entrance fringe field extent (E_10 * LAM_E).'), 'E2': (1, 'Quadrupole entrance fringe field extent (E_2 * LAM_E).'), 'E3': (1, 'Sextupolar entrance fringe field extent (E_3 * LAM_E).'), 'E4': (1, 'Octupolar entrance fringe field extent (E_4 * LAM_E).'), 'E5': (1, 'Decapolar entrance fringe field extent (E_5 * LAM_E).'), 'E6': (1, 'Dodecapolar entrance fringe field extent (E_6 * LAM_E).'), 'E7': (1, '14-polar entrance fringe field extent (E_7 * LAM_E).'), 'E8': (1, '16-polar entrance fringe field extent (E_8 * LAM_E).'), 'E9': (1, '18-polar entrance fringe field extent (E_9 * LAM_E).'), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'IL': (0, 'Print field and coordinates along trajectories', 1), 'KINEMATICS': (None, 'A kinematics object.'), 'KPOS': (1, ''), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'LAM_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance face fringe field extent'), 'LAM_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit face fringe field extent'), 'LENGTH_IS_ARC_LENGTH': (False, ''), 'PIPE_COLOR': ('grey', 'Color of the pipe, used by plotting functions.'), 'PIPE_THICKNESS': (&lt;Quantity(2, 'centimeter')&gt;, 'Thickness of the pipe, used by plotting functions.'), 'POLE_WIDTH': (&lt;Quantity(30, 'centimeter')&gt;, 'Pole width (used for plotting only).'), 'R0': (&lt;Quantity(10.0, 'centimeter')&gt;, 'Radius of the pole tips', 3), 'R1': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the dipolar component'), 'R10': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the 20-polar component'), 'R2': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the quadrupolar component'), 'R3': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the sextupolar component'), 'R4': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the octupolar component'), 'R5': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the decapolar component'), 'R6': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the dodecapolar component'), 'R7': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the 14-polar component'), 'R8': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the 16-polar component'), 'R9': (&lt;Quantity(0, 'degree')&gt;, 'Skew angle of the 18-polar component'), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'S10': (1, '20-polar exit fringe field extent (E_10 * LAM_S).'), 'S2': (1, 'Quadrupole exit fringe field extent (E_2 * LAM_S).'), 'S3': (1, 'Sextupolar exit fringe field extent (E_3 * LAM_S).'), 'S4': (1, 'Octupolar exit fringe field extent (E_4 * LAM_S).'), 'S5': (1, 'Decapolar exit fringe field extent (E_5 * LAM_S).'), 'S6': (1, 'Dodecapolar exit fringe field extent (E_6 * LAM_S).'), 'S7': (1, '14-polar exit fringe field extent (E_7 * LAM_S).'), 'S8': (1, '16-polar exit fringe field extent (E_8 * LAM_S).'), 'S9': (1, '18-polar exit fringe field extent (E_9 * LAM_S).'), 'XCE': (&lt;Quantity(0, 'centimeter')&gt;, ''), 'XL': (&lt;Quantity(209.1, 'millimeter')&gt;, 'Magnet length', 2), 'XPAS': (&lt;Quantity(1.0, 'centimeter')&gt;, 'Integration step.'), 'X_E': (&lt;Quantity(0, 'centimeter')&gt;, 'Entrance face integration zone for the fringe field.'), 'X_S': (&lt;Quantity(0, 'centimeter')&gt;, 'Exit face integration zone for the fringe field.'), 'YCE': (&lt;Quantity(0, 'centimeter')&gt;, '')}</em><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.T1G.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods Documentation</p>
@@ -1135,11 +1127,19 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+        
+        &copy; Copyright 2018-2020, Cédric Hernalsteens (cedric.hernalsteens@ulb.be)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1150,7 +1150,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

@@ -1,15 +1,19 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>CGTR &mdash; Zgoubidoo 2019.4 documentation</title>
+  <title>CGTR &mdash; Zgoubidoo 2020.1 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
 
   
   
@@ -17,7 +21,9 @@
   
 
   
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -29,11 +35,6 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="DipoleIBA" href="zgoubidoo.commands.contrib.iba.DipoleIBA.html" />
@@ -51,7 +52,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> Zgoubidoo
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> Zgoubidoo
           
 
           
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                2019.4
+                2020.1
               </div>
             
           
@@ -78,6 +79,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -145,6 +147,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -183,7 +186,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../contrib.html">Zgoubidoo specialized and contributed commands</a> &raquo;</li>
         
@@ -210,7 +213,7 @@
 <h1>CGTR<a class="headerlink" href="#cgtr" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="zgoubidoo.commands.contrib.iba.CGTR">
-<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.commands.contrib.iba.</code><code class="sig-name descname">CGTR</code><span class="sig-paren">(</span><em class="sig-param">kinematics: georges_core.kinematics.Kinematics =          Proton         Total energy: 1168.2720299999999 megaelectronvolt         Kinetic energy: 230 megaelectronvolt         Momentum: 696.0640299570144 megaelectronvolt / speed_of_light         Magnetic rigidity: 2.3218196835259093 meter * tesla         Range in water (protons only): 32.9424672323197 centimeter         Relativistic pv: 414.71945005821937 megaelectronvolt         Relativistic beta: 0.5958064663732597         Relativistic gamma: 1.2451314678963628</em>, <em class="sig-param">b1g: Optional[zgoubidoo.commands.contrib.iba.B1G] = None</em>, <em class="sig-param">b2g: Optional[zgoubidoo.commands.contrib.iba.B2G] = None</em>, <em class="sig-param">b3g: Optional[zgoubidoo.commands.contrib.iba.B3G] = None</em>, <em class="sig-param">t1g: Optional[zgoubidoo.commands.contrib.iba.T1G] = None</em>, <em class="sig-param">t2g: Optional[zgoubidoo.commands.contrib.iba.T2G] = None</em>, <em class="sig-param">q1g: Optional[zgoubidoo.commands.contrib.iba.Q1G] = None</em>, <em class="sig-param">q2g: Optional[zgoubidoo.commands.contrib.iba.Q2G] = None</em>, <em class="sig-param">q3g: Optional[zgoubidoo.commands.contrib.iba.Q3G] = None</em>, <em class="sig-param">q4g: Optional[zgoubidoo.commands.contrib.iba.Q4G] = None</em>, <em class="sig-param">q5g: Optional[zgoubidoo.commands.contrib.iba.Q5G] = None</em>, <em class="sig-param">q6g: Optional[zgoubidoo.commands.contrib.iba.Q6G] = None</em>, <em class="sig-param">q7g: Optional[zgoubidoo.commands.contrib.iba.Q7G] = None</em>, <em class="sig-param">smx: Optional[zgoubidoo.commands.contrib.iba.SMX] = None</em>, <em class="sig-param">smy: Optional[zgoubidoo.commands.contrib.iba.SMY] = None</em>, <em class="sig-param">sl1g: Optional[zgoubidoo.commands.contrib.iba.SL1G] = None</em>, <em class="sig-param">sl2g: Optional[zgoubidoo.commands.contrib.iba.SL2G] = None</em>, <em class="sig-param">sl3g: Optional[zgoubidoo.commands.contrib.iba.SL3G] = None</em>, <em class="sig-param">beam: Optional[zgoubidoo.commands.beam.Beam] = None</em>, <em class="sig-param">with_fit: bool = True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">zgoubidoo.commands.contrib.iba.</code><code class="sig-name descname">CGTR</code><span class="sig-paren">(</span><em class="sig-param">kinematics: georges_core.kinematics.Kinematics =          Proton         Total energy: 1168.2720299999999 megaelectronvolt         Kinetic energy: 230 megaelectronvolt         Momentum: 696.0640299570144 megaelectronvolt_per_c         Magnetic rigidity: 2.321819896553311 meter * tesla         Range in water (protons only): 32.9424672323197 centimeter         Relativistic pv: 414.71945005821954 megaelectronvolt         Relativistic beta: 0.5958064663732595         Relativistic gamma: 1.2451314678963625</em>, <em class="sig-param">b1g: Optional[zgoubidoo.commands.contrib.iba.B1G] = None</em>, <em class="sig-param">b2g: Optional[zgoubidoo.commands.contrib.iba.B2G] = None</em>, <em class="sig-param">b3g: Optional[zgoubidoo.commands.contrib.iba.B3G] = None</em>, <em class="sig-param">t1g: Optional[zgoubidoo.commands.contrib.iba.T1G] = None</em>, <em class="sig-param">t2g: Optional[zgoubidoo.commands.contrib.iba.T2G] = None</em>, <em class="sig-param">q1g: Optional[zgoubidoo.commands.contrib.iba.Q1G] = None</em>, <em class="sig-param">q2g: Optional[zgoubidoo.commands.contrib.iba.Q2G] = None</em>, <em class="sig-param">q3g: Optional[zgoubidoo.commands.contrib.iba.Q3G] = None</em>, <em class="sig-param">q4g: Optional[zgoubidoo.commands.contrib.iba.Q4G] = None</em>, <em class="sig-param">q5g: Optional[zgoubidoo.commands.contrib.iba.Q5G] = None</em>, <em class="sig-param">q6g: Optional[zgoubidoo.commands.contrib.iba.Q6G] = None</em>, <em class="sig-param">q7g: Optional[zgoubidoo.commands.contrib.iba.Q7G] = None</em>, <em class="sig-param">smx: Optional[zgoubidoo.commands.contrib.iba.SMX] = None</em>, <em class="sig-param">smy: Optional[zgoubidoo.commands.contrib.iba.SMY] = None</em>, <em class="sig-param">sl1g: Optional[zgoubidoo.commands.contrib.iba.SL1G] = None</em>, <em class="sig-param">sl2g: Optional[zgoubidoo.commands.contrib.iba.SL2G] = None</em>, <em class="sig-param">sl3g: Optional[zgoubidoo.commands.contrib.iba.SL3G] = None</em>, <em class="sig-param">beam: Optional[zgoubidoo.commands.beam.Beam] = None</em>, <em class="sig-param">with_fit: bool = True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Proteus One compact gantry (CGTR) input sequence.</p>
 <p>TODO
@@ -352,7 +355,7 @@
 
 <dl class="py method">
 <dt id="zgoubidoo.commands.contrib.iba.CGTR.plot">
-<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">artist</span><span class="p">:</span> <span class="n">zgoubidoo.vis.plotly.ZgoubidooPlotlyArtist</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">start</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span><a class="reference internal" href="zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" title="zgoubidoo.commands.commands.Command">zgoubidoo.commands.commands.Command</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">stop</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span><a class="reference internal" href="zgoubidoo.commands.commands.Command.html#zgoubidoo.commands.commands.Command" title="zgoubidoo.commands.commands.Command">zgoubidoo.commands.commands.Command</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">crosshair</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">artist</span><span class="p">:</span> <span class="n">zgoubidoo.vis.plotly.ZgoubidooPlotlyArtist</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">start</span><span class="p">:</span> <span class="n">Union[str, zgoubidoo.commands.commands.Command, None]</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">stop</span><span class="p">:</span> <span class="n">Union[str, zgoubidoo.commands.commands.Command, None]</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">crosshair</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zgoubidoo/commands/contrib/iba.html#CGTR.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.commands.contrib.iba.CGTR.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the P1 beamline.</p>
 <p>TODO</p>
 <dl class="field-list simple">
@@ -439,11 +442,19 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+        
+        &copy; Copyright 2018-2020, Cédric Hernalsteens (cedric.hernalsteens@ulb.be)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -454,7 +465,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

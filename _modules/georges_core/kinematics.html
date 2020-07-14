@@ -1,15 +1,19 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>georges_core.kinematics &mdash; Zgoubidoo 2019.4 documentation</title>
+  <title>georges_core.kinematics &mdash; Zgoubidoo 2020.1 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
 
   
   
@@ -17,7 +21,9 @@
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -29,11 +35,6 @@
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
@@ -49,7 +50,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> Zgoubidoo
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> Zgoubidoo
           
 
           
@@ -59,7 +60,7 @@
             
             
               <div class="version">
-                2019.4
+                2020.1
               </div>
             
           
@@ -76,6 +77,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -103,6 +105,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -141,7 +144,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../index.html">Module code</a> &raquo;</li>
         
@@ -179,6 +182,7 @@
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">_ureg</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">Q_</span> <span class="k">as</span> <span class="n">_Q</span>
 <span class="kn">from</span> <span class="nn">.particles</span> <span class="kn">import</span> <span class="n">Proton</span> <span class="k">as</span> <span class="n">_Proton</span>
+
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">.particles</span> <span class="kn">import</span> <span class="n">ParticuleType</span> <span class="k">as</span> <span class="n">_ParticuleType</span>
 
@@ -194,6 +198,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">_Q</span><span class="p">],</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">,</span> <span class="n">kinetic</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
@@ -343,9 +348,9 @@
 <span class="sd">        Returns:</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;momentum&#39;</span><span class="p">)</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;momentum&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV_c&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">magnitude</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">_</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV_c&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span>
+            <span class="k">return</span> <span class="n">_</span><span class="o">.</span><span class="n">magnitude</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">_</span></div>
 
@@ -364,9 +369,9 @@
 <span class="sd">        Returns:</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;brho&#39;</span><span class="p">)</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;brho&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;tesla meter&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">magnitude</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">_</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="s1">&#39;tesla meter&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">_</span><span class="o">.</span><span class="n">magnitude</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">_</span></div>
 
@@ -412,103 +417,136 @@
 
 <div class="viewcode-block" id="etot_to_ekin"><a class="viewcode-back" href="../../api/georges_core.kinematics.etot_to_ekin.html#georges_core.kinematics.etot_to_ekin">[docs]</a><span class="k">def</span> <span class="nf">etot_to_ekin</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts total energy to kinetic energy.</span>
+
+<span class="sd">    &gt;&gt;&gt; etot_to_ekin(1168 * _ureg.MeV)</span>
+<span class="sd">    &lt;Quantity(229.72797000000014, &#39;megaelectronvolt&#39;)&gt;</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        e:</span>
-<span class="sd">        particle:</span>
+<span class="sd">        e: Total energy of the particle</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
 
 <span class="sd">    Returns:</span>
-
+<span class="sd">         Kinetic energy of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">e</span> <span class="o">-</span> <span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span></div>
 
 
 <div class="viewcode-block" id="etot_to_momentum"><a class="viewcode-back" href="../../api/georges_core.kinematics.etot_to_momentum.html#georges_core.kinematics.etot_to_momentum">[docs]</a><span class="k">def</span> <span class="nf">etot_to_momentum</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts total energy to momentum.</span>
+
+<span class="sd">    &gt;&gt;&gt; etot_to_momentum(1168 * _ureg.MeV).to(&#39;MeV_c&#39;)</span>
+<span class="sd">    &lt;Quantity(695.6073588740122, &#39;megaelectronvolt_per_c&#39;)&gt;</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        e:</span>
-<span class="sd">        particle:</span>
+<span class="sd">        e: Total energy of the particle</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
 
 <span class="sd">    Returns:</span>
-
+<span class="sd">         Momentum of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">ekin_to_momentum</span><span class="p">(</span><span class="n">etot_to_ekin</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="etot_to_brho"><a class="viewcode-back" href="../../api/georges_core.kinematics.etot_to_brho.html#georges_core.kinematics.etot_to_brho">[docs]</a><span class="k">def</span> <span class="nf">etot_to_brho</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts total energy to magnetic rigidity (brho).</span>
+
+<span class="sd">    &gt;&gt;&gt; etot_to_brho(1168 * _ureg.MeV).to(&#39;T m&#39;)</span>
+<span class="sd">    &lt;Quantity(4.3416400410201015e+21, &#39;meter tesla&#39;)&gt;</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        e:</span>
-<span class="sd">        particle:</span>
+<span class="sd">        e: Total energy of the particle</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
 
 <span class="sd">    Returns:</span>
-
+<span class="sd">         Magnetic rigidity of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">ekin_to_brho</span><span class="p">(</span><span class="n">etot_to_ekin</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="etot_to_range"><a class="viewcode-back" href="../../api/georges_core.kinematics.etot_to_range.html#georges_core.kinematics.etot_to_range">[docs]</a><span class="k">def</span> <span class="nf">etot_to_range</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts total energy to proton range in water; following IEC-60601.</span>
+
+<span class="sd">    &gt;&gt;&gt; etot_to_range(1168 * _ureg.MeV).to(&#39;cm&#39;)</span>
+<span class="sd">    &lt;Quantity(32.87609308294777, &#39;centimeter&#39;)&gt;</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        e:</span>
-<span class="sd">        particle:</span>
+<span class="sd">        e: Total energy of the particle</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
 
 <span class="sd">    Returns:</span>
-
+<span class="sd">         Proton range in water</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">ekin_to_range</span><span class="p">(</span><span class="n">etot_to_ekin</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="etot_to_pv"><a class="viewcode-back" href="../../api/georges_core.kinematics.etot_to_pv.html#georges_core.kinematics.etot_to_pv">[docs]</a><span class="k">def</span> <span class="nf">etot_to_pv</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts total energy to relativistic pv.</span>
+
+<span class="sd">    &gt;&gt;&gt; etot_to_pv(1168 * _ureg.MeV)</span>
+<span class="sd">    &lt;Quantity(414.27191585588946, &#39;megaelectronvolt&#39;)&gt;</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        e:</span>
-<span class="sd">        particle:</span>
+<span class="sd">        e: Total energy of the particle</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
 
 <span class="sd">    Returns:</span>
-
+<span class="sd">         Relativistic pv of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">ekin_to_pv</span><span class="p">(</span><span class="n">etot_to_ekin</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="etot_to_beta"><a class="viewcode-back" href="../../api/georges_core.kinematics.etot_to_beta.html#georges_core.kinematics.etot_to_beta">[docs]</a><span class="k">def</span> <span class="nf">etot_to_beta</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts total energy to relativistic beta.</span>
+
+<span class="sd">    &gt;&gt;&gt; etot_to_beta(1168 * _ureg.MeV)</span>
+<span class="sd">    &lt;Quantity(0.595554245611312, &#39; &#39;)&gt;</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        e:</span>
-<span class="sd">        particle:</span>
+<span class="sd">        e: Total energy of the particle</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
 
 <span class="sd">    Returns:</span>
-
+<span class="sd">         Relativistic beta of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">ekin_to_beta</span><span class="p">(</span><span class="n">etot_to_ekin</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="etot_to_gamma"><a class="viewcode-back" href="../../api/georges_core.kinematics.etot_to_gamma.html#georges_core.kinematics.etot_to_gamma">[docs]</a><span class="k">def</span> <span class="nf">etot_to_gamma</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts total energy to relativistic gamma.</span>
+
+<span class="sd">    &gt;&gt;&gt; etot_to_beta(1168 * _ureg.MeV)</span>
+<span class="sd">    &lt;Quantity(1.2448415413171807, &#39; &#39;)&gt;</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        e:</span>
-<span class="sd">        particle:</span>
+<span class="sd">        e: Total energy of the particle</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
 
 <span class="sd">    Returns:</span>
-
+<span class="sd">         Relativistic gamma of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">ekin_to_gamma</span><span class="p">(</span><span class="n">etot_to_ekin</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ekin_to_etot"><a class="viewcode-back" href="../../api/georges_core.kinematics.ekin_to_etot.html#georges_core.kinematics.ekin_to_etot">[docs]</a><span class="k">def</span> <span class="nf">ekin_to_etot</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts kinetic energy to total energy</span>
+
+<span class="sd">    &gt;&gt;&gt; ekin_to_etot(100 * _ureg.MeV)</span>
+<span class="sd">    &lt;Quantity(1038.2721, &#39;megaelectronvolt&#39;)&gt;</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        e:</span>
-<span class="sd">        particle:</span>
+<span class="sd">        e: kinetic energy</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
 
 <span class="sd">    Returns:</span>
+<span class="sd">        Total energy of the particle</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">e</span> <span class="o">+</span> <span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span></div>
@@ -516,16 +554,19 @@
 
 <div class="viewcode-block" id="ekin_to_momentum"><a class="viewcode-back" href="../../api/georges_core.kinematics.ekin_to_momentum.html#georges_core.kinematics.ekin_to_momentum">[docs]</a><span class="k">def</span> <span class="nf">ekin_to_momentum</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts momentum to kinetic energy.</span>
+<span class="sd">    Converts kinetic energy to momentum</span>
 
-<span class="sd">    &gt;&gt;&gt; energy_to_momentum(100 * _ureg.MeV).to(&#39;MeV_c&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; ekin_to_momentum(100 * _ureg.MeV).to(&#39;MeV_c&#39;)</span>
 <span class="sd">    &lt;Quantity(444.58340724772927, &#39;megaelectronvolt_per_c&#39;)&gt;</span>
-<span class="sd">    &gt;&gt;&gt; energy_to_momentum(230 * _ureg.MeV).to(&#39;MeV_c&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; ekin_to_momentum(230 * _ureg.MeV).to(&#39;MeV_c&#39;)</span>
 <span class="sd">    &lt;Quantity(696.064029957015, &#39;megaelectronvolt_per_c&#39;)&gt;</span>
 
-<span class="sd">    :param e: kinetic energy</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return: relativistic momentum</span>
+<span class="sd">    Args:</span>
+<span class="sd">        e: kinetic energy</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Momentum of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ekin_to_etot</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">particle</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">4</span><span class="p">)</span> <span class="o">/</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span></div>
 
@@ -534,14 +575,17 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts kinetic energy to magnetic rigidity (brho).</span>
 
-<span class="sd">    &gt;&gt;&gt; energy_to_momentum(100 * _ureg.MeV).to(&#39;MeV_c&#39;)</span>
-<span class="sd">    &lt;Quantity(444.58340724772927, &#39;megaelectronvolt_per_c&#39;)&gt;</span>
-<span class="sd">    &gt;&gt;&gt; energy_to_momentum(230 * _ureg.MeV).to(&#39;MeV_c&#39;)</span>
-<span class="sd">    &lt;Quantity(696.064029957015, &#39;megaelectronvolt_per_c&#39;)&gt;</span>
+<span class="sd">    &gt;&gt;&gt; ekin_to_brho(100 * _ureg.MeV).to(&#39;T m&#39;)</span>
+<span class="sd">    &lt;Quantity(1.4829706197870007, &#39;meter tesla&#39;)&gt;</span>
+<span class="sd">    &gt;&gt;&gt; ekin_to_brho(230 * _ureg.MeV).to(&#39;T m&#39;)</span>
+<span class="sd">    &lt;Quantity(2.3218196835259093, &#39;meter tesla&#39;)&gt;</span>
 
-<span class="sd">    :param e: kinetic energy</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return: magnetic rigidity</span>
+<span class="sd">    Args:</span>
+<span class="sd">        e: kinetic energy</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Magnetic rigidity of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">momentum_to_brho</span><span class="p">(</span><span class="n">ekin_to_momentum</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
@@ -550,14 +594,17 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts kinetic energy to proton range in water; following IEC-60601.</span>
 
-<span class="sd">    &gt;&gt;&gt; energy_to_range(100 * _ureg.MeV).to(&#39;cm&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; ekin_to_range(100 * _ureg.MeV).to(&#39;cm&#39;)</span>
 <span class="sd">    &lt;Quantity(7.7269636143698905, &#39;centimeter&#39;)&gt;</span>
-<span class="sd">    &gt;&gt;&gt; energy_to_range(230 * _ureg.MeV).to(&#39;cm&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; ekin_to_range(230 * _ureg.MeV).to(&#39;cm&#39;)</span>
 <span class="sd">    &lt;Quantity(32.9424672323197, &#39;centimeter&#39;)&gt;</span>
 
-<span class="sd">    :param e: kinetic energy</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return: proton range in water</span>
+<span class="sd">    Args:</span>
+<span class="sd">        e: kinetic energy</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Proton range in water</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">particle</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">_Proton</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">KinematicsException</span><span class="p">(</span><span class="s2">&quot;Conversion to range only works for protons.&quot;</span><span class="p">)</span>
@@ -565,7 +612,7 @@
     <span class="n">b</span> <span class="o">=</span> <span class="mf">0.008539</span>
     <span class="n">c</span> <span class="o">=</span> <span class="mf">0.5271</span>
     <span class="n">d</span> <span class="o">=</span> <span class="mf">3.4917</span>
-    <span class="n">e</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">m_as</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="o">-</span><span class="n">c</span> <span class="o">+</span> <span class="n">_np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">b</span> <span class="o">*</span> <span class="p">(</span><span class="n">d</span> <span class="o">-</span> <span class="n">_np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">e</span><span class="p">))))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">b</span><span class="p">))</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span></div>
 
 
@@ -573,12 +620,15 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts kinetic energy to relativistic pv.</span>
 
-<span class="sd">    &gt;&gt;&gt; energy_to_pv(230 * _ureg.MeV)</span>
+<span class="sd">    &gt;&gt;&gt; ekin_to_pv(230 * _ureg.MeV)</span>
 <span class="sd">    &lt;Quantity(414.71945005821937, &#39;megaelectronvolt&#39;)&gt;</span>
 
-<span class="sd">    :param e: kinetic energy</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return: relativistic pv</span>
+<span class="sd">    Args:</span>
+<span class="sd">        e: kinetic energy</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Relativistic pv of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">((</span><span class="n">e</span> <span class="o">+</span> <span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></div>
 
@@ -587,12 +637,15 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts the kinetic energy to relativistic beta.</span>
 
-<span class="sd">    &gt;&gt;&gt; 1 + 1</span>
-<span class="sd">    2</span>
+<span class="sd">    &gt;&gt;&gt; ekin_to_beta(230 * _ureg.MeV)</span>
+<span class="sd">    &lt;Quantity(0.5958064663732597, &#39;&#39;)&gt;</span>
 
-<span class="sd">    :param e: kinetic energy</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return: relativistic beta</span>
+<span class="sd">    Args:</span>
+<span class="sd">        e: kinetic energy</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">         Relativistic beta of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">gamma</span> <span class="o">=</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">e</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">((</span><span class="n">_np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">gamma</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">gamma</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span></div>
@@ -602,26 +655,32 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts the kinetic energy to relativistic gamma.</span>
 
-<span class="sd">    &gt;&gt;&gt; 1 + 1</span>
-<span class="sd">    2</span>
+<span class="sd">    &gt;&gt;&gt; ekin_to_gamma(230 * _ureg.MeV)</span>
+<span class="sd">    &lt;Quantity(1.2451314678963628, &#39;&#39;)&gt;</span>
 
-<span class="sd">    :param e: kinetic energy</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return: relativistic gamma</span>
+<span class="sd">    Args:</span>
+<span class="sd">        e: kinetic energy</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">         Relativistic gamma of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(((</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">e</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="momentum_to_etot"><a class="viewcode-back" href="../../api/georges_core.kinematics.momentum_to_etot.html#georges_core.kinematics.momentum_to_etot">[docs]</a><span class="k">def</span> <span class="nf">momentum_to_etot</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts momentum to kinetic energy.</span>
+<span class="sd">    Converts momentum to total energy.</span>
 
-<span class="sd">    &gt;&gt;&gt; momentum_to_energy(100 * _ureg.MeV_c).to(&#39;MeV&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; momentum_to_etot(100 * _ureg.MeV_c).to(&#39;MeV&#39;)</span>
 <span class="sd">    &lt;Quantity(5.313897343302641, &#39;megaelectronvolt&#39;)&gt;</span>
 
-<span class="sd">    :param p: relativistic momentum</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return:</span>
+<span class="sd">    Args:</span>
+<span class="sd">        p: relativistic momentum</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">         Total energy of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">p</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">((</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span></div>
 
@@ -630,12 +689,15 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts momentum to kinetic energy.</span>
 
-<span class="sd">    &gt;&gt;&gt; momentum_to_energy(100 * _ureg.MeV_c).to(&#39;MeV&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; momentum_to_ekin(100 * _ureg.MeV_c).to(&#39;MeV&#39;)</span>
 <span class="sd">    &lt;Quantity(5.313897343302641, &#39;megaelectronvolt&#39;)&gt;</span>
 
-<span class="sd">    :param p: relativistic momentum</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return:</span>
+<span class="sd">    Args:</span>
+<span class="sd">        p: relativistic momentum</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">         Kinetic energy of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">momentum_to_etot</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">particle</span><span class="p">)</span> <span class="o">-</span> <span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span></div>
 
@@ -647,9 +709,12 @@
 <span class="sd">    &gt;&gt;&gt; momentum_to_brho(100 * _ureg.MeV_c).to(&#39;tesla * meter&#39;)</span>
 <span class="sd">    &lt;Quantity(0.33356409519815206, &#39;meter * tesla&#39;)&gt;</span>
 
-<span class="sd">    :param p: relativistic momentum</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return:</span>
+<span class="sd">    Args:</span>
+<span class="sd">        p: relativistic momentum</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">         Magnetic rigidity of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">p</span> <span class="o">/</span> <span class="n">particle</span><span class="o">.</span><span class="n">Q</span></div>
 
@@ -661,147 +726,201 @@
 <span class="sd">    &gt;&gt;&gt; momentum_to_range(696 * _ureg.MeV_c).to(&#39;cm&#39;)</span>
 <span class="sd">    &lt;Quantity(32.93315610400117, &#39;centimeter&#39;)&gt;</span>
 
-<span class="sd">    :param p: relativistic momentum</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return:</span>
+<span class="sd">    Args:</span>
+<span class="sd">        p: relativistic momentum</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">         Range of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">ekin_to_range</span><span class="p">(</span><span class="n">momentum_to_ekin</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="momentum_to_pv"><a class="viewcode-back" href="../../api/georges_core.kinematics.momentum_to_pv.html#georges_core.kinematics.momentum_to_pv">[docs]</a><span class="k">def</span> <span class="nf">momentum_to_pv</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts momentum to proton range in water; following IEC-60601.</span>
+<span class="sd">    Converts momentum to relativistic pv.</span>
 
-<span class="sd">    &gt;&gt;&gt; momentum_to_range(696 * _ureg.MeV_c).to(&#39;cm&#39;)</span>
-<span class="sd">    &lt;Quantity(32.93315610400117, &#39;centimeter&#39;)&gt;</span>
+<span class="sd">    &gt;&gt;&gt; momentum_to_pv(696 * _ureg.MeV_c).to(&#39;megaelectronvolt&#39;)</span>
+<span class="sd">    &lt;Quantity(414.65669469180085, &#39;megaelectronvolt&#39;)&gt;</span>
 
-<span class="sd">    :param p: relativistic momentum</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return:</span>
+<span class="sd">    Args:</span>
+<span class="sd">        p: relativistic momentum</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">         Relativistic pv of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">ekin_to_range</span><span class="p">(</span><span class="n">momentum_to_ekin</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">ekin_to_pv</span><span class="p">(</span><span class="n">momentum_to_ekin</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="momentum_to_beta"><a class="viewcode-back" href="../../api/georges_core.kinematics.momentum_to_beta.html#georges_core.kinematics.momentum_to_beta">[docs]</a><span class="k">def</span> <span class="nf">momentum_to_beta</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts momentum to proton range in water; following IEC-60601.</span>
+<span class="sd">    Converts momentum to relativistic beta.</span>
 
-<span class="sd">    &gt;&gt;&gt; momentum_to_range(696 * _ureg.MeV_c).to(&#39;cm&#39;)</span>
-<span class="sd">    &lt;Quantity(32.93315610400117, &#39;centimeter&#39;)&gt;</span>
+<span class="sd">    &gt;&gt;&gt; momentum_to_beta(696 * _ureg.MeV_c)</span>
+<span class="sd">    &lt;Quantity(0.595771113062932, &#39; &#39;)&gt;</span>
 
-<span class="sd">    :param p: relativistic momentum</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return:</span>
+<span class="sd">    Args:</span>
+<span class="sd">        p: relativistic momentum</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">         Relativistic beta of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">ekin_to_beta</span><span class="p">(</span><span class="n">momentum_to_ekin</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="momentum_to_gamma"><a class="viewcode-back" href="../../api/georges_core.kinematics.momentum_to_gamma.html#georges_core.kinematics.momentum_to_gamma">[docs]</a><span class="k">def</span> <span class="nf">momentum_to_gamma</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts momentum to proton range in water; following IEC-60601.</span>
+<span class="sd">    Converts momentum to relativistic gamma.</span>
 
-<span class="sd">    &gt;&gt;&gt; momentum_to_range(696 * _ureg.MeV_c).to(&#39;cm&#39;)</span>
-<span class="sd">    &lt;Quantity(32.93315610400117, &#39;centimeter&#39;)&gt;</span>
+<span class="sd">    &gt;&gt;&gt; momentum_to_gamma(696 * _ureg.MeV_c)</span>
+<span class="sd">    &lt;Quantity(1.2450908098255744, &#39; &#39;)&gt;</span>
 
-<span class="sd">    :param p: relativistic momentum</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return:</span>
+<span class="sd">    Args:</span>
+<span class="sd">        p: relativistic momentum</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">         Relativistic gamma of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">ekin_to_gamma</span><span class="p">(</span><span class="n">momentum_to_ekin</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">ekin_to_gamma</span><span class="p">(</span><span class="n">momentum_to_ekin</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="brho_to_etot"><a class="viewcode-back" href="../../api/georges_core.kinematics.brho_to_etot.html#georges_core.kinematics.brho_to_etot">[docs]</a><span class="k">def</span> <span class="nf">brho_to_etot</span><span class="p">(</span><span class="n">brho</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts magnetic rigidity (brho) to total energy.</span>
+
+<span class="sd">    &gt;&gt;&gt; brho_to_etot(3 * _ureg.tesla * _ureg.meter).to(&#39;MeV&#39;)</span>
+<span class="sd">    &lt;Quantity(0.33356409519815206, &#39;meter * tesla&#39;)&gt;</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        brho: the magnetic rigidity</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        the total energy of the particle.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">momentum_to_etot</span><span class="p">(</span><span class="n">brho_to_momentum</span><span class="p">(</span><span class="n">brho</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="brho_to_ekin"><a class="viewcode-back" href="../../api/georges_core.kinematics.brho_to_ekin.html#georges_core.kinematics.brho_to_ekin">[docs]</a><span class="k">def</span> <span class="nf">brho_to_ekin</span><span class="p">(</span><span class="n">brho</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts magnetic rigidity (brho) to kinetic energy.</span>
 
-<span class="sd">    &gt;&gt;&gt; momentum_to_brho(100 * _ureg.MeV_c).to(&#39;tesla * meter&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; brho_to_ekin(3 * _ureg.tesla * _ureg.meter).to(&#39;MeV&#39;)</span>
 <span class="sd">    &lt;Quantity(0.33356409519815206, &#39;meter * tesla&#39;)&gt;</span>
 
-<span class="sd">    :param brho: magnetic rigidity</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return:</span>
+<span class="sd">    Args:</span>
+<span class="sd">        brho: the magnetic rigidity</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        the kinetic energy of the particle.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">momentum_to_ekin</span><span class="p">(</span><span class="n">brho_to_momentum</span><span class="p">(</span><span class="n">brho</span><span class="p">,</span> <span class="n">particle</span><span class="p">))</span></div>
-
-
-<div class="viewcode-block" id="brho_to_etot"><a class="viewcode-back" href="../../api/georges_core.kinematics.brho_to_etot.html#georges_core.kinematics.brho_to_etot">[docs]</a><span class="k">def</span> <span class="nf">brho_to_etot</span><span class="p">(</span><span class="n">brho</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Converts magnetic rigidity (brho) to momentum.</span>
-
-<span class="sd">        &gt;&gt;&gt; momentum_to_brho(100 * _ureg.MeV_c).to(&#39;tesla * meter&#39;)</span>
-<span class="sd">        &lt;Quantity(0.33356409519815206, &#39;meter * tesla&#39;)&gt;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">momentum_to_etot</span><span class="p">(</span><span class="n">brho_to_momentum</span><span class="p">(</span><span class="n">brho</span><span class="p">,</span> <span class="n">particle</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="brho_to_momentum"><a class="viewcode-back" href="../../api/georges_core.kinematics.brho_to_momentum.html#georges_core.kinematics.brho_to_momentum">[docs]</a><span class="k">def</span> <span class="nf">brho_to_momentum</span><span class="p">(</span><span class="n">brho</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts magnetic rigidity (brho) to momentum.</span>
 
-<span class="sd">    &gt;&gt;&gt; momentum_to_brho(100 * _ureg.MeV_c).to(&#39;tesla * meter&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; brho_to_momentum(3 * _ureg.tesla * _ureg.meter).to(&#39;MeV/c&#39;)</span>
 <span class="sd">    &lt;Quantity(0.33356409519815206, &#39;meter * tesla&#39;)&gt;</span>
 
-<span class="sd">    :param brho: magnetic rigidity</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return:</span>
+<span class="sd">    Args:</span>
+<span class="sd">        brho: the magnetic rigidity</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        the momentum of the particle.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">brho</span> <span class="o">*</span> <span class="n">particle</span><span class="o">.</span><span class="n">Q</span></div>
 
 
 <div class="viewcode-block" id="brho_to_range"><a class="viewcode-back" href="../../api/georges_core.kinematics.brho_to_range.html#georges_core.kinematics.brho_to_range">[docs]</a><span class="k">def</span> <span class="nf">brho_to_range</span><span class="p">(</span><span class="n">brho</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts magnetic rigidity (brho) to momentum.</span>
+<span class="sd">    Converts magnetic rigidity (brho) to range.</span>
 
-<span class="sd">    &gt;&gt;&gt; momentum_to_brho(100 * _ureg.MeV_c).to(&#39;tesla * meter&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; brho_to_range(3 * _ureg.tesla * _ureg.meter).to(&#39;cm&#39;)</span>
 <span class="sd">    &lt;Quantity(0.33356409519815206, &#39;meter * tesla&#39;)&gt;</span>
 
-<span class="sd">    :param brho: magnetic rigidity</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return:</span>
+<span class="sd">    Args:</span>
+<span class="sd">        brho: the magnetic rigidity</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        the range of the particle.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">brho</span> <span class="o">*</span> <span class="n">particle</span><span class="o">.</span><span class="n">Q</span></div>
+    <span class="k">return</span> <span class="n">momentum_to_range</span><span class="p">(</span><span class="n">brho_to_momentum</span><span class="p">(</span><span class="n">brho</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="brho_to_pv"><a class="viewcode-back" href="../../api/georges_core.kinematics.brho_to_pv.html#georges_core.kinematics.brho_to_pv">[docs]</a><span class="k">def</span> <span class="nf">brho_to_pv</span><span class="p">(</span><span class="n">brho</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts magnetic rigidity (brho) to momentum.</span>
+<span class="sd">    Converts magnetic rigidity (brho) to relativistic pv.</span>
 
-<span class="sd">    &gt;&gt;&gt; momentum_to_brho(100 * _ureg.MeV_c).to(&#39;tesla * meter&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; brho_to_pv(3 * _ureg.tesla * _ureg.meter).to(&#39;&#39;)</span>
 <span class="sd">    &lt;Quantity(0.33356409519815206, &#39;meter * tesla&#39;)&gt;</span>
 
-<span class="sd">    :param brho: magnetic rigidity</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return:</span>
+<span class="sd">    Args:</span>
+<span class="sd">        brho: the magnetic rigidity</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Relativistic pv of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">brho</span> <span class="o">*</span> <span class="n">particle</span><span class="o">.</span><span class="n">Q</span></div>
+    <span class="k">return</span> <span class="n">momentum_to_pv</span><span class="p">(</span><span class="n">brho_to_momentum</span><span class="p">(</span><span class="n">brho</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="brho_to_beta"><a class="viewcode-back" href="../../api/georges_core.kinematics.brho_to_beta.html#georges_core.kinematics.brho_to_beta">[docs]</a><span class="k">def</span> <span class="nf">brho_to_beta</span><span class="p">(</span><span class="n">brho</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts magnetic rigidity (brho) to momentum.</span>
+<span class="sd">    Converts magnetic rigidity (brho) to relativistic beta.</span>
 
-<span class="sd">    &gt;&gt;&gt; momentum_to_brho(100 * _ureg.MeV_c).to(&#39;tesla * meter&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; brho_to_beta(3 * _ureg.tesla * _ureg.meter)</span>
 <span class="sd">    &lt;Quantity(0.33356409519815206, &#39;meter * tesla&#39;)&gt;</span>
 
-<span class="sd">    :param brho: magnetic rigidity</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return:</span>
+<span class="sd">    Args:</span>
+<span class="sd">        brho: the magnetic rigidity</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Relativistic beta of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">brho</span> <span class="o">*</span> <span class="n">particle</span><span class="o">.</span><span class="n">Q</span></div>
+    <span class="k">return</span> <span class="n">momentum_to_beta</span><span class="p">(</span><span class="n">brho_to_momentum</span><span class="p">(</span><span class="n">brho</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="brho_to_gamma"><a class="viewcode-back" href="../../api/georges_core.kinematics.brho_to_gamma.html#georges_core.kinematics.brho_to_gamma">[docs]</a><span class="k">def</span> <span class="nf">brho_to_gamma</span><span class="p">(</span><span class="n">brho</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts magnetic rigidity (brho) to momentum.</span>
+<span class="sd">    Converts magnetic rigidity (brho) to relativistic gamma.</span>
 
-<span class="sd">    &gt;&gt;&gt; momentum_to_brho(100 * _ureg.MeV_c).to(&#39;tesla * meter&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; brho_to_gamma(3 * _ureg.tesla * _ureg.meter)</span>
 <span class="sd">    &lt;Quantity(0.33356409519815206, &#39;meter * tesla&#39;)&gt;</span>
 
-<span class="sd">    :param brho: magnetic rigidity</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return:</span>
+<span class="sd">    Args:</span>
+<span class="sd">        brho: the magnetic rigidity</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Relativistic gamma of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">brho</span> <span class="o">*</span> <span class="n">particle</span><span class="o">.</span><span class="n">charge</span></div>
+    <span class="k">return</span> <span class="n">momentum_to_gamma</span><span class="p">(</span><span class="n">brho_to_momentum</span><span class="p">(</span><span class="n">brho</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="range_to_etot"><a class="viewcode-back" href="../../api/georges_core.kinematics.range_to_etot.html#georges_core.kinematics.range_to_etot">[docs]</a><span class="k">def</span> <span class="nf">range_to_etot</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; range_to_etot(32 * _ureg.cm).to(&#39;MeV&#39;)</span>
+<span class="sd">        &lt;Quantity(226.12911179644985, &#39;megaelectronvolt&#39;)&gt;</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        r:  proton range in water</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Total energy of the particle.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">ekin_to_etot</span><span class="p">(</span><span class="n">range_to_ekin</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="range_to_ekin"><a class="viewcode-back" href="../../api/georges_core.kinematics.range_to_ekin.html#georges_core.kinematics.range_to_ekin">[docs]</a><span class="k">def</span> <span class="nf">range_to_ekin</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
@@ -809,7 +928,7 @@
 <span class="sd">    Converts proton range in water to kinetic energy following IEC60601.</span>
 
 <span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; range_to_energy(32 * _ureg.cm).to(&#39;MeV&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; range_to_ekin(32 * _ureg.cm).to(&#39;MeV&#39;)</span>
 <span class="sd">        &lt;Quantity(226.12911179644985, &#39;megaelectronvolt&#39;)&gt;</span>
 
 <span class="sd">    Args:</span>
@@ -819,8 +938,8 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        the kinetic energy of the particle.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># if not isinstance(particle, _Proton):</span>
-    <span class="c1">#     raise KinematicsException(&quot;Conversion from range only works for protons.&quot;)</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">particle</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">type</span><span class="p">(</span><span class="n">_Proton</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">KinematicsException</span><span class="p">(</span><span class="s2">&quot;Conversion from range only works for protons.&quot;</span><span class="p">)</span>
 
     <span class="n">a</span> <span class="o">=</span> <span class="mf">0.00169</span>
     <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.00490</span>
@@ -834,134 +953,108 @@
 
 <div class="viewcode-block" id="range_to_momentum"><a class="viewcode-back" href="../../api/georges_core.kinematics.range_to_momentum.html#georges_core.kinematics.range_to_momentum">[docs]</a><span class="k">def</span> <span class="nf">range_to_momentum</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts proton range in water to kinetic energy following IEC60601.</span>
+<span class="sd">    Converts proton range in water to momentum.</span>
 
-<span class="sd">    &gt;&gt;&gt; range_to_energy(32 * _ureg.cm).to(&#39;MeV&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; range_to_momentum(32 * _ureg.cm).to(&#39;MeV / c&#39;)</span>
 <span class="sd">    &lt;Quantity(226.12911179644985, &#39;megaelectronvolt&#39;)&gt;</span>
 
-<span class="sd">    :param r: proton range in water</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return:</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">particle</span><span class="p">,</span> <span class="n">_Proton</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">KinematicsException</span><span class="p">(</span><span class="s2">&quot;Conversion from range only works for protons.&quot;</span><span class="p">)</span>
+<span class="sd">    Args:</span>
+<span class="sd">        r: proton range in water</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
 
-    <span class="n">a</span> <span class="o">=</span> <span class="mf">0.00169</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.00490</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="mf">0.56137</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="mf">3.46405</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span>
-    <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
-        <span class="n">a</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">c</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">+</span> <span class="n">d</span>
-    <span class="p">)</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV</span></div>
+<span class="sd">    Returns:</span>
+<span class="sd">        the momentum of the particle.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">ekin_to_momentum</span><span class="p">(</span><span class="n">range_to_ekin</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="range_to_brho"><a class="viewcode-back" href="../../api/georges_core.kinematics.range_to_brho.html#georges_core.kinematics.range_to_brho">[docs]</a><span class="k">def</span> <span class="nf">range_to_brho</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts proton range in water to kinetic energy following IEC60601.</span>
+<span class="sd">    Converts proton range in water to magnetic rigidity (brho).</span>
 
-<span class="sd">    &gt;&gt;&gt; range_to_energy(32 * _ureg.cm).to(&#39;MeV&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; range_to_brho(32 * _ureg.cm).to(&#39;T m&#39;)</span>
 <span class="sd">    &lt;Quantity(226.12911179644985, &#39;megaelectronvolt&#39;)&gt;</span>
 
-<span class="sd">    :param r: proton range in water</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return:</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">particle</span><span class="p">,</span> <span class="n">_Proton</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">KinematicsException</span><span class="p">(</span><span class="s2">&quot;Conversion from range only works for protons.&quot;</span><span class="p">)</span>
+<span class="sd">    Args:</span>
+<span class="sd">        r: proton range in water</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
 
-    <span class="n">a</span> <span class="o">=</span> <span class="mf">0.00169</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.00490</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="mf">0.56137</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="mf">3.46405</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span>
-    <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
-        <span class="n">a</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">c</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">+</span> <span class="n">d</span>
-    <span class="p">)</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV</span></div>
+<span class="sd">    Returns:</span>
+<span class="sd">        The magnetic rigidity (brho) of the particle.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">ekin_to_brho</span><span class="p">(</span><span class="n">range_to_ekin</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="range_to_pv"><a class="viewcode-back" href="../../api/georges_core.kinematics.range_to_pv.html#georges_core.kinematics.range_to_pv">[docs]</a><span class="k">def</span> <span class="nf">range_to_pv</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts proton range in water to kinetic energy following IEC60601.</span>
+<span class="sd">    Converts proton range in water to relativistic pv.</span>
 
-<span class="sd">    &gt;&gt;&gt; range_to_ekin(32 * _ureg.cm).to(&#39;MeV&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; range_to_pv(32 * _ureg.cm).to(&#39;&#39;)</span>
 <span class="sd">    &lt;Quantity(226.12911179644985, &#39;megaelectronvolt&#39;)&gt;</span>
 
-<span class="sd">    :param r: proton range in water</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return:</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">particle</span><span class="p">,</span> <span class="n">_Proton</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">KinematicsException</span><span class="p">(</span><span class="s2">&quot;Conversion from range only works for protons.&quot;</span><span class="p">)</span>
+<span class="sd">    Args:</span>
+<span class="sd">        r: proton range in water</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
 
-    <span class="n">a</span> <span class="o">=</span> <span class="mf">0.00169</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.00490</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="mf">0.56137</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="mf">3.46405</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span>
-    <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
-        <span class="n">a</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">c</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">+</span> <span class="n">d</span>
-    <span class="p">)</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV</span></div>
+<span class="sd">    Returns:</span>
+<span class="sd">        the relativistic pv of the particle.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">ekin_to_pv</span><span class="p">(</span><span class="n">range_to_ekin</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="range_to_beta"><a class="viewcode-back" href="../../api/georges_core.kinematics.range_to_beta.html#georges_core.kinematics.range_to_beta">[docs]</a><span class="k">def</span> <span class="nf">range_to_beta</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts proton range in water to kinetic energy following IEC60601.</span>
+<span class="sd">    Converts proton range in water to relativistic beta.</span>
 
-<span class="sd">    &gt;&gt;&gt; range_to_ekin(32 * _ureg.cm).to(&#39;MeV&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; range_to_beta(32 * _ureg.cm)</span>
 <span class="sd">    &lt;Quantity(226.12911179644985, &#39;megaelectronvolt&#39;)&gt;</span>
 
-<span class="sd">    :param r: proton range in water</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return:</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">particle</span><span class="p">,</span> <span class="n">_Proton</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">KinematicsException</span><span class="p">(</span><span class="s2">&quot;Conversion from range only works for protons.&quot;</span><span class="p">)</span>
+<span class="sd">    Args:</span>
+<span class="sd">        r: proton range in water</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
 
-    <span class="n">a</span> <span class="o">=</span> <span class="mf">0.00169</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.00490</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="mf">0.56137</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="mf">3.46405</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span>
-    <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
-        <span class="n">a</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">c</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">+</span> <span class="n">d</span>
-    <span class="p">)</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV</span></div>
+<span class="sd">    Returns:</span>
+<span class="sd">        Relativistic beta of the particle.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">ekin_to_beta</span><span class="p">(</span><span class="n">range_to_ekin</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="range_to_gamma"><a class="viewcode-back" href="../../api/georges_core.kinematics.range_to_gamma.html#georges_core.kinematics.range_to_gamma">[docs]</a><span class="k">def</span> <span class="nf">range_to_gamma</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">_Q</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts proton range in water to kinetic energy following IEC60601.</span>
+<span class="sd">    Converts proton range in water to relativistic beta.</span>
 
-<span class="sd">    &gt;&gt;&gt; range_to_energy(32 * _ureg.cm).to(&#39;MeV&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; range_to_gamma(32 * _ureg.cm)</span>
 <span class="sd">    &lt;Quantity(226.12911179644985, &#39;megaelectronvolt&#39;)&gt;</span>
 
-<span class="sd">    :param r: proton range in water</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return:</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">particle</span><span class="p">,</span> <span class="n">_Proton</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">KinematicsException</span><span class="p">(</span><span class="s2">&quot;Conversion from range only works for protons.&quot;</span><span class="p">)</span>
+<span class="sd">    Args:</span>
+<span class="sd">        r: proton range in water</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
 
-    <span class="n">a</span> <span class="o">=</span> <span class="mf">0.00169</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.00490</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="mf">0.56137</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="mf">3.46405</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span>
-    <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
-        <span class="n">a</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">c</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">+</span> <span class="n">d</span>
-    <span class="p">)</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">MeV</span></div>
+<span class="sd">    Returns:</span>
+<span class="sd">        Relativistic beta of the particle.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">ekin_to_gamma</span><span class="p">(</span><span class="n">range_to_ekin</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="beta_to_etot"><a class="viewcode-back" href="../../api/georges_core.kinematics.beta_to_etot.html#georges_core.kinematics.beta_to_etot">[docs]</a><span class="k">def</span> <span class="nf">beta_to_etot</span><span class="p">(</span><span class="n">beta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts relativistic beta to kinetic energy.</span>
+<span class="sd">    Converts relativistic beta to total energy.</span>
 
-<span class="sd">    &gt;&gt;&gt; 1 + 1</span>
-<span class="sd">    2</span>
+<span class="sd">    &gt;&gt;&gt; beta_to_etot(0.3).to(&#39;MeV&#39;)</span>
+<span class="sd">    &lt;Quantity(1.4829706197870007, &#39;meter tesla&#39;)&gt;</span>
+<span class="sd">    &gt;&gt;&gt; beta_to_etot(0.9).to(&#39;MeV&#39;)</span>
+<span class="sd">    &lt;Quantity(2.3218196835259093, &#39;meter tesla&#39;)&gt;</span>
 
-<span class="sd">    :param beta: relativistic beta (dimensionless)</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return: kinetic energy</span>
+<span class="sd">    Args:</span>
+<span class="sd">        beta: relativistic beta</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Total energy of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">beta_to_gamma</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></div>
 
@@ -970,180 +1063,235 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts relativistic beta to kinetic energy.</span>
 
-<span class="sd">    &gt;&gt;&gt; 1 + 1</span>
-<span class="sd">    2</span>
+<span class="sd">    &gt;&gt;&gt; beta_to_ekin(0.3).to(&#39;MeV&#39;)</span>
+<span class="sd">    &lt;Quantity(1.4829706197870007, &#39;meter tesla&#39;)&gt;</span>
+<span class="sd">    &gt;&gt;&gt; beta_to_ekin(0.9).to(&#39;MeV&#39;)</span>
+<span class="sd">    &lt;Quantity(2.3218196835259093, &#39;meter tesla&#39;)&gt;</span>
 
-<span class="sd">    :param beta: relativistic beta (dimensionless)</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return: kinetic energy</span>
+<span class="sd">    Args:</span>
+<span class="sd">        beta: relativistic beta</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Kinetic energy of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">beta_to_gamma</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="p">(</span><span class="n">beta_to_gamma</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="beta_to_momentum"><a class="viewcode-back" href="../../api/georges_core.kinematics.beta_to_momentum.html#georges_core.kinematics.beta_to_momentum">[docs]</a><span class="k">def</span> <span class="nf">beta_to_momentum</span><span class="p">(</span><span class="n">beta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts relativistic beta to kinetic energy.</span>
+<span class="sd">    Converts relativistic beta to momentum.</span>
 
-<span class="sd">    &gt;&gt;&gt; 1 + 1</span>
-<span class="sd">    2</span>
+<span class="sd">    &gt;&gt;&gt; beta_to_momentum(0.3).to(&#39;MeV/c&#39;)</span>
+<span class="sd">    &lt;Quantity(1.4829706197870007, &#39;meter tesla&#39;)&gt;</span>
+<span class="sd">    &gt;&gt;&gt; beta_to_momentum(0.9).to(&#39;MeV/c&#39;)</span>
+<span class="sd">    &lt;Quantity(2.3218196835259093, &#39;meter tesla&#39;)&gt;</span>
 
-<span class="sd">    :param beta: relativistic beta (dimensionless)</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return: kinetic energy</span>
+<span class="sd">    Args:</span>
+<span class="sd">        beta: relativistic beta</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Momentum of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">beta_to_gamma</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">ekin_to_momentum</span><span class="p">(</span><span class="n">beta_to_ekin</span><span class="p">(</span><span class="n">beta</span><span class="p">),</span> <span class="n">particle</span><span class="o">=</span><span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="beta_to_brho"><a class="viewcode-back" href="../../api/georges_core.kinematics.beta_to_brho.html#georges_core.kinematics.beta_to_brho">[docs]</a><span class="k">def</span> <span class="nf">beta_to_brho</span><span class="p">(</span><span class="n">beta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts relativistic beta to kinetic energy.</span>
+<span class="sd">    Converts relativistic beta to magnetic rigidity.</span>
 
-<span class="sd">    &gt;&gt;&gt; 1 + 1</span>
-<span class="sd">    2</span>
+<span class="sd">    &gt;&gt;&gt; beta_to_brho(0.3).to(&#39;T m&#39;)</span>
+<span class="sd">    &lt;Quantity(1.4829706197870007, &#39;meter tesla&#39;)&gt;</span>
+<span class="sd">    &gt;&gt;&gt; beta_to_brho(0.9).to(&#39;T m&#39;)</span>
+<span class="sd">    &lt;Quantity(2.3218196835259093, &#39;meter tesla&#39;)&gt;</span>
 
-<span class="sd">    :param beta: relativistic beta (dimensionless)</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return: kinetic energy</span>
+<span class="sd">    Args:</span>
+<span class="sd">        beta: relativistic beta</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Magnetic rigidity of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">beta_to_gamma</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">ekin_to_brho</span><span class="p">(</span><span class="n">beta_to_ekin</span><span class="p">(</span><span class="n">beta</span><span class="p">),</span> <span class="n">particle</span><span class="o">=</span><span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="beta_to_range"><a class="viewcode-back" href="../../api/georges_core.kinematics.beta_to_range.html#georges_core.kinematics.beta_to_range">[docs]</a><span class="k">def</span> <span class="nf">beta_to_range</span><span class="p">(</span><span class="n">beta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts relativistic beta to kinetic energy.</span>
+<span class="sd">    Converts relativistic beta to range.</span>
 
-<span class="sd">    &gt;&gt;&gt; 1 + 1</span>
-<span class="sd">    2</span>
+<span class="sd">    &gt;&gt;&gt; beta_to_range(0.3).to(&#39;cm&#39;)</span>
+<span class="sd">    &lt;Quantity(1.4829706197870007, &#39;meter tesla&#39;)&gt;</span>
+<span class="sd">    &gt;&gt;&gt; beta_to_range(0.9).to(&#39;cm&#39;)</span>
+<span class="sd">    &lt;Quantity(2.3218196835259093, &#39;meter tesla&#39;)&gt;</span>
 
-<span class="sd">    :param beta: relativistic beta (dimensionless)</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return: kinetic energy</span>
+<span class="sd">    Args:</span>
+<span class="sd">        beta: relativistic beta</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Range of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">beta_to_gamma</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">ekin_to_range</span><span class="p">(</span><span class="n">beta_to_ekin</span><span class="p">(</span><span class="n">beta</span><span class="p">),</span> <span class="n">particle</span><span class="o">=</span><span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="beta_to_pv"><a class="viewcode-back" href="../../api/georges_core.kinematics.beta_to_pv.html#georges_core.kinematics.beta_to_pv">[docs]</a><span class="k">def</span> <span class="nf">beta_to_pv</span><span class="p">(</span><span class="n">beta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts relativistic beta to kinetic energy.</span>
+<span class="sd">    Converts relativistic beta to relativistic pv.</span>
 
-<span class="sd">    &gt;&gt;&gt; 1 + 1</span>
-<span class="sd">    2</span>
+<span class="sd">    &gt;&gt;&gt; beta_to_pv(100 * _ureg.MeV).to(&#39;T m&#39;)</span>
+<span class="sd">    &lt;Quantity(1.4829706197870007, &#39;meter tesla&#39;)&gt;</span>
+<span class="sd">    &gt;&gt;&gt; beta_to_pv(230 * _ureg.MeV).to(&#39;T m&#39;)</span>
+<span class="sd">    &lt;Quantity(2.3218196835259093, &#39;meter tesla&#39;)&gt;</span>
 
-<span class="sd">    :param beta: relativistic beta (dimensionless)</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return: kinetic energy</span>
+<span class="sd">    Args:</span>
+<span class="sd">        beta: relativistic beta</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Relativistic pv of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">beta_to_gamma</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">ekin_to_pv</span><span class="p">(</span><span class="n">beta_to_ekin</span><span class="p">(</span><span class="n">beta</span><span class="p">),</span> <span class="n">particle</span><span class="o">=</span><span class="n">particle</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="beta_to_gamma"><a class="viewcode-back" href="../../api/georges_core.kinematics.beta_to_gamma.html#georges_core.kinematics.beta_to_gamma">[docs]</a><span class="k">def</span> <span class="nf">beta_to_gamma</span><span class="p">(</span><span class="n">beta</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="beta_to_gamma"><a class="viewcode-back" href="../../api/georges_core.kinematics.beta_to_gamma.html#georges_core.kinematics.beta_to_gamma">[docs]</a><span class="k">def</span> <span class="nf">beta_to_gamma</span><span class="p">(</span><span class="n">beta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts relativistic beta to relativistic gamma.</span>
 
-<span class="sd">    &gt;&gt;&gt; 1 + 1</span>
-<span class="sd">    2</span>
+<span class="sd">    &gt;&gt;&gt; beta_to_gamma(0.5)</span>
+<span class="sd">    &lt;Quantity(1.1547005383792517, &#39;&#39;)&gt;</span>
+<span class="sd">    &gt;&gt;&gt; beta_to_gamma(2.294157338705618)</span>
+<span class="sd">    &lt;Quantity(2.3218196835259093, &#39;meter tesla&#39;)&gt;</span>
 
-<span class="sd">    :param beta: relativistic beta</span>
-<span class="sd">    :return:</span>
+<span class="sd">    Args:</span>
+<span class="sd">        beta: relativistic beta</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Relativistic gamma of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">beta</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">beta</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="gamma_to_etot"><a class="viewcode-back" href="../../api/georges_core.kinematics.gamma_to_etot.html#georges_core.kinematics.gamma_to_etot">[docs]</a><span class="k">def</span> <span class="nf">gamma_to_etot</span><span class="p">(</span><span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts relativistic gamma to total energy.</span>
+
+<span class="sd">    &gt;&gt;&gt; gamma_to_etot(1.5)</span>
+<span class="sd">    &lt;Quantity(1.1547005383792517, &#39;&#39;)&gt;</span>
+<span class="sd">    &gt;&gt;&gt; gamma_to_etot(1.2)</span>
+<span class="sd">    &lt;Quantity(2.3218196835259093, &#39;meter tesla&#39;)&gt;</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        gamma:</span>
-<span class="sd">        particle:</span>
+<span class="sd">        gamma: relativistic gamma</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
 
 <span class="sd">    Returns:</span>
-
+<span class="sd">        Total energy of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">gamma_to_ekin</span><span class="p">(</span><span class="n">gamma</span><span class="p">,</span> <span class="n">particle</span><span class="p">)</span> <span class="o">+</span> <span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span><span class="o">**</span><span class="mi">2</span></div>
+    <span class="k">return</span> <span class="n">gamma_to_ekin</span><span class="p">(</span><span class="n">gamma</span><span class="p">,</span> <span class="n">particle</span><span class="p">)</span> <span class="o">+</span> <span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span></div>
 
 
 <div class="viewcode-block" id="gamma_to_ekin"><a class="viewcode-back" href="../../api/georges_core.kinematics.gamma_to_ekin.html#georges_core.kinematics.gamma_to_ekin">[docs]</a><span class="k">def</span> <span class="nf">gamma_to_ekin</span><span class="p">(</span><span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts relativistic gamma to kinetic energy.</span>
 
-<span class="sd">    &gt;&gt;&gt; gamma_to_energy(100.0).to(&#39;MeV&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; gamma_to_ekin(100.0).to(&#39;MeV&#39;)</span>
 <span class="sd">    &lt;Quantity(92888.93096999999, &#39;megaelectronvolt&#39;)&gt;</span>
 
-<span class="sd">    :param gamma: relativistic gamma (dimensionless)</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return: kinetic energy</span>
+<span class="sd">    Args:</span>
+<span class="sd">        gamma: relativistic gamma</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Kinetic energy of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">gamma</span> <span class="o">*</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="p">(</span><span class="n">gamma</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="gamma_to_momentum"><a class="viewcode-back" href="../../api/georges_core.kinematics.gamma_to_momentum.html#georges_core.kinematics.gamma_to_momentum">[docs]</a><span class="k">def</span> <span class="nf">gamma_to_momentum</span><span class="p">(</span><span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts relativistic gamma to kinetic energy.</span>
+<span class="sd">    Converts relativistic gamma to momentum.</span>
 
-<span class="sd">    &gt;&gt;&gt; gamma_to_energy(100.0).to(&#39;MeV&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; gamma_to_momentum(100.0).to(&#39;MeV/c&#39;)</span>
 <span class="sd">    &lt;Quantity(92888.93096999999, &#39;megaelectronvolt&#39;)&gt;</span>
 
-<span class="sd">    :param gamma: relativistic gamma (dimensionless)</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return: kinetic energy</span>
+<span class="sd">    Args:</span>
+<span class="sd">        gamma: relativistic gamma</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Momentum of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">gamma</span> <span class="o">*</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">ekin_to_momentum</span><span class="p">(</span><span class="n">gamma_to_ekin</span><span class="p">(</span><span class="n">gamma</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="gamma_to_brho"><a class="viewcode-back" href="../../api/georges_core.kinematics.gamma_to_brho.html#georges_core.kinematics.gamma_to_brho">[docs]</a><span class="k">def</span> <span class="nf">gamma_to_brho</span><span class="p">(</span><span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts relativistic gamma to kinetic energy.</span>
+<span class="sd">    Converts relativistic gamma to magnetic rigidity.</span>
 
-<span class="sd">    &gt;&gt;&gt; gamma_to_energy(100.0).to(&#39;MeV&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; gamma_to_brho(100.0).to(&#39;T m&#39;)</span>
 <span class="sd">    &lt;Quantity(92888.93096999999, &#39;megaelectronvolt&#39;)&gt;</span>
 
-<span class="sd">    :param gamma: relativistic gamma (dimensionless)</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return: kinetic energy</span>
+<span class="sd">    Args:</span>
+<span class="sd">        gamma: relativistic gamma</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Magnetic rigidity of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">gamma</span> <span class="o">*</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">ekin_to_brho</span><span class="p">(</span><span class="n">gamma_to_ekin</span><span class="p">(</span><span class="n">gamma</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="gamma_to_range"><a class="viewcode-back" href="../../api/georges_core.kinematics.gamma_to_range.html#georges_core.kinematics.gamma_to_range">[docs]</a><span class="k">def</span> <span class="nf">gamma_to_range</span><span class="p">(</span><span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts relativistic gamma to kinetic energy.</span>
+<span class="sd">    Converts relativistic gamma to range (protons only).</span>
 
-<span class="sd">    &gt;&gt;&gt; gamma_to_energy(100.0).to(&#39;MeV&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; gamma_to_range(100.0).to(&#39;T m&#39;)</span>
 <span class="sd">    &lt;Quantity(92888.93096999999, &#39;megaelectronvolt&#39;)&gt;</span>
 
-<span class="sd">    :param gamma: relativistic gamma (dimensionless)</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return: kinetic energy</span>
+<span class="sd">    Args:</span>
+<span class="sd">        gamma: relativistic gamma</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Range of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">gamma</span> <span class="o">*</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">ekin_to_range</span><span class="p">(</span><span class="n">gamma_to_ekin</span><span class="p">(</span><span class="n">gamma</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="gamma_to_pv"><a class="viewcode-back" href="../../api/georges_core.kinematics.gamma_to_pv.html#georges_core.kinematics.gamma_to_pv">[docs]</a><span class="k">def</span> <span class="nf">gamma_to_pv</span><span class="p">(</span><span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Q</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts relativistic gamma to kinetic energy.</span>
+<span class="sd">    Converts relativistic gamma to relativistic pv.</span>
 
-<span class="sd">    &gt;&gt;&gt; gamma_to_energy(100.0).to(&#39;MeV&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; gamma_to_pv(100.0).to(&#39;T m&#39;)</span>
 <span class="sd">    &lt;Quantity(92888.93096999999, &#39;megaelectronvolt&#39;)&gt;</span>
 
-<span class="sd">    :param gamma: relativistic gamma (dimensionless)</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return: kinetic energy</span>
+<span class="sd">    Args:</span>
+<span class="sd">        gamma: relativistic gamma</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Relativistic pv of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">gamma</span> <span class="o">*</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">ekin_to_pv</span><span class="p">(</span><span class="n">gamma_to_ekin</span><span class="p">(</span><span class="n">gamma</span><span class="p">,</span> <span class="n">particle</span><span class="p">),</span> <span class="n">particle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="gamma_to_beta"><a class="viewcode-back" href="../../api/georges_core.kinematics.gamma_to_beta.html#georges_core.kinematics.gamma_to_beta">[docs]</a><span class="k">def</span> <span class="nf">gamma_to_beta</span><span class="p">(</span><span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">particle</span><span class="p">:</span> <span class="n">_ParticuleType</span> <span class="o">=</span> <span class="n">_Proton</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts relativistic gamma to kinetic energy.</span>
+<span class="sd">    Converts relativistic gamma to relativistic beta.</span>
 
-<span class="sd">    &gt;&gt;&gt; gamma_to_energy(100.0).to(&#39;MeV&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; gamma_to_beta(1.5)</span>
 <span class="sd">    &lt;Quantity(92888.93096999999, &#39;megaelectronvolt&#39;)&gt;</span>
 
-<span class="sd">    :param gamma: relativistic gamma (dimensionless)</span>
-<span class="sd">    :param particle: the particle type (default: proton)</span>
-<span class="sd">    :return: kinetic energy</span>
+<span class="sd">    Args:</span>
+<span class="sd">        gamma: relativistic gamma</span>
+<span class="sd">        particle: the particle type (default: proton)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Relativistic beta of the particle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">gamma</span> <span class="o">*</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">particle</span><span class="o">.</span><span class="n">M</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">c</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">gamma</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">gamma</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
@@ -1156,11 +1304,19 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+        
+        &copy; Copyright 2018-2020, Cédric Hernalsteens (cedric.hernalsteens@ulb.be)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1171,7 +1327,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

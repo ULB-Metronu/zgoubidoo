@@ -1,15 +1,19 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>zgoubidoo.input &mdash; Zgoubidoo 2019.4 documentation</title>
+  <title>zgoubidoo.input &mdash; Zgoubidoo 2020.1 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
 
   
   
@@ -17,7 +21,9 @@
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -29,11 +35,6 @@
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
@@ -49,7 +50,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> Zgoubidoo
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> Zgoubidoo
           
 
           
@@ -59,7 +60,7 @@
             
             
               <div class="version">
-                2019.4
+                2020.1
               </div>
             
           
@@ -76,6 +77,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -103,6 +105,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -141,7 +144,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../index.html">Module code</a> &raquo;</li>
         
@@ -249,6 +252,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_line</span><span class="p">:</span> <span class="n">Deque</span><span class="p">[</span><span class="n">_Command</span><span class="p">]</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_paths</span><span class="p">:</span> <span class="n">PathsListType</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_reference_frame</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_Frame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_survey_is_valid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input object &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="si">}</span><span class="s2">&#39; for paths </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="si">}</span><span class="s2"> is being destroyed.&quot;</span><span class="p">)</span>
@@ -799,6 +803,23 @@
                                 <span class="n">output</span><span class="o">=</span><span class="n">output</span>
                                 <span class="p">)</span></div>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">valid_survey</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_survey_is_valid</span>
+
+<div class="viewcode-block" id="Input.set_valid_survey"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.set_valid_survey">[docs]</a>    <span class="k">def</span> <span class="nf">set_valid_survey</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_survey_is_valid</span> <span class="o">=</span> <span class="kc">True</span></div>
+
 <div class="viewcode-block" id="Input.clear_survey"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.clear_survey">[docs]</a>    <span class="k">def</span> <span class="nf">clear_survey</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
@@ -806,7 +827,9 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">clear_survey</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_survey_is_valid</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_reference_frame</span> <span class="o">=</span> <span class="kc">None</span></div>
+
 
 <div class="viewcode-block" id="Input.execute"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -815,50 +838,6 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">_Zgoubi</span><span class="p">()(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span></div>
-
-<div class="viewcode-block" id="Input.plot"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-             <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-             <span class="n">tracks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-             <span class="n">artist</span><span class="p">:</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">Artist</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">start</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Command</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Command</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-             <span class="n">with_frames</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-             <span class="n">with_elements</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-             <span class="n">with_apertures</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-             <span class="n">set_equal_aspect</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-             <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">Artist</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Plot the input sequence.</span>
-
-<span class="sd">        TODO</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            ax: an optional matplotlib axis to draw on</span>
-<span class="sd">            tracks: TODO</span>
-<span class="sd">            artist: an artist object for the rendering</span>
-<span class="sd">            start: first element of the beamline to be plotted</span>
-<span class="sd">            stop: last element of the beamline to be plotted</span>
-<span class="sd">            with_frames:</span>
-<span class="sd">            with_elements:</span>
-<span class="sd">            with_apertures:</span>
-<span class="sd">            set_equal_aspect:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ZgoubiInputException</span><span class="p">(</span><span class="s2">&quot;The input must be surveyed explicitely before plotting.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">artist</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">artist</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">MatplotlibArtist</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">with_frames</span><span class="o">=</span><span class="n">with_frames</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">artist</span><span class="o">.</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span>
-
-        <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">beamline</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">],</span>
-                               <span class="n">tracks</span><span class="o">=</span><span class="n">tracks</span><span class="p">,</span>
-                               <span class="n">artist</span><span class="o">=</span><span class="n">artist</span><span class="p">,</span>
-                               <span class="n">with_elements</span><span class="o">=</span><span class="n">with_elements</span><span class="p">,</span>
-                               <span class="n">with_apertures</span><span class="o">=</span><span class="n">with_apertures</span><span class="p">,</span>
-                               <span class="p">)</span>
-        <span class="n">artist</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">autoscale_view</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">set_equal_aspect</span><span class="p">:</span>
-            <span class="n">artist</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="s1">&#39;datalim&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">artist</span></div>
 
 <div class="viewcode-block" id="Input.save"><a class="viewcode-back" href="../../input.html#zgoubidoo.input.Input.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">destination</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
              <span class="n">what</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1054,11 +1033,19 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+        
+        &copy; Copyright 2018-2020, Cédric Hernalsteens (cedric.hernalsteens@ulb.be)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1069,7 +1056,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

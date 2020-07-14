@@ -1,23 +1,61 @@
 Installation
 ============
 
-Installing and using the ``Zgoubidoo`` Python library requires a working Python 3.7 environment.
+Installing and using the ``Zgoubidoo`` Python library requires a working Python 3.7+ environment.
 
-The easiest way is to
-proceed with ``conda`` to set it up. In case you already have a Python 3.7 environment available, you can simply install
-``Zgoubidoo`` with ``pip`` directly. ``Zgoubidoo`` has a relatively small number of dependencies, and no non-Python
-dependencies, except of course for ``Zgoubi`` itself.
+The easiest way is to proceed with ``conda`` to set it up. In case you already have a Python 3.7 environment available,
+you can simply install ``Zgoubidoo`` with ``pip`` directly. ``Zgoubidoo`` has a relatively small number of
+dependencies, and no non-Python dependencies, except of course for ``Zgoubi`` itself. Detailed step-by-step
+instructions are provided in the following sections.
 
 Compiling and installing Zgoubi
 -------------------------------
+
+Zgoubi can be obtained from the official SourceForge repository, although we do not explicitely support the
+compilation and installation of Zgoubi with that method. Indeed, no platform-independent build system is provided and
+it is difficult to support compilation over a variety of platforms. A selection of ``Makefile``s is provided. In case
+one of them suits your needs, a brief description of the build process is given in the next section.
+
+A non-official ``git`` repository, tracking the SVN repository (using ``git svn``) is maintained in parallel with
+Zgoubidoo. You can contact us to obtain access. That repository provides a build system using ``cmake``, which allow to
+compile over a variety of platforms and compilers.
+
+In particular, the build process for recent versions of ``gfortran`` on Mac OS is actively supported. The dependencies
+are ``cmake`` and ``gfortran``. They can be installed using your package manager, ``brew`` on Mac OS works just fine.
+
+The following steps are recommended on a Mac::
+
+    # Install cmake on Mac OS
+    brew install cmake
+    # Install gfortran on Mac OS
+    brew install gcc
+    # Clone the git repository in a source directory
+    git clone https://github.com/ulb-metronu/zgoubi.git zgoubi-source
+    cd zgoubi-source
+    git checkout develop
+    cd ..
+    mkdir zgoubi-build
+    cd zgoubi-build
+    cmake ../zgoubi-source
+    make
+
+The Zgoubi executable is then available in the ``bin`` directory. No specific step is required to "install" Zgoubi, but
+a symbolic link can be a good idea::
+
+    ln -s ./bin/zgoubi /usr/local/bin/zgoubi
+
+Compiling Zgoubi from the official SourceForge repository
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 Zgoubi can be obtained from SourceForge (download or ``svn checkout``). A Fortran compiler is required: both ``ifort``
 and ``gfortran`` are supported ('Makefile's are provided).
 
 After the compilation the ``zgoubi`` executable will be available in the `zgoubi` directory. Depending on the Makefile
-you use, `zpop` will also be built. It is not used by Zgoubidoo.
+you use, `zpop` will also be built. `zpop` is *not* used by Zgoubidoo.
 
 Zgoubidoo needs to be able to locate the ``zgoubi`` executable. The easiest way is to have it somewhere in your `$PATH`
-so that ``which`` (via `shutil.which`) is able to find it. Alternatively, it is possible to provide the path at runtime.
+so that ``which`` (via Python `shutil.which`) is able to find it. Alternatively, it is possible to provide the path
+at runtime (see the ``zgoubidoo.Zgoubi`` class).
 
 Obtaining Zgoubidoo
 -------------------
@@ -86,6 +124,8 @@ installation of ``jupyter`` with the ``conda`` extensions::
 
     conda activate py37
     jupyter notebook
+    # Or using Jupyter Lab
+    jupyter lab
 
 From there you can create a new notebook and simply import Zgoubidoo::
 

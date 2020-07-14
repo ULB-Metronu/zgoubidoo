@@ -1,15 +1,19 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Zgoubidoo’s visualization and plotting module &mdash; Zgoubidoo 2019.4 documentation</title>
+  <title>Zgoubidoo’s visualization and plotting module &mdash; Zgoubidoo 2020.1 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
 
   
   
@@ -17,7 +21,9 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -29,14 +35,9 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="MatplotlibArtist" href="api/zgoubidoo.vis.MatplotlibArtist.html" />
+    <link rel="next" title="MplArtist" href="api/zgoubidoo.vis.MplArtist.html" />
     <link rel="prev" title="ZgoubidooBeamException" href="api/zgoubidoo.commands.beam.ZgoubidooBeamException.html" /> 
 </head>
 
@@ -51,7 +52,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Zgoubidoo
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Zgoubidoo
           
 
           
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                2019.4
+                2020.1
               </div>
             
           
@@ -78,6 +79,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -99,8 +101,8 @@
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics with Zgoubidoo high-level interfaces</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Zgoubidoo’s visualization and plotting module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#classes">Classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/zgoubidoo.vis.MatplotlibArtist.html">MatplotlibArtist</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/zgoubidoo.vis.MplArtist.html">MplArtist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/zgoubidoo.vis.ZgoubidooMatplotlibArtist.html">ZgoubidooMatplotlibArtist</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/zgoubidoo.vis.ZgoubidooPlotlyArtist.html">ZgoubidooPlotlyArtist</a></li>
 </ul>
 </li>
@@ -114,6 +116,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -152,7 +155,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Zgoubidoo’s visualization and plotting module</li>
     
@@ -186,13 +189,13 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.vis.MatplotlibArtist.html#zgoubidoo.vis.MatplotlibArtist" title="zgoubidoo.vis.MatplotlibArtist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MatplotlibArtist</span></code></a>([ax])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.vis.MplArtist.html#zgoubidoo.vis.MplArtist" title="zgoubidoo.vis.MplArtist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MplArtist</span></code></a></p></td>
+<td><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.vis.matplotlib.ZgoubidooMatplotlibArtist</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.vis.ZgoubidooMatplotlibArtist.html#zgoubidoo.vis.ZgoubidooMatplotlibArtist" title="zgoubidoo.vis.ZgoubidooMatplotlibArtist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZgoubidooMatplotlibArtist</span></code></a>([ax, with_boxes, …])</p></td>
 <td><p>A matplotlib implementation of a <cite>ZgoubiPlot</cite> artist.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zgoubidoo.vis.MplArtist.html#zgoubidoo.vis.MplArtist" title="zgoubidoo.vis.MplArtist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MplArtist</span></code></a></p></td>
-<td><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.vis.matplotlib.MatplotlibArtist</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.vis.ZgoubidooPlotlyArtist.html#zgoubidoo.vis.ZgoubidooPlotlyArtist" title="zgoubidoo.vis.ZgoubidooPlotlyArtist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZgoubidooPlotlyArtist</span></code></a>(config, layout, width, …)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zgoubidoo.vis.ZgoubidooPlotlyArtist.html#zgoubidoo.vis.ZgoubidooPlotlyArtist" title="zgoubidoo.vis.ZgoubidooPlotlyArtist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZgoubidooPlotlyArtist</span></code></a>([config, layout, …])</p></td>
 <td><p>TODO</p></td>
 </tr>
 </tbody>
@@ -200,7 +203,7 @@
 </div>
 <div class="section" id="class-inheritance-diagram">
 <h2>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h2>
-<div class="graphviz"><img src="_images/inheritance-bd94a9210ea95d4b0169446e9a82df0b0c1582be.png" alt="Inheritance diagram of zgoubidoo.vis.matplotlib.MatplotlibArtist, zgoubidoo.vis.matplotlib.MatplotlibArtist, zgoubidoo.vis.plotly.ZgoubidooPlotlyArtist" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="_images/inheritance-50a7a142f7cb87a17460c24d89b68341f375144b.png" alt="Inheritance diagram of zgoubidoo.vis.matplotlib.ZgoubidooMatplotlibArtist, zgoubidoo.vis.matplotlib.ZgoubidooMatplotlibArtist, zgoubidoo.vis.plotly.ZgoubidooPlotlyArtist" class="inheritance graphviz" /></div>
 </div>
 </div>
 
@@ -212,7 +215,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="api/zgoubidoo.vis.MatplotlibArtist.html" class="btn btn-neutral float-right" title="MatplotlibArtist" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="api/zgoubidoo.vis.MplArtist.html" class="btn btn-neutral float-right" title="MplArtist" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="api/zgoubidoo.commands.beam.ZgoubidooBeamException.html" class="btn btn-neutral float-left" title="ZgoubidooBeamException" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -224,11 +227,19 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+        
+        &copy; Copyright 2018-2020, Cédric Hernalsteens (cedric.hernalsteens@ulb.be)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -239,7 +250,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

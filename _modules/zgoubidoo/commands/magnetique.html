@@ -1,15 +1,19 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>zgoubidoo.commands.magnetique &mdash; Zgoubidoo 2019.4 documentation</title>
+  <title>zgoubidoo.commands.magnetique &mdash; Zgoubidoo 2020.1 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
 
   
   
@@ -17,7 +21,9 @@
   
 
   
-  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -29,11 +35,6 @@
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -49,7 +50,7 @@
           
 
           
-            <a href="../../../index.html" class="icon icon-home"> Zgoubidoo
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> Zgoubidoo
           
 
           
@@ -59,7 +60,7 @@
             
             
               <div class="version">
-                2019.4
+                2020.1
               </div>
             
           
@@ -76,6 +77,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -103,6 +105,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -141,7 +144,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
@@ -206,9 +209,9 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;HEIGHT&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">20</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="s1">&#39;Height of the magnet (distance between poles), used by plotting functions.&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;POLE_WIDTH&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">30</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="s1">&#39;Pole width (used for plotting only).&#39;</span><span class="p">),</span>
         <span class="s1">&#39;PIPE_THICKNESS&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="s1">&#39;Thickness of the pipe, used by plotting functions.&#39;</span><span class="p">),</span>
         <span class="s1">&#39;PIPE_COLOR&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="s1">&#39;Color of the pipe, used by plotting functions.&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;POLE_WIDTH&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">50</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="s1">&#39;Pole width (used for plotting only).&#39;</span><span class="p">),</span>
         <span class="s1">&#39;REFERENCE_FIELD_COMPONENT&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;BZ&#39;</span><span class="p">,</span> <span class="s1">&#39;Orientation of the reference field (used by field maps)&#39;</span><span class="p">),</span>
         <span class="s1">&#39;KINEMATICS&#39;</span><span class="p">:</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;A kinematics object.&#39;</span><span class="p">),</span>
     <span class="p">}</span>
@@ -243,7 +246,7 @@
     <span class="k">def</span> <span class="nf">field_profile_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;A model for the field profile.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_field_profile_model</span>
-
+    
 <div class="viewcode-block" id="Magnet.process_fit_field_profile"><a class="viewcode-back" href="../../../api/zgoubidoo.commands.magnetique.Magnet.html#zgoubidoo.commands.magnetique.Magnet.process_fit_field_profile">[docs]</a>    <span class="k">def</span> <span class="nf">process_fit_field_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fit</span><span class="p">:</span> <span class="n">lmfit</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">ModelResult</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        </span>
@@ -267,7 +270,6 @@
 <span class="sd">    TODO</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;WIDTH&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">50</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="s1">&#39;Width of the magnetic poles (used for plotting only).&#39;</span><span class="p">),</span>
         <span class="s1">&#39;APERTURE_LEFT&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="s1">&#39;Aperture size of the magnet, left side (used for plotting only).&#39;</span><span class="p">),</span>
         <span class="s1">&#39;APERTURE_RIGHT&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="s1">&#39;Aperture size of the magnet, right side (used for plotting only).&#39;</span><span class="p">),</span>
         <span class="s1">&#39;APERTURE_TOP&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">_ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="s1">&#39;Aperture size of the magnet, top side (used for plotting only).&#39;</span><span class="p">),</span>
@@ -2644,11 +2646,19 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)
+        
+        &copy; Copyright 2018-2020, Cédric Hernalsteens (cedric.hernalsteens@ulb.be)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -2659,7 +2669,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
