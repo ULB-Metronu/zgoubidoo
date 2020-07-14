@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import zgoubidoo
-from zgoubidoo.commands import Objet2, Electron, FakeDrift, ChangeRef, Quadrupole, Rebelote, Faisceau
+from zgoubidoo.commands import Objet2, Electron, Drift, ChangeRef, Quadrupole, Rebelote, Faisceau
 _ = zgoubidoo.ureg
 
 cells = 42
@@ -30,15 +30,15 @@ objet.add([0.456, -38.1, 0.0, 0.0, 0.0, 1.0, 1.0])
 emma = zgoubidoo.Input(name='EMMA', line=[
     objet,
     Electron(),
-    FakeDrift('ld1', XL=ld/2),
+    Drift('ld1', XL=ld/2),
     ChangeRef(TRANSFORMATIONS=[('ZR', angle), ('YS', d_offset)]),
     Quadrupole('defoc', XL=dq, R0=dr, B0=db, XPAS=10*_.mm, KPOS=1),
     ChangeRef(TRANSFORMATIONS=[('YS', -d_offset)]),
-    FakeDrift('sd', XL=sd),
+    Drift('sd', XL=sd),
     ChangeRef(TRANSFORMATIONS=[('YS', f_offset)]),
     Quadrupole('foc', XL=fq, R0=fr, B0=fb, XPAS=10*_.mm, KPOS=1),
     ChangeRef(TRANSFORMATIONS=[('YS', -f_offset)]),
-    FakeDrift('ld2', XL=ld/2),
+    Drift('ld2', XL=ld/2),
     #Rebelote(K=99, NPASS=10),
     Faisceau()
 ])

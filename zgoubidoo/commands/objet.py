@@ -59,11 +59,11 @@ class Objet1(Objet):
         'IP': (1, 'Total number of points in +- P (or +P only if K2=01)'),
         'IX': (1, 'Total number of points in +- X'),
         'ID': (1, 'Total number of points in +- D'),
-        'PY': (0.1 * _ureg.centimeter, 'Step size in Y'),
-        'PT': (0.1 * _ureg.milliradian, 'Step size in T'),
-        'PZ': (0.1 * _ureg.centimeter, 'Step size in Z'),
-        'PP': (0.1 * _ureg.milliradian, 'Step size in P'),
-        'PX': (0.1 * _ureg.centimeter, 'Step size in X'),
+        'PY': (1.0 * _ureg.centimeter, 'Step size in Y'),
+        'PT': (1.0 * _ureg.milliradian, 'Step size in T'),
+        'PZ': (1.0 * _ureg.centimeter, 'Step size in Z'),
+        'PP': (1.0 * _ureg.milliradian, 'Step size in P'),
+        'PX': (1.0 * _ureg.centimeter, 'Step size in X'),
         'PD': (0.1, 'Step size in Delta(BRHO)/BORO'),
         'YR': (0.0 * _ureg.centimeter, 'Reference Y'),
         'TR': (0.0 * _ureg.milliradian, 'Reference T'),
@@ -105,6 +105,12 @@ class Objet2(Objet):
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
+
+    Y_ = 30
+    T_ = 31
+    Z_ = 32
+    P_ = 33
+    # Used for FIT
 
     def post_init(self,
                   reference_y: float = 0.0,
@@ -169,26 +175,27 @@ class Objet2(Objet):
         if p is None:
             return self
         assert isinstance(p, _np.ndarray), "The particles container must be a numpy array."
-        if self._PARTICULES is None:
-            assert p.ndim == 2, "Invalid dimensions for the array of particles."
-            if p.shape[1] == 4:  # Y T Z P
-                x = _np.zeros((p.shape[0], 1))
-                d = _np.ones((p.shape[0], 1))
-                iex = _np.ones((p.shape[0], 1))
-                self._PARTICULES = _np.concatenate((p, x, d, iex), axis=1)
-            elif p.shape[1] == 5: # Y T Z P D
-                x = _np.zeros((p.shape[0], 1))
-                iex = _np.ones((p.shape[0], 1))
-                self._PARTICULES = _np.concatenate((p[:, :-1], x, p[:, :-1], iex), axis=1)
-            elif p.shape[1] == 6: # Y T Z P X D
-                iex = _np.ones((p.shape[0], 1))
-                self._PARTICULES = _np.concatenate((p, iex), axis=1)
-            elif p.shape[1] == 7: # Y T Z P X D IEX
-                self._PARTICULES = p
-            else:
-                raise _ZgoubidooException("Invalid dimensions for particles vectors.")
+        assert p.ndim == 2, "Invalid dimensions for the array of particles (must be 2)."
+        if p.shape[1] == 4:  # Y T Z P
+            x = _np.zeros((p.shape[0], 1))
+            d = _np.ones((p.shape[0], 1))
+            iex = _np.ones((p.shape[0], 1))
+            distribution = _np.concatenate((p, x, d, iex), axis=1)
+        elif p.shape[1] == 5:  # Y T Z P D
+            x = _np.zeros((p.shape[0], 1))
+            iex = _np.ones((p.shape[0], 1))
+            distribution = _np.concatenate((p[:, :-1], x, p[:, -1:], iex), axis=1)
+        elif p.shape[1] == 6:  # Y T Z P X D
+            iex = _np.ones((p.shape[0], 1))
+            distribution = _np.concatenate((p, iex), axis=1)
+        elif p.shape[1] == 7:  # Y T Z P X D IEX
+            distribution = p
         else:
-            self._PARTICULES = _np.append(self._PARTICULES, p, axis=0)
+            raise _ZgoubidooException("Invalid dimensions for particles vectors.")
+        if self._PARTICULES is None:
+            self._PARTICULES = distribution
+        else:
+            self._PARTICULES = _np.append(self._PARTICULES, distribution, axis=0)
         return self
 
     def add_references(self, n: int = 1):
@@ -218,7 +225,11 @@ class Objet2(Objet):
         {self.KOBJ}.0{self.K2}
         {self.IMAX} {self.IDMAX}
         """
-        for p in self.PARTICULES[:, 0:6]:
+        p = self.PARTICULES[0, 0:6]
+        c += f"""
+        {p[0]:.12e} {p[1]:.12e} {p[2]:.12e} {p[3]:.12e} {p[4]:.12e} {p[5]:.12e} O
+        """.lstrip()
+        for p in self.PARTICULES[1:, 0:6]:
             c += f"""
         {p[0]:.12e} {p[1]:.12e} {p[2]:.12e} {p[3]:.12e} {p[4]:.12e} {p[5]:.12e} A
         """.lstrip()
@@ -328,20 +339,20 @@ class Objet5(Objet):
     """
 
     PARAMETERS = {
-        'KOBJ': 5,
-        'NN': 1,
+        'KOBJ': (5, 'Generation of groups 11 particles.'),
+        'NN': (1, 'Number of groups of 11 particles'),
         'PY': 1e-3,
         'PT': 1e-3,
         'PZ': 1e-3,
         'PP': 1e-3,
         'PX': 1e-3,
         'PD': 1e-3,
-        'YR': 0,
-        'TR': 0,
-        'ZR': 0,
-        'PR': 0,
-        'XR': 0,
-        'DR': 1,
+        'YR': ([0, ], 'Y-coordinate of the reference trajectory'),
+        'TR': ([0, ], 'T-coordinate of the reference trajectory'),
+        'ZR': ([0, ], 'Z-coordinate of the reference trajectory'),
+        'PR': ([0, ], 'P-coordinate of the reference trajectory'),
+        'XR': ([0, ], 'X-coordinate of the reference trajectory'),
+        'DR': ([1, ], 'D-coordinate of the reference trajectory'),
         'ALPHA_Y': 0,
         'BETA_Y': 1 * _ureg.m,
         'ALPHA_Z': 0,
@@ -357,12 +368,13 @@ class Objet5(Objet):
     commands (e.g. fit)."""
 
     def __str__(s) -> str:
+        assert len(s.YR) == len(s.TR) == len(s.ZR) == len(s.PR) == len(s.XR) == len(s.DR) == s.NN, 'Invalid lengths'
         command = []
         c = f"""
         {super().__str__().strip()}
         {s.KOBJ}.0{s.NN}
         {s.PY:.12e} {s.PT:.12e} {s.PZ:.12e} {s.PP:.12e} {s.PX:.12e} {s.PD:.12e}
-        {s.YR:.12e} {s.TR:.12e} {s.ZR:.12e} {s.PR:.12e} {s.XR:.12e} {s.DR:.12e}
+        {s.YR[0]:.12e} {s.TR[0]:.12e} {s.ZR[0]:.12e} {s.PR[0]:.12e} {s.XR[0]:.12e} {s.DR[0]:.12e}
         """
         command.append(c)
         if s.NN == 1:
@@ -370,10 +382,11 @@ class Objet5(Objet):
         {s.ALPHA_Y:.12e} {s.BETA_Y.m_as('m'):.12e} {s.ALPHA_Z:.12e} {s.BETA_Z.m_as('m'):.12e} {s.ALPHA_X:.12e} {s.BETA_X.m_as('m'):.12e} {s.D_Y.m_as('m'):.12e} {s.D_YP:.12e} {s.D_Z.m_as('m'):.12e} {s.D_ZP:.12e}
             """
             command.append(c)
-        elif s.NN in range(2, 99):
-            c = f"""
-        {s.YR:.12e} {s.TR:.12e} {s.ZR:.12e} {s.PR:.12e} {s.XR:.12e} {s.DR:.12e}
-            """
+        elif 1 < s.NN < 99:
+            for i in range(1, s.NN):
+                c = f"""
+        {s.YR[i]:.12e} {s.TR[i]:.12e} {s.ZR[i]:.12e} {s.PR[i]:.12e} {s.XR[i]:.12e} {s.DR[i]:.12e}
+                    """
             command.append(c)
 
         return ''.join(map(lambda _: _.rstrip(), command)) + '\n'
@@ -387,32 +400,30 @@ class Objet6(Objet):
     """
 
     PARAMETERS = {
-        'KOBJ': 6,
-        'NN': 1,
+        'KOBJ': (6, 'Generation of groups 61 particles.'),
         'PY': 1e-3,
         'PT': 1e-3,
         'PZ': 1e-3,
         'PP': 1e-3,
         'PX': 1e-3,
         'PD': 1e-3,
-        'YR': 6,
-        'TR': 6,
-        'ZR': 6,
-        'PR': 6,
-        'XR': 6,
-        'DR': 1,
+        'YR': (0.0, 'Y-coordinate of the reference trajectory'),
+        'TR': (0.0, 'T-coordinate of the reference trajectory'),
+        'ZR': (0.0, 'Z-coordinate of the reference trajectory'),
+        'PR': (0.0, 'P-coordinate of the reference trajectory'),
+        'XR': (0.0, 'X-coordinate of the reference trajectory'),
+        'DR': (1.0, 'D-coordinate of the reference trajectory'),
     }
 
-    def __str__(s) -> str:
+    def __str__(self) -> str:
         command = []
         c = f"""
         {super().__str__().rstrip()}
-        {s.KOBJ}.0{s.NN}
-        {s.PY:.12e} {s.PT:.12e} {s.PZ:.12e} {s.PP:.12e} {s.PX:.12e} {s.PD:.12e}
-        {s.YR:.12e} {s.TR:.12e} {s.ZR:.12e} {s.PR:.12e} {s.XR:.12e} {s.DR:.12e}
+        {self.KOBJ}
+        {self.PY:.12e} {self.PT:.12e} {self.PZ:.12e} {self.PP:.12e} {self.PX:.12e} {self.PD:.12e}
+        {self.YR:.12e} {self.TR:.12e} {self.ZR:.12e} {self.PR:.12e} {self.XR:.12e} {self.DR:.12e}
         """
         command.append(c)
-
         return ''.join(map(lambda _: _.rstrip(), command)) + '\n'
 
 
@@ -433,7 +444,7 @@ class ObjetA(_Command):
     """Object from Monte-Carlo simulation of decay reaction.
 
     Examples:
-        Test
+        TODO
     """
     KEYWORD = 'OBJETA'
     """Keyword of the command used for the Zgoubi input data."""

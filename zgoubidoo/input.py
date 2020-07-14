@@ -9,8 +9,7 @@ to provide a parametric mapping (combinations of the variations of one or more p
 input files.
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, Callable, Sequence, Mapping, Union, List, Tuple, Iterable, Any, Deque
-from dataclasses import dataclass, field
+from typing import TYPE_CHECKING, Optional, Callable, Sequence, Union, List, Tuple, Iterable, Any, Deque, Mapping
 from collections import deque
 import itertools
 from inspect import getmembers, isfunction
@@ -19,42 +18,35 @@ import tempfile
 import logging
 import shutil
 import os
+import numpy as _np
 import pandas as _pd
 import parse as _parse
-from . import ureg as _ureg
-from . import _Q
-from .frame import Frame as _Frame
-import zgoubidoo.converters.zgoubi as _zgoubi_converters
+from georges_core.frame import Frame as _Frame
+import zgoubidoo.converters as _zgoubi_converters
 import zgoubidoo.commands
+from .zgoubi import Zgoubi as _Zgoubi
 from .commands.commands import ZgoubidooException as _ZgoubidooException
 from zgoubidoo.commands import Command as _Command
-from .commands.commands import End as _End
+from .commands.actions import End as _End
+from .commands.beam import Beam as _Beam
+from .commands.beam import BeamTwiss as _BeamTwiss
+from .commands import particules as _particules
+from .commands.particules import Particule as _Particule
+from .commands.particules import ParticuleType as _ParticuleType
 from .constants import ZGOUBI_IMAX, ZGOUBI_INPUT_FILENAME
+from .mappings import MappedParametersType as _MappedParametersType
+from .mappings import MappedParametersListType as _MappedParametersListType
+from .mappings import flatten as _flatten
+from . import Kinematics as _Kinematics
 if TYPE_CHECKING:
-    import zgoubidoo.sequences
+    import georges_core.sequences
     from zgoubidoo.commands import CommandType
-    from .commands.beam import Beam as _Beam
-    import zgoubidoo.commands.madx
+    from .commands.beam import BeamType as _BeamType
 
 _logger = logging.getLogger(__name__)
 
-ParametersMappingType = Mapping[str, Sequence[Union[_Q, float]]]
-"""Type alias for a parametric mapping of string keys and values."""
-
-ParametersMappingListType = List[ParametersMappingType]
-"""Type alias for a list of parametric mappings."""
-
-MappedParametersType = Mapping[str, Union[_Q, float, str]]
-"""Type alias for a dictionnary of parametric keys and values."""
-
-MappedParametersListType = List[MappedParametersType]
-"""Type alias for a list of mapped parameters."""
-
-PathsListType = List[Tuple[MappedParametersType, Union[str, tempfile.TemporaryDirectory], bool]]
+PathsListType = List[Tuple[_MappedParametersType, Union[str, tempfile.TemporaryDirectory], bool]]
 """Type alias for a list of parametric keys and paths values."""
-
-flatten = itertools.chain.from_iterable
-"""Helper function to flatten an iterable."""
 
 
 class ZgoubiInputException(Exception):
@@ -62,67 +54,6 @@ class ZgoubiInputException(Exception):
 
     def __init__(self, m):
         self.message = m
-
-
-@dataclass
-class ParametricMapping:
-    """Abstraction for multi-dimensional parametric mappings.
-
-    Main feature is to compute the complete "cross product" of the different parameters to support multi-dimensional
-    mapping. It also accounts for "coupled" variables.
-
-    Note:
-        TODO FIX Using the special value "LABEL" for the first element of the mapping's label deactivate the sequence adjustment mechanism.
-
-    See also:
-        for implementation details, see also https://codereview.stackexchange.com/q/211121/52027 .
-
-    Examples:
-        >>> pm = ParametricMapping([{('B3G', 'B1'): [1.0, 2.0], ('B1G', 'B1'): [11.0, 12.0]}, {('B2G', 'B1'): [1.5, 2.5, 3.5]}])
-        >>> pm.combinations
-        [{('B3G', 'B1'): 1.0, ('B1G', 'B1'): 11.0, ('B2G', 'B1'): 1.5},
-         {('B3G', 'B1'): 1.0, ('B1G', 'B1'): 11.0, ('B2G', 'B1'): 2.5},
-         {('B3G', 'B1'): 1.0, ('B1G', 'B1'): 11.0, ('B2G', 'B1'): 3.5},
-         {('B3G', 'B1'): 2.0, ('B1G', 'B1'): 12.0, ('B2G', 'B1'): 1.5},
-         {('B3G', 'B1'): 2.0, ('B1G', 'B1'): 12.0, ('B2G', 'B1'): 2.5},
-         {('B3G', 'B1'): 2.0, ('B1G', 'B1'): 12.0, ('B2G', 'B1'): 3.5}]
-    """
-    mappings: ParametersMappingListType = field(default_factory=lambda: [{}])
-
-    @property
-    def labels(self) -> Tuple[str]:
-        """List of labels of the parametric mapping."""
-        return tuple(flatten(self.mappings))
-
-    @property
-    def pools(self) -> List[List[Sequence[Union[_Q, float]]]]:
-        """All combinations of values for the parametric mapping."""
-        return [list(map(tuple, zip(*arg.values()))) for arg in self.mappings]
-
-    @property
-    def combinations(self) -> MappedParametersListType:
-        """Cartesian product adapted to work with dictionaries, roughly similar to `itertools.product`.
-
-        Returns:
-            a list of the cartesian product of the mappings.
-
-        See also:
-
-            - https://docs.python.org/3/library/itertools.html#itertools.product
-            - https://codereview.stackexchange.com/q/211121/52027
-        """
-        pool_values = [flatten(term) for term in itertools.product(*self.pools)]
-        return [dict(zip(self.labels, v)) for v in pool_values] or [{}]
-
-    def __add__(self, other):
-        """TODO might need to be adapted or with iadd also ?"""
-        if len(self.labels) == 0:
-            self.mappings = other.mappings
-        elif len(other.labels) == 0:
-            return self
-        else:
-            self.mappings += other.mappings
-        return self
 
 
 class Input:
@@ -154,8 +85,8 @@ class Input:
         line = line or list()
         self._line: Deque[_Command] = deque(line)
         self._paths: PathsListType = list()
-        self._optical_length: _Q = 0 * _ureg.m
         self._reference_frame: Optional[_Frame] = None
+        self._survey_is_valid: bool = False
 
     def __del__(self):
         _logger.debug(f"Input object '{self.name }' for paths {self.paths} is being destroyed.")
@@ -176,7 +107,7 @@ class Input:
 
     def __call__(self,
                  *,
-                 mappings: Optional[MappedParametersListType] = None,
+                 mappings: Optional[_MappedParametersListType] = None,
                  filename: str = ZGOUBI_INPUT_FILENAME,
                  path: Optional[str] = None) -> Input:
         """
@@ -193,7 +124,7 @@ class Input:
         return self
 
     def _generate(self,
-                  mappings: Optional[MappedParametersListType] = None,
+                  mappings: Optional[_MappedParametersListType] = None,
                   filename: str = ZGOUBI_INPUT_FILENAME,
                   path: Optional[str] = None,
                   ) -> PathsListType:
@@ -213,7 +144,7 @@ class Input:
         mappings = mappings or [{}]
         if len(self.beam_mappings) > 0:
             mappings = list(map(lambda _: {**_[0], **_[1]}, itertools.product(mappings, self.beam_mappings)))
-        initial_state: MappedParametersType = {}
+        initial_state: _MappedParametersType = {}
         for mapping in mappings:
             if mapping in self.mappings:  # Prevent duplicate entries but allows existing mappings to be regenerated
                 for i, p in enumerate(self._paths):
@@ -412,7 +343,7 @@ class Input:
     def cleanup(self):
         """Cleanup temporary paths.
 
-        Performs the cleanup to remove the temporary paths and the Zgoubi data files (input file, but also other output
+        Performs the cleanup to remove the temporary paths and the Zgoubi data files (input file, but also other parent
         files). This is essentially the inverse of calling the input. Note that coding the input multiple times will
         automatically cleanup previous sets of temporary directories.
 
@@ -457,10 +388,10 @@ class Input:
 
         """
         for i, r in parameters.iterrows():
-            setattr(self[r['element_id'] - 1], r['parameter'], r['final'])
+            setattr(self[r['element_id'] - 1], r['parameter'] + '_', r['final'].magnitude)
         return self
 
-    def adjust(self, mapping: MappedParametersType) -> MappedParametersType:
+    def adjust(self, mapping: _MappedParametersType) -> _MappedParametersType:
         """
 
         Args:
@@ -522,7 +453,7 @@ class Input:
         Raises:
             ValueError if the object is not present in the input sequence.
         """
-        return self.index(obj) + 3 if self.beam is not None else 1
+        return self.index(obj) + (1 if self.beam is not None else 0) + 1
 
     def replace(self, element, other) -> Input:
         """
@@ -594,7 +525,7 @@ class Input:
     labels1 = property(get_attributes)
     """Same as ``labels``."""
 
-    labels2 = property(partial(get_attributes, label='LABEL2'))
+    labels2 = property(partial(get_attributes, attribute='LABEL2'))
     """List of the LABEL2 property of each element of the input sequence."""
 
     @property
@@ -616,7 +547,7 @@ class Input:
         return self._paths
 
     @property
-    def mappings(self) -> List[MappedParametersType]:
+    def mappings(self) -> List[_MappedParametersType]:
         """List of mappings existing for the input sequence."""
         return [p[0] for p in self.paths]
 
@@ -639,15 +570,6 @@ class Input:
         return self._line
 
     @property
-    def optical_length(self) -> _Q:
-        """
-
-        Returns:
-
-        """
-        return self._optical_length
-
-    @property
     def valid_survey(self) -> bool:
         """Boolean indicating if the line has been surveyed."""
         return self._reference_frame is not None
@@ -667,14 +589,14 @@ class Input:
             TODO
 
         """
-        _ = self['BEAM']
+        _ = self[_Beam]
         if len(_) > 1:
             raise ZgoubiInputException("Multiple beams found in input.")
         else:
             return next(iter(_), None)
 
     @property
-    def beam_mappings(self) -> MappedParametersListType:
+    def beam_mappings(self) -> _MappedParametersListType:
         """
 
         Returns:
@@ -685,37 +607,52 @@ class Input:
         else:
             return self.beam.mappings
 
-    def increase_optical_length(self, l: _Q):
-        """
-
-        Args:
-            l:
-
-        Returns:
-
-        """
-        self._optical_length += l
-
-    def reset_optical_lenght(self):
-        """
-
-        Returns:
-
-        """
-        self._optical_length = 0 * _ureg.m
-
-    def survey(self, reference_frame: _Frame = None, output: bool = False) -> _pd.DataFrame:
+    def survey(self, reference_frame: _Frame = None,
+               with_reference_trajectory: bool = False,
+               reference_kinematics: Optional[_Kinematics] = None,
+               reference_particle: Optional[Union[_Particule, _ParticuleType]] = None,
+               reference_closed_orbit: Optional[_np.ndarray] = None,
+               output: bool = False
+               ) -> _pd.DataFrame:
         """Perform a survey on the input sequence.
 
         Args:
             reference_frame: a Zgoubidoo Frame object acting as the global reference frame.
+            with_reference_trajectory:
+            reference_kinematics:
+            reference_particle:
+            reference_closed_orbit:
             output:
 
         Returns:
             the surveyed input sequence.
         """
         self._reference_frame = reference_frame or _Frame()
-        return zgoubidoo.survey(self, reference_frame=reference_frame, output=output)
+        return zgoubidoo.survey(self,
+                                reference_frame=reference_frame,
+                                with_reference_trajectory=with_reference_trajectory,
+                                reference_kinematics=reference_kinematics,
+                                reference_particle=reference_particle,
+                                reference_closed_orbit=reference_closed_orbit,
+                                output=output
+                                )
+
+    @property
+    def valid_survey(self):
+        """
+
+        Returns:
+
+        """
+        return self._survey_is_valid
+
+    def set_valid_survey(self):
+        """
+
+        Returns:
+
+        """
+        self._survey_is_valid = True
 
     def clear_survey(self):
         """
@@ -724,56 +661,22 @@ class Input:
 
         """
         zgoubidoo.clear_survey(self)
+        self._survey_is_valid = False
         self._reference_frame = None
 
-    def plot(self,
-             ax=None,
-             tracks=None,
-             artist: zgoubidoo.vis.ZgoubiPlot = None,
-             start: Optional[Union[str, _Command]] = None,
-             stop: Optional[Union[str, _Command]] = None,
-             with_frames: bool = True,
-             with_elements: bool = True,
-             with_apertures: bool = False,
-             set_equal_aspect: bool = True,
-             ) -> zgoubidoo.vis.ZgoubiPlot:
-        """Plot the input sequence.
 
-        TODO
-
-        Args:
-            ax: an optional matplotlib axis to draw on
-            tracks: TODO
-            artist: an artist object for the rendering
-            start: first element of the beamline to be plotted
-            stop: last element of the beamline to be plotted
-            with_frames:
-            with_elements:
-            with_apertures:
-            set_equal_aspect:
+    def execute(self):
         """
-        if self._reference_frame is None:
-            raise ZgoubiInputException("The input must be surveyed explicitely before plotting.")
-        if artist is None:
-            artist = zgoubidoo.vis.ZgoubiMpl(ax=ax, with_frames=with_frames)
-        if ax is not None:
-            artist.ax = ax
 
-        zgoubidoo.vis.beamline(line=self[start:stop],
-                               tracks=tracks,
-                               artist=artist,
-                               with_elements=with_elements,
-                               with_apertures=with_apertures,
-                               )
-        artist.ax.autoscale_view()
-        if set_equal_aspect:
-            artist.ax.set_aspect('equal', 'datalim')
-        return artist
+        Returns:
+
+        """
+        return _Zgoubi()(self).collect()
 
     def save(self, destination: str = '.',
              what: Optional[List[str]] = None,
              executed_only: bool = True):
-        """Save input and/or output Zgoubi files to a user specified directory.
+        """Save input and/or parent Zgoubi files to a user specified directory.
 
         This is essentially a functionality allowing the user to save data files for further (external) post-processing.
 
@@ -787,7 +690,7 @@ class Input:
             ZGOUBI_INPUT_FILENAME,
         ]
         for m, p, e in self.paths:
-            if e is not executed_only:
+            if executed_only and not e:
                 continue
             mapping_string = ''
             for k, v in m.items():
@@ -804,11 +707,14 @@ class Input:
 
     @classmethod
     def from_sequence(cls,
-                      sequence: zgoubidoo.sequences.Sequence,
+                      sequence: georges_core.sequences.Sequence,
                       options: Optional[dict] = None,
                       converters: Optional[dict] = None,
                       elements_database: Optional[dict] = None,
-                      with_beam: bool = True,
+                      beam: Optional[_BeamType] = _BeamTwiss,
+                      beam_options: Optional[Mapping] = None,
+                      with_survey: bool = True,
+                      with_survey_reference: bool = True,
                       ):
         """
 
@@ -817,31 +723,44 @@ class Input:
             options:
             converters:
             elements_database:
-            with_beam:
+            beam:
+            beam_options:
+            with_survey:
+            with_survey_reference:
 
         Returns:
 
         """
-        madx_converters = {k.split('_')[0].upper(): v
-                           for k, v in getmembers(_zgoubi_converters, isfunction) if k.endswith('to_zgoubi')}
-        conversion_functions = {**madx_converters, **(converters or {})}
+        zgoubi_converters = {k.split('_')[0].upper(): v
+                             for k, v in getmembers(_zgoubi_converters, isfunction) if k.endswith('to_zgoubi')}
+        conversion_functions = {**zgoubi_converters, **(converters or {})}
         elements_database = elements_database or {}
         options = options or {}
         converted_sequence = deque(
             sequence.apply(
                 lambda _: elements_database.get(_.name,
-                                                conversion_functions.get(_['KEYWORD'], lambda _, __, ___: None)
+                                                conversion_functions.get(_['KEYWORD'], lambda _, __, ___: [])
                                                 (_, sequence.kinematics, options.get(_['KEYWORD'], {}))
                                                 ),
                 axis=1
             ).values
         )
-        if with_beam and sequence.beam is not None:
-            converted_sequence.appendleft(sequence.beam)
-        return cls(
+        if beam is not None:
+            converted_sequence.appendleft(
+                (beam.from_sequence(sequence,
+                                    **(beam_options or {'LABEL1': 'BEAM'})), )  # Note the tuple here
+            )
+        _ = cls(
             name=sequence.name,
-            line=list(itertools.chain.from_iterable(converted_sequence)),
+            line=list(_flatten(converted_sequence)),
         )
+        _.KINEMATICS = sequence.kinematics
+        if with_survey:
+            _.survey(with_reference_trajectory=with_survey_reference,
+                     reference_kinematics=sequence.kinematics,
+                     reference_particle=getattr(_particules, sequence.particle.__name__)
+                     )
+        return _
 
     @staticmethod
     def write(_: Input,
@@ -896,30 +815,6 @@ class Input:
             line=[getattr(zgoubidoo.commands, _parse.search("'{KEYWORD}'", c)['KEYWORD'].capitalize()).build(c, debug)
                   for c in "\n".join([_.strip() for _ in stream.split('\n')]).strip('\n').split('\n\n')]
         )
-
-
-class MadInput(Input):
-    """MAD-X input sequence with correct grammer."""
-    ZGOUBI_INPUT_FILENAME: str = 'input.mad'
-    """File name for input data."""
-
-    @staticmethod
-    def build(name: str = 'beamline', line: Optional[Deque[_Command]] = None) -> str:
-        """Build a string representing the complete input.
-
-        A string is built based on the MAD-X serialization of all elements (commands) of the input sequence.
-
-        Args:
-            name: the name of the resulting Zgoubi input.
-            line: the input sequence.
-
-        Returns:
-            a string in a valid Zgoubi input format.
-        """
-        extra_end = None
-        if len(line) == 0 or not isinstance(line[-1], zgoubidoo.commands.madx.Stop):
-            extra_end = [zgoubidoo.commands.madx.Stop()]
-        return '\n'.join(map(str, (line or []) + (extra_end or [])))
 
 
 class ZgoubiInputValidator:

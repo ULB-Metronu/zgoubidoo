@@ -14,7 +14,7 @@ supported, as well as multiple other features, such as spin tracking. It is main
 
 ## Documentation
 
-[**Zgoubidoo's documentation**](https://chernals.github.io/zgoubidoo/) is hosted on Github Pages.
+[**Zgoubidoo's documentation**](https://ulb-metronu.github.io/zgoubidoo/) is hosted on Github Pages.
 
 
 ## Design goals

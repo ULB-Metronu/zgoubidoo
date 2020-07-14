@@ -9,7 +9,7 @@ Physics with Zgoubidoo high-level interfaces
 Sequences
 ---------
 
-.. automodapi:: zgoubidoo.sequence
+.. automodapi:: georges_core.sequences
     :no-heading:
 
 Beams

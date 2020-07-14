@@ -11,21 +11,21 @@ from ..magnetique import Dipole as _Dipole
 from ..magnetique import PolarMagnet as _PolarMagnet
 from ..magnetique import Multipole as _Multipole
 from ..magnetique import Quadrupole as _Quadrupole
-from ..magnetique import FakeDrift as _FakeDrift
+from ..magnetique import Drift as _Drift
 from ..commands import Collimator as _Collimator
 from ..commands import Marker as _Marker
 from ..commands import Ymy as _Ymy
-from ..commands import Fit as _Fit
-from ..commands import FitType as _FitType
+from ..actions import Fit as _Fit
+from ..actions import FitType as _FitType
 from ..commands import Chamber as _Chamber
 from ..particules import Proton as _Proton
 from ..commands import ChangeRef as _ChangeRef
 from ..beam import Beam as _Beam
+from ..beam import BeamInputDistribution as _BeamInputDistribution
 from ... import ureg as _ureg
-from ... import _Q
 from ...input import Input as _Input
-from ...input import MappedParametersType as _MappedParametersType
-from ...kinematics import Kinematics as _Kinematics
+from ...mappings import MappedParametersType as _MappedParametersType
+from ... import Kinematics as _Kinematics
 from ...zgoubi import Zgoubi as _Zgoubi
 from ...zgoubi import ZgoubiResults as _ZgoubiResults
 from ...polarity import PolarityType as _PolarityType
@@ -383,7 +383,7 @@ class SMX(_Multipole):
         self._field_profile_model.params['offset_s'].set(value=0.5, min=0.35, max=0.55)
         self._field_profile_model.params['lam_e'].set(value=0.03)
         self._field_profile_model.params['lam_s'].set(value=0.03)
-        self._field_profile_model.params['amplitude'].set(value=0.82, min=0.75, max=0.9)
+        self._field_profile_model.params['amplitude'].set(value=-0.82, min=-0.9, max=-0.75)
         self._field_profile_model.params['field_offset'].set(vary=True, value=0.0, min=-1e-3, max=1e-3)
 
     def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
@@ -456,11 +456,11 @@ class SMY(_Multipole):
         self._field_profile_model.params['cs_3'].set(vary=True)
         self._field_profile_model.params['cs_4'].set(vary=True)
         self._field_profile_model.params['cs_5'].set(vary=True)
-        self._field_profile_model.params['offset_e'].set(value=0.545, min=0.4, max=0.6)
-        self._field_profile_model.params['offset_s'].set(value=0.7, min=0.6, max=0.8)
+        self._field_profile_model.params['offset_e'].set(value=0.1, min=0.1, max=0.4)
+        self._field_profile_model.params['offset_s'].set(value=0.7, min=0.4, max=0.8)
         self._field_profile_model.params['lam_e'].set(value=0.035)
         self._field_profile_model.params['lam_s'].set(value=0.035)
-        self._field_profile_model.params['amplitude'].set(value=0.52, min=0.3, max=0.6)
+        self._field_profile_model.params['amplitude'].set(value=-0.4, min=-0.6, max=-0.3)
         self._field_profile_model.params['field_offset'].set(value=0.0, min=-1e-3, max=1e-3)
 
     def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
@@ -494,7 +494,8 @@ class T1G(_Multipole):
 
     """
     PARAMETERS = {
-        'XL': 100 * _ureg.mm,
+        'XL': 209.1 * _ureg.mm,
+        'B1': 1e-6 * _ureg.gauss,
     }
 
     def post_init(self, **kwargs):
@@ -514,7 +515,8 @@ class T2G(_Multipole):
 
     """
     PARAMETERS = {
-        'XL': 100 * _ureg.mm,
+        'XL': 209.1 * _ureg.mm,
+        'B1': 1e-6 * _ureg.gauss,
     }
 
     def post_init(self, **kwargs):
@@ -538,7 +540,6 @@ class QuadrupoleIBA(_Quadrupole):
                   polarity: _PolarityType = _HorizontalPolarity,
                   p=None,
                   l_eff: float = None,
-                  gradient: float = 0.0,
                   **kwargs
                   ):
         """
@@ -554,7 +555,7 @@ class QuadrupoleIBA(_Quadrupole):
 
         """
         self._current = 0.0
-        self._gradient = gradient
+        self._gradient = 0.0
         if self.PARAMETERS.get('POLARITY'):
             self.polarity = self.POLARITY
         else:
@@ -644,7 +645,8 @@ class QuadrupoleIBA(_Quadrupole):
     @p.setter
     def p(self, value):
         self.__P = value
-        self.current = self._current
+        if self._current is not None:
+            self.current = self._current
 
     @property
     def l_eff(self):
@@ -658,7 +660,8 @@ class QuadrupoleIBA(_Quadrupole):
     @l_eff.setter
     def l_eff(self, value):
         self.__L_EFF = value
-        self.current = self._current
+        if self._current is not None:
+            self.current = self._current
 
     @property
     def B0(self):
@@ -1010,14 +1013,78 @@ class HorizontalSlits(_Collimator):
     """Proteus One horizontal slits.
 
     """
-    pass
+
+    PARAMETERS = {
+        'J': 0,
+        'IFORM': 1,
+        'IA': 1,
+    }
+
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        self.LABEL1 = self.__class__.__name__
+
+
+class SL1G(HorizontalSlits):
+    """First vertical collimator
+
+    """
+    PARAMETERS = {
+        'LABEL1': 'SL1G',
+        'C1': 27.5 * _ureg.mm,
+        'C2': 1.5 * _ureg.cm,
+    }
+
+
+class SL3G(HorizontalSlits):
+    """First vertical collimator
+
+    """
+    PARAMETERS = {
+        'LABEL1': 'SL3G',
+        'C1': 27.5 * _ureg.mm,
+        'C2': 0.5 * _ureg.cm,
+    }
 
 
 class VerticalSlits(_Collimator):
     """Proteus One vertical slits.
 
     """
-    pass
+    PARAMETERS = {
+        'J': 0,
+        'IFORM': 1,
+        'IA': 1,
+    }
+
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        self.LABEL1 = self.__class__.__name__
+
+
+class SL2G(VerticalSlits):
+    """First horizontal collimator
+
+    """
+    PARAMETERS = {
+        'LABEL1': 'SL2G',
+        'C1': 0.6 * _ureg.cm,
+        'C2': 27.5 * _ureg.mm,
+    }
 
 
 class ResearchArea:
@@ -1053,6 +1120,9 @@ class CGTR:
                  q7g: Optional[Q7G] = None,
                  smx: Optional[SMX] = None,
                  smy: Optional[SMY] = None,
+                 sl1g: Optional[SL1G] = None,
+                 sl2g: Optional[SL2G] = None,
+                 sl3g: Optional[SL3G] = None,
                  beam: Optional[_Beam] = None,
                  with_fit: bool = True,
                  ):
@@ -1091,68 +1161,68 @@ class CGTR:
         self.q7g: Q7G = q7g or Q7G()
         self.smx: SMX = smx or SMX()
         self.smy: SMY = smy or SMY()
-        self.beam: _Beam = beam or _Beam('BUNCH', slices=1, kinematics=kinematics.brho)
+        self.sl1g: SL1G = sl1g or SL1G()
+        self.sl2g: SL2G = sl2g or SL2G()
+        self.sl3g: SL3G = sl3g or SL3G()
+        self.beam: _Beam = beam or _BeamInputDistribution('BUNCH', slices=1, kinematics=kinematics.brho)
         self.start: _Marker = _Marker('START')
         self.iso: _Marker = _Marker('ISO')
 
         if with_fit:
-            self.fit_dipoles(boro=kinematics.brho)
+            self.fit_dipoles(kinematics=kinematics)
 
         self.zi: _Input = _Input('CGTR', line=[
             self.beam,
-            _Proton(),
             self.start,
-            #_ChangeRef(),
+            _Collimator('C1G', IA=1, IFORM=2, J=0, C1=5 * _ureg.mm, C2=5 * _ureg.mm),
+            _Chamber('Chamber1', IA=1, IFORM=2, J=0, C1=29.75 * _ureg.mm, C2=29.75 * _ureg.mm),
+            _Drift('C1G_T1G', XL=9.2995 * _ureg.cm),
             _Ymy(),
             self.t1g,
-            _FakeDrift(XL=30 * _ureg.cm),
+            _Drift('T1G_T2G', XL=2.09 * _ureg.cm),
             self.t2g,
-            _FakeDrift(XL=30 * _ureg.cm),
-            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm),
+            _Drift('T2G_Q1G', XL=38.7855 * _ureg.cm),
             self.q1g,
-            _Chamber(IA=2),
-            _FakeDrift(XL=30.3 * _ureg.cm),
-            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm),
+            _Drift('Q1G_Q2G', XL=30.3 * _ureg.cm),
             self.q2g,
+            _Drift('Q2G_SL1G', XL=19.719 * _ureg.cm + 3 * _ureg.cm),
+            self.sl1g,
+            _Drift('SL1G_SL2G', XL=3 * _ureg.cm + 3 * _ureg.cm + 1 * _ureg.cm),
+            self.sl2g,
+            _Drift('SL2G_B1G', XL=39.734 * _ureg.cm + 3 * _ureg.cm - self.b1g.extra_drift),
             _Chamber(IA=2),
-            _FakeDrift(XL=72.42 * _ureg.cm - self.b1g.extra_drift),
-            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm, C3=self.b1g.RM),
+            _Chamber('Chamber2', IA=1, IFORM=1, J=0, C1=2.9 * _ureg.cm, C2=1.29 * _ureg.cm, C3=self.b1g.RM),
             self.b1g,
             _Chamber(IA=2),
             _Ymy(),
-            _FakeDrift(XL=26.4 * _ureg.cm - self.b1g.extra_drift),
-            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm),
+            _Chamber('Chamber3', IA=1, IFORM=2, J=0, C1=29.75 * _ureg.mm, C2=29.75 * _ureg.mm),
+            _Drift('B1G_Q3G', XL=26.44 * _ureg.cm - self.b1g.extra_drift),
             self.q3g,
-            _Chamber(IA=2),
-            _FakeDrift(XL=32.6 * _ureg.cm),
-            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm),
+            _Drift('Q3G_Q4G', XL=32.6 * _ureg.cm),
             self.q4g,
-            _Chamber(IA=2),
-            _FakeDrift(XL=33.4 * _ureg.cm),
-            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm),
+            _Drift('Q4G_Q5G', XL=33.4 * _ureg.cm),
             self.q5g,
-            _Chamber(IA=2),
-            _FakeDrift(XL=33.5 * _ureg.cm),
-            _Chamber(IA=1, IFORM=1, J=0, C1=5 * _ureg.mm, C2=5 * _ureg.cm),
+            _Drift('Q5G_Q6G', XL=33.5 * _ureg.cm),
             self.q6g,
-            _Chamber(IA=2),
-            _FakeDrift(XL=36.0 * _ureg.cm),
-            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm),
+            _Drift('Q6G_Q7G', XL=36.0 * _ureg.cm),
             self.q7g,
+            _Drift('Q7G_SL3G', XL=16.5682507 * _ureg.cm + 3 * _ureg.cm),
+            self.sl3g,
+            _Drift('SL3G_B2G', XL=30.9927502 * _ureg.cm + 3 * _ureg.cm - self.b2g.extra_drift),
             _Chamber(IA=2),
-            _FakeDrift(XL=53.561 * _ureg.cm - self.b2g.extra_drift),
-            _Chamber(IA=1, IFORM=1, J=0, C1=100 * _ureg.mm, C2=100 * _ureg.cm, C3=self.b2g.RM),
+            _Chamber('Chamber4', IA=1, IFORM=1, J=0, C1=4.9 * _ureg.cm, C2=2.2 * _ureg.cm, C3=self.b2g.RM),
             self.b2g,
             _Chamber(IA=2),
-            _FakeDrift(XL=26 * _ureg.cm - self.b2g.extra_drift),
+            _Drift('B2G_SMX', XL=31.77 * _ureg.cm - self.b2g.extra_drift - (self.smx.length - 159 * _ureg.mm)/2),
             self.smx,
-            _FakeDrift(XL=12 * _ureg.cm),
+            _Drift('SMX_SMY', XL=13.04 * _ureg.cm - (self.smx.length - 159 * _ureg.mm) / 2 - (
+                        self.smy.length - 109 * _ureg.mm) / 2),
             self.smy,
-            _FakeDrift(XL=19 * _ureg.cm - self.b3g.extra_drift),
-            _Chamber(IA=1, IFORM=1, J=0, C1=1000 * _ureg.mm, C2=1000 * _ureg.cm, C3=self.b3g.RM),
+            _Drift('SMY_B3G', XL=20.39 * _ureg.cm - self.b3g.extra_drift),
+            _Collimator('B3G_ENTRY', IA=1, IFORM=1, J=0, C1=11 / 2 * _ureg.cm, C2=9 / 2 * _ureg.cm),
             self.b3g,
-            _Chamber(IA=2),
-            _FakeDrift(XL=1181.071 * _ureg.mm - self.b3g.extra_drift),
+            _Collimator('B3G_EXIT', IA=1, IFORM=1, J=0, C1=13.65 / 2 * _ureg.cm, C2=9 / 2 * _ureg.cm),
+            _Drift('FINAL', XL=1101.071 * _ureg.mm - self.b3g.extra_drift),
             self.iso,
         ],
                                  )
@@ -1178,19 +1248,19 @@ class CGTR:
     def gantry_angle(self, angle):
         pass
 
-    def fit_dipoles(self, boro: _Q, dipoles: Optional[List[DipoleIBA]] = None):
+    def fit_dipoles(self, kinematics: _Kinematics, dipoles: Optional[List[DipoleIBA]] = None):
         """Adjusts the main field of the dipoles according to the beam energy.
 
         The adjustment is made so that the reference trajectory exists the magnet on axis.
 
         Args:
-            boro: the beam energy
+            kinematics: the beam kinematics
             dipoles: a list of dipoles to fit
         """
         z = _Zgoubi()
         dipoles = dipoles or [self.b1g, self.b2g, self.b3g]
         for dipole in dipoles:
-            dipole.fit(boro=boro, zgoubi=z)
+            dipole.fit(kinematics=kinematics, zgoubi=z)
         z.wait()
 
     def run(self,
@@ -1304,35 +1374,26 @@ class CGTR:
         return tracks
 
     def plot(self,
-             ax=None,
-             artist: zgoubidoo.vis.ZgoubiPlot = None,
+             artist: zgoubidoo.vis.ZgoubidooPlotlyArtist = None,
              start: Optional[Union[str, zgoubidoo.commands.Command]] = None,
              stop: Optional[Union[str, zgoubidoo.commands.Command]] = None,
-             crosshair: bool = True):
+             crosshair: bool = True
+             ):
         """Plot the P1 beamline.
 
         TODO
 
         Args:
-            ax: an optional matplotlib axis to draw on
             artist: an artist object for the rendering
             start: first element of the beamline to be plotted
             stop: last element of the beamline to be plotted
             crosshair: draw a crosshair indicating the isocenter
         """
-        zgoubidoo.survey(beamline=self.line)
+        self.line.survey()
 
         if artist is None:
-            artist = zgoubidoo.vis.ZgoubiMpl(ax=ax)
-        if ax is not None:
-            artist.ax = ax
+            artist = zgoubidoo.vis.ZgoubidooPlotlyArtist()
 
-        zgoubidoo.vis.beamline(line=self.line[start:stop],
-                               artist=artist,
-                               tracks=self.tracks,
-                               )
+        artist.plot_beamline(self.line, start=start, stop=stop)
 
-        artist.ax.set_aspect('equal', 'datalim')
-        if crosshair:
-            artist.ax.hlines(0.0, -10, 1000)
-        return artist.figure
+        return artist

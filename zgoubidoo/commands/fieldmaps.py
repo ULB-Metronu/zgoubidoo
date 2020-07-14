@@ -2,9 +2,23 @@
 
 More details here.
 """
+from __future__ import annotations
+from typing import TYPE_CHECKING, Optional, List, Mapping, Union
+import numpy as _np
+import pandas as _pd
 from .commands import Command as _Command
+from .actions import Action as _Action
+from .magnetique import CartesianMagnet as _CartesianMagnet
 from .. import ureg as _ureg
+from .. import Q_ as _Q
 from ..units import _cm, _radian
+from ..zgoubi import Zgoubi as _Zgoubi
+from ..zgoubi import ZgoubiException as _ZgoubiException
+import zgoubidoo
+import plotly.graph_objects as _go
+from georges_core.frame import Frame as _Frame
+if TYPE_CHECKING:
+    from ..input import Input as _Input
 
 
 class Brevol(_Command):
@@ -85,7 +99,7 @@ class Map2DElectric(_Command):
 
 
 class Poisson(_Command):
-    """Read magnetic field data from POISSON output.
+    """Read magnetic field data from POISSON parent.
 
     TODO
     """
@@ -102,13 +116,13 @@ class PolarMesh(_Command):
     """Keyword of the command used for the Zgoubi input data."""
 
 
-class Tosca(_Command):
+class Tosca(_CartesianMagnet):
     """2-D and 3-D Cartesian or cylindrical mesh field map.
 
     .. rubric:: Zgoubi manual description
 
     TOSCA is dedicated to the reading and treatment of 2-D or 3-D Cartesian or cylindrical mesh field maps as delivered
-    by the TOSCA magnet computer code standard output.
+    by the TOSCA magnet computer code standard parent.
 
     A pair of flags, MOD, MOD2, determine whether Cartesian or Z-axis cylindrical mesh is used, and the nature of the
     field map data set.
@@ -174,9 +188,9 @@ class Tosca(_Command):
         'IORDRE': (25, 'Degree of interpolation polynomial.'),
         'XPAS': (1 * _ureg.mm, 'Integration step.'),
         'KPOS': (2, "Alignment parameter"),
-        'XCE': (0,),
-        'YCE': (0,),
-        'ALE': (0,),
+        'XCE': (0 * _ureg.cm, ''),
+        'YCE': (0 * _ureg.cm, ''),
+        'ALE': (0 * _ureg.radian, ''),
         'RE': (0,),
         'TE': (0,),
         'RS': (0,),
@@ -196,5 +210,161 @@ class Tosca(_Command):
         {s.ID:d} {s.A:.12e} {s.B:.12e} {s.C:.12e}
         {s.IORDRE:d}
         {_cm(s.XPAS):.12e}
-        {s.KPOS:d} {s.XCE:.12e} {s.YCE:.12e} {s.ALE:.12e}
+        {s.KPOS:d} {s.XCE.m_as('cm'):.12e} {s.YCE.m_as('cm'):.12e} {s.ALE.m_as('radian'):.12e}
         """
+
+    def adjust_tracks_variables(self, tracks: _pd.DataFrame):
+        super().adjust_tracks_variables(tracks)
+        t = tracks[tracks.LABEL1 == self.LABEL1]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = t['X'] - t['X'].min() + self.entry_s.m_as('m')
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X'] = t['X'] - t['X'].min()
+
+    def load(self, zgoubi: Optional[_Zgoubi] = None):
+        z = zgoubi or _Zgoubi()
+        zi = zgoubidoo.Input(f"TOSCA_{self.LABEL1}")
+        zi += self
+
+        def cb(f):
+            """Post execution callback."""
+            if not self.results[0][1].success:
+                raise _ZgoubiException(f"Unable to load field map for keyword {self.__class__.__name__}.")
+            self._length = self.results[0][1].results.iloc[-1]['LENGTH'] * _ureg.cm
+
+        z(zi, identifier={'TOSCA_LOAD': self.LABEL1}, cb=cb)
+        z.wait()
+        return self
+
+    def process_output(self, output: List[str],
+                       parameters: Mapping[str, Union[_Q, float]],
+                       zgoubi_input: _Input
+                       ) -> bool:
+        """
+
+        Args:
+            output:
+            parameters:
+            zgoubi_input:
+
+        Returns:
+
+        """
+        length: float = 0.0
+        for line in output:
+            if line.strip().startswith("Length of element,  XL ="):
+                length = float(line.split()[5])
+                break
+        self._results.append(
+            (
+                parameters,
+                _Action.CommandResult(success=True, results=_pd.DataFrame([{'LENGTH': length}]))
+            )
+        )
+        return True
+
+    def plotly(self):
+        """
+
+        Returns:
+
+        """
+        fieldmap = _pd.read_csv(self.FNAME, skiprows=8, names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'], sep=r'\s+')
+        fieldmap['X'] = fieldmap['X'] + self.length.m_as('cm') / 2
+        fieldmap['Z_ABS'] = fieldmap['Z'].apply(_np.abs)
+        fieldmap = fieldmap[fieldmap['Z'] == fieldmap['Z_ABS'].min()]
+
+        rotation_matrix = _np.linalg.inv(self.entry_patched.get_rotation_matrix())
+        origin = self.entry_patched.origin
+
+        u = _np.dot(fieldmap[['X', 'Y', 'Z']].values, rotation_matrix)
+        fieldmap['XG'] = (u[:, 0] + origin[0].m_as('cm')) / 100
+        fieldmap['YG'] = (u[:, 1] + origin[1].m_as('cm')) / 100
+        fieldmap['ZG'] = (u[:, 2] + origin[2].m_as('cm')) / 100
+
+        return _go.Histogram2d(
+            histfunc='avg',
+            nbinsx=100,
+            nbinsy=100,
+            x=fieldmap['XG'],
+            y=fieldmap['YG'],
+            z=fieldmap['BZ'],
+            opacity=1.0,
+            colorscale='Greys',
+        )
+
+    @property
+    def rotation(self) -> _Q:
+        """
+
+        Returns:
+
+        """
+        return self.ALE or 0.0 * _ureg.degree
+
+    @property
+    def length(self) -> _Q:
+        """
+
+        Returns:
+
+        """
+        return self._length
+
+    @property
+    def x_offset(self) -> _Q:
+        """
+
+        Returns:
+
+        """
+        return self.XCE or 0.0 * _ureg.cm
+
+    @property
+    def y_offset(self) -> _Q:
+        """
+
+        Returns:
+
+        """
+        return self.YCE or 0.0 * _ureg.cm
+
+    @property
+    def entry_patched(self) -> Optional[_Frame]:
+        """
+
+        Returns:
+
+        """
+        if self._entry_patched is None:
+            self._entry_patched = self.entry.__class__(self.entry)
+            if self.KPOS in (0, 1, 2):
+                self._entry_patched.translate_x(self.x_offset)
+                self._entry_patched.translate_y(self.y_offset)
+                self._entry_patched.rotate_z(self.rotation)
+        return self._entry_patched
+
+    @property
+    def exit(self) -> Optional[_Frame]:
+        """
+
+        Returns:
+
+        """
+        if self._exit is None:
+            self._exit = self.entry_patched.__class__(self.entry_patched)
+            self._exit.translate_x(self.length)
+        return self._exit
+
+    @property
+    def exit_patched(self) -> Optional[_Frame]:
+        """
+
+        Returns:
+
+        """
+        if self._exit_patched is None:
+            if self.KPOS is None or self.KPOS == 1:
+                self._exit_patched = self.exit.__class__(self.exit)
+            elif self.KPOS == 0 or self.KPOS == 2:
+                self._exit_patched = self.entry.__class__(self.entry)
+                self._exit_patched.translate_x(self.length)
+        return self._exit_patched

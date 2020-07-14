@@ -18,8 +18,6 @@ Magnet
 
    .. autosummary::
 
-      ~Magnet.fit_field_profile
-      ~Magnet.plot_field_profile
       ~Magnet.post_init
       ~Magnet.process_fit_field_profile
 
@@ -31,7 +29,5 @@ Magnet
 
    .. rubric:: Methods Documentation
 
-   .. automethod:: fit_field_profile
-   .. automethod:: plot_field_profile
    .. automethod:: post_init
    .. automethod:: process_fit_field_profile

@@ -13,6 +13,7 @@ Particule
       ~Particule.KEYWORD
       ~Particule.PARAMETERS
       ~Particule.charge
+      ~Particule.gyro
       ~Particule.lifetime
       ~Particule.mass
 
@@ -21,5 +22,6 @@ Particule
    .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS
    .. autoattribute:: charge
+   .. autoattribute:: gyro
    .. autoattribute:: lifetime
    .. autoattribute:: mass

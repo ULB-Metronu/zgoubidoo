@@ -1,6 +1,6 @@
 from typing import Union, Callable
 from . import ureg as _ureg
-from . import _Q
+from . import Q_ as _Q
 
 
 def parse_quantity(f: Callable):

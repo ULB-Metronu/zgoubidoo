@@ -14,15 +14,20 @@ import tempfile
 import os
 import numpy as _np
 import pandas as _pd
+import pint
 from .executable import Executable
-from .output.zgoubi import read_plt_file, read_matrix_file, read_srloss_file, read_srloss_steps_file, read_optics_file
+from .transformations import GlobalCoordinateTransformation as _GlobalCoordinateTransformation
+from .transformations import FrenetCoordinateTransformation as _FrenetCoordinateTransformation
+from .outputs import read_plt_file, read_matrix_file, read_srloss_file, read_srloss_steps_file, read_optics_file
 from . import ureg as _ureg
 import zgoubidoo
 from .constants import ZGOUBI_INPUT_FILENAME as _ZGOUBI_INPUT_FILENAME
+from georges_core.sequences import BetaBlock as _BetaBlock
 if TYPE_CHECKING:
     from .input import Input as _Input
-    from .input import MappedParametersType as _MappedParametersType
-    from .input import MappedParametersListType as _MappedParametersListType
+    from .transformations import CoordinateTransformationType as _CoordinateTransformationType
+    from .mappings import MappedParametersType as _MappedParametersType
+    from .mappings import MappedParametersListType as _MappedParametersListType
 
 __all__ = ['ZgoubiException', 'ZgoubiResults', 'Zgoubi']
 _logger = logging.getLogger(__name__)
@@ -56,10 +61,14 @@ class ZgoubiResults:
         self._options: Mapping = options or {}
         self._results: List[Mapping] = results
         self._tracks: Optional[_pd.DataFrame] = None
+        self._tracks_global: Optional[_pd.DataFrame] = None
+        self._tracks_frenet: Optional[_pd.DataFrame] = None
         self._matrix: Optional[_pd.DataFrame] = None
         self._optics: Optional[_pd.DataFrame] = None
         self._srloss: Optional[_pd.DataFrame] = None
         self._srloss_steps: Optional[_pd.DataFrame] = None
+        self._step_by_step_optics: Optional[_pd.DataFrame] = None
+        self._step_by_step_transfer_matrix: Optional[_pd.DataFrame] = None
 
     @classmethod
     def merge(cls, *results: ZgoubiResults):
@@ -88,8 +97,7 @@ class ZgoubiResults:
     def get_tracks(self,
                    parameters: Optional[_MappedParametersListType] = None,
                    force_reload: bool = False,
-                   with_rays: bool = True,
-                   with_survey: bool = True,
+                   transformation: Optional[_CoordinateTransformationType] = None,
                    ) -> _pd.DataFrame:
         """
         Collects all tracks from the different Zgoubi instances matching the given parameters list
@@ -98,14 +106,19 @@ class ZgoubiResults:
         Args:
             parameters:
             force_reload:
-            with_rays:
-            with_survey:
+            transformation:
 
         Returns:
             A concatenated DataFrame with all the tracks in the result matching the parameters list.
         """
+        def _transform_and_return_tracks(t):
+            if transformation is not None:
+                return transformation.transform(tracks=t.copy(), beamline=self.results[0][1]['input'])
+            else:
+                return t
+
         if self._tracks is not None and parameters is None and force_reload is False:
-            return self._tracks
+            return _transform_and_return_tracks(self._tracks)
         tracks = list()
         particle_id = 0
         for k, r in self.results:
@@ -121,8 +134,8 @@ class ZgoubiResults:
                     for kk, vv in k.items():
                         try:
                             tracks[-1][f"{kk.replace('.', '__')}"] = _ureg.Quantity(vv).to_base_units().m
-                        except _ureg.UndefinedUnitError:
-                            tracks[-1][f"{kk}"] = vv
+                        except pint.UndefinedUnitError:
+                            tracks[-1][f"{kk.replace('.', '__')}"] = vv
                 except FileNotFoundError:
                     _logger.warning(
                         f"Unable to read and load the Zgoubi .plt files required to collect the tracks for path "
@@ -135,13 +148,7 @@ class ZgoubiResults:
             tracks = _pd.DataFrame()
         if parameters is None:
             self._tracks = tracks
-        if with_rays:
-            zgoubidoo.surveys.construct_rays(tracks=tracks)
-        if with_survey:
-            zgoubidoo.surveys.transform_tracks(beamline=self.results[0][1]['input'],
-                                               tracks=tracks,
-                                               )
-        return tracks
+        return _transform_and_return_tracks(tracks)
 
     @property
     def tracks(self) -> _pd.DataFrame:
@@ -151,7 +158,27 @@ class ZgoubiResults:
         Returns:
             A concatenated DataFrame with all the tracks in the result.
         """
-        return self.get_tracks()
+        return self.get_tracks(force_reload=False)
+
+    @property
+    def tracks_global(self) -> _pd.DataFrame:
+        """
+        Collects all tracks from the different Zgoubi instances in the results and concatenate them.
+
+        Returns:
+            A concatenated DataFrame with all the tracks in the result.
+        """
+        return self.get_tracks(transformation=_GlobalCoordinateTransformation)
+
+    @property
+    def tracks_frenet(self) -> _pd.DataFrame:
+        """
+        Collects all tracks from the different Zgoubi instances in the results and concatenate them.
+
+        Returns:
+            A concatenated DataFrame with all the tracks in the result.
+        """
+        return self.get_tracks(transformation=_FrenetCoordinateTransformation)
 
     def get_srloss(self,
                    parameters: Optional[_MappedParametersListType] = None,
@@ -242,10 +269,9 @@ class ZgoubiResults:
         if parameters is None:
             self._srloss_steps = srloss_steps
         if with_survey and not srloss_steps.empty:
-            zgoubidoo.surveys.transform_tracks(beamline=self.results[0][1]['input'],
-                                               tracks=srloss_steps,
-                                               )
-        return srloss_steps
+            self._srloss_steps = _GlobalCoordinateTransformation.transform(tracks=srloss_steps.copy(), beamline=self.results[0][1]['input'])
+
+        return self._srloss_steps
 
     @property
     def srloss_steps(self) -> _pd.DataFrame:
@@ -318,6 +344,62 @@ class ZgoubiResults:
 
         """
         return self.get_optics()
+
+    def compute_step_by_step_transfer_matrix(self,
+                                             force_reload: bool = False) -> Optional[_pd.DataFrame]:
+        """
+
+        Args:
+            force_reload:
+
+        Returns:
+
+        """
+        if self._step_by_step_transfer_matrix is not None and force_reload is False:
+            return self._step_by_step_transfer_matrix
+        else:
+            self._step_by_step_transfer_matrix = zgoubidoo.twiss.compute_transfer_matrix(
+                beamline=self.results[0][1]['input'],
+                tracks=self.tracks_frenet,
+            )
+            return self._step_by_step_transfer_matrix
+
+    @property
+    def step_by_step_transfer_matrix(self) -> Optional[_pd.DataFrame]:
+        """
+
+        Returns:
+
+        """
+        return self.compute_step_by_step_transfer_matrix()
+
+    def compute_step_by_step_optics(self,
+                                    twiss_init: Optional[_BetaBlock] = None,
+                                    force_reload: bool = False) -> Optional[_pd.DataFrame]:
+        """
+
+        Args:
+            twiss_init:
+            force_reload:
+
+        Returns:
+
+        """
+        if self._step_by_step_optics is not None and force_reload is False:
+            return self._step_by_step_optics
+        else:
+            self._step_by_step_optics = zgoubidoo.twiss.compute_twiss(self.step_by_step_transfer_matrix,
+                                                                      twiss_init=twiss_init)
+            return self._step_by_step_optics
+
+    @property
+    def step_by_step_periodic_optics(self) -> Optional[_pd.DataFrame]:
+        """
+
+        Returns:
+
+        """
+        return self.compute_step_by_step_optics()
 
     @property
     def results(self) -> List[Tuple[_MappedParametersType, Mapping]]:
@@ -402,10 +484,15 @@ class Zgoubi(Executable):
             - n_procs: maximum number of Zgoubi simulations to be started in parallel
 
         """
-        super().__init__(executable=executable, results_type=ZgoubiResults, path=path, n_procs=n_procs)
+
+        super().__init__(executable=executable,
+                         results_type=ZgoubiResults,
+                         path=os.environ.get('ZGOUBI_EXECUTABLE_PATH', None),
+                         n_procs=n_procs
+                         )
 
     def _extract_output(self, path, code_input: _Input, mapping) -> List[str]:
-        """Extract element by element output"""
+        """Extract element by element parent"""
         try:
             result = open(os.path.join(path, self.RESULT_FILE)).read().split('\n')
         except FileNotFoundError:
@@ -422,15 +509,15 @@ class Zgoubi(Executable):
     @staticmethod
     def find_labeled_output(out: Iterable[str], label: str, keyword: str) -> List[str]:
         """
-        Process the Zgoubi output and retrieves output data for a particular labeled element.
+        Process the Zgoubi parent and retrieves parent data for a particular labeled element.
 
         Args:
-            - out: the Zgoubi output
+            - out: the Zgoubi parent
             - label: the label of the element to be retrieved
             - keyword:
 
         Returns:
-            the output of the given label
+            the parent of the given label
         """
         data: List[str] = []
         for l in out:

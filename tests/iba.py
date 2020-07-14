@@ -19,5 +19,3 @@ cgtr.q5g.current = 1
 cgtr.q6g.current = 1
 cgtr.q7g.current = 1
 spots = cgtr.spots([(0.0, 0.0), (-20.0, 2.0), (20.0, 2.0)])
-fig = cgtr.plot()
-fig.show()

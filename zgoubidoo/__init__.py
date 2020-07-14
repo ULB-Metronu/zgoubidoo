@@ -1,13 +1,14 @@
 """*Zgoubidoo: a modern Python 3 interface to particle tracking codes: Zgoubi and MAD-X.*
 
-Zgoubidoo was born as a Python 3 interface for `Zgoubi`_, a ray-tracing code for beam dynamics simulations. Zgoubido is
+Zgoubidoo is a Python 3 interface for `Zgoubi`_, a ray-tracing code for beam dynamics simulations. Zgoubido is
 intended to follow a modern Python design and aims at being easy to use. Interactive use with iPython or Jupyter
-Notebook is supported and encouraged. As such Zgoubidoo can be viewed as a 'Zgoubi for the mere mortal' interface. More
-recently, Zgoubidoo learned how to drive MAD-X, in a similar fashion as it runs Zgoubi. This is intended to promote
-more systematic comparisons between the codes (in the few corner cases where it is possible) and to allow the user to
-built a complete workflow with a single unified libary: indeed, the optical design of new machines typically starts
-with MAD-X for which Zgoubidoo provides a complete interface (survey, Twiss and tracking modules, as well as the
-equivalent PTC modules).
+Notebook is supported and encouraged. As such Zgoubidoo can be viewed as a 'Zgoubi for the mere mortal' interface.
+
+More recently, Zgoubidoo learned how to drive MAD-X, in a similar fashion as it runs Zgoubi (via the *georges-core*
+library). This is intended to promote more systematic comparisons between the codes (in the few corner cases where it
+is possible) and to allow the user to built a complete workflow with a single unified libary: indeed, the optical
+design of new machines typically starts with MAD-X for which Zgoubidoo provides a complete interface (survey, Twiss
+and tracking modules, as well as the equivalent PTC modules).
 
 Zgoubi
 ------
@@ -52,29 +53,40 @@ Publications
 - Coming soon.
 
 """
-__version__ = "2019.3"
+__version__ = "2020.1"
 
-# Manipulation of physical quantities (with units, etc.)
-# https://pint.readthedocs.io/en/latest/
-from pint import UnitRegistry
-ureg = UnitRegistry()
-_Q = ureg.Quantity
-ureg.define('electronvolt = e * volt = eV')
-ureg.define('electronvolt_per_c = eV / c = eV_c')
-ureg.define('electronvolt_per_c2 = eV / c**2 = eV_c2')
+try:
+    from georges_core import ureg, Q_
+except ModuleNotFoundError:
+    # TODO error handling
+    # Manipulation of physical quantities (with units, etc.)
+    # https://pint.readthedocs.io/en/latest/
+    from pint import UnitRegistry
+    ureg = UnitRegistry()
+    Q_ = ureg.Quantity
+    ureg.define('electronvolt = e * volt = eV')
+    ureg.define('electronvolt_per_c = eV / c = eV_c')
+    ureg.define('electronvolt_per_c2 = eV / c**2 = eV_c2')
+    ureg.define('gauss = 1e-4 * tesla = G')  # see https://github.com/hgrecco/pint/issues/1105
+
+try:
+    from georges_core import sequences
+    from georges_core import Kinematics, KinematicsException
+    from georges_core.frame import Frame, FrameException
+except ModuleNotFoundError:
+    # TODO error handling
+    pass
 
 from . import commands
 from . import converters
 from . import fieldmaps
-from . import output
 from . import physics
-from . import sequences
-from .sequences import ZgoubidooSequenceException, SequenceMetadata, Sequence, Element
 from . import vis
 from . import twiss
-from .input import Input, MadInput, ZgoubiInputValidator, ZgoubiInputException, ParametricMapping
+from .input import Input, ZgoubiInputValidator, ZgoubiInputException
+from .outputs import read_fai_file, read_matrix_file, read_optics_file, read_plt_file, read_srloss_file, \
+    read_srloss_steps_file
+from .mappings import ParametricMapping, ParametersMappingType
 from .zgoubi import Zgoubi, ZgoubiResults, ZgoubiException
-from .surveys import survey, survey_reference_trajectory, clear_survey, transform_tracks
-from .frame import Frame, ZgoubidooFrameException
+from .surveys import survey, clear_survey, survey_reference_trajectory
 from .polarity import HorizontalPolarity, VerticalPolarity
-from .kinematics import ZgoubiKinematicsException, Kinematics

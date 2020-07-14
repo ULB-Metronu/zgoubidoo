@@ -7,22 +7,27 @@ import os
 from random import randint
 import numpy as np
 import pandas as pd
-from zgoubidoo import _Q
+from zgoubidoo import Q_ as _Q
 from zgoubidoo.commands import CommandType as _CommandType
 from zgoubidoo.commands import Command as _Command
 from zgoubidoo.commands import Comment as _Comment
+from zgoubidoo.commands import particules as _particules
 from zgoubidoo.commands import ParticuleType as _ParticuleType
 from zgoubidoo.commands import Proton as _Proton
+from zgoubidoo.commands import Objet2 as _Objet2
 from zgoubidoo.commands import Objet5 as _Objet5
 from zgoubidoo.commands import MCObjet3 as _MCObjet3
 from zgoubidoo.commands import ObjetType as _ObjetType
-from zgoubidoo.kinematics import Kinematics as _Kinematics
-from ..input import ParametricMapping as _ParametricMapping
-from ..input import MappedParametersListType as _MappedParametersListType
+from zgoubidoo.commands import ZgoubidooAttributeException as _ZgoubidooAttributeException
+from zgoubidoo.commands import ZgoubidooException as _ZgoubidooException
+from .. import Kinematics as _Kinematics
+from ..mappings import ParametricMapping as _ParametricMapping
+from ..mappings import MappedParametersListType as _MappedParametersListType
 from .. import ureg as _ureg
 if TYPE_CHECKING:
-    from ..sequences.betablock import BetaBlock as _BetaBlock
-    from ..sequences.sequence import TwissSequence as _TwissSequence
+    from georges_core.sequences import BetaBlock as _BetaBlock
+    from georges_core.sequences import TwissSequence as _TwissSequence
+    from georges_core.sequences import Sequence as _Sequence
 
 
 class ZgoubidooBeamException(Exception):
@@ -94,22 +99,26 @@ class Beam(_Command, metaclass=BeamType):
         """
         return self._objet_type(self.LABEL1, BORO=self._kinematics.brho)
 
-    @classmethod
-    def from_sequence(cls, sequence: _TwissSequence):
+    def _set_from_betablock(self, betablock: _BetaBlock):
         """
 
         Args:
-            sequence:
+            betablock:
 
         Returns:
 
         """
-        return cls(
-            particle=sequence.particle,
-            kinematics=sequence.kinematics,
-            betablock=sequence.betablock,
-            objet_type=_Objet5,
-        )
+        try:
+            self.ALPHA_Y = betablock.ALPHA11
+            self.BETA_Y = betablock.BETA11
+            self.ALPHA_Z = betablock.ALPHA22
+            self.BETA_Z = betablock.BETA22
+            self.D_Y = betablock.DISP1
+            self.D_YP = betablock.DISP2
+            self.D_Z = betablock.DISP3
+            self.D_ZP = betablock.DISP4
+        except _ZgoubidooAttributeException:
+            pass
 
 
 class BeamZgoubiDistribution(Beam):
@@ -122,15 +131,15 @@ class BeamZgoubiDistribution(Beam):
         'ALPHA_Y': (0.0, 'Horizontal (Y) alpha function'),
         'BETA_Y': (1.0 * _ureg.m, 'Horizontal (Y) beta function'),
         'EMIT_Y': (1e-9 * _ureg.m * _ureg.radian, 'Horizontal (Y) normalized emittance'),
-        'DY': (0.0 * _ureg.m, 'Horizontal (Y) dispersion'),
-        'DPY': (0.0, 'Horizontal (Y) dispersion prime'),
+        'D_Y': (0.0 * _ureg.m, 'Horizontal (Y) dispersion'),
+        'D_YP': (0.0, 'Horizontal (Y) dispersion prime'),
         'N_CUTOFF_Y': (10, 'Cut-off value for the horizontal distribution'),
         'N_CUTOFF2_Y': (0, 'Secondary cut-off value for the horizontal distribution'),
         'ALPHA_Z': (0.0, 'Vertical (Z) alpha function'),
         'BETA_Z': (1.0 * _ureg.m, 'Vertical (Z) beta function'),
         'EMIT_Z': (1e-9 * _ureg.m * _ureg.radian, 'Vertical (Z) normalized emittance'),
-        'DZ': (0.0 * _ureg.m, 'Vertical (Z) dispersion'),
-        'DPZ': (0.0, 'Vertical (Z) dispersion prime'),
+        'D_Z': (0.0 * _ureg.m, 'Vertical (Z) dispersion'),
+        'D_ZP': (0.0, 'Vertical (Z) dispersion prime'),
         'N_CUTOFF_Z': (10, 'Cut-off value for the vertical distribution'),
         'N_CUTOFF2_Z': (0, 'Secondary cut-off value for the vertical distribution'),
         'ALPHA_X': (0.0, 'Longitudinal (X) alpha function'),
@@ -144,6 +153,7 @@ class BeamZgoubiDistribution(Beam):
 
     def post_init(self,
                   objet_type: _ObjetType = _MCObjet3,
+                  betablock: _BetaBlock = None,
                   slices: int = 1,
                   *args,
                   **kwargs):
@@ -151,6 +161,7 @@ class BeamZgoubiDistribution(Beam):
 
         Args:
             objet_type:
+            betablock:
             slices:
             *args:
             **kwargs:
@@ -158,7 +169,10 @@ class BeamZgoubiDistribution(Beam):
         Returns:
 
         """
+        super().post_init(objet_type=objet_type, **kwargs)
         self._slices: int = slices
+        if betablock is not None:
+            self._set_from_betablock(betablock)
 
     @property
     def slices(self):
@@ -197,13 +211,13 @@ class BeamZgoubiDistribution(Beam):
                                 KP=2,
                                 ALPHA_Y=self.ALPHA_Y,
                                 BETA_Y=self.BETA_Y,
-                                DY=self.DY,
-                                DPY=self.DPY,
+                                D_Y=self.D_Y,
+                                D_YP=self.D_YP,
                                 EMIT_Y=self.EMIT_Z,
                                 ALPHA_Z=self.ALPHA_Z,
                                 BETA_Z=self.BETA_Z,
-                                DZ=self.DZ,
-                                DPZ=self.DPZ,
+                                D_Z=self.D_Z,
+                                D_ZP=self.D_ZP,
                                 EMIT_Z=self.EMIT_Z,
                                 ALPHA_X=self.ALPHA_X,
                                 BETA_X=self.BETA_X,
@@ -213,31 +227,55 @@ class BeamZgoubiDistribution(Beam):
                                 I3=randint(0, 1e6),
                                 )
 
+    @classmethod
+    def from_sequence(cls, sequence: _TwissSequence, statistics: Optional[int] = None, **kwargs):
+        """
 
-class BeamDistribution(Beam):
+        Args:
+            sequence:
+            statistics:
+
+        Returns:
+
+        """
+        b = cls('BUNCH',
+                particle=getattr(_particules, sequence.particle.__name__),
+                kinematics=sequence.kinematics,
+                betablock=sequence.betablock,
+                **kwargs,
+                )
+        b.IMAX = statistics or sequence.metadata.n_particles,
+        b.EMIT_Y = sequence.metadata['EX'] * _ureg.m * _ureg.radian
+        b.EMIT_Z = sequence.metadata['EY'] * _ureg.m * _ureg.radian
+        return b
+
+
+class BeamInputDistribution(Beam):
     """
     A beam using an explicit beam distribution.
     """
 
     PARAMETERS = {
         'SLICE': (0, "Active slice identifier. Note: this is not the number of slices, but the active slice number."),
-        'REFERENCE': (0, ""),
+        'REFERENCE': (0, "Setting to 1 will produce a beam with only the reference particle (the distribution is not "
+                         "lost"),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
     def post_init(self,
-                  distribution: Optional[pd.DataFrame] = None,
+                  objet_type: _ObjetType = _Objet2,
+                  distribution: Optional[Union[pd.DataFrame, np.array, str]] = None,
                   slices: int = 1,
                   *args,
                   **kwargs):
         """
 
         Args:
-            distribution:
-            particle:
             objet_type:
             kinematics:
+            particle:
+            distribution:
             slices:
             *args:
             **kwargs:
@@ -245,34 +283,72 @@ class BeamDistribution(Beam):
         Returns:
 
         """
+        super().post_init(objet_type=objet_type, **kwargs)
         self._slices: int = slices
-        self._distribution: Optional[Union[pd.DataFrame, np.array]] = None
-        self._initialize_distribution(distribution, **kwargs)
+        self._distribution: Optional[np.array] = None
+        self.initialize_distribution(distribution, **kwargs)
 
-    def _initialize_distribution(self, distribution: Union[pd.DataFrame, np.array] = None, **kwargs):
+    def initialize_distribution(self, distribution: Optional[Union[pd.DataFrame, np.ndarray, str]] = None, **kwargs):
         """Try setting the internal pandas.DataFrame with a distribution.
 
         Args:
             distribution:
         """
-        if distribution is not None:
-            try:
-                self._distribution = distribution.values
-            except AttributeError:
-                self._distribution = distribution
-        else:
-            try:
-                try:
-                    self._distribution = distribution.values
-                except AttributeError:
-                    self._distribution = distribution
-            except (IndexError, ValueError):
-                if kwargs.get("filename") is not None:
-                    self._distribution = Beam.generate_from_file(kwargs.get('filename'), path=kwargs.get('path', '.'))
-                else:
-                    return
-        if self._distribution is not None and self._distribution.shape[0] == 0:
-            raise ZgoubidooBeamException("Trying to initialize a beam distribution with invalid number of particles.")
+        if isinstance(distribution, str):
+            self.add(
+                BeamInputDistribution.generate_from_file(
+                    distribution,
+                    path=kwargs.get('path', '.')
+                )
+            )
+        elif isinstance(distribution, (np.ndarray, pd.DataFrame)):
+            self.add(distribution)
+        return self
+
+    def add(self, distribution: Union[pd.DataFrame, np.ndarray, str], **kwargs):
+        """
+
+        Args:
+            distribution:
+
+        Returns:
+
+        """
+        distr = None
+        if isinstance(distribution, str):
+            distr = BeamInputDistribution.generate_from_file(
+                distribution,
+                path=kwargs.get('path', '.')
+            )
+        elif isinstance(distribution, pd.DataFrame):
+            distr = distribution.values
+        elif isinstance(distribution, np.ndarray):
+            distr = distribution
+
+        if distr is not None:
+            assert isinstance(distr, np.ndarray), "The distribution container must be a numpy array."
+            assert distr.ndim == 2, "Invalid dimensions for the array of particles (must be 2)."
+            if distr.shape[1] == 4:  # Y T Z P
+                x = np.zeros((distr.shape[0], 1))
+                d = np.ones((distr.shape[0], 1))
+                iex = np.ones((distr.shape[0], 1))
+                distr = np.concatenate((distr, x, d, iex), axis=1)
+            elif distr.shape[1] == 5:  # Y T Z P D
+                x = np.zeros((distr.shape[0], 1))
+                iex = np.ones((distr.shape[0], 1))
+                distr = np.concatenate((distr[:, :-1], x, distr[:, -1:], iex), axis=1)
+            elif distr.shape[1] == 6:  # Y T Z P X D
+                iex = np.ones((distr.shape[0], 1))
+                distr = np.concatenate((distr, iex), axis=1)
+            elif distr.shape[1] == 7:  # Y T Z P X D IEX
+                pass
+            else:
+                raise _ZgoubidooException("Invalid dimensions for particles vectors.")
+            if self._distribution is None:
+                self._distribution = distr
+            else:
+                self._distribution = np.append(self._distribution, distr, axis=0)
+        return self
 
     @property
     def slices(self):
@@ -314,7 +390,7 @@ class BeamDistribution(Beam):
     def mappings(self) -> _MappedParametersListType:
         """TODO"""
         if self.REFERENCE == 1:
-            return [{f"{self.LABEL1}.REFERENCE": 1}]
+            return [{f"{self.LABEL1}.SLICE": 0, f"{self.LABEL1}.REFERENCE": 1}]
         else:
             return _ParametricMapping(
                 [
@@ -332,7 +408,7 @@ class BeamDistribution(Beam):
         """The beam distribution."""
         return self._distribution
 
-    def create_statistics(self, n: int = 1):
+    def create_reference_statistics(self, n: int = 1):
         """
 
         Args:
@@ -366,7 +442,7 @@ class BeamDistribution(Beam):
         Returns:
 
         """
-        self._initialize_distribution(Beam.generate_from_file(file, path, n))
+        self.initialize_distribution(BeamInputDistribution.generate_from_file(file, path, n))
         return self
 
     def from_5d_sigma_matrix(self, n, **kwargs) -> Beam:
@@ -380,8 +456,8 @@ class BeamDistribution(Beam):
         Returns:
 
         """
-        distribution = Beam.generate_from_5d_sigma_matrix(n, **kwargs)
-        self._initialize_distribution(distribution)
+        distribution = BeamInputDistribution.generate_from_5d_sigma_matrix(n, **kwargs)
+        self.initialize_distribution(distribution)
         return self
 
     def from_twiss_parameters(self, n, **kwargs) -> Beam:
@@ -421,6 +497,23 @@ class BeamDistribution(Beam):
                                   )
         return self
 
+    @classmethod
+    def from_sequence(cls, sequence: _Sequence, **kwargs):
+        """
+
+        Args:
+            sequence:
+            kwargs:
+
+        Returns:
+
+        """
+        return cls(
+            particle=getattr(_particules, sequence.particle.__name__),
+            kinematics=sequence.kinematics,
+            **kwargs
+        )
+
     @staticmethod
     def generate_from_file(file: str, path: str = '.', n: Optional[int] = None) -> pd.DataFrame:
         """
@@ -434,7 +527,7 @@ class BeamDistribution(Beam):
         Returns:
 
         """
-        return pd.read_csv(os.path.join(path, file))[:n]
+        return pd.read_csv(os.path.join(path, file))[:n].values
 
     @staticmethod
     def generate_from_5d_sigma_matrix(n: int,
@@ -536,6 +629,18 @@ class BeamTwiss(Beam):
     A beam to be used for transfer map and Twiss computations.
     """
     PARAMETERS = {
+        'PY': 1e-3,
+        'PT': 1e-3,
+        'PZ': 1e-3,
+        'PP': 1e-3,
+        'PX': 1e-3,
+        'PD': 1e-3,
+        'YR': ([0, ], 'Y-coordinate of the reference trajectory'),
+        'TR': ([0, ], 'T-coordinate of the reference trajectory'),
+        'ZR': ([0, ], 'Z-coordinate of the reference trajectory'),
+        'PR': ([0, ], 'P-coordinate of the reference trajectory'),
+        'XR': ([0, ], 'X-coordinate of the reference trajectory'),
+        'DR': ([1, ], 'D-coordinate of the reference trajectory'),
         'ALPHA_Y': 0.0,
         'BETA_Y': 1.0 * _ureg.m,
         'ALPHA_Z': 0.0,
@@ -566,19 +671,13 @@ class BeamTwiss(Beam):
         Returns:
 
         """
+        super().post_init(objet_type=objet_type, **kwargs)
         if betablock is not None and sequence is not None:
             raise ZgoubidooBeamException("Provide either betablock or sequence, not both.")
-        if sequence is not None:
+        if sequence is not None and betablock is None:
             betablock = sequence.betablock
         if betablock is not None:
-            self.ALPHA_Y = betablock.alpha11
-            self.BETA_Y = betablock.beta11 * _ureg.m
-            self.ALPHA_Z = betablock.alpha22
-            self.BETA_Z = betablock.beta22 * _ureg.m
-            self.D_Y = betablock.disp1 * _ureg.m
-            self.D_YP = betablock.disp2
-            self.D_Z = betablock.disp3 * _ureg.m
-            self.D_ZP = betablock.disp4
+            self._set_from_betablock(betablock)
 
     def generate_object(self):
         """
@@ -589,6 +688,18 @@ class BeamTwiss(Beam):
         """
         return self._objet_type(self.LABEL1,
                                 BORO=self._kinematics.brho,
+                                PY=self.PY,
+                                PT=self.PT,
+                                PZ=self.PZ,
+                                PP=self.PP,
+                                PX=self.PX,
+                                PD=self.PD,
+                                YR=self.YR,
+                                TR=self.TR,
+                                ZR=self.ZR,
+                                PR=self.PR,
+                                XR=self.XR,
+                                DR=self.DR,
                                 ALPHA_Y=self.ALPHA_Y,
                                 BETA_Y=self.BETA_Y,
                                 ALPHA_Z=self.ALPHA_Z,
@@ -600,3 +711,22 @@ class BeamTwiss(Beam):
                                 D_Z=self.D_Z,
                                 D_ZP=self.D_ZP,
                                 )
+
+    @classmethod
+    def from_sequence(cls, sequence: _TwissSequence, **kwargs):
+        """
+
+        Args:
+            sequence:
+            kwargs:
+
+        Returns:
+
+        """
+        return cls(
+            particle=getattr(_particules, sequence.particle.__name__),
+            kinematics=sequence.kinematics,
+            betablock=sequence.betablock,
+            objet_type=_Objet5,
+            **kwargs
+        )

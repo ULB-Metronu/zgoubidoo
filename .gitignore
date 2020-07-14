@@ -1,6 +1,7 @@
 .idea/
 .ipynb_checkpoints/
 *.pyc
+.DS_Store
 tests/__pycache__/
 zgoubidoo/__pycache__/
 zgoubidoo/commands/__pycache__/
@@ -13,6 +14,5 @@ examples/*.dat
 examples/zgoubi.log
 examples/zgoubi.MATRIX.out
 examples/.ipynb_checkpoints
-zgoubidoo.egg-info
 tests/zgoubi*
 .mypy_cache

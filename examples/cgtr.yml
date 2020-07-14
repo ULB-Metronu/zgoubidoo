@@ -1,9 +1,0 @@
---- A quadrupole magnet
-- qwall:
-    - q1e
-    -
-      - XL: 666.333 * cm
-
--- Another quadrupole magnet
-- qshort:
-    - q1g

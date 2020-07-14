@@ -24,6 +24,7 @@ Command
 
       ~Command.attach_output
       ~Command.build
+      ~Command.clean_output_and_results
       ~Command.generate_label
       ~Command.parse
       ~Command.post_init
@@ -43,6 +44,7 @@ Command
 
    .. automethod:: attach_output
    .. automethod:: build
+   .. automethod:: clean_output_and_results
    .. automethod:: generate_label
    .. automethod:: parse
    .. automethod:: post_init

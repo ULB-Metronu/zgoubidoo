@@ -6,7 +6,6 @@ from .. import ureg as _ureg
 from .commands import Command as _Command
 from .plotable import Plotable as _Plotable
 from .patchable import Patchable as _Patchable
-from ..vis.zgoubiplot import ZgoubiPlot as _ZgoubiPlot
 
 
 class Cavite(_Command, _Patchable, _Plotable):
@@ -34,20 +33,6 @@ class Cavite(_Command, _Patchable, _Plotable):
             {s.V.m_as('volt'):.12e} {s.PHI_S.m_as('radian'):.12e} {s.CHAMBERS}
             """
 
-    def plot_cartouche(self, s_location, artist: _ZgoubiPlot):
-        """
-
-        Args:
-            s_location:
-            artist:
-
-        Returns:
-
-        """
-        getattr(artist,
-                f"cartouche_{self.__class__.__name__.lower()}"
-                )(s_location, self)
-
 
 # Alias
 Cavity = Cavite
@@ -57,6 +42,22 @@ class EBMult(_Command):
     """Electro-magnetic multipole."""
     KEYWORD = 'EBMULT'
     """Keyword of the command used for the Zgoubi input data."""
+
+    PARAMETERS = {
+        'IL': (0, ""),
+        'XL': (),
+        'R0': (),
+        'E1': (),
+        'E2': (),
+        'E3': (),
+        'E4': (),
+        'E5': (),
+        'E6': (),
+        'E7': (),
+        'E8': (),
+        'E9': (),
+        'E10': (),
+    }
 
 
 # Aliases

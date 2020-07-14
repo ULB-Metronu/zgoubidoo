@@ -21,8 +21,8 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'Zgoubidoo'
-copyright = u'2018, Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)'
-author = u'Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)'
+copyright = u'2018-2020, Cédric Hernalsteens (cedric.hernalsteens@ulb.be)'
+author = u'Cédric Hernalsteens (cedric.hernalsteens@ulb.be)'
 
 # The short X.Y version
 version = zgoubidoo.__version__
@@ -142,7 +142,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'Zgoubidoo.tex', 'Zgoubidoo Documentation',
-     u'Cédric Hernalsteens (cedric.hernalsteens@iba-group.com)', 'manual'),
+     u'Cédric Hernalsteens (cedric.hernalsteens@ulb.be)', 'manual'),
 ]
 
 

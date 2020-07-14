@@ -18,7 +18,6 @@ Quadrupole
 
    .. autosummary::
 
-      ~Quadrupole.align
       ~Quadrupole.post_init
 
    .. rubric:: Attributes Documentation
@@ -29,5 +28,4 @@ Quadrupole
 
    .. rubric:: Methods Documentation
 
-   .. automethod:: align
    .. automethod:: post_init

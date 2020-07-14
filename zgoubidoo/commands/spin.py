@@ -2,7 +2,7 @@
 
 More details here.
 """
-from .commands import Action as _Action
+from .actions import Action as _Action
 from .commands import ZgoubidooException as _ZgoubidooException
 
 

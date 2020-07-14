@@ -2,13 +2,13 @@
 from typing import Optional, Union, Tuple
 import os
 import lmfit
-import numpy as np
-import pandas as pd
+import numpy as _np
+import pandas as _pd
 from scipy import interpolate
 from lmfit import Model as _Model
 
 
-def load_mesh_data(file: str, path: str = '.'):  # -> List[np.array]:
+def load_mesh_data(file: str, path: str = '.'):
     """
     Load a mesh data file and creates a complete mesh grid using numpy.
 
@@ -21,14 +21,14 @@ def load_mesh_data(file: str, path: str = '.'):  # -> List[np.array]:
     """
     with open(os.path.join(path, file)) as f:
         _, x_dim, y_dim, z_dim, _, _ = tuple(map(int, f.readline().split()))
-        data = np.array(list(map(float, ' '.join(f.readlines()).split())))
+        data = _np.array(list(map(float, ' '.join(f.readlines()).split())))
     x = data[0:x_dim]
     y = data[x_dim:x_dim + y_dim]
     z = data[x_dim + y_dim:x_dim + y_dim + z_dim]
-    return np.meshgrid(x, y, z, indexing='ij')
+    return _np.meshgrid(x, y, z, indexing='ij')
 
 
-def load_field_data(file: str, path: str = '.') -> pd.DataFrame:
+def load_field_data(file: str, path: str = '.') -> _pd.DataFrame:
     """
 
     Args:
@@ -38,10 +38,10 @@ def load_field_data(file: str, path: str = '.') -> pd.DataFrame:
     Returns:
         A DataFrame containing the field data.
     """
-    return pd.read_csv(os.path.join(path, file), sep=r'\s+', names=['BX', 'BY', 'BZ', 'M'], header=None)
+    return _pd.read_csv(os.path.join(path, file), sep=r'\s+', names=['BX', 'BY', 'BZ', 'M'], header=None)
 
 
-def load_opera_fieldmap_with_mesh(field_file: str, mesh_file: str, path: str = '.') -> pd.DataFrame:
+def load_opera_fieldmap_with_mesh(field_file: str, mesh_file: str, path: str = '.') -> _pd.DataFrame:
     """
 
     Args:
@@ -52,15 +52,15 @@ def load_opera_fieldmap_with_mesh(field_file: str, mesh_file: str, path: str = '
     Returns:
         A Numpy array containing the mesh points and the associated field values.
     """
-    x, y, z = [c.reshape((np.prod(c.shape),)) for c in load_mesh_data(file=mesh_file, path=path)]
-    f = load_field_data(file=field_file, path=path).values.T.reshape((4, np.prod(x.shape)))
-    return pd.DataFrame(
-        np.array([x, y, z, *f]).T,
+    x, y, z = [c.reshape((_np.prod(c.shape),)) for c in load_mesh_data(file=mesh_file, path=path)]
+    f = load_field_data(file=field_file, path=path).values.T.reshape((4, _np.prod(x.shape)))
+    return _pd.DataFrame(
+        _np.array([x, y, z, *f]).T,
         columns=['X', 'Y', 'Z', 'BX', 'BY', 'BZ', 'MATCODE'],
     )
 
 
-def load_opera_fieldmap(file: str, path: str = '.') -> pd.DataFrame:
+def load_opera_fieldmap(file: str, path: str = '.') -> _pd.DataFrame:
     """
 
     Args:
@@ -70,12 +70,12 @@ def load_opera_fieldmap(file: str, path: str = '.') -> pd.DataFrame:
     Returns:
         A Numpy array containing the mesh points and the associated field values.
     """
-    return pd.read_csv(os.path.join(path, file), skiprows=9, sep=r'\s+', header=None, names=[
+    return _pd.read_csv(os.path.join(path, file), skiprows=9, sep=r'\s+', header=None, names=[
         'X', 'Y', 'Z', 'BX', 'BY', 'BZ', 'MATCODE',
     ])
 
 
-def enge(s: Union[float, np.array],
+def enge(s: Union[float, _np.array],
          ce_0: float = 0.0,
          ce_1: float = 1.0,
          ce_2: float = 0.0,
@@ -94,7 +94,7 @@ def enge(s: Union[float, np.array],
          offset_s: float = 1.0,
          amplitude: float = 1.0,
          field_offset: float = 0.0,
-         ) -> Union[float, np.array]:
+         ) -> Union[float, _np.array]:
     """
     Enge function for the modelling of fringe fields.
 
@@ -128,7 +128,7 @@ def enge(s: Union[float, np.array],
     p_s = cs_0 + cs_1 * ((s - offset_s) / lam_s) + cs_2 * ((s - offset_s) / lam_s) ** 2 + cs_3 * (
                 (s - offset_s) / lam_s) ** 3 + cs_4 * ((s - offset_s) / lam_s) ** 4 + cs_5 * (
                       (s - offset_s) / lam_s) ** 5
-    return amplitude * ((1 / (1 + np.exp(p_e))) + (1 / (1 + np.exp(p_s))) - 1) + field_offset
+    return amplitude * ((1 / (1 + _np.exp(p_e))) + (1 / (1 + _np.exp(p_s))) - 1) + field_offset
 
 
 class EngeModel(_Model):
@@ -149,15 +149,15 @@ class FieldMap:
     """
     TODO
     """
-    def __init__(self, field_map: pd.DataFrame):
+    def __init__(self, field_map: _pd.DataFrame):
         """
 
         Args:
             field_map:
         """
         self._data = field_map
-        self._reference_trajectory: Optional[np.array] = None
-        self._field_profile_fit: Optional[np.array] = None
+        self._reference_trajectory: Optional[_np.array] = None
+        self._field_profile_fit: Optional[_np.array] = None
 
     def __repr__(self):
         return self._data.__repr__()
@@ -165,7 +165,7 @@ class FieldMap:
     @classmethod
     def load_from_opera(cls, file: str, path: str = '.'):
         """
-        Factory method to load a field map from a Opera output file.
+        Factory method to load a field map from a Opera parent file.
 
         Args:
             file: the file containing the field map data
@@ -179,7 +179,7 @@ class FieldMap:
     @classmethod
     def load_from_opera_with_mesh(cls, field_file: str, mesh_file: str, path: str = '.'):
         """
-        Factory method to load a field map from Opera output files (field map and mesh definition).
+        Factory method to load a field map from Opera parent files (field map and mesh definition).
 
         Args:
             field_file: the file containing the field map data
@@ -202,31 +202,31 @@ class FieldMap:
         return self._data.values
 
     @property
-    def reference_trajectory(self) -> np.array:
+    def reference_trajectory(self) -> _np.array:
         """Reference trajectory attached to the field map."""
         return self._reference_trajectory
 
     @property
-    def field_profile_fit(self) -> np.array:
+    def field_profile_fit(self) -> _np.array:
         """Fit of the field profile."""
         return self._field_profile_fit
 
     @property
-    def mesh_sampling_x(self) -> Tuple[np.array, int]:
+    def mesh_sampling_x(self) -> Tuple[_np.array, int]:
         """Sampling points of the field map along the X axis."""
         return self.mesh_sampling_along_axis(axis=0)
 
     @property
-    def mesh_sampling_y(self) -> Tuple[np.array, int]:
+    def mesh_sampling_y(self) -> Tuple[_np.array, int]:
         """Sampling points of the field map along the Y axis."""
         return self.mesh_sampling_along_axis(axis=1)
 
     @property
-    def mesh_sampling_z(self) -> Tuple[np.array, int]:
+    def mesh_sampling_z(self) -> Tuple[_np.array, int]:
         """Sampling points of the field map along the Z axis."""
         return self.mesh_sampling_along_axis(axis=2)
 
-    def mesh_sampling_along_axis(self, axis: int) -> Tuple[np.array, int]:
+    def mesh_sampling_along_axis(self, axis: int) -> Tuple[_np.array, int]:
         """
         Sampling points of the field map along a given axis.
 
@@ -236,7 +236,7 @@ class FieldMap:
         Returns:
             A numpy array containing the data points of the field map sampling.
         """
-        _ = np.unique(self.data[:, axis])
+        _ = _np.unique(self.data[:, axis])
         return _, len(_)
 
     def translate(self, x: float = 0, y: float = 0, z: float = 0):
@@ -290,7 +290,7 @@ class FieldMap:
             'BX': lambda: self.data[:, 3],
             'BY': lambda: self.data[:, 4],
             'BZ': lambda: self.data[:, 5],
-            'MOD': lambda: np.sqrt((self.data[:, 3:6] * self.data[:, 3:6]).sum(axis=1)),
+            'MOD': lambda: _np.sqrt((self.data[:, 3:6] * self.data[:, 3:6]).sum(axis=1)),
         }
         return interpolate.griddata(self.data[:, 0:3], field_components[field_component](), points, method=method)
 
@@ -319,10 +319,10 @@ class FieldMap:
 
         """
         length_sampling = samples or self.mesh_sampling_along_axis(axis)[1]
-        lower = lower or np.min(self.mesh_sampling_along_axis(axis)[0])
-        upper = upper or np.max(self.mesh_sampling_along_axis(axis)[0])
-        sampling = np.linspace(lower, upper, length_sampling)
-        zeros = np.zeros(length_sampling)
+        lower = lower or _np.min(self.mesh_sampling_along_axis(axis)[0])
+        upper = upper or _np.max(self.mesh_sampling_along_axis(axis)[0])
+        sampling = _np.linspace(lower, upper, length_sampling)
+        zeros = _np.zeros(length_sampling)
         if axis == 'X':
             v = [sampling, zeros, zeros]
         elif axis == 'Y':
@@ -334,7 +334,7 @@ class FieldMap:
         v[0] += offset_x
         v[1] += offset_y
         v[2] += offset_z
-        self._reference_trajectory = np.stack(v).T
+        self._reference_trajectory = _np.stack(v).T
         return self
 
     def attach_polar_trajectory(self,
@@ -363,10 +363,10 @@ class FieldMap:
 
         """
 
-        angles = np.linspace(lower_angle, upper_angle, samples)
-        x = np.cos(angles) * radius
-        y = np.sin(angles) * radius
-        zeros = np.zeros(samples)
+        angles = _np.linspace(lower_angle, upper_angle, samples)
+        x = _np.cos(angles) * radius
+        y = _np.sin(angles) * radius
+        zeros = _np.zeros(samples)
         if plane == 'XY':
             v = [x, y, zeros]
         elif plane == 'YZ':
@@ -378,7 +378,7 @@ class FieldMap:
         v[0] += offset_x
         v[1] += offset_y
         v[2] += offset_z
-        self._reference_trajectory = np.stack(v).T
+        self._reference_trajectory = _np.stack(v).T
         return self
 
     def fit_field_profile(self,
@@ -401,7 +401,7 @@ class FieldMap:
         fit = model.fit(
             self.sample(self.reference_trajectory, field_component=field_component, method=sampling_method),
             model.params,
-            s=np.linalg.norm(self.reference_trajectory - self.reference_trajectory[0], axis=1),
+            s=_np.linalg.norm(self.reference_trajectory - self.reference_trajectory[0], axis=1),
         )
         self._field_profile_fit = fit
         return fit
@@ -419,14 +419,14 @@ class FieldMap:
         """
         if self.reference_trajectory is not None:
             ax.plot(
-                np.linalg.norm(self.reference_trajectory - self.reference_trajectory[0], axis=1),
+                _np.linalg.norm(self.reference_trajectory - self.reference_trajectory[0], axis=1),
                 self.sample(self.reference_trajectory, field_component=field_component, method=sampling_method),
                 'bo',
                 ms=1,
             )
         if self.field_profile_fit is not None:
             ax.plot(
-                np.linalg.norm(self._reference_trajectory - self._reference_trajectory[0], axis=1),
+                _np.linalg.norm(self._reference_trajectory - self._reference_trajectory[0], axis=1),
                 self.field_profile_fit.best_fit,
                 'r-',
             )
@@ -457,7 +457,7 @@ class FieldMap:
         Returns:
 
         """
-        new_mesh = np.mgrid[
+        new_mesh = _np.mgrid[
                    self.mesh_sampling_x[0].min():self.mesh_sampling_x[0].max():100j,
                    self.mesh_sampling_y[0].min():self.mesh_sampling_y[0].max():100j,
                    self.mesh_sampling_z[0].min():self.mesh_sampling_z[0].max():100j
@@ -466,4 +466,4 @@ class FieldMap:
         fx = -self.sample(new_mesh, field_component='BX', method=method)
         fy = -self.sample(new_mesh, field_component='BY', method=method)
         fz = -self.sample(new_mesh, field_component='BZ', method=method)
-        return np.concatenate([new_mesh, np.stack([fx, fy, fz]).T], axis=1)
+        return _np.concatenate([new_mesh, _np.stack([fx, fy, fz]).T], axis=1)

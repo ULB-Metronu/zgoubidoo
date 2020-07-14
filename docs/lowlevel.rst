@@ -9,7 +9,7 @@ Test
 Reading Zgoubi output files
 ---------------------------
 
-.. automodule:: zgoubidoo.output
+.. automodule:: zgoubidoo.outputs
     :members:
 
 

@@ -1,12 +1,12 @@
 """TODO"""
 import numpy as _np
 from .... import Kinematics as _Kinematics
-from ...particules import Electron as _Electron
 from ...magnetique import Solenoid as _Solenoid
 from ...magnetique import Multipol as _Multipol
 from ...commands import Marker as _Marker
 from ...commands import ChangeRef as _ChangeRef
 from .... import ureg as _ureg
+from georges_core.particles import Electron as _Electron
 
 lhec_database = {
     'KIN': _Kinematics(50 * _ureg.GeV_c, particle=_Electron),
@@ -30,27 +30,27 @@ lhec_database = {
                       R0=20 * _ureg.cm,
                       B1=5 * _ureg.tesla,
                       KPOS=1,
-                      WIDTH=200 * _ureg.cm,
+                      POLE_WIDTH=200 * _ureg.cm,
                       ),
     'B0_R': _Multipol('B0_R',
                       XL=4 * _ureg.m,
                       R0=20 * _ureg.cm,
                       B1=-5 * _ureg.tesla,
                       KPOS=1,
-                      WIDTH=200 * _ureg.cm,
+                      POLE_WIDTH=200 * _ureg.cm,
                       ),
     'B1_L': _Multipol('B1_L',
                       XL=9 * _ureg.m,
                       R0=20 * _ureg.cm,
                       B1=1 * _ureg.tesla,
                       KPOS=1,
-                      WIDTH=200 * _ureg.cm),
+                      POLE_WIDTH=200 * _ureg.cm),
     'B1_R': _Multipol('B1_R',
                       XL=11 * _ureg.m,
                       R0=20 * _ureg.cm,
                       B1=-1 * _ureg.tesla,
                       KPOS=1,
-                      WIDTH=200 * _ureg.cm),
+                      POLE_WIDTH=200 * _ureg.cm),
 
 }
 lhec_database['CR_L'] = _ChangeRef(

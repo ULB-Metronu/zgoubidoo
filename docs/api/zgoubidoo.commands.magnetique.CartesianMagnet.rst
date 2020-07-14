@@ -23,10 +23,7 @@ CartesianMagnet
 
    .. autosummary::
 
-      ~CartesianMagnet.plot
-      ~CartesianMagnet.plot_cartouche
-      ~CartesianMagnet.plot_tracks
-      ~CartesianMagnet.reference_trajectory
+      ~CartesianMagnet.post_init
 
    .. rubric:: Attributes Documentation
 
@@ -41,7 +38,4 @@ CartesianMagnet
 
    .. rubric:: Methods Documentation
 
-   .. automethod:: plot
-   .. automethod:: plot_cartouche
-   .. automethod:: plot_tracks
-   .. automethod:: reference_trajectory
+   .. automethod:: post_init

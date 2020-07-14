@@ -9,12 +9,12 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import matplotlib.transforms as transforms
 from .. import ureg as _ureg
-from .zgoubiplot import ZgoubiPlot
+from georges_core.vis import MatplotlibArtist as _MatplotlibArtist
 from ..units import _m, _cm, _degree, _radian
 import zgoubidoo.commands
 
 
-class ZgoubiMpl(ZgoubiPlot):
+class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
     """A matplotlib implementation of a `ZgoubiPlot` artist."""
     def __init__(self,
                  ax=None,
@@ -33,7 +33,7 @@ class ZgoubiMpl(ZgoubiPlot):
             tracks_color: color for the plotting of tracks
             kwargs: forwarded to `ZgoubiPlot` and to `init_plot`.
         """
-        super().__init__(with_boxes, with_frames, **kwargs)
+        super().__init__(with_boxes, **kwargs)
         self._with_centers = with_centers
         self._tracks_color = tracks_color
         if ax is None:
@@ -130,15 +130,15 @@ class ZgoubiMpl(ZgoubiPlot):
             if _np.cos(_radian(magnet.entry_patched.tz)) > 0:
                 theta1 = 90 - _degree(magnet.entry_patched.tx + magnet.angular_opening)
                 theta2 = 90 - _degree(magnet.entry_patched.tx)
-                theta3 = 90 - _degree(magnet.entry_patched.tx + magnet.reference_angle)
-                theta4 = 90 - _degree(magnet.entry_patched.tx + magnet.reference_angle - magnet.entrance_efb)
-                theta5 = 90 - _degree(magnet.entry_patched.tx + magnet.reference_angle - magnet.exit_efb)
+                theta3 = 90 - _degree(magnet.entry_patched.tx + magnet.reference_angles)
+                theta4 = 90 - _degree(magnet.entry_patched.tx + magnet.reference_angles - magnet.entrance_efb)
+                theta5 = 90 - _degree(magnet.entry_patched.tx + magnet.reference_angles - magnet.exit_efb)
             else:
                 theta1 = -90 - _degree(magnet.entry_patched.tx)
                 theta2 = -90 - _degree(magnet.entry_patched.tx - magnet.angular_opening)
-                theta3 = -90 - _degree(magnet.entry_patched.tx - magnet.reference_angle)
-                theta4 = -90 - _degree(magnet.entry_patched.tx - magnet.reference_angle + magnet.exit_efb)
-                theta5 = -90 - _degree(magnet.entry_patched.tx - magnet.reference_angle + magnet.entrance_efb)
+                theta3 = -90 - _degree(magnet.entry_patched.tx - magnet.reference_angles)
+                theta4 = -90 - _degree(magnet.entry_patched.tx - magnet.reference_angles + magnet.exit_efb)
+                theta5 = -90 - _degree(magnet.entry_patched.tx - magnet.reference_angles + magnet.entrance_efb)
 
             self._ax.add_patch(
                 patches.Wedge(
@@ -324,8 +324,6 @@ class ZgoubiMpl(ZgoubiPlot):
         offset = 1.1
         self._ax2.hlines(offset, _m(s_location), _m(s_location) + _m(magnet.length), clip_on=False)
 
-    cartouche_fakedrift = cartouche_drift
-
     def cartouche_cartesianmagnet(self, s_location, magnet: zgoubidoo.commands.CartesianMagnet):
         """
 
@@ -480,3 +478,6 @@ class ZgoubiMpl(ZgoubiPlot):
                   markerfacecolor=self._tracks_color,
                   ms=1
                   )
+
+
+MplArtist = ZgoubidooMatplotlibArtist

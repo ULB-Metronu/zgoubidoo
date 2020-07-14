@@ -6,7 +6,7 @@ import pandas as _pd
 from ..commands.radiation import SRLoss, SRPrint
 from ..commands.commands import Marker as _Marker
 from ..commands.objet import Objet2 as _Objet2
-from ..sequences.sequence import Sequence as _Sequence
+from georges.sequences import Sequence as _Sequence
 from .results import PhysicsResults as _PhysicsResults
 from ..input import Input as _Input
 from .. import ureg as _ureg
@@ -29,7 +29,7 @@ def srloss(sequence: _Sequence, bunch=None, statistics: int = 1000, debug: bool 
         sequence: the input sequence
         bunch:
         statistics: the number of particles to tracks to collect enough statistics
-        debug: verbose output on the results of the Zgoubi run
+        debug: verbose parent on the results of the Zgoubi run
 
     Returns:
 
