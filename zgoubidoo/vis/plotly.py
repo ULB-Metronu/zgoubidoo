@@ -130,6 +130,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                       with_magnet_poles: bool = True,
                       with_apertures: bool = True,
                       with_frames: bool = False,
+                      with_fringes: bool = False,
                       points_in_polar_paths: int = 20,
                       opacity: float = 0.5,
                       reference_frame: str = 'entry_patched',
@@ -147,6 +148,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             with_magnet_poles:
             with_apertures:
             with_frames:
+            with_fringes:
             points_in_polar_paths:
             opacity:
             reference_frame:
@@ -401,25 +403,23 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 if isinstance(e, _PolarMagnet):
                     r = e.RM.m_as('m')
                     for i in range(0, e.n_magnets):
-                        # width = e.entrance_field_boundary_linear_extent_up[i].m_as('m')
                         reference_angle = e.reference_angles[i].m_as('radian')
                         omega_e = e.entrance_efb[i].m_as('radian')
                         omega_s = e.exit_efb[i].m_as('radian')
                         total_angle = e.angular_opening.m_as('radians')
                         entrance_face_angle = e.entrance_field_boundary_wedge_angle[i].m_as('radians')
                         exit_face_angle = e.exit_field_boundary_wedge_angle[i].m_as('radians')
-                        entrance_efb_extent_up = e.entrance_field_boundary_linear_extent_up[i].m_as('m')
-                        entrance_efb_radius_up = e.entrance_field_boundary_linear_radius_up[i].m_as('m')
-                        entrance_efb_extent_down = e.entrance_field_boundary_linear_extent_down[i].m_as('m')
-                        entrance_efb_radius_down = e.entrance_field_boundary_linear_radius_down[i].m_as('m')
-                        exit_efb_extent_up = e.exit_field_boundary_linear_extent_up[i].m_as('m')
-                        exit_efb_radius_up = e.exit_field_boundary_linear_radius_up[i].m_as('m')
-                        exit_efb_extent_down = e.exit_field_boundary_linear_extent_down[i].m_as('m')
-                        exit_efb_radius_down = e.exit_field_boundary_linear_radius_down[i].m_as('m')
 
                         plot_polar_magnet()
-                        if with_frames:
-                            width = e.POLE_WIDTH.m_as('m')
+                        if with_fringes:
+                            entrance_efb_extent_up = e.entrance_field_boundary_linear_extent_up[i].m_as('m')
+                            entrance_efb_radius_up = e.entrance_field_boundary_linear_radius_up[i].m_as('m')
+                            entrance_efb_extent_down = e.entrance_field_boundary_linear_extent_down[i].m_as('m')
+                            entrance_efb_radius_down = e.entrance_field_boundary_linear_radius_down[i].m_as('m')
+                            exit_efb_extent_up = e.exit_field_boundary_linear_extent_up[i].m_as('m')
+                            exit_efb_radius_up = e.exit_field_boundary_linear_radius_up[i].m_as('m')
+                            exit_efb_extent_down = e.exit_field_boundary_linear_extent_down[i].m_as('m')
+                            exit_efb_radius_down = e.exit_field_boundary_linear_radius_down[i].m_as('m')
                             plot_polar_map()
 
                 else:

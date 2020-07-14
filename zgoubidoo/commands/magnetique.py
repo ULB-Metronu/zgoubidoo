@@ -2258,6 +2258,38 @@ class FFAGSpirale(PolarMultiMagnet):
     def exit_field_boundary_wedge_angle(self) -> List[_Q]:
         return self.XI_S
 
+    @property
+    def entrance_field_boundary_linear_extent_down(self) -> List[_Q]:
+        return _np.zeros(self.N)*_ureg.cm
+
+    @property
+    def entrance_field_boundary_linear_extent_up(self) -> List[_Q]:
+        return _np.zeros(self.N)*_ureg.cm
+
+    @property
+    def entrance_field_boundary_linear_radius_up(self) -> List[_Q]:
+        return 10*_np.ones(self.N)*_ureg.cm
+
+    @property
+    def entrance_field_boundary_linear_radius_down(self) -> List[_Q]:
+        return 10*_np.ones(self.N)*_ureg.cm
+
+    @property
+    def exit_field_boundary_linear_extent_down(self) -> List[_Q]:
+        return _np.zeros(self.N)*_ureg.cm
+
+    @property
+    def exit_field_boundary_linear_extent_up(self) -> List[_Q]:
+        return _np.zeros(self.N)*_ureg.cm
+
+    @property
+    def exit_field_boundary_linear_radius_up(self) -> List[_Q]:
+        return _np.zeros(self.N)*_ureg.cm
+
+    @property
+    def exit_field_boundary_linear_radius_down(self) -> List[_Q]:
+        return 10*_np.ones(self.N)*_ureg.cm
+
     def __str__(s):
         command = []
         c = f"""
