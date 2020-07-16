@@ -18,6 +18,7 @@ from ..commands import Octupole as _Octupole
 from ..commands import Multipole as _Multipole
 from ..commands import Bend as _Bend
 from ..commands import Dipole as _Dipole
+from ..commands import FFAGSpirale as _FFAGSPI
 
 if TYPE_CHECKING:
     from ..input import Input as _Input
@@ -94,7 +95,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                         'fillcolor': e.COLOR,
                     },
                 )
-            if isinstance(e, (_Bend, _Dipole)):
+            if isinstance(e, (_Bend, _Dipole, _FFAGSPI)):
                 length = e.optical_length.m_as('m')
                 m = e.entry_patched.get_rotation_matrix()
                 if _np.dot(m, _np.array([0, 0, 1]))[2] >= 0.0:
