@@ -9,94 +9,25 @@ Additional formalisms for the parametrization of fully coupled transfer matrices
 etc.).
 
 Example:
-    import matplotlib.pyplot as plt
-    import pandas as pd
     import numpy as np
+    import pandas as pd
     import zgoubidoo
     from zgoubidoo.commands import *
     _ = zgoubidoo.ureg
 
 """
-from typing import Tuple, Optional
+from typing import Tuple
 import numpy as _np
 import pandas as _pd
 from .input import Input as _Input
-from georges_core.sequences import BetaBlock as _BetaBlock
-from georges_core.twiss import compute_periodic_twiss, \
-    compute_beta_from_matrix, \
-    compute_alpha_from_matrix, \
-    compute_mu_from_matrix, \
-    compute_jacobian_from_matrix, \
-    compute_gamma_from_matrix, \
-    compute_dispersion_from_matrix, \
-    compute_dispersion_prime_from_matrix
 import zgoubidoo
 
 
-def compute_twiss(matrix: _pd.DataFrame,
-                  twiss_init: Optional[_BetaBlock] = None,
-                  with_phase_unrolling: bool = True
-                  ) -> _pd.DataFrame:
-    """
-    Uses a step-by-step transfer matrix to compute the Twiss parameters (uncoupled). The phase advance and the
-    determinants of the jacobians are computed as well.
-
-    Args:
-        matrix: the input step-by-step transfer matrix
-        twiss_init: the initial values for the Twiss computation (if None, periodic conditions are assumed and the
-        Twiss parameters are computed from the transfer matrix).
-        with_phase_unrolling: TODO
-
-    Returns:
-        the same DataFrame as the input, but with added columns for the computed quantities.
-    """
-    if twiss_init is None:
-        twiss_init = compute_periodic_twiss(matrix)
-
-    matrix['BETA11'] = compute_beta_from_matrix(matrix, twiss_init)
-    matrix['BETA22'] = compute_beta_from_matrix(matrix, twiss_init, plane=2)
-    matrix['ALPHA11'] = compute_alpha_from_matrix(matrix, twiss_init)
-    matrix['ALPHA22'] = compute_alpha_from_matrix(matrix, twiss_init, plane=2)
-    matrix['GAMMA11'] = compute_gamma_from_matrix(matrix, twiss_init)
-    matrix['GAMMA22'] = compute_gamma_from_matrix(matrix, twiss_init, plane=2)
-    matrix['MU1'] = compute_mu_from_matrix(matrix, twiss_init)
-    matrix['MU2'] = compute_mu_from_matrix(matrix, twiss_init, plane=2)
-    matrix['DET1'] = compute_jacobian_from_matrix(matrix)
-    matrix['DET2'] = compute_jacobian_from_matrix(matrix, plane=2)
-    matrix['DISP1'] = compute_dispersion_from_matrix(matrix, twiss_init)
-    matrix['DISP2'] = compute_dispersion_prime_from_matrix(matrix, twiss_init)
-    matrix['DISP3'] = compute_dispersion_from_matrix(matrix, twiss_init, plane=2)
-    matrix['DISP4'] = compute_dispersion_prime_from_matrix(matrix, twiss_init, plane=2)
-
-    def phase_unrolling(phi):
-        """TODO"""
-        if phi[0] < 0:
-            phi[0] += 2 * _np.pi
-        for i in range(1, phi.shape[0]):
-            if phi[i] < 0:
-                phi[i] += 2 * _np.pi
-            if phi[i - 1] - phi[i] > 0.5:
-                phi[i:] += 2 * _np.pi
-        return phi
-
-    try:
-        from numba import njit
-        phase_unrolling = njit(phase_unrolling)
-    except ModuleNotFoundError:
-        pass
-
-    if with_phase_unrolling:
-        matrix['MU1U'] = phase_unrolling(matrix['MU1'].values)
-        matrix['MU2U'] = phase_unrolling(matrix['MU2'].values)
-
-    return matrix
-
-
-def align_tracks(tracks: _pd.DataFrame,
-                 align_on: str = 'SREF',
-                 identifier: str = 'LET',
-                 reference_track: str = 'O',
-                 ) -> Tuple[_np.array, _pd.DataFrame]:
+def _align_tracks(tracks: _pd.DataFrame,
+                  align_on: str = 'SREF',
+                  identifier: str = 'LET',
+                  reference_track: str = 'O',
+                  ) -> Tuple[_np.array, _pd.DataFrame]:
     """
     Align the tracks to obtain a homegenous array with all coordinates given at the same location.
 
@@ -163,7 +94,7 @@ def compute_transfer_matrix(beamline: _Input, tracks: _pd.DataFrame) -> _pd.Data
         if e.LABEL1 not in elements:
             continue
         t = tracks[tracks.LABEL1 == e.LABEL1]
-        data, ref = align_tracks(t)
+        data, ref = _align_tracks(t)
         n_dimensions: int = 5
         normalization = [2 * (data[i + 1, :, i + n_dimensions] - data[0, :, i + n_dimensions])
                          for i in range(0, n_dimensions)

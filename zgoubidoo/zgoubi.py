@@ -23,6 +23,7 @@ from . import ureg as _ureg
 import zgoubidoo
 from .constants import ZGOUBI_INPUT_FILENAME as _ZGOUBI_INPUT_FILENAME
 from georges_core.sequences import BetaBlock as _BetaBlock
+from georges_core.twiss import Twiss as _Twiss
 if TYPE_CHECKING:
     from .input import Input as _Input
     from .transformations import CoordinateTransformationType as _CoordinateTransformationType
@@ -388,8 +389,8 @@ class ZgoubiResults:
         if self._step_by_step_optics is not None and force_reload is False:
             return self._step_by_step_optics
         else:
-            self._step_by_step_optics = zgoubidoo.twiss.compute_twiss(self.step_by_step_transfer_matrix,
-                                                                      twiss_init=twiss_init)
+
+            self._step_by_step_optics = _Twiss(twiss_init=twiss_init)(self.step_by_step_transfer_matrix)
             return self._step_by_step_optics
 
     @property
