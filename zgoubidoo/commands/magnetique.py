@@ -25,7 +25,7 @@ from ..zgoubi import Zgoubi as _Zgoubi
 from .patchable import Patchable as _Patchable
 from .plotable import Plotable as _Plotable
 from ..fieldmaps import FieldMap as _FieldMap
-from ..units import _cm, _radian, _kilogauss, _degree
+from ..units import _cm, _radian, _kilogauss, _degree, _ampere
 import zgoubidoo
 from georges_core.kinematics import Kinematics as _Kinematics
 from georges_core.frame import Frame as _Frame
@@ -80,7 +80,7 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
     def field_profile_model(self):
         """A model for the field profile."""
         return self._field_profile_model
-    
+
     def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
         """
         
@@ -420,35 +420,226 @@ class PolarMultiMagnet(PolarMagnet):
 
 
 class AGSMainMagnet(CartesianMagnet):
-    """AGS main magnet.
+    r"""AGS main magnet.
 
-    TODO
+    .. rubric:: Zgoubi manual description
+
+    The AGS main magnet is a combined function dipole with straight axis (lines of constant field are straight lines).
+    The field computation routines for AGSMM are the same as for MULTIPOL (details in section 1.3.7, page 26),
+    however AGSMM has the following four particularities :
+
+    * There are only three multipole components present in AGSMM : dipole, quadrupole and sextupole.
+
+    * The dipole field B0 is drawn from the reference rigidity, Bρref ,
+      and follows the latter so to preserve :math:`\rho = B\rho_{ref}/B0` and the orbit deviation L/ρ. In particular,
+
+            * in the absence of acceleration, Bρref ≡ BORO, with BORO the quantity appearing in the object definition
+              using [MC]OBJET,
+
+            * in presence of acceleration using CAVITE, Bρref is changed to BORO×Dref at each passage in the cavity,
+              with Dref the relative synchronous momentum increase, a quantity that zgoubi updates at cavity traversal.
+
+    * The field indices, quadrupole K1 and sextupole K2, are derived from the reference rigidity, Bρref ,
+      via momentum-dependent polynomials, taken from Ref. [39], and following in that the methods found
+      in the MAD model of the AGS [40].
+
+    * The AGS main dipole has back-leg windings, used for instance for injection and extraction orbit bumps.
+
+    The number of winding turns and the number of ampere-turns are part of the data in the input data list.
+    The intensity in the windings is accounted for in the conversion from total ampere-turns in the magnet to momentum
+    and then to magnetic field.
+    Note : A consequence of items 2 and 3 is that no field value is required in defining the AGS main magnets
+    in the zgoubi.dat input data list.
     """
     KEYWORD = 'AGSMM'
     """Keyword of the command used for the Zgoubi input data."""
+
+    PARAMETERS = {
+        'IL': (2, "Print field and coordinates along trajectories", 1),
+        'MOD': (1, "Type of dipole magnet"),
+        'dL': (0.0 * _ureg.centimeter, "UNUSED"),
+        'R0': (10.0 * _ureg.centimeter, 'Radius of the pole tips'),
+        'dB1': (0, 'Relative error on dipole component'),
+        'dB2': (0, 'Relative error on quadrupole component'),
+        'dB3': (0, 'Relative error on sextupole component'),
+        'NBLW': (0, 'Number of back-leg windings', 20),
+        'WMOD': (1, 'Back-leg winding model',),
+        'NW': ([0], 'Number of windings',),
+        'I': ([0] * _ureg.ampere, 'Current of windings',),
+        'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 21),
+        'LAM_E': (0 * _ureg.centimeter, 'Entrance face fringe field extent', 22),
+        'E2': (0 * _ureg.centimeter, 'Quadrupole fringe field extent', 23),
+        'E3': (0 * _ureg.centimeter, 'Sextupole fringe field extent', 24),
+        'NCE': (0, 'UNUSED', 30),
+        'C0_E': (0, 'Fringe field coefficient C0', 31),
+        'C1_E': (1, 'Fringe field coefficient C1', 32),
+        'C2_E': (0, 'Fringe field coefficient C2', 33),
+        'C3_E': (0, 'Fringe field coefficient C3', 34),
+        'C4_E': (0, 'Fringe field coefficient C4', 35),
+        'C5_E': (0, 'Fringe field coefficient C5', 36),
+        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field', 40),
+        'LAM_S': (0 * _ureg.centimeter, 'Exit face fringe field extent', 41),
+        'S2': (0 * _ureg.centimeter, 'Quadrupole fringe field extent', 21),
+        'S3': (0 * _ureg.centimeter, 'Sextupole fringe field extent', 21),
+        'NCS': (0, 'UNUSED', 50),
+        'C0_S': (0, 'Fringe field coefficient C0', 51),
+        'C1_S': (1, 'Fringe field coefficient C1', 52),
+        'C2_S': (0, 'Fringe field coefficient C2', 53),
+        'C3_S': (0, 'Fringe field coefficient C3', 54),
+        'C4_S': (0, 'Fringe field coefficient C4', 55),
+        'C5_S': (0, 'Fringe field coefficient C5', 56),
+        'R1': (0 * _ureg.radian, 'Skew angle of field component R1', 60),
+        'R2': (0 * _ureg.radian, 'Skew angle of field component R2', 60),
+        'R3': (0 * _ureg.radian, 'Skew angle of field component R3', 60),
+        'XPAS': (0.1 * _ureg.centimeter, 'Integration step', 70),
+        'KPOS': (1, 'Misalignment type', 80),
+        'XCE': (0 * _ureg.centimeter, 'x offset', 81),
+        'YCE': (0 * _ureg.centimeter, 'y offset', 82),
+        'ALE': (0 * _ureg.radian, 'misalignment rotation', 83),
+        'XS': (0 * _ureg.centimeter, 'X shift', 81),
+        'YS': (0 * _ureg.centimeter, 'Y shift', 81),
+        'ZR': (0 * _ureg.centimeter, 'Z rotation', 81),
+        'ZS': (0 * _ureg.centimeter, 'Z shift', 81),
+        'YR': (0 * _ureg.centimeter, 'Y rotation', 81),
+        'COLOR': ('#FF0000', 'Magnet color for plotting.'),
+    }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
+
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        if _cm(self.X_E) == 0 and _cm(self.R0) != 0 and self.LAM_E.magnitude != 0:
+            self.X_E = 2 * self.R0
+        if _cm(self.X_S) == 0 and _cm(self.R0) != 0 and self.LAM_S.magnitude != 0:
+            self.X_S = 2 * self.R0
+
+    def __str__(s):
+        command = []
+        c = f"""
+                {super().__str__().rstrip()}
+                {s.IL}
+                {s.MOD} {_cm(s.dL):.12e}
+                {_cm(s.R0):.12e} {s.dB1:.12e} {s.dB2:.12e} {s.dB3:.12e}
+                {s.NBLW}[.{s.WMOD}]
+             """
+        command.append(c)
+        c = f""
+        for i in range(s.NBLW):
+            c += f" {s.NW[i]} {_ampere(s.I[i]):.12e}"
+
+        command.append(c)
+        c = f"""
+                {_cm(s.X_E):.12e} {_cm(s.LAM_E):.12e} {_cm(s.E2):.12e} {_cm(s.E3):.12e}
+                {s.NCE} {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
+                {_cm(s.X_S):.12e} {_cm(s.LAM_S):.12e} {_cm(s.S2):.12e} {_cm(s.S3):.12e}
+                {s.NCS} {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
+                {_radian(s.R1):.12e} {_radian(s.R2):.12e} {_radian(s.R3):.12e}
+                {_cm(s.XPAS)}
+                """
+        command.append(c)
+
+        if s.KPOS in (1, 3):
+            c = f"""
+                    {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
+                """
+        else:
+            c = f"""   
+                    {s.KPOS} {_cm(s.XS):.12e} {_cm(s.YS):.12e} {_cm(s.ZR):.12e} {_cm(s.ZS):.12e} {_cm(s.YR):.12e}
+                """
+        command.append(c)
+        return ''.join(map(lambda _: _.rstrip(), command))
 
 
 class AGSQuadrupole(CartesianMagnet):
     """AGS quadrupole.
 
-    The AGS quadrupoles are regular quadrupoles. The simulation of AGSQUAD uses the same field mod- elling as MULTIPOL,
-    section 1.3.7, page 25. However amperes are provided as input to AGSQUAD rather than fields, the reason being that
-    some of the AGS quadrupoles have two superimposed coil circuits, with separate power supplies. It has been dealt
-    with this particularity by allowing for an additional set of multi- pole data in AGSQUAD, compared to MULTIPOL.
+    .. rubric:: Zgoubi manual description
 
-    The field in AGSQUAD is computed using transfer functions from the ampere-turns in the coils to magnetic field that
-    account for the non-linearity of the magnetic permeability [33].
-
-    TODO
+    The AGS quadrupoles are regular quadrupoles. The simulation of ``AGSQUAD`` uses the same field modelling as
+    ``MULTIPOL``, section 1.3.7, page 25. However amperes are provided as input to ``AGSQUAD`` rather than fields,
+    the reason being that some of the AGS quadrupoles have two superimposed coil circuits, with separate power
+    supplies. It has been dealt with this particularity by allowing for an additional set of multi- pole data in
+    ``AGSQUAD``, compared to ``MULTIPOL``.
+    The field in ``AGSQUAD`` is computed using transfer functions from the ampere-turns in the coils to magnetic
+    field that account for the non-linearity of the magnetic permeability [33].
     """
     KEYWORD = 'AGSQUAD'
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-
+        'IL': (2, "Print field and coordinates along trajectories", 1),
+        'XL': (10.0 * _ureg.centimeter, "Magnet length (straight reference frame)", 10),
+        'R0': (10.0 * _ureg.centimeter, 'Radius of the pole tips', 11),
+        'IW1': (0 * _ureg.ampere, 'Current in windings', 12),
+        'IW2': (0 * _ureg.ampere, 'Current in windings', 13),
+        'IW3': (0 * _ureg.ampere, 'Current in windings', 14),
+        'dIW1': (0, 'Relative error on current', 15),
+        'dIW2': (0, 'Relative error on current', 16),
+        'dIW3': (0, 'Relative error on current', 17),
+        'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 20),
+        'LAM_E': (0 * _ureg.centimeter, 'Entrance face fringe field extent', 21),
+        'NCE': (0, 'UNUSED', 30),
+        'C0_E': (0, 'Fringe field coefficient C0', 31),
+        'C1_E': (1, 'Fringe field coefficient C1', 32),
+        'C2_E': (0, 'Fringe field coefficient C2', 33),
+        'C3_E': (0, 'Fringe field coefficient C3', 34),
+        'C4_E': (0, 'Fringe field coefficient C4', 35),
+        'C5_E': (0, 'Fringe field coefficient C5', 36),
+        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field', 40),
+        'LAM_S': (0 * _ureg.centimeter, 'Exit face fringe field extent', 41),
+        'NCS': (0, 'UNUSED', 50),
+        'C0_S': (0, 'Fringe field coefficient C0', 51),
+        'C1_S': (1, 'Fringe field coefficient C1', 52),
+        'C2_S': (0, 'Fringe field coefficient C2', 53),
+        'C3_S': (0, 'Fringe field coefficient C3', 54),
+        'C4_S': (0, 'Fringe field coefficient C4', 55),
+        'C5_S': (0, 'Fringe field coefficient C5', 56),
+        'R1': (0 * _ureg.radian, 'Roll angle', 60),
+        'XPAS': (0.1 * _ureg.centimeter, 'Integration step', 70),
+        'KPOS': (1, 'Misalignment type', 80),
+        'XCE': (0 * _ureg.centimeter, 'x offset', 81),
+        'YCE': (0 * _ureg.centimeter, 'y offset', 82),
+        'ALE': (0 * _ureg.radian, 'misalignment rotation', 83),
+        'COLOR': ('#FF0000', 'Magnet color for plotting.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
-        commands (e.g. fit)."""
+    commands (e.g. fit)."""
+
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        if _cm(self.X_E) == 0 and _cm(self.R0) != 0 and self.LAM_E.magnitude != 0:
+            self.X_E = 2 * self.R0
+        if _cm(self.X_S) == 0 and _cm(self.R0) != 0 and self.LAM_S.magnitude != 0:
+            self.X_S = 2 * self.R0
+
+    def __str__(s):
+        return f"""
+            {super().__str__().rstrip()}
+            {s.IL}
+            {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_ampere(s.IW1):.12e} {_ampere(s.IW2):.12e} {_ampere(s.IW3):.12e}
+            {s.dIW1 :.12e} {s.dIW1 :.12e} {s.dIW2 :.12e} 
+            {_cm(s.X_E):.12e} {_cm(s.LAM_E):.12e}
+            {s.NCE} {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
+            {_cm(s.X_S):.12e} {_cm(s.LAM_S):.12e}
+            {s.NCS} {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
+            {_radian(s.R1):.12e}
+            {_cm(s.XPAS)}
+            {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
+            """
 
 
 class Aimant(PolarMagnet):
@@ -730,33 +921,63 @@ class Bend(CartesianMagnet):
 
 
 class Decapole(CartesianMagnet):
-    """Decapole magnet.
+    r"""Decapole magnet.
 
-    TODO
+    .. rubric:: Zgoubi manual description
+
+    The meaning of parameters for ``DECAPOLE`` is the same as for ``QUADRUPO``.
+    In fringe field regions the magnetic field :math:`\vec{B}(X, Y, Z)` and its derivatives up to fourth order are
+    derived from the scalar potential expressed to the 5th order in Y and Z
+
+    .. math::
+
+        V (X, Y,Z) = G(X) (Y^4Z - 2Y^2Z^3 + \frac{Z^5}{5})
+
+    with :math:`G0=\frac{B_0}{R_0^4}`
+    The modelling of the fringe field form factor G(X) is described under ``QUADRUPO``, p. 128.
+    Outside fringe field regions, or everywhere in sharp edge decapole (λE = λS = 0) , :math:`\vec{B}(X, Y, Z)` in the
+    magnet is given by
+
+    .. math::
+
+        \begin{align}
+            B_X &= 0 \\
+            B_Y &= 4G_0(Y^2 − Z^2)YZ \\
+            B_Z &= G_0(Y^4 − 6Y^2Z^2 + Z^4)
+        \end{align}
     """
     KEYWORD = 'DECAPOLE'
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': 0,
-        'XL': 0 * _ureg.centimeter,
-        'R0': 1.0 * _ureg.centimeter,
-        'B0': 0 * _ureg.kilogauss,
-        'XE': 0 * _ureg.centimeter,
-        'LAM_E': 0 * _ureg.centimeter,
-        'C0': 0,
-        'C1': 1,
-        'C2': 0,
-        'C3': 0,
-        'C4': 0,
-        'C5': 0,
-        'XS': 0 * _ureg.centimeter,
-        'LAM_S': 0 * _ureg.centimeter,
-        'XPAS': 0.1 * _ureg.centimeter,
-        'KPOS': 1,
-        'XCE': 0 * _ureg.centimeter,
-        'YCE': 0 * _ureg.centimeter,
-        'ALE': 0 * _ureg.radian,
+        'IL': (2, "Print field and coordinates along trajectories", 1),
+        'XL': (10.0 * _ureg.centimeter, "Magnet length (straight reference frame)", 10),
+        'R0': (10.0 * _ureg.centimeter, 'Radius of the pole tips', 11),
+        'B0': (0 * _ureg.kilogauss, 'Field at pole tips', 12),
+        'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 20),
+        'LAM_E': (0 * _ureg.centimeter, 'Entrance face fringe field extent', 21),
+        'NCE': (0, 'UNUSED', 30),
+        'C0_E': (0, 'Fringe field coefficient C0', 31),
+        'C1_E': (1, 'Fringe field coefficient C1', 32),
+        'C2_E': (0, 'Fringe field coefficient C2', 33),
+        'C3_E': (0, 'Fringe field coefficient C3', 34),
+        'C4_E': (0, 'Fringe field coefficient C4', 35),
+        'C5_E': (0, 'Fringe field coefficient C5', 36),
+        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field', 40),
+        'LAM_S': (0 * _ureg.centimeter, 'Exit face fringe field extent', 41),
+        'NCS': (0, 'UNUSED', 50),
+        'C0_S': (0, 'Fringe field coefficient C0', 51),
+        'C1_S': (1, 'Fringe field coefficient C1', 52),
+        'C2_S': (0, 'Fringe field coefficient C2', 53),
+        'C3_S': (0, 'Fringe field coefficient C3', 54),
+        'C4_S': (0, 'Fringe field coefficient C4', 55),
+        'C5_S': (0, 'Fringe field coefficient C5', 56),
+        'XPAS': (0.1 * _ureg.centimeter, 'Integration step', 60),
+        'KPOS': (1, 'Misalignment type', 70),
+        'XCE': (0 * _ureg.centimeter, 'x offset', 71),
+        'YCE': (0 * _ureg.centimeter, 'y offset', 72),
+        'ALE': (0 * _ureg.radian, 'misalignment rotation', 73),
+        'COLOR': ('#FF0000', 'Magnet color for plotting.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
         commands (e.g. fit)."""
@@ -2210,26 +2431,26 @@ class Quadrupole(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, 'Print field and coordinates along trajectories', 0),
+        'IL': (0, 'Print field and coordinates along trajectories', 1),
         'XL': (0 * _ureg.centimeter, 'Magnet length', 10),
         'R0': (1.0 * _ureg.centimeter, 'Radius of the pole tips', 11),
         'B0': (0 * _ureg.kilogauss, 'Field at pole tips', 12),
         'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 20),
         'LAM_E': (0 * _ureg.centimeter, 'Entrance face fringe field extent', 21),
-        'C0_E': 0,
-        'C1_E': 1,
-        'C2_E': 0,
-        'C3_E': 0,
-        'C4_E': 0,
-        'C5_E': 0,
-        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field'),
-        'LAM_S': (0 * _ureg.centimeter, 'Exit face fringe field extent'),
-        'C0_S': 0,
-        'C1_S': 1,
-        'C2_S': 0,
-        'C3_S': 0,
-        'C4_S': 0,
-        'C5_S': 0,
+        'C0_E': (0, 'Fringe field coefficient C0', 31),
+        'C1_E': (1, 'Fringe field coefficient C1', 32),
+        'C2_E': (0, 'Fringe field coefficient C2', 33),
+        'C3_E': (0, 'Fringe field coefficient C3', 34),
+        'C4_E': (0, 'Fringe field coefficient C4', 35),
+        'C5_E': (0, 'Fringe field coefficient C5', 36),
+        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field', 40),
+        'LAM_S': (0 * _ureg.centimeter, 'Exit face fringe field extent', 41),
+        'C0_S': (0, 'Fringe field coefficient C0', 51),
+        'C1_S': (1, 'Fringe field coefficient C1', 52),
+        'C2_S': (0, 'Fringe field coefficient C2', 53),
+        'C3_S': (0, 'Fringe field coefficient C3', 54),
+        'C4_S': (0, 'Fringe field coefficient C4', 55),
+        'C5_S': (0, 'Fringe field coefficient C5', 56),
         'XPAS': (0.1 * _ureg.centimeter, 'Integration step', 60),
         'KPOS': (1, 'Misalignment type', 70),
         'XCE': (0 * _ureg.centimeter, 'x offset', 71),

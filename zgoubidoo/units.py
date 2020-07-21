@@ -126,6 +126,14 @@ def _kilogauss(q: Union[str, _Q]) -> float:
     """
     return float(q.to('kilogauss').magnitude)
 
+@parse_quantity
+def _ampere(q: Union[str, _Q]) -> float:
+    """
+    :param q: the quantity of dimension [AMPERE]
+    :return: the magnitude in ampere.
+    """
+    return float(q.to('ampere').magnitude)
+
 
 @parse_quantity
 def _mev(q: Union[str, _Q]) -> float:
