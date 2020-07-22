@@ -935,7 +935,7 @@ class Decapole(CartesianMagnet):
 
     with :math:`G0=\frac{B_0}{R_0^4}`
     The modelling of the fringe field form factor G(X) is described under ``QUADRUPO``, p. 128.
-    Outside fringe field regions, or everywhere in sharp edge decapole (λE = λS = 0) , :math:`\vec{B}(X, Y, Z)` in the
+    Outside fringe field regions, or everywhere in sharp edge decapole (:math:`λ_E = λ_S = 0`) , :math:`\vec{B}(X, Y, Z)` in the
     magnet is given by
 
     .. math::
@@ -1623,49 +1623,75 @@ class Dipoles(PolarMultiMagnet):
 
 
 class Dodecapole(CartesianMagnet):
-    """Dodecapole magnet.
+    r"""Dodecapole magnet.
 
-    TODO
+    .. rubric:: Zgoubi manual description
+
+    The meaning of parameters for ``DODECAPO`` is the same as for ``QUADRUPO``.
+
+    In fringe field regions the magnetic field :math:`\vec{B}(X, Y, Z)` and its derivatives up to fourth order are derived
+    from the scalar potential approximated to the 6th order in Y and Z
+
+    .. math::
+
+        V(X,Y,Z) = G(X)(Y^4 − \frac{10}{3} Y^2 Z^2 + Z^4) YZ
+
+    with :math:`G_0 = \frac{B_0}{R_0^5}`
+
+    The modelling of the fringe field form factor G(X) is described under ``QUADRUPO``, p. 152.
+    Outside fringe field regions, or everywhere in sharp edge dodecapole (:math:`λ_E = λ_S = 0`),
+    :math:`\vec{B}(X, Y, Z)` in the magnet is given by
+
+    .. math::
+
+        \begin{align}
+            B_X &= 0 \\
+            B_Y &= G_0 (5 Y^4 − 10 Y^2 Z^2 + Z^4) Z \\
+            B_Z &= G_0 (Y^4 − 10 Y^2 Z^2 + 5 Z^4) Y
+        \end{align}
     """
+
     KEYWORD = 'DODECAPO'
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': 0,
-        'XL': 0 * _ureg.centimeter,
-        'R0': 1.0 * _ureg.centimeter,
-        'B0': 0 * _ureg.kilogauss,
-        'XE': 0 * _ureg.centimeter,
-        'LAM_E': 0 * _ureg.centimeter,
-        'C0': 0,
-        'C1': 1,
-        'C2': 0,
-        'C3': 0,
-        'C4': 0,
-        'C5': 0,
-        'XS': 0 * _ureg.centimeter,
-        'LAM_S': 0 * _ureg.centimeter,
-        'XPAS': 0.1 * _ureg.centimeter,
-        'KPOS': 1,
-        'XCE': 0 * _ureg.centimeter,
-        'YCE': 0 * _ureg.centimeter,
-        'ALE': 0 * _ureg.radian,
+        'IL': (0, 'Print field and coordinates along trajectories', 1),
+        'XL': (0.0 * _ureg.centimeter, 'Magnet length', 10),
+        'R0': (10.0 * _ureg.centimeter, 'Radius of the pole tips', 11),
+        'B0': (0.0 * _ureg.kilogauss, 'Field at pole tip', 12),
+        'XE': (0.0* _ureg.centimeter, 'Entrance face integration zone extent for the fringe field', 20),
+        'LAM_E': (0.0 * _ureg.centimeter, 'Entrance face fringe field extent (λ_E = 0 for sharp edge)', 21),
+        # NCE: (0, 'UNUSED', 7)
+        'C0': (0.0, 'Fringe field coefficient C0', 31),
+        'C1': (1.0, 'Fringe field coefficient C1', 32),
+        'C2': (0.0, 'Fringe field coefficient C2', 33),
+        'C3': (0.0, 'Fringe field coefficient C3', 34),
+        'C4': (0.0, 'Fringe field coefficient C4', 35),
+        'C5': (0.0, 'Fringe field coefficient C5', 36),
+        'XS': (0.0 * _ureg.centimeter, 'Exit face integration zone extent for the fringe field', 40),
+        'LAM_S': (0.0 * _ureg.centimeter, 'Exit face fringe field extent', 41),
+        'XPAS': (0.1 * _ureg.centimeter, 'Integration step', 60),
+        'KPOS': (1, 'Alignment parameter: 1 (element aligned) or 2 (misaligned)', 70),
+        'XCE': (0.0 * _ureg.centimeter, 'X shift', 71),
+        'YCE': (0.0 * _ureg.centimeter, 'Y shift', 72),
+        'ALE': (0.0 * _ureg.radian, 'Tilt', 73),
+        'COLOR': ('green', 'Magnet color for plotting.'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(s):
         return f"""
-        {super().__str__().rstrip()}
-        {s.IL}
-        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {s.B0.to('kilogauss').magnitude:.12e}
-        {s.XE.to('centimeter').magnitude:.12e} {s.LAM_E.to('centimeter').magnitude:.12e}
-        6 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
-        {s.XS.to('centimeter').magnitude:.12e} {s.LAM_S.to('centimeter').magnitude:.12e}
-        6 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
-        {_cm(s.XPAS)}
-        {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
-        """
+         {super().__str__().rstrip()}
+         {s.IL}
+         {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B0):.12e}
+         {_cm(s.XE):.12e} {_cm(s.LAM_E):.12e}
+         6 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
+         {_cm(s.XS):.12e} {_cm(s.LAM_S):.12e}
+         6 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
+         {_cm(s.XPAS):.12e}
+         {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
+         """
 
 
 class Drift(CartesianMagnet):
@@ -1754,58 +1780,66 @@ class Emma(CartesianMagnet):
 
 
 class FFAG(PolarMultiMagnet):
-    """FFAG magnet, N-tuple.
+    r"""FFAG magnet, N-tuple.
 
     .. rubric:: Zgoubi manual description
 
-    ``FFAG`` works much like ``DIPOLES` as to the field modelling, apart from the radial dependence of the field, B = B0(r/r0)^k, `
-    so-called “scaling”. Note that ``DIPOLES`` does similar job by using a Taylor r-expansion of B0(r/r0)^k.
-    The FFAG procedure allows overlapping of fringe fields of neighboring dipoles, thus simulating in some sort the field in a dipole N-tuple -
-    as for instance in an FFAG doublet or triplet. A detailed application, with five dipoles, can be found in Ref. [44]. This is done in the way described below.
+    ``FFAG`` works much like ``DIPOLES`` as to the field modelling, apart from the radial dependence of the field,
+    :math:`B = B_0 (\frac{r}{r_0})^k`, so-called “scaling”. Note that ``DIPOLES`` does similar job by using a Taylor
+    r-expansion of :math:`B_0(\frac{r}{r_0})^k`. The FFAG procedure allows overlapping of fringe fields of neighboring
+    dipoles, thus simulating in some sort the field in a dipole N-tuple - as for instance in an FFAG doublet or triplet.
+    A detailed application, with five dipoles, can be found in Ref. [44]. This is done in the way described below.
 
     The dimensioning of the magnet is defined by :
 
         - AT : total angular aperture
         - RM : mean radius used for the positioning of field boundaries
 
-    For each one of the N = 1 to (maximum) 5 dipoles of the N-tuple, the two effective field boundaries (entrance and exit EFBs) from which the dipole field is drawn
-    are defined from geometric boundaries, the shape and position of which are determined by the following parameters
-    (in the same manner as in DIPOLE, DIPOLE-M ) (see Fig. 11-A page 98, and Fig. 31) :
+    For each one of the N = 1 to (maximum) 5 dipoles of the N-tuple, the two effective field boundaries
+    (entrance and exit EFBs) from which the dipole field is drawn are defined from geometric boundaries,
+    the shape and position of which are determined by the following parameters
+    (in the same manner as in ``DIPOLE``, ``DIPOLE-M`` ) (see Fig. 11-A page 98, and Fig. 31):
 
-    - ACN_i : arbitrary inner angle, used for EFBs positioning
-    - ω : azimuth of an EFB with respect to ACN
-    - θ : angle of an EFB with respect to its azimuth (wedge angle)
-    - R1, R2 : radius of curvature of an EFB
-    - U1, U2 : extent of the linear part of an EFB
+        - :math:`ACN_i` : arbitrary inner angle, used for EFBs positioning
+        - ω : azimuth of an EFB with respect to ACN
+        - θ : angle of an EFB with respect to its azimuth (wedge angle)
+        - R1, R2 : radius of curvature of an EFB
+        - U1, U2 : extent of the linear part of an EFB
 
+    *Calculation of the Field From a Single Dipole*
 
-    Calculation of the Field From a Single Dipole
-
-    The magnetic field is calculated in polar coordinates. At all (R, θ) in the median plane (z = 0), the magnetic field due a single one (index i) of the dipoles of a N -tuple FFAG magnet is written
-                    BZ_i(R, θ) = BZ_{0,i} F_i(R, θ) (R/RM)^{K_i}
-    wherein BZ0,i is a reference field, at reference radius RM_i, whereas F(R,θ) is calculated as described below.
-
-
-    Calculation of F_i(R, θ)
-
-    The fringe field coefficient F_i(R, θ) associated with a dipole is computed as in the procedure DIPOLES (eq. 6.4.16),
-    including (rigorously if the interpolation method is used, see page 125, or to order zero if the analytic method is used, see page 125) radial dependence of the gap size
-                g(R) = g_0 (RM/R)^κ (6.4.19)
-    so to simulate the effect of gap shaping on BZ_i(R,θ)|R field fall-off, over the all radial extent of a scaling FFAG dipole (with normally - but not necessarily in practice - κ ≈ Ki).
+    The magnetic field is calculated in polar coordinates. At all (R, θ) in the median plane (z = 0),
+    the magnetic field due a single one (index i) of the dipoles of a N-tuple FFAG magnet is written
+    $$B_{Z_i}(R, θ) = B_{Z_{0,i}} F_i(R, θ) (R/RM)^{K_i}$$
+    wherein :math:`B_{Z_{0,i}}` is a reference field, at reference radius :math:`RM_i`,
+    whereas F(R,θ) is calculated as described below.
 
 
-    Calculation of the Field Resulting From All N Dipoles
+    *Calculation of* :math:`F_i(R, θ)`
 
-    For the rest, namely, calculation of the full field at particle position from the N dipoles, analytical calculation or numerical interpolation of the mid-plane field derivatives,
-    extrapolation off median plane, etc., things are performed exactly as in the case of the ``DIPOLES`` procedure (see page 125).
+    The fringe field coefficient :math:`F_i(R, θ)` associated with a dipole is computed as in the procedure ``DIPOLES``
+    (eq. 6.4.16), including (rigorously if the interpolation method is used, see page 125, or to order zero
+    if the analytic method is used, see page 125) radial dependence of the gap size
+    $$g(R) = g_0 (RM/R)^κ (6.4.19) $$
+    so to simulate the effect of gap shaping on :math:`B_{Z_i}(R,θ)|_R` field fall-off, over the all radial extent of a
+    scaling FFAG dipole (with normally - but not necessarily in practice - κ ≈ Ki).
 
+    *Calculation of the Field Resulting From All N Dipoles*
 
-    Sharp Edge
+    For the rest, namely, calculation of the full field at particle position from the N dipoles, analytical calculation
+    or numerical interpolation of the mid-plane field derivatives, extrapolation off median plane, etc.,
+    things are performed exactly as in the case of the ``DIPOLES`` procedure (see page 125).
+
+    *Sharp Edge*
 
     Sharp edge field fall-off at a field boundary can only be simulated if the following conditions are fulfilled :
-        - entrance (resp. exit) field boundary coincides with entrance (resp. exit) dipole limit (it means in particular, see Fig. 11,
-        ω^+ = ACENT (resp. ω^- = −(AT − ACENT)), together with θ = 0 at entrance (resp. exit) EFBs),
-        - analytical method for calculation of the mid-plane field derivatives is used.
+
+        - Entrance (resp. exit) field boundary coincides with entrance (resp. exit) dipole limit (it means in particular
+          see Fig. 11, :math:`ω^+ = ACENT` (resp. :math:`ω^- = −(AT − ACENT`)), together with θ = 0 at entrance
+          (resp. exit) EFBs)
+
+        - Analytical method for calculation of the mid-plane field derivatives is used.
+
     """
 
     KEYWORD = 'FFAG'
@@ -1816,11 +1850,18 @@ class FFAG(PolarMultiMagnet):
         'N': (1, 'Number of dipoles in the FFAG N -tuple (maximum 5)', 2),
         'AT': (0.0 * _ureg.degree, 'Total angular extent of the N dipoles', 3),
         'RM': (0.0 * _ureg.centimeter, 'Reference radius: mean radius used for the positioning of field boundaries', 4),
+        # For each magnet in the N-tuple
         'ACN': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth for dipole positioning', 5),
-        'DRM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Offset for the reference radius of each dipole : RM_i  = RM +DELTA_RM', 6),
+        'DRM': (
+            [0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter,
+            'Offset for the reference radius of each dipole RM_i  = RM + DRM', 6
+        ),
         'BZ0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, 'Field of each dipole', 7),
         'K': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Field index for each dipole', 8),
-        'G0_E': ([0.00000001, 0.00000001, 0.00000001, 0.00000001, 0.00000001] * _ureg.cm, 'Reference gaps for the entrance fringe fields of each dipole.',9),
+        'G0_E': (
+            [0.00000001, 0.00000001, 0.00000001, 0.00000001, 0.00000001] * _ureg.cm,
+            'Reference gaps for the entrance fringe fields of each dipole.', 9
+        ),
         'K_E': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 10),
         'C0_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 12),
         'C1_E': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 13),
@@ -1835,7 +1876,10 @@ class FFAG(PolarMultiMagnet):
         'U1_E': ([-1e9, -1e9, -1e9, -1e9, -1e9] * _ureg.centimeter, 'Entrance EFB linear extent', 22),
         'U2_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB linear extent', 23),
         'R2_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB radius', 24),
-        'G0_S': ([0.00000001, 0.00000001, 0.00000001, 0.00000001, 0.00000001] * _ureg.cm, 'Reference gaps for the exit fringe fields of each dipole.', 25),
+        'G0_S': (
+            [0.00000001, 0.00000001, 0.00000001, 0.00000001, 0.00000001] * _ureg.cm,
+            'Reference gaps for the exit fringe fields of each dipole.', 25
+        ),
         'K_S': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 26),
         'C0_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 28),
         'C1_S': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 29),
@@ -1850,7 +1894,10 @@ class FFAG(PolarMultiMagnet):
         'U1_S': ([-1e9, -1e9, -1e9, -1e9, -1e9] * _ureg.centimeter, 'Exit EFB linear extent', 38),
         'U2_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB linear extent', 39),
         'R2_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB radius', 40),
-        'G0_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm, 'UNUSED Reference gaps for the lateral fringe fields of each dipole.', 41),
+        'G0_L': (
+            [0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm,
+            'UNUSED Reference gaps for the lateral fringe fields of each dipole.', 41
+        ),
         'K_L': ([-1, -1, -1, -1, -1], 'UNUSED Fringe field parameter kappa', 42),
         'C0_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C0', 44),
         'C1_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C1', 45),
@@ -1865,7 +1912,11 @@ class FFAG(PolarMultiMagnet):
         'U1_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB linear extent', 54),
         'U2_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB linear extent', 55),
         'R2_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB radius', 56),
-        'KIRD': (2, 'Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives', 57),  #The fit index depends on the number of magnets in the FFAG N -tuple (+52 for each new magnet)
+        # General parameters
+        # The fit index depends on the number of magnets in the FFAG N -tuple (+52 for each new magnet)
+        'KIRD': (
+            2, 'Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives', 57
+        ),
         'RESOL': (2, '', 58),
         'XPAS': (1.0 * _ureg.millimeter, 'Integration step', 59),
         'KPOS': (2, '', 60),
@@ -1954,48 +2005,52 @@ class FFAG(PolarMultiMagnet):
 
 
 class FFAGSpirale(PolarMultiMagnet):
-    """Spiral FFAG magnet, N-tuple.
+    r"""Spiral FFAG magnet, N-tuple.
 
     .. rubric:: Zgoubi manual description
 
-    ``FFAG-SPI`` works much like ``FFAG`` asto the field modelling, with essentially a different axial dependence.
-    The ``FFAG-SPI` procedure allows overlapping of fringe fields of neighboring dipoles, thus simulating in some sort `
-    the field in a dipole N -tuple (similar to Fig. 31, page 137). This allows for instance accounting for fringe field effects, or clamps, as schemed in Fig. 32.
+    ``FFAG-SPI`` works much like ``FFAG`` as to the field modelling, with essentially a different axial dependence.
+    The ``FFAG-SPI`` procedure allows overlapping of fringe fields of neighboring dipoles, thus simulating in some sort
+    the field in a dipole N-tuple (similar to Fig. 31, page 137).
+    This allows for instance accounting for fringe field effects, or clamps, as schemed in Fig. 32.
 
     The dimensioning of the magnet is defined by :
+
         - AT : total angular aperture
         - RM : mean radius used for the positioning of field boundaries
 
-    For each one of the N = 1 to (maximum) 5 dipoles of the N-tuple, the two effective field boundaries (entrance and exit EFBs) from which the dipole field is drawn
-    are defined from geometric boundaries, the shape and position of which are determined by the following parameters:
+    For each one of the N = 1 to (maximum) 5 dipoles of the N-tuple, the two effective field boundaries
+    (entrance and exit EFBs) from which the dipole field is drawn are defined from geometric boundaries,
+    the shape and position of which are determined by the following parameters:
 
-        - ACN_i : arbitrary inner angle, used for EFBs positioning
+        - :math:`ACN_i` : arbitrary inner angle, used for EFBs positioning
         - ω : azimuth of an EFB with respect to ACN
         - ξ : spiral angle
 
-    with ACN_i and ω as defined in Fig. 32 (similar to what can be found in Figs. 31 and 11-A).
+    with :math:`ACN_i` and ω as defined in Fig. 32 (similar to what can be found in Figs. 31 and 11-A).
 
-
-    Calculation of the Field From a Single Dipole
+    *Calculation of the Field From a Single Dipole*
 
     The magnetic field is calculated in polar coordinates. At all (R, θ) in the median plane (Z = 0),
-    the magnetic field due a single one (index i) of the dipoles of a N -tuple spiral FFAG magnet is written
-                BZ_i(R, θ) = BZ_{0,i} F_i(R, θ) (R/RM )^{K_i}
-    wherein BZ_0,i is a reference field, at reference radius RMi, whereas F(R,θ) is calculated as described below.
+    the magnetic field due a single one (index i) of the dipoles of a N-tuple spiral FFAG magnet is written
+    $$B_{Z_i}(R, θ) = B_{Z_{0,i}} F_i(R, θ) (R/RM )^{K_i}$$
+    wherein :math:`B_{Z_{0,i}}` is a reference field, at reference radius :math:`RM_i`, whereas :math:`F(R,θ)` is
+    calculated as described below.
+
+    *Calculation of* :math:`F_i(R, θ)`
+
+    The fringe field coefficient :math:`F_i(R, θ)` associated with a dipole is computed as in the procedure ``DIPOLES``
+    (eq. 6.4.16), including radial dependence of the gap size :
+    $$g(R) = g_0 (RM/R)^κ$$
+    so to simulate the effect of gap shaping on :math:`B_{Z_i}(R,θ)|_R` field fall-off, over the all radial extent of
+    the dipole (with normally - yet not necessarily in practice - κ ≈ Ki).
 
 
-    Calculation of F_i(R, θ)
+    *Calculation of the Full Field From All N Dipoles*
 
-    The fringe field coefficient F_i(R, θ) associated with a dipole is computed as in the procedure ``DIPOLES`` (eq. 6.4.16),
-    including radial dependence of the gap size :
-                g(R) = g_0 (RM/R)^κ (6.4.20)
-    so to simulate the effect of gap shaping on BZ_i(R,θ)|R field fall-off, over the all radial extent of the dipole (with normally - yet not necessarily in practice - κ ≈ Ki).
-
-
-    Calculation of the Full Field From All N Dipoles
-
-    For the rest, namely calculation of the full field at particle position, as resulting from the N dipoles, calculation of the mid-plane field derivatives,
-    extrapolation off median plane, etc., things are performed in the same manner as for the DIPOLES procedure (see page 125).
+    For the rest, namely calculation of the full field at particle position, as resulting from the N dipoles,
+    calculation of the mid-plane field derivatives, extrapolation off median plane, etc.,
+    things are performed in the same manner as for the ``DIPOLES`` procedure (see page 125).
     """
 
     KEYWORD = 'FFAG-SPI'
@@ -2008,10 +2063,16 @@ class FFAGSpirale(PolarMultiMagnet):
         'RM': (0.0 * _ureg.centimeter, 'Reference radius: mean radius used for the positioning of field boundaries', 4),
         # For each magnet in the n-tuple
         'ACN': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth for dipole positioning', 5),
-        'DRM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Reference radius offset of each dipole : RM_i  = RM +DELTA_RM', 6),
+        'DRM': (
+            [0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter,
+            'Reference radius offset of each dipole : RM_i  = RM + DRM', 6
+        ),
         'BZ0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, 'Field at the reference radius of each dipole', 7),
         'K': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Field index for each dipole', 8),
-        'G0_E': ([0.00000001, 0.00000001, 0.00000001, 0.00000001, 0.00000001] * _ureg.cm, 'Reference gaps for the entrance fringe fields of each dipole.', 9),
+        'G0_E': (
+            [0.00000001, 0.00000001, 0.00000001, 0.00000001, 0.00000001] * _ureg.cm,
+            'Reference gaps for the entrance fringe fields of each dipole.', 9
+        ),
         'K_E': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 10),
         'NCE': ([0, 0, 0, 0, 0], 'UNUSED', 11),
         'C0_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 12),
@@ -2023,7 +2084,10 @@ class FFAGSpirale(PolarMultiMagnet):
         'SHIFT_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB', 18),
         'OMEGA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth of an EFB with respect to ACN', 19),
         'XI_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Spiral angle', 20),
-        'G0_S': ([0.00000001, 0.00000001, 0.00000001, 0.00000001, 0.00000001] * _ureg.cm,'Reference gaps for the exit fringe fields of each dipole.', 25),
+        'G0_S': (
+            [0.00000001, 0.00000001, 0.00000001, 0.00000001, 0.00000001] * _ureg.cm,
+            'Reference gaps for the exit fringe fields of each dipole.', 25
+        ),
         'K_S': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 26),
         'NCS': ([0, 0, 0, 0, 0], 'UNUSED', 27),
         'C0_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 28),
@@ -2035,7 +2099,10 @@ class FFAGSpirale(PolarMultiMagnet):
         'SHIFT_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB', 34),
         'OMEGA_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth of an EFB with respect to ACN', 35),
         'XI_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Spiral angle', 36),
-        'G0_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm, 'UNUSED Reference gaps for the lateral fringe fields of each dipole.',41),
+        'G0_L': (
+            [0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm,
+            'UNUSED Reference gaps for the lateral fringe fields of each dipole.',41
+        ),
         'K_L': ([-1, -1, -1, -1, -1], 'UNUSED Fringe field parameter kappa', 42),
         'NCL': ([0, 0, 0, 0, 0], 'UNUSED', 43),
         'C0_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C0', 44),
@@ -2052,11 +2119,13 @@ class FFAGSpirale(PolarMultiMagnet):
         'U2_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB linear extent', 55),
         'R2_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB radius', 56),
         # General parameters
-        'KIRD': (2, 'Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives', 57),
-        # The fit index depends on the number of magnets in the FFAG_SPI N -tuple (+52 for each new magnet)
+        # The fit index depends on the number of magnets in the FFAG_SPI N-tuple (+52 for each new magnet)
+        'KIRD': (
+            2, 'Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives', 57
+        ),
         'RESOL': (2, '', 58),
         'XPAS': (1.0 * _ureg.millimeter, 'Integration step', 59),
-        #        'KPOS': (2, '', 60), #D'office 2 pour le FFA-SPI
+        # 'KPOS': (2, '', 60), # KPOS = 2 for FFA-SPI
         'RE': (0.0 * _ureg.centimeter, '', 61),
         'TE': (0.0 * _ureg.radian, '', 62),
         'RS': (0.0 * _ureg.centimeter, '', 63),

@@ -130,3 +130,4 @@ installation of ``jupyter`` with the ``conda`` extensions::
 From there you can create a new notebook and simply import Zgoubidoo::
 
     import zgoubidoo
+
