@@ -2,7 +2,7 @@
 TODO
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, Dict, Optional, Union
 import numpy as _np
 import pandas as _pd
 from georges_core.vis import PlotlyArtist as _PlotlyArtist
@@ -157,14 +157,14 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
         def add_svg_path(points, reference_frame: str = 'entry_patched',
                          color: Optional[str] = None,
-                         opacity: Optional[float] = 0.5, shape=''):
+                         opacity: Optional[float] = 0.5, shape='', line: Dict[str, float] = None):
             points = points.dot(_np.linalg.inv(getattr(e, reference_frame).get_rotation_matrix())) + _np.array([
                 getattr(e, reference_frame).x_, getattr(e, reference_frame).y_, 0.0
             ])
             if shape == 'lines':
                 self.scatter(x=points[0],
                              y=points[1],
-                             line={'width': 2, 'color': 'black'},
+                             line=line,
                              mode='lines',
                              showlegend=False)
             else:
@@ -235,7 +235,9 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             mus = _np.linspace(mu0, mu0 - sign_up * delta_mu, points_in_polar_paths)
             x = xr + _np.abs(radius) * _np.cos(mus)
             y = yr + _np.abs(radius) * _np.sin(mus)
-            add_svg_path(points=_np.array([x, y, 0]), reference_frame=reference_frame, shape='lines')
+            add_svg_path(points=_np.array([x, y, 0]), reference_frame=reference_frame, shape='lines',
+                         line={'width': 2,
+                               'color': 'black'})
 
         def plot_polar_magnet():
             if with_magnet_poles:
@@ -320,29 +322,54 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
             add_svg_path(_np.array(pts), reference_frame=reference_frame, opacity=0.2)
 
-            self.scatter(x=[0, (r + 1.2 * width / 2) * _np.sin(reference_angle)],
-                         y=[-r, -r + (r + 1.2 * width / 2) * _np.cos(reference_angle)],
-                         line={'color': 'black',
-                               'width': 1,
-                               'dash': 'dash'},
-                         mode='lines',
-                         showlegend=False)
+            x0 = 0
+            y0 = -r
 
-            self.scatter(x=[0, (r + 1.2 * width / 2) * _np.sin(reference_angle - omega_e)],
-                         y=[-r, -r + (r + 1.2 * width / 2) * _np.cos(reference_angle - omega_e)],
-                         line={'color': 'black',
-                               'width': 1,
-                               'dash': 'dash'},
-                         mode='lines',
-                         showlegend=False)
+            x1 = x0 + (r + 1.2 * width / 2) * _np.sin(reference_angle)
+            y1 = y0 + (r + 1.2 * width / 2) * _np.cos(reference_angle)
 
-            self.scatter(x=[0, (r + 1.2 * width / 2) * _np.sin(reference_angle - omega_s)],
-                         y=[-r, -r + (r + 1.2 * width / 2) * _np.cos(reference_angle - omega_s)],
+            x = _np.array([x0, x1])
+            y = _np.array([y0, y1])
+            add_svg_path(points=_np.array([x, y, 0]),
+                         reference_frame=reference_frame,
+                         shape='lines',
                          line={'color': 'black',
                                'width': 1,
-                               'dash': 'dash'},
-                         mode='lines',
-                         showlegend=False)
+                               'dash': 'dash'})
+
+            x1 = x0 + (r + 1.2 * width / 2) * _np.sin(reference_angle)
+            y1 = y0 + (r + 1.2 * width / 2) * _np.cos(reference_angle)
+
+            x = _np.array([x0, x1])
+            y = _np.array([y0, y1])
+            add_svg_path(points=_np.array([x, y, 0]),
+                         reference_frame=reference_frame,
+                         shape='lines',
+                         line={'color': 'black',
+                               'width': 1,
+                               'dash': 'dash'})
+
+            x1 = x0 + (r + 1.2 * width / 2) * _np.sin(reference_angle - omega_e)
+            y1 = y0 + (r + 1.2 * width / 2) * _np.cos(reference_angle - omega_e)
+            x = _np.array([x0, x1])
+            y = _np.array([y0, y1])
+            add_svg_path(points=_np.array([x, y, 0]),
+                         reference_frame=reference_frame,
+                         shape='lines',
+                         line={'color': 'black',
+                               'width': 1,
+                               'dash': 'dash'})
+
+            x1 = x0 + (r + 1.2 * width / 2) * _np.sin(reference_angle - omega_s)
+            y1 = y0 + (r + 1.2 * width / 2) * _np.cos(reference_angle - omega_s)
+            x = _np.array([x0, x1])
+            y = _np.array([y0, y1])
+            add_svg_path(points=_np.array([x, y, 0]),
+                         reference_frame=reference_frame,
+                         shape='lines',
+                         line={'color': 'black',
+                               'width': 1,
+                               'dash': 'dash'})
 
             # Plot the fringes
             # TODO better notation or default values
