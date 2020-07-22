@@ -55,7 +55,8 @@ _ZGOUBI_PLT_HEADERS = ['# KEX',
                        'MXITR',
                        'FIT#',
                        'FITBYD',
-                       'FITLST'
+                       'FITLST',
+                       'KFLD'
                        ]
 """Headers of the Zgoubi .plt files."""
 
