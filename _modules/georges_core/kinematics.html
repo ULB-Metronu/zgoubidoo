@@ -31,6 +31,7 @@
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -241,14 +242,14 @@
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_p</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"></span>
-<span class="s2">        Total energy: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">etot</span><span class="si">}</span><span class="s2"></span>
-<span class="s2">        Kinetic energy: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ekin</span><span class="si">}</span><span class="s2"></span>
-<span class="s2">        Momentum: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">momentum</span><span class="si">}</span><span class="s2"></span>
-<span class="s2">        Magnetic rigidity: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">brho</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;tesla meter&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"></span>
-<span class="s2">        Range in water (protons only): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">range</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span> <span class="o">==</span> <span class="n">_Proton</span> <span class="k">else</span> <span class="n">_np</span><span class="o">.</span><span class="n">nan</span><span class="si">}</span><span class="s2"></span>
-<span class="s2">        Relativistic pv: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pv</span><span class="si">}</span><span class="s2"></span>
-<span class="s2">        Relativistic beta: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="si">}</span><span class="s2"></span>
-<span class="s2">        Relativistic gamma: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        (.etot) Total energy: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">etot</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        (.ekin) Kinetic energy: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ekin</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        (.momentum) Momentum: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">momentum</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        (.brho): Magnetic rigidity: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">brho</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;tesla meter&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        (.range): Range in water (protons only): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">range</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span> <span class="o">==</span> <span class="n">_Proton</span> <span class="k">else</span> <span class="n">_np</span><span class="o">.</span><span class="n">nan</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        (.pv): Relativistic pv: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pv</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        (.beta): Relativistic beta: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        (.gamma): Relativistic gamma: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        &quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>

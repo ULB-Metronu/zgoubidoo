@@ -31,6 +31,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -227,10 +228,11 @@
 <dd><p>Bases: <a class="reference internal" href="zgoubidoo.commands.magnetique.PolarMultiMagnet.html#zgoubidoo.commands.magnetique.PolarMultiMagnet" title="zgoubidoo.commands.magnetique.PolarMultiMagnet"><code class="xref py py-class docutils literal notranslate"><span class="pre">zgoubidoo.commands.magnetique.PolarMultiMagnet</span></code></a></p>
 <p>FFAG magnet, N-tuple.</p>
 <p class="rubric">Zgoubi manual description</p>
-<p><code class="docutils literal notranslate"><span class="pre">FFAG</span></code> works much like <code class="docutils literal notranslate"><span class="pre">DIPOLES`</span> <span class="pre">as</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">field</span> <span class="pre">modelling,</span> <span class="pre">apart</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">radial</span> <span class="pre">dependence</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">field,</span> <span class="pre">B</span> <span class="pre">=</span> <span class="pre">B0(r/r0)^k,</span> <span class="pre">`</span>
-<span class="pre">so-called</span> <span class="pre">“scaling”.</span> <span class="pre">Note</span> <span class="pre">that</span> <span class="pre">``DIPOLES</span></code> does similar job by using a Taylor r-expansion of B0(r/r0)^k.
-The FFAG procedure allows overlapping of fringe fields of neighboring dipoles, thus simulating in some sort the field in a dipole N-tuple -
-as for instance in an FFAG doublet or triplet. A detailed application, with five dipoles, can be found in Ref. [44]. This is done in the way described below.</p>
+<p><code class="docutils literal notranslate"><span class="pre">FFAG</span></code> works much like <code class="docutils literal notranslate"><span class="pre">DIPOLES</span></code> as to the field modelling, apart from the radial dependence of the field,
+<span class="math notranslate nohighlight">\(B = B_0 (\frac{r}{r_0})^k\)</span>, so-called “scaling”. Note that <code class="docutils literal notranslate"><span class="pre">DIPOLES</span></code> does similar job by using a Taylor
+r-expansion of <span class="math notranslate nohighlight">\(B_0(\frac{r}{r_0})^k\)</span>. The FFAG procedure allows overlapping of fringe fields of neighboring
+dipoles, thus simulating in some sort the field in a dipole N-tuple - as for instance in an FFAG doublet or triplet.
+A detailed application, with five dipoles, can be found in Ref. [44]. This is done in the way described below.</p>
 <p>The dimensioning of the magnet is defined by :</p>
 <blockquote>
 <div><ul class="simple">
@@ -238,41 +240,46 @@ as for instance in an FFAG doublet or triplet. A detailed application, with five
 <li><p>RM : mean radius used for the positioning of field boundaries</p></li>
 </ul>
 </div></blockquote>
-<p>For each one of the N = 1 to (maximum) 5 dipoles of the N-tuple, the two effective field boundaries (entrance and exit EFBs) from which the dipole field is drawn
-are defined from geometric boundaries, the shape and position of which are determined by the following parameters
-(in the same manner as in DIPOLE, DIPOLE-M ) (see Fig. 11-A page 98, and Fig. 31) :</p>
-<ul class="simple">
-<li><p>ACN_i : arbitrary inner angle, used for EFBs positioning</p></li>
+<p>For each one of the N = 1 to (maximum) 5 dipoles of the N-tuple, the two effective field boundaries
+(entrance and exit EFBs) from which the dipole field is drawn are defined from geometric boundaries,
+the shape and position of which are determined by the following parameters
+(in the same manner as in <code class="docutils literal notranslate"><span class="pre">DIPOLE</span></code>, <code class="docutils literal notranslate"><span class="pre">DIPOLE-M</span></code> ) (see Fig. 11-A page 98, and Fig. 31):</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(ACN_i\)</span> : arbitrary inner angle, used for EFBs positioning</p></li>
 <li><p>ω : azimuth of an EFB with respect to ACN</p></li>
 <li><p>θ : angle of an EFB with respect to its azimuth (wedge angle)</p></li>
 <li><p>R1, R2 : radius of curvature of an EFB</p></li>
 <li><p>U1, U2 : extent of the linear part of an EFB</p></li>
 </ul>
-<p>Calculation of the Field From a Single Dipole</p>
-<dl class="simple">
-<dt>The magnetic field is calculated in polar coordinates. At all (R, θ) in the median plane (z = 0), the magnetic field due a single one (index i) of the dipoles of a N -tuple FFAG magnet is written</dt><dd><p>BZ_i(R, θ) = BZ_{0,i} F_i(R, θ) (R/RM)^{K_i}</p>
-</dd>
-</dl>
-<p>wherein BZ0,i is a reference field, at reference radius RM_i, whereas F(R,θ) is calculated as described below.</p>
-<p>Calculation of F_i(R, θ)</p>
-<p>The fringe field coefficient F_i(R, θ) associated with a dipole is computed as in the procedure DIPOLES (eq. 6.4.16),
-including (rigorously if the interpolation method is used, see page 125, or to order zero if the analytic method is used, see page 125) radial dependence of the gap size</p>
-<blockquote>
-<div><p>g(R) = g_0 (RM/R)^κ (6.4.19)</p>
 </div></blockquote>
-<p>so to simulate the effect of gap shaping on BZ_i(R,θ)|R field fall-off, over the all radial extent of a scaling FFAG dipole (with normally - but not necessarily in practice - κ ≈ Ki).</p>
-<p>Calculation of the Field Resulting From All N Dipoles</p>
-<p>For the rest, namely, calculation of the full field at particle position from the N dipoles, analytical calculation or numerical interpolation of the mid-plane field derivatives,
-extrapolation off median plane, etc., things are performed exactly as in the case of the <code class="docutils literal notranslate"><span class="pre">DIPOLES</span></code> procedure (see page 125).</p>
-<p>Sharp Edge</p>
-<dl>
-<dt>Sharp edge field fall-off at a field boundary can only be simulated if the following conditions are fulfilled :</dt><dd><ul class="simple">
-<li><p>entrance (resp. exit) field boundary coincides with entrance (resp. exit) dipole limit (it means in particular, see Fig. 11,</p></li>
+<p><em>Calculation of the Field From a Single Dipole</em></p>
+<p>The magnetic field is calculated in polar coordinates. At all (R, θ) in the median plane (z = 0),
+the magnetic field due a single one (index i) of the dipoles of a N-tuple FFAG magnet is written
+$$B_{Z_i}(R, θ) = B_{Z_{0,i}} F_i(R, θ) (R/RM)^{K_i}$$
+wherein <span class="math notranslate nohighlight">\(B_{Z_{0,i}}\)</span> is a reference field, at reference radius <span class="math notranslate nohighlight">\(RM_i\)</span>,
+whereas F(R,θ) is calculated as described below.</p>
+<p><em>Calculation of</em> <span class="math notranslate nohighlight">\(F_i(R, θ)\)</span></p>
+<p>The fringe field coefficient <span class="math notranslate nohighlight">\(F_i(R, θ)\)</span> associated with a dipole is computed as in the procedure <code class="docutils literal notranslate"><span class="pre">DIPOLES</span></code>
+(eq. 6.4.16), including (rigorously if the interpolation method is used, see page 125, or to order zero
+if the analytic method is used, see page 125) radial dependence of the gap size
+$$g(R) = g_0 (RM/R)^κ (6.4.19) $$
+so to simulate the effect of gap shaping on <span class="math notranslate nohighlight">\(B_{Z_i}(R,θ)|_R\)</span> field fall-off, over the all radial extent of a
+scaling FFAG dipole (with normally - but not necessarily in practice - κ ≈ Ki).</p>
+<p><em>Calculation of the Field Resulting From All N Dipoles</em></p>
+<p>For the rest, namely, calculation of the full field at particle position from the N dipoles, analytical calculation
+or numerical interpolation of the mid-plane field derivatives, extrapolation off median plane, etc.,
+things are performed exactly as in the case of the <code class="docutils literal notranslate"><span class="pre">DIPOLES</span></code> procedure (see page 125).</p>
+<p><em>Sharp Edge</em></p>
+<p>Sharp edge field fall-off at a field boundary can only be simulated if the following conditions are fulfilled :</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Entrance (resp. exit) field boundary coincides with entrance (resp. exit) dipole limit (it means in particular
+see Fig. 11, <span class="math notranslate nohighlight">\(ω^+ = ACENT\)</span> (resp. <span class="math notranslate nohighlight">\(ω^- = −(AT − ACENT\)</span>)), together with θ = 0 at entrance
+(resp. exit) EFBs)</p></li>
+<li><p>Analytical method for calculation of the mid-plane field derivatives is used.</p></li>
 </ul>
-<p>ω^+ = ACENT (resp. ω^- = −(AT − ACENT)), together with θ = 0 at entrance (resp. exit) EFBs),
-- analytical method for calculation of the mid-plane field derivatives is used.</p>
-</dd>
-</dl>
+</div></blockquote>
 <p class="rubric">Command attributes</p>
 <dl class="py attribute">
 <dt>
@@ -464,7 +471,7 @@ extrapolation off median plane, etc., things are performed exactly as in the cas
 <dl class="py attribute">
 <dt>
 <code class="sig-name descname">DRM='[0.0 0.0 0.0 0.0 0.0] centimeter'</code></dt>
-<dd><p>Offset for the reference radius of each dipole : RM_i  = RM +DELTA_RM</p>
+<dd><p>Offset for the reference radius of each dipole RM_i  = RM + DRM</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>Quantity</p>
@@ -1120,7 +1127,7 @@ extrapolation off median plane, etc., things are performed exactly as in the cas
 
 <dl class="py attribute">
 <dt id="zgoubidoo.commands.magnetique.FFAG.PARAMETERS">
-<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'ACN': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, 'Azimuth for dipole positioning', 5), 'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'AT': (&lt;Quantity(0.0, 'degree')&gt;, 'Total angular extent of the N dipoles', 3), 'BZ0': (&lt;Quantity([0. 0. 0. 0. 0.], 'kilogauss')&gt;, 'Field of each dipole', 7), 'C0_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 12), 'C0_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C0', 44), 'C0_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 28), 'C1_E': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 13), 'C1_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C1', 45), 'C1_S': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 29), 'C2_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 14), 'C2_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C2', 46), 'C2_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 30), 'C3_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 15), 'C3_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C3', 47), 'C3_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 31), 'C4_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 16), 'C4_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C4', 48), 'C4_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 32), 'C5_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 16), 'C5_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C5', 49), 'C5_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 33), 'COLOR': ('#4169E1',), 'DP': (0.0, '', 61), 'DRM': (&lt;Quantity([0. 0. 0. 0. 0.], 'centimeter')&gt;, 'Offset for the reference radius of each dipole : RM_i  = RM +DELTA_RM', 6), 'G0_E': (&lt;Quantity([1.e-08 1.e-08 1.e-08 1.e-08 1.e-08], 'centimeter')&gt;, 'Reference gaps for the entrance fringe fields of each dipole.', 9), 'G0_L': (&lt;Quantity([0. 0. 0. 0. 0.], 'centimeter')&gt;, 'UNUSED Reference gaps for the lateral fringe fields of each dipole.', 41), 'G0_S': (&lt;Quantity([1.e-08 1.e-08 1.e-08 1.e-08 1.e-08], 'centimeter')&gt;, 'Reference gaps for the exit fringe fields of each dipole.', 25), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'IL': (0, 'Print field and coordinates along trajectories', 1), 'K': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Field index for each dipole', 8), 'KINEMATICS': (None, 'A kinematics object.'), 'KIRD': (2, 'Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives', 57), 'KPOS': (2, '', 60), 'K_E': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 10), 'K_L': ([-1, -1, -1, -1, -1], 'UNUSED Fringe field parameter kappa', 42), 'K_S': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 26), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'N': (1, 'Number of dipoles in the FFAG N -tuple (maximum 5)', 2), 'OMEGA_E': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, '', 19), 'OMEGA_L': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, 'UNUSED ', 51), 'OMEGA_S': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, '', 35), 'PIPE_COLOR': ('grey', 'Color of the pipe, used by plotting functions.'), 'PIPE_THICKNESS': (&lt;Quantity(2, 'centimeter')&gt;, 'Thickness of the pipe, used by plotting functions.'), 'POLE_WIDTH': (&lt;Quantity(150, 'centimeter')&gt;, 'Pole width (used for plotting only).'), 'R1_E': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'Entrance EFB radius', 21), 'R1_L': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'UNUSED Lateral EFB radius', 53), 'R1_S': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'Exit EFB radius', 37), 'R2_E': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'Entrance EFB radius', 24), 'R2_L': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'UNUSED Lateral EFB radius', 56), 'R2_S': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'Exit EFB radius', 40), 'RE': (&lt;Quantity(0.0, 'centimeter')&gt;, '', 61), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'RESOL': (2, '', 58), 'RM': (&lt;Quantity(0.0, 'centimeter')&gt;, 'Reference radius: mean radius used for the positioning of field boundaries', 4), 'RS': (&lt;Quantity(0.0, 'centimeter')&gt;, '', 63), 'SHIFT_E': (&lt;Quantity([0. 0. 0. 0. 0.], 'centimeter')&gt;, 'Shift of the EFB', 18), 'SHIFT_L': (&lt;Quantity([0. 0. 0. 0. 0.], 'centimeter')&gt;, 'UNUSED  Shift of the EFB', 50), 'SHIFT_S': (&lt;Quantity([0. 0. 0. 0. 0.], 'centimeter')&gt;, 'Shift of the EFB', 34), 'TE': (&lt;Quantity(0.0, 'radian')&gt;, '', 62), 'THETA_E': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, 'Entrance face wedge angle', 20), 'THETA_L': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, 'UNUSED Entrance face wedge angle', 52), 'THETA_S': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, 'Entrance face wedge angle', 36), 'TS': (&lt;Quantity(0.0, 'radian')&gt;, '', 64), 'U1_E': (&lt;Quantity([-1.e+09 -1.e+09 -1.e+09 -1.e+09 -1.e+09], 'centimeter')&gt;, 'Entrance EFB linear extent', 22), 'U1_L': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'UNUSED Lateral EFB linear extent', 54), 'U1_S': (&lt;Quantity([-1.e+09 -1.e+09 -1.e+09 -1.e+09 -1.e+09], 'centimeter')&gt;, 'Exit EFB linear extent', 38), 'U2_E': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'Entrance EFB linear extent', 23), 'U2_L': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'UNUSED Lateral EFB linear extent', 55), 'U2_S': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'Exit EFB linear extent', 39), 'XPAS': (&lt;Quantity(1.0, 'millimeter')&gt;, 'Integration step', 59)}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.FFAG.PARAMETERS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PARAMETERS</code><em class="property">: dict</em><em class="property"> = {'ACN': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, 'Azimuth for dipole positioning', 5), 'APERTURE_BOTTOM': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, bottom side (used for plotting only).'), 'APERTURE_LEFT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, left side (used for plotting only).'), 'APERTURE_RIGHT': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, right side (used for plotting only).'), 'APERTURE_TOP': (&lt;Quantity(10, 'centimeter')&gt;, 'Aperture size of the magnet, top side (used for plotting only).'), 'AT': (&lt;Quantity(0.0, 'degree')&gt;, 'Total angular extent of the N dipoles', 3), 'BZ0': (&lt;Quantity([0. 0. 0. 0. 0.], 'kilogauss')&gt;, 'Field of each dipole', 7), 'C0_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 12), 'C0_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C0', 44), 'C0_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 28), 'C1_E': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 13), 'C1_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C1', 45), 'C1_S': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 29), 'C2_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 14), 'C2_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C2', 46), 'C2_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 30), 'C3_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 15), 'C3_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C3', 47), 'C3_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 31), 'C4_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 16), 'C4_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C4', 48), 'C4_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 32), 'C5_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 16), 'C5_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C5', 49), 'C5_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 33), 'COLOR': ('#4169E1',), 'DP': (0.0, '', 61), 'DRM': (&lt;Quantity([0. 0. 0. 0. 0.], 'centimeter')&gt;, 'Offset for the reference radius of each dipole RM_i  = RM + DRM', 6), 'G0_E': (&lt;Quantity([1.e-08 1.e-08 1.e-08 1.e-08 1.e-08], 'centimeter')&gt;, 'Reference gaps for the entrance fringe fields of each dipole.', 9), 'G0_L': (&lt;Quantity([0. 0. 0. 0. 0.], 'centimeter')&gt;, 'UNUSED Reference gaps for the lateral fringe fields of each dipole.', 41), 'G0_S': (&lt;Quantity([1.e-08 1.e-08 1.e-08 1.e-08 1.e-08], 'centimeter')&gt;, 'Reference gaps for the exit fringe fields of each dipole.', 25), 'HEIGHT': (&lt;Quantity(20, 'centimeter')&gt;, 'Height of the magnet (distance between poles), used by plotting functions.'), 'IL': (0, 'Print field and coordinates along trajectories', 1), 'K': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Field index for each dipole', 8), 'KINEMATICS': (None, 'A kinematics object.'), 'KIRD': (2, 'Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives', 57), 'KPOS': (2, '', 60), 'K_E': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 10), 'K_L': ([-1, -1, -1, -1, -1], 'UNUSED Fringe field parameter kappa', 42), 'K_S': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 26), 'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'), 'LABEL2': ('', 'Secondary label for the Zgoubi command.'), 'N': (1, 'Number of dipoles in the FFAG N -tuple (maximum 5)', 2), 'OMEGA_E': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, '', 19), 'OMEGA_L': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, 'UNUSED ', 51), 'OMEGA_S': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, '', 35), 'PIPE_COLOR': ('grey', 'Color of the pipe, used by plotting functions.'), 'PIPE_THICKNESS': (&lt;Quantity(2, 'centimeter')&gt;, 'Thickness of the pipe, used by plotting functions.'), 'POLE_WIDTH': (&lt;Quantity(150, 'centimeter')&gt;, 'Pole width (used for plotting only).'), 'R1_E': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'Entrance EFB radius', 21), 'R1_L': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'UNUSED Lateral EFB radius', 53), 'R1_S': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'Exit EFB radius', 37), 'R2_E': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'Entrance EFB radius', 24), 'R2_L': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'UNUSED Lateral EFB radius', 56), 'R2_S': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'Exit EFB radius', 40), 'RE': (&lt;Quantity(0.0, 'centimeter')&gt;, '', 61), 'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'), 'RESOL': (2, '', 58), 'RM': (&lt;Quantity(0.0, 'centimeter')&gt;, 'Reference radius: mean radius used for the positioning of field boundaries', 4), 'RS': (&lt;Quantity(0.0, 'centimeter')&gt;, '', 63), 'SHIFT_E': (&lt;Quantity([0. 0. 0. 0. 0.], 'centimeter')&gt;, 'Shift of the EFB', 18), 'SHIFT_L': (&lt;Quantity([0. 0. 0. 0. 0.], 'centimeter')&gt;, 'UNUSED  Shift of the EFB', 50), 'SHIFT_S': (&lt;Quantity([0. 0. 0. 0. 0.], 'centimeter')&gt;, 'Shift of the EFB', 34), 'TE': (&lt;Quantity(0.0, 'radian')&gt;, '', 62), 'THETA_E': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, 'Entrance face wedge angle', 20), 'THETA_L': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, 'UNUSED Entrance face wedge angle', 52), 'THETA_S': (&lt;Quantity([0. 0. 0. 0. 0.], 'degree')&gt;, 'Entrance face wedge angle', 36), 'TS': (&lt;Quantity(0.0, 'radian')&gt;, '', 64), 'U1_E': (&lt;Quantity([-1.e+09 -1.e+09 -1.e+09 -1.e+09 -1.e+09], 'centimeter')&gt;, 'Entrance EFB linear extent', 22), 'U1_L': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'UNUSED Lateral EFB linear extent', 54), 'U1_S': (&lt;Quantity([-1.e+09 -1.e+09 -1.e+09 -1.e+09 -1.e+09], 'centimeter')&gt;, 'Exit EFB linear extent', 38), 'U2_E': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'Entrance EFB linear extent', 23), 'U2_L': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'UNUSED Lateral EFB linear extent', 55), 'U2_S': (&lt;Quantity([1.e+09 1.e+09 1.e+09 1.e+09 1.e+09], 'centimeter')&gt;, 'Exit EFB linear extent', 39), 'XPAS': (&lt;Quantity(1.0, 'millimeter')&gt;, 'Integration step', 59)}</em><a class="headerlink" href="#zgoubidoo.commands.magnetique.FFAG.PARAMETERS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parameters of the command, with their default value, their description and optinally an index used by other
 commands (e.g. fit).</p>
 </dd></dl>

@@ -23,7 +23,6 @@ MplArtist
       ~MplArtist.cartouche_cartesianmagnet
       ~MplArtist.cartouche_cavite
       ~MplArtist.cartouche_drift
-      ~MplArtist.cartouche_fakedrift
       ~MplArtist.cartouche_quadrupole
       ~MplArtist.cartouche_solenoid
       ~MplArtist.init_plot
@@ -45,7 +44,6 @@ MplArtist
    .. automethod:: cartouche_cartesianmagnet
    .. automethod:: cartouche_cavite
    .. automethod:: cartouche_drift
-   .. automethod:: cartouche_fakedrift
    .. automethod:: cartouche_quadrupole
    .. automethod:: cartouche_solenoid
    .. automethod:: init_plot

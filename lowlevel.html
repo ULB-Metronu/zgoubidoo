@@ -31,6 +31,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -365,53 +366,11 @@ and its parametrizations.</p>
 <p>Additional formalisms for the parametrization of fully coupled transfer matrices are also available (Teng, Ripken,
 etc.).</p>
 <p class="rubric">Example</p>
-<p>import matplotlib.pyplot as plt
+<p>import numpy as np
 import pandas as pd
-import numpy as np
 import zgoubidoo
 from zgoubidoo.commands import *
 _ = zgoubidoo.ureg</p>
-<dl class="py function">
-<dt id="zgoubidoo.twiss.compute_twiss">
-<code class="sig-prename descclassname">zgoubidoo.twiss.</code><code class="sig-name descname">compute_twiss</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em>, <em class="sig-param"><span class="n">twiss_init</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>georges_core.sequences.betablock.BetaBlock<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">with_phase_unrolling</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_twiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_twiss" title="Permalink to this definition">¶</a></dt>
-<dd><p>Uses a step-by-step transfer matrix to compute the Twiss parameters (uncoupled). The phase advance and the
-determinants of the jacobians are computed as well.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>matrix</strong> – the input step-by-step transfer matrix</p></li>
-<li><p><strong>twiss_init</strong> – the initial values for the Twiss computation (if None, periodic conditions are assumed and the</p></li>
-<li><p><strong>parameters are computed from the transfer matrix</strong><strong>)</strong><strong></strong> (<a class="reference internal" href="api/zgoubidoo.commands.commands.Twiss.html#zgoubidoo.commands.commands.Twiss" title="zgoubidoo.commands.commands.Twiss"><em>Twiss</em></a>) – </p></li>
-<li><p><strong>with_phase_unrolling</strong> – TODO</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>the same DataFrame as the input, but with added columns for the computed quantities.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="zgoubidoo.twiss.align_tracks">
-<code class="sig-prename descclassname">zgoubidoo.twiss.</code><code class="sig-name descname">align_tracks</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tracks</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em>, <em class="sig-param"><span class="n">align_on</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'SREF'</span></em>, <em class="sig-param"><span class="n">identifier</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'LET'</span></em>, <em class="sig-param"><span class="n">reference_track</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'O'</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>numpy.array<span class="p">, </span>pandas.core.frame.DataFrame<span class="p">]</span><a class="reference internal" href="_modules/zgoubidoo/twiss.html#align_tracks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.align_tracks" title="Permalink to this definition">¶</a></dt>
-<dd><p>Align the tracks to obtain a homegenous array with all coordinates given at the same location.</p>
-<p>Required for example to compute the transfer matrix (not all particules would have integration step at the
-same coordinate and must be aligned. Uses a linear interpolation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>tracks</strong> – tracking data</p></li>
-<li><p><strong>align_on</strong> – coordinates on which the tracks are aligned (typically ‘X’ or ‘S’)</p></li>
-<li><p><strong>identifier</strong> – identifier of the column used for the particles indexing</p></li>
-<li><p><strong>reference_track</strong> – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>aligned data and reference data</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py function">
 <dt id="zgoubidoo.twiss.compute_transfer_matrix">
 <code class="sig-prename descclassname">zgoubidoo.twiss.</code><code class="sig-name descname">compute_transfer_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">beamline</span><span class="p">:</span> <span class="n"><a class="reference internal" href="input.html#zgoubidoo.input.Input" title="zgoubidoo.input.Input">zgoubidoo.input.Input</a></span></em>, <em class="sig-param"><span class="n">tracks</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/zgoubidoo/twiss.html#compute_transfer_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zgoubidoo.twiss.compute_transfer_matrix" title="Permalink to this definition">¶</a></dt>

@@ -31,6 +31,7 @@
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -183,12 +184,14 @@
 <span class="k">def</span> <span class="nf">_m</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert a quantity of dimension [LENGTH] to meters.</span>
-
 <span class="sd">    &gt;&gt;&gt; _m(1 * _ureg.km)</span>
 <span class="sd">    1000.0</span>
 
-<span class="sd">    :param q: the quantity of dimension [LENGTH]</span>
-<span class="sd">    :return: the magnitude in meters.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        q: the quantity of dimension [LENGTH]</span>
+
+<span class="sd">    Returns: the magnitude in meters.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;m&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
 
@@ -197,12 +200,14 @@
 <span class="k">def</span> <span class="nf">_cm</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert a quantity of dimension [LENGTH] to centimeters.</span>
-
 <span class="sd">    &gt;&gt;&gt; _cm(1 * _ureg.km)</span>
-<span class="sd">    100000.0</span>
+<span class="sd">    100000.</span>
 
-<span class="sd">    :param q: the quantity of dimension [LENGTH]</span>
-<span class="sd">    :return: the magnitude in centimeters.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        q: the quantity of dimension [LENGTH]</span>
+
+<span class="sd">    Returns: the magnitude in centimeters.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
 
@@ -211,12 +216,14 @@
 <span class="k">def</span> <span class="nf">_mm</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert a quantity of dimension [LENGTH] to millimeters.</span>
-
 <span class="sd">    &gt;&gt;&gt; _mm(1 * _ureg.km)</span>
 <span class="sd">    1000000.0</span>
 
-<span class="sd">    :param q: the quantity of dimension [LENGTH]</span>
-<span class="sd">    :return: the magnitude in millimeters.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        q: the quantity of dimension [LENGTH]</span>
+
+<span class="sd">    Returns: the magnitude in millimeters.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;mm&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
 
@@ -224,15 +231,17 @@
 <span class="nd">@parse_quantity</span>
 <span class="k">def</span> <span class="nf">_degree</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert a quantity to degrees.</span>
-
+<span class="sd">    Convert a quantity to degree.</span>
 <span class="sd">    &gt;&gt;&gt; _degree(1 * _ureg.degree)</span>
 <span class="sd">    1.0</span>
 <span class="sd">    &gt;&gt;&gt; _degree(10.0 * _ureg.degree)</span>
 <span class="sd">    10.0</span>
 
-<span class="sd">    :param q: the quantity</span>
-<span class="sd">    :return: the magnitude in degrees.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        q: the quantity</span>
+
+<span class="sd">    Returns: the magnitude in degrees.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;degree&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
 
@@ -241,12 +250,12 @@
 <span class="k">def</span> <span class="nf">_radian</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert a quantity to radians.</span>
+<span class="sd">    &gt;&gt;&gt; _radian(180 * _ureg.degree)</span>
 
-<span class="sd">    &gt;&gt;&gt; _radian(180 * _ureg.degree) #doctest: +ELLIPSIS</span>
-<span class="sd">    3.14159...</span>
+<span class="sd">    Args:</span>
+<span class="sd">        q: the quantity</span>
 
-<span class="sd">    :param q: the quantity</span>
-<span class="sd">    :return: the magnitude in degrees.</span>
+<span class="sd">    Returns: the magnitude in degrees.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;radian&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
 
@@ -254,13 +263,13 @@
 <span class="nd">@parse_quantity</span>
 <span class="k">def</span> <span class="nf">_tesla</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert a quantity of dimension [LENGTH] to meters.</span>
+<span class="sd">    Convert a quantity of dimension [GAUSS] to tesla.</span>
 
-<span class="sd">    &gt;&gt;&gt; _m(1 * _ureg.km)</span>
-<span class="sd">    1000.0</span>
+<span class="sd">    Args:</span>
+<span class="sd">        q: the quantity of dimension [GAUSS]</span>
 
-<span class="sd">    :param q: the quantity of dimension [LENGTH]</span>
-<span class="sd">    :return: the magnitude in meters.</span>
+<span class="sd">    Returns: the magnitude in Tesla.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;tesla&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
 
@@ -268,13 +277,13 @@
 <span class="nd">@parse_quantity</span>
 <span class="k">def</span> <span class="nf">_gauss</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert a quantity of dimension [LENGTH] to meters.</span>
+<span class="sd">    Convert a quantity of dimension [GAUSS] to gauss.</span>
 
-<span class="sd">    &gt;&gt;&gt; _m(1 * _ureg.km)</span>
-<span class="sd">    1000.0</span>
+<span class="sd">    Args:</span>
+<span class="sd">        q: the quantity of dimension [GAUSS]</span>
 
-<span class="sd">    :param q: the quantity of dimension [LENGTH]</span>
-<span class="sd">    :return: the magnitude in meters.</span>
+<span class="sd">    Returns: the magnitude in Gauss.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;gauss&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
 
@@ -282,27 +291,42 @@
 <span class="nd">@parse_quantity</span>
 <span class="k">def</span> <span class="nf">_kilogauss</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert a quantity of dimension [LENGTH] to meters.</span>
+<span class="sd">    Convert a quantity of dimension [GAUSS] to kilogauss.</span>
 
-<span class="sd">    &gt;&gt;&gt; _m(1 * _ureg.km)</span>
-<span class="sd">    1000.0</span>
+<span class="sd">    Args:</span>
+<span class="sd">        q: the quantity of dimension [GAUSS]</span>
 
-<span class="sd">    :param q: the quantity of dimension [LENGTH]</span>
-<span class="sd">    :return: the magnitude in meters.</span>
+<span class="sd">    Returns: the magnitude in kilogauss.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;kilogauss&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+
+
+<span class="nd">@parse_quantity</span>
+<span class="k">def</span> <span class="nf">_ampere</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a quantity of dimension [AMPERE] to ampere.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        q: the quantity of dimension [AMPERE]</span>
+
+<span class="sd">    Returns: the magnitude in ampere.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;ampere&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
 
 
 <span class="nd">@parse_quantity</span>
 <span class="k">def</span> <span class="nf">_mev</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert a quantity of dimension [length]**2 * [mass] * [time]**-2.0 to meters.</span>
-
 <span class="sd">    &gt;&gt;&gt; _mev(1 * _ureg.MeV)</span>
-<span class="sd">    1.0</span>
 
-<span class="sd">    :param q: the quantity of dimension [length]**2 * [mass] * [time]**-2.0</span>
-<span class="sd">    :return: the magnitude in MeV.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        q: the quantity of dimension [length]**2 * [mass] * [time]**-2.0</span>
+
+<span class="sd">    Returns: the magnitude in MeV.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;MeV&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
 
@@ -311,12 +335,14 @@
 <span class="k">def</span> <span class="nf">_gev</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Q</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert a quantity of dimension [length]**2 * [mass] * [time]**-2.0 to meters.</span>
-
 <span class="sd">    &gt;&gt;&gt; _mev(1 * _ureg.MeV)</span>
-<span class="sd">    1.0</span>
 
-<span class="sd">    :param q: the quantity of dimension [length]**2 * [mass] * [time]**-2.0</span>
-<span class="sd">    :return: the magnitude in MeV.</span>
+<span class="sd">    1.0</span>
+<span class="sd">    Args:</span>
+<span class="sd">        q: the quantity of dimension [length]**2 * [mass] * [time]**-2.0</span>
+
+<span class="sd">    Returns: the magnitude in MeV.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;GeV&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
 

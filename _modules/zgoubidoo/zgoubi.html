@@ -31,6 +31,7 @@
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -189,6 +190,7 @@
 <span class="kn">import</span> <span class="nn">zgoubidoo</span>
 <span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="n">ZGOUBI_INPUT_FILENAME</span> <span class="k">as</span> <span class="n">_ZGOUBI_INPUT_FILENAME</span>
 <span class="kn">from</span> <span class="nn">georges_core.sequences</span> <span class="kn">import</span> <span class="n">BetaBlock</span> <span class="k">as</span> <span class="n">_BetaBlock</span>
+<span class="kn">from</span> <span class="nn">georges_core.twiss</span> <span class="kn">import</span> <span class="n">Twiss</span> <span class="k">as</span> <span class="n">_Twiss</span>
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">.input</span> <span class="kn">import</span> <span class="n">Input</span> <span class="k">as</span> <span class="n">_Input</span>
     <span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="n">CoordinateTransformationType</span> <span class="k">as</span> <span class="n">_CoordinateTransformationType</span>
@@ -554,8 +556,8 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step_by_step_optics</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">force_reload</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step_by_step_optics</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_step_by_step_optics</span> <span class="o">=</span> <span class="n">zgoubidoo</span><span class="o">.</span><span class="n">twiss</span><span class="o">.</span><span class="n">compute_twiss</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">step_by_step_transfer_matrix</span><span class="p">,</span>
-                                                                      <span class="n">twiss_init</span><span class="o">=</span><span class="n">twiss_init</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_step_by_step_optics</span> <span class="o">=</span> <span class="n">_Twiss</span><span class="p">(</span><span class="n">twiss_init</span><span class="o">=</span><span class="n">twiss_init</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">step_by_step_transfer_matrix</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step_by_step_optics</span></div>
 
     <span class="nd">@property</span>

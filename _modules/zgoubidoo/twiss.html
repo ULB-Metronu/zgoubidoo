@@ -31,6 +31,7 @@
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -175,94 +176,25 @@
 <span class="sd">etc.).</span>
 
 <span class="sd">Example:</span>
-<span class="sd">    import matplotlib.pyplot as plt</span>
-<span class="sd">    import pandas as pd</span>
 <span class="sd">    import numpy as np</span>
+<span class="sd">    import pandas as pd</span>
 <span class="sd">    import zgoubidoo</span>
 <span class="sd">    from zgoubidoo.commands import *</span>
 <span class="sd">    _ = zgoubidoo.ureg</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">_pd</span>
 <span class="kn">from</span> <span class="nn">.input</span> <span class="kn">import</span> <span class="n">Input</span> <span class="k">as</span> <span class="n">_Input</span>
-<span class="kn">from</span> <span class="nn">georges_core.sequences</span> <span class="kn">import</span> <span class="n">BetaBlock</span> <span class="k">as</span> <span class="n">_BetaBlock</span>
-<span class="kn">from</span> <span class="nn">georges_core.twiss</span> <span class="kn">import</span> <span class="n">compute_periodic_twiss</span><span class="p">,</span> \
-    <span class="n">compute_beta_from_matrix</span><span class="p">,</span> \
-    <span class="n">compute_alpha_from_matrix</span><span class="p">,</span> \
-    <span class="n">compute_mu_from_matrix</span><span class="p">,</span> \
-    <span class="n">compute_jacobian_from_matrix</span><span class="p">,</span> \
-    <span class="n">compute_gamma_from_matrix</span><span class="p">,</span> \
-    <span class="n">compute_dispersion_from_matrix</span><span class="p">,</span> \
-    <span class="n">compute_dispersion_prime_from_matrix</span>
 <span class="kn">import</span> <span class="nn">zgoubidoo</span>
 
 
-<div class="viewcode-block" id="compute_twiss"><a class="viewcode-back" href="../../lowlevel.html#zgoubidoo.twiss.compute_twiss">[docs]</a><span class="k">def</span> <span class="nf">compute_twiss</span><span class="p">(</span><span class="n">matrix</span><span class="p">:</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
-                  <span class="n">twiss_init</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_BetaBlock</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                  <span class="n">with_phase_unrolling</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-                  <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Uses a step-by-step transfer matrix to compute the Twiss parameters (uncoupled). The phase advance and the</span>
-<span class="sd">    determinants of the jacobians are computed as well.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        matrix: the input step-by-step transfer matrix</span>
-<span class="sd">        twiss_init: the initial values for the Twiss computation (if None, periodic conditions are assumed and the</span>
-<span class="sd">        Twiss parameters are computed from the transfer matrix).</span>
-<span class="sd">        with_phase_unrolling: TODO</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        the same DataFrame as the input, but with added columns for the computed quantities.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">twiss_init</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">twiss_init</span> <span class="o">=</span> <span class="n">compute_periodic_twiss</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
-
-    <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;BETA11&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_beta_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">twiss_init</span><span class="p">)</span>
-    <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;BETA22&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_beta_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">twiss_init</span><span class="p">,</span> <span class="n">plane</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;ALPHA11&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_alpha_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">twiss_init</span><span class="p">)</span>
-    <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;ALPHA22&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_alpha_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">twiss_init</span><span class="p">,</span> <span class="n">plane</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;GAMMA11&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_gamma_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">twiss_init</span><span class="p">)</span>
-    <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;GAMMA22&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_gamma_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">twiss_init</span><span class="p">,</span> <span class="n">plane</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;MU1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_mu_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">twiss_init</span><span class="p">)</span>
-    <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;MU2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_mu_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">twiss_init</span><span class="p">,</span> <span class="n">plane</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;DET1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_jacobian_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
-    <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;DET2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_jacobian_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">plane</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;DISP1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_dispersion_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">twiss_init</span><span class="p">)</span>
-    <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;DISP2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_dispersion_prime_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">twiss_init</span><span class="p">)</span>
-    <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;DISP3&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_dispersion_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">twiss_init</span><span class="p">,</span> <span class="n">plane</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;DISP4&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compute_dispersion_prime_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">twiss_init</span><span class="p">,</span> <span class="n">plane</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">phase_unrolling</span><span class="p">(</span><span class="n">phi</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;TODO&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">phi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">phi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">pi</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">phi</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="k">if</span> <span class="n">phi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">phi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">pi</span>
-            <span class="k">if</span> <span class="n">phi</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">phi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
-                <span class="n">phi</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">_np</span><span class="o">.</span><span class="n">pi</span>
-        <span class="k">return</span> <span class="n">phi</span>
-
-    <span class="k">try</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span>
-        <span class="n">phase_unrolling</span> <span class="o">=</span> <span class="n">njit</span><span class="p">(</span><span class="n">phase_unrolling</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
-        <span class="k">pass</span>
-
-    <span class="k">if</span> <span class="n">with_phase_unrolling</span><span class="p">:</span>
-        <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;MU1U&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">phase_unrolling</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;MU1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-        <span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;MU2U&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">phase_unrolling</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="s1">&#39;MU2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">matrix</span></div>
-
-
-<div class="viewcode-block" id="align_tracks"><a class="viewcode-back" href="../../lowlevel.html#zgoubidoo.twiss.align_tracks">[docs]</a><span class="k">def</span> <span class="nf">align_tracks</span><span class="p">(</span><span class="n">tracks</span><span class="p">:</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
-                 <span class="n">align_on</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;SREF&#39;</span><span class="p">,</span>
-                 <span class="n">identifier</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;LET&#39;</span><span class="p">,</span>
-                 <span class="n">reference_track</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span>
-                 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+<span class="k">def</span> <span class="nf">_align_tracks</span><span class="p">(</span><span class="n">tracks</span><span class="p">:</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+                  <span class="n">align_on</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;SREF&#39;</span><span class="p">,</span>
+                  <span class="n">identifier</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;LET&#39;</span><span class="p">,</span>
+                  <span class="n">reference_track</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span>
+                  <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Align the tracks to obtain a homegenous array with all coordinates given at the same location.</span>
 
@@ -301,7 +233,7 @@
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                 <span class="k">pass</span>
     <span class="k">assert</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;The aligned tracks do not form a homogenous array.&quot;</span>
-    <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">ref</span></div>
+    <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">ref</span>
 
 
 <div class="viewcode-block" id="compute_transfer_matrix"><a class="viewcode-back" href="../../lowlevel.html#zgoubidoo.twiss.compute_transfer_matrix">[docs]</a><span class="k">def</span> <span class="nf">compute_transfer_matrix</span><span class="p">(</span><span class="n">beamline</span><span class="p">:</span> <span class="n">_Input</span><span class="p">,</span> <span class="n">tracks</span><span class="p">:</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
@@ -329,7 +261,7 @@
         <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">LABEL1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
             <span class="k">continue</span>
         <span class="n">t</span> <span class="o">=</span> <span class="n">tracks</span><span class="p">[</span><span class="n">tracks</span><span class="o">.</span><span class="n">LABEL1</span> <span class="o">==</span> <span class="n">e</span><span class="o">.</span><span class="n">LABEL1</span><span class="p">]</span>
-        <span class="n">data</span><span class="p">,</span> <span class="n">ref</span> <span class="o">=</span> <span class="n">align_tracks</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">ref</span> <span class="o">=</span> <span class="n">_align_tracks</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
         <span class="n">n_dimensions</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span>
         <span class="n">normalization</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">n_dimensions</span><span class="p">]</span> <span class="o">-</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">n_dimensions</span><span class="p">])</span>
                          <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_dimensions</span><span class="p">)</span>
