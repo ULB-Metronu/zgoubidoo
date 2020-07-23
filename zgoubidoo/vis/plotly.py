@@ -217,28 +217,6 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
             return [entrance_up, entrance_down, exit_up, exit_down]
 
-        def plot_fringes(theta_init, omega, face_angle, radius, linear_extent, sign_up=1):
-            xa = (r + sign_up * linear_extent) * _np.sin(theta_init)
-            ya = -r + (r + sign_up * linear_extent) * _np.cos(theta_init)
-
-            # Draw the arc circle
-            beta = reference_angle - omega - sign_up * face_angle
-            xr = xa + radius * _np.cos(beta)
-            yr = ya - radius * _np.sin(beta)
-            delta_mu = linear_extent / radius
-
-            if radius > 0:
-                mu0 = sign_up*_np.pi - (reference_angle - omega) + sign_up*face_angle
-            else:
-                mu0 = -(reference_angle - omega) + sign_up*face_angle
-
-            mus = _np.linspace(mu0, mu0 - sign_up * delta_mu, points_in_polar_paths)
-            x = xr + _np.abs(radius) * _np.cos(mus)
-            y = yr + _np.abs(radius) * _np.sin(mus)
-            add_svg_path(points=_np.array([x, y, 0]), reference_frame=reference_frame, shape='lines',
-                         line={'width': 2,
-                               'color': 'black'})
-
         def plot_polar_magnet():
             if with_magnet_poles:
                 entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=width / 2)
@@ -256,6 +234,8 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 for theta in thetas_up:
                     pts.append(
                         [(r + width / 2) * _np.sin(theta), -r + (r + width / 2) * _np.cos(theta), 0.0])
+                # if spiral
+
                 for theta in thetas_down[::-1]:
                     pts.append(
                         [(r - width / 2) * _np.sin(theta), -r + (r - width / 2) * _np.cos(theta), 0.0])
@@ -309,6 +289,30 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                                 -r + (r - aper_right - pipe_thickness) * _np.cos(theta), 0.0])
 
                 add_svg_path(_np.array(pts), reference_frame=reference_frame, color=e.PIPE_COLOR)
+
+        def plot_fringes(theta_init, omega, face_angle, radius, linear_extent, sign_up=1):
+            xa = (r + sign_up * linear_extent) * _np.sin(theta_init)
+            ya = -r + (r + sign_up * linear_extent) * _np.cos(theta_init)
+
+            # Draw the arc circle
+            beta = reference_angle - omega - sign_up * face_angle
+            xr = xa + radius * _np.cos(beta)
+            yr = ya - radius * _np.sin(beta)
+            delta_mu = linear_extent / radius
+
+            if radius > 0:
+                mu0 = sign_up*_np.pi - (reference_angle - omega) + sign_up*face_angle
+            else:
+                mu0 = -(reference_angle - omega) + sign_up*face_angle
+
+            mus = _np.linspace(mu0, mu0 - sign_up * delta_mu, points_in_polar_paths)
+            x = xr + _np.abs(radius) * _np.cos(mus)
+            y = yr + _np.abs(radius) * _np.sin(mus)
+            add_svg_path(points=_np.array([x, y, 0]), reference_frame=reference_frame, shape='lines',
+                         line={'width': 2,
+                               'color': 'black'})
+
+            return xa, ya
 
         def plot_polar_map():
             # Plot the map
@@ -374,29 +378,48 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             # Plot the fringes
             # TODO better notation or default values
             # Left up
+            print(entrance_efb_extent_up, entrance_efb_radius_up)
             if entrance_efb_extent_up < width and entrance_efb_radius_up < width:
                 entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=entrance_efb_extent_up)
                 theta_init = reference_angle - omega_e - entrance_up
-                plot_fringes(theta_init, omega_e, entrance_face_angle, entrance_efb_radius_up, entrance_efb_extent_up)
-
-            # Right up
-            if exit_efb_extent_up < width and exit_efb_radius_up < width:
-                entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=exit_efb_extent_up)
-                theta_init = reference_angle - omega_s + exit_up
-                plot_fringes(theta_init, omega_s, exit_face_angle, exit_efb_radius_up, exit_efb_extent_up)
+                xlu, ylu = plot_fringes(theta_init, omega_e, -entrance_face_angle,
+                                      entrance_efb_radius_up, entrance_efb_extent_up)
 
             # Left down
             if entrance_efb_extent_down < width and entrance_efb_radius_down < width:
                 entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=entrance_efb_extent_down)
                 theta_init = reference_angle - omega_e + entrance_down
-                plot_fringes(theta_init, omega_e, entrance_face_angle, entrance_efb_radius_down,
-                             entrance_efb_extent_down, -1)
+                xld, yld = plot_fringes(theta_init, omega_e, entrance_face_angle, entrance_efb_radius_down,
+                                        entrance_efb_extent_down, -1)
+
+            x = _np.array([xlu, xld])
+            y = _np.array([ylu, yld])
+            add_svg_path(points=_np.array([x, y, 0]),
+                         reference_frame=reference_frame,
+                         shape='lines',
+                         line={'color': 'black',
+                               'width': 2})
+
+            # Right up
+            if exit_efb_extent_up < width and exit_efb_radius_up < width:
+                entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=exit_efb_extent_up)
+                theta_init = reference_angle - omega_s + exit_up
+                xru, yru = plot_fringes(theta_init, omega_s, -exit_face_angle, exit_efb_radius_up, exit_efb_extent_up)
+
 
             # Right down
             if exit_efb_extent_down < width and exit_efb_radius_down < width:
                 entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=exit_efb_extent_down)
                 theta_init = reference_angle - omega_s - exit_down
-                plot_fringes(theta_init, omega_s, exit_face_angle, exit_efb_radius_down, exit_efb_extent_down, -1)
+                xrd, yrd = plot_fringes(theta_init, omega_s, exit_face_angle, exit_efb_radius_down, exit_efb_extent_down, -1)
+
+            x = _np.array([xru, xrd])
+            y = _np.array([yru, yrd])
+            add_svg_path(points=_np.array([x, y, 0]),
+                         reference_frame=reference_frame,
+                         shape='lines',
+                         line={'color': 'black',
+                               'width': 2})
 
         def plot_frames():
             color = ['red', 'green', 'blue', 'magenta', 'darkorange']
