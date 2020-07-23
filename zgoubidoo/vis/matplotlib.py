@@ -478,6 +478,3 @@ class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
                   markerfacecolor=self._tracks_color,
                   ms=1
                   )
-
-
-MplArtist = ZgoubidooMatplotlibArtist
