@@ -378,7 +378,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             # Plot the fringes
             # TODO better notation or default values
             # Left up
-            print(entrance_efb_extent_up, entrance_efb_radius_up)
+            xlu, xld, ylu, yld = None, None, None, None
             if entrance_efb_extent_up < width and entrance_efb_radius_up < width:
                 entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=entrance_efb_extent_up)
                 theta_init = reference_angle - omega_e - entrance_up
@@ -392,15 +392,18 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 xld, yld = plot_fringes(theta_init, omega_e, entrance_face_angle, entrance_efb_radius_down,
                                         entrance_efb_extent_down, -1)
 
-            x = _np.array([xlu, xld])
-            y = _np.array([ylu, yld])
-            add_svg_path(points=_np.array([x, y, 0]),
-                         reference_frame=reference_frame,
-                         shape='lines',
-                         line={'color': 'black',
-                               'width': 2})
+            if xlu is not None and xld is not None and ylu is not None and yld is not None:
+                x = _np.array([xlu, xld])
+                y = _np.array([ylu, yld])
+                add_svg_path(points=_np.array([x, y, 0]),
+                             reference_frame=reference_frame,
+                             shape='lines',
+                             line={'color': 'black',
+                                   'width': 2})
 
             # Right up
+            xru, xrd, yru, yrd = None, None, None, None
+
             if exit_efb_extent_up < width and exit_efb_radius_up < width:
                 entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=exit_efb_extent_up)
                 theta_init = reference_angle - omega_s + exit_up
@@ -413,13 +416,14 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 theta_init = reference_angle - omega_s - exit_down
                 xrd, yrd = plot_fringes(theta_init, omega_s, exit_face_angle, exit_efb_radius_down, exit_efb_extent_down, -1)
 
-            x = _np.array([xru, xrd])
-            y = _np.array([yru, yrd])
-            add_svg_path(points=_np.array([x, y, 0]),
-                         reference_frame=reference_frame,
-                         shape='lines',
-                         line={'color': 'black',
-                               'width': 2})
+            if xru is not None and xrd is not None and yru is not None and yrd is not None:
+                x = _np.array([xru, xrd])
+                y = _np.array([yru, yrd])
+                add_svg_path(points=_np.array([x, y, 0]),
+                             reference_frame=reference_frame,
+                             shape='lines',
+                             line={'color': 'black',
+                                   'width': 2})
 
         def plot_frames():
             color = ['red', 'green', 'blue', 'magenta', 'darkorange']
