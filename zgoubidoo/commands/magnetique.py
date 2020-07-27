@@ -1877,7 +1877,7 @@ class FFAG(PolarMultiMagnet):
         'BZ0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, 'Field of each dipole', 7),
         'K': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Field index for each dipole', 8),
         'G0_E': (
-            [0.00000001, 0.00000001, 0.00000001, 0.00000001, 0.00000001] * _ureg.cm,
+            [10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.cm,
             'Reference gaps for the entrance fringe fields of each dipole.', 9
         ),
         'K_E': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 10),
@@ -1895,7 +1895,7 @@ class FFAG(PolarMultiMagnet):
         'U2_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB linear extent', 23),
         'R2_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB radius', 24),
         'G0_S': (
-            [0.00000001, 0.00000001, 0.00000001, 0.00000001, 0.00000001] * _ureg.cm,
+            [10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.cm,
             'Reference gaps for the exit fringe fields of each dipole.', 25
         ),
         'K_S': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 26),
@@ -2088,7 +2088,7 @@ class FFAGSpirale(PolarMultiMagnet):
         'BZ0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, 'Field at the reference radius of each dipole', 7),
         'K': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Field index for each dipole', 8),
         'G0_E': (
-            [0.00000001, 0.00000001, 0.00000001, 0.00000001, 0.00000001] * _ureg.cm,
+            [10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.cm,
             'Reference gaps for the entrance fringe fields of each dipole.', 9
         ),
         'K_E': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 10),
@@ -2103,7 +2103,7 @@ class FFAGSpirale(PolarMultiMagnet):
         'OMEGA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth of an EFB with respect to ACN', 19),
         'XI_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Spiral angle', 20),
         'G0_S': (
-            [0.00000001, 0.00000001, 0.00000001, 0.00000001, 0.00000001] * _ureg.cm,
+            [10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.cm,
             'Reference gaps for the exit fringe fields of each dipole.', 25
         ),
         'K_S': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 26),
