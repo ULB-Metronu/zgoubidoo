@@ -412,7 +412,21 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
         return [self.THETA_S]
 
 
-class PolarMultiMagnet(PolarMagnet):
+class PolarMultiMagnetType(PolarMagnetType):
+    """Type for polar multi magnets."""
+    def __getattr__(cls, key: str):
+        try:
+            if key.endswith('_'):
+                # TODO
+                return 42
+                return cls.PARAMETERS[key.rstrip('_')][2]
+            else:
+                super().__getattr__(key)
+        except KeyError:
+            raise AttributeError(key)
+
+
+class PolarMultiMagnet(PolarMagnet, metaclass=PolarMultiMagnetType):
 
     @property
     def reference_angles(self) -> List[_Q]:
