@@ -918,6 +918,7 @@ class Matrix(Command):
     PARAMETERS = {
         'IORD': 1,
         'IFOC': (11, 'If IFOC=11, periodic parameters (single pass)'),
+        'coupled': (False, 'If coupled = True : use of coupled formalism'),
     }
     """Parameters of the command, with their default value, their description and optinally an index used by other 
     commands (e.g. fit)."""
@@ -925,7 +926,7 @@ class Matrix(Command):
     def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        {self.IORD} {self.IFOC} PRINT
+        {self.IORD} {self.IFOC} PRINT {'coupled' if self.coupled else ''}
         """
 
 
@@ -1025,7 +1026,7 @@ class Rebelote(Command):
     def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        {self.NPASS} {self.KWRIT} {self.K}.{self.N or ''} {self.LABL1 or ''} {self.LABL2 or ''}
+        {self.NPASS} {self.KWRIT} {self.K}{'.' if self.N else ''}{self.N or ''} {self.LABL1 or ''} {self.LABL2 or ''}
         """
 
 
