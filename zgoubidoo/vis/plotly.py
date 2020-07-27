@@ -235,11 +235,14 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                     pts.append(
                         [(r + width / 2) * _np.sin(theta), -r + (r + width / 2) * _np.cos(theta), 0.0])
                 # if spiral
-
+                if isinstance(e, _FFAGSPI):
+                    plot_spiral(entrance_face_angle, omega_e)
                 for theta in thetas_down[::-1]:
                     pts.append(
                         [(r - width / 2) * _np.sin(theta), -r + (r - width / 2) * _np.cos(theta), 0.0])
                 add_svg_path(_np.array(pts), reference_frame=reference_frame)
+                if isinstance(e, _FFAGSPI):
+                    plot_spiral(exit_face_angle, omega_s)
 
             if with_apertures:
                 pts = []
@@ -314,6 +317,38 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
             return xa, ya
 
+        def rotate(origin, point, angle):
+            """
+            Rotate a point counterclockwise by a given angle around a given origin.
+            """
+            ox, oy = origin
+            px, py = point
+
+            qx = ox + _np.cos(angle) * (px - ox) - _np.sin(angle) * (py - oy)
+            qy = oy + _np.sin(angle) * (px - ox) + _np.cos(angle) * (py - oy)
+            return qx, qy
+
+        def plot_spiral(angle, omega):
+            b = 1 / _np.tan(angle)
+            r_min = r - width
+            r_max = r + width
+
+            theta_min = (1 / b) * _np.log(r_min / r)
+            theta_max = (1 / b) * _np.log(r_max / r)
+
+            theta = _np.linspace(theta_min, theta_max, 20)
+
+            rspi = r * _np.exp(b * theta)
+            x = rspi * _np.sin(theta)
+            y = -r + rspi * _np.cos(theta)
+
+            (x, y) = rotate((0, -r), (x, y), -reference_angle+omega)
+            add_svg_path(points=_np.array([x, y, 0]),
+                         reference_frame=reference_frame,
+                         shape='lines',
+                         line={'color': 'black',
+                               'width': 1})
+
         def plot_polar_map():
             # Plot the map
             thetas = _np.linspace(0, total_angle, points_in_polar_paths)
@@ -341,20 +376,9 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                                'width': 1,
                                'dash': 'dash'})
 
-            x1 = x0 + (r + 1.2 * width / 2) * _np.sin(reference_angle)
-            y1 = y0 + (r + 1.2 * width / 2) * _np.cos(reference_angle)
-
-            x = _np.array([x0, x1])
-            y = _np.array([y0, y1])
-            add_svg_path(points=_np.array([x, y, 0]),
-                         reference_frame=reference_frame,
-                         shape='lines',
-                         line={'color': 'black',
-                               'width': 1,
-                               'dash': 'dash'})
-
             x1 = x0 + (r + 1.2 * width / 2) * _np.sin(reference_angle - omega_e)
             y1 = y0 + (r + 1.2 * width / 2) * _np.cos(reference_angle - omega_e)
+
             x = _np.array([x0, x1])
             y = _np.array([y0, y1])
             add_svg_path(points=_np.array([x, y, 0]),
@@ -366,6 +390,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
             x1 = x0 + (r + 1.2 * width / 2) * _np.sin(reference_angle - omega_s)
             y1 = y0 + (r + 1.2 * width / 2) * _np.cos(reference_angle - omega_s)
+
             x = _np.array([x0, x1])
             y = _np.array([y0, y1])
             add_svg_path(points=_np.array([x, y, 0]),
@@ -383,7 +408,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=entrance_efb_extent_up)
                 theta_init = reference_angle - omega_e - entrance_up
                 xlu, ylu = plot_fringes(theta_init, omega_e, -entrance_face_angle,
-                                      entrance_efb_radius_up, entrance_efb_extent_up)
+                                        entrance_efb_radius_up, entrance_efb_extent_up)
 
             # Left down
             if entrance_efb_extent_down < width and entrance_efb_radius_down < width:
@@ -409,12 +434,12 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 theta_init = reference_angle - omega_s + exit_up
                 xru, yru = plot_fringes(theta_init, omega_s, -exit_face_angle, exit_efb_radius_up, exit_efb_extent_up)
 
-
             # Right down
             if exit_efb_extent_down < width and exit_efb_radius_down < width:
                 entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=exit_efb_extent_down)
                 theta_init = reference_angle - omega_s - exit_down
-                xrd, yrd = plot_fringes(theta_init, omega_s, exit_face_angle, exit_efb_radius_down, exit_efb_extent_down, -1)
+                xrd, yrd = plot_fringes(theta_init, omega_s, exit_face_angle, exit_efb_radius_down,
+                                        exit_efb_extent_down, -1)
 
             if xru is not None and xrd is not None and yru is not None and yrd is not None:
                 x = _np.array([xru, xrd])
