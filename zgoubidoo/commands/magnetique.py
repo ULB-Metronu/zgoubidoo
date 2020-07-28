@@ -2260,27 +2260,27 @@ class FFAGSpirale(PolarMultiMagnet):
 
     @property
     def entrance_field_boundary_linear_extent_down(self) -> List[_Q]:
-        return 100*_np.ones(self.N)*_ureg.cm
+        return 500*_np.ones(self.N)*_ureg.cm
 
     @property
     def entrance_field_boundary_linear_extent_up(self) -> List[_Q]:
-        return 100*_np.ones(self.N)*_ureg.cm
+        return 500*_np.ones(self.N)*_ureg.cm
 
     @property
     def entrance_field_boundary_linear_radius_up(self) -> List[_Q]:
-        return 100*_np.ones(self.N)*_ureg.cm
+        return 500*_np.ones(self.N)*_ureg.cm
 
     @property
     def entrance_field_boundary_linear_radius_down(self) -> List[_Q]:
-        return 100*_np.ones(self.N)*_ureg.cm
+        return 500*_np.ones(self.N)*_ureg.cm
 
     @property
     def exit_field_boundary_linear_extent_down(self) -> List[_Q]:
-        return 100*_np.ones(self.N)*_ureg.cm
+        return 500*_np.ones(self.N)*_ureg.cm
 
     @property
     def exit_field_boundary_linear_extent_up(self) -> List[_Q]:
-        return 100*_np.ones(self.N)*_ureg.cm
+        return 500*_np.ones(self.N)*_ureg.cm
 
     @property
     def exit_field_boundary_linear_radius_up(self) -> List[_Q]:
@@ -2288,7 +2288,7 @@ class FFAGSpirale(PolarMultiMagnet):
 
     @property
     def exit_field_boundary_linear_radius_down(self) -> List[_Q]:
-        return 100*_np.ones(self.N)*_ureg.cm
+        return 500*_np.ones(self.N)*_ureg.cm
 
     def __str__(s):
         command = []
