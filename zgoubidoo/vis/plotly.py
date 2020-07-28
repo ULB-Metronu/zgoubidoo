@@ -131,7 +131,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                       with_magnet_poles: bool = True,
                       with_apertures: bool = True,
                       with_frames: bool = False,
-                      with_fringes: bool = False,
+                      with_map: bool = False,
                       points_in_polar_paths: int = 20,
                       opacity: float = 0.5,
                       reference_frame: str = 'entry_patched',
@@ -149,7 +149,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             with_magnet_poles:
             with_apertures:
             with_frames:
-            with_fringes:
+            with_map:
             points_in_polar_paths:
             opacity:
             reference_frame:
@@ -491,7 +491,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                         exit_face_angle = e.exit_field_boundary_wedge_angle[i].m_as('radians')
 
                         plot_polar_magnet()
-                        if with_fringes:
+                        if with_map:
                             entrance_efb_extent_up = e.entrance_field_boundary_linear_extent_up[i].m_as('m')
                             entrance_efb_radius_up = e.entrance_field_boundary_linear_radius_up[i].m_as('m')
                             entrance_efb_extent_down = e.entrance_field_boundary_linear_extent_down[i].m_as('m')
