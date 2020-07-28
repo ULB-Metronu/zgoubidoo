@@ -277,8 +277,14 @@ class Tosca(_CartesianMagnet):
         Returns:
 
         """
-        fieldmap = _pd.read_csv(self.FNAME, skiprows=8, names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'], sep=r'\s+')
-        fieldmap['X'] = fieldmap['X'] + self.length.m_as('cm') / 2
+        if self.MOD == 1 and self.IZ >= 3:
+            fname = self.FNAME.split('\n')[int(self.IZ/2)].strip(' ')
+        else:
+            fname = self.FNAME
+
+        fieldmap = _pd.read_csv(fname, skiprows=8, names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'], sep=r'\s+')
+#        fieldmap['X'] = fieldmap['X'] + self.length.m_as('cm') / 2
+        fieldmap['X'] = fieldmap['X'] + abs(fieldmap['X'].min())
         fieldmap['Z_ABS'] = fieldmap['Z'].apply(_np.abs)
         fieldmap = fieldmap[fieldmap['Z'] == fieldmap['Z_ABS'].min()]
 
