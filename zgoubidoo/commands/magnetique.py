@@ -860,6 +860,10 @@ class Aimant(PolarMagnet):
         return ''.join(map(lambda _: _.rstrip(), command))
 
 
+class Cyclotron(Magnet):
+    pass
+
+
 class Bend(CartesianMagnet):
     """Bending magnet, Cartesian frame.
 
@@ -2213,6 +2217,10 @@ class FFAGSpirale(PolarMultiMagnet):
         command.append(c)
 
         return ''.join(map(lambda _: _.rstrip(), command))
+
+
+class Halbach(CartesianMagnet):
+    pass
 
 
 class Multipole(CartesianMagnet):
