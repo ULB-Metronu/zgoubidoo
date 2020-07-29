@@ -5,6 +5,7 @@ TODO
 """
 from __future__ import annotations
 from typing import Any, Tuple, Dict, Mapping, List, Union
+from abc import ABCMeta
 import inspect
 import uuid
 import numpy as _np
@@ -50,7 +51,7 @@ class Comment:
         return str(self)
 
 
-class CommandType(type):
+class CommandType(ABCMeta):
     """
     Dark magic.
     Be careful.

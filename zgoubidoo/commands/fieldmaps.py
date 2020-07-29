@@ -4,10 +4,12 @@ More details here.
 """
 from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, List, Mapping, Union
+from abc import abstractmethod
 import numpy as _np
 import pandas as _pd
 from .commands import Command as _Command
 from .actions import Action as _Action
+from .magnetique import Magnet as _Magnet
 from .magnetique import CartesianMagnet as _CartesianMagnet
 from .magnetique import PolarMagnet as _PolarMagnet
 from .. import ureg as _ureg
@@ -117,7 +119,7 @@ class PolarMesh(_Command):
     """Keyword of the command used for the Zgoubi input data."""
 
 
-class Tosca(_CartesianMagnet):
+class Tosca(_Magnet):
     r"""2-D and 3-D Cartesian mesh field map (MOD<20).
 
     .. rubric:: Zgoubi manual description
@@ -182,67 +184,50 @@ class Tosca(_CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IC': (2, 'Print the map.'),
+        'IC': (0, 'Print the map.'),
         'IL': (2, 'Print field and coordinates along trajectories.'),
         'BNORM': (1.0, 'Field normalization coefficient.'),
         'XN': (1.0, 'X coordinate normalization coefficient.'),
         'YN': (1.0, 'Y coordinate normalization coefficient.'),
         'ZN': (1.0, 'Z coordinate normalization coefficient.'),
         'TITL': ('FIELDMAP', 'Title.'),
-        'IX': (1, 'Number of nodes of the mesh in the X direction.'),
-        'IY': (1, 'Number of nodes of the mesh in the Y direction.'),
+        'IX': (0, 'Number of nodes of the mesh in the X direction.'),
+        'IY': (0, 'Number of nodes of the mesh in the Y direction.'),
         'IZ': (1, 'Number of nodes of the mesh in the Z direction.'),
         'MOD': (0, 'Format reading mode.'),
         'MOD2': (0, 'Format reading sub-mode.'),
-        'FNAME': ('TOSCA', 'File names.'),
+        'FILES': (['tosca.table'], 'File names.'),
         'ID': (0, 'Integration boundary.'),
         'A': (1.0,),
         'B': (1.0,),
         'C': (1.0,),
         'IORDRE': (25, 'Degree of interpolation polynomial.'),
-        'XPAS': (1.0 * _ureg.mm, 'Integration step.'),
+        'XPAS': (1.0 * _ureg.cm, 'Integration step.'),
         'KPOS': (2, 'Alignment parameter: 1 (element aligned) or 2 (misaligned) ; If polar mesh : KPOS=2'),
-        'XCE': (0.0 * _ureg.cm, 'X shift'),
-        'YCE': (0.0 * _ureg.cm, 'Y shift'),
-        'ALE': (0.0 * _ureg.radian, 'Tilt'),
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
         commands (e.g. fit)."""
 
-    def __str__(s) -> str:
-        return f"""
+    @abstractmethod
+    def __str__(self) -> str:
+        commands = []
+        c = f"""
         {super().__str__().rstrip()}
-        {s.IC:d} {s.IL:d}
-        {s.BNORM:.12e} {s.XN:.12e} {s.YN:.12e} {s.ZN:.12e}
-        {s.TITL}
-        {s.IX:d} {s.IY:d} {s.IZ:d} {s.MOD:d}.{s.MOD2:d}
-        {s.FNAME}
-        {s.ID:d} {s.A:.12e} {s.B:.12e} {s.C:.12e}
-        {s.IORDRE:d}
-        {_cm(s.XPAS):.12e}
-        {s.KPOS:d} {s.XCE.m_as('cm'):.12e} {s.YCE.m_as('cm'):.12e} {s.ALE.m_as('radian'):.12e}
+        {self.IC:d} {self.IL:d}
+        {self.BNORM:.12e} {self.XN:.12e} {self.YN:.12e} {self.ZN:.12e}
+        {self.TITL}
+        {self.IX:d} {self.IY:d} {self.IZ:d} {self.MOD:d}.{self.MOD2:d}
         """
+        commands.append(c)
+        commands.append('\n'.join(self.FILES))
+        c = f"""
+        {self.ID:d} {self.A:.12e} {self.B:.12e} {self.C:.12e}
+        {self.IORDRE:d}
+        {self.XPAS.m_as('cm'):.12e}
+        """
+        commands.append(c)
 
-    def adjust_tracks_variables(self, tracks: _pd.DataFrame):
-        super().adjust_tracks_variables(tracks)
-        t = tracks[tracks.LABEL1 == self.LABEL1]
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = t['X'] - t['X'].min() + self.entry_s.m_as('m')
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X'] = t['X'] - t['X'].min()
-
-    def load(self, zgoubi: Optional[_Zgoubi] = None):
-        z = zgoubi or _Zgoubi()
-        zi = zgoubidoo.Input(f"TOSCA_{self.LABEL1}")
-        zi += self
-
-        def cb(f):
-            """Post execution callback."""
-            if not self.results[0][1].success:
-                raise _ZgoubiException(f"Unable to load field map for keyword {self.__class__.__name__}.")
-            self._length = self.results[0][1].results.iloc[-1]['LENGTH'] * _ureg.cm
-
-        z(zi, identifier={'TOSCA_LOAD': self.LABEL1}, cb=cb)
-        z.wait()
-        return self
+        return ''.join(commands).rstrip()
 
     def process_output(self, output: List[str],
                        parameters: Mapping[str, Union[_Q, float]],
@@ -270,6 +255,58 @@ class Tosca(_CartesianMagnet):
             )
         )
         return True
+
+    @property
+    def length(self) -> _Q:
+        """
+
+        Returns:
+
+        """
+        if self.length is None:
+            raise _ZgoubiException("The field map must be loaded (use `.load()`) to determine the optical length.")
+        return self._length
+
+
+class ToscaCartesian(Tosca, _CartesianMagnet):
+    PARAMETERS = {
+        'XCE': (0.0 * _ureg.cm, 'X shift'),
+        'YCE': (0.0 * _ureg.cm, 'Y shift'),
+        'ALE': (0.0 * _ureg.radian, 'Tilt'),
+    }
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
+        commands (e.g. fit)."""
+
+    def __str__(self):
+        return f"""
+        {super().__str__().rstrip()}
+        {self.KPOS:d} {self.XCE.m_as('cm'):.12e} {self.YCE.m_as('cm'):.12e} {self.ALE.m_as('radian'):.12e}
+        """
+
+    @abstractmethod
+    def post_init(self, **kwargs):
+        assert self.MOD < 20, "The value of the variable 'MOD' is incompatible with a cartesian mesh."
+
+    def adjust_tracks_variables(self, tracks: _pd.DataFrame):
+        super().adjust_tracks_variables(tracks)
+        t = tracks[tracks.LABEL1 == self.LABEL1]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = t['X'] - t['X'].min() + self.entry_s.m_as('m')
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X'] = t['X'] - t['X'].min()
+
+    def load(self, zgoubi: Optional[_Zgoubi] = None):
+        z = zgoubi or _Zgoubi()
+        zi = zgoubidoo.Input(f"TOSCA_{self.LABEL1}")
+        zi += self
+
+        def cb(f):
+            """Post execution callback."""
+            if not self.results[0][1].success:
+                raise _ZgoubiException(f"Unable to load field map for keyword {self.__class__.__name__}.")
+            self._length = self.results[0][1].results.iloc[-1]['LENGTH'] * _ureg.cm
+
+        z(zi, identifier={'TOSCA_LOAD': self.LABEL1}, cb=cb)
+        z.wait()
+        return self
 
     def plotly(self):
         """
@@ -306,42 +343,6 @@ class Tosca(_CartesianMagnet):
             opacity=1.0,
             colorscale='Greys',
         )
-
-    @property
-    def rotation(self) -> _Q:
-        """
-
-        Returns:
-
-        """
-        return self.ALE or 0.0 * _ureg.degree
-
-    @property
-    def length(self) -> _Q:
-        """
-
-        Returns:
-
-        """
-        return self._length
-
-    @property
-    def x_offset(self) -> _Q:
-        """
-
-        Returns:
-
-        """
-        return self.XCE or 0.0 * _ureg.cm
-
-    @property
-    def y_offset(self) -> _Q:
-        """
-
-        Returns:
-
-        """
-        return self.YCE or 0.0 * _ureg.cm
 
     @property
     def entry_patched(self) -> Optional[_Frame]:
@@ -386,131 +387,88 @@ class Tosca(_CartesianMagnet):
         return self._exit_patched
 
 
-class ToscaPolar(_PolarMagnet):
-    r"""2-D and 3-D Cylindrical mesh field map (MOD>=20).
-
-    .. rubric:: Zgoubi manual description
-
-    ``TOSCA`` is dedicated to the reading and treatment of 2-D or 3-D Cartesian or cylindrical mesh field maps as
-    delivered by the TOSCA magnet computer code standard parent.
-
-    A pair of flags, MOD, MOD2, determine whether Cartesian or Z-axis cylindrical mesh is used, and the nature of the
-    field map data set.
-
-    The total number of field data files to be read is determined by the MOD flag (see below) and by the parameter IZ
-    that appears in the data list following the keyword. Each of these files contains the field components
-    :math:`B_X`, :math:`B_Y`, :math:`B_Z` on an (X,Y) mesh. IZ=1 for a 2-D map, and in this case :math:`B_X` and
-    :math:`B_Y` are assumed zero all over the map.
-
-    For a 3-D map with mid-plane symmetry, described with a set of 2-D maps at various Z, then MOD=0 and IZ ≥ 2, and
-    thus, the first data file whose name follows in the data list is supposed to contain the median plane field
-    (assuming Z = 0 and :math:`B_X = B_Y = 0`), while the remaining IZ − 1 file(s) contain the IZ − 1 additional planes
-    in increasing Z order.
-
-    For arbitrary 3-D maps, no symmetry assumed, then MOD=1 and the total number of maps (whose names follow in the
-    data list) is IZ, such that map number [IZ/2] + 1 is the Z = 0 elevation one.
-
-    The field map data file has to be be filled with a format that fits the FORTRAN reading sequence.
-
-    IX (JY , KZ) is the number of longitudinal (transverse horizontal, vertical) nodes of the 3-D uniform mesh.
-    For letting zgoubi know that these are binary files, FNAME must begin with ‘B ’ or ‘b ’. In addition to the
-    MOD=1, 2 cases above, one can have MOD=12 and in that case a single file contains the all 3-D field map.
-    See table below and the FORTRAN subroutine fmapw.f and its entries FMAPR, FMAPR2, for more details, in particular
-    the formatting of the field map data file(s).
-
-    The field :math:`\vec{B}` = (BX , BY , BZ ) is normalized by means of BNORM in a similar way as in ``CARTEMES``.
-    As well the coordinates X and Y (and Z in the case of a 3-D field map) are normalized by the X-[, Y-, Z-]NORM
-    coefficient (useful to convert to centimeters, the working units in zgoubi).
-
-    At each step of the trajectory of a particle inside the map, the field and its derivatives are calculated:
-
-        - In the case of 2-D map, by means of a second or fourth order polynomial interpolation, depending
-          on IORDRE (IORDRE = 2, 25 or 4), as for ``CARTEMES``,
-
-        - In the case of 3-D map, by means of a second order polynomial interpolation with a 3 × 3 × 3-point
-          parallelepipedic grid, as described in section 1.4.4.
-
-    Entrance and/or exit integration boundaries between which the trajectories are integrated in the field may be
-    defined, in the same way as in ``CARTEMES``.
-
-    A 'TITL' (a line of comments) is part of the arguments of the keyword ``TOSCA``. It allows introducing options,
-    for instance :
-
-        - Including 'HEADER n' allows specifying the number of header lines (''n' non-data lines) at the top of the
-          field map file.
-
-        - Including ‘FLIP’ in TITL causes the field map to be X-flipped,
-
-        - Including ‘ZroBXY’ forces :math:`B_X = B_Y = 0` at all Z=0 nodes of the field map mesh
-          (only applies with MOD=15 and MOD =24).
-
-    .. rubric:: Zgoubidoo usage and example
-
-    """
-    KEYWORD = 'TOSCA'
-    """Keyword of the command used for the Zgoubi input data."""
-
+class ToscaCartesian2D(ToscaCartesian):
     PARAMETERS = {
-        'RM': (0 * _ureg.cm, ''),
-        'IC': (2, 'Print the map.'),
-        'IL': (2, 'Print field and coordinates along trajectories.'),
-        'BNORM': (1.0, 'Field normalization coefficient.'),
-        'XN': (1.0, 'X coordinate normalization coefficient.'),
-        'YN': (1.0, 'Y coordinate normalization coefficient.'),
-        'ZN': (1.0, 'Z coordinate normalization coefficient.'),
-        'TITL': ('FIELDMAP', 'Title.'),
-        'IX': (1, 'Number of nodes of the mesh in the X direction.'),
-        'IY': (1, 'Number of nodes of the mesh in the Y direction.'),
-        'IZ': (1, 'Number of nodes of the mesh in the Z direction.'),
         'MOD': (0, 'Format reading mode.'),
-        'MOD2': (0, 'Format reading sub-mode.'),
-        'FNAME': ('TOSCA', 'File names.'),
-        'ID': (0, 'Integration boundary.'),
-        'A': (1.0,),
-        'B': (1.0,),
-        'C': (1.0,),
-        'IORDRE': (25, 'Degree of interpolation polynomial.'),
-        'XPAS': (1.0 * _ureg.mm, 'Integration step.'),
-        'KPOS': (2, 'Positioning of the map, normally 2 for polar mesh'),
-        'RE': (0.0 * _ureg.cm, 'Reference radius at entrance of the map'),
-        'TE': (0.0 * _ureg.radian, 'Reference angle at entrance of the map'),
-        'RS': (0.0 * _ureg.cm, 'Reference radius at exit of the map'),
-        'TS': (0.0 * _ureg.radian, 'Reference angle at exit of the map'),
+        'MOD2': (1, 'Format reading sub-mode.'),
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
         commands (e.g. fit)."""
 
-    def __str__(s) -> str:
+    def post_init(self, infer_and_check_meshes: bool = True, **kwargs):
+        assert self.MOD in (0, 1, 3, 15), "The value of the variable 'MOD' is incompatible with a 2D cartesian mesh " \
+                                          "with mid-plane antisymmetry assumed."
+
+
+class ToscaCartesian3D(ToscaCartesian):
+    PARAMETERS = {
+        'MOD': (12, 'Format reading mode.'),
+        'MOD2': (1, 'Format reading sub-mode.'),
+    }
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
+        commands (e.g. fit)."""
+
+    def post_init(self, infer_and_check_meshes: bool = True, **kwargs):
+        assert self.MOD in (1, 12), "The value of the variable 'MOD' is incompatible with a 3D cartesian mesh with " \
+                                    "no symmetry assumed."
+        if len(self.FILES) > 1:
+            self.MOD = 1
+            self.MOD2 = 0
+            self.IZ = len(self.FILES)
+            if infer_and_check_meshes:
+                for f in self.FILES:
+                    df = _pd.read_csv(f,
+                                      delimiter='\t',
+                                      names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'],
+                                      skiprows=8
+                                      )
+                    assert df['Z'].nunique() == 1
+                    if self.IX != 0:
+                        assert self.IX == df['X'].nunique()
+                    else:
+                        self.IX = df['X'].nunique()
+                    if self.IY != 0:
+                        assert self.IY == df['Y'].nunique()
+                    else:
+                        self.IY = df['Y'].nunique()
+
+
+class ToscaCartesian3DAntisymetric(ToscaCartesian):
+    PARAMETERS = {
+        'MOD': (12, 'Format reading mode.'),
+        'MOD2': (0, 'Format reading sub-mode.'),
+    }
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
+        commands (e.g. fit)."""
+
+    def post_init(self, **kwargs):
+        assert self.MOD in (0, 12), "The value of the variable 'MOD' is incompatible with a 3D cartesian mesh with " \
+                                    "no symmetry assumed."
+
+
+class ToscaPolar(Tosca, _PolarMagnet):
+    def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        {s.IC:d} {s.IL:d}
-        {s.BNORM:.12e} {s.XN:.12e} {s.YN:.12e} {s.ZN:.12e}
-        {s.TITL}
-        {s.IX:d} {s.IY:d} {s.IZ:d} {s.MOD:d}.{s.MOD2:d}
-        {s.FNAME}
-        {s.ID:d} {s.A:.12e} {s.B:.12e} {s.C:.12e}
-        {s.IORDRE:d}
-        {_cm(s.XPAS):.12e}
-        {s.KPOS:d} 
-        {s.RE.m_as('cm'):.12e} {s.TE.m_as('radian'):.12e} {s.RS.m_as('cm'):.12e} {s.TS.m_as('radian'):.12e}
+        {self.KPOS:d}
+        {self.RE.m_as('cm'):.12e} {self.TE.m_as('radian'):.12e} {self.RS.m_as('cm'):.12e} {self.TS.m_as('radian'):.12e}
         """
 
     def adjust_tracks_variables(self, tracks: _pd.DataFrame):
         t = tracks[tracks.LABEL1 == self.LABEL1]
-        radius = self.RM.m_as('m')
         angles = 100 * t['X'] - 100 * t['X'][0]
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'ANGLE'] = angles
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'R'] = t['Y']
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'R0'] = t['Yo']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = radius * angles + self.entry_s.m_as('m')
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y'] - radius
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo'] - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = self.radius * angles + self.entry_s.m_as('m')
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y'] - self.radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo'] - self.radius
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT0'] = t['Zo']
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'X'] = t['Y'] * _np.sin(angles)
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'X0'] = t['Yo'] * _np.sin(angles)
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y'] = t['Y'] * _np.cos(angles) - radius
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y0'] = t['Yo'] * _np.cos(angles) - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y'] = t['Y'] * _np.cos(angles) - self.radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y0'] = t['Yo'] * _np.cos(angles) - self.radius
 
     def plotly(self):
         """
