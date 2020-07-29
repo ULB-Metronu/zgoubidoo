@@ -979,6 +979,18 @@ class Ordre(Command):
     KEYWORD = 'ORDRE'
     """Keyword of the command used for the Zgoubi input data."""
 
+    PARAMETERS = {
+        'IO': (4, 'Taylor expansion of R and u up to IO (default is IO = 4, IO = 2..5).'),
+    }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
+
+    def __str__(self):
+        return f"""
+        {super().__str__().strip()}
+        {self.IO}
+        """
+
 
 class Pickups(Command):
     """Beam centroid path; closed orbit."""
