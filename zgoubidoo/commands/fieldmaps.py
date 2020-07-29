@@ -356,7 +356,7 @@ class ToscaCartesian(Tosca, _CartesianMagnet):
             if self.KPOS in (0, 1, 2):
                 self._entry_patched.translate_x(self.x_offset)
                 self._entry_patched.translate_y(self.y_offset)
-                self._entry_patched.rotate_z(self.rotation)
+                self._entry_patched.rotate_z(-self.rotation)
         return self._entry_patched
 
     @property
