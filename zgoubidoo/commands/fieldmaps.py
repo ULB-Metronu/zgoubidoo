@@ -263,9 +263,44 @@ class Tosca(_Magnet):
         Returns:
 
         """
-        if self.length is None:
+        if self._length is None:
             raise _ZgoubiException("The field map must be loaded (use `.load()`) to determine the optical length.")
         return self._length
+
+    def plotly(self):
+        """
+
+        Returns:
+
+        """
+        if self.MOD == 1 and self.IZ >= 3:
+            file = self.FILES[int(self.IZ / 2)]
+        else:
+            file = self.FILES[0]
+
+        fieldmap = _pd.read_csv(file, skiprows=8, names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'], sep=r'\s+')
+        #        fieldmap['X'] = fieldmap['X'] + self.length.m_as('cm') / 2
+        fieldmap['X'] = fieldmap['X'] + abs(fieldmap['X'].min())
+        fieldmap['Z_ABS'] = fieldmap['Z'].apply(_np.abs)
+        fieldmap = fieldmap[fieldmap['Z_ABS'] == fieldmap['Z_ABS'].min()]
+
+        rotation_matrix = _np.linalg.inv(self.entry_patched.get_rotation_matrix())
+        origin = self.entry_patched.origin
+
+        u = _np.dot(fieldmap[['X', 'Y', 'Z']].values, rotation_matrix)
+        fieldmap['XG'] = (u[:, 0] + origin[0].m_as('cm')) / 100
+        fieldmap['YG'] = (u[:, 1] + origin[1].m_as('cm')) / 100
+        fieldmap['ZG'] = (u[:, 2] + origin[2].m_as('cm')) / 100
+        return _go.Histogram2d(
+            histfunc='avg',
+            nbinsx=100,
+            nbinsy=100,
+            x=fieldmap['XG'],
+            y=fieldmap['YG'],
+            z=fieldmap['BZ'],
+            opacity=1.0,
+            colorscale='Greys',
+        )
 
 
 class ToscaCartesian(Tosca, _CartesianMagnet):
@@ -277,15 +312,17 @@ class ToscaCartesian(Tosca, _CartesianMagnet):
     """Parameters of the command, with their default value, their description and optionally an index used by other 
         commands (e.g. fit)."""
 
+    @abstractmethod
+    def post_init(self, length=None, **kwargs):
+        assert self.MOD < 20, "The value of the variable 'MOD' is incompatible with a cartesian mesh."
+        if length is not None:
+            self._length = length
+
     def __str__(self):
         return f"""
         {super().__str__().rstrip()}
         {self.KPOS:d} {self.XCE.m_as('cm'):.12e} {self.YCE.m_as('cm'):.12e} {self.ALE.m_as('radian'):.12e}
         """
-
-    @abstractmethod
-    def post_init(self, **kwargs):
-        assert self.MOD < 20, "The value of the variable 'MOD' is incompatible with a cartesian mesh."
 
     def adjust_tracks_variables(self, tracks: _pd.DataFrame):
         super().adjust_tracks_variables(tracks)
@@ -307,42 +344,6 @@ class ToscaCartesian(Tosca, _CartesianMagnet):
         z(zi, identifier={'TOSCA_LOAD': self.LABEL1}, cb=cb)
         z.wait()
         return self
-
-    def plotly(self):
-        """
-
-        Returns:
-
-        """
-        if self.MOD == 1 and self.IZ >= 3:
-            fname = self.FNAME.split('\n')[int(self.IZ/2)].strip(' ')
-        else:
-            fname = self.FNAME
-
-        fieldmap = _pd.read_csv(fname, skiprows=8, names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'], sep=r'\s+')
-#        fieldmap['X'] = fieldmap['X'] + self.length.m_as('cm') / 2
-        fieldmap['X'] = fieldmap['X'] + abs(fieldmap['X'].min())
-        fieldmap['Z_ABS'] = fieldmap['Z'].apply(_np.abs)
-        fieldmap = fieldmap[fieldmap['Z'] == fieldmap['Z_ABS'].min()]
-
-        rotation_matrix = _np.linalg.inv(self.entry_patched.get_rotation_matrix())
-        origin = self.entry_patched.origin
-
-        u = _np.dot(fieldmap[['X', 'Y', 'Z']].values, rotation_matrix)
-        fieldmap['XG'] = (u[:, 0] + origin[0].m_as('cm')) / 100
-        fieldmap['YG'] = (u[:, 1] + origin[1].m_as('cm')) / 100
-        fieldmap['ZG'] = (u[:, 2] + origin[2].m_as('cm')) / 100
-
-        return _go.Histogram2d(
-            histfunc='avg',
-            nbinsx=100,
-            nbinsy=100,
-            x=fieldmap['XG'],
-            y=fieldmap['YG'],
-            z=fieldmap['BZ'],
-            opacity=1.0,
-            colorscale='Greys',
-        )
 
     @property
     def entry_patched(self) -> Optional[_Frame]:

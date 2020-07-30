@@ -80,6 +80,7 @@ class Input:
     def __init__(self,
                  name: str = 'beamline',
                  line: Optional[Sequence[_Command]] = None,
+                 with_validation: bool = True,
                  ):
         self._name: str = name
         line = line or list()
@@ -87,6 +88,7 @@ class Input:
         self._paths: PathsListType = list()
         self._reference_frame: Optional[_Frame] = None
         self._survey_is_valid: bool = False
+        self._with_validation: bool = with_validation
 
     def __del__(self):
         _logger.debug(f"Input object '{self.name }' for paths {self.paths} is being destroyed.")
@@ -120,6 +122,8 @@ class Input:
         Returns:
 
         """
+        if self._with_validation and not all([v(self) for v in ZgoubiInputValidator.validators()]):
+            raise ZgoubiInputException("The input did not pass the validation step.")
         self._paths = self.paths + self._generate(mappings=mappings, filename=filename, path=path)
         return self
 
@@ -570,16 +574,6 @@ class Input:
         return self._line
 
     @property
-    def valid_survey(self) -> bool:
-        """Boolean indicating if the line has been surveyed."""
-        return self._reference_frame is not None
-
-    @property
-    def survey_reference_frame(self) -> _Frame:
-        """Provides the reference frame which was used for the prior survey of the line."""
-        return self._reference_frame
-
-    @property
     def beam(self) -> Optional[_Beam]:
         """
 
@@ -638,6 +632,11 @@ class Input:
                                 )
 
     @property
+    def survey_reference_frame(self) -> _Frame:
+        """Provides the reference frame which was used for the prior survey of the line."""
+        return self._reference_frame
+
+    @property
     def valid_survey(self):
         """
 
@@ -664,8 +663,7 @@ class Input:
         self._survey_is_valid = False
         self._reference_frame = None
 
-
-    def execute(self):
+    def run(self):
         """
 
         Returns:
@@ -823,6 +821,28 @@ class ZgoubiInputValidator:
     Follows the rules as defined in the Zgoubi code and manual.
     """
 
+    @classmethod
+    def validators(cls):
+        from types import FunctionType
+        return [getattr(cls, v) for v in cls.__dict__ if isinstance(getattr(cls, v), FunctionType)]
+
+    @staticmethod
+    def validate_only_one_objet_is_present(_: Input) -> bool:
+        """
+        Validate that there is at maximum one (mc)objet in the input.
+
+        Args:
+            _: the input to validate
+
+        Returns:
+            True if the validation is successful; otherwise a `ZgoubiInputException` is raised.
+        """
+        line = _.line
+        n = len(_[zgoubidoo.commands.Objet, zgoubidoo.commands.MCObjet])
+        if len(_) > 0 and n != 0 and n > 1:
+            raise ZgoubiInputException("There is a more than a single objet in the line.")
+        return True
+
     @staticmethod
     def validate_objet_is_first_command(_: Input) -> bool:
         """
@@ -835,7 +855,7 @@ class ZgoubiInputValidator:
             True if the validation is successful; otherwise a `ZgoubiInputException` is raised.
         """
         line = _.line
-        if len(_) > 0 and not isinstance(line[0], (zgoubidoo.commands.Objet, zgoubidoo.commands.MCObjet)):
+        if len(_) > 0 and len(_[zgoubidoo.commands.Objet, zgoubidoo.commands.MCObjet]) == 1 and not isinstance(line[0], (zgoubidoo.commands.Objet, zgoubidoo.commands.MCObjet)):
             raise ZgoubiInputException("The first command in the input is not an Objet. (or MCObjet).")
         return True
 
