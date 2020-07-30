@@ -448,12 +448,24 @@ class ToscaCartesian3DAntisymetric(ToscaCartesian):
 
 
 class ToscaPolar(Tosca, _PolarMagnet):
+    PARAMETERS = {
+        'RE': (0.0 * _ureg.cm, 'X shift'),
+        'TE': (0.0 * _ureg.cm, 'Y shift'),
+        'RS': (0.0 * _ureg.radian, 'Tilt'),
+        'TS': (0.0 * _ureg.radian, 'Tilt'),
+    }
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
+        commands (e.g. fit)."""
+
     def __str__(self):
         return f"""
         {super().__str__().rstrip()}
         {self.KPOS:d}
         {self.RE.m_as('cm'):.12e} {self.TE.m_as('radian'):.12e} {self.RS.m_as('cm'):.12e} {self.TS.m_as('radian'):.12e}
         """
+
+    def post_init(self, reference_radius: float = 0.0 * _ureg.cm, **kwargs):
+        assert self.MOD >= 20, "The value of the variable 'MOD' is incompatible with a polar mesh."
 
     def adjust_tracks_variables(self, tracks: _pd.DataFrame):
         t = tracks[tracks.LABEL1 == self.LABEL1]
