@@ -65,7 +65,7 @@ class CartesianMesh(_Command):
         'YCE': (0 * _ureg.cm, 'Misalignment Y shift'),
         'ALE': (0 * _ureg.radian, 'Misalignment tilt'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(s) -> str:

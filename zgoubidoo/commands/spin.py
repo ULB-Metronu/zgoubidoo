@@ -42,7 +42,7 @@ class SpnTrk(_Action):
         'KSO': (1, ''),
         'IR': (1, 'Random sequence seed.')
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
         commands (e.g. fit)."""
 
     def __str__(self) -> str:

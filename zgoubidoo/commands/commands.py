@@ -154,7 +154,7 @@ class Command(metaclass=CommandType):
         'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'),
         'LABEL2': ('', 'Secondary label for the Zgoubi command.'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     class CommandResult:
@@ -496,7 +496,7 @@ class Fake(Command):
         'INPUT': ('', 'Input string.'),
         'OPTIONS': {},
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -523,7 +523,7 @@ class AutoRef(Command):
         'I2': (1, 'Particle number (only used if I = 3)'),
         'I3': (1, 'Particle number (only used if I = 3)'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self) -> str:
@@ -613,7 +613,7 @@ class Chambre(Command):
         'C3': (0 * _ureg.cm, 'If J=0, Y center, if J=1, inner Z opening'),
         'C4': (0 * _ureg.cm, 'If J=0, Z center, if J=1, outer Z opening'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -647,7 +647,7 @@ class ChangRef(Command, _Patchable):
     PARAMETERS = {
         'TRANSFORMATIONS': ([], 'List of transformations for new style ChangeRef'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -722,7 +722,7 @@ class Collimateur(Command):
         'C3': (0 * _ureg.cm, 'Center of the aperture (Y).'),
         'C4': (0 * _ureg.cm, 'Center of the aperture (Z).'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -765,7 +765,7 @@ class FaiStore(Command):
         'LABELS': ('ALL', 'Label(s) of the element(s) at the exit of which the storage occurs (10 labels maximum).'),
         'IP': (1, 'Store every IP other pass (when using REBELOTE with NPASS ≥ IP − 1).'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -784,7 +784,7 @@ class Focale(Command):
     PARAMETERS = {
         'XL': (0.0 * _ureg.centimeter, 'Distance from the location of the keyword.'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -802,7 +802,7 @@ class FocaleZ(Command):
     PARAMETERS = {
         'XL': (0.0 * _ureg.centimeter, 'Distance from the location of the keyword.'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -828,7 +828,7 @@ class GasScattering(Command):
         'AI': 0.0,
         'DEN': 0.0,
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -872,7 +872,7 @@ class GetFitVal(Command):
     PARAMETERS = {
         'FNAME': 'zgoubi.res',
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -938,7 +938,7 @@ class Matrix(Command):
         'IFOC': (11, 'If IFOC=11, periodic parameters (single pass)'),
         'COUPLED': (False, 'If COUPLED = True : use of coupled formalism'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -983,7 +983,7 @@ class Optics(Command):
         'LABEL': ('all', 'If IFOC=11, periodic parameters (single pass)'),
         'IMP': 1,
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -1001,7 +1001,7 @@ class Ordre(Command):
     PARAMETERS = {
         'IO': (4, 'Taylor expansion of R and u up to IO (default is IO = 4, IO = 2..5).'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -1038,7 +1038,7 @@ class Rebelote(Command):
         'LABL2': None,
         'NPRM': 1,
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -1085,7 +1085,7 @@ class Scaling(Command):
 
     PARAMETERS = {
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -1140,7 +1140,7 @@ class TranslationRotation(Command):
         'RY': (0 * _ureg.degree, 'Y axis rotation'),
         'RZ': (0 * _ureg.degree, 'Z axis rotation'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):

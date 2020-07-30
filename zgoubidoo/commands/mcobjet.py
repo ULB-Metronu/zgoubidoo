@@ -28,7 +28,7 @@ class MCObjet(_Command, metaclass=_ObjetType):
         'X0': (0 * _ureg.cm, 'Mean value'),
         'D0': (1, 'Mean value'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
         commands (e.g. fit)."""
 
 
@@ -74,7 +74,7 @@ class MCObjet3(MCObjet):
         'I2': (2, 'Random sequence seed'),
         'I3': (3, 'Random sequence seed'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
         commands (e.g. fit)."""
 
     def __str__(s) -> str:

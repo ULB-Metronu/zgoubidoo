@@ -103,7 +103,7 @@ class Objet2(Objet):
         'K2': (0, ''),
         'IDMAX': (1, ''),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     Y_ = 30
@@ -364,7 +364,7 @@ class Objet5(Objet):
         'D_Z': 0 * _ureg.m,
         'D_ZP': 0,
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(s) -> str:

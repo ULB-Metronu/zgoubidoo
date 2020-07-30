@@ -148,7 +148,7 @@ class BeamZgoubiDistribution(Beam):
         'N_CUTOFF_X': (10, 'Cut-off value for the longitudinal distribution'),
         'N_CUTOFF2_X': (0, 'Secondary cut-off value for the longitudinal distribution'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def post_init(self,
@@ -260,7 +260,7 @@ class BeamInputDistribution(Beam):
         'REFERENCE': (0, "Setting to 1 will produce a beam with only the reference particle (the distribution is not "
                          "lost"),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def post_init(self,

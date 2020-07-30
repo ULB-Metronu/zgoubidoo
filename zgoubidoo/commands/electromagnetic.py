@@ -19,7 +19,7 @@ class Betatron(_Command):
     PARAMETERS = {
         'KICK': (0.0, 'Momentum kick, relative to particle momentum.')
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -81,7 +81,7 @@ class WienFilter(_Command):
         'ALE': (0.0 * _ureg.radian, 'Z rotation'),
         'COLOR': ('pink', 'Element color for plotting.'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(s):

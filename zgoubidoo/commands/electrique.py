@@ -22,7 +22,7 @@ class Cavite(_Command, _Patchable, _Plotable):
         'CHAMBERS': ('+1', "Use Chambers' model."),
         'COLOR': 'yellow',
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
         commands (e.g. fit)."""
 
     def __str__(s):

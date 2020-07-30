@@ -66,7 +66,7 @@ class Faiscnl(Action):
         'B_FNAME': 'b_zgoubi.fai',
         'binary': (False, 'Binary storage format.'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -112,7 +112,7 @@ class Fit(Action, metaclass=FitType):
         'FINAL': (True, 'If true, Zgoubi will do an extra pass with the variables set with the fit results'),
         'SAVE': (True, 'If true, Zgoubi will save the results to file'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     class FitCoordinates:

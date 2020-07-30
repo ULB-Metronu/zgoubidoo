@@ -49,7 +49,7 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
         'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'),
         'KINEMATICS': (None, 'A kinematics object.'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
         commands (e.g. fit)."""
 
     def post_init(self, field_map: Optional[_FieldMap] = None, **kwargs):
@@ -111,7 +111,7 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
         'COLOR': ('black', 'Magnet color for plotting.'),
         'LENGTH_IS_ARC_LENGTH': (False, ''),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
         commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
@@ -517,7 +517,7 @@ class AGSMainMagnet(CartesianMagnet):
         'YR': (0 * _ureg.centimeter, 'Y rotation', 81),
         'COLOR': ('#FF0000', 'Magnet color for plotting.'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
@@ -623,7 +623,7 @@ class AGSQuadrupole(CartesianMagnet):
         'ALE': (0 * _ureg.radian, 'misalignment rotation', 83),
         'COLOR': ('#FF0000', 'Magnet color for plotting.'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
@@ -750,7 +750,7 @@ class Aimant(PolarMagnet):
         'SHIM_BETA': [],
         'SHIM_MU': [],
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
         commands (e.g. fit)."""
 
     def __str__(s):
@@ -907,7 +907,7 @@ class Bend(CartesianMagnet):
         'COLOR': '#4169E1',
         'LENGTH_IS_ARC_LENGTH': True,
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
         commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
@@ -997,7 +997,7 @@ class Decapole(CartesianMagnet):
         'ALE': (0 * _ureg.radian, 'misalignment rotation', 73),
         'COLOR': ('#FF0000', 'Magnet color for plotting.'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
         commands (e.g. fit)."""
 
     def __str__(self):
@@ -1149,7 +1149,7 @@ class Dipole(PolarMagnet):
         'DP': (0.0, '', 63),
         'COLOR': '#4169E1',
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
@@ -1370,7 +1370,7 @@ class DipoleM(PolarMagnet):
         'SHIM_BETA': [],
         'SHIM_MU': [],
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(s):
@@ -1565,7 +1565,7 @@ class Dipoles(PolarMultiMagnet):
         'DP': (0.0, '', 62),
         'COLOR': '#4169E1',
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
@@ -1695,7 +1695,7 @@ class Dodecapole(CartesianMagnet):
         'ALE': (0.0 * _ureg.radian, 'Tilt', 73),
         'COLOR': ('green', 'Magnet color for plotting.'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(s):
@@ -1731,7 +1731,7 @@ class Drift(CartesianMagnet):
         'SPLITS': (10, 'If SPLITS > 1, the drift will be split in multiple steps.'),
         'COLOR': (None, 'Color used when plotting the element.'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -1945,7 +1945,7 @@ class FFAG(PolarMultiMagnet):
         'DP': (0.0, '', 61),
         'COLOR': '#4169E1',
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
@@ -2149,7 +2149,7 @@ class FFAGSpirale(PolarMultiMagnet):
         'RS': (0.0 * _ureg.centimeter, '', 63),
         'TS': (0.0 * _ureg.radian, '', 64),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def adjust_tracks_variables(self, tracks: _pd.DataFrame):
@@ -2324,7 +2324,7 @@ class Multipole(CartesianMagnet):
             'COLOR': ('green', 'Magnet color for plotting.'),
 
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(s):
@@ -2381,7 +2381,7 @@ class Octupole(CartesianMagnet):
         'ALE': (0 * _ureg.radian, 'misalignment rotation', 73),
         'COLOR': ('#FF33E9', 'Magnet color for plotting.'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
@@ -2443,7 +2443,7 @@ class PS170(Magnet):
         'YCE': (0 * _ureg.cm, ''),
         'ALE': (0 * _ureg.degree, ''),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self) -> str:
@@ -2482,7 +2482,7 @@ class Quadisex(CartesianMagnet):
         'YCE': 0,
         'ALE': 0,
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(s):
@@ -2549,7 +2549,7 @@ class Quadrupole(CartesianMagnet):
         'ALE': (0 * _ureg.radian, 'misalignment rotation', 73),
         'COLOR': ('#FF0000', 'Magnet color for plotting.'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
@@ -2612,7 +2612,7 @@ class SexQuad(CartesianMagnet):
         'YCE': 0,
         'ALE': 0,
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(s):
@@ -2682,7 +2682,7 @@ class Sextupole(CartesianMagnet):
         'ALE': 0 * _ureg.radian,
         'COLOR': ('#00FF00', 'Magnet color for plotting.'),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(s):
@@ -2725,7 +2725,7 @@ class Solenoid(CartesianMagnet):
         'YCE': (0 * _ureg.centimeter, 'y offset'),
         'ALE': 0 * _ureg.radian,
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(s):
@@ -2767,7 +2767,7 @@ class Venus(Magnet):
         'YCE': (0 * _ureg.centimeter,),
         'ALE': (0 * _ureg.radian,),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 
     def __str__(self) -> str:
