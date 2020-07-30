@@ -555,6 +555,23 @@ class Binary(Command):
     KEYWORD = 'BINARY'
     """Keyword of the command used for the Zgoubi input data."""
 
+    PARAMETERS = {
+        'FILES': ([], 'List of files to convert'),
+        'NCOL': (6, 'Number of columns in each files'),
+        'NHDR': (8, 'Number of header lines in each files'),
+        'FORMAT': (None, 'READ format')
+    }
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    commands (e.g. fit)."""
+
+    def __str__(self):
+        newline = '\n        '
+        return f"""
+        {super().__str__().rstrip()}
+        {len(self.FILES)}.{self.FORMAT or ''} {self.NCOL} {self.NHDR}
+        {newline.join(self.FILES)}
+        """
+
 
 class Chambre(Command):
     """Long transverse aperture limitation.
