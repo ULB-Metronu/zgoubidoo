@@ -1182,7 +1182,7 @@ class Dipole(PolarMagnet):
         'OMEGA_E': (0 * _ureg.degree, '', 19),
         'THETA_E': (0 * _ureg.degree, 'Entrance face wedge angle', 20),
         'R1_E': (1e9 * _ureg.centimeter, 'Entrance EFB radius', 21),
-        'U1_E': (1e9 * _ureg.centimeter, 'Entrance EFB linear extent', 22),
+        'U1_E': (-1e9 * _ureg.centimeter, 'Entrance EFB linear extent', 22),
         'U2_E': (1e9 * _ureg.centimeter, 'Entrance EFB linear extent', 23),
         'R2_E': (1e9 * _ureg.centimeter, 'Entrance EFB radius', 24),
         'LAM_S': (0 * _ureg.centimeter, 'Exit fringe field extent (normally ≃ gap size)', 25),
@@ -1196,7 +1196,7 @@ class Dipole(PolarMagnet):
         'OMEGA_S': (0 * _ureg.degree, '', 33),
         'THETA_S': (0 * _ureg.degree, 'Exit face wedge angle', 34),
         'R1_S': (1e9 * _ureg.centimeter, 'Exit EFB radius', 35),
-        'U1_S': (1e9 * _ureg.centimeter, 'Exit EFB linear extent', 36),
+        'U1_S': (-1e9 * _ureg.centimeter, 'Exit EFB linear extent', 36),
         'U2_S': (1e9 * _ureg.centimeter, 'Exit EFB linear extent', 37),
         'R2_S': (1e9 * _ureg.centimeter, 'Exit EFB radius', 38),
         'LAM_L': (0.0 * _ureg.centimeter, 'Lateral fringe field extent (normally ≃ gap size)', 39),
@@ -2098,6 +2098,38 @@ class FFAG(PolarMultiMagnet):
     def exit_field_boundary_wedge_angle(self) -> List[_Q]:
         return self.THETA_S
 
+    @property
+    def entrance_field_boundary_linear_extent_down(self) -> List[_Q]:
+        return -self.U1_E
+
+    @property
+    def entrance_field_boundary_linear_extent_up(self) -> List[_Q]:
+        return self.U2_E
+
+    @property
+    def entrance_field_boundary_linear_radius_up(self) -> List[_Q]:
+        return self.R2_E
+
+    @property
+    def entrance_field_boundary_linear_radius_down(self) -> List[_Q]:
+        return self.R1_E
+
+    @property
+    def exit_field_boundary_linear_extent_down(self) -> List[_Q]:
+        return -self.U1_S
+
+    @property
+    def exit_field_boundary_linear_extent_up(self) -> List[_Q]:
+        return self.U2_S
+
+    @property
+    def exit_field_boundary_linear_radius_up(self) -> List[_Q]:
+        return self.R2_S
+
+    @property
+    def exit_field_boundary_linear_radius_down(self) -> List[_Q]:
+        return self.R1_S
+
 
 class FFAGSpirale(PolarMultiMagnet):
     r"""Spiral FFAG magnet, N-tuple.
@@ -2252,10 +2284,18 @@ class FFAGSpirale(PolarMultiMagnet):
 
     @property
     def entrance_field_boundary_wedge_angle(self) -> List[_Q]:
-        return self.XI_E
+        return _np.zeros(self.N)*_ureg.degrees
 
     @property
     def exit_field_boundary_wedge_angle(self) -> List[_Q]:
+        return _np.zeros(self.N)*_ureg.degrees
+
+    @property
+    def entrance_spiral_angle(self) -> List[_Q]:
+        return self.XI_E
+
+    @property
+    def exit_spiral_angle(self) -> List[_Q]:
         return self.XI_S
 
     @property

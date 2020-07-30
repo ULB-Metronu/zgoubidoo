@@ -202,9 +202,8 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
             roots = _np.roots([1, -2 * r * _np.cos(-entrance_face_angle), r ** 2 - (r - width) ** 2])
             length = _np.min(roots[roots > 0])
-            entrance_down = _np.sign(-entrance_face_angle) * \
-                            _np.min(
-                                (_np.arccos(((r - width) ** 2 + r ** 2 - length ** 2) / (2 * ((r - width) * r))), 1))
+            entrance_down = _np.sign(-entrance_face_angle) * _np.arccos(
+                _np.min([((r - width) ** 2 + r ** 2 - length ** 2) / (2 * ((r - width) * r)), 1]))
 
             roots = _np.roots([1, -2 * r * _np.cos(_np.pi + exit_face_angle), r ** 2 - (r + width) ** 2])
             length = roots[roots > 0][0]
@@ -212,88 +211,189 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
             roots = _np.roots([1, -2 * r * _np.cos(exit_face_angle), r ** 2 - (r - width) ** 2])
             length = _np.min(roots[roots > 0])
-            exit_down = _np.sign(exit_face_angle) * \
-                        _np.min((_np.arccos(((r - width) ** 2 + r ** 2 - length ** 2) / (2 * ((r - width) * r))), 1))
+            exit_down = _np.sign(exit_face_angle) * _np.arccos(
+                _np.min([((r - width) ** 2 + r ** 2 - length ** 2) / (2 * ((r - width) * r)), 1]))
 
             return [entrance_up, entrance_down, exit_up, exit_down]
 
         def plot_polar_magnet():
             if with_magnet_poles:
-                entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=width / 2)
-                thetas_up = _np.linspace(
-                    reference_angle - omega_e - entrance_up,
-                    reference_angle - omega_s + exit_up,
-                    points_in_polar_paths)
-
-                thetas_down = _np.linspace(
-                    reference_angle - omega_e + entrance_down,
-                    reference_angle - omega_s - exit_down,
-                    points_in_polar_paths)
-
+                width_up = 2 * _np.abs(_np.min([entrance_efb_extent_up, exit_efb_extent_up]))
+                width_down = 2 * _np.abs(_np.min([entrance_efb_extent_down,  exit_efb_extent_down]))
                 pts = []
-                for theta in thetas_up:
-                    pts.append(
-                        [(r + width / 2) * _np.sin(theta), -r + (r + width / 2) * _np.cos(theta), 0.0])
-                # if spiral
+                if not isinstance(e, _FFAGSPI):
+                    entrance_up, _, exit_up, _ = compute_face_angles(width=width_up / 2)
+                    _, entrance_down, _, exit_down = compute_face_angles(width=width_down / 2)
+
+                    thetas_up = _np.linspace(
+                        reference_angle - omega_e - entrance_up,
+                        reference_angle - omega_s + exit_up,
+                        points_in_polar_paths)
+
+                    thetas_down = _np.linspace(
+                        reference_angle - omega_e + entrance_down,
+                        reference_angle - omega_s - exit_down,
+                        points_in_polar_paths)
+
+                    for theta in thetas_up:
+                        pts.append(
+                            [(r + width_up / 2) * _np.sin(theta), -r + (r + width_up / 2) * _np.cos(theta), 0.0])
+
+                    for theta in thetas_down[::-1]:
+                        pts.append(
+                            [(r - width_down / 2) * _np.sin(theta), -r + (r - width_down / 2) * _np.cos(theta), 0.0])
+
                 if isinstance(e, _FFAGSPI):
-                    plot_spiral(entrance_face_angle, omega_e)
-                for theta in thetas_down[::-1]:
-                    pts.append(
-                        [(r - width / 2) * _np.sin(theta), -r + (r - width / 2) * _np.cos(theta), 0.0])
+                    pts = []
+                    x_e, y_e = plot_spiral(entrance_spiral_angle, omega_e, width / 2, width / 2)
+                    theta_entry_down = _np.arctan(x_e[0] / (r + y_e[0]))
+                    theta_entry_up = _np.arctan(x_e[-1] / (r + y_e[-1]))
+
+                    x_s, y_s = plot_spiral(exit_spiral_angle, omega_s, width / 2, width / 2)
+                    theta_exit_down = _np.arctan(x_s[0] / (r + y_s[0]))
+                    theta_exit_up = _np.arctan(x_s[-1] / (r + y_s[-1]))
+
+                    thetas_up = _np.linspace(theta_entry_up,
+                                             theta_exit_up,
+                                             points_in_polar_paths)
+
+                    thetas_down = _np.linspace(theta_entry_down,
+                                               theta_exit_down,
+                                               points_in_polar_paths)
+
+                    for i in range(len(x_e)):
+                        pts.append([x_e[i], y_e[i], 0.0])
+
+                    for theta in thetas_up:
+                        pts.append(
+                            [(r + width / 2) * _np.sin(theta), -r + (r + width / 2) * _np.cos(theta), 0.0])
+
+                    for i in reversed(range(len(x_s))):
+                        pts.append([x_s[i], y_s[i], 0.0])
+
+                    for theta in thetas_down[::-1]:
+                        pts.append(
+                            [(r - width / 2) * _np.sin(theta), -r + (r - width / 2) * _np.cos(theta), 0.0])
+
                 add_svg_path(_np.array(pts), reference_frame=reference_frame)
-                if isinstance(e, _FFAGSPI):
-                    plot_spiral(exit_face_angle, omega_s)
 
             if with_apertures:
-                pts = []
-                entrance_up, _, exit_up, _ = compute_face_angles(width=aper_left)
-                thetas_down = _np.linspace(
-                    reference_angle - omega_e - entrance_up,
-                    reference_angle - omega_s + exit_up,
-                    points_in_polar_paths)
+                if not isinstance(e, _FFAGSPI):
+                    pts = []
+                    # Aperture left
+                    entrance_up, _, exit_up, _ = compute_face_angles(width=aper_left + pipe_thickness)
+                    thetas_up = _np.linspace(
+                        reference_angle - omega_e - entrance_up,
+                        reference_angle - omega_s + exit_up,
+                        points_in_polar_paths)
+                    entrance_up, _, exit_up, _ = compute_face_angles(width=aper_left)
+                    thetas_down = _np.linspace(
+                        reference_angle - omega_e - entrance_up,
+                        reference_angle - omega_s + exit_up,
+                        points_in_polar_paths)
+                    for theta in thetas_down:
+                        pts.append(
+                            [(r + aper_left) * _np.sin(theta), -r + (r + aper_left) * _np.cos(theta), 0.0])
+                    for theta in thetas_up[::-1]:
+                        pts.append([(r + aper_left + pipe_thickness) * _np.sin(theta),
+                                    -r + (r + aper_left + pipe_thickness) * _np.cos(theta), 0.0])
 
-                for theta in thetas_down:
-                    pts.append(
-                        [(r + aper_left) * _np.sin(theta), -r + (r + aper_left) * _np.cos(theta), 0.0])
+                    add_svg_path(_np.array(pts), reference_frame=reference_frame, color=e.PIPE_COLOR)
+                    # Aperture right
+                    pts = []
+                    _, entrance_down, _, exit_down = compute_face_angles(width=aper_right)
+                    thetas_up = _np.linspace(
+                        reference_angle - omega_e + entrance_down,
+                        reference_angle - omega_s - exit_down,
+                        points_in_polar_paths)
+                    for theta in thetas_up:
+                        pts.append(
+                            [(r - aper_right) * _np.sin(theta), -r + (r - aper_right) * _np.cos(theta), 0.0])
+                    _, entrance_down, _, exit_down = compute_face_angles(width=aper_right + pipe_thickness)
+                    thetas_down = _np.linspace(
+                        reference_angle - omega_e + entrance_down,
+                        reference_angle - omega_s - exit_down,
+                        points_in_polar_paths)
+                    for theta in thetas_down[::-1]:
+                        pts.append([(r - aper_right - pipe_thickness) * _np.sin(theta),
+                                    -r + (r - aper_right - pipe_thickness) * _np.cos(theta), 0.0])
 
-                entrance_up, _, exit_up, _ = compute_face_angles(width=aper_left + pipe_thickness)
+                    add_svg_path(_np.array(pts), reference_frame=reference_frame, color=e.PIPE_COLOR)
 
-                thetas_up = _np.linspace(
-                    reference_angle - omega_e - entrance_up,
-                    reference_angle - omega_s + exit_up,
-                    points_in_polar_paths)
+                if isinstance(e, _FFAGSPI):
+                    # Aperture left
+                    pts = []
+                    x_e, y_e = plot_spiral(entrance_spiral_angle, omega_e, -aper_left, aper_left + pipe_thickness)
+                    theta_entry_down = _np.arctan(x_e[0] / (r + y_e[0]))
+                    theta_entry_up = _np.arctan(x_e[-1] / (r + y_e[-1]))
 
-                for theta in thetas_up[::-1]:
-                    pts.append([(r + aper_left + pipe_thickness) * _np.sin(theta),
-                                -r + (r + aper_left + pipe_thickness) * _np.cos(theta), 0.0])
+                    x_s, y_s = plot_spiral(exit_spiral_angle, omega_s, -aper_left, aper_left + pipe_thickness)
+                    theta_exit_down = _np.arctan(x_s[0] / (r + y_s[0]))
+                    theta_exit_up = _np.arctan(x_s[-1] / (r + y_s[-1]))
 
-                add_svg_path(_np.array(pts), reference_frame=reference_frame, color=e.PIPE_COLOR)
-                pts = []
+                    thetas_up = _np.linspace(theta_entry_up,
+                                             theta_exit_up,
+                                             points_in_polar_paths)
 
-                _, entrance_down, _, exit_down = compute_face_angles(width=aper_right)
-                thetas_up = _np.linspace(
-                    reference_angle - omega_e + entrance_down,
-                    reference_angle - omega_s - exit_down,
-                    points_in_polar_paths)
+                    thetas_down = _np.linspace(theta_entry_down,
+                                               theta_exit_down,
+                                               points_in_polar_paths)
 
-                for theta in thetas_up:
-                    pts.append(
-                        [(r - aper_right) * _np.sin(theta), -r + (r - aper_right) * _np.cos(theta), 0.0])
+                    for i in range(len(x_e)):
+                        pts.append([x_e[i], y_e[i], 0.0])
 
-                _, entrance_down, _, exit_down = compute_face_angles(width=aper_right + pipe_thickness)
+                    for theta in thetas_up:
+                        pts.append(
+                            [(r + aper_left + pipe_thickness) * _np.sin(theta),
+                             -r + (r + aper_left + pipe_thickness) * _np.cos(theta), 0.0])
 
-                thetas_down = _np.linspace(
-                    reference_angle - omega_e + entrance_down,
-                    reference_angle - omega_s - exit_down,
-                    points_in_polar_paths)
+                    for i in reversed(range(len(x_s))):
+                        pts.append([x_s[i], y_s[i], 0.0])
 
-                for theta in thetas_down[::-1]:
-                    pts.append([(r - aper_right - pipe_thickness) * _np.sin(theta),
-                                -r + (r - aper_right - pipe_thickness) * _np.cos(theta), 0.0])
+                    for theta in thetas_down[::-1]:
+                        pts.append(
+                            [(r + aper_left) * _np.sin(theta), -r + (r + aper_left) * _np.cos(theta), 0.0])
 
-                add_svg_path(_np.array(pts), reference_frame=reference_frame, color=e.PIPE_COLOR)
+                    add_svg_path(_np.array(pts), reference_frame=reference_frame, color=e.PIPE_COLOR)
+
+                    # Aperture right
+                    pts = []
+                    x_e, y_e = plot_spiral(entrance_spiral_angle, omega_e, aper_right + pipe_thickness, -aper_right)
+                    theta_entry_down = _np.arctan(x_e[0] / (r + y_e[0]))
+                    theta_entry_up = _np.arctan(x_e[-1] / (r + y_e[-1]))
+
+                    x_s, y_s = plot_spiral(exit_spiral_angle, omega_s, aper_right + pipe_thickness, -aper_right)
+                    theta_exit_down = _np.arctan(x_s[0] / (r + y_s[0]))
+                    theta_exit_up = _np.arctan(x_s[-1] / (r + y_s[-1]))
+
+                    thetas_up = _np.linspace(theta_entry_up,
+                                             theta_exit_up,
+                                             points_in_polar_paths)
+
+                    thetas_down = _np.linspace(theta_entry_down,
+                                               theta_exit_down,
+                                               points_in_polar_paths)
+
+                    for i in range(len(x_e)):
+                        pts.append([x_e[i], y_e[i], 0.0])
+
+                    for theta in thetas_up:
+                        pts.append(
+                            [(r - aper_right) * _np.sin(theta),
+                             -r + (r - aper_right) * _np.cos(theta), 0.0])
+
+                    for i in reversed(range(len(x_s))):
+                        pts.append([x_s[i], y_s[i], 0.0])
+
+                    for theta in thetas_down[::-1]:
+                        pts.append(
+                            [(r - aper_right - pipe_thickness) * _np.sin(theta),
+                             -r + (r - aper_right - pipe_thickness) * _np.cos(theta), 0.0])
+
+                    add_svg_path(_np.array(pts), reference_frame=reference_frame, color=e.PIPE_COLOR)
 
         def plot_fringes(theta_init, omega, face_angle, radius, linear_extent, sign_up=1):
+
             xa = (r + sign_up * linear_extent) * _np.sin(theta_init)
             ya = -r + (r + sign_up * linear_extent) * _np.cos(theta_init)
 
@@ -302,20 +402,18 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             xr = xa + radius * _np.cos(beta)
             yr = ya - radius * _np.sin(beta)
             delta_mu = linear_extent / radius
-
             if radius > 0:
-                mu0 = sign_up*_np.pi - (reference_angle - omega) + sign_up*face_angle
+                mu0 = sign_up * _np.pi - (reference_angle - omega) + sign_up * face_angle
             else:
-                mu0 = -(reference_angle - omega) + sign_up*face_angle
-
-            mus = _np.linspace(mu0, mu0 - sign_up * delta_mu, points_in_polar_paths)
-            x = xr + _np.abs(radius) * _np.cos(mus)
-            y = yr + _np.abs(radius) * _np.sin(mus)
-            add_svg_path(points=_np.array([x, y, 0]), reference_frame=reference_frame, shape='lines',
-                         line={'width': 2,
-                               'color': 'black'})
-
-            return xa, ya
+                mu0 = -(reference_angle - omega) + sign_up * face_angle
+            delta_mu = -sign_up * delta_mu
+            delta_mu = _np.sign(delta_mu) * _np.min([_np.abs(delta_mu), _np.pi / 2])  # To avoid return loop
+            mus = _np.linspace(mu0, mu0 + delta_mu, points_in_polar_paths)
+            x, y = [], []
+            if not _np.isclose(mu0, mu0 - sign_up * delta_mu, rtol=1e-03):
+                x = xr + _np.abs(radius) * _np.cos(mus)
+                y = yr + _np.abs(radius) * _np.sin(mus)
+            return [_np.concatenate(([xa], x)), _np.concatenate(([ya], y))]
 
         def rotate(origin, point, angle):
             """
@@ -328,10 +426,10 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             qy = oy + _np.sin(angle) * (px - ox) + _np.cos(angle) * (py - oy)
             return qx, qy
 
-        def plot_spiral(angle, omega):
+        def plot_spiral(angle, omega, width_down, width_up):
             b = 1 / _np.tan(angle)
-            r_min = r - width
-            r_max = r + width
+            r_min = r - width_down
+            r_max = r + width_up
 
             theta_min = (1 / b) * _np.log(r_min / r)
             theta_max = (1 / b) * _np.log(r_max / r)
@@ -342,12 +440,8 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             x = rspi * _np.sin(theta)
             y = -r + rspi * _np.cos(theta)
 
-            (x, y) = rotate((0, -r), (x, y), -reference_angle+omega)
-            add_svg_path(points=_np.array([x, y, 0]),
-                         reference_frame=reference_frame,
-                         shape='lines',
-                         line={'color': 'black',
-                               'width': 1})
+            (x, y) = rotate((0, -r), (x, y), -reference_angle + omega)
+            return [x, y]
 
         def plot_polar_map():
             # Plot the map
@@ -400,55 +494,57 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                                'width': 1,
                                'dash': 'dash'})
 
-            # Plot the fringes
-            # TODO better notation or default values
-            # Left up
-            xlu, xld, ylu, yld = None, None, None, None
-            if entrance_efb_extent_up < width and entrance_efb_radius_up < width:
+            # Plot the field boundary extension if it is not a FFAG-SPI
+            if not isinstance(e, _FFAGSPI):
+                pts = []
+
+                # Left up
                 entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=entrance_efb_extent_up)
                 theta_init = reference_angle - omega_e - entrance_up
-                xlu, ylu = plot_fringes(theta_init, omega_e, -entrance_face_angle,
-                                        entrance_efb_radius_up, entrance_efb_extent_up)
+                points_x, points_y = plot_fringes(theta_init, omega_e, -entrance_face_angle,
+                                                  entrance_efb_radius_up, entrance_efb_extent_up)
 
-            # Left down
-            if entrance_efb_extent_down < width and entrance_efb_radius_down < width:
+                for i in reversed(range(len(points_x))):
+                    pts.append([points_x[i], points_y[i], 0.0])
+
+                # Left down
                 entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=entrance_efb_extent_down)
                 theta_init = reference_angle - omega_e + entrance_down
-                xld, yld = plot_fringes(theta_init, omega_e, entrance_face_angle, entrance_efb_radius_down,
-                                        entrance_efb_extent_down, -1)
+                points_x, points_y = plot_fringes(theta_init, omega_e, entrance_face_angle, entrance_efb_radius_down,
+                                                  entrance_efb_extent_down, -1)
+                for i in range(len(points_x)):
+                    pts.append([points_x[i], points_y[i], 0.0])
 
-            if xlu is not None and xld is not None and ylu is not None and yld is not None:
-                x = _np.array([xlu, xld])
-                y = _np.array([ylu, yld])
-                add_svg_path(points=_np.array([x, y, 0]),
+                add_svg_path(points=_np.array([_np.array(pts)[:, 0], _np.array(pts)[:, 1], 0]),
                              reference_frame=reference_frame,
                              shape='lines',
                              line={'color': 'black',
-                                   'width': 2})
+                                   'width': 1})
 
-            # Right up
-            xru, xrd, yru, yrd = None, None, None, None
-
-            if exit_efb_extent_up < width and exit_efb_radius_up < width:
-                entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=exit_efb_extent_up)
-                theta_init = reference_angle - omega_s + exit_up
-                xru, yru = plot_fringes(theta_init, omega_s, -exit_face_angle, exit_efb_radius_up, exit_efb_extent_up)
-
-            # Right down
-            if exit_efb_extent_down < width and exit_efb_radius_down < width:
+                pts = []
+                # Right down
                 entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=exit_efb_extent_down)
                 theta_init = reference_angle - omega_s - exit_down
-                xrd, yrd = plot_fringes(theta_init, omega_s, exit_face_angle, exit_efb_radius_down,
-                                        exit_efb_extent_down, -1)
+                points_x, points_y = plot_fringes(theta_init, omega_s, exit_face_angle, exit_efb_radius_down,
+                                                  exit_efb_extent_down, -1)
 
-            if xru is not None and xrd is not None and yru is not None and yrd is not None:
-                x = _np.array([xru, xrd])
-                y = _np.array([yru, yrd])
-                add_svg_path(points=_np.array([x, y, 0]),
+                for i in reversed(range(len(points_x))):
+                    pts.append([points_x[i], points_y[i], 0.0])
+
+                # Right up
+                entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=exit_efb_extent_up)
+                theta_init = reference_angle - omega_s + exit_up
+                points_x, points_y = plot_fringes(theta_init, omega_s, -exit_face_angle, exit_efb_radius_up,
+                                                  exit_efb_extent_up)
+
+                for i in range(len(points_x)):
+                    pts.append([points_x[i], points_y[i], 0.0])
+
+                add_svg_path(points=_np.array([_np.array(pts)[:, 0], _np.array(pts)[:, 1], 0]),
                              reference_frame=reference_frame,
                              shape='lines',
                              line={'color': 'black',
-                                   'width': 2})
+                                   'width': 1})
 
         def plot_frames():
             color = ['red', 'green', 'blue', 'magenta', 'darkorange']
@@ -479,7 +575,6 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 aper_right = e.APERTURE_RIGHT.m_as('m')
                 width = e.POLE_WIDTH.m_as('m')
                 pipe_thickness = e.PIPE_THICKNESS.m_as('m')
-
                 if isinstance(e, _PolarMagnet):
                     r = e.RM.m_as('m')
                     for i in range(0, e.n_magnets):
@@ -490,16 +585,25 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                         entrance_face_angle = e.entrance_field_boundary_wedge_angle[i].m_as('radians')
                         exit_face_angle = e.exit_field_boundary_wedge_angle[i].m_as('radians')
 
+                        entrance_efb_extent_up = _np.min([e.entrance_field_boundary_linear_extent_up[i].m_as('m'),
+                                                          width / 2])
+                        entrance_efb_radius_up = e.entrance_field_boundary_linear_radius_up[i].m_as('m')
+                        entrance_efb_extent_down = _np.min(
+                            [e.entrance_field_boundary_linear_extent_down[i].m_as('m'),
+                             width / 2])
+                        entrance_efb_radius_down = e.entrance_field_boundary_linear_radius_down[i].m_as('m')
+                        exit_efb_extent_up = _np.min([e.exit_field_boundary_linear_extent_up[i].m_as('m'),
+                                                      width / 2])
+                        exit_efb_radius_up = e.exit_field_boundary_linear_radius_up[i].m_as('m')
+                        exit_efb_extent_down = _np.min([e.exit_field_boundary_linear_extent_down[i].m_as('m'),
+                                                        width / 2])
+                        exit_efb_radius_down = e.exit_field_boundary_linear_radius_down[i].m_as('m')
+                        if isinstance(e, _FFAGSPI):
+                            entrance_spiral_angle = e.entrance_spiral_angle[i].m_as('radians')
+                            exit_spiral_angle = e.exit_spiral_angle[i].m_as('radians')
                         plot_polar_magnet()
+
                         if with_map:
-                            entrance_efb_extent_up = e.entrance_field_boundary_linear_extent_up[i].m_as('m')
-                            entrance_efb_radius_up = e.entrance_field_boundary_linear_radius_up[i].m_as('m')
-                            entrance_efb_extent_down = e.entrance_field_boundary_linear_extent_down[i].m_as('m')
-                            entrance_efb_radius_down = e.entrance_field_boundary_linear_radius_down[i].m_as('m')
-                            exit_efb_extent_up = e.exit_field_boundary_linear_extent_up[i].m_as('m')
-                            exit_efb_radius_up = e.exit_field_boundary_linear_radius_up[i].m_as('m')
-                            exit_efb_extent_down = e.exit_field_boundary_linear_extent_down[i].m_as('m')
-                            exit_efb_radius_down = e.exit_field_boundary_linear_radius_down[i].m_as('m')
                             plot_polar_map()
 
                 else:
