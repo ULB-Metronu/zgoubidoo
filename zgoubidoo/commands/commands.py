@@ -1024,7 +1024,70 @@ class PlotData(Command):
 
 
 class Rebelote(Command):
-    """’Do it again’."""
+    r"""
+    Do it again
+    .. rubric:: Zgoubi manual description
+
+    When ``REBELOTE`` is encountered in the input data file, the code execution jumps,
+
+    - either back to the beginning of the data file - the default behavior,
+    - or, if option K=99.1 or K=99.2, back to a particular ``LABEL``.
+
+    Then ``NPASS-1`` passes (from ``LABEL`` to ``REBELOTE``) follow. As to the last pass, number ``NPASS+1``,
+    there are two possibilities :
+
+    - either it also encompasses the whole ``LABEL`` to ``REBELOTE`` range,
+
+    - or, upon request (option K=99.2 ), execution may exit that final pass upstream of ``REBELOTE``, at a location
+      defined by a second dedicated LABEL placed between the first above mentioned ``LABEL``, and ``REBELOTE``.
+      In both cases, following the end of this “multiple-pass” procedure, the execution continues from the keyword which
+      follows ``REBELOTE``, until ``END`` is encountered. The two functionalities of ``REBELOTE`` are the following :
+
+      - ``REBELOTE`` can be used for Monte Carlo simulations when more than Max(IMAX) particles are to be tracked.
+        Thus, when the following random procedures are used : ``MCOBJET``, ``OBJETA``, ``MCDESINT``, ``SPNTRK`` (KSO = 5),
+        their random seeds are not reset and independent statistics will add up.
+
+    This includes Monte Carlo simulations, in beam lines : normally K = 0. ``NPASS`` runs through the same structure,
+    from ``MCOBJET`` to ``REBELOTE`` will follow, resulting in the calculation of (1+``NPASS`` )*``IMAX`` trajectories,
+    with as many random initial coordinates.
+
+     - ``REBELOTE`` can be used for multi-turn ray-tracing in circular machines : normally K = 99 in that case
+        (or K = 99, see below). ``NPASS`` turns in the same structure will follow, resulting in the tracking of ``IMAX``
+        particles over 1+NPASS turns. For the simulation of pulsed power supplies, synchrotron motion, and other Q-jump manipulation,
+        see ``SCALING``.
+
+    For instance, using option described K=99.2 above, a full “injection line + ring + extraction line” installation
+    can be simulated - kicker firing and other magnet ramping can be simulated using ``SCALING``. Using the double-LABEL
+    method discussed above with option K=99.2, it is possible to encompass the ring between an injection line section
+    (namely, with the element sequence of the latter extending from OBJET to the first ``LABEL``),
+    and an extraction line (its description will then follow ``REBELOTE``), whereas the ring description extends from
+    to the first LABEL to ``REBELOTE``, with possible extraction, at the last pass, at the location of the second LABEL,
+    located between the first one and ``REBELOTE``,
+
+    Note : Some ``CAVITE`` options cause a reset-to-zero of individual particle path length 11. This is for reasons of
+    cumulated path length accuracy (a delta-path below computer accuracy compared to total path length would not be
+    resolved - it can be for instance bunch length as compared to cumulated multi-turn distance around a large ring).
+    This reset may not be desirable, it depends on the multi-turn problem dealt with using ``REBELOTE``,
+    it may be necessary for instance in long-term tracking in large rings, it is not in recirculating linacs.
+    Option K=99 in ``REBELOTE`` will cause this reset, whereas option K=98 (UNDER DEVELOPMENT, In cavite.f,
+    IN THIS VERSION OF THE CODE) will avoid it everything else left unchanged.
+
+    - Case IOPT=1 : In addition to what precedes, ``REBELOTE`` can change the value of arbitrary parameters in zgoubi.dat
+      data list, using the forth argument ``IOPT=1`` (see page 299). ``NPRM`` tells the number of parameters to be changed.
+      A series of ``NPRM`` lists of values, one list per parameter to be changed and each list with ``NRBLT`` data,
+      tells the values to be taken by each one of these parameters, over the ``NRBLT`` passes of the ``REBELOTE`` process.
+
+    ``IOPT=1`` is under development. TO BE DOCUMENT FURTHER.
+
+    - Printouts over ``NPASS+1`` passes might result in a prohibitively big zgoubi.res file. They may be switched on/off by
+      means of the option ``KWRIT``= i.j, with i = 1/0 respectively. The j flag allows a printout of the pass number and of some
+      additional information to the video output, every 10j−1 turns if j > 0 ; video output is essentially switched off
+      during ``REBELOTE`` execution if j = 0.
+
+    ``REBELOTE`` also provides information : statistical calculations and related data regarding particle decay (``MCDESINT``),
+    spin tracking (``SPNTRK``), stopped particles (``CHAMBR``, ``COLLIMA``), etc.
+
+    """
 
     KEYWORD = 'REBELOTE'
     """Keyword of the command used for the Zgoubi input data."""

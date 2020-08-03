@@ -309,7 +309,7 @@ class ToscaCartesian(Tosca, _CartesianMagnet):
         'YCE': (0.0 * _ureg.cm, 'Y shift'),
         'ALE': (0.0 * _ureg.radian, 'Tilt'),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
         commands (e.g. fit)."""
 
     @abstractmethod
@@ -509,5 +509,3 @@ class ToscaPolar(Tosca, _PolarMagnet):
             opacity=1.0,
             colorscale='Jet',
         )
-
-
