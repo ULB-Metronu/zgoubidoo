@@ -489,7 +489,8 @@ class ToscaPolar(Tosca, _PolarMagnet):
         Returns:
 
         """
-        fieldmap = _pd.read_csv(self.FNAME, skiprows=8, names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'], sep=r'\s+')
+        FNAME = self.FILES[0]
+        fieldmap = _pd.read_csv(FNAME, skiprows=8, names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'], sep=r'\s+')
 
         rotation_matrix = _np.linalg.inv(self.entry_patched.get_rotation_matrix())
         origin = self.entry_patched.origin
