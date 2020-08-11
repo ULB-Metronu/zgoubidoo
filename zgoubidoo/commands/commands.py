@@ -508,11 +508,26 @@ class AutoRef(Command):
 
     .. rubric:: Zgoubi manual description
 
-    AUTOREF positions the new reference frame following 3 options:
+    ``AUTOREF`` positions the new reference frame following 3 options:
 
-    - If I = 1, AUTOREF is equivalent to CHANGREF[XCE = 0,Y CE = Y (1),ALE = T(1)] so that the new reference frame is at the exit of the last element, with particle 1 at the origin with its horizontal angle set to T = 0.
-    - If I = 2, it is equivalent to CHANGREF[XW,Y W,T(1)] so that the new reference frame is at the position (X W, Y W ) of the waist (calculated automatically in the same way as for IMAGE) of the three rays number 1, 4 and 5 (compatible for instance with OBJET, KOBJ = 5, 6, together with the use of MATRIX) while T(1), the horizontal angle of particle number I1, is set to zero.
-    - If I = 3, it is equivalent to CHANGREF[XW,Y W,T(I1)] so that the new reference frame is at the position (X W, Y W ) of the waist (calculated automatically in the same way as for IMAGE) of the three rays number I1, I2 and I3 specified as data, while T(I1) is set to zero.
+    - If I = 1, ``AUTOREF`` is equivalent to CHANGREF[XCE = 0, YCE = Y (1), ALE = T(1)] so that the new reference
+      frame is at the exit of the last element, with particle 1 at the origin with its horizontal angle set to T = 0.
+    - If I = 2, it is equivalent to CHANGREF[XW,Y W,T(1)] so that the new reference frame is at the position (X W, Y W )
+      of the waist (calculated automatically in the same way as for IMAGE) of the three rays number 1, 4 and 5
+      (compatible for instance with OBJET, KOBJ = 5, 6, together with the use of MATRIX) while T(1), the horizontal
+      angle of particle number I1, is set to zero.
+    - If I = 3, it is equivalent to CHANGREF[XW,Y W,T(I1)] so that the new reference frame is at the position (X W, Y W)
+     of the waist (calculated automatically in the same way as for IMAGE) of the three rays number I1, I2 and I3
+     specified as data, while T(I1) is set to zero.
+    - If I = 4 : new horizontal beam centroid positionning XCE, YCE, ALE is provided. The beam is moved by XCE and then
+      centered on YCE, ALE.
+    - If I = 4.1 : new beam centroid positionning XCE, YCE, ALE, DCE, TIME is provided. The beam is moved by XCE and
+      then centered on YCE, ALE. In addition, the beam is centered on a new relative momentum DCE and new timing value
+      TIME.
+    - If I = 4.2 : same as 4.1, except that particles all have their timing set to TIME.
+    - If I = 5 : new vertical beam centroid positionning ZCE, PLE (position, angle) is provided. The beam is centered on
+      vertical position and angle ZCE, PLE.
+
     """
     KEYWORD = 'AUTOREF'
     """Keyword of the command used for the Zgoubi input data."""
@@ -522,6 +537,13 @@ class AutoRef(Command):
         'I1': (1, 'Particle number (only used if I = 3)'),
         'I2': (1, 'Particle number (only used if I = 3)'),
         'I3': (1, 'Particle number (only used if I = 3)'),
+        'XCE': (0.0 * _ureg.cm, ''),
+        'YCE': (0.0 * _ureg.cm, 'Beam centroid new coordinates YCE'),
+        'ALE': (0.0 * _ureg.mradian, 'Beam centroid new coordinates ALE'),
+        'DCE': (0.0, 'New beam centroid positionning: new relative momentum DCE'),
+        'TIME': (0.0 *_ureg.micros, 'New beam centroid positionning: new timing value'),
+        'ZCE': (0.0 * _ureg.cm, 'New vertical beam centroid positionning: position ZCE'),
+        'PLE': (0.0 * _ureg.mradian, 'New vertical beam centroid positionning: angle')
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
@@ -535,17 +557,69 @@ class AutoRef(Command):
             c += f"""
         {self.I1} {self.I2} {self.I3}
             """
+        elif self.I == 4:
+            c += f"""
+        {_cm(self.XCE):.12e} {_cm(self.YCE):.12e} {self.ALE.to('mradian').magnitude:.12e}
+            """
+        elif self.I == 4.1 or self.I == 4.2:
+            c += f"""
+        {_cm(self.XCE):.12e} {_cm(self.YCE):.12e} {self.ALE.to('mradian').magnitude:.12e} {self.DCE:.12e} {self.TIME.to('micros').magnitude:.12e}
+            """
+        elif self.I == 5:
+            c += f"""
+        {_cm(self.ZCE):.12e} {self.PLE.to('mradian').magnitude:.12e}
+            """
         return c
 
 
 class BeamBeam(Command):
     """Beam-beam lens.
 
-    TODO
+    .. rubric:: Zgoubi manual description
+
+    ``BEAMBEAM`` is a beam-beam lens simulation, a thin-lens transform [43], in the weak-strong approximation.
+    Upon option using SPNTRK, ``BEAMBEAM`` will include spin kicks, after modelling as described in Ref. [44].
+
+    *For software developers*
+    rbb.f reads the data from zgoubi.dat; bb.f and programs therein do the beam (and spin when requested) dynamics.
     """
     KEYWORD = 'BEAMBEAM'
     """Keyword of the command used for the Zgoubi input data."""
 
+    PARAMETERS = {
+        'SW': (0, '0/1 : off/on'),
+        'I': (0.0 * _ureg.ampere, 'beam intensity'),
+        'ALPHA_Y': (0.0, 'Horizontal beam parameters'),
+        'BETA_Y': (0.0 *_ureg.m, 'Horizontal beam parameters'),
+        'EPSILON_Y': (0.0 *_ureg.m*_ureg.radian, 'Horizontal beam parameters : (EPSILON_Y,norm)/pi'),
+        'ALPHA_Z': (0.0, 'Vertical beam parameters'),
+        'BETA_Z': (0.0 *_ureg.m, 'Vertical beam parameters'),
+        'EPSILON_Z': (0.0 *_ureg.m*_ureg.radian, 'Vertical beam parameters (EPSILON_Z,norm)/pi'),
+        'SIGMA_X': (0.0 *_ureg.m, 'rms bunch length'),
+        'SIGMA_DP': (0.0 , 'rms momentum spread'),
+        'C': (0.0 * _ureg.m, 'Ring circumference'),
+        'ALPHA': (0.0, 'momentum compaction'),
+        'QY': (0.0, 'Horizontal tune'),
+        'QZ': (0.0, 'Vertical tune'),
+        'QS': (0.0, 'Synchrotron tune'),
+        'AY': (0.0, 'Horizontal amplitude'),
+        'AZ': (0.0, 'Vertical amplitude'),
+        'AX': (0.0, 'Longitudinal amplitude'),
+    }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
+
+    def __str__(self):
+        return f"""
+        {super().__str__().rstrip()}
+        {self.SW} {self.I.m_as('ampere'):.12e}
+        {self.ALPHA_Y:.12e} {self.BETA_Y.m_as('m'):.12e} {self.EPSILON_Y.m_as('m*rad'):.12e}
+        {self.ALPHA_Z:.12e} {self.BETA_Z.m_as('m'):.12e} {self.EPSILON_Z.m_as('m*rad'):.12e}
+        {self.SIGMA_X.m_as('m'):.12e} {self.SIGMA_DP:.12e}
+        {self.C.m_as('m'):.12e} {self.ALPHA:.12e}
+        {self.QY:.12e} {self.QZ:.12e} {self.QS:.12e} 
+        {self.AY:.12e} {self.AZ:.12e} {self.AS:.12e} 
+        """
 
 class Binary(Command):
     """BINARY/FORMATTED data converter.

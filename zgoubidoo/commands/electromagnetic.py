@@ -9,6 +9,7 @@ from .commands import Command as _Command
 class Betatron(_Command):
     """Betatron core.
 
+    .. rubric:: Zgoubi manual description
 
     `BETATRON` simulates a betatron yoke, for instance for slow extraction.
     It just imparts the particle a momentum kick, normally small.
