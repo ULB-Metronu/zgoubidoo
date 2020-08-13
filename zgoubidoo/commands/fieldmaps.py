@@ -450,8 +450,8 @@ class ToscaCartesian3DAntisymetric(ToscaCartesian):
 class ToscaPolar(Tosca, _PolarMagnet):
     PARAMETERS = {
         'RE': (0.0 * _ureg.cm, 'X shift'),
-        'TE': (0.0 * _ureg.cm, 'Y shift'),
-        'RS': (0.0 * _ureg.radian, 'Tilt'),
+        'TE': (0.0 * _ureg.radian, 'Y shift'),
+        'RS': (0.0 * _ureg.cm, 'Tilt'),
         'TS': (0.0 * _ureg.radian, 'Tilt'),
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
@@ -473,15 +473,15 @@ class ToscaPolar(Tosca, _PolarMagnet):
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'ANGLE'] = angles
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'R'] = t['Y']
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'R0'] = t['Yo']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = self.radius * angles + self.entry_s.m_as('m')
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y'] - self.radius
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo'] - self.radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = self.radius.m_as('m') * angles + self.entry_s.m_as('m')
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y'] - self.radius.m_as('m')
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo'] - self.radius.m_as('m')
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT0'] = t['Zo']
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'X'] = t['Y'] * _np.sin(angles)
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'X0'] = t['Yo'] * _np.sin(angles)
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y'] = t['Y'] * _np.cos(angles) - self.radius
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y0'] = t['Yo'] * _np.cos(angles) - self.radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y'] = t['Y'] * _np.cos(angles) - self.radius.m_as('m')
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y0'] = t['Yo'] * _np.cos(angles) - self.radius.m_as('m')
 
     def plotly(self):
         """
