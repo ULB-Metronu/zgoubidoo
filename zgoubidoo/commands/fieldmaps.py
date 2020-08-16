@@ -449,6 +449,7 @@ class ToscaCartesian3DAntisymetric(ToscaCartesian):
 
 class ToscaPolar(Tosca, _PolarMagnet):
     PARAMETERS = {
+        'RM': (0.0 * _ureg.cm, 'Reference radius'),
         'RE': (0.0 * _ureg.cm, 'X shift'),
         'TE': (0.0 * _ureg.radian, 'Y shift'),
         'RS': (0.0 * _ureg.cm, 'Tilt'),
