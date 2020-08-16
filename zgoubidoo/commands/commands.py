@@ -830,6 +830,27 @@ class FaiStore(Command):
 
     If either FNAME or first LABEL is ’none’ then no storage occurs. Store occurs at all elements if first LABEL is
     ’all’ or ’ALL’.
+
+    ``FAISTORE`` has an effect similar to ``FAISCNL``, with more features.
+
+        - On the first data line, FNAME may be followed by a series of up to 10 LABELs. If there is no label, the print
+          occurs by default at the location of ``FAISTORE`` ; if there are labels the print occurs right downstream of
+          all optical elements wearing those labels (and no longer at the FAISTORE location).
+
+        - The next data line gives a parameter, IP : printing will occur at pass 1 and then at every IP other pass,
+          if using REBELOTE with NPASS ≥ IP − 1.
+
+    *Case of Binary storage:* it can be obtained from ``FAISCNL`` and ``FAISTORE``. This is for the sake of compactness
+    and access speed, for instance in case voluminous amounts of data would have to be manipulated using zpop.
+    This is achieved by giving the storage file a name of the form b FNAME or B FNAME (e.g., ‘b zgoubi.fai’).
+    The FORTRAN WRITE list is the same as in the FORMATTED case above.
+    This is compatible with the READ statements in zpop that will recognize binary storage from that very radical ’b ’
+    or ’B ’.
+
+    *Case of FIT[2] procedure :* it may not be desired to store during the FITting process, but instead only when the
+    FITtinig is completed. It is sufficient for that to (i) put ’AtFITfinal’ as the first label following FAISTORE
+    keyword, this will inhibit all storage until the final run following a FIT procedure, and (ii) avoid using the
+    ’nofinal’ instruction in FIT[2] (see p. 156)).
     """
     KEYWORD = 'FAISTORE'
     """Keyword of the command used for the Zgoubi input data."""
@@ -851,7 +872,51 @@ class FaiStore(Command):
 
 
 class Focale(Command):
-    """Particle coordinates and horizontal beam size at distance XL."""
+    r"""Particle coordinates and horizontal beam size at distance XL.
+
+    .. rubric:: Zgoubi manual description
+
+    ``FOCALE` calculates the dimensions of the beam and its mean transverse position, at a longitudinal distance XL `
+    from the position corresponding to the keyword ``FOCALE`.
+
+    ``IMAGE`` computes the location and size of the closest horizontal waist.
+
+    ``IMAGES`` has th same effect as ``IMAGE``, but, in addition, for a non-monochromatic beam it calculates as many
+    waists as there are distinct momenta in the beam, provided that the object has been defined with a classification
+    of momenta (see OBJET, KOBJ= 1, 2 for instance).
+
+    Optionally, for each of these three procedures, zgoubi can list a trace of the coordinates in the X, Y and in the
+    Y , Z planes. The following quantities are calculated for the N particles of the beam (``IMAGE``, ``FOCALE``) or of
+    each group of momenta (``IMAGES``)
+
+    • Longitudinal position :
+
+        FOCALE : X = XL
+
+        .. math::
+
+        IMAGE[S] : X = - \frac{\sum_{i=1}^N Y_i * tgT_i -(\sum_{i=1}^N Y_i * \sum_{i=1}^N tgT_i)/N}{\sum_{i=1}^N tg^2 T_i -(\sum_{i=1}^N tg T_i)^2/N}
+
+        .. math::
+
+        Y = Y_1 + X * tgT_1
+
+    where :math:`Y1` and :math:`T_1` are the coordinates of the first particle of the beam (``IMAGE``, ``FOCALE``) or
+    the first particle of each group of momenta (``IMAGES``).
+
+    • Transverse position of the center of mass of the waist (``IMAGE``[S]) or of the beam (``FOCALE``), with respect
+    to the reference trajectory
+
+    .. math::
+
+    YM = \frac{1}{N} \sum_{i=1}^N (Y_i + X tg T_i) - Y = \frac{1}{N} \sum_{i=1}^N Y M_i
+
+
+    • FWHM of the image (``IMAGE``[S])  or of the beam (``FOCALE``), and total width, respectively, W and :math:`W_T`
+
+    $$W = 2.35(\frac{1}{N} \sum_{i=1}^N Y M_i^2 - Y M^2)^{1/2}$$
+    $$WT = max(YM_i) - min(YM_i)$$
+    """
     KEYWORD = 'FOCALE'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -869,7 +934,13 @@ class Focale(Command):
 
 
 class FocaleZ(Command):
-    """Particle coordinates and vertical beam size at distance XL."""
+    r"""Particle coordinates and vertical beam size at distance XL.
+
+    .. rubric:: Zgoubi manual description
+
+    Similar to ``FOCALE``, but the calculations are performed with respect to the vertical coordinates
+    :math:`Z_i` and :math:`P_i`, in place of :math:`Y_i` and :math:`T_i`.
+    """
     KEYWORD = 'FOCALEZ'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -963,25 +1034,125 @@ class Histo(Command):
 
 
 class Image(Command):
-    """Localization and size of horizontal waist."""
+    r"""Localization and size of horizontal waist.
+
+    .. rubric:: Zgoubi manual description
+
+    ``FOCALE` calculates the dimensions of the beam and its mean transverse position, at a longitudinal distance XL `
+    from the position corresponding to the keyword ``FOCALE`.
+
+    ``IMAGE`` computes the location and size of the closest horizontal waist.
+
+    ``IMAGES`` has th same effect as ``IMAGE``, but, in addition, for a non-monochromatic beam it calculates as many
+    waists as there are distinct momenta in the beam, provided that the object has been defined with a classification
+    of momenta (see OBJET, KOBJ= 1, 2 for instance).
+
+    Optionally, for each of these three procedures, zgoubi can list a trace of the coordinates in the X, Y and in the
+    Y , Z planes. The following quantities are calculated for the N particles of the beam (``IMAGE``, ``FOCALE``) or of
+    each group of momenta (``IMAGES``)
+
+    • Longitudinal position :
+
+        FOCALE : X = XL
+
+        .. math::
+
+        IMAGE[S] : X = - \frac{\sum_{i=1}^N Y_i * tgT_i -(\sum_{i=1}^N Y_i * \sum_{i=1}^N tgT_i)/N}{\sum_{i=1}^N tg^2 T_i -(\sum_{i=1}^N tg T_i)^2/N}
+
+        .. math::
+
+        Y = Y_1 + X * tgT_1
+
+    where :math:`Y1` and :math:`T_1` are the coordinates of the first particle of the beam (``IMAGE``, ``FOCALE``) or
+    the first particle of each group of momenta (``IMAGES``).
+
+    • Transverse position of the center of mass of the waist (``IMAGE``[S]) or of the beam (``FOCALE``), with respect
+    to the reference trajectory
+
+    .. math::
+
+    YM = \frac{1}{N} \sum_{i=1}^N (Y_i + X tg T_i) - Y = \frac{1}{N} \sum_{i=1}^N Y M_i
+
+
+    • FWHM of the image (``IMAGE``[S])  or of the beam (``FOCALE``), and total width, respectively, W and :math:`W_T`
+
+    $$W = 2.35(\frac{1}{N} \sum_{i=1}^N Y M_i^2 - Y M^2)^{1/2}$$
+    $$WT = max(YM_i) - min(YM_i)$$
+    """
     KEYWORD = 'IMAGE'
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class Images(Command):
-    """Localization and size of horizontal waists."""
+    r"""Localization and size of horizontal waists.
+
+    .. rubric:: Zgoubi manual description
+
+    ``FOCALE` calculates the dimensions of the beam and its mean transverse position, at a longitudinal distance XL `
+    from the position corresponding to the keyword ``FOCALE`.
+
+    ``IMAGE`` computes the location and size of the closest horizontal waist.
+
+    ``IMAGES`` has th same effect as ``IMAGE``, but, in addition, for a non-monochromatic beam it calculates as many
+    waists as there are distinct momenta in the beam, provided that the object has been defined with a classification
+    of momenta (see OBJET, KOBJ= 1, 2 for instance).
+
+    Optionally, for each of these three procedures, zgoubi can list a trace of the coordinates in the X, Y and in the
+    Y , Z planes. The following quantities are calculated for the N particles of the beam (``IMAGE``, ``FOCALE``) or of
+    each group of momenta (``IMAGES``)
+
+    • Longitudinal position :
+
+        FOCALE : X = XL
+
+        .. math::
+
+        IMAGE[S] : X = - \frac{\sum_{i=1}^N Y_i * tgT_i -(\sum_{i=1}^N Y_i * \sum_{i=1}^N tgT_i)/N}{\sum_{i=1}^N tg^2 T_i -(\sum_{i=1}^N tg T_i)^2/N}
+
+        .. math::
+
+        Y = Y_1 + X * tgT_1
+
+    where :math:`Y1` and :math:`T_1` are the coordinates of the first particle of the beam (``IMAGE``, ``FOCALE``) or
+    the first particle of each group of momenta (``IMAGES``).
+
+    • Transverse position of the center of mass of the waist (``IMAGE``[S]) or of the beam (``FOCALE``), with respect
+    to the reference trajectory
+
+    .. math::
+
+    YM = \frac{1}{N} \sum_{i=1}^N (Y_i + X tg T_i) - Y = \frac{1}{N} \sum_{i=1}^N Y M_i
+
+
+    • FWHM of the image (``IMAGE``[S])  or of the beam (``FOCALE``), and total width, respectively, W and :math:`W_T`
+
+    $$W = 2.35(\frac{1}{N} \sum_{i=1}^N Y M_i^2 - Y M^2)^{1/2}$$
+    $$WT = max(YM_i) - min(YM_i)$$
+    """
     KEYWORD = 'IMAGES'
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class ImageZ(Command):
-    """Localization and size of vertical waist."""
+    r"""Localization and size of vertical waist.
+
+    .. rubric:: Zgoubi manual description
+
+    Similar to IMAGE, but the calculations are performed with respect to the vertical coordinates
+    :math:`Z_i` and :math:`P_i`, in place of :math:`Y_i` and :math:`T_i`.
+    """
     KEYWORD = 'IMAGEZ'
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class ImagesZ(Command):
-    """Localization and size of vertical waists."""
+    r"""Localization and size of vertical waists.
+
+    .. rubric:: Zgoubi manual description
+
+    Similar to IMAGES, but the calculations are performed with respect to the vertical coordinates
+    :math:`Z_i` and :math:`P_i`, in place of :math:`Y_i` and :math:`T_i`.
+    """
     KEYWORD = 'IMAGESZ'
     """Keyword of the command used for the Zgoubi input data."""
 

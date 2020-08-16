@@ -929,7 +929,7 @@ class Cyclotron(Magnet):
 
 
 class Bend(CartesianMagnet):
-    """Bending magnet, Cartesian frame.
+    r"""Bending magnet, Cartesian frame.
 
     .. note:: This is mostly a **sector bend** element defined in cartesian coordinates.
 
