@@ -1014,9 +1014,9 @@ class GasScattering(Command):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'KGA': 0,
-        'AI': 0.0,
-        'DEN': 0.0,
+        'KGA': (0, 'Off/On switch'),
+        'AI': (0.0, 'Atomic number'),
+        'DEN': (0.0, 'density'),
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
