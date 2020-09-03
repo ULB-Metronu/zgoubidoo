@@ -776,25 +776,70 @@ ChangeRef = ChangRef
 
 
 class Collimateur(Command):
-    """Collimator.
+    r"""Collimator.
 
     .. rubric:: Zgoubi manual description
 
-    COLLIMA acts as a mathematical aperture of zero length. It causes the identification, counting and stop- ping of
+    ``COLLIMA`` acts as a mathematical aperture of zero length. It causes the identification, counting and stop- ping of
     particles that reach the aperture limits.
 
+    *Physical Aperture*
+
+    A physical aperture can be either rectangular (IFORM = 1) or elliptic (IFORM = 2). The collimator is centered at
+    YC, ZC and has transverse dimensions ±Y L and ±ZL such that any particle will be stopped if its coordinates Y , Z
+    satisfy
+
+    $$(Y − YC)^2 ≥ YL^2 \quad or \quad (Z−ZC)^2 ≥ ZL^2 \quad if \quad IFORM = 1 $$
+    $$\frac{(Y − YC)^2}{YL^2} + \frac{(Z − ZC)^2}{ZL^2} ≥ 1 \quad if \quad IFORM = 2 $$
+
+    *Longitudinal Collimation*
+
+    ``COLLIMA`` can act as a longitudinal phase-space aperture, coordinates acted on are selected with IFORM.J.
+    Any particle will be stopped if its horizontal (h) and vertical (v) coordinates satisfy
+
+`    .. math::
+`
+    (h ≤ h_{min} or h ≥ h_{max}) or (v ≤ v_{min} or v ≥ v_{max})
+
+    wherein, h is either path length S if IFORM=6 or time if IFORM=7, and v is either 1+DP/P if J=1 or kinetic energy
+    if J=2 (provided mass and charge have been defined using the keyword ``PARTICUL``).
+
+    *Phase-Space Elliptical Collimation*
+    ``COLLIMA` can act as a phase-space elliptical aperture. Any particle will be stopped if its coordinates satisfy
+
+    .. math::
+
+        \begin{align}
+            γ_Y Y^2 + 2α_Y YT + β_Y T^2 &≥ ε_Y/π if IFORM = 11 or 14 \\
+            γ_Z Z^2 + 2α_Z ZP + β_Z P^2 &≥ ε_Z/π if IFORM = 12 or 15 \\
+            γ_S S^2 + 2α_S SD + β_S D^2 ≥ ε_S/π if IFORM = 13 or 16 (under development)
+        \end{align}
+
+
+    If IFORM=11 (respectively 12, 13) then :math:`ε_Y /π` (respectively :math:`ε_Z/π`, :math:`ε_S/π`) is to be
+    specified by the user as well as :math:`α_{Y,Z,S}`, :math:`β_{Y,Z,S}`. If IFORM =14 (respectively 15, 16) then
+    :math:`α_Y` and :math:`β_Y` (respectively :math:`α_{Z,S}, β_{Z,S}`) are determined by zgoubi by prior computation
+    of the matched ellipse to the particle population, so only :math:`ε_{Y,Z,S}/π` need be specified by the user.
+
+    When a particle is stopped, its index IEX (see ``OBJET`` and section 7.12) is set to the value -4, and its actual
+    path length is stored in the array SORT for possible further use (e.g., by ``HISTO``, or for loss studies, etc.).
     """
     KEYWORD = 'COLLIMA'
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'IA': (2, 'Element active or not (0 - inactive, 1 - active, 2 - active and prints information.'),
-        'IFORM': (1, 'Aperture shape (1 - rectangular, 2 - elliptic (other options, see documentation).'),
+        'IFORM': (
+            1,
+            'Aperture shape (1 - rectangular, 2 - elliptic (other options, see documentation). '
+            'IFORM = 6 or 7 for longitudinal collimation, '
+            '11 ≤ IFORM ≤ 16 for phase-space elliptical collimation'
+        ),
         'J': (0, 'Description of the aperture coordinates system.'),
-        'C1': (0 * _ureg.cm, 'Half opening (Y).'),
-        'C2': (0 * _ureg.cm, 'Half opening (Z).'),
-        'C3': (0 * _ureg.cm, 'Center of the aperture (Y).'),
-        'C4': (0 * _ureg.cm, 'Center of the aperture (Z).'),
+        'C1': (0.0 * _ureg.cm, 'Half opening (Y).'),
+        'C2': (0.0 * _ureg.cm, 'Half opening (Z).'),
+        'C3': (0.0 * _ureg.cm, 'Center of the aperture (Y).'),
+        'C4': (0.0 * _ureg.cm, 'Center of the aperture (Z).'),
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
