@@ -131,6 +131,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                       with_magnet_poles: bool = True,
                       with_apertures: bool = True,
                       with_frames: bool = False,
+                      with_legend: bool = False,
                       with_map: bool = False,
                       points_in_polar_paths: int = 20,
                       opacity: float = 0.5,
@@ -149,6 +150,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             with_magnet_poles:
             with_apertures:
             with_frames:
+            with_legend:
             with_map:
             points_in_polar_paths:
             opacity:
@@ -556,6 +558,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                         'marker': {'size': 5, 'color': color[i]},
                         'legendgroup': f"{e.LABEL1}",
                         'name': f"{frame} - {e.LABEL1}",
+                        'showlegend': with_legend,
                     })
 
         for e in beamline[start:stop]:
