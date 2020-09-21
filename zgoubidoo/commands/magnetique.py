@@ -1832,7 +1832,7 @@ class Drift(CartesianMagnet):
         """
         if self.reference_trajectory is not None:
             r = self.reference_trajectory['S']
-            return (r.min() - (r.iloc[1] - r.iloc[0])) * _ureg.m
+            return r.min() * _ureg.m
         else:
             return 0.0 * _ureg.m
 
