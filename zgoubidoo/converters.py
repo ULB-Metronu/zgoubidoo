@@ -121,8 +121,8 @@ def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
                  XL=element['L'],
                  B1=b1,
                  KPOS=3,
-                 W_E=we * _np.sign(element['ANGLE']),
-                 W_S=ws * _np.sign(element['ANGLE']),
+                 W_E=we * _np.sign(element['ANGLE'].magnitude),
+                 W_S=ws * _np.sign(element['ANGLE'].magnitude),
                  KINEMATICS=kinematics,
                  LENGTH_IS_ARC_LENGTH=options.get('LENGTH_IS_ARC_LENGTH', True)
                  )
@@ -256,7 +256,7 @@ def twcavity_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict
         IOPT=10,
         XL=1 * _ureg.m,
         FREQ=element['FREQ'] * _ureg.MHz,
-        V=element['VOLT'] * _ureg.MV * _np.sign(kinematics.brho),
+        V=element['VOLT'] * _ureg.MV * _np.sign(kinematics.brho.magnitude),
         PHI_S=(element['LAG'] + _np.pi / 2) * _ureg.radian,
     )
     return [
