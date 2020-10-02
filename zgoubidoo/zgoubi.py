@@ -498,7 +498,8 @@ class Zgoubi(Executable):
     def _extract_output(self, path, code_input: _Input, mapping) -> List[str]:
         """Extract element by element parent"""
         try:
-            result = open(os.path.join(path, self.RESULT_FILE)).read().split('\n')
+            with open(os.path.join(path, self.RESULT_FILE)) as file:
+                result = file.read().split('\n')
         except FileNotFoundError:
             # TODO add debug mechanism in this case
             raise ZgoubiException(f"Zgoubi execution ended but result '{self.RESULT_FILE}' file not found.")
