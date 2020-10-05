@@ -1051,10 +1051,13 @@ class GetFitVal(Command):
     # Xi2 =    1.68006E-16   Busy...
 
     A ’#’ at the beginning of a line means it is commented, thus it will not be taken into account. However a copy-paste
-    from zgoubi.res (which is the case in the present example) would not not need any commenting.
-    Since some of the FIT[2] variables may belong in [MC]OBJET, GETFITVAL may appear right before [MC]OBJET in zgoubi.dat,
-    to allow for its updating.
+    from zgoubi.res (which is the case in the present example) would not need any commenting.
+    Since some of the FIT[2] variables may belong in [MC]OBJET, ``GETFITVAL`` may appear upstream of [MC]OBJET in
+    zgoubi.dat, to allow for its updating.
 
+    Once completed, FIT[2] will be followed by a final run of zgoubi.dat with variable values updated as resulting from
+    the fit. This can be inhibited by indicating ‘nofinal’ option in FIT[2] (see page 156). For that final run
+    ``GETFITVAL`` will be inhibited so avoid overridding the updated variable values.
     """
     KEYWORD = 'GETFITVAL'
     """Keyword of the command used for the Zgoubi input data."""
@@ -1389,7 +1392,12 @@ class Rebelote(Command):
         'N': None,
         'LABL1': None,
         'LABL2': None,
+        'IOPT': None,
         'NPRM': 1,
+        'LMNT': None,
+        'KPRM': None,
+        'first_value': None,
+        'last_value': None
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
@@ -1397,7 +1405,9 @@ class Rebelote(Command):
     def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        {self.NPASS} {self.KWRIT} {self.K}{'.' if self.N else ''}{self.N or ''} {self.LABL1 or ''} {self.LABL2 or ''}
+        {self.NPASS} {self.KWRIT} {self.K}{'.' if self.N else ''}{self.N or ''} {self.LABL1 or ''} {self.LABL2 or ''} {self.IOPT or ''}
+        {self.NPRM if self.IOPT else ''}
+        {self.LMNT or ''} {self.KPRM or ''} {self.first_value or ''}:{self.last_value or ''}
         """
 
 
