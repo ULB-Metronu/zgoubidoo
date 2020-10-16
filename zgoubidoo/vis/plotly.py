@@ -465,7 +465,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
             x = _np.array([x0, x1])
             y = _np.array([y0, y1])
-            add_svg_path(points=_np.array([x, y, 0]),
+            add_svg_path(points=_np.array([x, y, 0], dtype="object"),
                          reference_frame=reference_frame,
                          shape='lines',
                          line={'color': 'black',
@@ -477,7 +477,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
             x = _np.array([x0, x1])
             y = _np.array([y0, y1])
-            add_svg_path(points=_np.array([x, y, 0]),
+            add_svg_path(points=_np.array([x, y, 0], dtype="object"),
                          reference_frame=reference_frame,
                          shape='lines',
                          line={'color': 'black',
@@ -489,7 +489,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
             x = _np.array([x0, x1])
             y = _np.array([y0, y1])
-            add_svg_path(points=_np.array([x, y, 0]),
+            add_svg_path(points=_np.array([x, y, 0], dtype="object"),
                          reference_frame=reference_frame,
                          shape='lines',
                          line={'color': 'black',
