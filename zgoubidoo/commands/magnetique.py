@@ -455,6 +455,10 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
     def exit_field_boundary_linear_radius_down(self) -> List[_Q]:
         return [self.R1_S]
 
+    @property
+    def delta_radius(self) -> List[_Q]:
+        return [0 * _ureg.m]
+
 
 class PolarMultiMagnetType(PolarMagnetType):
     """Type for polar multi magnets."""
@@ -516,6 +520,10 @@ class PolarMultiMagnet(PolarMagnet, metaclass=PolarMultiMagnetType):
 
         """
         return self.OMEGA_S
+
+    @property
+    def delta_radius(self) -> List[_Q]:
+        return self.DRM
 
 
 class AGSMainMagnet(CartesianMagnet):
