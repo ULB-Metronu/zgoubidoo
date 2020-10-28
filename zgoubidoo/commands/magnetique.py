@@ -218,6 +218,14 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
                 )
         return self._exit_patched
 
+    @property
+    def wedge_angle_entrance(self) -> _Q:
+        return self.W_E or 0 * _ureg.radians
+
+    @property
+    def wedge_angle_exit(self) -> _Q:
+        return self.W_S or 0 * _ureg.radians
+
 
 class PolarMagnetType(MagnetType):
     """Type for polar magnets."""
@@ -983,6 +991,7 @@ class Bend(CartesianMagnet):
         'ALE': 0.0 * _ureg.radian,
         'COLOR': '#4169E1',
         'LENGTH_IS_ARC_LENGTH': True,
+        'KINEMATICS': None,
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
         commands (e.g. fit)."""

@@ -610,27 +610,30 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                         if with_map:
                             plot_polar_map()
 
-                else:
+                else:  # This is a cartesian magnet
+                    w_e = e.wedge_angle_entrance.m_as('radians')
+                    w_s = e.wedge_angle_exit.m_as('radians')
                     if with_magnet_poles:
                         add_svg_path(_np.array([
-                            [0.0, -width / 2, 0.0],
-                            [0.0, width / 2, 0.0],
-                            [e.length.m_as('m'), width / 2, 0.0],
-                            [e.length.m_as('m'), -width / 2, 0.0],
+                            [-(width/2)*_np.tan(w_e), -width / 2, 0.0],
+                            [(width/2)*_np.tan(w_e), width / 2, 0.0],
+                            [e.length.m_as('m') + (width/2)*_np.tan(w_s), width / 2, 0.0],
+                            [e.length.m_as('m') - (width/2)*_np.tan(w_s), -width / 2, 0.0],
                         ]))
 
                     if with_apertures:
                         add_svg_path(_np.array([
-                            [0.0, -aper_left, 0.0],
-                            [0.0, -aper_left - pipe_thickness, 0.0],
-                            [e.length.m_as('m'), -aper_left - pipe_thickness, 0.0],
-                            [e.length.m_as('m'), -aper_left, 0.0],
+                            [-aper_left * _np.tan(w_e), -aper_left, 0.0],
+                            [-(aper_left + pipe_thickness)*_np.tan(w_e), -aper_left - pipe_thickness, 0.0],
+                            [e.length.m_as('m') - (aper_left + pipe_thickness)*_np.tan(w_s), -aper_left - pipe_thickness,
+                             0.0],
+                            [e.length.m_as('m')- aper_left*_np.tan(w_s), -aper_left, 0.0],
                         ]), reference_frame=reference_frame, color=e.PIPE_COLOR)
                         add_svg_path(_np.array([
-                            [0.0, aper_right, 0.0],
-                            [0.0, aper_right + pipe_thickness, 0.0],
-                            [e.length.m_as('m'), aper_right + pipe_thickness, 0.0],
-                            [e.length.m_as('m'), aper_right, 0.0],
+                            [aper_right * _np.tan(w_e), aper_right, 0.0],
+                            [(aper_right + pipe_thickness) * _np.tan(w_e), aper_right + pipe_thickness, 0.0],
+                            [e.length.m_as('m') + (aper_right + pipe_thickness) * _np.tan(w_s), aper_right + pipe_thickness, 0.0],
+                            [e.length.m_as('m') + aper_right * _np.tan(w_s), aper_right, 0.0],
                         ]), reference_frame=reference_frame, color=e.PIPE_COLOR)
 
     @classmethod
