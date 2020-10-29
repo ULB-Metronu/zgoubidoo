@@ -30,6 +30,7 @@ from zgoubidoo.commands import Command as _Command
 from .commands.actions import End as _End
 from .commands.beam import Beam as _Beam
 from .commands.beam import BeamTwiss as _BeamTwiss
+from .commands.magnetique import Drift as _Drift
 from .commands import particules as _particules
 from .commands.particules import Particule as _Particule
 from .commands.particules import ParticuleType as _ParticuleType
@@ -713,6 +714,7 @@ class Input:
                       beam_options: Optional[Mapping] = None,
                       with_survey: bool = True,
                       with_survey_reference: bool = True,
+                      use_default_drift: bool = True,
                       ):
         """
 
@@ -725,6 +727,8 @@ class Input:
             beam_options:
             with_survey:
             with_survey_reference:
+            use_default_drift: in case of an unknown keyword,
+            a drift is placed by default (using the length of the unknown keyword)
 
         Returns:
 
@@ -737,7 +741,11 @@ class Input:
         converted_sequence = deque(
             sequence.apply(
                 lambda _: elements_database.get(_.name,
-                                                conversion_functions.get(_['KEYWORD'], lambda _, __, ___: [])
+                                                conversion_functions.get(
+                                                    _['KEYWORD'],
+                                                    lambda _, __, ___: [_Drift(XL=_['L'])]
+                                                    if use_default_drift and getattr(_, 'L') is not None else []
+                                                )
                                                 (_, sequence.kinematics, options.get(_['KEYWORD'], {}))
                                                 ),
                 axis=1
