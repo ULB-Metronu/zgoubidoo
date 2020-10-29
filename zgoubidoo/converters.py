@@ -132,15 +132,19 @@ def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
             field_index = element.N
         elif element.K1 is not None and not _np.isnan(element.K1):
             field_index = -(_np.abs(
-                element.L/element.ANGLE).to('m')**2 * getattr(element, 'K1', 0.0 * _ureg.m**-2)
-                           ).magnitude
+                element.L / element.ANGLE).to('m') ** 2 * getattr(element, 'K1', 0.0 * _ureg.m ** -2)
+                            ).magnitude
         else:
             field_index = 0
         b = Dipole(element.name[0:_ZGOUBI_LABEL_LENGTH],
-                   RM=_np.abs(element.L/element.ANGLE),
-                   AT=_np.abs(element.ANGLE),
+                   RM=_np.abs(element.L / element.ANGLE).to('meter'),
+                   AT=_np.abs(element.ANGLE).to('degrees'),
+                   THETA_E=we * _np.sign(element['ANGLE'].magnitude),
+                   LAM_E=0 * _ureg.cm,  # Default value
+                   THETA_S=-ws * _np.sign(element['ANGLE'].magnitude),
+                   LAM_S=0 * _ureg.cm,
                    B0=b1,
-                   N=field_index,
+                   N=-field_index,
                    )
     if element['TILT'] != 0:
         b.COLOR = 'goldenrod'
@@ -223,7 +227,7 @@ def sextupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dic
     Returns:
 
     """
-    return [Sextupole(element.name[0:_ZGOUBI_LABEL_LENGTH], XL=element['L'] * _ureg.meter)]
+    return [Sextupole(element.name[0:_ZGOUBI_LABEL_LENGTH], XL=element['L'])]
 
 
 def octupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:
@@ -237,7 +241,7 @@ def octupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict
     Returns:
 
     """
-    return [Octupole(element.name[0:_ZGOUBI_LABEL_LENGTH], XL=element['L'] * _ureg.meter)]
+    return [Octupole(element.name[0:_ZGOUBI_LABEL_LENGTH], XL=element['L'])]
 
 
 def twcavity_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:
