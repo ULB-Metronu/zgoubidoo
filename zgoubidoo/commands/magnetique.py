@@ -1099,7 +1099,6 @@ class Bend(CartesianMagnet):
         'ALE': (0.0 * _ureg.radian, 'Tilt'),
         'COLOR': '#4169E1',
         'LENGTH_IS_ARC_LENGTH': True,
-        'KINEMATICS': None,
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
         commands (e.g. fit)."""
