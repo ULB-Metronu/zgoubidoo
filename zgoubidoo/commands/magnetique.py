@@ -738,7 +738,7 @@ class AGSQuadrupole(CartesianMagnet):
             {super().__str__().rstrip()}
             {s.IL}
             {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_ampere(s.IW1):.12e} {_ampere(s.IW2):.12e} {_ampere(s.IW3):.12e}
-            {s.dIW1 :.12e} {s.dIW1 :.12e} {s.dIW2 :.12e} 
+            {s.dIW1 :.12e} {s.dIW2 :.12e} {s.dIW3 :.12e} 
             {_cm(s.X_E):.12e} {_cm(s.LAM_E):.12e}
             {s.NCE} {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
             {_cm(s.X_S):.12e} {_cm(s.LAM_S):.12e}
@@ -954,17 +954,117 @@ class Aimant(PolarMagnet):
 
 
 class Cyclotron(Magnet):
+    r"""Spiral sector cyclotron
+
+    .. rubric:: Zgoubi manual description
+
+    ``CYCLOTRON` provides a model of a spiral sector dipole field [31, Appendix C, p. 149] [32]. The source code has
+     been derived from ``FFAG-SPI``, thus there is many similarities in their capabilities and operation.
+     The field along the particle’s trajectory is computed as the particle motion proceeds, by using the magnet’s
+     geometrical boundaries: At any position (R,θ) along the particle trajectory (see Fig 17), the value of the
+     vertical component of the mid-plane field is calculated using:
+
+    .. math::
+
+    B_Z (R, θ) = B_{norm} × F (R, θ) × R(R)
+
+
+    • :math:`R(R)= B_0 + B_1 × R + B_2 × R^2 + B_3 × R^3 + B_4 × R^4`,
+    • :math:`B_{norm}` is a normalization coefficient,
+    • F(R, θ) is the fringe field coefficient, given by (after Enge’s fringe model):
+
+    .. math ::
+
+    F(R,θ) = F_{entr}(R,θ) × F_{exit}(R,θ) = \frac{1}{1 + exp(P_{entr}(d_{entr}))}×\frac{1}{1 + exp(P_{exit}(d_{exit}))}
+
+    where
+
+    .. math ::
+
+    P(d) = C_0+ C_1 (\frac{d}{g})+ C_2 (\frac{d}{g})^2+ C_3 (\frac{d}{g})^3+ C_4 (\frac{d}{g})^4+ C_5 (\frac{d}{g})^5
+
+    and d is the distance from the Effective Field Boundary (EFB) either at the entrance or at the exit of
+    the magnet (:math:`d_{entr} and d_{exit} as shown in Fig 17)
+
+    The EFBs are modelled by a logarithmic spiral for which the angle ξ is allowed to increase radially, namely:
+
+    .. math ::
+
+    r = r_0 × exp􏰇( \frac{θ+ω}{tan ξ(r)} 􏰈 (6.3.14)
+
+    where :math:`ξ(r)=ξ_0 +ξ_1 ×r + ξ_2 × r^2 + ξ_3 × r^3`, θ is the azimuthal angle (origin θ=0) and ω is a parameter
+    used to position the EFB with respect to the azimuthal position θ=0.
+    In this model, the magnet gap is also allowed to vary: g is given as a function of the radius by:
+
+    .. math ::
+
+    g(r) = g_0 + g_1 × r + g_2 × r^2 (6.3.15)
+
+    The field is then extrapolated off median plane by means of Taylor series: for that, the median plane antisymmetry
+    is assumed and the Maxwell equations are accommodated.
+
+    Note that ``CYCLOTRON`` allows the overlapping of 5 such dipole fields. This follows the method described in [46].
+    In the case of a cyclotron machine, the isochronicity is a crucial point: Because the revolution time has to be
+    constant (:math:`f_{rev} = \frac{qB}{2πγm_0}`), this implies that the radial dependence of the field must be
+    proportional to γ, so that :math:`R(\bar{R}) ∝ γ(\bar{R})`, where R is the average radius of the orbit.
+    Since :math:`f_{rev} = \frac{v}{C}, where C is the path length of the particle for one closed orbit, one obtains,
+    with a good approximation, that :math:'R ∝ β`. Thus,
+
+    .. math ::
+
+    R(R) \approx \frac{1}{\sqrt{1-(\frac{R}{R_0})^2}}
+
+    """
+    KEYWORD = 'CYCLOTRON'
+    """Keyword of the command used for the Zgoubi input data."""
+
     pass
 
 
 class Bend(CartesianMagnet):
-    """Bending magnet, Cartesian frame.
+    r"""Bending magnet, Cartesian frame.
 
     .. note:: This is mostly a **sector bend** element defined in cartesian coordinates.
 
     .. rubric:: Zgoubi manual description
 
-    TODO
+    ``BEND`` is one of several keywords available for the simulation of dipole magnets. It presents the interest of
+    easy handling, and is well adapted for the simulation of synchrotron dipoles and such other regular dipoles as
+    sector magnets with wedge angles.
+
+    The field in ``BEND`` is defined in a Cartesian coordinate frame (unlike for instance ``DIPOLE``[S] that uses a
+    polar frame). As a consequence, having particle coordinates at entrance or exit of the magnet referring to the
+    curved main direction of motion may require using KPOS, in particular KPOS=3 (in a circular accelerator cell for
+    instance, see section 7.9, p. 201).
+
+    The dipole simulation accounts for the magnet geometrical length XL, for a possible skew angle (X-rotation, useful
+    for obtaining vertical deviation magnet), and for the field B1 such that in absence of fringe field the  deviation
+    θ satisfies :math:`XL = 2 \frac{BORO}{B1} sin(θ/2).
+
+    Then follows the description of the entrance and exit EFBs and fringe fields. The wedge angles :math:`W_E`(entrance)
+    and :math:`W_S` (exit) are defined with respect to the sector angle, with the signs as described in Fig. 12.
+    Within a distance :math:`± X_E` :math:`(±X_S)` on both sides of the entrance (exit) EFB, the fringe field model is
+    used (same as for ``QUADRUPO``, Fig. 35, p. 129) ; elsewhere, the field is supposed to be uniform.
+
+    If :math:`λ_E` (resp. :math:`λ_S) is zero sharp edge field model is assumed at entrance (resp. exit) of the magnet
+    and :math:`X_E` (resp. :math:`X_S`) is forced to zero. In this case, the wedge angle vertical first order focusing
+    effect (if \vec{B1} is non zero) is simulated at magnet entrance and exit by a kick
+    :math:`P_2 = P_1 − Z_1 tan(ε/ρ)` applied to each particle (:math:`P_1`, :math:`P_2` are the vertical angles
+    upstream and downstream the EFB, :math:`Z1` the vertical particle position at the EFB, ρ the local horizontal
+    bending radius and ε the wedge angle experienced by the particle ; ε depends on the horizontal angle T).
+
+    Magnet (mis-)alignment is assured by KPOS. KPOS also allows some degrees of automatic alignment useful for periodic
+    structures (section 7.9).
+
+    *From matrice-style code modeling, to zgoubi :*
+     Fig. 13 illustrates the conversion of matrix method style of data where the magnet is defined by its length and
+     deviation angle (see MAD input below, using ’SBEND’), to zgoubi input data using ``BEND`` (in this particular case
+     of an illustration of a rectangular magnet, ``MULTIPOL`` could be used, as well).
+
+    *Negative bend, vertical bend, tricks :*
+    Use ``YMY`` for the former, ``TRAROT`` with a ±π X-rotation for the latter. The two can be combined, so that a
+    vertical negative bend can be represented by the sequence TRAROT[π], YMY, BEND[B>0], YMY, TRAROT[−π], with
+    positionning methods for ``BEND`` as dis- cussed above (Fig. 13) still applying.
     """
     KEYWORD = 'BEND'
     """Keyword of the command used for the Zgoubi input data."""
@@ -994,9 +1094,9 @@ class Bend(CartesianMagnet):
         'C5_S': (0.0, 'Exit fringe field coefficient C5'),
         'XPAS': (1.0 * _ureg.centimeter, "Integration step"),
         'KPOS': (2, "Alignment parameter"),
-        'XCE': 0.0 * _ureg.centimeter,
-        'YCE': 0.0 * _ureg.centimeter,
-        'ALE': 0.0 * _ureg.radian,
+        'XCE': (0.0 * _ureg.centimeter, 'X shift'),
+        'YCE': (0.0 * _ureg.centimeter, 'Y shift'),
+        'ALE': (0.0 * _ureg.radian, 'Tilt'),
         'COLOR': '#4169E1',
         'LENGTH_IS_ARC_LENGTH': True,
         'KINEMATICS': None,
@@ -1100,16 +1200,16 @@ class Decapole(CartesianMagnet):
         {int(self.IL):d}
         {_cm(self.XL):.12e} {_cm(self.R0):.12e} {_kilogauss(self.B0):.12e}
         {_cm(self.XE):.12e} {_cm(self.LAM_E):.12e}
-        6 {self.C0:.12e} {self.C1:.12e} {self.C2:.12e} {self.C3:.12e} {self.C4:.12e} {self.C5:.12e}
+        6 {self.C0_E:.12e} {self.C1_E:.12e} {self.C2_E:.12e} {self.C3_E:.12e} {self.C4_E:.12e} {self.C5_E:.12e}
         {_cm(self.XS):.12e} {_cm(self.LAM_S):.12e}
-        6 {self.C0:.12e} {self.C1:.12e} {self.C2:.12e} {self.C3:.12e} {self.C4:.12e} {self.C5:.12e}
+        6 {self.C0_S:.12e} {self.C1_S:.12e} {self.C2_S:.12e} {self.C3_S:.12e} {self.C4_S:.12e} {self.C5_S:.12e}
         {_cm(self.XPAS)}
         {int(self.KPOS):d} {_cm(self.XCE):.12e} {_cm(self.YCE):.12e} {_radian(self.ALE):.12e}
         """
 
 
 class Dipole(PolarMagnet):
-    """Dipole magnet, polar frame.
+    r"""Dipole magnet, polar frame.
 
     .. rubric:: Zgoubi manual description
 
@@ -1138,7 +1238,9 @@ class Dipole(PolarMagnet):
     The magnetic field is calculated in polar coordinates. At any position (R, θ) along the particle trajectory the
     value of the vertical component of the mid-plane field is calculated using
 
-    R−RM􏰖 􏰕R−RM􏰖2 􏰕R−RM􏰖3􏰛 BZ(R,θ)=F(R,θ)∗B0∗ 1+N∗ RM +B∗ RM +G∗ RM (4.4.8)
+    .. math::
+
+    B_Z(R,θ) = F(R,θ)* B_0 * (1 + N * \frac{R-RM}{RM} + B * (\frac{R-RM}{RM})**2 + G * (\frac{R-RM}{RM})**3 )
 
     where N, B and G are respectively the first, second and third order field indices and F(R,θ) is the fringe field
     coefficient (it determines the “flutter” in periodic structures).
@@ -1146,30 +1248,58 @@ class Dipole(PolarMagnet):
     Calculation of the Fringe Field Coefficient
 
     With each EFB a realistic extent of the fringe field, λ (normally equal to the gap size), is associated and a
-    fringe field coefficient F is calculated. In the following λ stands for either λE (Entrance), λS (Exit)
-    or λL (Lateral EFB).
+    fringe field coefficient F is calculated. In the following λ stands for either :math:`λ_E` (Entrance), :math:`λ_S`
+    (Exit) or :math:`λ_L` (Lateral EFB).
 
-    F is an exponential type fringe field (Fig. 12, p. 84) given by [34] F=1
-    1+expP(s) wherein s is the distance to the EFB and depends on (R, θ), and
-    P(s)=C0 +C1􏰓s􏰔+C2􏰓s􏰔2 +C3􏰓s􏰔3 +C4􏰓s􏰔4 +C5􏰓s􏰔5 λλλλλ
-    It is also possible to simulate a shift of the EFB, by giving a non zero value to the parameter shift. s is then changed to s−shift in the previous equation. This allows small variations of the magnetic length.
-    Let FE (respectively FS , FL) be the fringe field coefficient attached to the entrance (respectively exit, lateral) EFB. At any position on a trajectory the resulting value of the fringe field coefficient (eq. 4.4.8) is
+    F is an exponential type fringe field (Fig. 12, p. 84) given by [34]
 
-    102 4 DESCRIPTION OF THE AVAILABLE PROCEDURES
-    F(R,θ)=FE ∗FS ∗FL In particular, FL ≡ 1 if no lateral EFB is requested.
+    .. math::
+
+    F = \frac{1}{1+exp P(s)}
+
+    wherein s is the distance to the EFB and depends on (R, θ), and
+
+    .. math::
+
+    P(s) = C_0+C_1􏰓(\frac{s}{λ})+ C_2􏰓(\frac{s}{λ})**2+ C_3􏰓(\frac{s}{λ})**3+ C_4􏰓(\frac{s}{λ})**4+ C_5(\frac{s}{λ})**5
+
+    It is also possible to simulate a shift of the EFB, by giving a non zero value to the parameter shift.
+    s is then changed to s−shift in the previous equation. This allows small variations of the magnetic length.
+
+    Let :math:`F_E` (respectively :math:`F_S` , :math:`F_L`) be the fringe field coefficient attached to the entrance
+    (respectively exit, lateral) EFB. At any position on a trajectory the resulting value of the fringe field
+    coefficient (eq. 4.4.8) is
+
+    .. math::
+
+    F(R,θ) = F_E * F_S * F_L
+
+    In particular, :math:`F_L ≡ 1` if no lateral EFB is requested.
+
     Calculation of the Mid-plane Field and Derivatives
-    BZ (R, θ) in Eq. 4.4.8 is computed at the n × n nodes (n = 3 or 5 in practice) of a “flying” interpolation grid in the median plane centered on the projection m0 of the actual particle position M0 as schemed in Fig. 20. A polynomial interpolation is involved, of the form
-    BZ(R,θ)=A00 +A10θ+A01R+A20θ2 +A11θR+A02R2 that yields the requested derivatives, using
-    Akl = 1 ∂k+lBZ k!l! ∂θk∂rl
-    Note that, the source code contains the explicit analytical expressions of the coefficients Akl solutions of the normal equations, so that the operation is not CPU time consuming.
-    B2
-    interpolation
-    grid δ s particle
-    trajectory B1mm1 B3
-    0
-    Figure 20: Interpolation method. m0 and m1 are the projections in the median plane of particle positions M0 and M1 and separated by δs, projection of the integration step.
+
+    :math:`B_Z (R, θ)` in Eq. 4.4.8 is computed at the n × n nodes (n = 3 or 5 in practice) of a “flying” interpolation
+    grid in the median plane centered on the projection :math:`m_0` of the actual particle position :math:`M_0` as
+    schemed in Fig. 20. A polynomial interpolation is involved, of the form
+
+    .. math::
+
+    B_Z (R,θ) = A_{00} + A_{10}θ + A_{01}R + A_{20}θ**2 + A_{11}θR + A_{02}R**2
+
+    that yields the requested derivatives, using
+
+    .. math::
+
+    A_{kl} = \frac{1}{k!l!} \frac{∂**{k+l}B_Z}{∂θ**k ∂r**l}
+
+    Note that, the source code contains the explicit analytical expressions of the coefficients :math:`A_{kl}`
+    solutions of the normal equations, so that the operation is not CPU time consuming.
+
     Extrapolation Off Median Plane
-    From the vertical field B⃗ and derivatives in the median plane, first a transformation from polar to Cartesian coordinates is performed, following eqs (1.4.9 or 1.4.10), then, extrapolation off median plane is performed by means of Taylor expansions, following the procedure described in section 1.3.3.
+
+    From the vertical field \vec{B} and derivatives in the median plane, first a transformation from polar to Cartesian
+    coordinates is performed, following eqs (1.4.9 or 1.4.10), then, extrapolation off median plane is performed by
+    means of Taylor expansions, following the procedure described in section 1.3.3.
 
     .. rubric:: Zgoubidoo usage and example
 
@@ -1189,6 +1319,8 @@ class Dipole(PolarMagnet):
         'B': (0, 'Field index (radial sextupolar)', 7),
         'G': (0, 'Field index (radial octupolar)', 8),
         'LAM_E': (0 * _ureg.centimeter, 'Entrance fringe field extent (normally ≃ gap size)', 9),
+        # XI_E: (0, 'UNUSED', 10)
+        # NCE: (0, 'UNUSED', 11)
         'C0_E': (0, 'Fringe field coefficient C0', 12),
         'C1_E': (1, 'Fringe field coefficient C1', 13),
         'C2_E': (0, 'Fringe field coefficient C2', 14),
@@ -1196,13 +1328,15 @@ class Dipole(PolarMagnet):
         'C4_E': (0, 'Fringe field coefficient C4', 16),
         'C5_E': (0, 'Fringe field coefficient C5', 17),
         'SHIFT_E': (0 * _ureg.centimeter, 'Shift of the EFB', 18),
-        'OMEGA_E': (0 * _ureg.degree, '', 19),
-        'THETA_E': (0 * _ureg.degree, 'Entrance face wedge angle', 20),
+        'OMEGA_E': (0 * _ureg.degree, 'Azimuth of entrance EFB with respect to ACENT', 19),
+        'THETA_E': (0 * _ureg.degree, 'Entrance wedge angle of EFB', 20),
         'R1_E': (1e9 * _ureg.centimeter, 'Entrance EFB radius', 21),
         'U1_E': (-1e9 * _ureg.centimeter, 'Entrance EFB linear extent', 22),
         'U2_E': (1e9 * _ureg.centimeter, 'Entrance EFB linear extent', 23),
         'R2_E': (1e9 * _ureg.centimeter, 'Entrance EFB radius', 24),
         'LAM_S': (0 * _ureg.centimeter, 'Exit fringe field extent (normally ≃ gap size)', 25),
+        # XI_S: (0, 'UNUSED', )
+        # NCS: (0, 'UNUSED', ) #Check fit number
         'C0_S': (0, 'Fringe field coefficient C0', 26),
         'C1_S': (1, 'Fringe field coefficient C1', 27),
         'C2_S': (0, 'Fringe field coefficient C2', 28),
@@ -1210,8 +1344,8 @@ class Dipole(PolarMagnet):
         'C4_S': (0, 'Fringe field coefficient C4', 30),
         'C5_S': (0, 'Fringe field coefficient C5', 31),
         'SHIFT_S': (0 * _ureg.centimeter, 'Shift of the EFB', 32),
-        'OMEGA_S': (0 * _ureg.degree, '', 33),
-        'THETA_S': (0 * _ureg.degree, 'Exit face wedge angle', 34),
+        'OMEGA_S': (0 * _ureg.degree, 'Azimuth of exit EFB with respect to ACENT', 33),
+        'THETA_S': (0 * _ureg.degree, 'Exit wedge angle of EFB', 34),
         'R1_S': (1e9 * _ureg.centimeter, 'Exit EFB radius', 35),
         'U1_S': (-1e9 * _ureg.centimeter, 'Exit EFB linear extent', 36),
         'U2_S': (1e9 * _ureg.centimeter, 'Exit EFB linear extent', 37),
@@ -1235,12 +1369,12 @@ class Dipole(PolarMagnet):
         'IORDRE': (2, '', 55),
         'RESOL': (10, '', 56),
         'XPAS': (1 * _ureg.millimeter, 'Integration step', 57),
-        'KPOS': (2, '', 58),
-        'RE': (0 * _ureg.centimeter, '', 64),
-        'TE': (0 * _ureg.radian, '', 65),
-        'RS': (0 * _ureg.centimeter, '', 66),
-        'TS': (0 * _ureg.radian, '', 67),
-        'DP': (0.0, '', 63),
+        'KPOS': (2, 'Positionning of the map, normally 2', 58),
+        'RE': (0 * _ureg.centimeter, 'Entrance reference radius', 64),
+        'TE': (0 * _ureg.radian, 'Entrance reference angle', 65),
+        'RS': (0 * _ureg.centimeter, 'Exit reference radius', 66),
+        'TS': (0 * _ureg.radian, 'Exit reference angle', 67),
+        'DP': (0.0, 'Reference relative momentum', 63),
         'COLOR': '#4169E1',
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
@@ -1774,14 +1908,21 @@ class Dodecapole(CartesianMagnet):
         'XE': (0.0* _ureg.centimeter, 'Entrance face integration zone extent for the fringe field', 20),
         'LAM_E': (0.0 * _ureg.centimeter, 'Entrance face fringe field extent (λ_E = 0 for sharp edge)', 21),
         # NCE: (0, 'UNUSED', 7)
-        'C0': (0.0, 'Fringe field coefficient C0', 31),
-        'C1': (1.0, 'Fringe field coefficient C1', 32),
-        'C2': (0.0, 'Fringe field coefficient C2', 33),
-        'C3': (0.0, 'Fringe field coefficient C3', 34),
-        'C4': (0.0, 'Fringe field coefficient C4', 35),
-        'C5': (0.0, 'Fringe field coefficient C5', 36),
+        'C0_E': (0.0, 'Fringe field coefficient C0', 31),
+        'C1_E': (1.0, 'Fringe field coefficient C1', 32),
+        'C2_E': (0.0, 'Fringe field coefficient C2', 33),
+        'C3_E': (0.0, 'Fringe field coefficient C3', 34),
+        'C4_E': (0.0, 'Fringe field coefficient C4', 35),
+        'C5_E': (0.0, 'Fringe field coefficient C5', 36),
         'XS': (0.0 * _ureg.centimeter, 'Exit face integration zone extent for the fringe field', 40),
         'LAM_S': (0.0 * _ureg.centimeter, 'Exit face fringe field extent', 41),
+        # NCS: (0, 'UNUSED', 7)
+        'C0_S': (0.0, 'Fringe field coefficient C0', 31),
+        'C1_S': (1.0, 'Fringe field coefficient C1', 32),
+        'C2_S': (0.0, 'Fringe field coefficient C2', 33),
+        'C3_S': (0.0, 'Fringe field coefficient C3', 34),
+        'C4_S': (0.0, 'Fringe field coefficient C4', 35),
+        'C5_S': (0.0, 'Fringe field coefficient C5', 36),
         'XPAS': (0.1 * _ureg.centimeter, 'Integration step', 60),
         'KPOS': (1, 'Alignment parameter: 1 (element aligned) or 2 (misaligned)', 70),
         'XCE': (0.0 * _ureg.centimeter, 'X shift', 71),
@@ -1798,19 +1939,39 @@ class Dodecapole(CartesianMagnet):
          {s.IL}
          {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B0):.12e}
          {_cm(s.XE):.12e} {_cm(s.LAM_E):.12e}
-         6 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
+         6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
          {_cm(s.XS):.12e} {_cm(s.LAM_S):.12e}
-         6 {s.C0:.12e} {s.C1:.12e} {s.C2:.12e} {s.C3:.12e} {s.C4:.12e} {s.C5:.12e}
+         6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
          {_cm(s.XPAS):.12e}
          {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
          """
 
 
 class Drift(CartesianMagnet):
-    """
-    Field free drift space.
+    r"""Field free drift space.
 
-    TODO
+    .. rubric:: Zgoubi manual description
+
+    ``DRIFT`` or ``ESL`` allow introduction of a drift space with length XL with positive or negative sign, anywhere in
+    a structure. This is an exact transport: the associated equations of motion are (Fig. 24)
+
+    .. math::
+
+        \begin{align}
+            Y_2 &= Y_1 +XL *tgT  \\
+            Z_2 &= Z_1 + \frac{XL}{cosT}tgP \\
+            SAR_2 &= SAR_1 + \frac{XL}{cosT *cosP}
+        \end{align}
+
+    whereas the velocity vector is left unchanged.
+
+    The flag ’.plt’ can be added as a second LABEL following ``DRIFT`` keyword. It causes local coordinates to be logged
+    to zgoubi.res or to zgoubi.plt (in the same manner as IL=1, or 2, respectively, does in the case optical elements).
+    A drift can be split into pieces, using the ’split’ flag. This may be used for graphic purposes for instance:
+    a sub-product of ’split’ is its allowing using the IL flag, so logging coordinates to either zgoubi.res or to
+    zgoubi.plt (in the same manner as IL=1 or 2, respectively, does in optical elements, step by step).
+
+    .. rubric:: Zgoubidoo usage and example
 
     >>> Drift(XL=10 * _ureg.cm)
 
@@ -1819,7 +1980,7 @@ class Drift(CartesianMagnet):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, ''),
+        'IL': (0, 'Print field and coordinates along trajectories'),
         'XL': (0 * _ureg.centimeter, 'Drift length'),
         'SPLIT': (True, 'Split the drift in multiple steps.'),
         'SPLITS': (10, 'If SPLITS > 1, the drift will be split in multiple steps.'),
@@ -1982,7 +2143,7 @@ class FFAG(PolarMultiMagnet):
         'C4_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 16),
         'C5_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 16),
         'SHIFT_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB', 18),
-        'OMEGA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, '', 19),
+        'OMEGA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth of an EFB with respect to ACN', 19),
         'THETA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Entrance face wedge angle', 20),
         'R1_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB radius', 21),
         'U1_E': ([-1e9, -1e9, -1e9, -1e9, -1e9] * _ureg.centimeter, 'Entrance EFB linear extent', 22),
@@ -2000,7 +2161,7 @@ class FFAG(PolarMultiMagnet):
         'C4_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 32),
         'C5_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 33),
         'SHIFT_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB', 34),
-        'OMEGA_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, '', 35),
+        'OMEGA_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth of an EFB with respect to ACN', 35),
         'THETA_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Entrance face wedge angle', 36),
         'R1_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB radius', 37),
         'U1_S': ([-1e9, -1e9, -1e9, -1e9, -1e9] * _ureg.centimeter, 'Exit EFB linear extent', 38),
@@ -2032,11 +2193,11 @@ class FFAG(PolarMultiMagnet):
         'RESOL': (2, '', 58),
         'XPAS': (1.0 * _ureg.millimeter, 'Integration step', 59),
         'KPOS': (2, '', 60),
-        'RE': (0.0 * _ureg.centimeter, '', 61),
-        'TE': (0.0 * _ureg.radian, '', 62),
-        'RS': (0.0 * _ureg.centimeter, '', 63),
-        'TS': (0.0 * _ureg.radian, '', 64),
-        'DP': (0.0, '', 61),
+        'RE': (0.0 * _ureg.centimeter, 'Radius of reference at entrance of the magnet', 61),
+        'TE': (0.0 * _ureg.radian, 'Angle of reference at entrance of the magnet', 62),
+        'RS': (0.0 * _ureg.centimeter, 'Radius of reference at exit of the magnet', 63),
+        'TS': (0.0 * _ureg.radian, 'Angle of reference at exit of the magnet', 64),
+        'DP': (0.0, 'Reference relative momentum', 61),
         'COLOR': '#4169E1',
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 

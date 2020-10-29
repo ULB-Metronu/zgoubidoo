@@ -508,11 +508,26 @@ class AutoRef(Command):
 
     .. rubric:: Zgoubi manual description
 
-    AUTOREF positions the new reference frame following 3 options:
+    ``AUTOREF`` positions the new reference frame following 3 options:
 
-    - If I = 1, AUTOREF is equivalent to CHANGREF[XCE = 0,Y CE = Y (1),ALE = T(1)] so that the new reference frame is at the exit of the last element, with particle 1 at the origin with its horizontal angle set to T = 0.
-    - If I = 2, it is equivalent to CHANGREF[XW,Y W,T(1)] so that the new reference frame is at the position (X W, Y W ) of the waist (calculated automatically in the same way as for IMAGE) of the three rays number 1, 4 and 5 (compatible for instance with OBJET, KOBJ = 5, 6, together with the use of MATRIX) while T(1), the horizontal angle of particle number I1, is set to zero.
-    - If I = 3, it is equivalent to CHANGREF[XW,Y W,T(I1)] so that the new reference frame is at the position (X W, Y W ) of the waist (calculated automatically in the same way as for IMAGE) of the three rays number I1, I2 and I3 specified as data, while T(I1) is set to zero.
+    - If I = 1, ``AUTOREF`` is equivalent to CHANGREF[XCE = 0, YCE = Y (1), ALE = T(1)] so that the new reference
+      frame is at the exit of the last element, with particle 1 at the origin with its horizontal angle set to T = 0.
+    - If I = 2, it is equivalent to CHANGREF[XW,Y W,T(1)] so that the new reference frame is at the position (X W, Y W )
+      of the waist (calculated automatically in the same way as for IMAGE) of the three rays number 1, 4 and 5
+      (compatible for instance with OBJET, KOBJ = 5, 6, together with the use of MATRIX) while T(1), the horizontal
+      angle of particle number I1, is set to zero.
+    - If I = 3, it is equivalent to CHANGREF[XW,Y W,T(I1)] so that the new reference frame is at the position (X W, Y W)
+     of the waist (calculated automatically in the same way as for IMAGE) of the three rays number I1, I2 and I3
+     specified as data, while T(I1) is set to zero.
+    - If I = 4 : new horizontal beam centroid positionning XCE, YCE, ALE is provided. The beam is moved by XCE and then
+      centered on YCE, ALE.
+    - If I = 4.1 : new beam centroid positionning XCE, YCE, ALE, DCE, TIME is provided. The beam is moved by XCE and
+      then centered on YCE, ALE. In addition, the beam is centered on a new relative momentum DCE and new timing value
+      TIME.
+    - If I = 4.2 : same as 4.1, except that particles all have their timing set to TIME.
+    - If I = 5 : new vertical beam centroid positionning ZCE, PLE (position, angle) is provided. The beam is centered on
+      vertical position and angle ZCE, PLE.
+
     """
     KEYWORD = 'AUTOREF'
     """Keyword of the command used for the Zgoubi input data."""
@@ -522,6 +537,13 @@ class AutoRef(Command):
         'I1': (1, 'Particle number (only used if I = 3)'),
         'I2': (1, 'Particle number (only used if I = 3)'),
         'I3': (1, 'Particle number (only used if I = 3)'),
+        'XCE': (0.0 * _ureg.cm, ''),
+        'YCE': (0.0 * _ureg.cm, 'Beam centroid new coordinates YCE'),
+        'ALE': (0.0 * _ureg.mradian, 'Beam centroid new coordinates ALE'),
+        'DCE': (0.0, 'New beam centroid positionning: new relative momentum DCE'),
+        'TIME': (0.0 *_ureg.micros, 'New beam centroid positionning: new timing value'),
+        'ZCE': (0.0 * _ureg.cm, 'New vertical beam centroid positionning: position ZCE'),
+        'PLE': (0.0 * _ureg.mradian, 'New vertical beam centroid positionning: angle')
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
@@ -535,17 +557,69 @@ class AutoRef(Command):
             c += f"""
         {self.I1} {self.I2} {self.I3}
             """
+        elif self.I == 4:
+            c += f"""
+        {_cm(self.XCE):.12e} {_cm(self.YCE):.12e} {self.ALE.to('mradian').magnitude:.12e}
+            """
+        elif self.I == 4.1 or self.I == 4.2:
+            c += f"""
+        {_cm(self.XCE):.12e} {_cm(self.YCE):.12e} {self.ALE.to('mradian').magnitude:.12e} {self.DCE:.12e} {self.TIME.to('micros').magnitude:.12e}
+            """
+        elif self.I == 5:
+            c += f"""
+        {_cm(self.ZCE):.12e} {self.PLE.to('mradian').magnitude:.12e}
+            """
         return c
 
 
 class BeamBeam(Command):
     """Beam-beam lens.
 
-    TODO
+    .. rubric:: Zgoubi manual description
+
+    ``BEAMBEAM`` is a beam-beam lens simulation, a thin-lens transform [43], in the weak-strong approximation.
+    Upon option using SPNTRK, ``BEAMBEAM`` will include spin kicks, after modelling as described in Ref. [44].
+
+    *For software developers*
+    rbb.f reads the data from zgoubi.dat; bb.f and programs therein do the beam (and spin when requested) dynamics.
     """
     KEYWORD = 'BEAMBEAM'
     """Keyword of the command used for the Zgoubi input data."""
 
+    PARAMETERS = {
+        'SW': (0, '0/1 : off/on'),
+        'I': (0.0 * _ureg.ampere, 'beam intensity'),
+        'ALPHA_Y': (0.0, 'Horizontal beam parameters'),
+        'BETA_Y': (0.0 *_ureg.m, 'Horizontal beam parameters'),
+        'EPSILON_Y': (0.0 *_ureg.m*_ureg.radian, 'Horizontal beam parameters : (EPSILON_Y,norm)/pi'),
+        'ALPHA_Z': (0.0, 'Vertical beam parameters'),
+        'BETA_Z': (0.0 *_ureg.m, 'Vertical beam parameters'),
+        'EPSILON_Z': (0.0 *_ureg.m*_ureg.radian, 'Vertical beam parameters (EPSILON_Z,norm)/pi'),
+        'SIGMA_X': (0.0 *_ureg.m, 'rms bunch length'),
+        'SIGMA_DP': (0.0 , 'rms momentum spread'),
+        'C': (0.0 * _ureg.m, 'Ring circumference'),
+        'ALPHA': (0.0, 'momentum compaction'),
+        'QY': (0.0, 'Horizontal tune'),
+        'QZ': (0.0, 'Vertical tune'),
+        'QS': (0.0, 'Synchrotron tune'),
+        'AY': (0.0, 'Horizontal amplitude'),
+        'AZ': (0.0, 'Vertical amplitude'),
+        'AX': (0.0, 'Longitudinal amplitude'),
+    }
+    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    commands (e.g. fit)."""
+
+    def __str__(self):
+        return f"""
+        {super().__str__().rstrip()}
+        {self.SW} {self.I.m_as('ampere'):.12e}
+        {self.ALPHA_Y:.12e} {self.BETA_Y.m_as('m'):.12e} {self.EPSILON_Y.m_as('m*rad'):.12e}
+        {self.ALPHA_Z:.12e} {self.BETA_Z.m_as('m'):.12e} {self.EPSILON_Z.m_as('m*rad'):.12e}
+        {self.SIGMA_X.m_as('m'):.12e} {self.SIGMA_DP:.12e}
+        {self.C.m_as('m'):.12e} {self.ALPHA:.12e}
+        {self.QY:.12e} {self.QZ:.12e} {self.QS:.12e} 
+        {self.AY:.12e} {self.AZ:.12e} {self.AS:.12e} 
+        """
 
 class Binary(Command):
     """BINARY/FORMATTED data converter.
@@ -702,25 +776,70 @@ ChangeRef = ChangRef
 
 
 class Collimateur(Command):
-    """Collimator.
+    r"""Collimator.
 
     .. rubric:: Zgoubi manual description
 
-    COLLIMA acts as a mathematical aperture of zero length. It causes the identification, counting and stop- ping of
+    ``COLLIMA`` acts as a mathematical aperture of zero length. It causes the identification, counting and stop- ping of
     particles that reach the aperture limits.
 
+    *Physical Aperture*
+
+    A physical aperture can be either rectangular (IFORM = 1) or elliptic (IFORM = 2). The collimator is centered at
+    YC, ZC and has transverse dimensions ±Y L and ±ZL such that any particle will be stopped if its coordinates Y , Z
+    satisfy
+
+    $$(Y − YC)^2 ≥ YL^2 \quad or \quad (Z−ZC)^2 ≥ ZL^2 \quad if \quad IFORM = 1 $$
+    $$\frac{(Y − YC)^2}{YL^2} + \frac{(Z − ZC)^2}{ZL^2} ≥ 1 \quad if \quad IFORM = 2 $$
+
+    *Longitudinal Collimation*
+
+    ``COLLIMA`` can act as a longitudinal phase-space aperture, coordinates acted on are selected with IFORM.J.
+    Any particle will be stopped if its horizontal (h) and vertical (v) coordinates satisfy
+
+`    .. math::
+`
+    (h ≤ h_{min} or h ≥ h_{max}) or (v ≤ v_{min} or v ≥ v_{max})
+
+    wherein, h is either path length S if IFORM=6 or time if IFORM=7, and v is either 1+DP/P if J=1 or kinetic energy
+    if J=2 (provided mass and charge have been defined using the keyword ``PARTICUL``).
+
+    *Phase-Space Elliptical Collimation*
+    ``COLLIMA` can act as a phase-space elliptical aperture. Any particle will be stopped if its coordinates satisfy
+
+    .. math::
+
+        \begin{align}
+            γ_Y Y^2 + 2α_Y YT + β_Y T^2 &≥ ε_Y/π if IFORM = 11 or 14 \\
+            γ_Z Z^2 + 2α_Z ZP + β_Z P^2 &≥ ε_Z/π if IFORM = 12 or 15 \\
+            γ_S S^2 + 2α_S SD + β_S D^2 ≥ ε_S/π if IFORM = 13 or 16 (under development)
+        \end{align}
+
+
+    If IFORM=11 (respectively 12, 13) then :math:`ε_Y /π` (respectively :math:`ε_Z/π`, :math:`ε_S/π`) is to be
+    specified by the user as well as :math:`α_{Y,Z,S}`, :math:`β_{Y,Z,S}`. If IFORM =14 (respectively 15, 16) then
+    :math:`α_Y` and :math:`β_Y` (respectively :math:`α_{Z,S}, β_{Z,S}`) are determined by zgoubi by prior computation
+    of the matched ellipse to the particle population, so only :math:`ε_{Y,Z,S}/π` need be specified by the user.
+
+    When a particle is stopped, its index IEX (see ``OBJET`` and section 7.12) is set to the value -4, and its actual
+    path length is stored in the array SORT for possible further use (e.g., by ``HISTO``, or for loss studies, etc.).
     """
     KEYWORD = 'COLLIMA'
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'IA': (2, 'Element active or not (0 - inactive, 1 - active, 2 - active and prints information.'),
-        'IFORM': (1, 'Aperture shape (1 - rectangular, 2 - elliptic (other options, see documentation).'),
+        'IFORM': (
+            1,
+            'Aperture shape (1 - rectangular, 2 - elliptic (other options, see documentation). '
+            'IFORM = 6 or 7 for longitudinal collimation, '
+            '11 ≤ IFORM ≤ 16 for phase-space elliptical collimation'
+        ),
         'J': (0, 'Description of the aperture coordinates system.'),
-        'C1': (0 * _ureg.cm, 'Half opening (Y).'),
-        'C2': (0 * _ureg.cm, 'Half opening (Z).'),
-        'C3': (0 * _ureg.cm, 'Center of the aperture (Y).'),
-        'C4': (0 * _ureg.cm, 'Center of the aperture (Z).'),
+        'C1': (0.0 * _ureg.cm, 'Half opening (Y).'),
+        'C2': (0.0 * _ureg.cm, 'Half opening (Z).'),
+        'C3': (0.0 * _ureg.cm, 'Center of the aperture (Y).'),
+        'C4': (0.0 * _ureg.cm, 'Center of the aperture (Z).'),
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
@@ -756,6 +875,27 @@ class FaiStore(Command):
 
     If either FNAME or first LABEL is ’none’ then no storage occurs. Store occurs at all elements if first LABEL is
     ’all’ or ’ALL’.
+
+    ``FAISTORE`` has an effect similar to ``FAISCNL``, with more features.
+
+        - On the first data line, FNAME may be followed by a series of up to 10 LABELs. If there is no label, the print
+          occurs by default at the location of ``FAISTORE`` ; if there are labels the print occurs right downstream of
+          all optical elements wearing those labels (and no longer at the FAISTORE location).
+
+        - The next data line gives a parameter, IP : printing will occur at pass 1 and then at every IP other pass,
+          if using REBELOTE with NPASS ≥ IP − 1.
+
+    *Case of Binary storage:* it can be obtained from ``FAISCNL`` and ``FAISTORE``. This is for the sake of compactness
+    and access speed, for instance in case voluminous amounts of data would have to be manipulated using zpop.
+    This is achieved by giving the storage file a name of the form b FNAME or B FNAME (e.g., ‘b zgoubi.fai’).
+    The FORTRAN WRITE list is the same as in the FORMATTED case above.
+    This is compatible with the READ statements in zpop that will recognize binary storage from that very radical ’b ’
+    or ’B ’.
+
+    *Case of FIT[2] procedure :* it may not be desired to store during the FITting process, but instead only when the
+    FITtinig is completed. It is sufficient for that to (i) put ’AtFITfinal’ as the first label following FAISTORE
+    keyword, this will inhibit all storage until the final run following a FIT procedure, and (ii) avoid using the
+    ’nofinal’ instruction in FIT[2] (see p. 156)).
     """
     KEYWORD = 'FAISTORE'
     """Keyword of the command used for the Zgoubi input data."""
@@ -777,7 +917,51 @@ class FaiStore(Command):
 
 
 class Focale(Command):
-    """Particle coordinates and horizontal beam size at distance XL."""
+    r"""Particle coordinates and horizontal beam size at distance XL.
+
+    .. rubric:: Zgoubi manual description
+
+    ``FOCALE` calculates the dimensions of the beam and its mean transverse position, at a longitudinal distance XL `
+    from the position corresponding to the keyword ``FOCALE`.
+
+    ``IMAGE`` computes the location and size of the closest horizontal waist.
+
+    ``IMAGES`` has th same effect as ``IMAGE``, but, in addition, for a non-monochromatic beam it calculates as many
+    waists as there are distinct momenta in the beam, provided that the object has been defined with a classification
+    of momenta (see OBJET, KOBJ= 1, 2 for instance).
+
+    Optionally, for each of these three procedures, zgoubi can list a trace of the coordinates in the X, Y and in the
+    Y , Z planes. The following quantities are calculated for the N particles of the beam (``IMAGE``, ``FOCALE``) or of
+    each group of momenta (``IMAGES``)
+
+    • Longitudinal position :
+
+        FOCALE : X = XL
+
+        .. math::
+
+        IMAGE[S] : X = - \frac{\sum_{i=1}^N Y_i * tgT_i -(\sum_{i=1}^N Y_i * \sum_{i=1}^N tgT_i)/N}{\sum_{i=1}^N tg^2 T_i -(\sum_{i=1}^N tg T_i)^2/N}
+
+        .. math::
+
+        Y = Y_1 + X * tgT_1
+
+    where :math:`Y1` and :math:`T_1` are the coordinates of the first particle of the beam (``IMAGE``, ``FOCALE``) or
+    the first particle of each group of momenta (``IMAGES``).
+
+    • Transverse position of the center of mass of the waist (``IMAGE``[S]) or of the beam (``FOCALE``), with respect
+    to the reference trajectory
+
+    .. math::
+
+    YM = \frac{1}{N} \sum_{i=1}^N (Y_i + X tg T_i) - Y = \frac{1}{N} \sum_{i=1}^N Y M_i
+
+
+    • FWHM of the image (``IMAGE``[S])  or of the beam (``FOCALE``), and total width, respectively, W and :math:`W_T`
+
+    $$W = 2.35(\frac{1}{N} \sum_{i=1}^N Y M_i^2 - Y M^2)^{1/2}$$
+    $$WT = max(YM_i) - min(YM_i)$$
+    """
     KEYWORD = 'FOCALE'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -795,7 +979,13 @@ class Focale(Command):
 
 
 class FocaleZ(Command):
-    """Particle coordinates and vertical beam size at distance XL."""
+    r"""Particle coordinates and vertical beam size at distance XL.
+
+    .. rubric:: Zgoubi manual description
+
+    Similar to ``FOCALE``, but the calculations are performed with respect to the vertical coordinates
+    :math:`Z_i` and :math:`P_i`, in place of :math:`Y_i` and :math:`T_i`.
+    """
     KEYWORD = 'FOCALEZ'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -824,9 +1014,9 @@ class GasScattering(Command):
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'KGA': 0,
-        'AI': 0.0,
-        'DEN': 0.0,
+        'KGA': (0, 'Off/On switch'),
+        'AI': (0.0, 'Atomic number'),
+        'DEN': (0.0, 'density'),
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
@@ -861,10 +1051,13 @@ class GetFitVal(Command):
     # Xi2 =    1.68006E-16   Busy...
 
     A ’#’ at the beginning of a line means it is commented, thus it will not be taken into account. However a copy-paste
-    from zgoubi.res (which is the case in the present example) would not not need any commenting.
-    Since some of the FIT[2] variables may belong in [MC]OBJET, GETFITVAL may appear right before [MC]OBJET in zgoubi.dat,
-    to allow for its updating.
+    from zgoubi.res (which is the case in the present example) would not need any commenting.
+    Since some of the FIT[2] variables may belong in [MC]OBJET, ``GETFITVAL`` may appear upstream of [MC]OBJET in
+    zgoubi.dat, to allow for its updating.
 
+    Once completed, FIT[2] will be followed by a final run of zgoubi.dat with variable values updated as resulting from
+    the fit. This can be inhibited by indicating ‘nofinal’ option in FIT[2] (see page 156). For that final run
+    ``GETFITVAL`` will be inhibited so avoid overridding the updated variable values.
     """
     KEYWORD = 'GETFITVAL'
     """Keyword of the command used for the Zgoubi input data."""
@@ -889,25 +1082,125 @@ class Histo(Command):
 
 
 class Image(Command):
-    """Localization and size of horizontal waist."""
+    r"""Localization and size of horizontal waist.
+
+    .. rubric:: Zgoubi manual description
+
+    ``FOCALE` calculates the dimensions of the beam and its mean transverse position, at a longitudinal distance XL `
+    from the position corresponding to the keyword ``FOCALE`.
+
+    ``IMAGE`` computes the location and size of the closest horizontal waist.
+
+    ``IMAGES`` has th same effect as ``IMAGE``, but, in addition, for a non-monochromatic beam it calculates as many
+    waists as there are distinct momenta in the beam, provided that the object has been defined with a classification
+    of momenta (see OBJET, KOBJ= 1, 2 for instance).
+
+    Optionally, for each of these three procedures, zgoubi can list a trace of the coordinates in the X, Y and in the
+    Y , Z planes. The following quantities are calculated for the N particles of the beam (``IMAGE``, ``FOCALE``) or of
+    each group of momenta (``IMAGES``)
+
+    • Longitudinal position :
+
+        FOCALE : X = XL
+
+        .. math::
+
+        IMAGE[S] : X = - \frac{\sum_{i=1}^N Y_i * tgT_i -(\sum_{i=1}^N Y_i * \sum_{i=1}^N tgT_i)/N}{\sum_{i=1}^N tg^2 T_i -(\sum_{i=1}^N tg T_i)^2/N}
+
+        .. math::
+
+        Y = Y_1 + X * tgT_1
+
+    where :math:`Y1` and :math:`T_1` are the coordinates of the first particle of the beam (``IMAGE``, ``FOCALE``) or
+    the first particle of each group of momenta (``IMAGES``).
+
+    • Transverse position of the center of mass of the waist (``IMAGE``[S]) or of the beam (``FOCALE``), with respect
+    to the reference trajectory
+
+    .. math::
+
+    YM = \frac{1}{N} \sum_{i=1}^N (Y_i + X tg T_i) - Y = \frac{1}{N} \sum_{i=1}^N Y M_i
+
+
+    • FWHM of the image (``IMAGE``[S])  or of the beam (``FOCALE``), and total width, respectively, W and :math:`W_T`
+
+    $$W = 2.35(\frac{1}{N} \sum_{i=1}^N Y M_i^2 - Y M^2)^{1/2}$$
+    $$WT = max(YM_i) - min(YM_i)$$
+    """
     KEYWORD = 'IMAGE'
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class Images(Command):
-    """Localization and size of horizontal waists."""
+    r"""Localization and size of horizontal waists.
+
+    .. rubric:: Zgoubi manual description
+
+    ``FOCALE` calculates the dimensions of the beam and its mean transverse position, at a longitudinal distance XL `
+    from the position corresponding to the keyword ``FOCALE`.
+
+    ``IMAGE`` computes the location and size of the closest horizontal waist.
+
+    ``IMAGES`` has th same effect as ``IMAGE``, but, in addition, for a non-monochromatic beam it calculates as many
+    waists as there are distinct momenta in the beam, provided that the object has been defined with a classification
+    of momenta (see OBJET, KOBJ= 1, 2 for instance).
+
+    Optionally, for each of these three procedures, zgoubi can list a trace of the coordinates in the X, Y and in the
+    Y , Z planes. The following quantities are calculated for the N particles of the beam (``IMAGE``, ``FOCALE``) or of
+    each group of momenta (``IMAGES``)
+
+    • Longitudinal position :
+
+        FOCALE : X = XL
+
+        .. math::
+
+        IMAGE[S] : X = - \frac{\sum_{i=1}^N Y_i * tgT_i -(\sum_{i=1}^N Y_i * \sum_{i=1}^N tgT_i)/N}{\sum_{i=1}^N tg^2 T_i -(\sum_{i=1}^N tg T_i)^2/N}
+
+        .. math::
+
+        Y = Y_1 + X * tgT_1
+
+    where :math:`Y1` and :math:`T_1` are the coordinates of the first particle of the beam (``IMAGE``, ``FOCALE``) or
+    the first particle of each group of momenta (``IMAGES``).
+
+    • Transverse position of the center of mass of the waist (``IMAGE``[S]) or of the beam (``FOCALE``), with respect
+    to the reference trajectory
+
+    .. math::
+
+    YM = \frac{1}{N} \sum_{i=1}^N (Y_i + X tg T_i) - Y = \frac{1}{N} \sum_{i=1}^N Y M_i
+
+
+    • FWHM of the image (``IMAGE``[S])  or of the beam (``FOCALE``), and total width, respectively, W and :math:`W_T`
+
+    $$W = 2.35(\frac{1}{N} \sum_{i=1}^N Y M_i^2 - Y M^2)^{1/2}$$
+    $$WT = max(YM_i) - min(YM_i)$$
+    """
     KEYWORD = 'IMAGES'
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class ImageZ(Command):
-    """Localization and size of vertical waist."""
+    r"""Localization and size of vertical waist.
+
+    .. rubric:: Zgoubi manual description
+
+    Similar to IMAGE, but the calculations are performed with respect to the vertical coordinates
+    :math:`Z_i` and :math:`P_i`, in place of :math:`Y_i` and :math:`T_i`.
+    """
     KEYWORD = 'IMAGEZ'
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class ImagesZ(Command):
-    """Localization and size of vertical waists."""
+    r"""Localization and size of vertical waists.
+
+    .. rubric:: Zgoubi manual description
+
+    Similar to IMAGES, but the calculations are performed with respect to the vertical coordinates
+    :math:`Z_i` and :math:`P_i`, in place of :math:`Y_i` and :math:`T_i`.
+    """
     KEYWORD = 'IMAGESZ'
     """Keyword of the command used for the Zgoubi input data."""
 
@@ -1099,7 +1392,12 @@ class Rebelote(Command):
         'N': None,
         'LABL1': None,
         'LABL2': None,
+        'IOPT': None,
         'NPRM': 1,
+        'LMNT': None,
+        'KPRM': None,
+        'first_value': None,
+        'last_value': None
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
@@ -1107,7 +1405,9 @@ class Rebelote(Command):
     def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        {self.NPASS} {self.KWRIT} {self.K}{'.' if self.N else ''}{self.N or ''} {self.LABL1 or ''} {self.LABL2 or ''}
+        {self.NPASS} {self.KWRIT} {self.K}{'.' if self.N else ''}{self.N or ''} {self.LABL1 or ''} {self.LABL2 or ''} {self.IOPT or ''}
+        {self.NPRM if self.IOPT else ''}
+        {self.LMNT or ''} {self.KPRM or ''} {self.first_value or ''}:{self.last_value or ''}
         """
 
 

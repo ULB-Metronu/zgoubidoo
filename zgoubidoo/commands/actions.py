@@ -41,11 +41,16 @@ class End(Action):
 
 
 class Faisceau(Action):
-    """Print coordinates.
+    """Print particle coordinates.
 
     .. rubric:: Zgoubi manual description
 
     Print particle coordinates at the location where the keyword is introduced in the structure.
+    If first label is ’FORCE’, will force printout when normally inhibited (e.g., during FIT, or REBELOTE).
+
+    ``FAISCEAU`` can be introduced anywhere in a structure data list (zgoubi.dat). It produces a print
+    (into zgoubi.res) of initial and actual coordinates of the IMAX particles at the location where it stands,
+    together tagging indices and letters, etc.
     """
     KEYWORD = 'FAISCEAU'
     """Keyword of the command used for the Zgoubi input data."""
@@ -57,6 +62,26 @@ class Faiscnl(Action):
     .. rubric:: Zgoubi manual description
 
     Store particle coordinates in file FNAME.
+
+    ``FAISCNL`` is an older, less performing, version of ``FAISTORE``, see below for the latter. It produces a lot more
+    information on particles at current location, including spin components, decay distance, mass, charge, etc.
+    (see list below), and stores it in a dedicated file FNAME (advised name is FNAME = ‘zgoubi.fai’ (formatted write)
+    or ‘b zgoubi.fai’ (binary write) if post- processing with zpop should follow). This file may further on be read
+    by means of OBJET, option KOBJ= 3, or used for other purposes such as graphics (see Part D of the Guide).
+    The data written to that file are formatted and ordered according to the FORTRAN sequence in the subroutine
+    impfai.f, where details and possible updates are to found.
+
+    *Case of Binary storage:* it can be obtained from ``FAISCNL`` and ``FAISTORE``. This is for the sake of compactness
+    and access speed, for instance in case voluminous amounts of data would have to be manipulated using zpop.
+    This is achieved by giving the storage file a name of the form b FNAME or B FNAME (e.g., ‘b zgoubi.fai’).
+    The FORTRAN WRITE list is the same as in the FORMATTED case above.
+    This is compatible with the READ statements in zpop that will recognize binary storage from that very radical ’b ’
+    or ’B ’.
+
+    *Case of FIT[2] procedure :* it may not be desired to store during the FITting process, but instead only when the
+    FITtinig is completed. It is sufficient for that to (i) put ’AtFITfinal’ as the first label following FAISTORE
+    keyword, this will inhibit all storage until the final run following a FIT procedure, and (ii) avoid using the
+    ’nofinal’ instruction in FIT[2] (see p. 156)).
     """
     KEYWORD = 'FAISCNL'
     """Keyword of the command used for the Zgoubi input data."""

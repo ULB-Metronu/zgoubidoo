@@ -22,7 +22,7 @@ from typing import TYPE_CHECKING, Dict, List, Union
 import numpy as _np
 from zgoubidoo import ureg as _ureg
 from zgoubidoo.commands import Quadrupole, Sextupole, Octupole, Command, Marker, Drift, Bend, ChangeRef, Multipole, \
-    Cavite, Dipole
+    Cavite, Dipole, Solenoid, ChangRef
 from zgoubidoo.constants import ZGOUBI_LABEL_LENGTH as _ZGOUBI_LABEL_LENGTH
 if TYPE_CHECKING:
     from georges_core import Kinematics as _Kinematics
@@ -186,7 +186,7 @@ def quadrupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Di
         bore_radius = element['R']
     else:
         bore_radius = options.get('R0', 10 * _ureg.cm)
-        if element.get('K1') is None and element.get('K1L') is None and element.get('K1BRHO') is None:
+        if element.get('K1') is None and element.get('K1L') is None and element.get('K1BRHO') is None and element.get('K1S') is None and element.get('K1SL') is None:
             gradient = 0 / _ureg.m ** 2
         elif element.get('K1') is not None and element.get('K1L') is not None:
             if element['K1'] == 0:
@@ -195,24 +195,79 @@ def quadrupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Di
                 gradient = element['K1'] / _ureg.m ** 2 if isinstance(element['K1'], float) else element['K1']
             else:
                 raise KeyError("K1 and K1L cannot be non zero at the same time.")
-        elif element.get('K1L') is not None:
-            gradient = element['K1L'] / element['L']
+        elif element.get('K1L') is not None and element.get('K1SL') is not None:
+            if element.get('K1SL') == 0:
+                gradient = element['K1L'] / element['L']
+            if element.get('K1L') == 0:
+                gradient = element['K1SL'] / element['L']
+                changeref_in = ChangRef("changeref_in", TRANSFORMATIONS=[('XR', -45 * _ureg.degree)])
+                changeref_out = ChangRef("changeref_out", TRANSFORMATIONS=[('XR', 45 * _ureg.degree)])
         elif element.get('K1') is not None:
             gradient = element['K1'] / _ureg.m ** 2 if isinstance(element['K1'], float) else element['K1']
         elif element.get('K1BRHO') is not None:
             gradient = element['K1BRHO'] / kinematics.brho
+        elif element.get('K1S') is not None:
+            gradient = element['K1S'] / _ureg.m ** 2 if isinstance(element['K1S'], float) else element['K1S']
+            changeref_in = ChangRef("changeref_in", TRANSFORMATIONS=[('XR', -45 * _ureg.degree)])
+            changeref_out = ChangRef("changeref_out", TRANSFORMATIONS=[('XR', 45 * _ureg.degree)])
         else:
             raise KeyError("K1, K1L or K1BHRHO cannot be defined at the same time.")
         b_field = gradient * kinematics.brho * bore_radius
-    return [Quadrupole(element.name[0:_ZGOUBI_LABEL_LENGTH],
-                       XL=element['L'],
-                       R0=bore_radius,
-                       B0=b_field,
-                       X_E=0 * _ureg.cm,
-                       LAM_E=0 * _ureg.cm,
-                       X_S=0 * _ureg.cm,
-                       LAM_S=0 * _ureg.cm,
-                       ),
+
+    quad = Quadrupole(element.name[0:_ZGOUBI_LABEL_LENGTH],
+                      XL=element['L'],
+                      R0=bore_radius,
+                      B0=b_field,
+                      X_E=0 * _ureg.cm,
+                      LAM_E=0 * _ureg.cm,
+                      X_S=0 * _ureg.cm,
+                      LAM_S=0 * _ureg.cm,
+                      )
+
+    if element.get('K1S') is not None or element.get('K1SL') is not None and element.get('K1SL') != 0:
+        return [
+            changeref_in,
+            quad,
+            changeref_out
+                ]
+    else:
+        return [
+            quad
+                ]
+
+
+def solenoid_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:
+    """
+
+    Args:
+        element:
+        kinematics:
+        options:
+
+    Returns:
+
+    """
+    if element['L'] == 0 * _ureg.m:
+        raise ValueError("Solenoïde length cannot be zero.")  # to check
+    if element.get('B0') is not None and element.get('R') is not None and not _np.isnan(element['B0']) \
+            and not _np.isnan(element['R']):
+        b_field = element['B1']
+        bore_radius = element['R']
+    else:
+        bore_radius = options.get('R0', 1 * _ureg.m)
+        if element.get('KS') is None and element.get('KSI') is None:
+            gradient = 0 / _ureg.m ** 2
+        elif element.get('KSI') is not None:
+            gradient = element['KSI'] / element['L']
+        b_field = gradient * kinematics.brho
+
+    return [Solenoid(element.name[0:_ZGOUBI_LABEL_LENGTH],
+                     XL=element['L'],
+                     R0=bore_radius,
+                     B0=b_field,
+                     XE=0 * _ureg.cm,
+                     XS=0 * _ureg.cm,
+                     ),
             ]
 
 
