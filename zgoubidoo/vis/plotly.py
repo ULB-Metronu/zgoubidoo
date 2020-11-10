@@ -15,6 +15,7 @@ from ..commands import Drift as _Drift
 from ..commands import Quadrupole as _Quadrupole
 from ..commands import Sextupole as _Sextupole
 from ..commands import Octupole as _Octupole
+from ..commands import Solenoid as _Solenoid
 from ..commands import Multipole as _Multipole
 from ..commands import Bend as _Bend
 from ..commands import Dipole as _Dipole
@@ -64,7 +65,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
         for e in beamline:
             if not isinstance(e, _Patchable) and not isinstance(e, _Plotable):
                 continue
-            if isinstance(e, (_Quadrupole, _Sextupole, _Octupole)):
+            if isinstance(e, (_Quadrupole, _Sextupole, _Octupole, _Solenoid)):
                 self.shapes.append(
                     {
                         'type': 'rect',

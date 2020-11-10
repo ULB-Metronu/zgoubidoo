@@ -3055,6 +3055,7 @@ class Solenoid(CartesianMagnet):
         'XCE': (0 * _ureg.centimeter, 'x offset'),
         'YCE': (0 * _ureg.centimeter, 'y offset'),
         'ALE': 0 * _ureg.radian,
+        'COLOR': ('#808000', 'Magnet color for plotting.'),
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
