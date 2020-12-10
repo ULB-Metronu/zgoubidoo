@@ -1909,7 +1909,7 @@ class Dodecapole(CartesianMagnet):
         'XL': (0.0 * _ureg.centimeter, 'Magnet length', 10),
         'R0': (10.0 * _ureg.centimeter, 'Radius of the pole tips', 11),
         'B0': (0.0 * _ureg.kilogauss, 'Field at pole tip', 12),
-        'XE': (0.0* _ureg.centimeter, 'Entrance face integration zone extent for the fringe field', 20),
+        'X_E': (0.0 * _ureg.centimeter, 'Entrance face integration zone extent for the fringe field', 20),
         'LAM_E': (0.0 * _ureg.centimeter, 'Entrance face fringe field extent (λ_E = 0 for sharp edge)', 21),
         # NCE: (0, 'UNUSED', 7)
         'C0_E': (0.0, 'Fringe field coefficient C0', 31),
@@ -1918,7 +1918,7 @@ class Dodecapole(CartesianMagnet):
         'C3_E': (0.0, 'Fringe field coefficient C3', 34),
         'C4_E': (0.0, 'Fringe field coefficient C4', 35),
         'C5_E': (0.0, 'Fringe field coefficient C5', 36),
-        'XS': (0.0 * _ureg.centimeter, 'Exit face integration zone extent for the fringe field', 40),
+        'X_S': (0.0 * _ureg.centimeter, 'Exit face integration zone extent for the fringe field', 40),
         'LAM_S': (0.0 * _ureg.centimeter, 'Exit face fringe field extent', 41),
         # NCS: (0, 'UNUSED', 7)
         'C0_S': (0.0, 'Fringe field coefficient C0', 31),
@@ -3048,8 +3048,8 @@ class Solenoid(CartesianMagnet):
         'XL': (0 * _ureg.centimeter, 'Magnet length'),
         'R0': (1.0 * _ureg.centimeter, 'Radius'),
         'B0': (0 * _ureg.kilogauss, 'Asymptotic field'),
-        'XE': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field'),
-        'XS': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field'),
+        'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field'),
+        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field'),
         'XPAS': (0.1 * _ureg.centimeter, 'Integration step'),
         'KPOS': (1, 'Misalignment type'),
         'XCE': (0 * _ureg.centimeter, 'x offset'),
