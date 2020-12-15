@@ -16,6 +16,7 @@ from .commands.particules import Particule as _Particule
 from .commands.particules import ParticuleType as _ParticuleType
 from .commands.particules import Proton as _Proton
 from . import Kinematics as _Kinematics
+from . units import _ureg as _
 
 
 def clear_survey(beamline: _Input):
@@ -65,6 +66,12 @@ def survey(beamline: _Input,
     Returns:
         the surveyed line.
     """
+    sref = 0 * _.m
+    for e in beamline[_Patchable]:
+        e.entry_sref = sref
+        sref += e.optical_ref_length
+        e.exit_sref = sref
+
     frenet: _FrameFrenet = _FrameFrenet()
     for e in beamline[_Patchable]:
         e.place(frenet)

@@ -26,7 +26,7 @@ class Patchable:
 
     def adjust_tracks_variables(self, tracks: _pd.DataFrame):
         t = tracks[tracks.LABEL1 == self.LABEL1]
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = t['X'] + self.entry_s.m_as('m')
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = t['X'] + self.entry_sref.m_as('m')
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y']
         try:
             tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo']
@@ -173,6 +173,18 @@ class Patchable:
 
     @property
     def optical_length(self) -> Optional[_ureg.Quantity]:
+        """
+
+        Returns:
+
+        """
+        if self.reference_trajectory is not None:
+            return (self.reference_trajectory['S'].max() - self.reference_trajectory['S'].min()) * _ureg.m
+        else:
+            return 0.0 * _ureg.m
+
+    @property
+    def optical_ref_length(self) -> Optional[_ureg.Quantity]:
         """
 
         Returns:

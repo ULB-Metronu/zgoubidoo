@@ -231,6 +231,10 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
     def wedge_angle_exit(self) -> _Q:
         return self.W_S or 0 * _ureg.radians
 
+    @property
+    def optical_ref_length(self) -> _Q:
+        return self.XL
+
 
 class PolarMagnetType(MagnetType):
     """Type for polar magnets."""
@@ -260,7 +264,7 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'ANGLE'] = angles
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'R'] = t['Y']
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'R0'] = t['Yo']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = radius * angles + self.entry_s.m_as('m')
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = radius * angles + self.entry_sref.m_as('m')
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y'] - radius
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo'] - radius
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
@@ -463,6 +467,10 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
     @property
     def delta_radius(self) -> List[_Q]:
         return [0 * _ureg.m]
+
+    @property
+    def optical_ref_length(self) -> _Q:
+        return self.radius * self.angular_opening.m_as('radians')
 
 
 class PolarMultiMagnetType(PolarMagnetType):
@@ -2029,7 +2037,7 @@ class Drift(CartesianMagnet):
 
     def adjust_tracks_variables(self, tracks: _pd.DataFrame):
         t = tracks[tracks.LABEL1 == self.LABEL1]
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = t['X'] + self.entry_s.m_as('m')
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = t['X'] + self.entry_sref.m_as('m')
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y']
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo']
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
@@ -2450,7 +2458,7 @@ class FFAGSpirale(PolarMultiMagnet):
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'ANGLE'] = angles
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'R'] = t['Y']
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'R0'] = t['Yo']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = radius * angles + self.entry_s.m_as('m')
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = radius * angles + self.entry_sref.m_as('m')
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y'] - radius
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo'] - radius
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
