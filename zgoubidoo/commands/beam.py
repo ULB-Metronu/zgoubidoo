@@ -213,7 +213,7 @@ class BeamZgoubiDistribution(Beam):
                                 BETA_Y=self.BETA_Y,
                                 D_Y=self.D_Y,
                                 D_YP=self.D_YP,
-                                EMIT_Y=self.EMIT_Z,
+                                EMIT_Y=self.EMIT_Y,
                                 ALPHA_Z=self.ALPHA_Z,
                                 BETA_Z=self.BETA_Z,
                                 D_Z=self.D_Z,
