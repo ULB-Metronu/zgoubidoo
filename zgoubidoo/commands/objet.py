@@ -435,9 +435,45 @@ class Objet7(Objet):
 
 
 class Objet8(Objet):
-    """"""
+    """
+    Generation of phase-space coordinates on ellipses
+    """
 
-    pass
+    PARAMETERS = {
+        'KOBJ': (8, 'Generation of groups 61 particles.'),
+        'IY': (10, 'Number of samples in each 2-D phase space if zero the central value (below) is assigned'),
+        'IZ': (10, 'Number of samples in each 2-D phase space if zero the central value (below) is assigned'),
+        'IS': (10, 'Number of samples in each 2-D phase space if zero the central value (below) is assigned'),
+        'Y0': (0.0 * _ureg.m, 'Central value Y0'),
+        'T0': (0.0 * _ureg.rad, 'Central value T0'),
+        'Z0': (0.0 * _ureg.m, 'Central value Z0'),
+        'P0': (0.0 * _ureg.rad, 'Central value P0'),
+        'S0': (0.0 * _ureg.m, 'Central value S0'),
+        'D0': (1.0, 'Central value D0'),
+        'ALPHA_Y': (0.0, 'Horizontal (Y) alpha function'),
+        'BETA_Y': (1.0 * _ureg.m, 'Horizontal (Y) beta function'),
+        'EMIT_Y': (1e-9 * _ureg.m, 'Horizontal (Y) emittance'),
+        'ALPHA_Z': (0.0, 'Vertical (Z) alpha function'),
+        'BETA_Z': (1.0 * _ureg.m, 'Vertical (Z) beta function'),
+        'EMIT_Z': (1e-9 * _ureg.m, 'Vertical (Z) emittance'),
+        'ALPHA_S': (0.0, 'Horizontal (S) alpha function'),
+        'BETA_S': (1.0 * _ureg.m, 'Horizontal (S) beta function'),
+        'EMIT_S': (1e-9 * _ureg.m, 'Horizontal (S) emittance'),
+    }
+
+    def __str__(self) -> str:
+        command = []
+        c = f"""
+        {super().__str__().rstrip()}
+        {self.KOBJ}
+        {self.IY} {self.IZ} {self.IS}
+        {self.Y0.m_as('m'):.12e} {self.T0.m_as('radians'):.12e} {self.Z0.m_as('m'):.12e} {self.P0.m_as('radians'):.12e} {self.S0.m_as('m'):.12e} {self.D0:.12e}
+        {self.ALPHA_Y:.12e} {self.BETA_Y.m_as('m'):.12e} {self.EMIT_Y.m_as('m'):.12e}
+        {self.ALPHA_Z:.12e} {self.BETA_Z.m_as('m'):.12e} {self.EMIT_Z.m_as('m'):.12e}
+        {self.ALPHA_S:.12e} {self.BETA_S.m_as('m'):.12e} {self.EMIT_S.m_as('m'):.12e}
+        """
+        command.append(c)
+        return ''.join(map(lambda _: _.rstrip(), command)) + '\n'
 
 
 class ObjetA(_Command):
