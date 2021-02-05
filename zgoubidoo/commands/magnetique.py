@@ -1074,7 +1074,7 @@ class Cyclotron(Magnet):
     PARAMETERS = {
         'IL': (0, 'Print field and coordinates along trajectories', 1),
         'N': (1, 'Number of dipoles in the FFAG n-tuple (maximum 5)', 2),
-        'AT': (0.0 * _ureg.degree, 'Total angular extent of the N dipoles', 3),
+        'AT': (0 * _ureg.degree, 'Total angular extent of the N dipoles', 3),
         'RM': (0.0 * _ureg.centimeter, 'Reference radius: mean radius used for the positioning of field boundaries', 4),
         # For each magnet in the n-tuple
         'TYP': (1.0, 'sector type: spiral, radial, both'),
@@ -1109,18 +1109,21 @@ class Cyclotron(Magnet):
         'G10_E': ([0, 0, 0, 0, 0] * _ureg.cm, ''),
         'G11_E': ([0, 0, 0, 0, 0] * _ureg.cm ** -3, ''),
         'NCE': ([0, 0, 0, 0, 0], 'UNUSED', 11),
-        'C0_E': ([1.1024358, 0, 0, 0, 0], 'Fringe field coefficient C0', 12),
-        'C1_E': ([3.1291507, 1, 1, 1, 1], 'Fringe field coefficient C1', 13),
-        'C2_E': ([-3.14287154, 0, 0, 0, 0], 'Fringe field coefficient C2', 14),
-        'C3_E': ([3.0858059, 0, 0, 0, 0], 'Fringe field coefficient C3', 15),
-        'C4_E': ([-1.43545, 0, 0, 0, 0], 'Fringe field coefficient C4', 16),
-        'C5_E': ([0.24047436, 0, 0, 0, 0], 'Fringe field coefficient C5', 17),
-        'SHIFT_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB', 18),
+        'C0_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 12),
+        'C1_E': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 13),
+        'C2_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 14),
+        'C3_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 15),
+        'C4_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 16),
+        'C5_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 17),
+        'C6_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C6', 17),
         'OMEGA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth of an EFB with respect to ACN', 19),
         'XI0_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Spiral angle coefficient XI_0', 20),
         'XI1_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree * _ureg.cm ** -1, 'Spiral angle coefficient XI_1', 20),
         'XI2_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree * _ureg.cm ** -2, 'Spiral angle coefficient XI_2', 20),
         'XI3_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree * _ureg.cm ** -3, 'Spiral angle coefficient XI_3', 20),
+        'AEN': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Coefficient a for entrance radial face equation', 20),
+        'BEN': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Coefficient b for entrance radial face equation', 20),
+        'CEN': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Coefficient c for entrance radial face equation', 20),
         'G0_S': ([10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.cm,
                  'Reference gaps for the exit fringe fields of each dipole.', 9),
         'K_S': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 10),
@@ -1133,12 +1136,15 @@ class Cyclotron(Magnet):
         'C3_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 15),
         'C4_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 16),
         'C5_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 17),
-        'SHIFT_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB', 18),
+        'C6_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C6', 17),
         'OMEGA_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth of an EFB with respect to ACN', 19),
         'XI0_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Spiral angle coefficient XI_0', 20),
         'XI1_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree * _ureg.cm ** -1, 'Spiral angle coefficient XI_1', 20),
         'XI2_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree * _ureg.cm ** -2, 'Spiral angle coefficient XI_2', 20),
         'XI3_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree * _ureg.cm ** -3, 'Spiral angle coefficient XI_3', 20),
+        'AEX': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Coefficient a for entrance radial face equation', 20),
+        'BEX': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Coefficient b for entrance radial face equation', 20),
+        'CEX': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Coefficient c for entrance radial face equation', 20),
         'G0_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm,
                  'UNUSED Reference gaps for the lateral fringe fields of each dipole.', 41),
         'K_L': ([-1, -1, -1, -1, -1], 'UNUSED Fringe field parameter kappa', 42),
@@ -1168,10 +1174,10 @@ class Cyclotron(Magnet):
     def __str__(s):
         command = []
         c = f"""
-                {super().__str__().rstrip()}
-                {s.IL}
-                {s.N} {s.AT.m_as('degree'):.12e} {s.RM.m_as('cm'):.12e} {s.TYP}
-                """
+            {super().__str__().rstrip()}
+            {s.IL}
+            {s.N} {s.AT.m_as('degree'):.12e} {s.RM.m_as('cm'):.12e} {s.TYP}
+            """
         command.append(c)
 
         for i in range(0, s.N):
@@ -1182,11 +1188,13 @@ class Cyclotron(Magnet):
     {s.BI_11[i].m_as('cm**-11'):.12e} {s.BI_12[i].m_as('cm**-12'):.12e} {s.BI_13[i].m_as('cm**-13'):.12e} {s.BI_14[i].m_as('cm**-14'):.12e} {s.BI_15[i].m_as('cm**-15'):.12e} \
     {s.BI_16[i].m_as('cm**-16'):.12e} {s.BI_17[i].m_as('cm**-17'):.12e} {s.BI_18[i].m_as('cm**-18'):.12e} {s.BI_19[i].m_as('cm**-19'):.12e} {s.BI_20[i].m_as('cm**-20'):.12e}
                 {s.G0_E[i].m_as('cm'):.12e} {s.K_E[i]:.12e} {s.G10_E[i].m_as('cm'):.12e} {s.G11_E[i].m_as('cm**-3'):.12e}
-                {s.NCE[i]} {s.C0_E[i]:.12e} {s.C1_E[i]:.12e} {s.C2_E[i]:.12e} {s.C3_E[i]:.12e} {s.C4_E[i]:.12e} {s.C5_E[i]:.12e} {s.SHIFT_E[i].m_as('cm'):.12e} 0.0 0.0
-                {s.OMEGA_E[i].m_as('degree'):.12e} {s.XI0_E[i].m_as('degree'):.12e} {s.XI1_E[i].m_as('degree/cm'):.12e} {s.XI2_E[i].m_as('degree/cm**2'):.12e} {s.XI3_E[i].m_as('degree/cm**3'):.12e} 1.0 1.0 1.0
+                {s.NCE[i]} {s.C0_E[i]:.12e} {s.C1_E[i]:.12e} {s.C2_E[i]:.12e} {s.C3_E[i]:.12e} {s.C4_E[i]:.12e} {s.C5_E[i]:.12e} {s.C6_E[i]:.12e} 0.0 0.0
+                {s.OMEGA_E[i].m_as('degree'):.12e} {s.XI0_E[i].m_as('degree'):.12e} {s.XI1_E[i].m_as('degree/cm'):.12e} {s.XI2_E[i].m_as('degree/cm**2'):.12e} {s.XI3_E[i].m_as('degree/cm**3'):.12e} \
+    {s.AEN[i]:.12e} {s.BEN[i]:.12e} {s.CEN[i]:.12e}  
                 {s.G0_S[i].m_as('cm'):.12e} {s.K_S[i]:.12e} {s.G10_S[i].m_as('cm'):.12e} {s.G11_S[i].m_as('cm**-3'):.12e}
-                {s.NCS[i]} {s.C0_S[i]:.12e} {s.C1_S[i]:.12e} {s.C2_S[i]:.12e} {s.C3_S[i]:.12e} {s.C4_S[i]:.12e} {s.C5_S[i]:.12e} {s.SHIFT_S[i].m_as('cm'):.12e} 0.0 0.0
-                {s.OMEGA_S[i].m_as('degree'):.12e} {s.XI0_S[i].m_as('degree'):.12e} {s.XI1_S[i].m_as('degree/cm'):.12e} {s.XI2_S[i].m_as('degree/cm**2'):.12e} {s.XI3_S[i].m_as('degree/cm**3'):.12e} 1.0 1.0 1.0
+                {s.NCS[i]} {s.C0_S[i]:.12e} {s.C1_S[i]:.12e} {s.C2_S[i]:.12e} {s.C3_S[i]:.12e} {s.C4_S[i]:.12e} {s.C5_S[i]:.12e} {s.C6_S[i]:.12e} 0.0 0.0
+                {s.OMEGA_S[i].m_as('degree'):.12e} {s.XI0_S[i].m_as('degree'):.12e} {s.XI1_S[i].m_as('degree/cm'):.12e} {s.XI2_S[i].m_as('degree/cm**2'):.12e} {s.XI3_S[i].m_as('degree/cm**3'):.12e} \
+    {s.AEX[i]:.12e} {s.BEX[i]:.12e} {s.CEX[i]:.12e}
                 {s.G0_L[i].m_as('cm'):.12e} {s.K_L[i]:.12e}
                 {s.NCL[i]} {s.C0_L[i]:.12e} {s.C1_L[i]:.12e} {s.C2_L[i]:.12e} {s.C3_L[i]:.12e} {s.C4_L[i]:.12e} {s.C5_L[i]:.12e} {s.SHIFT_L[i].m_as('cm'):.12e}
                 {s.OMEGA_L[i].m_as('degrees'):.12e} {s.XI_L[i].m_as('degrees'):.12e} {0.0} {0.0} {0.0} {0.0}
@@ -1194,14 +1202,14 @@ class Cyclotron(Magnet):
             command.append(c)
 
         command.append(f"""
-                {s.KIRD} {s.RESOL:.12e}
-                {s.XPAS.m_as('cm'):.12e}
-                """)
+        {s.KIRD} {s.RESOL:.12e}
+        {s.XPAS.m_as('cm'):.12e}
+        """)
 
         c = f"""
-                2
-                {s.RE.m_as('cm'):.12e} {s.TE.m_as('radian'):.12e} {s.RS.m_as('cm'):.12e} {s.TS.m_as('radian'):.12e}
-                """
+        2
+        {s.RE.m_as('cm'):.12e} {s.TE.m_as('radian'):.12e} {s.RS.m_as('cm'):.12e} {s.TS.m_as('radian'):.12e}
+        """
         command.append(c)
 
         return ''.join(map(lambda _: _.rstrip(), command))
