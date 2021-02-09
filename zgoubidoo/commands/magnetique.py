@@ -1006,7 +1006,117 @@ class Aimant(PolarMagnet):
         return ''.join(map(lambda _: _.rstrip(), command))
 
 
-class Cyclotron(Magnet):
+class Bend(CartesianMagnet):
+    r"""Bending magnet, Cartesian frame.
+
+    .. note:: This is mostly a **sector bend** element defined in cartesian coordinates.
+
+    .. rubric:: Zgoubi manual description
+
+    ``BEND`` is one of several keywords available for the simulation of dipole magnets. It presents the interest of
+    easy handling, and is well adapted for the simulation of synchrotron dipoles and such other regular dipoles as
+    sector magnets with wedge angles.
+
+    The field in ``BEND`` is defined in a Cartesian coordinate frame (unlike for instance ``DIPOLE``[S] that uses a
+    polar frame). As a consequence, having particle coordinates at entrance or exit of the magnet referring to the
+    curved main direction of motion may require using KPOS, in particular KPOS=3 (in a circular accelerator cell for
+    instance, see section 7.9, p. 201).
+
+    The dipole simulation accounts for the magnet geometrical length XL, for a possible skew angle (X-rotation, useful
+    for obtaining vertical deviation magnet), and for the field B1 such that in absence of fringe field the  deviation
+    θ satisfies :math:`XL = 2 \frac{BORO}{B1} sin(θ/2).
+
+    Then follows the description of the entrance and exit EFBs and fringe fields. The wedge angles :math:`W_E`(entrance)
+    and :math:`W_S` (exit) are defined with respect to the sector angle, with the signs as described in Fig. 12.
+    Within a distance :math:`± X_E` :math:`(±X_S)` on both sides of the entrance (exit) EFB, the fringe field model is
+    used (same as for ``QUADRUPO``, Fig. 35, p. 129) ; elsewhere, the field is supposed to be uniform.
+
+    If :math:`λ_E` (resp. :math:`λ_S) is zero sharp edge field model is assumed at entrance (resp. exit) of the magnet
+    and :math:`X_E` (resp. :math:`X_S`) is forced to zero. In this case, the wedge angle vertical first order focusing
+    effect (if \vec{B1} is non zero) is simulated at magnet entrance and exit by a kick
+    :math:`P_2 = P_1 − Z_1 tan(ε/ρ)` applied to each particle (:math:`P_1`, :math:`P_2` are the vertical angles
+    upstream and downstream the EFB, :math:`Z1` the vertical particle position at the EFB, ρ the local horizontal
+    bending radius and ε the wedge angle experienced by the particle ; ε depends on the horizontal angle T).
+
+    Magnet (mis-)alignment is assured by KPOS. KPOS also allows some degrees of automatic alignment useful for periodic
+    structures (section 7.9).
+
+    *From matrice-style code modeling, to zgoubi :*
+     Fig. 13 illustrates the conversion of matrix method style of data where the magnet is defined by its length and
+     deviation angle (see MAD input below, using ’SBEND’), to zgoubi input data using ``BEND`` (in this particular case
+     of an illustration of a rectangular magnet, ``MULTIPOL`` could be used, as well).
+
+    *Negative bend, vertical bend, tricks :*
+    Use ``YMY`` for the former, ``TRAROT`` with a ±π X-rotation for the latter. The two can be combined, so that a
+    vertical negative bend can be represented by the sequence TRAROT[π], YMY, BEND[B>0], YMY, TRAROT[−π], with
+    positionning methods for ``BEND`` as dis- cussed above (Fig. 13) still applying.
+    """
+    KEYWORD = 'BEND'
+    """Keyword of the command used for the Zgoubi input data."""
+
+    PARAMETERS = {
+        'IL': (0, "Print field and coordinates along trajectories", 1),
+        'XL': (0.0 * _ureg.centimeter, "Magnet length (straight reference frame)", 10),
+        'SK': (0.0 * _ureg.radian, "Skew angle", 11),
+        'B1': (0.0 * _ureg.kilogauss, "Dipole field", 12),
+        'X_E': (0.0 * _ureg.centimeter, "Integration zone extension (entrance face)"),
+        'LAM_E': (0.0 * _ureg.centimeter, "Fringe field extension (entrance face)"),
+        'W_E': (0.0 * _ureg.radian, "Wedge angle (entrance face)"),
+        'C0_E': (0.0, 'Entrance fringe field coefficient C0'),
+        'C1_E': (1.0, 'Entrance fringe field coefficient C1'),
+        'C2_E': (0.0, 'Entrance fringe field coefficient C2'),
+        'C3_E': (0.0, 'Entrance fringe field coefficient C3'),
+        'C4_E': (0.0, 'Entrance fringe field coefficient C4'),
+        'C5_E': (0.0, 'Entrance fringe field coefficient C5'),
+        'X_S': (0.0 * _ureg.centimeter, "Integration zone extension (exit face)"),
+        'LAM_S': (0.0 * _ureg.centimeter, "Fringe field extension (exit face)"),
+        'W_S': (0.0 * _ureg.radian, "Wedge angle (exit face)"),
+        'C0_S': (0.0, 'Exit fringe field coefficient C0'),
+        'C1_S': (1.0, 'Exit fringe field coefficient C1'),
+        'C2_S': (0.0, 'Exit fringe field coefficient C2'),
+        'C3_S': (0.0, 'Exit fringe field coefficient C3'),
+        'C4_S': (0.0, 'Exit fringe field coefficient C4'),
+        'C5_S': (0.0, 'Exit fringe field coefficient C5'),
+        'XPAS': (1.0 * _ureg.centimeter, "Integration step"),
+        'KPOS': (2, "Alignment parameter"),
+        'XCE': (0.0 * _ureg.centimeter, 'X shift'),
+        'YCE': (0.0 * _ureg.centimeter, 'Y shift'),
+        'ALE': (0.0 * _ureg.radian, 'Tilt'),
+        'COLOR': '#4169E1',
+        'LENGTH_IS_ARC_LENGTH': True,
+    }
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
+        commands (e.g. fit)."""
+
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        if self.LAM_S.magnitude == 0:
+            self.X_S = 0.0 * _ureg.cm
+        if self.LAM_E.magnitude == 0:
+            self.X_E = 0.0 * _ureg.cm
+
+    def __str__(s):
+        return f"""
+        {super().__str__().rstrip()}
+        {int(s.IL):d}
+        {s.XL.to('cm').magnitude:.12e} {s.SK.to('radian').magnitude:.12e} {_kilogauss(s.B1):.12e}
+        {s.X_E.to('cm').magnitude:.12e} {s.LAM_E.to('cm').magnitude:.12e} {s.W_E.to('radian').magnitude:.12e}
+        6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
+        {s.X_S.to('cm').magnitude:.12e} {s.LAM_S.to('cm').magnitude:.12e} {s.W_S.to('radian').magnitude:.12e}
+        6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
+        {_cm(s.XPAS):.12e}
+        {int(s.KPOS):d} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
+        """
+
+
+class Cyclotron(PolarMultiMagnet):
     r"""Spiral sector cyclotron
 
     .. rubric:: Zgoubi manual description
@@ -1171,20 +1281,66 @@ class Cyclotron(Magnet):
         'TS': (0.0 * _ureg.radian, '', 64),
     }
 
-    def post_init(self, **kwargs):
-        """
+    def adjust_tracks_variables(self, tracks: _pd.DataFrame):
+        t = tracks[tracks.LABEL1 == self.LABEL1]
+        radius = self.RM.m_as('m')
+        angles = 100 * t['X'] + self.AT.m_as('radians') / 2
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ANGLE'] = angles
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'R'] = t['Y']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'R0'] = t['Yo']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = radius * angles + self.entry_sref.m_as('m')
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y'] - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo'] - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT0'] = t['Zo']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X'] = t['Y'] * _np.sin(angles)
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X0'] = t['Yo'] * _np.sin(angles)
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y'] = t['Y'] * _np.cos(angles) - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y0'] = t['Yo'] * _np.cos(angles) - radius
 
-        Args:
-            **kwargs:
+    @property
+    def reference_angles(self) -> List[_Q]:
+        return [acn + self.AT / 2 for acn in self.ACN]
 
-        Returns:
+    @property
+    def entrance_field_boundary_wedge_angle(self) -> List[_Q]:
+        return _np.zeros(self.N) * _ureg.degrees
 
-        """
-        for i in range(self.N):
-            if _cm(self.RE) == 0:
-                self.RE = self.RM
-            if _cm(self.RS) == 0:
-                self.RS = self.RM
+    @property
+    def exit_field_boundary_wedge_angle(self) -> List[_Q]:
+        return _np.zeros(self.N) * _ureg.degrees
+
+    @property
+    def entrance_field_boundary_linear_extent_down(self) -> List[_Q]:
+        return 500 * _np.ones(self.N) * _ureg.cm
+
+    @property
+    def entrance_field_boundary_linear_extent_up(self) -> List[_Q]:
+        return 500 * _np.ones(self.N) * _ureg.cm
+
+    @property
+    def entrance_field_boundary_linear_radius_up(self) -> List[_Q]:
+        return 500 * _np.ones(self.N) * _ureg.cm
+
+    @property
+    def entrance_field_boundary_linear_radius_down(self) -> List[_Q]:
+        return 500 * _np.ones(self.N) * _ureg.cm
+
+    @property
+    def exit_field_boundary_linear_extent_down(self) -> List[_Q]:
+        return 500 * _np.ones(self.N) * _ureg.cm
+
+    @property
+    def exit_field_boundary_linear_extent_up(self) -> List[_Q]:
+        return 500 * _np.ones(self.N) * _ureg.cm
+
+    @property
+    def exit_field_boundary_linear_radius_up(self) -> List[_Q]:
+        return 100 * _np.ones(self.N) * _ureg.cm
+
+    @property
+    def exit_field_boundary_linear_radius_down(self) -> List[_Q]:
+        return 500 * _np.ones(self.N) * _ureg.cm
 
     def __str__(s):
         command = []
@@ -1228,116 +1384,6 @@ class Cyclotron(Magnet):
         command.append(c)
 
         return ''.join(map(lambda _: _.rstrip(), command))
-
-
-class Bend(CartesianMagnet):
-    r"""Bending magnet, Cartesian frame.
-
-    .. note:: This is mostly a **sector bend** element defined in cartesian coordinates.
-
-    .. rubric:: Zgoubi manual description
-
-    ``BEND`` is one of several keywords available for the simulation of dipole magnets. It presents the interest of
-    easy handling, and is well adapted for the simulation of synchrotron dipoles and such other regular dipoles as
-    sector magnets with wedge angles.
-
-    The field in ``BEND`` is defined in a Cartesian coordinate frame (unlike for instance ``DIPOLE``[S] that uses a
-    polar frame). As a consequence, having particle coordinates at entrance or exit of the magnet referring to the
-    curved main direction of motion may require using KPOS, in particular KPOS=3 (in a circular accelerator cell for
-    instance, see section 7.9, p. 201).
-
-    The dipole simulation accounts for the magnet geometrical length XL, for a possible skew angle (X-rotation, useful
-    for obtaining vertical deviation magnet), and for the field B1 such that in absence of fringe field the  deviation
-    θ satisfies :math:`XL = 2 \frac{BORO}{B1} sin(θ/2).
-
-    Then follows the description of the entrance and exit EFBs and fringe fields. The wedge angles :math:`W_E`(entrance)
-    and :math:`W_S` (exit) are defined with respect to the sector angle, with the signs as described in Fig. 12.
-    Within a distance :math:`± X_E` :math:`(±X_S)` on both sides of the entrance (exit) EFB, the fringe field model is
-    used (same as for ``QUADRUPO``, Fig. 35, p. 129) ; elsewhere, the field is supposed to be uniform.
-
-    If :math:`λ_E` (resp. :math:`λ_S) is zero sharp edge field model is assumed at entrance (resp. exit) of the magnet
-    and :math:`X_E` (resp. :math:`X_S`) is forced to zero. In this case, the wedge angle vertical first order focusing
-    effect (if \vec{B1} is non zero) is simulated at magnet entrance and exit by a kick
-    :math:`P_2 = P_1 − Z_1 tan(ε/ρ)` applied to each particle (:math:`P_1`, :math:`P_2` are the vertical angles
-    upstream and downstream the EFB, :math:`Z1` the vertical particle position at the EFB, ρ the local horizontal
-    bending radius and ε the wedge angle experienced by the particle ; ε depends on the horizontal angle T).
-
-    Magnet (mis-)alignment is assured by KPOS. KPOS also allows some degrees of automatic alignment useful for periodic
-    structures (section 7.9).
-
-    *From matrice-style code modeling, to zgoubi :*
-     Fig. 13 illustrates the conversion of matrix method style of data where the magnet is defined by its length and
-     deviation angle (see MAD input below, using ’SBEND’), to zgoubi input data using ``BEND`` (in this particular case
-     of an illustration of a rectangular magnet, ``MULTIPOL`` could be used, as well).
-
-    *Negative bend, vertical bend, tricks :*
-    Use ``YMY`` for the former, ``TRAROT`` with a ±π X-rotation for the latter. The two can be combined, so that a
-    vertical negative bend can be represented by the sequence TRAROT[π], YMY, BEND[B>0], YMY, TRAROT[−π], with
-    positionning methods for ``BEND`` as dis- cussed above (Fig. 13) still applying.
-    """
-    KEYWORD = 'BEND'
-    """Keyword of the command used for the Zgoubi input data."""
-
-    PARAMETERS = {
-        'IL': (0, "Print field and coordinates along trajectories", 1),
-        'XL': (0.0 * _ureg.centimeter, "Magnet length (straight reference frame)", 10),
-        'SK': (0.0 * _ureg.radian, "Skew angle", 11),
-        'B1': (0.0 * _ureg.kilogauss, "Dipole field", 12),
-        'X_E': (0.0 * _ureg.centimeter, "Integration zone extension (entrance face)"),
-        'LAM_E': (0.0 * _ureg.centimeter, "Fringe field extension (entrance face)"),
-        'W_E': (0.0 * _ureg.radian, "Wedge angle (entrance face)"),
-        'C0_E': (0.0, 'Entrance fringe field coefficient C0'),
-        'C1_E': (1.0, 'Entrance fringe field coefficient C1'),
-        'C2_E': (0.0, 'Entrance fringe field coefficient C2'),
-        'C3_E': (0.0, 'Entrance fringe field coefficient C3'),
-        'C4_E': (0.0, 'Entrance fringe field coefficient C4'),
-        'C5_E': (0.0, 'Entrance fringe field coefficient C5'),
-        'X_S': (0.0 * _ureg.centimeter, "Integration zone extension (exit face)"),
-        'LAM_S': (0.0 * _ureg.centimeter, "Fringe field extension (exit face)"),
-        'W_S': (0.0 * _ureg.radian, "Wedge angle (exit face)"),
-        'C0_S': (0.0, 'Exit fringe field coefficient C0'),
-        'C1_S': (1.0, 'Exit fringe field coefficient C1'),
-        'C2_S': (0.0, 'Exit fringe field coefficient C2'),
-        'C3_S': (0.0, 'Exit fringe field coefficient C3'),
-        'C4_S': (0.0, 'Exit fringe field coefficient C4'),
-        'C5_S': (0.0, 'Exit fringe field coefficient C5'),
-        'XPAS': (1.0 * _ureg.centimeter, "Integration step"),
-        'KPOS': (2, "Alignment parameter"),
-        'XCE': (0.0 * _ureg.centimeter, 'X shift'),
-        'YCE': (0.0 * _ureg.centimeter, 'Y shift'),
-        'ALE': (0.0 * _ureg.radian, 'Tilt'),
-        'COLOR': '#4169E1',
-        'LENGTH_IS_ARC_LENGTH': True,
-    }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
-        commands (e.g. fit)."""
-
-    def post_init(self, **kwargs):
-        """
-
-        Args:
-            **kwargs:
-
-        Returns:
-
-        """
-        if self.LAM_S.magnitude == 0:
-            self.X_S = 0.0 * _ureg.cm
-        if self.LAM_E.magnitude == 0:
-            self.X_E = 0.0 * _ureg.cm
-
-    def __str__(s):
-        return f"""
-        {super().__str__().rstrip()}
-        {int(s.IL):d}
-        {s.XL.to('cm').magnitude:.12e} {s.SK.to('radian').magnitude:.12e} {_kilogauss(s.B1):.12e}
-        {s.X_E.to('cm').magnitude:.12e} {s.LAM_E.to('cm').magnitude:.12e} {s.W_E.to('radian').magnitude:.12e}
-        6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
-        {s.X_S.to('cm').magnitude:.12e} {s.LAM_S.to('cm').magnitude:.12e} {s.W_S.to('radian').magnitude:.12e}
-        6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
-        {_cm(s.XPAS):.12e}
-        {int(s.KPOS):d} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
-        """
 
 
 class Decapole(CartesianMagnet):
