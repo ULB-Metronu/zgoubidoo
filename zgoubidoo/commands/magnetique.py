@@ -1081,8 +1081,8 @@ class Cyclotron(Magnet):
         'ACN': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth for dipole positioning', 5),
         'DRM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter,
                 'Reference radius offset of each dipole : RM_i  = RM + DRM', 6),
-        'BN': ([0.0, 0.0, 0.0, 0.0, 0.0], "Field normalization coefficient"),
-        'BI_0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, "Field normalization coefficient"),
+        'BN': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, "Field normalization coefficient"),
+        'BI_0': ([0.0, 0.0, 0.0, 0.0, 0.0], "Field normalization coefficient"),
         'BI_1': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -1, "Field normalization coefficient"),
         'BI_2': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -2, "Field normalization coefficient"),
         'BI_3': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -3, "Field normalization coefficient"),
@@ -1171,6 +1171,21 @@ class Cyclotron(Magnet):
         'TS': (0.0 * _ureg.radian, '', 64),
     }
 
+    def post_init(self, **kwargs):
+        """
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        for i in range(self.N):
+            if _cm(self.RE) == 0:
+                self.RE = self.RM
+            if _cm(self.RS) == 0:
+                self.RS = self.RM
+
     def __str__(s):
         command = []
         c = f"""
@@ -1182,7 +1197,7 @@ class Cyclotron(Magnet):
 
         for i in range(0, s.N):
             c = f"""
-                {s.ACN[i].m_as('degree'):.12e} {s.DRM[i].m_as('cm'):.12e} {s.BN[i]:.12e} {s.BI_0[i].m_as('kilogauss'):.12e} 0.0 0.0 \
+                {s.ACN[i].m_as('degree'):.12e} {s.DRM[i].m_as('cm'):.12e} {s.BN[i].m_as('kilogauss'):.12e} {s.BI_0[i]:.12e} 0.0 0.0 \
     {s.BI_1[i].m_as('cm**-1'):.12e} {s.BI_2[i].m_as('cm**-2'):.12e} {s.BI_3[i].m_as('cm**-3'):.12e} {s.BI_4[i].m_as('cm**-4'):.12e} {s.BI_5[i].m_as('cm**-5'):.12e} \
     {s.BI_6[i].m_as('cm**-6'):.12e} {s.BI_7[i].m_as('cm**-7'):.12e} {s.BI_8[i].m_as('cm**-8'):.12e} {s.BI_9[i].m_as('cm**-9'):.12e} {s.BI_10[i].m_as('cm**-10'):.12e} \
     {s.BI_11[i].m_as('cm**-11'):.12e} {s.BI_12[i].m_as('cm**-12'):.12e} {s.BI_13[i].m_as('cm**-13'):.12e} {s.BI_14[i].m_as('cm**-14'):.12e} {s.BI_15[i].m_as('cm**-15'):.12e} \
