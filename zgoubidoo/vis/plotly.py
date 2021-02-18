@@ -438,7 +438,6 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
         def compute_spiral_coordinates(angle, omega, width_down, width_up):
             r_min = r - width_down
             r_max = r + width_up
-
             b_min = 1 / _np.tan(_np.polyval(_np.flip(angle), r_min))
             b_max = 1 / _np.tan(_np.polyval(_np.flip(angle), r_max))
 
@@ -622,6 +621,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                                 exit_spiral_angle = [e.exit_spiral_angle[i].m_as('radians'), 0, 0, 0]
 
                             else:
+                                # TODO Change if TYP = 0, radial face
                                 entrance_spiral_angle = [e.XI0_E[i].m_as('radians'),
                                                          e.XI1_E[i].m_as('radians * cm**-1'),
                                                          e.XI2_E[i].m_as('radians * cm**-2'),
