@@ -181,4 +181,5 @@ def survey_reference_trajectory(beamline: _Input,
     if len(tracks) > 0:
         for e in sequence:
             e.reference_trajectory = tracks.query(f"LABEL1 == '{e.LABEL1}'")
+    z.cleanup()
     return beamline

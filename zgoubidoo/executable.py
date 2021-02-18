@@ -146,12 +146,18 @@ class Executable:
         self.wait()
         return self._results_type(results=[_.result() for _ in futures])
 
-    def cleanup(self):
+    def cleanup(self, paths: Optional[List[str]] = None):
         """
 
         Returns:
 
         """
+        paths = paths or list(self._futures.keys())
+        for p in paths:
+            try:
+                p.cleanup()
+            except AttributeError:
+                pass
         self.wait()
         self._futures = dict()
         return self
