@@ -3058,6 +3058,7 @@ class Solenoid(CartesianMagnet):
         'B0': (0 * _ureg.kilogauss, 'Asymptotic field'),
         'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field'),
         'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field'),
+        'MODL': ('', 'Methods for the computation of the field'),
         'XPAS': (0.1 * _ureg.centimeter, 'Integration step'),
         'KPOS': (1, 'Misalignment type'),
         'XCE': (0 * _ureg.centimeter, 'x offset'),
@@ -3072,7 +3073,7 @@ class Solenoid(CartesianMagnet):
         return f"""
         {super().__str__().rstrip()}
         {s.IL}
-        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B0):.12e}
+        {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B0):.12e} {s.MODL}
         {_cm(s.XE):.12e} {_cm(s.XS):.12e}
         {_cm(s.XPAS)}
         {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}

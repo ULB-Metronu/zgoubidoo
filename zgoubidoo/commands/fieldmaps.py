@@ -267,6 +267,10 @@ class Tosca(_Magnet):
             raise _ZgoubiException("The field map must be loaded (use `.load()`) to determine the optical length.")
         return self._length
 
+    @property
+    def optical_ref_length(self) -> _Q:
+        return self._length
+
     def plotly(self):
         """
 
