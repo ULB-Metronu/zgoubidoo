@@ -98,7 +98,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                         'fillcolor': e.COLOR,
                     },
                 )
-            if isinstance(e, (_Bend, _Dipole, _FFAGSPI, _FFAG)):
+            if isinstance(e, (_Bend, _Dipole, _FFAGSPI, _FFAG, _Cyclotron)):
                 length = e.optical_length.m_as('m')
                 m = e.entry_patched.get_rotation_matrix()
                 if _np.dot(m, _np.array([0, 0, 1]))[2] >= 0.0:
