@@ -24,6 +24,7 @@ from zgoubidoo import ureg as _ureg
 from zgoubidoo.commands import Quadrupole, Sextupole, Octupole, Command, Marker, Drift, Bend, ChangeRef, Multipole, \
     Cavite, Dipole, Solenoid, ChangRef
 from zgoubidoo.constants import ZGOUBI_LABEL_LENGTH as _ZGOUBI_LABEL_LENGTH
+
 if TYPE_CHECKING:
     from georges_core import Kinematics as _Kinematics
     from georges_core.sequences import Element as _Element
@@ -186,7 +187,8 @@ def quadrupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Di
         bore_radius = element['R']
     else:
         bore_radius = options.get('R0', 10 * _ureg.cm)
-        if element.get('K1') is None and element.get('K1L') is None and element.get('K1BRHO') is None and element.get('K1S') is None and element.get('K1SL') is None:
+        if element.get('K1') is None and element.get('K1L') is None and element.get('K1BRHO') is None and element.get(
+                'K1S') is None and element.get('K1SL') is None:
             gradient = 0 / _ureg.m ** 2
         elif element.get('K1') is not None and element.get('K1L') is not None:
             if element['K1'] == 0:
@@ -229,11 +231,11 @@ def quadrupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Di
             changeref_in,
             quad,
             changeref_out
-                ]
+        ]
     else:
         return [
             quad
-                ]
+        ]
 
 
 def solenoid_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:
@@ -265,8 +267,8 @@ def solenoid_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict
                      XL=element['L'],
                      R0=bore_radius,
                      B0=b_field,
-                     XE=0 * _ureg.cm,
-                     XS=0 * _ureg.cm,
+                     X_E=0 * _ureg.cm,
+                     X_S=0 * _ureg.cm,
                      ),
             ]
 
@@ -282,7 +284,53 @@ def sextupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dic
     Returns:
 
     """
-    return [Sextupole(element.name[0:_ZGOUBI_LABEL_LENGTH], XL=element['L'])]
+
+    if element['L'] == 0 * _ureg.m:
+        raise ValueError("Sextupole length cannot be zero.")
+    if element.get('B1') is not None and element.get('R') is not None and not _np.isnan(element['B1']) \
+            and not _np.isnan(element['R']):
+        b_field = element['B1']
+        bore_radius = element['R']
+    else:
+        bore_radius = options.get('R0', 10 * _ureg.cm)
+        if element.get('K2') is None and element.get('K2L') is None and element.get('K2BRHO') is None and element.get(
+                'K2S') is None and element.get('K2SL') is None:
+            gradient = 0 / _ureg.m ** 2
+        elif element.get('K2') is not None and element.get('K2L') is not None:
+            if element['K2'] == 0:
+                gradient = element['K2L'] / element['L']
+            elif element['K2L'] == 0:
+                gradient = element['K2'] / _ureg.m ** 2 if isinstance(element['K2'], float) else element['K2']
+            else:
+                raise KeyError("K2 and K2L cannot be non zero at the same time.")
+        elif element.get('K2L') is not None and element.get('K1SL') is not None:
+            if element.get('K2SL') == 0:
+                gradient = element['K2L'] / element['L']
+            if element.get('K2L') == 0:
+                gradient = element['K2SL'] / element['L']
+                changeref_in = ChangRef("changeref_in", TRANSFORMATIONS=[('XR', -45 * _ureg.degree)])
+                changeref_out = ChangRef("changeref_out", TRANSFORMATIONS=[('XR', 45 * _ureg.degree)])
+        elif element.get('K2') is not None:
+            gradient = element['K2'] / _ureg.m ** 3 if isinstance(element['K2'], float) else element['K2']
+        elif element.get('K2BRHO') is not None:
+            gradient = element['K2BRHO'] / kinematics.brho
+        elif element.get('K2S') is not None:
+            gradient = element['K2S'] / _ureg.m ** 3 if isinstance(element['K1S'], float) else element['K2S']
+            changeref_in = ChangRef("changeref_in", TRANSFORMATIONS=[('XR', -45 * _ureg.degree)])
+            changeref_out = ChangRef("changeref_out", TRANSFORMATIONS=[('XR', 45 * _ureg.degree)])
+        else:
+            raise KeyError("K2, K2L or K1BHRHO cannot be defined at the same time.")
+        b_field = gradient * kinematics.brho * bore_radius**2
+
+    return [Sextupole(element.name[0:_ZGOUBI_LABEL_LENGTH],
+                      XL=element['L'],
+                      R0=bore_radius,
+                      B0=b_field,
+                      X_E=0 * _ureg.cm,
+                      LAM_E=0 * _ureg.cm,
+                      X_S=0 * _ureg.cm,
+                      LAM_S=0 * _ureg.cm,
+                      )]
 
 
 def octupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:

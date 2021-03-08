@@ -2998,7 +2998,7 @@ class Sextupole(CartesianMagnet):
         'XL': (0 * _ureg.centimeter, 'Magnet length', 10),
         'R0': (1.0 * _ureg.centimeter, 'Radius of the pole tips', 11),
         'B0': (0 * _ureg.kilogauss, 'Field at pole tips', 12),
-        'XE': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 20),
+        'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 20),
         'LAM_E': (0 * _ureg.centimeter, 'Entrance face fringe field extent', 21),
         'C0_E': 0,
         'C1_E': 1,
@@ -3006,7 +3006,7 @@ class Sextupole(CartesianMagnet):
         'C3_E': 0,
         'C4_E': 0,
         'C5_E': 0,
-        'XS': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field'),
+        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field'),
         'LAM_S': (0 * _ureg.centimeter, 'Exit face fringe field extent'),
         'C0_S': 0,
         'C1_S': 1,
@@ -3029,9 +3029,9 @@ class Sextupole(CartesianMagnet):
         {super().__str__().rstrip()}
         {s.IL}
         {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B0):.12e}
-        {_cm(s.XE):.12e} {_cm(s.LAM_E):.12e}
+        {_cm(s.X_E):.12e} {_cm(s.LAM_E):.12e}
         6 {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
-        {_cm(s.XS):.12e} {_cm(s.LAM_S):.12e}
+        {_cm(s.X_S):.12e} {_cm(s.LAM_S):.12e}
         6 {s.C0_S:.12e} {s.C1_S:.12e} {s.C2_S:.12e} {s.C3_S:.12e} {s.C4_S:.12e} {s.C5_S:.12e}
         {_cm(s.XPAS)}
         {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
