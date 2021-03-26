@@ -129,12 +129,12 @@ def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
                  )
 
     elif options.get('command') == Dipole:
-        if element.N is not None and not _np.isnan(element.N):
-            field_index = element.N
-        elif element.K1 is not None and not _np.isnan(element.K1):
-            field_index = -(_np.abs(
+        if element.K1 is not None and not _np.isnan(element.K1):
+            field_index = (_np.abs(
                 element.L / element.ANGLE).to('m') ** 2 * getattr(element, 'K1', 0.0 * _ureg.m ** -2)
-                            ).magnitude
+                           ).magnitude
+        elif element.N is not None and not _np.isnan(element.N):
+            field_index = element.N
         else:
             field_index = 0
         b = Dipole(element.name[0:_ZGOUBI_LABEL_LENGTH],
@@ -145,7 +145,7 @@ def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
                    THETA_S=-ws * _np.sign(element['ANGLE'].magnitude),
                    LAM_S=0 * _ureg.cm,
                    B0=b1,
-                   N=-field_index,
+                   N=field_index,
                    )
     if element['TILT'] != 0:
         b.COLOR = 'goldenrod'
@@ -320,7 +320,7 @@ def sextupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dic
             changeref_out = ChangRef("changeref_out", TRANSFORMATIONS=[('XR', 45 * _ureg.degree)])
         else:
             raise KeyError("K2, K2L or K1BHRHO cannot be defined at the same time.")
-        b_field = gradient * kinematics.brho * bore_radius**2
+        b_field = (gradient * kinematics.brho * bore_radius ** 2) / 2
 
     return [Sextupole(element.name[0:_ZGOUBI_LABEL_LENGTH],
                       XL=element['L'],
@@ -344,7 +344,52 @@ def octupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict
     Returns:
 
     """
-    return [Octupole(element.name[0:_ZGOUBI_LABEL_LENGTH], XL=element['L'])]
+    if element['L'] == 0 * _ureg.m:
+        raise ValueError("Octupole length cannot be zero.")
+    if element.get('B1') is not None and element.get('R') is not None and not _np.isnan(element['B1']) \
+            and not _np.isnan(element['R']):
+        b_field = element['B1']
+        bore_radius = element['R']
+    else:
+        bore_radius = options.get('R0', 10 * _ureg.cm)
+        if element.get('K3') is None and element.get('K3L') is None and element.get('K3BRHO') is None and element.get(
+                'K3S') is None and element.get('K3SL') is None:
+            gradient = 0 / _ureg.m ** 2
+        elif element.get('K3') is not None and element.get('K3L') is not None:
+            if element['K3'] == 0:
+                gradient = element['K3L'] / element['L']
+            elif element['K3L'] == 0:
+                gradient = element['K3'] / _ureg.m ** 2 if isinstance(element['K3'], float) else element['K3']
+            else:
+                raise KeyError("K3 and K3L cannot be non zero at the same time.")
+        elif element.get('K3L') is not None and element.get('K3SL') is not None:
+            if element.get('K3SL') == 0:
+                gradient = element['K3L'] / element['L']
+            if element.get('K3L') == 0:
+                gradient = element['K3SL'] / element['L']
+                changeref_in = ChangRef("changeref_in", TRANSFORMATIONS=[('XR', -45 * _ureg.degree)])
+                changeref_out = ChangRef("changeref_out", TRANSFORMATIONS=[('XR', 45 * _ureg.degree)])
+        elif element.get('K3') is not None:
+            gradient = element['K3'] / _ureg.m ** 3 if isinstance(element['K3'], float) else element['K3']
+        elif element.get('K3BRHO') is not None:
+            gradient = element['K3BRHO'] / kinematics.brho
+        elif element.get('K3S') is not None:
+            gradient = element['K3S'] / _ureg.m ** 3 if isinstance(element['K3S'], float) else element['K3S']
+            changeref_in = ChangRef("changeref_in", TRANSFORMATIONS=[('XR', -45 * _ureg.degree)])
+            changeref_out = ChangRef("changeref_out", TRANSFORMATIONS=[('XR', 45 * _ureg.degree)])
+        else:
+            raise KeyError("K3, K3L or K3BHRHO cannot be defined at the same time.")
+        b_field =( gradient * kinematics.brho * bore_radius ** 3) / 3
+
+    return [Octupole(element.name[0:_ZGOUBI_LABEL_LENGTH],
+                     XL=element['L'],
+                     R0=bore_radius,
+                     B0=b_field,
+                     X_E=0 * _ureg.cm,
+                     LAM_E=0 * _ureg.cm,
+                     X_S=0 * _ureg.cm,
+                     LAM_S=0 * _ureg.cm,
+                     )]
 
 
 def twcavity_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:
