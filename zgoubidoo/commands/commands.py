@@ -760,7 +760,7 @@ class ChangRef(Command, _Patchable):
 
         """
         if self._entry_patched is None:
-            self._entry_patched = _Frame(self.entry)
+            self._entry_patched = self.entry.__class__(self.entry)
             for t in self.TRANSFORMATIONS:
                 if len(t) > 2:
                     raise Exception("Invalid transformation.")
