@@ -623,13 +623,13 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                             else:
                                 # TODO Change if TYP = 0, radial face
                                 entrance_spiral_angle = [e.XI0_E[i].m_as('radians'),
-                                                         e.XI1_E[i].m_as('radians * cm**-1'),
-                                                         e.XI2_E[i].m_as('radians * cm**-2'),
-                                                         e.XI3_E[i].m_as('radians * cm**-3')]
+                                                         e.XI1_E[i].m_as('radians * m**-1'),
+                                                         e.XI2_E[i].m_as('radians * m**-2'),
+                                                         e.XI3_E[i].m_as('radians * m**-3')]
                                 exit_spiral_angle = [e.XI0_S[i].m_as('radians'),
-                                                     e.XI1_S[i].m_as('radians * cm**-1'),
-                                                     e.XI2_S[i].m_as('radians * cm**-2'),
-                                                     e.XI3_S[i].m_as('radians * cm**-3')]
+                                                     e.XI1_S[i].m_as('radians * m**-1'),
+                                                     e.XI2_S[i].m_as('radians * m**-2'),
+                                                     e.XI3_S[i].m_as('radians * m**-3')]
                         plot_polar_magnet()
 
                         if with_map:
