@@ -379,7 +379,7 @@ def octupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict
             changeref_out = ChangRef("changeref_out", TRANSFORMATIONS=[('XR', 45 * _ureg.degree)])
         else:
             raise KeyError("K3, K3L or K3BHRHO cannot be defined at the same time.")
-        b_field =( gradient * kinematics.brho * bore_radius ** 3) / 3
+        b_field = (gradient * kinematics.brho * bore_radius ** 3) / _np.math.factorial(3)
 
     return [Octupole(element.name[0:_ZGOUBI_LABEL_LENGTH],
                      XL=element['L'],
@@ -390,6 +390,56 @@ def octupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict
                      X_S=0 * _ureg.cm,
                      LAM_S=0 * _ureg.cm,
                      )]
+
+
+def multipole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:
+    """
+
+    Args:
+        element:
+        kinematics:
+        options:
+
+    Returns:
+
+    """
+
+    multipole_length = options.get('L', 1 * _ureg.cm)
+    k0 = element.get('K0L', 0) / multipole_length
+    k1 = element.get('K1L', 0 * _ureg.m**-1) / multipole_length
+    k2 = element.get('K2L', 0 * _ureg.m ** -2) / multipole_length
+    k3 = element.get('K3L', 0 * _ureg.m ** -3) / multipole_length
+
+    bore_radius = element.get('R0', 10.0 * _ureg.cm)
+
+    b1_field = k0 * kinematics.brho
+    b2_field = k1 * kinematics.brho * bore_radius
+    b3_field = (k2 * kinematics.brho * bore_radius**2) / _np.math.factorial(2)
+    b4_field = (k3 * kinematics.brho * bore_radius**3) / _np.math.factorial(3)
+
+    return [Multipole(element.name[0:_ZGOUBI_LABEL_LENGTH],
+                      XL=multipole_length,
+                      R0=bore_radius,
+                      B1=b1_field,
+                      B2=b2_field,
+                      B3=b3_field,
+                      B4=b4_field,
+                      X_E=0 * _ureg.cm,
+                      LAM_E=0 * _ureg.cm,
+                      X_S=0 * _ureg.cm,
+                      LAM_S=0 * _ureg.cm,
+                      )]
+    # TODO take into account the changeRef if K1S
+    # if element.get('K1S') is not None or element.get('K1SL') is not None and element.get('K1SL') != 0:
+    #     return [
+    #         changeref_in,
+    #         quad,
+    #         changeref_out
+    #     ]
+    # else:
+    #     return [
+    #         quad
+    #     ]
 
 
 def twcavity_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:
