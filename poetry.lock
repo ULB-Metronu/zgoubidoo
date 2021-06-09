@@ -204,6 +204,14 @@ optional = true
 python-versions = ">=2.7"
 
 [[package]]
+name = "fortranformat"
+version = "1.0.1"
+description = "Mimics Fortran textual IO in Python"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "future"
 version = "0.18.2"
 description = "Clean single-source support for Python 3 and 2"
@@ -986,6 +994,34 @@ optional = true
 python-versions = ">=3.5"
 
 [[package]]
+name = "pymad8"
+version = "1.6.0"
+description = "Write MAD8 models and load MAD8 output."
+category = "main"
+optional = false
+python-versions = ">=2.7.*"
+
+[package.dependencies]
+fortranformat = ">=0.2.5"
+matplotlib = ">=1.7.1"
+numpy = ">=1.4.0"
+
+[[package]]
+name = "pymadx"
+version = "1.8.1"
+description = "Write MADX models and load MADX output."
+category = "main"
+optional = false
+python-versions = ">=2.7.*"
+
+[package.dependencies]
+future = "*"
+matplotlib = ">=1.7.1"
+numpy = ">=1.4"
+pytransport = "*"
+six = ">1.0"
+
+[[package]]
 name = "pyparsing"
 version = "2.4.7"
 description = "Python parsing module"
@@ -1075,6 +1111,19 @@ python-versions = "*"
 
 [package.dependencies]
 six = "*"
+
+[[package]]
+name = "pytransport"
+version = "1.4.0"
+description = "Convert TRANSPORT models and load TRANSPORT output."
+category = "main"
+optional = false
+python-versions = ">=2.7.*"
+
+[package.dependencies]
+matplotlib = "*"
+numpy = "*"
+scipy = "*"
 
 [[package]]
 name = "pytz"
@@ -1691,6 +1740,10 @@ entrypoints = [
     {file = "entrypoints-0.3-py2.py3-none-any.whl", hash = "sha256:589f874b313739ad35be6e0cd7efde2a4e9b6fea91edcc34e58ecbb8dbe56d19"},
     {file = "entrypoints-0.3.tar.gz", hash = "sha256:c70dd71abe5a8c85e55e12c19bd91ccfeec11a6e99044204511f9ed547d48451"},
 ]
+fortranformat = [
+    {file = "fortranformat-1.0.1-py2-none-any.whl", hash = "sha256:bfa14f5b6b62e90cc02852dcca5b6ea8caf782725be44b0ca39868e462ac88c8"},
+    {file = "fortranformat-1.0.1.tar.gz", hash = "sha256:730b4f56ef64d7ec18537b357e92c7b17aec7e24e3d1e32c122c31dbdd64ef2b"},
+]
 future = [
     {file = "future-0.18.2.tar.gz", hash = "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"},
 ]
@@ -2225,6 +2278,14 @@ pygments = [
     {file = "Pygments-2.9.0-py3-none-any.whl", hash = "sha256:d66e804411278594d764fc69ec36ec13d9ae9147193a1740cd34d272ca383b8e"},
     {file = "Pygments-2.9.0.tar.gz", hash = "sha256:a18f47b506a429f6f4b9df81bb02beab9ca21d0a5fee38ed15aef65f0545519f"},
 ]
+pymad8 = [
+    {file = "pymad8-1.6.0-py3-none-any.whl", hash = "sha256:dd2481ccd75e02bed763271fa338dcdd21663d2c8eb8b4ded44f7347c8a61368"},
+    {file = "pymad8-1.6.0.tar.gz", hash = "sha256:be2ce89624ea0d523519456126cb3be1c9ac82f9b207f936270a382371843454"},
+]
+pymadx = [
+    {file = "pymadx-1.8.1-py3-none-any.whl", hash = "sha256:23f01b7b332a05487591cc50dd2c00d9effde6007ec3ce3d3958f4bcc2c38327"},
+    {file = "pymadx-1.8.1.tar.gz", hash = "sha256:b056d821e49be3fe7b2be9674c78972151a65b83e8e91318569a8ef68d1e57ee"},
+]
 pyparsing = [
     {file = "pyparsing-2.4.7-py2.py3-none-any.whl", hash = "sha256:ef9d7589ef3c200abe66653d3f1ab1033c3c419ae9b9bdb1240a85b024efc88b"},
     {file = "pyparsing-2.4.7.tar.gz", hash = "sha256:c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1"},
@@ -2251,6 +2312,10 @@ python-slugify = [
 python-utils = [
     {file = "python-utils-2.5.6.tar.gz", hash = "sha256:352d5b1febeebf9b3cdb9f3c87a3b26ef22d3c9e274a8ec1e7048ecd2fac4349"},
     {file = "python_utils-2.5.6-py2.py3-none-any.whl", hash = "sha256:18fbc1a1df9a9061e3059a48ebe5c8a66b654d688b0e3ecca8b339a7f168f208"},
+]
+pytransport = [
+    {file = "pytransport-1.4.0-py3-none-any.whl", hash = "sha256:1e98f97ab1758074b973639f651eefc6d45e3b0dd6b685103768e7ebc79eadb8"},
+    {file = "pytransport-1.4.0.tar.gz", hash = "sha256:b0598fa67fb274ec3201a332842dbe56632bdf3327b56c66c52a8243a2ae3884"},
 ]
 pytz = [
     {file = "pytz-2021.1-py2.py3-none-any.whl", hash = "sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798"},
