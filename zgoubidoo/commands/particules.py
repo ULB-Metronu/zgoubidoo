@@ -15,7 +15,7 @@ class ParticuleType(_MetaCommand):
     def __str__(cls):
         return f"""
         '{cls.KEYWORD}' {cls.__name__.upper()}
-        {cls.M.to('MeV_c2').magnitude:.12e} {cls.Q.to('coulomb').magnitude:.12e} {cls.G:.12e} {cls.tau:.12e} 0.0
+        {cls.M.to('MeV_c2').magnitude:.12e} {cls.Q.to('coulomb').magnitude:.12e} {cls.G:.12e} {cls.tau.to('second').magnitude:.12e} 0.0
         """
 
 
@@ -39,7 +39,7 @@ class Particule(_Command, metaclass=ParticuleType):
     def __str__(self) -> str:
         return f"""
         {super().__str__().strip()}
-        {self.M.m_as('MeV_c2'):.12e} {self.Q.m_as('coulomb'):.12e} {self.G:.12e} {self.tau:.12e} 0.0
+        {self.M.m_as('MeV_c2'):.12e} {self.Q.m_as('coulomb'):.12e} {self.G:.12e} {self.tau.to('second').magnitude:.12e} 0.0
         """
 
     @property
@@ -131,6 +131,9 @@ class AntiMuon(Particule):
         'G': ((scipy.constants.physical_constants['muon g factor'][0] - 2) / 2, 'G factor'),
         'tau': (2.197029e-6 * _ureg.s, 'Lifetime'),
     }
+
+
+Posmuon = AntiMuon
 
 
 class ImmortalMuon(Muon):

@@ -253,7 +253,7 @@ def solenoid_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict
         raise ValueError("Solenoïde length cannot be zero.")  # to check
     if element.get('B0') is not None and element.get('R') is not None and not _np.isnan(element['B0']) \
             and not _np.isnan(element['R']):
-        b_field = element['B1']
+        b_field = element['B0']
         bore_radius = element['R']
     else:
         bore_radius = options.get('R0', 1 * _ureg.m)
