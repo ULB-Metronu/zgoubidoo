@@ -7,6 +7,7 @@ import os
 from random import randint
 import numpy as np
 import pandas as pd
+from georges_core import distribution as _distribution
 from zgoubidoo import Q_ as _Q
 from zgoubidoo.commands import CommandType as _CommandType
 from zgoubidoo.commands import Command as _Command
@@ -24,6 +25,7 @@ from .. import Kinematics as _Kinematics
 from ..mappings import ParametricMapping as _ParametricMapping
 from ..mappings import MappedParametersListType as _MappedParametersListType
 from .. import ureg as _ureg
+
 if TYPE_CHECKING:
     from georges_core.sequences import BetaBlock as _BetaBlock
     from georges_core.sequences import TwissSequence as _TwissSequence
@@ -46,6 +48,7 @@ class Beam(_Command, metaclass=BeamType):
     """
     Beam
     """
+
     def __str__(self) -> str:
         return str(_Comment(f"Definition of {self.__class__.__name__}")) \
                + str(self.generate_object()) \
@@ -445,7 +448,7 @@ class BeamInputDistribution(Beam):
         self.initialize_distribution(BeamInputDistribution.generate_from_file(file, path, n))
         return self
 
-    def from_5d_sigma_matrix(self, n, **kwargs) -> Beam:
+    def from_5d_sigma_matrix(self, **kwargs) -> Beam:
         """
         Initialize a beam with a 5D particle distribution from a Sigma matrix.
 
@@ -456,11 +459,15 @@ class BeamInputDistribution(Beam):
         Returns:
 
         """
-        distribution = BeamInputDistribution.generate_from_5d_sigma_matrix(n, **kwargs)
+        distribution = _distribution.Distribution.generate_from_5d_sigma_matrix(**kwargs)
+        # Convert to Zgoubi units (m, rad) -> (cm, mrad)
+        distribution[:, [0, 2]] *= 100
+        distribution[:, [1, 3]] *= 1000
+        distribution[:, [1, 4]] += 1 # DR
         self.initialize_distribution(distribution)
         return self
 
-    def from_twiss_parameters(self, n, **kwargs) -> Beam:
+    def from_twiss_parameters(self, **kwargs) -> Beam:
         """
         Initialize a beam with a 5D particle distribution from Twiss parameters.
 
@@ -471,30 +478,12 @@ class BeamInputDistribution(Beam):
         Returns:
 
         """
-        keys = {'X', 'PX', 'Y', 'PY', 'DPP', 'DPPRMS', 'BETAX', 'ALPHAX', 'BETAY', 'ALPHAY', 'EMITX', 'EMITY'}
-        if any([k not in keys for k in kwargs.keys()]):
-            raise ZgoubidooBeamException("Invalid argument for a twiss distribution.")
-        betax = kwargs.get('BETAX', 1)
-        alphax = kwargs.get('ALPHAX', 0)
-        gammax = (1+alphax**2)/betax
-        betay = kwargs.get('BETAY', 1)
-        alphay = kwargs.get('ALPHAY', 0)
-        gammay = (1 + alphay ** 2) / betay
-
-        self.from_5d_sigma_matrix(n,
-                                  x=kwargs.get('X', 0),
-                                  px=kwargs.get('PX', 0),
-                                  y=kwargs.get('Y', 0),
-                                  py=kwargs.get('PY', 0),
-                                  dpp=kwargs.get('DPP', 0),
-                                  dpprms=kwargs.get('DPPRMS', 0),
-                                  s11=betax * kwargs['EMITX'],
-                                  s12=-alphax * kwargs['EMITX'],
-                                  s22=gammax * kwargs['EMITX'],
-                                  s33=betay * kwargs['EMITY'],
-                                  s34=-alphay * kwargs['EMITY'],
-                                  s44=gammay * kwargs['EMITY']
-                                  )
+        distribution = _distribution.Distribution().from_twiss_parameters(**kwargs).distribution.values
+        # Convert to Zgoubi units (m, rad) -> (cm, mrad)
+        distribution[:, [0, 2]] *= 100
+        distribution[:, [1, 3]] *= 1000
+        distribution[:, [1, 4]] += 1 # DR
+        self.initialize_distribution(distribution)
         return self
 
     @classmethod
@@ -528,100 +517,6 @@ class BeamInputDistribution(Beam):
 
         """
         return pd.read_csv(os.path.join(path, file))[:n].values
-
-    @staticmethod
-    def generate_from_5d_sigma_matrix(n: int,
-                                      x: float = 0,
-                                      px: float = 0,
-                                      y: float = 0,
-                                      py: float = 0,
-                                      dpp: float = 0,
-                                      s11: float = 0,
-                                      s12: float = 0,
-                                      s13: float = 0,
-                                      s14: float = 0,
-                                      s15: float = 0,
-                                      s22: float = 0,
-                                      s23: float = 0,
-                                      s24: float = 0,
-                                      s25: float = 0,
-                                      s33: float = 0,
-                                      s34: float = 0,
-                                      s35: float = 0,
-                                      s44: float = 0,
-                                      s45: float = 0,
-                                      dpprms: float = 0,
-                                      matrix=None,
-                                      ):
-        """
-
-        Args:
-            n:
-            x:
-            px:
-            y:
-            py:
-            dpp:
-            s11:
-            s12:
-            s13:
-            s14:
-            s15:
-            s22:
-            s23:
-            s24:
-            s25:
-            s33:
-            s34:
-            s35:
-            s44:
-            s45:
-            dpprms:
-            matrix:
-
-        Returns:
-
-        """
-        # For performance considerations, see
-        # https://software.intel.com/en-us/blogs/2016/06/15/faster-random-number-generation-in-intel-distribution-for-python
-        try:
-            import numpy.random_intel
-            generator = numpy.random_intel.multivariate_normal
-        except ModuleNotFoundError:
-            import numpy.random
-            generator = numpy.random.multivariate_normal
-
-        s21 = s12
-        s31 = s13
-        s32 = s23
-        s41 = s14
-        s42 = s24
-        s43 = s34
-        s51 = s15
-        s52 = s25
-        s53 = s35
-        s54 = s45
-        s55 = dpprms ** 2
-
-        if matrix is not None:
-            assert matrix.shape == (5, 5)
-            return generator(
-                [x, px, y, py, dpp],
-                matrix,
-                int(n)
-            )
-        else:
-            return generator(
-                [x, px, y, py, dpp],
-                np.array([
-                    [s11, s12, s13, s14, s15],
-                    [s21, s22, s23, s24, s25],
-                    [s31, s32, s33, s34, s35],
-                    [s41, s42, s43, s44, s45],
-                    [s51, s52, s53, s54, s55]
-                ]),
-                int(n)
-            )
 
 
 class BeamTwiss(Beam):
