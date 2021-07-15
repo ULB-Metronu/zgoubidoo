@@ -224,6 +224,18 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
         return self._exit_patched
 
     @property
+    def center(self) -> Optional[_Frame]:
+        """
+
+        Returns:
+
+        """
+        if self._center is None:
+            self._center = self.entry_patched.__class__(self.entry_patched)
+            self._center.translate_x(self.length / 2)
+        return self._center
+
+    @property
     def wedge_angle_entrance(self) -> _Q:
         return self.W_E or 0 * _ureg.radians
 
