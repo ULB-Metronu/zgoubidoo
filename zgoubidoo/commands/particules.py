@@ -28,7 +28,7 @@ class Particule(_Command, metaclass=ParticuleType):
         'M': (0 * _ureg.MeV_c2, 'Mass of the particle.'),
         'Q': (0 * _ureg.coulomb, 'Charge of the particle.'),
         'G': (0, 'Factor'),
-        'tau': (0, 'Lifetime of the particle.'),
+        'tau': (0 * _ureg.second, 'Lifetime of the particle.'),
     }
 
     def __init__(self, label1='', label2='', *params, **kwargs):
@@ -39,7 +39,7 @@ class Particule(_Command, metaclass=ParticuleType):
     def __str__(self) -> str:
         return f"""
         {super().__str__().strip()}
-        {self.M.m_as('MeV_c2'):.12e} {self.Q.m_as('coulomb'):.12e} {self.G:.12e} {self.tau.to('second').magnitude:.12e} 0.0
+        {self.M.m_as('MeV_c2'):.12e} {self.Q.m_as('coulomb'):.12e} {self.G:.12e} {self.tau.m_as('second'):.12e} 0.0
         """
 
     @property
