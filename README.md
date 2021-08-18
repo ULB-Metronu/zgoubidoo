@@ -1,5 +1,7 @@
 # Zgoubidoo: a modern Python 3 interface to the Zgoubi particle tracking code
 
+[![develop](https://github.com/rtesse/zgoubidoo/actions/workflows/develop.yaml/badge.svg)](https://github.com/rtesse/zgoubidoo/actions/workflows/develop.yaml)
+
 <img src="docs/_static/zgoubidoo.png" style="float: right; width: 150px;">
 
 Zgoubidoo is a Python 3 interface for [Zgoubi](https://sourceforge.net/projects/zgoubi/), a ray-tracing code for beam 
