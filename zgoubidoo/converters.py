@@ -18,6 +18,7 @@ Examples:
     TODO
 """
 from __future__ import annotations
+import logging
 from typing import TYPE_CHECKING, Dict, List, Union
 import numpy as _np
 from zgoubidoo import ureg as _ureg
@@ -227,6 +228,8 @@ def quadrupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Di
             raise KeyError("K1, K1L or K1BHRHO cannot be defined at the same time.")
         b_field = gradient * kinematics.brho * bore_radius
 
+    if b_field == 0:
+        logging.warning("Quadrupole field is 0. Your input file may be wrong.")
     quad = Quadrupole(element.name[0:_ZGOUBI_LABEL_LENGTH],
                       XL=element['L'],
                       R0=bore_radius,
