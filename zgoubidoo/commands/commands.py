@@ -58,7 +58,7 @@ class CommandType(ABCMeta):
 
     TODO
     """
-    def __new__(mcs, name: str, bases: Tuple[CommandType, type, ...], dct: Dict[str, Any]):
+    def __new__(mcs, name: str, bases: Tuple[CommandType, type], dct: Dict[str, Any]):
         # Insert a default initializer (constructor) in case one is not present
         if '__init__' not in dct:
             def default_init(self, label1: str = '', label2: str = '', *params, **kwargs):
