@@ -691,19 +691,13 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
         """
 
         artist = cls(layout={
+            'font': {'family': "serif", 'size': 18},
             'xaxis': {'title': 'S (m)',
                       'mirror': True,
                       'linecolor': 'black',
                       'linewidth': 1
                       },
-            'legend': {
-                'bordercolor': '#888',
-                'borderwidth': 1,
-                'xanchor': 'right',
-                'x': 0.98,
-                'yanchor': 'top',
-                'y': 0.98
-            },
+            'plot_bgcolor': 'rgba(0,0,0,0)',
         })
 
         if beta:
