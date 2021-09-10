@@ -2,6 +2,7 @@
 from typing import Optional, Union, Tuple
 import os
 import lmfit
+import sympy
 import numpy as _np
 import pandas as _pd
 from scipy import interpolate
@@ -75,6 +76,20 @@ def load_opera_fieldmap(file: str, path: str = '.') -> _pd.DataFrame:
     ])
 
 
+def from_analytic_expression(bx_expression: sympy = None, by_expression: sympy = None, bz_expression: sympy = None, mesh: _np.ndarray = None)-> _pd.DataFrame:
+    x, y, z = sympy.symbols('x:z')
+    data_Bx = sympy.lambdify([x, y, z], bx_expression, 'numpy')(mesh[:,0], mesh[:,1], mesh[:,2])
+    data_By = sympy.lambdify([x, y, z], by_expression, 'numpy')(mesh[:,0], mesh[:,1], mesh[:,2])
+    data_Bz = sympy.lambdify([x, y, z], bz_expression, 'numpy')(mesh[:,0], mesh[:,1], mesh[:,2])
+
+    return _pd.DataFrame({'X' : mesh[:,0],
+                                'Y' : mesh[:,1],
+                                'Z' : mesh[:,2],
+                                'BX' : data_Bx,
+                                'BY' : data_By,
+                                'BZ' : data_Bz
+                                })
+
 def enge(s: Union[float, _np.array],
          ce_0: float = 0.0,
          ce_1: float = 1.0,
@@ -129,6 +144,7 @@ def enge(s: Union[float, _np.array],
                 (s - offset_s) / lam_s) ** 3 + cs_4 * ((s - offset_s) / lam_s) ** 4 + cs_5 * (
                       (s - offset_s) / lam_s) ** 5
     return amplitude * ((1 / (1 + _np.exp(p_e))) + (1 / (1 + _np.exp(p_s))) - 1) + field_offset
+
 
 
 class EngeModel(_Model):
@@ -190,6 +206,21 @@ class FieldMap:
             A FieldMap loaded from files.
         """
         return cls(field_map=load_opera_fieldmap_with_mesh(field_file=field_file, mesh_file=mesh_file, path=path))
+
+    @classmethod
+    def generate_from_analytic_expression(cls, bx_expression: sympy = None, by_expression: sympy = None, bz_expression: sympy = None, mesh: _np.ndarray = None):
+        """
+        Factory method to generate a field map from analytic expressions
+
+        Args:
+            bx_expression: expression of the magnetic field in x
+            by_expression: expression of the magnetic field in y
+            bz_expression: expression of the magnetic field in z
+
+        Returns:
+            A FieldMap generated from analytic expression.
+        """
+        return cls(field_map=from_analytic_expression(bx_expression=bx_expression, by_expression=by_expression, bz_expression=bz_expression, mesh=mesh))
 
     @property
     def df(self):
