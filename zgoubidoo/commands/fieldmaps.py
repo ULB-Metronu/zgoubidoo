@@ -269,7 +269,7 @@ class Tosca(_Magnet):
 
     @property
     def optical_ref_length(self) -> _Q:
-        return self._length
+        return self.length
 
     def plotly(self):
         """

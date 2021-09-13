@@ -1,15 +1,16 @@
 """Field map module."""
-from typing import Optional, Union, Tuple
+from typing import Optional, Union, Tuple, List
 import os
 import lmfit
 import sympy
+import tempfile
 import numpy as _np
 import pandas as _pd
 from scipy import interpolate
 from lmfit import Model as _Model
 
 
-def load_mesh_data(file: str, path: str = '.'):
+def load_mesh_data(file: str, path: str = '.') -> _np.meshgrid:
     """
     Load a mesh data file and creates a complete mesh grid using numpy.
 
@@ -76,19 +77,19 @@ def load_opera_fieldmap(file: str, path: str = '.') -> _pd.DataFrame:
     ])
 
 
-def from_analytic_expression(bx_expression: sympy = None, by_expression: sympy = None, bz_expression: sympy = None, mesh: _np.ndarray = None)-> _pd.DataFrame:
+def from_analytic_expression(bx_expression: sympy = None, by_expression: sympy = None, bz_expression: sympy = None,
+                             mesh: _np.ndarray = None) -> _pd.DataFrame:
     x, y, z = sympy.symbols('x:z')
-    data_Bx = sympy.lambdify([x, y, z], bx_expression, 'numpy')(mesh[:,0], mesh[:,1], mesh[:,2])
-    data_By = sympy.lambdify([x, y, z], by_expression, 'numpy')(mesh[:,0], mesh[:,1], mesh[:,2])
-    data_Bz = sympy.lambdify([x, y, z], bz_expression, 'numpy')(mesh[:,0], mesh[:,1], mesh[:,2])
+    # TODO careful if bx, by or bz is zero or a number
 
-    return _pd.DataFrame({'X' : mesh[:,0],
-                                'Y' : mesh[:,1],
-                                'Z' : mesh[:,2],
-                                'BX' : data_Bx,
-                                'BY' : data_By,
-                                'BZ' : data_Bz
-                                })
+    return _pd.DataFrame({'X': mesh[:, 0],
+                          'Y': mesh[:, 1],
+                          'Z': mesh[:, 2],
+                          'BX': sympy.lambdify([x, y, z], bx_expression, 'numpy')(mesh[:, 0], mesh[:, 1], mesh[:, 2]),
+                          'BY': sympy.lambdify([x, y, z], by_expression, 'numpy')(mesh[:, 0], mesh[:, 1], mesh[:, 2]),
+                          'BZ': sympy.lambdify([x, y, z], bz_expression, 'numpy')(mesh[:, 0], mesh[:, 1], mesh[:, 2])
+                          })
+
 
 def enge(s: Union[float, _np.array],
          ce_0: float = 0.0,
@@ -138,17 +139,19 @@ def enge(s: Union[float, _np.array],
         the value of the Enge function at coordinate s.
     """
     p_e = ce_0 + ce_1 * (-(s - offset_e) / lam_e) + ce_2 * (-(s - offset_e) / lam_e) ** 2 + ce_3 * (
-                -(s - offset_e) / lam_e) ** 3 + ce_4 * (-(s - offset_e) / lam_e) ** 4 + ce_5 * (
-                      -(s - offset_e) / lam_e) ** 5
+            -(s - offset_e) / lam_e) ** 3 + ce_4 * (-(s - offset_e) / lam_e) ** 4 + ce_5 * (
+                  -(s - offset_e) / lam_e) ** 5
     p_s = cs_0 + cs_1 * ((s - offset_s) / lam_s) + cs_2 * ((s - offset_s) / lam_s) ** 2 + cs_3 * (
-                (s - offset_s) / lam_s) ** 3 + cs_4 * ((s - offset_s) / lam_s) ** 4 + cs_5 * (
-                      (s - offset_s) / lam_s) ** 5
-    return amplitude * ((1 / (1 + _np.exp(p_e))) + (1 / (1 + _np.exp(p_s))) - 1) + field_offset
+            (s - offset_s) / lam_s) ** 3 + cs_4 * ((s - offset_s) / lam_s) ** 4 + cs_5 * (
+                  (s - offset_s) / lam_s) ** 5
 
+    # TODO is it correct ? should be amplitude * FE * FS
+    return amplitude * ((1 / (1 + _np.exp(p_e))) + (1 / (1 + _np.exp(p_s))) - 1) + field_offset
 
 
 class EngeModel(_Model):
     """Enge model to be used with lmfit."""
+
     def __init__(self):
         super().__init__(enge)
         self._params = None
@@ -165,6 +168,7 @@ class FieldMap:
     """
     TODO
     """
+
     def __init__(self, field_map: _pd.DataFrame):
         """
 
@@ -174,6 +178,7 @@ class FieldMap:
         self._data = field_map
         self._reference_trajectory: Optional[_np.array] = None
         self._field_profile_fit: Optional[_np.array] = None
+        self._filepath: str = ""
 
     def __repr__(self):
         return self._data.__repr__()
@@ -208,7 +213,8 @@ class FieldMap:
         return cls(field_map=load_opera_fieldmap_with_mesh(field_file=field_file, mesh_file=mesh_file, path=path))
 
     @classmethod
-    def generate_from_analytic_expression(cls, bx_expression: sympy = None, by_expression: sympy = None, bz_expression: sympy = None, mesh: _np.ndarray = None):
+    def generate_from_analytic_expression(cls, bx_expression: sympy = None, by_expression: sympy = None,
+                                          bz_expression: sympy = None, mesh: _np.ndarray = None):
         """
         Factory method to generate a field map from analytic expressions
 
@@ -216,11 +222,48 @@ class FieldMap:
             bx_expression: expression of the magnetic field in x
             by_expression: expression of the magnetic field in y
             bz_expression: expression of the magnetic field in z
+            mesh: numpy array of sampling points
 
         Returns:
             A FieldMap generated from analytic expression.
         """
-        return cls(field_map=from_analytic_expression(bx_expression=bx_expression, by_expression=by_expression, bz_expression=bz_expression, mesh=mesh))
+        return cls(field_map=from_analytic_expression(bx_expression=bx_expression, by_expression=by_expression,
+                                                      bz_expression=bz_expression, mesh=mesh))
+
+    def write(self, path: str = ".",
+              filename: str = "tosca.table",
+              binary: bool = False,
+              columns=None):
+        """
+        Args:
+            path: Path to write the field map (default: '.')
+            filename: filename of the map (default: 'tosca.table')
+            binary: write the field as a binary file. Use it for large fielmaps
+            columns:
+
+        Returns:
+            """
+        if columns is None:
+            columns = ['Y', 'Z', 'X']
+
+        # TODO
+        if path is None:
+            # The folder is directly deleted at the end of the function and the df is erased.
+            p = tempfile.TemporaryDirectory()
+            path = p.name
+
+        filename = os.path.join(path, filename)
+        self._filepath = os.path.abspath(filename)
+        data = self._data.sort_values(by=columns)
+        data.to_csv(filename,
+                    sep='\t',
+                    columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'],
+                    header=False,
+                    index=False)
+
+    @property
+    def file(self):
+        return self._filepath
 
     @property
     def df(self):
