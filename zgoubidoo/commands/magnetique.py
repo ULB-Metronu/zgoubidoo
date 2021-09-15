@@ -538,6 +538,46 @@ class PolarMultiMagnet(PolarMagnet, metaclass=PolarMultiMagnetType):
     def delta_radius(self) -> List[_Q]:
         return self.DRM
 
+    @property
+    def entrance_field_boundary_wedge_angle(self) -> List[_Q]:
+        return self.THETA_E
+
+    @property
+    def exit_field_boundary_wedge_angle(self) -> List[_Q]:
+        return self.THETA_S
+
+    @property
+    def entrance_field_boundary_linear_extent_down(self) -> List[_Q]:
+        return -self.U1_E
+
+    @property
+    def entrance_field_boundary_linear_extent_up(self) -> List[_Q]:
+        return self.U2_E
+
+    @property
+    def entrance_field_boundary_linear_radius_up(self) -> List[_Q]:
+        return self.R2_E
+
+    @property
+    def entrance_field_boundary_linear_radius_down(self) -> List[_Q]:
+        return self.R1_E
+
+    @property
+    def exit_field_boundary_linear_extent_down(self) -> List[_Q]:
+        return -self.U1_S
+
+    @property
+    def exit_field_boundary_linear_extent_up(self) -> List[_Q]:
+        return self.U2_S
+
+    @property
+    def exit_field_boundary_linear_radius_up(self) -> List[_Q]:
+        return self.R2_S
+
+    @property
+    def exit_field_boundary_linear_radius_down(self) -> List[_Q]:
+        return self.R1_S
+
 
 class AGSMainMagnet(CartesianMagnet):
     r"""AGS main magnet.
@@ -2279,46 +2319,6 @@ class FFAG(PolarMultiMagnet):
             command.append(c)
 
         return ''.join(map(lambda _: _.rstrip(), command))
-
-    @property
-    def entrance_field_boundary_wedge_angle(self) -> List[_Q]:
-        return self.THETA_E
-
-    @property
-    def exit_field_boundary_wedge_angle(self) -> List[_Q]:
-        return self.THETA_S
-
-    @property
-    def entrance_field_boundary_linear_extent_down(self) -> List[_Q]:
-        return -self.U1_E
-
-    @property
-    def entrance_field_boundary_linear_extent_up(self) -> List[_Q]:
-        return self.U2_E
-
-    @property
-    def entrance_field_boundary_linear_radius_up(self) -> List[_Q]:
-        return self.R2_E
-
-    @property
-    def entrance_field_boundary_linear_radius_down(self) -> List[_Q]:
-        return self.R1_E
-
-    @property
-    def exit_field_boundary_linear_extent_down(self) -> List[_Q]:
-        return -self.U1_S
-
-    @property
-    def exit_field_boundary_linear_extent_up(self) -> List[_Q]:
-        return self.U2_S
-
-    @property
-    def exit_field_boundary_linear_radius_up(self) -> List[_Q]:
-        return self.R2_S
-
-    @property
-    def exit_field_boundary_linear_radius_down(self) -> List[_Q]:
-        return self.R1_S
 
 
 class FFAGSpirale(PolarMultiMagnet):
