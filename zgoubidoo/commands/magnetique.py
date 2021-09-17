@@ -173,7 +173,7 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
                 self._entry_patched.translate_x(-(self.X_E or 0.0 * _ureg.cm))
                 self._entry_patched.translate_x(self.x_offset)
                 self._entry_patched.translate_y(self.y_offset)
-                self._entry_patched.rotate_z(-self.rotation)
+                self._entry_patched.rotate_z(self.rotation)
             elif self.KPOS == 3:
                 self._entry_patched.translate_x(-(self.X_E or 0.0 * _ureg.cm))
                 if self.rotation != 0:
