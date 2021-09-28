@@ -20,6 +20,9 @@ from ..zgoubi import ZgoubiException as _ZgoubiException
 import zgoubidoo
 import plotly.graph_objects as _go
 from georges_core.frame import Frame as _Frame
+from scipy.io import FortranFile
+from scipy.io import FortranEOFError
+
 if TYPE_CHECKING:
     from ..input import Input as _Input
 
@@ -282,7 +285,24 @@ class Tosca(_Magnet):
         else:
             file = self.FILES[0]
 
-        fieldmap = _pd.read_csv(file, skiprows=8, names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'], sep=r'\s+')
+        # Check if the file is a binary
+        try:
+            fieldmap = _pd.read_csv(file, skiprows=8, names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'], sep=r'\s+')
+
+        except UnicodeDecodeError:  # This is a binary file
+            f = FortranFile(file, 'r')
+            end = False
+
+            fieldmap = _pd.DataFrame()
+            while not end:
+                try:
+                    data = _pd.DataFrame(data=f.read_reals(dtype='float')).T
+                    fieldmap = fieldmap.append(data)
+                except FortranEOFError:
+                    end = True
+            fieldmap.reset_index(drop=True, inplace=True)
+            fieldmap.columns = ['Y', 'Z', 'X', 'BY', 'BZ', 'BX']
+
         #        fieldmap['X'] = fieldmap['X'] + self.length.m_as('cm') / 2
         fieldmap['X'] = fieldmap['X'] + abs(fieldmap['X'].min())
         fieldmap['Z_ABS'] = fieldmap['Z'].apply(_np.abs)

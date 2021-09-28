@@ -7,6 +7,7 @@ import tempfile
 import numpy as _np
 import pandas as _pd
 from scipy import interpolate
+from scipy.io import FortranFile
 from lmfit import Model as _Model
 
 
@@ -252,14 +253,24 @@ class FieldMap:
             p = tempfile.TemporaryDirectory()
             path = p.name
 
+        if binary:
+            filename = f"b_{filename}"
         filename = os.path.join(path, filename)
         self._filepath = os.path.abspath(filename)
         data = self._data.sort_values(by=columns)
-        data.to_csv(filename,
-                    sep='\t',
-                    columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'],
-                    header=False,
-                    index=False)
+        data = data.reindex(columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'])
+        if binary:
+            # The method tofile from numpy must be used with access='stream' with Zgoubi
+            # We use a loop because the method write_records is not working with an array
+            f = FortranFile(filename, 'w')
+            for i in data.values:
+                f.write_record(i)
+            f.close()
+        else:
+            data.to_csv(filename,
+                        sep='\t',
+                        header=False,
+                        index=False)
 
     @property
     def file(self):
