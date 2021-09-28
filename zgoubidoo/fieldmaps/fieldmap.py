@@ -7,7 +7,6 @@ import tempfile
 import numpy as _np
 import pandas as _pd
 from scipy import interpolate
-from scipy.io import FortranFile
 from lmfit import Model as _Model
 
 
@@ -261,11 +260,7 @@ class FieldMap:
         data = data.reindex(columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'])
         if binary:
             # The method tofile from numpy must be used with access='stream' with Zgoubi
-            # We use a loop because the method write_records is not working with an array
-            f = FortranFile(filename, 'w')
-            for i in data.values:
-                f.write_record(i)
-            f.close()
+            data.values.tofile(filename)
         else:
             data.to_csv(filename,
                         sep='\t',
