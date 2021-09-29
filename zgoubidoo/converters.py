@@ -137,6 +137,16 @@ def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
             field_index = element.N
         else:
             field_index = 0
+
+        if element.K2 is not None and not _np.isnan(element.K1):
+            field_index_B = (_np.abs(
+                element.L / 2 * element.ANGLE).to('m') ** 3 * getattr(element, 'K2', 0.0 * _ureg.m ** -3)
+                           ).magnitude
+        elif element.B is not None and not _np.isnan(element.B):
+            field_index_B = element.B
+        else:
+            field_index_B = 0
+
         b = Dipole(element.name[0:_ZGOUBI_LABEL_LENGTH],
                    RM=_np.abs(element.L / element.ANGLE).to('meter'),
                    AT=_np.abs(element.ANGLE).to('degrees'),
@@ -146,6 +156,7 @@ def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
                    LAM_S=0 * _ureg.cm,
                    B0=b1,
                    N=field_index,
+                   B=field_index_B
                    )
     if element['TILT'] != 0:
         b.COLOR = 'goldenrod'
@@ -409,13 +420,15 @@ def multipole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dic
     k1 = element.get('K1L', 0 * _ureg.m**-1) / multipole_length
     k2 = element.get('K2L', 0 * _ureg.m ** -2) / multipole_length
     k3 = element.get('K3L', 0 * _ureg.m ** -3) / multipole_length
+    k4 = element.get('K4L', 0 * _ureg.m ** -4) / multipole_length
 
     bore_radius = element.get('R0', 10.0 * _ureg.cm)
 
     b1_field = k0 * kinematics.brho
     b2_field = k1 * kinematics.brho * bore_radius
-    b3_field = (k2 * kinematics.brho * bore_radius**2) / _np.math.factorial(2)
-    b4_field = (k3 * kinematics.brho * bore_radius**3) / _np.math.factorial(3)
+    b3_field = (k2 * kinematics.brho * bore_radius ** 2) / _np.math.factorial(2)
+    b4_field = (k3 * kinematics.brho * bore_radius ** 3) / _np.math.factorial(3)
+    b5_field = (k4 * kinematics.brho * bore_radius ** 4) / _np.math.factorial(4)
 
     return [Multipole(element.name[0:_ZGOUBI_LABEL_LENGTH],
                       XL=multipole_length,
@@ -424,6 +437,7 @@ def multipole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dic
                       B2=b2_field,
                       B3=b3_field,
                       B4=b4_field,
+                      B5=b5_field,
                       X_E=0 * _ureg.cm,
                       LAM_E=0 * _ureg.cm,
                       X_S=0 * _ureg.cm,
