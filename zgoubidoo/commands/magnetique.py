@@ -247,6 +247,14 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
     def optical_ref_length(self) -> _Q:
         return self.XL
 
+    @property
+    def entrance_face_integration(self) -> _Q:
+        return self.X_E or 0 * _ureg.m
+
+    @property
+    def exit_face_integration(self) -> _Q:
+        return self.X_S or 0 * _ureg.m
+
 
 class PolarMagnetType(MagnetType):
     """Type for polar magnets."""
