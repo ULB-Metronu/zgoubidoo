@@ -646,6 +646,16 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                             [e.length.m_as('m') - (width / 2) * _np.tan(w_s), -width / 2, 0.0],
                         ]))
 
+                        if with_map:
+                            x_e = e.entrance_face_integration.m_as('m')
+                            x_s = e.exit_face_integration.m_as('m')
+                            add_svg_path(_np.array([
+                                [-x_e, -1.2 * width / 2, 0.0],
+                                [-x_e, 1.2 * width / 2, 0.0],
+                                [e.length.m_as('m') + x_s, 1.2 * width / 2, 0.0],
+                                [e.length.m_as('m') + x_s, -1.2 * width / 2, 0.0],
+                            ]), opacity=0.2)
+
                     if with_apertures:
                         add_svg_path(_np.array([
                             [-aper_left * _np.tan(w_e), -aper_left, 0.0],
