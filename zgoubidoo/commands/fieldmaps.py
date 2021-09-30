@@ -205,6 +205,7 @@ class Tosca(_Magnet):
         'IORDRE': (25, 'Degree of interpolation polynomial.'),
         'XPAS': (1.0 * _ureg.cm, 'Integration step.'),
         'KPOS': (2, 'Alignment parameter: 1 (element aligned) or 2 (misaligned) ; If polar mesh : KPOS=2'),
+        'COLOR': ('#808080', 'Magnet color for plotting.'),
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
         commands (e.g. fit)."""

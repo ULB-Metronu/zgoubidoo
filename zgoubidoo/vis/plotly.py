@@ -22,6 +22,7 @@ from ..commands import Dipole as _Dipole
 from ..commands import FFAGSpirale as _FFAGSPI
 from ..commands import FFAG as _FFAG
 from ..commands import Cyclotron as _Cyclotron
+from ..commands.fieldmaps import Tosca as _Tosca
 
 if TYPE_CHECKING:
     from ..input import Input as _Input
@@ -82,7 +83,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                         'fillcolor': e.COLOR,
                     },
                 )
-            if isinstance(e, (_Multipole,)):
+            if isinstance(e, (_Multipole, _Tosca)):
                 self.shapes.append(
                     {
                         'type': 'rect',
