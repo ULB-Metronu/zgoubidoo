@@ -1,9 +1,10 @@
 """Field map module."""
-from typing import Optional, Union, Tuple, List
+from typing import Optional, Union, Tuple
 import os
 import lmfit
 import sympy
 import tempfile
+import shutil
 import numpy as _np
 import pandas as _pd
 from scipy import interpolate
@@ -178,6 +179,7 @@ class FieldMap:
         self._data = field_map
         self._reference_trajectory: Optional[_np.array] = None
         self._field_profile_fit: Optional[_np.array] = None
+        self._path: str = ""
         self._filepath: str = ""
 
     def __repr__(self):
@@ -230,7 +232,7 @@ class FieldMap:
         return cls(field_map=from_analytic_expression(bx_expression=bx_expression, by_expression=by_expression,
                                                       bz_expression=bz_expression, mesh=mesh))
 
-    def write(self, path: str = ".",
+    def write(self, path: str = None,
               filename: str = "tosca.table",
               binary: bool = False,
               columns=None):
@@ -246,26 +248,22 @@ class FieldMap:
         if columns is None:
             columns = ['Y', 'Z', 'X']
 
-        # TODO
-        if path is None:
-            # The folder is directly deleted at the end of the function and the df is erased.
-            p = tempfile.TemporaryDirectory()
-            path = p.name
-
+        self._path = path or tempfile.mkdtemp()
         if binary:
             filename = f"b_{filename}"
-        filename = os.path.join(path, filename)
-        self._filepath = os.path.abspath(filename)
-        data = self._data.sort_values(by=columns)
-        data = data.reindex(columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'])
+        self._filepath = os.path.abspath(os.path.join(self._path, filename))
+        data = self._data.sort_values(by=columns).reindex(columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'])
         if binary:
-            # The method tofile from numpy must be used with access='stream' with Zgoubi
-            data.values.tofile(filename)
+            # The method to file from numpy must be used with access='stream' with Zgoubi
+            data.values.tofile(self._filepath)
         else:
-            data.to_csv(filename,
+            data.to_csv(self._filepath,
                         sep='\t',
                         header=False,
                         index=False)
+
+    def cleanup(self):
+        shutil.rmtree(self._path)
 
     @property
     def file(self):
