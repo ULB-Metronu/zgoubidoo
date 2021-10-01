@@ -1,0 +1,73 @@
+import numpy as _np
+import pandas as _pd
+import os
+
+from georges_core import twiss
+from georges_core.sequences import TwissSequence
+
+from zgoubidoo import ureg as _
+from zgoubidoo.commands import *
+
+
+def check_optics(twiss_madx: _pd.DataFrame, twiss_zgoubi: _pd.DataFrame):
+    s_madx = twiss_madx['S'].values
+    betx_madx = twiss_madx['BETX'].values
+    bety_madx = twiss_madx['BETY'].values
+    alfx_madx = twiss_madx['ALFX'].values
+    alfy_madx = twiss_madx['ALFY'].values
+    dispx_madx = twiss_madx['DX'].values
+    dispxp_madx = twiss_madx['DPX'].values
+
+    s_zgoubi = twiss_zgoubi['S'].values
+    betx_zgoubi = twiss_zgoubi['BETA11'].values
+    bety_zgoubi = twiss_zgoubi['BETA22'].values
+    alfx_zgoubi = twiss_zgoubi['ALPHA11'].values
+    alfy_zgoubi = twiss_zgoubi['ALPHA22'].values
+    dispx_zgoubi = twiss_zgoubi['DISP1'].values
+    dispxp_zgoubi = twiss_zgoubi['DISP2'].values
+
+    betx_zgoubi_madx = _np.interp(s_madx, s_zgoubi, betx_zgoubi)
+    bety_zgoubi_madx = _np.interp(s_madx, s_zgoubi, bety_zgoubi)
+    alfx_zgoubi_madx = _np.interp(s_madx, s_zgoubi, alfx_zgoubi)
+    alfy_zgoubi_madx = _np.interp(s_madx, s_zgoubi, alfy_zgoubi)
+    dispx_zgoubi_madx = _np.interp(s_madx, s_zgoubi, dispx_zgoubi)
+    dispxp_zgoubi_madx = _np.interp(s_madx, s_zgoubi, dispxp_zgoubi)
+
+    _np.testing.assert_allclose(betx_madx, betx_zgoubi_madx, rtol=1e-2)
+    _np.testing.assert_allclose(bety_madx, bety_zgoubi_madx, rtol=5e-2)
+    _np.testing.assert_allclose(alfx_madx, alfx_zgoubi_madx, rtol=1)
+    _np.testing.assert_allclose(alfy_madx, alfy_zgoubi_madx, rtol=1)
+    _np.testing.assert_allclose(dispx_madx, dispx_zgoubi_madx, atol=5e-2)
+    _np.testing.assert_allclose(dispxp_madx, dispxp_zgoubi_madx, atol=5e-2)
+
+
+def test_lhec():
+
+    # Convert file from MAD-X
+    input_madx = TwissSequence(path="../examples/converter/madx/", filename="test45degspreader.outx")
+    zi = zgoubidoo.Input.from_sequence(sequence=input_madx,
+                                       beam=BeamTwiss(kinematics=input_madx.kinematics),
+                                       with_survey=True,
+                                       with_survey_reference=True,
+                                       converters={'sbend': zgoubidoo.converters.sbend_to_zgoubi,
+                                                   'quadrupole': zgoubidoo.converters.quadrupole_to_zgoubi},
+                                       options={
+                                           'sbend': {'command': Dipole}
+                                       }
+                                       )
+    zi.XPAS = 15 * _.cm
+
+    # Ensure plotting is working
+    artist = zgoubidoo.vis.ZgoubidooPlotlyArtist(width=1200)
+    artist.fig['layout']['xaxis']['title'] = 'X (m)'
+    artist.fig['layout']['yaxis']['title'] = 'Y (m)'
+    artist.plot_beamline(beamline=zi, with_frames=True, with_apertures=True, with_map=True)
+
+    # Compute the Twiss
+    zr_twiss = zgoubidoo.Zgoubi()(zi).collect()
+    tm = zgoubidoo.twiss.compute_transfer_matrix(beamline=zi,
+                                                 tracks=zr_twiss.tracks_frenet)
+    results_twiss = twiss.Twiss(twiss_init=input_madx.betablock)(matrix=tm)
+
+    # Validation with MAD-X
+    check_optics(input_madx.df, results_twiss)
