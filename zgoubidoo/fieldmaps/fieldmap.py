@@ -78,11 +78,9 @@ def load_opera_fieldmap(file: str, path: str = '.') -> _pd.DataFrame:
     ])
 
 
-def from_analytic_expression(bx_expression: sympy = None, by_expression: sympy = None, bz_expression: sympy = None,
+def generate_from_expression(bx_expression: sympy = None, by_expression: sympy = None, bz_expression: sympy = None,
                              mesh: _np.ndarray = None) -> _pd.DataFrame:
     x, y, z = sympy.symbols('x:z')
-    # TODO careful if bx, by or bz is zero or a number
-
     return _pd.DataFrame({'X': mesh[:, 0],
                           'Y': mesh[:, 1],
                           'Z': mesh[:, 2],
@@ -229,7 +227,7 @@ class FieldMap:
         Returns:
             A FieldMap generated from analytic expression.
         """
-        return cls(field_map=from_analytic_expression(bx_expression=bx_expression, by_expression=by_expression,
+        return cls(field_map=generate_from_expression(bx_expression=bx_expression, by_expression=by_expression,
                                                       bz_expression=bz_expression, mesh=mesh))
 
     def write(self, path: str = None,
