@@ -3,6 +3,8 @@
 More details here.
 """
 from __future__ import annotations
+
+import os.path
 from typing import TYPE_CHECKING, Optional, List, Mapping, Union
 from abc import abstractmethod
 import numpy as _np
@@ -285,12 +287,11 @@ class Tosca(_Magnet):
             file = self.FILES[0]
 
         # Check if the file is a binary
-        try:
-            fieldmap = _pd.read_csv(file, skiprows=8, names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'], sep=r'\s+')
-
-        except UnicodeDecodeError:  # This is a binary file
+        if os.path.basename(file).startswith("b_"):  # This is a binary file
             fieldmap = _pd.DataFrame(data=_np.fromfile(file).reshape(-1, 6),
                                      columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'])
+        else:
+            fieldmap = _pd.read_csv(file, skiprows=8, names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'], sep=r'\s+')
 
         #        fieldmap['X'] = fieldmap['X'] + self.length.m_as('cm') / 2
         fieldmap['X'] = fieldmap['X'] + abs(fieldmap['X'].min())
