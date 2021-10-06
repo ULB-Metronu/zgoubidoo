@@ -428,7 +428,8 @@ class ToscaCartesian3D(ToscaCartesian):
         commands (e.g. fit)."""
 
     def post_init(self, infer_and_check_meshes: bool = True, **kwargs):
-        assert self.MOD in (1, 16), "The value of the variable 'MOD' is incompatible with a 3D cartesian mesh with " \
+        print(self.MOD)
+        assert self.MOD in (1, 12, 15, 16), "The value of the variable 'MOD' is incompatible with a 3D cartesian mesh with " \
                                     "no symmetry assumed."
         if len(self.FILES) > 1 and self.MOD in (1, 12):
             self.MOD = 1
