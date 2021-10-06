@@ -425,9 +425,8 @@ class ToscaCartesian3D(ToscaCartesian):
         commands (e.g. fit)."""
 
     def post_init(self, infer_and_check_meshes: bool = True, **kwargs):
-        print(self.MOD)
-        assert self.MOD in (1, 12, 15, 16), "The value of the variable 'MOD' is incompatible with a 3D cartesian mesh with " \
-                                    "no symmetry assumed."
+        assert self.MOD in (1, 12, 15, 16), "The value of the variable 'MOD' is incompatible with a 3D cartesian " \
+                                    "mesh with no symmetry assumed."
         if len(self.FILES) > 1 and self.MOD in (1, 12):
             self.MOD = 1
             self.MOD2 = 0
@@ -535,27 +534,27 @@ class vFFA(ToscaCartesian3D):
         'k': (0 / _ureg.m, 'Field index'),
         'tau': (0.0, 'Tangent of the edge angle'),
         'lmag': (0.0 * _ureg.m, 'Length of the magnet'),
-        'gap': (0.0 * _ureg.m, ''),
-        'xmin': (0.0 * _ureg.m, ''),
-        'xmax': (0.0 * _ureg.m, ''),
-        'ymin': (0.0 * _ureg.m, ''),
-        'ymax': (0.0 * _ureg.m, ''),
-        'z_ff_1': (0.0 * _ureg.m, ''),
-        'z_ff_2': (0.0 * _ureg.m, ''),
-        'n': (0.0, ''),
-        'IX': (0.0, ''),
-        'IY': (0.0, ''),
-        'IZ': (0.0, ''),
+        'gap': (0.0 * _ureg.m, 'Fringe length'),
+        'xmin': (0.0 * _ureg.m, 'Horizontal extent of the field map'),
+        'xmax': (0.0 * _ureg.m, 'Horizontal extent of the field map'),
+        'ymin': (0.0 * _ureg.m, 'Vertical extent of the field map'),
+        'ymax': (0.0 * _ureg.m, 'Vertical extent of the field map'),
+        'z_ff_1': (0.0 * _ureg.m, 'Additional length before the magnet for the longitudinal extent of the field map'),
+        'z_ff_2': (0.0 * _ureg.m, 'Additional length after the magnet for the longitudinal extent of the field map'),
+        'n': (0.0, 'Order of the expansion'),
+        'IX': (0.0, 'Number of nodes of the mesh - X direction'),
+        'IY': (0.0, 'Number of nodes of the mesh - Y direction'),
+        'IZ': (0.0, 'Number of nodes of the mesh - Z direction'),
         'path': ('.', '.'),
         'fieldmap': (None, '...')
     }
 
     def post_init(self, **kwargs):
-        if self.fieldmap is None :
+        if self.fieldmap is None:
             self.vFFA_map = _VFFAFieldMap.generate_from_semi_analytical_fieldmap(self.B0, self.k, self.tau, self.lmag,
-                                                                                 self.gap,
-                                                                                 self.xmin, self.xmax, self.ymin, self.ymax,
-                                                                                 self.z_ff_1, self.z_ff_2, self.n, self.IX,
+                                                                                 self.gap, self.xmin, self.xmax,
+                                                                                 self.ymin, self.ymax, self.z_ff_1,
+                                                                                 self.z_ff_2, self.n, self.IX,
                                                                                  self.IY_approx, self.IZ)
 
             self.vFFA_map.write(path=self.path, filename='tosca.table', binary=True)
