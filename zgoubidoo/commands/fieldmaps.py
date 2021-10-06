@@ -199,6 +199,10 @@ class Tosca(_Magnet):
         'IZ': (1, 'Number of nodes of the mesh in the Z direction.'),
         'MOD': (0, 'Format reading mode.'),
         'MOD2': (0, 'Format reading sub-mode.'),
+        'A1': (None, 'Field normalisation factors.'),
+        'A2': (None, 'Field normalisation factors.'),
+        'A3': (None, 'Field normalisation factors.'),
+        'A4': (None, 'Field normalisation factors.'),
         'FILES': (['tosca.table'], 'File names.'),
         'ID': (0, 'Integration boundary.'),
         'A': (1.0,),
@@ -220,7 +224,7 @@ class Tosca(_Magnet):
         {self.IC:d} {self.IL:d}
         {self.BNORM:.12e} {self.XN:.12e} {self.YN:.12e} {self.ZN:.12e}
         {self.TITL}
-        {self.IX:d} {self.IY:d} {self.IZ:d} {self.MOD:d}.{self.MOD2:d}
+        {self.IX:d} {self.IY:d} {self.IZ:d} {self.MOD:d}.{self.MOD2:d} {self.A1 or ''} {self.A2 or ''} {self.A3 or ''} {self.A4 or ''}
         """
         commands.append(c)
         commands.append('\n'.join(self.FILES))
@@ -424,9 +428,9 @@ class ToscaCartesian3D(ToscaCartesian):
         commands (e.g. fit)."""
 
     def post_init(self, infer_and_check_meshes: bool = True, **kwargs):
-        assert self.MOD in (1, 12), "The value of the variable 'MOD' is incompatible with a 3D cartesian mesh with " \
+        assert self.MOD in (1, 16), "The value of the variable 'MOD' is incompatible with a 3D cartesian mesh with " \
                                     "no symmetry assumed."
-        if len(self.FILES) > 1:
+        if len(self.FILES) > 1 and self.MOD in (1, 12):
             self.MOD = 1
             self.MOD2 = 0
             self.IZ = len(self.FILES)
