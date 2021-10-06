@@ -22,6 +22,8 @@ from ..zgoubi import ZgoubiException as _ZgoubiException
 import zgoubidoo
 import plotly.graph_objects as _go
 from georges_core.frame import Frame as _Frame
+from ..fieldmaps.fieldmap import VFFAFieldMap as _VFFAFieldMap
+from ..fieldmaps.fieldmap import *
 
 if TYPE_CHECKING:
     from ..input import Input as _Input
@@ -290,12 +292,7 @@ class Tosca(_Magnet):
         else:
             file = self.FILES[0]
 
-        # Check if the file is a binary
-        if os.path.basename(file).startswith("b_"):  # This is a binary file
-            fieldmap = _pd.DataFrame(data=_np.fromfile(file).reshape(-1, 6),
-                                     columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'])
-        else:
-            fieldmap = _pd.read_csv(file, skiprows=8, names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'], sep=r'\s+')
+        fieldmap = load(file=file)
 
         #        fieldmap['X'] = fieldmap['X'] + self.length.m_as('cm') / 2
         fieldmap['X'] = fieldmap['X'] + abs(fieldmap['X'].min())

@@ -219,6 +219,17 @@ def load_mesh_data(file: str, path: str = '.') -> _np.meshgrid:
     return _np.meshgrid(x, y, z, indexing='ij')
 
 
+def load(file:str, path:str ='.') -> _pd.DataFrame:
+    # Check if the file is a binary
+    if os.path.basename(file).startswith("b_"):  # This is a binary file
+        fieldmap = _pd.DataFrame(data=_np.fromfile(os.path.join(path, file)).reshape(-1, 6),
+                                 columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'])
+    else:
+        fieldmap = _pd.read_csv(os.path.join(path, file), skiprows=8, names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'], sep=r'\s+')
+
+    return fieldmap
+
+
 def load_field_data(file: str, path: str = '.') -> _pd.DataFrame:
     """
 
@@ -405,6 +416,10 @@ class FieldMap:
     @property
     def length(self):
         return self._input.length
+
+    @classmethod
+    def load(cls, file:str, path:str = '.'):
+        return cls(field_map=load(file, path))
 
     @classmethod
     def load_from_opera(cls, file: str, path: str = '.'):
@@ -771,9 +786,6 @@ class VFFAFieldMap(FieldMap):
 
     def __init__(self, field_map: _pd.DataFrame):
         super().__init__(field_map)
-
-    def __repr__(self):
-        super().__repr__()
 
     @classmethod
     def generate_from_semi_analytical_fieldmap(cls, B0, k, tau, Lmag, gap, xmin, xmax, ymin, ymax, z_ff_1, z_ff_2, n,
