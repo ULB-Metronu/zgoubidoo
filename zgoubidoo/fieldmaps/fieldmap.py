@@ -1,5 +1,5 @@
 """Field map module."""
-from typing import Optional, Union, Tuple
+from typing import Optional, Union, Tuple, Type
 import os
 import lmfit
 import sympy
@@ -7,8 +7,10 @@ import tempfile
 import shutil
 import numpy as _np
 import pandas as _pd
+import logging
 from scipy import interpolate
 from lmfit import Model as _Model
+from ..units import _ureg as _ureg
 
 
 def load_mesh_data(file: str, path: str = '.') -> _np.meshgrid:
@@ -183,6 +185,41 @@ class FieldMap:
     def __repr__(self):
         return self._data.__repr__()
 
+    def __call__(self, label1: str = 'Map', path: str = None,
+                 filename: str = 'tosca.table', binary: bool = False,
+                 generator=None, columns=None, **kwargs):
+        """
+
+        Args:
+            label1: Label of the keyword
+            path: Path to write the map (default: tmpdir)
+            filename: Name of the map
+            binary: Field map is written as binary file with numpy (default: False)
+            generator: Class used to generate the Zgoubi input (defaut: ToscaCartesian3D)
+            columns: Columns to use for the map
+            **kwargs: Other arguments that can use for the TOSCA keyword (MOD, MOD2)
+
+        Returns:
+            the Zgoubi object for the fieldmap
+        """
+        # TODO Typing error when using from ..commands import fieldmaps as _fieldmaps -> circular import
+        self.write(path=path, filename=filename, binary=binary, columns=columns)
+        self._input = generator(LABEL1=label1,
+                                TITL="HEADER 0",
+                                FILES=[self.file],
+                                IX=self.mesh_sampling_x[1],
+                                IY=self.mesh_sampling_y[1],
+                                IZ=self.mesh_sampling_z[1],
+                                infer_and_check_meshes=False,  # TODO method is only valid for csv file
+                                **kwargs).load()
+        if self._input.length == 0 * _ureg.cm:
+            logging.critical("Length of your map is 0*cm, please check your input")
+        return self._input
+
+    @property
+    def length(self):
+        return self._input.length
+
     @classmethod
     def load_from_opera(cls, file: str, path: str = '.'):
         """
@@ -213,8 +250,8 @@ class FieldMap:
         return cls(field_map=load_opera_fieldmap_with_mesh(field_file=field_file, mesh_file=mesh_file, path=path))
 
     @classmethod
-    def generate_from_analytic_expression(cls, bx_expression: sympy = None, by_expression: sympy = None,
-                                          bz_expression: sympy = None, mesh: _np.ndarray = None):
+    def generate_from_expression(cls, bx_expression: sympy = None, by_expression: sympy = None,
+                                 bz_expression: sympy = None, mesh: _np.ndarray = None):
         """
         Factory method to generate a field map from analytic expressions
 
@@ -290,19 +327,19 @@ class FieldMap:
     @property
     def mesh_sampling_x(self) -> Tuple[_np.array, int]:
         """Sampling points of the field map along the X axis."""
-        return self.mesh_sampling_along_axis(axis=0)
+        return self.mesh_sampling_along_axis(axis='X')
 
     @property
     def mesh_sampling_y(self) -> Tuple[_np.array, int]:
         """Sampling points of the field map along the Y axis."""
-        return self.mesh_sampling_along_axis(axis=1)
+        return self.mesh_sampling_along_axis(axis='Y')
 
     @property
     def mesh_sampling_z(self) -> Tuple[_np.array, int]:
         """Sampling points of the field map along the Z axis."""
-        return self.mesh_sampling_along_axis(axis=2)
+        return self.mesh_sampling_along_axis(axis='Z')
 
-    def mesh_sampling_along_axis(self, axis: int) -> Tuple[_np.array, int]:
+    def mesh_sampling_along_axis(self, axis: str) -> Tuple[_np.array, int]:
         """
         Sampling points of the field map along a given axis.
 
@@ -312,7 +349,7 @@ class FieldMap:
         Returns:
             A numpy array containing the data points of the field map sampling.
         """
-        _ = _np.unique(self.data[:, axis])
+        _ = self._data[axis].unique()
         return _, len(_)
 
     def translate(self, x: float = 0, y: float = 0, z: float = 0):
@@ -399,11 +436,11 @@ class FieldMap:
         upper = upper or _np.max(self.mesh_sampling_along_axis(axis)[0])
         sampling = _np.linspace(lower, upper, length_sampling)
         zeros = _np.zeros(length_sampling)
-        if axis == 'X':
+        if axis == 0:
             v = [sampling, zeros, zeros]
-        elif axis == 'Y':
+        elif axis == 1:
             v = [zeros, sampling, zeros]
-        elif axis == 'Z':
+        elif axis == 2:
             v = [zeros, zeros, sampling]
         else:
             raise ValueError("Invalid value for 'axis'.")
@@ -411,7 +448,6 @@ class FieldMap:
         v[1] += offset_y
         v[2] += offset_z
         self._reference_trajectory = _np.stack(v).T
-        return self
 
     def attach_polar_trajectory(self,
                                 radius: float,
