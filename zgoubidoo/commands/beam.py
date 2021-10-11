@@ -7,7 +7,7 @@ import os
 from random import randint
 import numpy as np
 import pandas as pd
-from georges_core import distribution as _distribution
+from georges_core import Distribution as _Distribution
 from zgoubidoo import Q_ as _Q
 from zgoubidoo.commands import CommandType as _CommandType
 from zgoubidoo.commands import Command as _Command
@@ -459,11 +459,11 @@ class BeamInputDistribution(Beam):
         Returns:
 
         """
-        distribution = _distribution.Distribution.generate_from_5d_sigma_matrix(**kwargs)
+        distribution = _Distribution.from_5d_sigma_matrix(**kwargs).distribution.values
         # Convert to Zgoubi units (m, rad) -> (cm, mrad)
         distribution[:, [0, 2]] *= 100
         distribution[:, [1, 3]] *= 1000
-        distribution[:, [1, 4]] += 1 # DR
+        distribution[:, [1, 4]] += 1  # DR
         self.initialize_distribution(distribution)
         return self
 
@@ -478,11 +478,11 @@ class BeamInputDistribution(Beam):
         Returns:
 
         """
-        distribution = _distribution.Distribution().from_twiss_parameters(**kwargs).distribution.values
+        distribution = _Distribution.from_twiss_parameters(**kwargs).distribution.values
         # Convert to Zgoubi units (m, rad) -> (cm, mrad)
         distribution[:, [0, 2]] *= 100
         distribution[:, [1, 3]] *= 1000
-        distribution[:, [1, 4]] += 1 # DR
+        distribution[:, [1, 4]] += 1  # DR
         self.initialize_distribution(distribution)
         return self
 
