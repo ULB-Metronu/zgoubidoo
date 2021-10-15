@@ -378,7 +378,6 @@ class EngeModel(_Model, ABC):
         self._params['lam_s'].min = 0
         self._params['offset_e'].min = 0
         self._params['offset_s'].min = 0
-        self._params['amplitude'].min = 0
         return self._params
 
 
@@ -861,7 +860,13 @@ class FieldMap:
             raise _ZgoubidooException(f"{ax} is not a valid artist. Use ZgoubidooPlotlyArtist() or "
                                       f"ZgoubidooMatplotlibArtist")
 
-    def plot_field_map(self, ax, field_component: str, plane1: int = 0, plane2: int = 1, bins: int = 50):
+    def plot_field_map(self,
+                       ax,
+                       field_component: str,
+                       plane1: int = 0,
+                       plane2: int = 1,
+                       bins: int = 50,
+                       colorscale: str = None):
         """
         Args:
             ax:
@@ -869,7 +874,7 @@ class FieldMap:
             plane1:
             plane2:
             bins:
-
+            colorscale: colorscale to use for the field maps
         Returns:
 
         """
@@ -884,9 +889,10 @@ class FieldMap:
                            nbinsx=bins,
                            nbinsy=bins,
                            histfunc='avg',
-                           colorscale="RdYlBu",
+                           colorscale=colorscale or 'RdYlBu',
                            zsmooth='best',
-                           reversescale=True
+                           reversescale=True,
+                           colorbar={'title': "Bz [kG]"}
                            )
             if self.reference_trajectory is not None:
                 ax.scatter(x=self.reference_trajectory[:, plane1],
