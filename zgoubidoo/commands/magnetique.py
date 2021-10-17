@@ -168,7 +168,7 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
 
         """
         if self._entry_efb is None:
-            self._entry_efb = self.entry.__class__(self.entry)
+            self._entry_efb = self.entry_patched.__class__(self.entry_patched)
             self._entry_efb.translate_x(-self.entrance_face_integration)
         return self._entry_efb
 
@@ -368,8 +368,9 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
     @property
     def entry_efb(self) -> Optional[_Frame]:
         if self._entry_efb is None:
-            self._entry_efb = self._entry_patched.__class__(self._entry_patched)
-            self._entry_efb.rotate_z(-self.entrance_integration_face[0])
+            self._entry_efb = self.center.__class__(self.center)
+            self._entry_efb.rotate_z(-self.reference_angles[0] + self.entrance_integration_face[0])
+            self._entry_efb.translate_y(self.radius)
         return self._entry_efb
 
     @property
@@ -427,7 +428,8 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
     def exit_efb(self) -> Optional[_Frame]:
         if self._exit_efb is None:
             self._exit_efb = self.center.__class__(self.center)
-            self._exit_efb.rotate_z(self.exit_integration_face[0])
+            self._exit_efb.translate_y(self.radius)
+            self._exit_efb.rotate_z(-self.angular_opening + self.reference_angles[0] + self.exit_integration_face[0])
         return self._exit_efb
 
     @staticmethod
