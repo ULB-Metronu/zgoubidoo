@@ -17,8 +17,8 @@ class Patchable(_Patchable):
         """Initializes a un-patched patchable element."""
         super().__init__()
         self.LABEL1 = None
-        self._entry_efb: Optional[_Frame] = None
-        self._exit_efb: Optional[_Frame] = None
+        self._entry_integration: Optional[_Frame] = None
+        self._exit_integration: Optional[_Frame] = None
         self._frenet: Optional[_Frame] = None
         self._reference_trajectory: Optional[_pd.DataFrame] = None
 
@@ -42,30 +42,30 @@ class Patchable(_Patchable):
         self._exit = None
         self._exit_patched = None
         self._center = None
-        self._entry_efb = None
-        self._exit_efb = None
+        self._entry_integration = None
+        self._exit_integration = None
         self._frenet = None
         self._reference_trajectory = None
 
     @property
-    def entry_efb(self) -> _Frame:
+    def entry_integration(self) -> _Frame:
         """Entrance field boundary patched frame.
 
         Returns:
 
         """
-        return self._entry_efb
+        return self._entry_integration
 
     @property
-    def exit_efb(self) -> _Frame:
+    def exit_integration(self) -> _Frame:
         """Entrance field boundary patched frame.
 
         Returns:
 
         """
-        if self._exit_efb is None:
-            self._exit_efb = self.entry_patched.__class__(self.entry_patched)
-        return self._exit_efb
+        if self._exit_integration is None:
+            self._exit_integration = self.entry_patched.__class__(self.entry_patched)
+        return self._exit_integration
 
     @property
     def frenet_orientation(self) -> Optional[_Frame]:

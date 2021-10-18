@@ -564,7 +564,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
         def plot_frames():
             color = ['red', 'green', 'blue', 'magenta', 'darkorange', 'goldenrod', 'brown']
             for i, frame in enumerate(['entry', 'entry_patched', 'exit', 'exit_patched',
-                                       'center', 'entry_efb', 'exit_efb']):
+                                       'center', 'entry_integration', 'exit_integration']):
                 self.scatter(
                     {
                         'x': [getattr(e, frame).x_],
