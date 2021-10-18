@@ -140,7 +140,7 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
         Returns:
 
         """
-        return self.XL
+        return self.XL or 0.0 * _ureg.cm
 
     @property
     def x_offset(self) -> _Q:
@@ -204,14 +204,14 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
         """
         if self._exit is None:
             self._exit = self.entry_patched.__class__(self.entry_patched)
-            self._exit.translate_x(self.length + self.entrance_face_integration)
+            self._exit.translate_x(self.length)
         return self._exit
 
     @property
     def exit_integration(self) -> Optional[_Frame]:
         if self._exit_integration is None:
-            self._exit_integration = self.entry_patched.__class__(self.entry_patched)
-            self._exit_integration.translate_x(self.length + self.entrance_face_integration)
+            self._exit_integration = self.exit.__class__(self.exit)
+            self._exit_integration.translate_x(self.exit_face_integration)
         return self._exit_integration
 
     @property
@@ -224,11 +224,9 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
         if self._exit_patched is None:
             if self.KPOS is None or self.KPOS == 1:
                 self._exit_patched = self.exit.__class__(self.exit)
-                self._exit_patched.translate_x(-self.exit_face_integration)
             elif self.KPOS == 0 or self.KPOS == 2:
                 self._exit_patched = self.entry.__class__(self.entry)
-                self._exit_patched.translate_x(self.XL or 0.0 * _ureg.cm)
-                self._exit_patched.translate_x(-self.exit_face_integration)
+                self._exit_patched.translate_x(self.length)
             elif self.KPOS == 3:
                 if self.rotation != 0:
                     raise _ZgoubidooException("Non zero ALE incompatible with KPOS = 3.")
