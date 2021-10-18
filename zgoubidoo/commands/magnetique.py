@@ -161,6 +161,18 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
         return self.YCE or 0.0 * _ureg.cm
 
     @property
+    def entry_efb(self) -> Optional[_Frame]:
+        """
+
+        Returns:
+
+        """
+        if self._entry_efb is None:
+            self._entry_efb = self.entry.__class__(self.entry)
+            self._entry_efb.translate_x(-self.entrance_face_integration)
+        return self._entry_efb
+
+    @property
     def entry_patched(self) -> Optional[_Frame]:
         """
 
@@ -192,8 +204,15 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
         """
         if self._exit is None:
             self._exit = self.entry_patched.__class__(self.entry_patched)
-            self._exit.translate_x(self.length)
+            self._exit.translate_x(self.length + self.entrance_face_integration)
         return self._exit
+
+    @property
+    def exit_efb(self) -> Optional[_Frame]:
+        if self._exit_efb is None:
+            self._exit_efb = self.entry_patched.__class__(self.entry_patched)
+            self._exit_efb.translate_x(self.length + self.entrance_face_integration)
+        return self._exit_efb
 
     @property
     def exit_patched(self) -> Optional[_Frame]:
@@ -205,9 +224,11 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
         if self._exit_patched is None:
             if self.KPOS is None or self.KPOS == 1:
                 self._exit_patched = self.exit.__class__(self.exit)
+                self._exit_patched.translate_x(-self.exit_face_integration)
             elif self.KPOS == 0 or self.KPOS == 2:
                 self._exit_patched = self.entry.__class__(self.entry)
                 self._exit_patched.translate_x(self.XL or 0.0 * _ureg.cm)
+                self._exit_patched.translate_x(-self.exit_face_integration)
             elif self.KPOS == 3:
                 if self.rotation != 0:
                     raise _ZgoubidooException("Non zero ALE incompatible with KPOS = 3.")
@@ -309,7 +330,7 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
         return [self.ACENT or 0 * _ureg.degree]
 
     @property
-    def entrance_efb(self) -> List[_Q]:
+    def entrance_integration_face(self) -> List[_Q]:
         """
 
         Returns:
@@ -318,7 +339,7 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
         return [self.OMEGA_E or 0 * _ureg.degree]
 
     @property
-    def exit_efb(self) -> List[_Q]:
+    def exit_integration_face(self) -> List[_Q]:
         """
 
         Returns:
@@ -343,6 +364,13 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
 
         """
         return self.angular_opening.to('rad').magnitude * self.radius
+
+    @property
+    def entry_efb(self) -> Optional[_Frame]:
+        if self._entry_efb is None:
+            self._entry_efb = self._entry_patched.__class__(self._entry_patched)
+            self._entry_efb.rotate_z(-self.entrance_integration_face[0])
+        return self._entry_efb
 
     @property
     def entry_patched(self) -> Optional[_Frame]:
@@ -394,6 +422,13 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
             self._exit_patched.translate_y((self.RS or 0 * _ureg.cm) - self.radius)
             self._exit_patched.rotate_z(self.TS or 0 * _ureg.degree)
         return self._exit_patched
+
+    @property
+    def exit_efb(self) -> Optional[_Frame]:
+        if self._exit_efb is None:
+            self._exit_efb = self.center.__class__(self.center)
+            self._exit_efb.rotate_z(self.exit_integration_face[0])
+        return self._exit_efb
 
     @staticmethod
     def drift_length_from_polar(radius: _Q, magnet_angle: _Q, poles_angle: _Q) -> _Q:
@@ -533,7 +568,7 @@ class PolarMultiMagnet(PolarMagnet, metaclass=PolarMultiMagnetType):
         return self.N
 
     @property
-    def entrance_efb(self) -> List[_Q]:
+    def entrance_integration_face(self) -> List[_Q]:
         """
 
         Returns:
@@ -542,7 +577,7 @@ class PolarMultiMagnet(PolarMagnet, metaclass=PolarMultiMagnetType):
         return self.OMEGA_E
 
     @property
-    def exit_efb(self) -> List[_Q]:
+    def exit_integration_face(self) -> List[_Q]:
         """
 
         Returns:
