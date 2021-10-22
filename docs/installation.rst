@@ -61,7 +61,7 @@ Obtaining Zgoubidoo
 -------------------
 ``Zgoubidoo`` is hosted on github (see Zgoubidoo's Github repository). To obtain the code using ``git`` do::
 
-    git clone https://github.com/chernals/zgoubidoo.git
+    git clone --recurse-submodules https://github.com/ULB-Metronu/zgoubidoo.git
 
 The default branch (`master`) should be clean at all time, with all the development happening in the `develop` branch.
 It should thus be safe to `pull` from the master branch to get the latest version. Only the released and tagged
@@ -69,12 +69,36 @@ versions are merged onto the master branch.
 
 To stay on a released (tagged) revision::
 
-    git clone --branch 'tag_name' https://github.com/chernals/zgoubidoo.git
+    git clone --recurse-submodules --branch 'tag_name' https://github.com/ULB-Metronu/zgoubidoo.git
 
 The releases `CHANGELOG` follows.
 
 .. note::
     .. include:: ../CHANGELOG
+
+To update later on you'll need to execute the following commands, from the top-level repository (not from within any of the submodules)::
+
+    git pull --recurse-submodules
+
+In case the .gitmodules file changes after pulling from upstream (this should be relatively rare, for example if one of the submodule change its remote), it might be necessary to first run the following::
+
+    git submodule sync --recursive
+
+Installation Zgoubidoo using ``pyenv`` and ``poetry``
+--------------------------------------------
+Create a Python virtual environment with ``pyenv`` (https://github.com/pyenv/pyenv) and ``pyenv-virtualenv`` (https://github.com/pyenv/pyenv-virtualenv) ::
+
+    pyenv install 3.8-dev
+    pyenv virtualenv 3.8-dev py38
+
+Then, activate your Python environment and install Zgoubidoo with Poetry ::
+
+    pyenv local py38
+    poetry install
+
+If you would like to have extra-dependencies such as sphinx or pytest, you can use ::
+
+    poetry install -E sphinx
 
 Creating a Python 3.7 environment with Conda
 --------------------------------------------
@@ -91,7 +115,7 @@ or you can give a custom name to the environment with::
 Installation Zgoubidoo using ``pip``
 ------------------------------------
 The first step is to activate your Python 3.7 environment (only needed if you do not use a global
-instalaltion of Python. On Mac OS if you use the Python ``brew`` installation you should already have Python 3.7
+installation of Python. On Mac OS if you use the Python ``brew`` installation you should already have Python 3.7
 available from your path). With ``conda`` proceed like this::
 
     conda activate py37

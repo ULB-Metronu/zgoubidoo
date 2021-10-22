@@ -1,3 +1,4 @@
+2021.1 TODO
 2020.1 - Major stability improvements
     - Refactoring of multiple classes in `georges-core` (`Kinematics` and `Sequence`, among others);
     - Major clean up and testings of the elements classes;
