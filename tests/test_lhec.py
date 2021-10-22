@@ -1,7 +1,5 @@
 import numpy as _np
 import pandas as _pd
-import os
-
 from georges_core import twiss
 from georges_core.sequences import TwissSequence
 
@@ -40,9 +38,24 @@ def check_optics(twiss_madx: _pd.DataFrame, twiss_zgoubi: _pd.DataFrame):
     _np.testing.assert_allclose(dispx_madx, dispx_zgoubi_madx, atol=5e-2)
     _np.testing.assert_allclose(dispxp_madx, dispxp_zgoubi_madx, atol=5e-2)
 
+    # Test more precisely the IP
+    ip_position = twiss_madx.loc['IP']['S']
+    betx_zgoubi_ip = _np.interp(ip_position, s_zgoubi, betx_zgoubi)
+    bety_zgoubi_ip = _np.interp(ip_position, s_zgoubi, bety_zgoubi)
+    alfx_zgoubi_ip = _np.interp(ip_position, s_zgoubi, alfx_zgoubi)
+    alfy_zgoubi_ip = _np.interp(ip_position, s_zgoubi, alfy_zgoubi)
+    dispx_zgoubi_ip = _np.interp(ip_position, s_zgoubi, dispx_zgoubi)
+    dispxp_zgoubi_ip = _np.interp(ip_position, s_zgoubi, dispxp_zgoubi)
+
+    _np.testing.assert_allclose(twiss_madx.loc['IP']['BETX'], betx_zgoubi_ip, atol=1e-3)
+    _np.testing.assert_allclose(twiss_madx.loc['IP']['BETY'], bety_zgoubi_ip, atol=1e-3)
+    _np.testing.assert_allclose(twiss_madx.loc['IP']['ALFX'], alfx_zgoubi_ip, atol=1e-2)
+    _np.testing.assert_allclose(twiss_madx.loc['IP']['ALFY'], alfy_zgoubi_ip, atol=1e-2)
+    _np.testing.assert_allclose(twiss_madx.loc['IP']['DX'], dispx_zgoubi_ip, atol=1e-3)
+    _np.testing.assert_allclose(twiss_madx.loc['IP']['DPX'], dispxp_zgoubi_ip, atol=1e-3)
+
 
 def test_lhec():
-
     # Convert file from MAD-X
     input_madx = TwissSequence(path="../examples/converter/madx/", filename="test45degspreader.outx")
     zi = zgoubidoo.Input.from_sequence(sequence=input_madx,
@@ -55,7 +68,15 @@ def test_lhec():
                                            'sbend': {'command': Dipole}
                                        }
                                        )
-    zi.XPAS = 15 * _.cm
+    zi.XPAS = 10 * _.cm
+
+    # Check if the survey is the same
+    survey_zgoubi = zi.survey(output=True, with_reference_trajectory=True, reference_kinematics=input_madx.kinematics)[
+        'exit_s']
+    survey_zgoubi = survey_zgoubi.apply(lambda e: e.m_as('m'))
+    survey_madx = input_madx.df['S']
+    survey = _pd.merge(survey_zgoubi, survey_madx, left_index=True, right_index=True)
+    _np.testing.assert_allclose(survey['exit_s'].values, survey['S'].values, rtol=1e-3)
 
     # Ensure plotting is working
     artist = zgoubidoo.vis.ZgoubidooPlotlyArtist(width=1200)
@@ -71,3 +92,9 @@ def test_lhec():
 
     # Validation with MAD-X
     check_optics(input_madx.df, results_twiss)
+
+    # Plot the comparison
+    artist = zgoubidoo.vis.ZgoubidooPlotlyArtist(width=1200)
+    artist.fig['layout']['xaxis']['title'] = 'X (m)'
+    artist.fig['layout']['yaxis']['title'] = 'Y (m)'
+    artist.plot_twiss(beamline=zi, twiss=results_twiss, twiss_madx=input_madx.df)

@@ -906,5 +906,4 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 )
 
         artist.plot_cartouche(beamline)
-        artist.render()
         return artist
