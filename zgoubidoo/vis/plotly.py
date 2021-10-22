@@ -562,8 +562,9 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                                    'width': 1})
 
         def plot_frames():
-            color = ['red', 'green', 'blue', 'magenta', 'darkorange']
-            for i, frame in enumerate(['entry', 'entry_patched', 'exit', 'exit_patched', 'center']):
+            color = ['red', 'green', 'blue', 'magenta', 'darkorange', 'goldenrod', 'brown']
+            for i, frame in enumerate(['entry', 'entry_patched', 'exit', 'exit_patched',
+                                       'center', 'entry_integration', 'exit_integration']):
                 self.scatter(
                     {
                         'x': [getattr(e, frame).x_],
@@ -596,8 +597,8 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                     for i in range(0, e.n_magnets):
                         r = r0 + e.delta_radius[i].m_as('m')
                         reference_angle = e.reference_angles[i].m_as('radian')
-                        omega_e = e.entrance_efb[i].m_as('radian')
-                        omega_s = e.exit_efb[i].m_as('radian')
+                        omega_e = e.entrance_integration_face[i].m_as('radian')
+                        omega_s = e.exit_integration_face[i].m_as('radian')
                         total_angle = e.angular_opening.m_as('radians')
                         entrance_face_angle = e.entrance_field_boundary_wedge_angle[i].m_as('radians')
                         exit_face_angle = e.exit_field_boundary_wedge_angle[i].m_as('radians')
