@@ -453,7 +453,6 @@ class BeamInputDistribution(Beam):
         Initialize a beam with a 5D particle distribution from a Sigma matrix.
 
         Args:
-            n:
             **kwargs:
 
         Returns:
@@ -463,7 +462,25 @@ class BeamInputDistribution(Beam):
         # Convert to Zgoubi units (m, rad) -> (cm, mrad)
         distribution[:, [0, 2]] *= 100
         distribution[:, [1, 3]] *= 1000
-        distribution[:, [1, 4]] += 1  # DR
+        distribution[:, 4] += 1  # DR
+        self.initialize_distribution(distribution)
+        return self
+
+    def from_5d_multigaussian_distribution(self, **kwargs) -> Beam:
+        """
+        Initialize a beam with a 5D particle distribution from a Sigma matrix.
+
+        Args:
+            **kwargs:
+
+        Returns:
+
+        """
+        distribution = _Distribution.from_5d_multigaussian_distribution(**kwargs).distribution.values
+        # Convert to Zgoubi units (m, rad) -> (cm, mrad)
+        distribution[:, [0, 2]] *= 100
+        distribution[:, [1, 3]] *= 1000
+        distribution[:, 4] += 1  # DR
         self.initialize_distribution(distribution)
         return self
 
