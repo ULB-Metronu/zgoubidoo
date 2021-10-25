@@ -525,12 +525,13 @@ class Options(Action):
     KEYWORD = 'OPTIONS'
     """Keyword of the command used for the Zgoubi input data."""
 
-    def post_init(self, write: bool = True, consty: bool = False):
+    def post_init(self, write: bool = True, consty: bool = False, plt: int = 0):
         """
 
         Args:
             write:
             consty:
+            plt:
 
         Returns:
 
@@ -538,11 +539,13 @@ class Options(Action):
         self.LABEL1 = ' '
         self._write = write
         self._consty = consty
+        self._plt = plt
 
     def __str__(self):
         return f"""
         {super().__str__().rstrip()}
-        1 2
+        1 3
         CONSTY {'ON' if self._consty else 'OFF'}
         WRITE {'ON' if self._write else 'OFF'}
+        .plt {self._plt}
         """
