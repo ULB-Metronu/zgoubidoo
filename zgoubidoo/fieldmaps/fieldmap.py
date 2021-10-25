@@ -165,7 +165,7 @@ def compute_total_fieldmap(B, tau, k, IY, ymin, d_y, n_xi_supp, IXI, n_factor):
     return B_fieldmap
 
 
-def generate_semi_analytical_fieldmap(B0: _Q, k: _Q, tau: int, Lmag: _Q, gap: _Q,
+def generate_vFFA_fieldmap(B0: _Q, k: _Q, tau: int, Lmag: _Q, gap: _Q,
                                       xmin: _Q, xmax: _Q, ymin: _Q, ymax: _Q, z_ff_1: _Q, z_ff_2: _Q,
                                       n: int, IX: int, IY_approx: int, IZ: int):
     k, B0 = k.m_as('1/m'), B0.to('kilogauss')
@@ -788,19 +788,31 @@ class VFFAFieldMap(FieldMap):
         super().__init__(field_map)
 
     @classmethod
-    def generate_from_semi_analytical_fieldmap(cls, B0, k, tau, Lmag, gap, xmin, xmax, ymin, ymax, z_ff_1, z_ff_2, n,
-                                               IX, IY_approx, IZ):
+    def generate(cls, B0, k, tau, Lmag, gap,
+                 xmin, xmax, ymin, ymax, z_ff_1, z_ff_2,
+                 n, IX, IY_approx, IZ):
         """
-        Factory method to generate a field map from analytic expressions
+        Method to generate a vFFA field map, with tanh fringe field and possible edge angle
 
         Args:
-            bx_expression: expression of the magnetic field in x
-            by_expression: expression of the magnetic field in y
-            bz_expression: expression of the magnetic field in z
-            mesh: numpy array of sampling points
+            B0: Reference magnetic field
+            k: Field index
+            tau: Tangent of the edge angle
+            Lmag: Length of the magnet
+            gap: Fringe length
+            xmin: Horizontal extent of the field map
+            xmax : Horizontal extent of the field map
+            ymin: Vertical extent of the field map
+            ymax: Vertical extent of the field map
+            z_ff_1: Additional length before the magnet for the longitudinal extent of the field map
+            z_ff_2: Additional length after the magnet for the longitudinal extent of the field map
+            n: Order of the expansion
+            IX: Number of nodes of the mesh - X direction
+            IY: Number of nodes of the mesh - Y direction
+            IZ: Number of nodes of the mesh - Z direction
 
         Returns:
-            A FieldMap generated from analytic expression.
+            A vFFA FieldMap.
         """
-        return cls(field_map=generate_semi_analytical_fieldmap(B0, k, tau, Lmag, gap, xmin, xmax, ymin, ymax,
-                                                               z_ff_1, z_ff_2, n, IX, IY_approx, IZ))
+        return cls(field_map=generate_vFFA_fieldmap(B0, k, tau, Lmag, gap, xmin, xmax, ymin, ymax,
+                                                    z_ff_1, z_ff_2, n, IX, IY_approx, IZ))

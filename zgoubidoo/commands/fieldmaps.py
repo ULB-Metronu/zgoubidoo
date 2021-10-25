@@ -551,7 +551,7 @@ class vFFA(ToscaCartesian3D):
 
     def post_init(self, **kwargs):
         if self.fieldmap is None:
-            self.vFFA_map = _VFFAFieldMap.generate_from_semi_analytical_fieldmap(self.B0, self.k, self.tau, self.lmag,
+            self.vFFA_map = _VFFAFieldMap.generate(self.B0, self.k, self.tau, self.lmag,
                                                                                  self.gap, self.xmin, self.xmax,
                                                                                  self.ymin, self.ymax, self.z_ff_1,
                                                                                  self.z_ff_2, self.n, self.IX,
