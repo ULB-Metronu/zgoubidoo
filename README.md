@@ -1,6 +1,6 @@
 # Zgoubidoo: a modern Python 3 interface to the Zgoubi particle tracking code
 
-[![develop](https://github.com/rtesse/zgoubidoo/actions/workflows/develop.yaml/badge.svg)](https://github.com/rtesse/zgoubidoo/actions/workflows/develop.yaml)
+[![develop](https://github.com/ULB-Metronu/zgoubidoo/actions/workflows/develop.yaml/badge.svg)](https://github.com/ULB-Metronu/zgoubidoo/actions/workflows/develop.yaml)
 
 <img src="docs/_static/zgoubidoo.png" style="float: right; width: 150px;">
 
