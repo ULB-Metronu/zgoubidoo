@@ -3374,3 +3374,67 @@ class Venus(Magnet):
         {_cm(self.XPAS):.12e}  
         {int(self.KPOS):d} {_cm(self.XCE):.12e} {_cm(self.YCE):.12e} {_radian(self.ALE):.12e}
         """
+
+
+class VFFA(CartesianMagnet):
+    r"""vertical excursion FFAG, N-tuple.
+
+    .. rubric:: Zgoubi manual description
+    TODO
+    """
+
+    KEYWORD = 'VFFA'
+    """Keyword of the command used for the Zgoubi input data."""
+
+    PARAMETERS = {
+        'IL': (0, 'Print field and coordinates along trajectories', 1),
+        'N': (1, 'Number of magnet in the VFFA N-tuple (maximum 5)', 2),
+        'XL': (0.0 * _ureg.centimeter, 'Total length of the element, containing the N magnets', 3),
+        # For each magnet in the N-tuple
+        'XM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet start position', 4),
+        'L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.meter, 'Magnet length', 5),
+        'B0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, 'Reference magnetic field', 6),
+        'K': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Field index for each vFFA magnet', 7),
+        'GAP': ([10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.m, 'gap for the tanh fringe field of each dipole.', 8),
+        # General parameters
+        # The fit index depends on the number of magnets in the VFFA N-tuple
+        'KIRD': (
+            0, 'Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives. '
+               'Only KIRD= 0 possible for now', 9
+        ),
+        'RESOL': (2, '', 10),
+        'XPAS': (1.0 * _ureg.centimeter, 'Integration step', 11),
+        'KPOS': (2, '', 12),
+        'XCE': (0 * _ureg.cm, 'x offset', 13),
+        'YCE': (0 * _ureg.cm, 'y offset', 14),
+        'ALE': (0 * _ureg.radian, 'misalignment rotation', 15),
+        'COLOR': '#4169E1',
+    }
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    commands (e.g. fit)."""
+
+    def __str__(s):
+        command = []
+        c = f"""       
+            {super().__str__().rstrip()}
+            {s.IL}
+            {s.N} {_cm(s.XL):.20e}
+            """
+        command.append(c)
+
+        for i in range(0, s.N):
+            c = f"""
+            {_cm(s.XM[i]):.20e} {_cm(s.L[i])/100:.12e} 
+            {_kilogauss(s.B0[i]):.12e} {s.K[i]:.12e}
+            {_cm(s.GAP[i])/100:.12e} 
+            """
+            command.append(c)
+
+        c = f"""
+            {s.KIRD} {s.RESOL}
+            {_cm(s.XPAS):.12e}
+            {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
+            """
+        command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))
