@@ -310,8 +310,9 @@ class Tosca(_Magnet):
             x=fieldmap['XG'],
             y=fieldmap['YG'],
             z=fieldmap['BZ'],
+            zsmooth='best',
             opacity=1.0,
-            colorscale='Greys',
+            colorscale='RdYlBu',
         )
 
 
@@ -505,7 +506,7 @@ class ToscaPolar(Tosca, _PolarMagnet):
             if line.strip().startswith("Field map limits, angle :  min, max, max-min (rad) :"):
                 angle = float(line.split()[-1]) * _ureg.rad
             if line.strip().startswith("Integration step : "):
-                radius = float(line.split()[-2]) * _ureg.cm
+                radius = float(line.replace(')', ' ').split()[-1]) * _ureg.cm # For Zgoubi output
                 break
         length = (radius * angle).m_as('cm')
         self._results.append(
