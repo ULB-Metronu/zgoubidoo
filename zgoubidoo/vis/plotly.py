@@ -2,6 +2,8 @@
 TODO
 """
 from __future__ import annotations
+
+import logging
 from typing import TYPE_CHECKING, Dict, Optional, Union
 import numpy as _np
 import pandas as _pd
@@ -23,6 +25,7 @@ from ..commands import FFAGSpirale as _FFAGSPI
 from ..commands import FFAG as _FFAG
 from ..commands import Cyclotron as _Cyclotron
 from ..commands.fieldmaps import Tosca as _Tosca
+from ..commands import ZgoubidooException as _ZgoubidooException
 
 if TYPE_CHECKING:
     from ..input import Input as _Input
@@ -160,6 +163,13 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             opacity:
             reference_frame:
         """
+        if not beamline.valid_survey:
+            logging.error(f"You should do a survey: \n"
+                                      "zgoubidoo.survey(beamline=zi, reference_frame=zgoubidoo.Frame(), "
+                                      "with_reference_trajectory=True, reference_kinematics=k)")
+            # raise _ZgoubidooException(f"You should do a survey: \n"
+            #                           "zgoubidoo.survey(beamline=zi, reference_frame=zgoubidoo.Frame(), "
+            #                           "with_reference_trajectory=True, reference_kinematics=k)")
 
         def add_svg_path(points, reference_frame: str = 'entry_patched',
                          color: Optional[str] = None,
