@@ -277,15 +277,30 @@ def load_opera_fieldmap(file: str, path: str = '.') -> _pd.DataFrame:
     ])
 
 
-def generate_from_expression(bx_expression: sympy = None, by_expression: sympy = None, bz_expression: sympy = None,
-                             mesh: _np.ndarray = None) -> _pd.DataFrame:
+def generate_from_expression(bx_expression, by_expression, bz_expression,
+                             mesh: _np.ndarray, use_njit: bool = True) -> _pd.DataFrame:
     x, y, z = sympy.symbols('x:z')
+    bx = sympy.lambdify([x, y, z], bx_expression)
+    by = sympy.lambdify([x, y, z], by_expression)
+    bz = sympy.lambdify([x, y, z], bz_expression)
+
+    if use_njit:
+        try:
+            from numba import njit
+            bx = njit(bx)
+            by = njit(by)
+            bz = njit(bz)
+        except ModuleNotFoundError:
+            pass
+        except ImportError:
+            pass
+
     return _pd.DataFrame({'X': mesh[:, 0],
                           'Y': mesh[:, 1],
                           'Z': mesh[:, 2],
-                          'BX': sympy.lambdify([x, y, z], bx_expression, 'numpy')(mesh[:, 0], mesh[:, 1], mesh[:, 2]),
-                          'BY': sympy.lambdify([x, y, z], by_expression, 'numpy')(mesh[:, 0], mesh[:, 1], mesh[:, 2]),
-                          'BZ': sympy.lambdify([x, y, z], bz_expression, 'numpy')(mesh[:, 0], mesh[:, 1], mesh[:, 2])
+                          'BX': bx(mesh[:, 0], mesh[:, 1], mesh[:, 2]),
+                          'BY': by(mesh[:, 0], mesh[:, 1], mesh[:, 2]),
+                          'BZ': bz(mesh[:, 0], mesh[:, 1], mesh[:, 2])
                           })
 
 
@@ -452,7 +467,7 @@ class FieldMap:
 
     @classmethod
     def generate_from_expression(cls, bx_expression: sympy = None, by_expression: sympy = None,
-                                 bz_expression: sympy = None, mesh: _np.ndarray = None):
+                                 bz_expression: sympy = None, mesh: _np.ndarray = None, use_njit: bool = True):
         """
         Factory method to generate a field map from analytic expressions
 
@@ -466,7 +481,7 @@ class FieldMap:
             A FieldMap generated from analytic expression.
         """
         return cls(field_map=generate_from_expression(bx_expression=bx_expression, by_expression=by_expression,
-                                                      bz_expression=bz_expression, mesh=mesh))
+                                                      bz_expression=bz_expression, mesh=mesh, use_njit=use_njit))
 
     def write(self, path: str = None,
               filename: str = "tosca.table",
