@@ -1,2 +1,2 @@
 """Field map manipulations module."""
-from .fieldmap import EngeModel, FieldMap
+from .fieldmap import EngeModel, CartesianFieldMap, PolarFieldMap

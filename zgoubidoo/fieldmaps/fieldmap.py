@@ -8,6 +8,7 @@ import tempfile
 import shutil
 import numpy as _np
 import pandas as _pd
+from numba import njit
 from scipy import interpolate
 from lmfit import Model as _Model
 from lmfit import Parameter as _Parameter
@@ -348,6 +349,7 @@ def enge(s: Union[float, _np.array],
         lam_s: characteristic length of the exit fringe
         offset_e: offset for the positioning of the entrance fall-off
         offset_s: offset for the positioning of the exit fall-off
+        lmap: length of the map
         amplitude: field amplitude (not necessarily equal to the maximum)
         field_offset: field offset
 
@@ -397,49 +399,14 @@ class FieldMap:
         self._field_profile_fit: Optional[_np.array] = None
         self._path: str = ""
         self._filepath: str = ""
+        self._length = 0 * _ureg.cm
 
     def __repr__(self):
         return self._data.__repr__()
 
-    def __call__(self, label1: str = 'Map', path: str = None,
-                 filename: str = 'tosca.table', binary: bool = False,
-                 generator: Type[_fieldmaps.Tosca] = _fieldmaps.ToscaCartesian3D,
-                 load_map: bool = True, columns=None, **kwargs):
-        """
-
-        Args:
-            label1: Label of the keyword
-            path: Path to write the map (default: tmpdir)
-            filename: Name of the map
-            binary: Field map is written as binary file with numpy (default: False)
-            generator: Class used to generate the Zgoubi input (defaut: ToscaCartesian3D)
-            load_map: Load map to compute its length (default: True)
-            columns: Columns to use for the map
-            **kwargs: Other arguments that can use for the TOSCA keyword (MOD, MOD2)
-
-        Returns:
-            the Zgoubi object for the fieldmap
-        """
-
-        self.write(path=path, filename=filename, binary=binary, columns=columns)
-        self._input = generator(LABEL1=label1,
-                                TITL="HEADER 0",
-                                FILES=[self._filepath],
-                                IX=self.mesh_sampling_x[1],
-                                IY=self.mesh_sampling_y[1],
-                                IZ=self.mesh_sampling_z[1],
-                                infer_and_check_meshes=False,  # TODO method is only valid for csv file
-                                **kwargs)
-        if load_map:
-            self._input.load()
-            if self._input.length == 0 * _ureg.cm:
-                raise _ZgoubidooException("Length of your map is 0*cm, please check your input")
-
-        return self._input
-
     @property
     def length(self):
-        return self._input.length
+        return self._length
 
     @classmethod
     def load(cls, file: str, path: str = '.'):
@@ -507,17 +474,17 @@ class FieldMap:
                             nterms: int = 4):
 
         x, y, z = _sp.symbols('x:z')
-        Bx_mid = _sp.Function('Bx')(x, z)
-        By_mid = _sp.Function('By')(x, z)
-        Bz_mid = _sp.Function('Bz')(x, z)
+        bx_mid = _sp.Function('Bx')(x, z)
+        by_mid = _sp.Function('By')(x, z)
+        bz_mid = _sp.Function('Bz')(x, z)
 
         ax = _sp.zeros(1, nterms)
         ay = _sp.zeros(1, nterms)
         az = _sp.zeros(1, nterms)
 
-        ax[0] = [_sp.Derivative(Bz_mid, x)]
-        ay[0] = [_sp.Derivative(Bz_mid, y)]
-        az[0] = [-(_sp.Derivative(Bx_mid, x) + _sp.Derivative(By_mid, y))]
+        ax[0] = [_sp.Derivative(bz_mid, x)]
+        ay[0] = [_sp.Derivative(bz_mid, y)]
+        az[0] = [-(_sp.Derivative(bx_mid, x) + _sp.Derivative(by_mid, y))]
 
         # Compute the a_i
         for i in range(1, nterms):
@@ -525,53 +492,23 @@ class FieldMap:
             ax[i] = (1 / (i + 1)) * _sp.Derivative(az[i - 1], x)
             ay[i] = (1 / (i + 1)) * _sp.Derivative(az[i - 1], y)
 
-        Bx_off = Bx_mid
-        By_off = By_mid
-        Bz_off = Bz_mid
+        bx_off = bx_mid
+        by_off = by_mid
+        bz_off = bz_mid
 
         for i in range(0, nterms - 1):
-            Bx_off += ax[i] * z ** (i + 1)
-            By_off += ay[i] * z ** (i + 1)
-            Bz_off += az[i] * z ** (i + 1)
+            bx_off += ax[i] * z ** (i + 1)
+            by_off += ay[i] * z ** (i + 1)
+            bz_off += az[i] * z ** (i + 1)
 
-        B_x = Bx_off.replace(Bx_mid, bx_expression).replace(By_mid, by_expression).replace(Bz_mid,
+        b_x = bx_off.replace(bx_mid, bx_expression).replace(by_mid, by_expression).replace(bz_mid,
                                                                                            bz_expression).simplify()
-        B_y = By_off.replace(Bx_mid, bx_expression).replace(By_mid, by_expression).replace(Bz_mid,
+        b_y = by_off.replace(bx_mid, bx_expression).replace(by_mid, by_expression).replace(bz_mid,
                                                                                            bz_expression).simplify()
-        B_z = Bz_off.replace(Bx_mid, bx_expression).replace(By_mid, by_expression).replace(Bz_mid,
+        b_z = bz_off.replace(bx_mid, bx_expression).replace(by_mid, by_expression).replace(bz_mid,
                                                                                            bz_expression).simplify()
 
-        return B_x, B_y, B_z
-
-    def write(self, path: str = None,
-              filename: str = "tosca.table",
-              binary: bool = False,
-              columns=None):
-        """
-        Args:
-            path: Path to write the field map (default: '.')
-            filename: filename of the map (default: 'tosca.table')
-            binary: write the field as a binary file. Use it for large fielmaps
-            columns:
-
-        Returns:
-            """
-        if columns is None:
-            columns = ['Y', 'Z', 'X']
-
-        self._path = path or tempfile.mkdtemp()
-        if binary:
-            filename = f"b_{filename}"
-        self._filepath = os.path.abspath(os.path.join(self._path, filename))
-        data = self._data.sort_values(by=columns).reindex(columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'])
-        if binary:
-            # The method to file from numpy must be used with access='stream' with Zgoubi
-            data.values.tofile(self._filepath)
-        else:
-            data.to_csv(self._filepath,
-                        sep='\t',
-                        header=False,
-                        index=False)
+        return b_x, b_y, b_z
 
     def cleanup(self):
         shutil.rmtree(self._path)
@@ -599,34 +536,6 @@ class FieldMap:
     def field_profile_fit(self) -> _np.array:
         """Fit of the field profile."""
         return self._field_profile_fit
-
-    @property
-    def mesh_sampling_x(self) -> Tuple[_np.array, int]:
-        """Sampling points of the field map along the X axis."""
-        return self.mesh_sampling_along_axis(axis='X')
-
-    @property
-    def mesh_sampling_y(self) -> Tuple[_np.array, int]:
-        """Sampling points of the field map along the Y axis."""
-        return self.mesh_sampling_along_axis(axis='Y')
-
-    @property
-    def mesh_sampling_z(self) -> Tuple[_np.array, int]:
-        """Sampling points of the field map along the Z axis."""
-        return self.mesh_sampling_along_axis(axis='Z')
-
-    def mesh_sampling_along_axis(self, axis: str) -> Tuple[_np.array, int]:
-        """
-        Sampling points of the field map along a given axis.
-
-        Args:
-            axis: the index of the axis.
-
-        Returns:
-            A numpy array containing the data points of the field map sampling.
-        """
-        _ = self._data[axis].unique()
-        return _, len(_)
 
     def translate(self, x: float = 0, y: float = 0, z: float = 0):
         """
@@ -682,92 +591,6 @@ class FieldMap:
             'MOD': lambda: _np.sqrt((self.data[:, 3:6] * self.data[:, 3:6]).sum(axis=1)),
         }
         return interpolate.griddata(self.data[:, 0:3], field_components[field_component](), points, method=method)
-
-    def attach_cartesian_trajectory(self,
-                                    axis: str = 'X',
-                                    lower: Optional[float] = None,
-                                    upper: Optional[float] = None,
-                                    samples: Optional[int] = None,
-                                    offset_x: float = 0.0,
-                                    offset_y: float = 0.0,
-                                    offset_z: float = 0.0,
-                                    ):
-        """
-        TODO: support arbitrary rotations
-
-        Args:
-            axis:
-            lower:
-            upper:
-            samples:
-            offset_x:
-            offset_y:
-            offset_z:
-
-        Returns:
-
-        """
-        length_sampling = samples or self.mesh_sampling_along_axis(axis)[1]
-        lower = lower or _np.min(self.mesh_sampling_along_axis(axis)[0])
-        upper = upper or _np.max(self.mesh_sampling_along_axis(axis)[0])
-        sampling = _np.linspace(lower, upper, length_sampling)
-        zeros = _np.zeros(length_sampling)
-        if axis == 'X':
-            v = [sampling, zeros, zeros]
-        elif axis == 'Y':
-            v = [zeros, sampling, zeros]
-        elif axis == 'Z':
-            v = [zeros, zeros, sampling]
-        else:
-            raise ValueError("Invalid value for 'axis'.")
-        v[0] += offset_x
-        v[1] += offset_y
-        v[2] += offset_z
-        self._reference_trajectory = _np.stack(v).T
-
-    def attach_polar_trajectory(self,
-                                radius: float,
-                                lower_angle: float,
-                                upper_angle: float,
-                                samples: int,
-                                plane: str = 'XY',
-                                offset_x: float = 0.0,
-                                offset_y: float = 0.0,
-                                offset_z: float = 0.0,
-                                ):
-        """
-
-        Args:
-            radius:
-            lower_angle:
-            upper_angle:
-            samples:
-            plane:
-            offset_x:
-            offset_y:
-            offset_z:
-
-        Returns:
-
-        """
-
-        angles = _np.linspace(lower_angle, upper_angle, samples)
-        x = _np.cos(angles) * radius
-        y = _np.sin(angles) * radius
-        zeros = _np.zeros(samples)
-        if plane == 'XY':
-            v = [x, y, zeros]
-        elif plane == 'YZ':
-            v = [zeros, x, y]
-        elif plane == 'XZ':
-            v = [x, zeros, y]
-        else:
-            raise ValueError("Invalid value for 'plane'.")
-        v[0] += offset_x
-        v[1] += offset_y
-        v[2] += offset_z
-        self._reference_trajectory = _np.stack(v).T
-        return self
 
     def fit_field_profile(self,
                           model: Optional[lmfit.Model] = None,
@@ -904,6 +727,171 @@ class FieldMap:
             raise _ZgoubidooException(
                 f"{ax} is not a valid artist. Use ZgoubidooPlotlyArtist() or ZgoubidooMatplotlibArtist")
 
+
+class CartesianFieldMap(FieldMap):
+
+    def __call__(self, label1: str = 'Map', path: str = None,
+                 filename: str = 'tosca.table', binary: bool = False,
+                 generator: Type[_fieldmaps.Tosca] = _fieldmaps.ToscaCartesian3D,
+                 load_map: bool = True, columns=None, **kwargs):
+        """
+
+        Args:
+            label1: Label of the keyword
+            path: Path to write the map (default: tmpdir)
+            filename: Name of the map
+            binary: Field map is written as binary file with numpy (default: False)
+            generator: Class used to generate the Zgoubi input (defaut: ToscaCartesian3D)
+            load_map: Load map to compute its length (default: True)
+            columns: Columns to use for the map
+            **kwargs: Other arguments that can use for the TOSCA keyword (MOD, MOD2)
+
+        Returns:
+            the Zgoubi object for the fieldmap
+        """
+
+        self.write(path=path, filename=filename, binary=binary, columns=columns)
+        self._input = generator(LABEL1=label1,
+                                TITL="HEADER 0",
+                                FILES=[self._filepath],
+                                IX=self.mesh_sampling_x[1],
+                                IY=self.mesh_sampling_y[1],
+                                IZ=self.mesh_sampling_z[1],
+                                infer_and_check_meshes=False,  # TODO method is only valid for csv file
+                                **kwargs)
+        if load_map:
+            self._input.load()
+            self._length = self._input.length
+            if self._length == 0 * _ureg.cm:
+                raise _ZgoubidooException("Length of your map is 0*cm, please check your input")
+        return self._input
+
+    def write(self, path: str = None,
+              filename: str = "tosca.table",
+              binary: bool = False,
+              columns=None):
+        """
+        Args:
+            path: Path to write the field map (default: '.')
+            filename: filename of the map (default: 'tosca.table')
+            binary: write the field as a binary file. Use it for large fielmaps
+            columns:
+
+        Returns:
+            """
+        if columns is None:
+            columns = ['Y', 'Z', 'X']
+
+        self._path = path or tempfile.mkdtemp()
+        if binary:
+            filename = f"b_{filename}"
+        self._filepath = os.path.abspath(os.path.join(self._path, filename))
+        data = self._data.sort_values(by=columns).reindex(columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'])
+        if binary:
+            # The method to file from numpy must be used with access='stream' with Zgoubi
+            data.values.tofile(self._filepath)
+        else:
+            data.to_csv(self._filepath,
+                        sep='\t',
+                        header=False,
+                        index=False)
+
+    @classmethod
+    def generate_from_cartesian_expression(cls, bx_expression: _sp = None, by_expression: _sp = None,
+                                           bz_expression: _sp = None, mesh: _np.ndarray = None,
+                                           generate_3d_map: bool = False, nterms: int = 4):
+        """
+        Factory method to generate a field map from analytic expressions
+
+        Args:
+            bx_expression: expression of the magnetic field in x
+            by_expression: expression of the magnetic field in y
+            bz_expression: expression of the magnetic field in z
+            mesh: numpy array of sampling points
+            generate_3d_map: from the field at mid-plane, the expressions for off-plane field are generated
+            nterms: number of terms to evaluate the off-plane field.
+        Returns:
+            A FieldMap generated from analytic expression.
+        """
+        if generate_3d_map:
+            bx_expression, by_expression, bz_expression = cls.get_off_plane_field(bx_expression=bx_expression or 0,
+                                                                                  by_expression=by_expression or 0,
+                                                                                  bz_expression=bz_expression or 0,
+                                                                                  nterms=nterms)
+
+        return cls(field_map=generate_from_expression(bx_expression=bx_expression, by_expression=by_expression,
+                                                      bz_expression=bz_expression, mesh=mesh))
+
+    @property
+    def mesh_sampling_x(self) -> Tuple[_np.array, int]:
+        """Sampling points of the field map along the X axis."""
+        return self.mesh_sampling_along_axis(axis='X')
+
+    @property
+    def mesh_sampling_y(self) -> Tuple[_np.array, int]:
+        """Sampling points of the field map along the Y axis."""
+        return self.mesh_sampling_along_axis(axis='Y')
+
+    @property
+    def mesh_sampling_z(self) -> Tuple[_np.array, int]:
+        """Sampling points of the field map along the Z axis."""
+        return self.mesh_sampling_along_axis(axis='Z')
+
+    def mesh_sampling_along_axis(self, axis: str) -> Tuple[_np.array, int]:
+        """
+        Sampling points of the field map along a given axis.
+
+        Args:
+            axis: the index of the axis.
+
+        Returns:
+            A numpy array containing the data points of the field map sampling.
+        """
+        _ = self._data[axis].unique()
+        return _, len(_)
+
+    def attach_cartesian_trajectory(self,
+                                    axis: str = 'X',
+                                    lower: Optional[float] = None,
+                                    upper: Optional[float] = None,
+                                    samples: Optional[int] = None,
+                                    offset_x: float = 0.0,
+                                    offset_y: float = 0.0,
+                                    offset_z: float = 0.0,
+                                    ):
+        """
+        TODO: support arbitrary rotations
+
+        Args:
+            axis:
+            lower:
+            upper:
+            samples:
+            offset_x:
+            offset_y:
+            offset_z:
+
+        Returns:
+
+        """
+        length_sampling = samples or self.mesh_sampling_along_axis(axis)[1]
+        lower = lower or _np.min(self.mesh_sampling_along_axis(axis)[0])
+        upper = upper or _np.max(self.mesh_sampling_along_axis(axis)[0])
+        sampling = _np.linspace(lower, upper, length_sampling)
+        zeros = _np.zeros(length_sampling)
+        if axis == 'X':
+            v = [sampling, zeros, zeros]
+        elif axis == 'Y':
+            v = [zeros, sampling, zeros]
+        elif axis == 'Z':
+            v = [zeros, zeros, sampling]
+        else:
+            raise ValueError("Invalid value for 'axis'.")
+        v[0] += offset_x
+        v[1] += offset_y
+        v[2] += offset_z
+        self._reference_trajectory = _np.stack(v).T
+
     def export_for_bdsim(self, method: str = 'nearest'):
         """
 
@@ -923,6 +911,171 @@ class FieldMap:
         fy = -self.sample(new_mesh, field_component='BY', method=method)
         fz = -self.sample(new_mesh, field_component='BZ', method=method)
         return _np.concatenate([new_mesh, _np.stack([fx, fy, fz]).T], axis=1)
+
+
+class PolarFieldMap(FieldMap):
+
+    def __init__(self, field_map: _pd.DataFrame, mesh_sampling_radius: _np.ndarray = 0,
+                 mesh_sampling_theta: _np.ndarray = 0, mesh_sampling_z: _np.ndarray = 0):
+        super().__init__(field_map=field_map)
+        self.mesh_sampling_radius = mesh_sampling_radius
+        self.mesh_sampling_theta = mesh_sampling_theta
+        self.mesh_sampling_vertical_position = mesh_sampling_z
+
+    def __call__(self, label1: str = 'Map', path: str = None,
+                 filename: str = 'tosca.table', binary: bool = False,
+                 generator: Type[_fieldmaps.Tosca] = _fieldmaps.ToscaPolar,
+                 load_map: bool = True, **kwargs):
+        """
+
+        Args:
+            label1: Label of the keyword
+            path: Path to write the map (default: tmpdir)
+            filename: Name of the map
+            binary: Field map is written as binary file with numpy (default: False)
+            generator: Class used to generate the Zgoubi input (defaut: ToscaCartesian3D)
+            load_map: Load map to compute its length (default: True)
+            **kwargs: Other arguments that can use for the TOSCA keyword (MOD, MOD2)
+
+        Returns:
+            the Zgoubi object for the fieldmap
+        """
+        self.write(path=path, filename=filename, binary=binary)
+        self._input = generator(LABEL1=label1,
+                                TITL="HEADER 1",
+                                FILES=[self._filepath],
+                                IX=len(self.mesh_sampling_theta),
+                                IY=len(self.mesh_sampling_radius),
+                                IZ=len(self.mesh_sampling_vertical_position),
+                                infer_and_check_meshes=False,  # TODO method is only valid for csv file
+                                **kwargs)
+        if load_map:
+            self._input.load()
+            self._length = self._input.length
+            if self._length == 0 * _ureg.cm:
+                raise _ZgoubidooException("Length of your map is 0*cm, please check your input")
+        return self._input
+
+    def write(self, path: str = None,
+              filename: str = "tosca.table",
+              binary: bool = False):
+        """
+        Args:
+            path: Path to write the field map (default: '.')
+            filename: filename of the map (default: 'tosca.table')
+            binary: write the field as a binary file. Use it for large fielmaps
+
+        Returns:
+            """
+        # TODO How to add a line to a binary file
+        if binary:
+            raise _ZgoubidooException("Binary format is not yet implemented for polar map")
+        self._path = path or tempfile.mkdtemp()
+        self._filepath = os.path.abspath(os.path.join(self._path, filename))
+        data = self._data.reindex(columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'])
+        data.to_csv(self._filepath,
+                    sep='\t',
+                    header=False,
+                    index=False)
+
+        # Append first line to the file to indicate the reference radius and the mesh size
+        # Rmi/cm, dR/cm, dA/deg, dZ/cm
+        dr = self.mesh_sampling_radius[1] - self.mesh_sampling_radius[0]
+        da = _np.degrees(self.mesh_sampling_theta[1] - self.mesh_sampling_theta[0])
+        dz = 0
+
+        with open(self._filepath, 'r+') as f:
+            lines = f.readlines()  # read old content
+            f.seek(0)  # go back to the beginning of the file
+            f.write(f"{self.mesh_sampling_radius[0]} {dr} {da} {dz}\n")  # write new content at the beginning
+            for line in lines:  # write old content after new
+                f.write(line)
+
+    @classmethod
+    def generate_from_polar_expression(cls, bx_expression: _sp = None, by_expression: _sp = None,
+                                       bz_expression: _sp = None, radius: _np.ndarray = None,
+                                       theta: _np.ndarray = None, vertical_positions: _np.ndarray = None):
+        """
+        Factory method to generate a field map from analytic expressions
+
+        Args:
+            bx_expression: expression of the magnetic field in x
+            by_expression: expression of the magnetic field in y
+            bz_expression: expression of the magnetic field in z
+            radius: numpy array of the radius
+            theta: numpy array of the angles
+            vertical_positions: Z position of the field map
+        Returns:
+            A FieldMap generated from analytic expression.
+        """
+        if vertical_positions is None:
+            vertical_positions = _np.array([0])
+
+        @njit()
+        def compute_mesh(r_val, theta_val):
+            x = _np.zeros(len(r_val) * len(theta_val) * len(vertical_positions))
+            y = _np.zeros(len(r_val) * len(theta_val) * len(vertical_positions))
+            z = _np.zeros(len(r_val) * len(theta_val) * len(vertical_positions))
+            idx = 0
+            for i in r_val:
+                for j in theta_val:
+                    x[idx] = i * _np.sin(j)
+                    y[idx] = i * _np.cos(j)
+                    z[idx] = vertical_positions[0]
+                    idx += 1
+            return _np.vstack((x, y, z)).T
+
+        mesh = compute_mesh(radius, theta)
+
+        return cls(field_map=generate_from_expression(bx_expression=bx_expression, by_expression=by_expression,
+                                                      bz_expression=bz_expression, mesh=mesh),
+                   mesh_sampling_radius=radius, mesh_sampling_theta=theta,
+                   mesh_sampling_z=vertical_positions)
+
+    def attach_polar_trajectory(self,
+                                radius: float,
+                                lower_angle: float,
+                                upper_angle: float,
+                                samples: int,
+                                plane: str = 'XY',
+                                offset_x: float = 0.0,
+                                offset_y: float = 0.0,
+                                offset_z: float = 0.0,
+                                ):
+        # TODO
+        """
+
+        Args:
+            radius:
+            lower_angle:
+            upper_angle:
+            samples:
+            plane:
+            offset_x:
+            offset_y:
+            offset_z:
+
+        Returns:
+
+        """
+
+        angles = _np.linspace(lower_angle, upper_angle, samples)
+        x = _np.cos(angles) * radius
+        y = _np.sin(angles) * radius
+        zeros = _np.zeros(samples)
+        if plane == 'XY':
+            v = [x, y, zeros]
+        elif plane == 'YZ':
+            v = [zeros, x, y]
+        elif plane == 'XZ':
+            v = [x, zeros, y]
+        else:
+            raise ValueError("Invalid value for 'plane'.")
+        v[0] += offset_x
+        v[1] += offset_y
+        v[2] += offset_z
+        self._reference_trajectory = _np.stack(v).T
+        return self
 
 
 class VFFAFieldMap(FieldMap):

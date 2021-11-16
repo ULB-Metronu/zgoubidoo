@@ -236,32 +236,21 @@ class Tosca(_Magnet):
 
         return ''.join(commands).rstrip()
 
-    def process_output(self, output: List[str],
-                       parameters: Mapping[str, Union[_Q, float]],
-                       zgoubi_input: _Input
-                       ) -> bool:
-        """
 
-        Args:
-            output:
-            parameters:
-            zgoubi_input:
+    def load(self, zgoubi: Optional[_Zgoubi] = None):
+        z = zgoubi or _Zgoubi()
+        zi = zgoubidoo.Input(f"TOSCA_{self.LABEL1}")
+        zi += self
 
-        Returns:
+        def cb(f):
+            """Post execution callback."""
+            if not self.results[0][1].success:
+                raise _ZgoubiException(f"Unable to load field map for keyword {self.__class__.__name__}.")
+            self._length = self.results[0][1].results.iloc[-1]['LENGTH'] * _ureg.cm
 
-        """
-        length: float = 0.0
-        for line in output:
-            if line.strip().startswith("Length of element,  XL ="):
-                length = float(line.split()[5])
-                break
-        self._results.append(
-            (
-                parameters,
-                _Action.CommandResult(success=True, results=_pd.DataFrame([{'LENGTH': length}]))
-            )
-        )
-        return True
+        z(zi, identifier={'TOSCA_LOAD': self.LABEL1}, cb=cb)
+        z.wait()
+        return self
 
     @property
     def length(self) -> _Q:
@@ -347,26 +336,38 @@ class ToscaCartesian(Tosca, _CartesianMagnet):
         {self.KPOS:d} {self.XCE.m_as('cm'):.12e} {self.YCE.m_as('cm'):.12e} {self.ALE.m_as('radian'):.12e}
         """
 
+    def process_output(self, output: List[str],
+                       parameters: Mapping[str, Union[_Q, float]],
+                       zgoubi_input: _Input
+                       ) -> bool:
+        """
+
+        Args:
+            output:
+            parameters:
+            zgoubi_input:
+
+        Returns:
+
+        """
+        length: float = 0.0
+        for line in output:
+            if line.strip().startswith("Length of element,  XL ="):
+                length = float(line.split()[5])
+                break
+        self._results.append(
+            (
+                parameters,
+                _Action.CommandResult(success=True, results=_pd.DataFrame([{'LENGTH': length}]))
+            )
+        )
+        return True
+
     def adjust_tracks_variables(self, tracks: _pd.DataFrame):
         super().adjust_tracks_variables(tracks)
         t = tracks[tracks.LABEL1 == self.LABEL1]
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = t['X'] - t['X'].min() + self.entry_s.m_as('m')
         tracks.loc[tracks.LABEL1 == self.LABEL1, 'X'] = t['X'] - t['X'].min()
-
-    def load(self, zgoubi: Optional[_Zgoubi] = None):
-        z = zgoubi or _Zgoubi()
-        zi = zgoubidoo.Input(f"TOSCA_{self.LABEL1}")
-        zi += self
-
-        def cb(f):
-            """Post execution callback."""
-            if not self.results[0][1].success:
-                raise _ZgoubiException(f"Unable to load field map for keyword {self.__class__.__name__}.")
-            self._length = self.results[0][1].results.iloc[-1]['LENGTH'] * _ureg.cm
-
-        z(zi, identifier={'TOSCA_LOAD': self.LABEL1}, cb=cb)
-        z.wait()
-        return self
 
     @property
     def entry_patched(self) -> Optional[_Frame]:
@@ -483,6 +484,37 @@ class ToscaPolar(Tosca, _PolarMagnet):
         {self.KPOS:d}
         {self.RE.m_as('cm'):.12e} {self.TE.m_as('radian'):.12e} {self.RS.m_as('cm'):.12e} {self.TS.m_as('radian'):.12e}
         """
+
+    def process_output(self, output: List[str],
+                       parameters: Mapping[str, Union[_Q, float]],
+                       zgoubi_input: _Input
+                       ) -> bool:
+        """
+
+        Args:
+            output:
+            parameters:
+            zgoubi_input:
+
+        Returns:
+
+        """
+        radius = 0.0 * _ureg.m
+        angle = 0.0 * _ureg.radians
+        for line in output:
+            if line.strip().startswith("Field map limits, angle :  min, max, max-min (rad) :"):
+                angle = float(line.split()[-1]) * _ureg.rad
+            if line.strip().startswith("Integration step : "):
+                radius = float(line.split()[-2]) * _ureg.cm
+                break
+        length = (radius * angle).m_as('cm')
+        self._results.append(
+            (
+                parameters,
+                _Action.CommandResult(success=True, results=_pd.DataFrame([{'LENGTH': length}]))
+            )
+        )
+        return True
 
     def post_init(self, reference_radius: float = 0.0 * _ureg.cm, **kwargs):
         assert self.MOD >= 20, "The value of the variable 'MOD' is incompatible with a polar mesh."
