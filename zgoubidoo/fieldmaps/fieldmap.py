@@ -2,18 +2,16 @@
 from typing import Optional, Union, Tuple, Type
 import os
 import lmfit
-import sympy
+import sympy as _sp
 import tempfile
 import shutil
 import numpy as _np
 import pandas as _pd
-import logging
 from scipy import interpolate
 from lmfit import Model as _Model
 from ..units import _ureg as _ureg
-from .. import Q_ as _Q
-import copy
-from itertools import product
+from ..commands import fieldmaps as _fieldmaps
+from ..commands import ZgoubidooException as _ZgoubidooException
 
 
 def compute_xi_range_with_edge_angle(tau, d_y, ymax, d_z, zmin, IZ, y_range):
@@ -219,14 +217,14 @@ def load_mesh_data(file: str, path: str = '.') -> _np.meshgrid:
     return _np.meshgrid(x, y, z, indexing='ij')
 
 
-def load(file:str, path:str ='.') -> _pd.DataFrame:
+def load(file: str, path: str = '.') -> _pd.DataFrame:
     # Check if the file is a binary
     if os.path.basename(file).startswith("b_"):  # This is a binary file
         fieldmap = _pd.DataFrame(data=_np.fromfile(os.path.join(path, file)).reshape(-1, 6),
                                  columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'])
     else:
-        fieldmap = _pd.read_csv(os.path.join(path, file), skiprows=8, names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'], sep=r'\s+')
-
+        fieldmap = _pd.read_csv(os.path.join(path, file), skiprows=8, names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'],
+                                sep=r'\s+')
     return fieldmap
 
 
@@ -399,7 +397,8 @@ class FieldMap:
 
     def __call__(self, label1: str = 'Map', path: str = None,
                  filename: str = 'tosca.table', binary: bool = False,
-                 generator=None, columns=None, **kwargs):
+                 generator: Type[_fieldmaps.Tosca] = _fieldmaps.ToscaCartesian3D,
+                 load_map: bool = True, columns=None, **kwargs):
         """
 
         Args:
@@ -408,24 +407,28 @@ class FieldMap:
             filename: Name of the map
             binary: Field map is written as binary file with numpy (default: False)
             generator: Class used to generate the Zgoubi input (defaut: ToscaCartesian3D)
+            load_map: Load map to compute its length (default: True)
             columns: Columns to use for the map
             **kwargs: Other arguments that can use for the TOSCA keyword (MOD, MOD2)
 
         Returns:
             the Zgoubi object for the fieldmap
         """
-        # TODO Typing error when using from ..commands import fieldmaps as _fieldmaps -> circular import
+
         self.write(path=path, filename=filename, binary=binary, columns=columns)
         self._input = generator(LABEL1=label1,
                                 TITL="HEADER 0",
-                                FILES=[self.file],
+                                FILES=[self._filepath],
                                 IX=self.mesh_sampling_x[1],
                                 IY=self.mesh_sampling_y[1],
                                 IZ=self.mesh_sampling_z[1],
                                 infer_and_check_meshes=False,  # TODO method is only valid for csv file
-                                **kwargs).load()
-        if self._input.length == 0 * _ureg.cm:
-            logging.critical("Length of your map is 0*cm, please check your input")
+                                **kwargs)
+        if load_map:
+            self._input.load()
+            if self._input.length == 0 * _ureg.cm:
+                raise _ZgoubidooException("Length of your map is 0*cm, please check your input")
+
         return self._input
 
     @property
@@ -433,7 +436,7 @@ class FieldMap:
         return self._input.length
 
     @classmethod
-    def load(cls, file:str, path:str = '.'):
+    def load(cls, file: str, path: str = '.'):
         return cls(field_map=load(file, path))
 
     @classmethod

@@ -8,7 +8,6 @@ from typing import Optional, List
 import numpy as _np
 import pandas as _pd
 import parse as _parse
-import lmfit
 from .particules import ParticuleType as _ParticuleType
 from .commands import CommandType as _CommandType
 from .actions import FitType as _FitType
@@ -24,7 +23,6 @@ from .. import Q_ as _Q
 from ..zgoubi import Zgoubi as _Zgoubi
 from .patchable import Patchable as _Patchable
 from .plotable import Plotable as _Plotable
-from ..fieldmaps import FieldMap as _FieldMap
 from ..units import _cm, _radian, _kilogauss, _degree, _ampere
 import zgoubidoo
 from georges_core.kinematics import Kinematics as _Kinematics
@@ -52,45 +50,45 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
     """Parameters of the command, with their default value, their description and optionally an index used by other 
         commands (e.g. fit)."""
 
-    def post_init(self, field_map: Optional[_FieldMap] = None, **kwargs):
-        """
-
-        Args:
-            field_map:
-            **kwargs:
-
-        Returns:
-
-        """
-        self.field_map = field_map
-        # noinspection PyAttributeOutsideInit
-        self._field_profile_model = None
-
-    @property
-    def field_map(self) -> _FieldMap:
-        """Attach a field map to the element."""
-        return self._field_map
-
-    @field_map.setter
-    def field_map(self, v: _FieldMap):
-        # noinspection PyAttributeOutsideInit
-        self._field_map = v
-
-    @property
-    def field_profile_model(self):
-        """A model for the field profile."""
-        return self._field_profile_model
-
-    def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
-        """
-        
-        Args:
-            fit: 
-
-        Returns:
-
-        """
-        pass
+    # def post_init(self, field_map: Optional[_FieldMap] = None, **kwargs):
+    #     """
+    #
+    #     Args:
+    #         field_map:
+    #         **kwargs:
+    #
+    #     Returns:
+    #
+    #     """
+    #     self.field_map = field_map
+    #     # noinspection PyAttributeOutsideInit
+    #     self._field_profile_model = None
+    #
+    # @property
+    # def field_map(self) -> _FieldMap:
+    #     """Attach a field map to the element."""
+    #     return self._field_map
+    #
+    # @field_map.setter
+    # def field_map(self, v: _FieldMap):
+    #     # noinspection PyAttributeOutsideInit
+    #     self._field_map = v
+    #
+    # @property
+    # def field_profile_model(self):
+    #     """A model for the field profile."""
+    #     return self._field_profile_model
+    #
+    # def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
+    #     """
+    #
+    #     Args:
+    #         fit:
+    #
+    #     Returns:
+    #
+    #     """
+    #     pass
 
 
 class CartesianMagnetType(MagnetType):

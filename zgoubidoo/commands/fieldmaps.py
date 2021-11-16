@@ -3,8 +3,7 @@
 More details here.
 """
 from __future__ import annotations
-
-import os.path
+import os
 from typing import TYPE_CHECKING, Optional, List, Mapping, Union
 from abc import abstractmethod
 import numpy as _np
@@ -22,8 +21,6 @@ from ..zgoubi import ZgoubiException as _ZgoubiException
 import zgoubidoo
 import plotly.graph_objects as _go
 from georges_core.frame import Frame as _Frame
-from ..fieldmaps.fieldmap import VFFAFieldMap as _VFFAFieldMap
-from ..fieldmaps.fieldmap import *
 
 if TYPE_CHECKING:
     from ..input import Input as _Input
@@ -281,6 +278,17 @@ class Tosca(_Magnet):
     def optical_ref_length(self) -> _Q:
         return self.length
 
+    def load_map(self, file: str = None) -> _pd.DataFrame:
+        # Check if the file is a binary
+        if os.path.basename(file).startswith("b_"):  # This is a binary file
+            fm = _pd.DataFrame(data=_np.fromfile(file).reshape(-1, 6),
+                               columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'])
+        else:
+            fm = _pd.read_csv(file, skiprows=int(self.TITL.split(' ')[1]), names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'],
+                              sep=r'\s+')
+
+        return fm
+
     def plotly(self):
         """
 
@@ -292,7 +300,7 @@ class Tosca(_Magnet):
         else:
             file = self.FILES[0]
 
-        fieldmap = load(file=file)
+        fieldmap = self.load_map(file=file)
 
         #        fieldmap['X'] = fieldmap['X'] + self.length.m_as('cm') / 2
         fieldmap['X'] = fieldmap['X'] + abs(fieldmap['X'].min())
@@ -426,18 +434,14 @@ class ToscaCartesian3D(ToscaCartesian):
 
     def post_init(self, infer_and_check_meshes: bool = True, **kwargs):
         assert self.MOD in (1, 12, 15, 16), "The value of the variable 'MOD' is incompatible with a 3D cartesian " \
-                                    "mesh with no symmetry assumed."
+                                            "mesh with no symmetry assumed."
         if len(self.FILES) > 1 and self.MOD in (1, 12):
             self.MOD = 1
             self.MOD2 = 0
             self.IZ = len(self.FILES)
             if infer_and_check_meshes:
                 for f in self.FILES:
-                    df = _pd.read_csv(f,
-                                      delimiter='\t',
-                                      names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'],
-                                      skiprows=8
-                                      )
+                    df = self.load(f)
                     assert df['Z'].nunique() == 1
                     if self.IX != 0:
                         assert self.IX == df['X'].nunique()
