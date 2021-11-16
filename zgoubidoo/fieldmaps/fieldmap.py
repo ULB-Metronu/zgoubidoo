@@ -471,6 +471,7 @@ class FieldMap:
     @classmethod
     def generate_from_expression(cls, bx_expression: sympy = None, by_expression: sympy = None,
                                  bz_expression: sympy = None, mesh: _np.ndarray = None, use_njit: bool = True):
+                                 generate_3d_map: bool = False, nterms: int = 4):
         """
         Factory method to generate a field map from analytic expressions
 
@@ -479,12 +480,59 @@ class FieldMap:
             by_expression: expression of the magnetic field in y
             bz_expression: expression of the magnetic field in z
             mesh: numpy array of sampling points
-
+            generate_3d_map: from the field at mid-plane, the expressions for off-plane field are generated
+            nterms: number of terms to evaluate the off-plane field.
         Returns:
             A FieldMap generated from analytic expression.
         """
+        if generate_3d_map:
+            bx_expression, by_expression, bz_expression = cls.get_off_plane_field(bx_expression=bx_expression or 0,
+                                                                                  by_expression=by_expression or 0,
+                                                                                  bz_expression=bz_expression or 0,
+                                                                                  nterms=nterms)
+
         return cls(field_map=generate_from_expression(bx_expression=bx_expression, by_expression=by_expression,
                                                       bz_expression=bz_expression, mesh=mesh, use_njit=use_njit))
+
+    @staticmethod
+    def get_off_plane_field(bx_expression,
+                            by_expression,
+                            bz_expression,
+                            nterms: int = 4):
+
+        x, y, z = _sp.symbols('x:z')
+        Bx_mid = _sp.Function('Bx')(x, z)
+        By_mid = _sp.Function('By')(x, z)
+        Bz_mid = _sp.Function('Bz')(x, z)
+
+        ax = _sp.zeros(1, nterms)
+        ay = _sp.zeros(1, nterms)
+        az = _sp.zeros(1, nterms)
+
+        ax[0] = [_sp.Derivative(Bz_mid, x)]
+        ay[0] = [_sp.Derivative(Bz_mid, y)]
+        az[0] = [-(_sp.Derivative(Bx_mid, x) + _sp.Derivative(By_mid, y))]
+
+        # Compute the a_i
+        for i in range(1, nterms):
+            az[i] = -(1 / (i + 1)) * (_sp.Derivative(ax[i - 1], x) + _sp.Derivative(ay[i - 1], y))
+            ax[i] = (1 / (i + 1)) * _sp.Derivative(az[i - 1], x)
+            ay[i] = (1 / (i + 1)) * _sp.Derivative(az[i - 1], y)
+
+        Bx_off = Bx_mid
+        By_off = By_mid
+        Bz_off = Bz_mid
+
+        for i in range(0, nterms - 1):
+            Bx_off += ax[i] * z ** (i + 1)
+            By_off += ay[i] * z ** (i + 1)
+            Bz_off += az[i] * z ** (i + 1)
+
+        B_x = Bx_off.replace(Bx_mid, bx_expression).replace(By_mid, by_expression).replace(Bz_mid, bz_expression).simplify()
+        B_y = By_off.replace(Bx_mid, bx_expression).replace(By_mid, by_expression).replace(Bz_mid, bz_expression).simplify()
+        B_z = Bz_off.replace(Bx_mid, bx_expression).replace(By_mid, by_expression).replace(Bz_mid, bz_expression).simplify()
+
+        return B_x, B_y, B_z
 
     def write(self, path: str = None,
               filename: str = "tosca.table",
