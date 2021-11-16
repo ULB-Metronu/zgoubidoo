@@ -2,17 +2,19 @@
 from abc import ABC
 from typing import Optional, Union, Tuple, Type, Dict
 import os
+import copy
 import lmfit
 import sympy as _sp
 import tempfile
 import shutil
 import numpy as _np
 import pandas as _pd
-from numba import njit
 from scipy import interpolate
 from lmfit import Model as _Model
 from lmfit import Parameter as _Parameter
+from itertools import product
 from ..units import _ureg as _ureg
+from ..units import _Q
 from ..commands import fieldmaps as _fieldmaps
 from ..commands import ZgoubidooException as _ZgoubidooException
 from ..vis import ZgoubidooMatplotlibArtist as _ZgoubidooMatplotlibArtist
@@ -169,8 +171,8 @@ def compute_total_fieldmap(B, tau, k, IY, ymin, d_y, n_xi_supp, IXI, n_factor):
 
 
 def generate_vFFA_fieldmap(B0: _Q, k: _Q, tau: int, Lmag: _Q, gap: _Q,
-                                      xmin: _Q, xmax: _Q, ymin: _Q, ymax: _Q, z_ff_1: _Q, z_ff_2: _Q,
-                                      n: int, IX: int, IY_approx: int, IZ: int):
+                           xmin: _Q, xmax: _Q, ymin: _Q, ymax: _Q, z_ff_1: _Q, z_ff_2: _Q,
+                           n: int, IX: int, IY_approx: int, IZ: int):
     k, B0 = k.m_as('1/m'), B0.to('kilogauss')
     xmin, xmax, ymin, ymax, z_ff_1, z_ff_2 = xmin.to('m'), xmax.to('m'), ymin.to('m'), ymax.to('m'), z_ff_1.to(
         'm'), z_ff_2.to('m')
@@ -282,10 +284,10 @@ def load_opera_fieldmap(file: str, path: str = '.') -> _pd.DataFrame:
 
 def generate_from_expression(bx_expression, by_expression, bz_expression,
                              mesh: _np.ndarray, use_njit: bool = True) -> _pd.DataFrame:
-    x, y, z = sympy.symbols('x:z')
-    bx = sympy.lambdify([x, y, z], bx_expression)
-    by = sympy.lambdify([x, y, z], by_expression)
-    bz = sympy.lambdify([x, y, z], bz_expression)
+    x, y, z = _sp.symbols('x:z')
+    bx = _sp.lambdify([x, y, z], bx_expression)
+    by = _sp.lambdify([x, y, z], by_expression)
+    bz = _sp.lambdify([x, y, z], bz_expression)
 
     if use_njit:
         try:
@@ -442,8 +444,8 @@ class FieldMap:
         return cls(field_map=load_opera_fieldmap_with_mesh(field_file=field_file, mesh_file=mesh_file, path=path))
 
     @classmethod
-    def generate_from_expression(cls, bx_expression: sympy = None, by_expression: sympy = None,
-                                 bz_expression: sympy = None, mesh: _np.ndarray = None, use_njit: bool = True):
+    def generate_from_expression(cls, bx_expression: _sp = None, by_expression: _sp = None,
+                                 bz_expression: _sp = None, mesh: _np.ndarray = None, use_njit: bool = True,
                                  generate_3d_map: bool = False, nterms: int = 4):
         """
         Factory method to generate a field map from analytic expressions
@@ -453,6 +455,7 @@ class FieldMap:
             by_expression: expression of the magnetic field in y
             bz_expression: expression of the magnetic field in z
             mesh: numpy array of sampling points
+            use_njit: use njit to compute the field
             generate_3d_map: from the field at mid-plane, the expressions for off-plane field are generated
             nterms: number of terms to evaluate the off-plane field.
         Returns:
@@ -1011,7 +1014,6 @@ class PolarFieldMap(FieldMap):
         if vertical_positions is None:
             vertical_positions = _np.array([0])
 
-        @njit()
         def compute_mesh(r_val, theta_val):
             x = _np.zeros(len(r_val) * len(theta_val) * len(vertical_positions))
             y = _np.zeros(len(r_val) * len(theta_val) * len(vertical_positions))
@@ -1025,7 +1027,13 @@ class PolarFieldMap(FieldMap):
                     idx += 1
             return _np.vstack((x, y, z)).T
 
-        mesh = compute_mesh(radius, theta)
+        try:
+            from numba import njit
+            mesh = njit()(compute_mesh)(radius, theta)
+        except ModuleNotFoundError:
+            mesh = compute_mesh(radius, theta)
+        except ImportError:
+            mesh = compute_mesh(radius, theta)
 
         return cls(field_map=generate_from_expression(bx_expression=bx_expression, by_expression=by_expression,
                                                       bz_expression=bz_expression, mesh=mesh),
@@ -1078,7 +1086,7 @@ class PolarFieldMap(FieldMap):
         return self
 
 
-class VFFAFieldMap(FieldMap):
+class VFFAFieldMap(CartesianFieldMap):
 
     def __init__(self, field_map: _pd.DataFrame):
         super().__init__(field_map)
@@ -1104,7 +1112,7 @@ class VFFAFieldMap(FieldMap):
             z_ff_2: Additional length after the magnet for the longitudinal extent of the field map
             n: Order of the expansion
             IX: Number of nodes of the mesh - X direction
-            IY: Number of nodes of the mesh - Y direction
+            IY_approx: Number of nodes of the mesh - Y direction
             IZ: Number of nodes of the mesh - Z direction
 
         Returns:

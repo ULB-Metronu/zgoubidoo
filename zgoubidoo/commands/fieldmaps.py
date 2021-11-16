@@ -236,7 +236,6 @@ class Tosca(_Magnet):
 
         return ''.join(commands).rstrip()
 
-
     def load(self, zgoubi: Optional[_Zgoubi] = None):
         z = zgoubi or _Zgoubi()
         zi = zgoubidoo.Input(f"TOSCA_{self.LABEL1}")
@@ -506,7 +505,7 @@ class ToscaPolar(Tosca, _PolarMagnet):
             if line.strip().startswith("Field map limits, angle :  min, max, max-min (rad) :"):
                 angle = float(line.split()[-1]) * _ureg.rad
             if line.strip().startswith("Integration step : "):
-                radius = float(line.replace(')', ' ').split()[-1]) * _ureg.cm # For Zgoubi output
+                radius = float(line.replace(')', ' ').split()[-1]) * _ureg.cm  # For Zgoubi output
                 break
         length = (radius * angle).m_as('cm')
         self._results.append(
@@ -588,17 +587,17 @@ class vFFA(ToscaCartesian3D):
 
     def post_init(self, **kwargs):
         if self.fieldmap is None:
-            self.vFFA_map = _VFFAFieldMap.generate(self.B0, self.k, self.tau, self.lmag,
-                                                                                 self.gap, self.xmin, self.xmax,
-                                                                                 self.ymin, self.ymax, self.z_ff_1,
-                                                                                 self.z_ff_2, self.n, self.IX,
-                                                                                 self.IY_approx, self.IZ)
+            self.vFFA_map = zgoubidoo.fieldmaps.VFFAFieldMap.generate(self.B0, self.k, self.tau, self.lmag,
+                                                                      self.gap, self.xmin, self.xmax,
+                                                                      self.ymin, self.ymax, self.z_ff_1,
+                                                                      self.z_ff_2, self.n, self.IX,
+                                                                      self.IY_approx, self.IZ)
 
             self.vFFA_map.write(path=self.path, filename='tosca.table', binary=True)
             self.FILES = [self.vFFA_map.file]
 
         else:
-            self.vFFA_map = _VFFAFieldMap.load(self.fieldmap)
+            self.vFFA_map = zgoubidoo.fieldmaps.VFFAFieldMap.load(self.fieldmap)
             self.FILES = [self.fieldmap]
 
         self.TITL = "HEADER 0"
