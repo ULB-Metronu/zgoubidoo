@@ -1,5 +1,6 @@
 """Field map module."""
-from typing import Optional, Union, Tuple, Type
+from abc import ABC
+from typing import Optional, Union, Tuple, Type, Dict
 import os
 import lmfit
 import sympy as _sp
@@ -9,9 +10,12 @@ import numpy as _np
 import pandas as _pd
 from scipy import interpolate
 from lmfit import Model as _Model
+from lmfit import Parameter as _Parameter
 from ..units import _ureg as _ureg
 from ..commands import fieldmaps as _fieldmaps
 from ..commands import ZgoubidooException as _ZgoubidooException
+from ..vis import ZgoubidooMatplotlibArtist as _ZgoubidooMatplotlibArtist
+from ..vis import ZgoubidooPlotlyArtist as _ZgoubidooPlotlyArtist
 
 
 def compute_xi_range_with_edge_angle(tau, d_y, ymax, d_z, zmin, IZ, y_range):
@@ -319,6 +323,7 @@ def enge(s: Union[float, _np.array],
          lam_s: float = 1.0,
          offset_e: float = -1.0,
          offset_s: float = 1.0,
+         lmap: float = 1.0,
          amplitude: float = 1.0,
          field_offset: float = 0.0,
          ) -> Union[float, _np.array]:
@@ -341,26 +346,21 @@ def enge(s: Union[float, _np.array],
         cs_5: fifth order coefficient for the exit fringe
         lam_e: characteristic length of the entrance fringe
         lam_s: characteristic length of the exit fringe
-        offset_e: offset for the positionning of the entrance fall-off
-        offset_s: offset for the positionning of the exit fall-off
-        amplitude: field amplitude (not necesserally equal to the maximum)
+        offset_e: offset for the positioning of the entrance fall-off
+        offset_s: offset for the positioning of the exit fall-off
+        amplitude: field amplitude (not necessarily equal to the maximum)
         field_offset: field offset
 
     Returns:
         the value of the Enge function at coordinate s.
     """
-    p_e = ce_0 + ce_1 * (-(s - offset_e) / lam_e) + ce_2 * (-(s - offset_e) / lam_e) ** 2 + ce_3 * (
-            -(s - offset_e) / lam_e) ** 3 + ce_4 * (-(s - offset_e) / lam_e) ** 4 + ce_5 * (
-                  -(s - offset_e) / lam_e) ** 5
-    p_s = cs_0 + cs_1 * ((s - offset_s) / lam_s) + cs_2 * ((s - offset_s) / lam_s) ** 2 + cs_3 * (
-            (s - offset_s) / lam_s) ** 3 + cs_4 * ((s - offset_s) / lam_s) ** 4 + cs_5 * (
-                  (s - offset_s) / lam_s) ** 5
+    p_e = _np.polyval([ce_5, ce_4, ce_3, ce_2, ce_1, ce_0], -(s - offset_e) / lam_e)
+    p_s = _np.polyval([cs_5, cs_4, cs_3, cs_2, cs_1, cs_0], (s - (lmap - offset_s)) / lam_s)
 
-    # TODO is it correct ? should be amplitude * FE * FS
-    return amplitude * ((1 / (1 + _np.exp(p_e))) + (1 / (1 + _np.exp(p_s))) - 1) + field_offset
+    return field_offset + (amplitude * (1 + _np.exp(p_e)) ** -1 * (1 + _np.exp(p_s)) ** -1)
 
 
-class EngeModel(_Model):
+class EngeModel(_Model, ABC):
     """Enge model to be used with lmfit."""
 
     def __init__(self):
@@ -372,6 +372,13 @@ class EngeModel(_Model):
         """The parameters of the Enge model (interface to `lmfit.Model.make_params()`)."""
         if self._params is None:
             self._params = self.make_params()
+
+        # Force some parameters to a minimal value
+        self._params['lam_e'].min = 0
+        self._params['lam_s'].min = 0
+        self._params['offset_e'].min = 0
+        self._params['offset_s'].min = 0
+        self._params['amplitude'].min = 0
         return self._params
 
 
@@ -528,9 +535,12 @@ class FieldMap:
             By_off += ay[i] * z ** (i + 1)
             Bz_off += az[i] * z ** (i + 1)
 
-        B_x = Bx_off.replace(Bx_mid, bx_expression).replace(By_mid, by_expression).replace(Bz_mid, bz_expression).simplify()
-        B_y = By_off.replace(Bx_mid, bx_expression).replace(By_mid, by_expression).replace(Bz_mid, bz_expression).simplify()
-        B_z = Bz_off.replace(Bx_mid, bx_expression).replace(By_mid, by_expression).replace(Bz_mid, bz_expression).simplify()
+        B_x = Bx_off.replace(Bx_mid, bx_expression).replace(By_mid, by_expression).replace(Bz_mid,
+                                                                                           bz_expression).simplify()
+        B_y = By_off.replace(Bx_mid, bx_expression).replace(By_mid, by_expression).replace(Bz_mid,
+                                                                                           bz_expression).simplify()
+        B_z = Bz_off.replace(Bx_mid, bx_expression).replace(By_mid, by_expression).replace(Bz_mid,
+                                                                                           bz_expression).simplify()
 
         return B_x, B_y, B_z
 
@@ -675,7 +685,7 @@ class FieldMap:
         return interpolate.griddata(self.data[:, 0:3], field_components[field_component](), points, method=method)
 
     def attach_cartesian_trajectory(self,
-                                    axis: int = 0,
+                                    axis: str = 'X',
                                     lower: Optional[float] = None,
                                     upper: Optional[float] = None,
                                     samples: Optional[int] = None,
@@ -703,11 +713,11 @@ class FieldMap:
         upper = upper or _np.max(self.mesh_sampling_along_axis(axis)[0])
         sampling = _np.linspace(lower, upper, length_sampling)
         zeros = _np.zeros(length_sampling)
-        if axis == 0:
+        if axis == 'X':
             v = [sampling, zeros, zeros]
-        elif axis == 1:
+        elif axis == 'Y':
             v = [zeros, sampling, zeros]
-        elif axis == 2:
+        elif axis == 'Z':
             v = [zeros, zeros, sampling]
         else:
             raise ValueError("Invalid value for 'axis'.")
@@ -763,24 +773,44 @@ class FieldMap:
     def fit_field_profile(self,
                           model: Optional[lmfit.Model] = None,
                           field_component: str = 'MOD',
-                          sampling_method: str = 'nearest') -> lmfit.model.ModelResult:
+                          sampling_method: str = 'nearest',
+                          fitting_method: str = 'leastsq',
+                          initial_parameters: Dict[str, _Parameter] = None) -> lmfit.model.ModelResult:
         """
 
         Args:
             model:
             field_component:
             sampling_method:
+            fitting_method: Method used to make the fit. See lmfit doc for usage
+            initial_parameters: Give some initial value for the fit.
 
         Returns:
-
+            The fit of the field
         """
         if self.reference_trajectory is None:
             raise ValueError("The reference trajectory is not defined.")
         model = model or EngeModel()
+
+        samples = self.sample(self.reference_trajectory, field_component=field_component, method=sampling_method)
+        sval = _np.linalg.norm(self.reference_trajectory - self.reference_trajectory[0], axis=1)
+
+        if initial_parameters:
+            for i in initial_parameters.items():
+                model.params[i[0]] = i[1]
+
+        # Define default values for EngeModel
+        if isinstance(model, EngeModel):
+            model.params['amplitude'].value = _np.max(samples)
+            model.params['lmap'] = _Parameter('lmap', value=sval[-1], vary=False)
+            model.params['offset_e'].value = 4 * model.params['lam_e'].value
+            model.params['offset_s'].value = 4 * model.params['lam_s'].value
+
         fit = model.fit(
-            self.sample(self.reference_trajectory, field_component=field_component, method=sampling_method),
+            samples,
             model.params,
-            s=_np.linalg.norm(self.reference_trajectory - self.reference_trajectory[0], axis=1),
+            s=sval,
+            method=fitting_method
         )
         self._field_profile_fit = fit
         return fit
@@ -789,30 +819,50 @@ class FieldMap:
         """
 
         Args:
-            ax:
+            ax: Instance of Artist, can be Matplotlib or Plotly
             field_component:
             sampling_method:
-
         Returns:
 
         """
-        if self.reference_trajectory is not None:
-            ax.plot(
-                _np.linalg.norm(self.reference_trajectory - self.reference_trajectory[0], axis=1),
-                self.sample(self.reference_trajectory, field_component=field_component, method=sampling_method),
-                'bo',
-                ms=1,
-            )
-        if self.field_profile_fit is not None:
-            ax.plot(
-                _np.linalg.norm(self._reference_trajectory - self._reference_trajectory[0], axis=1),
-                self.field_profile_fit.best_fit,
-                'r-',
-            )
+        sval = _np.linalg.norm(self.reference_trajectory - self.reference_trajectory[0], axis=1)
+        data = self.sample(self.reference_trajectory, field_component=field_component, method=sampling_method)
+        fit_data = self.field_profile_fit.best_fit
+        if isinstance(ax, _ZgoubidooMatplotlibArtist):
+            if self.reference_trajectory is not None:
+                ax.plot(
+                    sval,
+                    data,
+                    'bo',
+                    ms=1,
+                )
+            if self.field_profile_fit is not None:
+                ax.plot(
+                    sval,
+                    fit_data,
+                    'r-',
+                )
+        elif isinstance(ax, _ZgoubidooPlotlyArtist):
+            if self.reference_trajectory is not None:
+                ax.scatter(x=sval,
+                           y=data,
+                           mode='markers',
+                           marker={'color': 'blue', 'symbol': 303},
+                           name="data"
+                           )
+            if self.field_profile_fit is not None:
+                ax.scatter(x=sval,
+                           y=fit_data,
+                           mode='lines',
+                           line={'color': 'red', 'width': 2},
+                           name="fit"
+                           )
+        else:
+            raise _ZgoubidooException(f"{ax} is not a valid artist. Use ZgoubidooPlotlyArtist() or "
+                                      f"ZgoubidooMatplotlibArtist")
 
-    def plot_field_map(self, ax, field_component: str, plane1: int = 0, plane2: int = 2, bins: int = 50):
+    def plot_field_map(self, ax, field_component: str, plane1: int = 0, plane2: int = 1, bins: int = 50):
         """
-
         Args:
             ax:
             field_component:
@@ -823,9 +873,30 @@ class FieldMap:
         Returns:
 
         """
-        ax.hist2d(self.data[:, plane1], self.data[:, plane2], weights=self.df[field_component], bins=bins)
-        if self.reference_trajectory is not None:
-            ax.plot(self.reference_trajectory[:, plane1], self.reference_trajectory[:, plane2], linewidth=5)
+        if isinstance(ax, _ZgoubidooMatplotlibArtist):
+            ax.hist2d(self.data[:, plane1], self.data[:, plane2], weights=self.df[field_component], bins=bins)
+            if self.reference_trajectory is not None:
+                ax.plot(self.reference_trajectory[:, plane1], self.reference_trajectory[:, plane2], linewidth=5)
+        elif isinstance(ax, _ZgoubidooPlotlyArtist):
+            ax.histogram2d(x=self.data[:, plane1],
+                           y=self.data[:, plane2],
+                           z=self.df[field_component].values,
+                           nbinsx=bins,
+                           nbinsy=bins,
+                           histfunc='avg',
+                           colorscale="RdYlBu",
+                           zsmooth='best',
+                           reversescale=True
+                           )
+            if self.reference_trajectory is not None:
+                ax.scatter(x=self.reference_trajectory[:, plane1],
+                           y=self.reference_trajectory[:, plane2],
+                           mode='lines',
+                           line={'width': 2, 'color': 'black'}
+                           )
+        else:
+            raise _ZgoubidooException(
+                f"{ax} is not a valid artist. Use ZgoubidooPlotlyArtist() or ZgoubidooMatplotlibArtist")
 
     def export_for_bdsim(self, method: str = 'nearest'):
         """

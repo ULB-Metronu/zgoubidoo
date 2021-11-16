@@ -107,6 +107,13 @@ class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
         """
         self._ax.plot(*args, **kwargs)
 
+    def hist2d(self, *args, **kwargs):
+        """Proxy for matplotlib.pyplot.plot
+
+        Same as `matplotlib.pyplot.plot`, forwards all arguments.
+        """
+        self._ax.hist2d(*args, **kwargs)
+
     def polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet):
         """Rendering of magnets in polar coordinates.
 
