@@ -638,7 +638,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
                 else:  # This is a cartesian magnet
                     w_e = e.wedge_angle_entrance.m_as('radians')
-                    w_s = e.wedge_angle_exit.m_as('radians')
+                    w_s = -e.wedge_angle_exit.m_as('radians')
                     if with_magnet_poles:
                         add_svg_path(_np.array([
                             [-(width / 2) * _np.tan(w_e), -width / 2, 0.0],
