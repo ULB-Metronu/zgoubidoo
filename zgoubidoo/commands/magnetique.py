@@ -3390,10 +3390,10 @@ class VFFA(CartesianMagnet):
         'XL': (0.0 * _ureg.centimeter, 'Total length of the element, containing the N magnets', 3),
         # For each magnet in the N-tuple
         'XM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet start position', 4),
-        'L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.meter, 'Magnet length', 5),
+        'L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet length', 5),
         'B0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, 'Reference magnetic field', 6),
         'K': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Field index for each vFFA magnet', 7),
-        'GAP': ([10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.m, 'gap for the tanh fringe field of each dipole.', 8),
+        'GAP': ([10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.centimeter, 'gap for the tanh fringe field of each dipole.', 8),
         # General parameters
         # The fit index depends on the number of magnets in the VFFA N-tuple
         'KIRD': (
@@ -3422,9 +3422,9 @@ class VFFA(CartesianMagnet):
 
         for i in range(0, s.N):
             c = f"""
-            {_cm(s.XM[i]):.20e} {_cm(s.L[i])/100:.12e} 
+            {_cm(s.XM[i]):.20e} {_cm(s.L[i]):.12e} 
             {_kilogauss(s.B0[i]):.12e} {s.K[i]:.12e}
-            {_cm(s.GAP[i])/100:.12e} 
+            {_cm(s.GAP[i]):.12e} 
             """
             command.append(c)
 
