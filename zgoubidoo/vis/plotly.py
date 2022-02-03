@@ -601,7 +601,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                         omega_s = e.exit_integration_face[i].m_as('radian')
                         total_angle = e.angular_opening.m_as('radians')
                         entrance_face_angle = e.entrance_field_boundary_wedge_angle[i].m_as('radians')
-                        exit_face_angle = e.exit_field_boundary_wedge_angle[i].m_as('radians')
+                        exit_face_angle = -e.exit_field_boundary_wedge_angle[i].m_as('radians')
 
                         entrance_efb_extent_up = _np.min([e.entrance_field_boundary_linear_extent_up[i].m_as('m'),
                                                           width / 2])
