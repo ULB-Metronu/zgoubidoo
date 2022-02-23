@@ -13,6 +13,7 @@ from scipy.io import FortranFile
 from lmfit import Model as _Model
 from lmfit import Parameter as _Parameter
 from ..units import _ureg as _ureg
+from ..units import _Q
 from ..commands import fieldmaps as _fieldmaps
 from ..commands import ZgoubidooException as _ZgoubidooException
 from ..vis import ZgoubidooMatplotlibArtist as _ZgoubidooMatplotlibArtist
@@ -222,7 +223,7 @@ class FieldMap:
         return self._data.__repr__()
 
     @property
-    def length(self):
+    def length(self) -> _Q:
         return self._length
 
     @classmethod
@@ -286,11 +287,23 @@ class FieldMap:
                                                       bz_expression=bz_expression, mesh=mesh, use_njit=use_njit))
 
     @staticmethod
-    def get_off_plane_field(bx_expression,
-                            by_expression,
-                            bz_expression,
+    def get_off_plane_field(bx_expression: _sp = None,
+                            by_expression: _sp = None,
+                            bz_expression: _sp = None,
                             nterms: int = 4):
+        """
+        Create the off-plane magnetic field from an on-plane field map. Methods are taken from
+        N.Tsoupas, Algorithm to calculate off-plane magnetic field from an on-plane field map
 
+        Args:
+            bx_expression (sympy): Sympy expression of the x-component of the field
+            by_expression (sympy): Sympy expression of the y-component of the field
+            bz_expression (sympy): Sympy expression of the z-component of the field
+            nterms (int): numbers of terms for the extrapolation
+
+        Returns:
+            Off-plane components of the field
+        """
         x, y, z = _sp.symbols('x:z')
         bx_mid = _sp.Function('Bx')(x, z)
         by_mid = _sp.Function('By')(x, z)
@@ -587,7 +600,7 @@ class CartesianFieldMap(FieldMap):
     def write(self, path: str = None,
               filename: str = "tosca.table",
               binary: bool = False,
-              columns=None):
+              columns=None) -> None:
         """
         Args:
             path: Path to write the field map (default: '.')
