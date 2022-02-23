@@ -9,6 +9,7 @@ import shutil
 import numpy as _np
 import pandas as _pd
 from scipy import interpolate
+from scipy.io import FortranFile
 from lmfit import Model as _Model
 from lmfit import Parameter as _Parameter
 from ..units import _ureg as _ureg
@@ -606,7 +607,10 @@ class CartesianFieldMap(FieldMap):
         data = self._data.sort_values(by=columns).reindex(columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'])
         if binary:
             # The method to file from numpy must be used with access='stream' with Zgoubi
-            data.values.tofile(self._filepath)
+            # data.values.tofile(self._filepath)
+            with FortranFile(self._filepath, 'w') as f:
+                for i in data.values:
+                    f.write_record(_np.array([i[0], i[1], i[2], i[3], i[4], i[5]], dtype=float))
         else:
             data.to_csv(self._filepath,
                         sep='\t',

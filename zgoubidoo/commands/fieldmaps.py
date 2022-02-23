@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, Optional, List, Mapping, Union
 from abc import abstractmethod
 import numpy as _np
 import pandas as _pd
+from scipy.io import FortranFile, FortranEOFError
 from .commands import Command as _Command
 from .actions import Action as _Action
 from .magnetique import Magnet as _Magnet
@@ -269,8 +270,17 @@ class Tosca(_Magnet):
     def load_map(self, file: str = None) -> _pd.DataFrame:
         # Check if the file is a binary
         if os.path.basename(file).startswith("b_"):  # This is a binary file
-            fm = _pd.DataFrame(data=_np.fromfile(file).reshape(-1, 6),
+            f = FortranFile(file, 'r')
+            field = _np.array([])
+            while f:
+                try:
+                    field = _np.append(field, f.read_reals(float))
+                except FortranEOFError:
+                    break
+            fm = _pd.DataFrame(field.reshape(-1, 6),
                                columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'])
+            # fm = _pd.DataFrame(data=_np.fromfile(file).reshape(-1, 6),
+            #                    columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'])
         else:
             fm = _pd.read_csv(file, skiprows=int(self.TITL.split(' ')[1]), names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'],
                               sep=r'\s+')
