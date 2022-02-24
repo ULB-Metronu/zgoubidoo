@@ -776,7 +776,7 @@ class PolarFieldMap(FieldMap):
         """
         self.write(path=path, filename=filename, binary=binary)
         self._input = generator(LABEL1=label1,
-                                TITL="HEADER 1",
+                                TITL="HEADER 0",
                                 FILES=[self._filepath],
                                 IX=len(self.mesh_sampling_theta),
                                 IY=len(self.mesh_sampling_radius),
@@ -801,16 +801,11 @@ class PolarFieldMap(FieldMap):
 
         Returns:
             """
-        # TODO How to add a line to a binary file
-        if binary:
-            raise _ZgoubidooException("Binary format is not yet implemented for polar map")
         self._path = path or tempfile.mkdtemp()
+        if binary:
+            filename = f"b_{filename}"
         self._filepath = os.path.abspath(os.path.join(self._path, filename))
         data = self._data.reindex(columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'])
-        data.to_csv(self._filepath,
-                    sep='\t',
-                    header=False,
-                    index=False)
 
         # Append first line to the file to indicate the reference radius and the mesh size
         # Rmi/cm, dR/cm, dA/deg, dZ/cm
@@ -818,12 +813,19 @@ class PolarFieldMap(FieldMap):
         da = _np.degrees(self.mesh_sampling_theta[1] - self.mesh_sampling_theta[0])
         dz = 0
 
-        with open(self._filepath, 'r+') as f:
-            lines = f.readlines()  # read old content
-            f.seek(0)  # go back to the beginning of the file
-            f.write(f"{self.mesh_sampling_radius[0]} {dr} {da} {dz}\n")  # write new content at the beginning
-            for line in lines:  # write old content after new
-                f.write(line)
+        if binary:
+            raise _ZgoubidooException("Binary format is not yet implemented for polar map")
+        else:
+            data.to_csv(self._filepath,
+                        sep='\t',
+                        header=False,
+                        index=False)
+            with open(self._filepath, 'r+') as f:
+                lines = f.readlines()  # read old content
+                f.seek(0)  # go back to the beginning of the file
+                f.write(f"{self.mesh_sampling_radius[0]} {dr} {da} {dz}\n")  # write new content at the beginning
+                for line in lines:  # write old content after new
+                    f.write(line)
 
     @classmethod
     def generate_from_polar_expression(cls, bx_expression: _sp = None, by_expression: _sp = None,
