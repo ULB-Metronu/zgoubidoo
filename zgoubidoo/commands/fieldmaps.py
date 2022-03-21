@@ -206,8 +206,11 @@ class Tosca(_Magnet):
         'FILES': (['tosca.table'], 'File names.'),
         'ID': (0, 'Integration boundary.'),
         'A': (1.0,),
+        'A_prime': (1.0,),
         'B': (1.0,),
+        'B_prime': (1.0,),
         'C': (1.0,),
+        'C_prime': (1.0,),
         'IORDRE': (25, 'Degree of interpolation polynomial.'),
         'XPAS': (1.0 * _ureg.cm, 'Integration step.'),
         'KPOS': (2, 'Alignment parameter: 1 (element aligned) or 2 (misaligned) ; If polar mesh : KPOS=2'),
@@ -229,7 +232,7 @@ class Tosca(_Magnet):
         commands.append(c)
         commands.append('\n'.join(self.FILES))
         c = f"""
-        {self.ID:d} {self.A:.12e} {self.B:.12e} {self.C:.12e}
+        {self.ID:d} {self.A:.12e} {self.B:.12e} {self.C:.12e} {self.A_prime:.12e} {self.B_prime:.12e} {self.C_prime:.12e}
         {self.IORDRE:d}
         {self.XPAS.m_as('cm'):.12e}
         """
