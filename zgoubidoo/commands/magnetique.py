@@ -3388,24 +3388,28 @@ class VFFA(CartesianMagnet):
         'IL': (0, 'Print field and coordinates along trajectories', 1),
         'N': (1, 'Number of magnet in the VFFA N-tuple (maximum 5)', 2),
         'XL': (0.0 * _ureg.centimeter, 'Total length of the element, containing the N magnets', 3),
+        'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 4),
+        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field', 5),
         # For each magnet in the N-tuple
-        'XM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet start position', 4),
-        'L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet length', 5),
-        'B0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, 'Reference magnetic field', 6),
-        'K': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Field index for each vFFA magnet', 7),
-        'GAP': ([10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.centimeter, 'gap for the tanh fringe field of each dipole.', 8),
+        'XM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet start position', 6),
+        'L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet length', 7),
+        'DYM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet horizontal offset', 8),
+        'DZM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet vertical offset', 9),
+        'B0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, 'Reference magnetic field', 10),
+        'K': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Field index for each vFFA magnet', 11),
+        'GAP': ([10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.centimeter, 'gap for the tanh fringe field of each dipole.', 12),
         # General parameters
         # The fit index depends on the number of magnets in the VFFA N-tuple
         'KIRD': (
             0, 'Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives. '
-               'Only KIRD= 0 possible for now', 9
+               'Only KIRD= 0 possible for now', 13
         ),
-        'RESOL': (2, '', 10),
-        'XPAS': (1.0 * _ureg.centimeter, 'Integration step', 11),
-        'KPOS': (2, '', 12),
-        'XCE': (0 * _ureg.cm, 'x offset', 13),
-        'YCE': (0 * _ureg.cm, 'y offset', 14),
-        'ALE': (0 * _ureg.radian, 'misalignment rotation', 15),
+        'RESOL': (2, '', 14),
+        'XPAS': (1.0 * _ureg.centimeter, 'Integration step', 15),
+        'KPOS': (2, '', 16),
+        'XCE': (0 * _ureg.cm, 'x offset', 17),
+        'YCE': (0 * _ureg.cm, 'y offset', 18),
+        'ALE': (0 * _ureg.radian, 'misalignment rotation', 19),
         'COLOR': '#4169E1',
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
@@ -3417,12 +3421,13 @@ class VFFA(CartesianMagnet):
             {super().__str__().rstrip()}
             {s.IL}
             {s.N} {_cm(s.XL):.20e}
+            {_cm(s.X_E):.12e} {_cm(s.X_S):.12e}
             """
         command.append(c)
 
         for i in range(0, s.N):
             c = f"""
-            {_cm(s.XM[i]):.20e} {_cm(s.L[i]):.12e} 
+            {_cm(s.XM[i]):.20e} {_cm(s.L[i]):.12e} {_cm(s.DYM[i]):.20e} {_cm(s.DZM[i]):.12e} 
             {_kilogauss(s.B0[i]):.12e} {s.K[i]:.12e}
             {_cm(s.GAP[i]):.12e} 
             """
