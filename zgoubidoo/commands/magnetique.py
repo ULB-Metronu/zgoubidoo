@@ -3327,7 +3327,7 @@ class Solenoid(CartesianMagnet):
         {super().__str__().rstrip()}
         {s.IL}
         {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_kilogauss(s.B0):.12e} {s.MODL}
-        {_cm(s.XE):.12e} {_cm(s.XS):.12e}
+        {_cm(s.X_E):.12e} {_cm(s.X_S):.12e}
         {_cm(s.XPAS)}
         {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
         """
