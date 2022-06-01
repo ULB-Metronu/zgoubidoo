@@ -98,6 +98,8 @@ class Patchable:
         Returns:
 
         """
+        if self._entry_integration is None:
+            self._entry_integration = self.entry_patched.__class__(self.entry_patched)
         return self._entry_integration
 
     @property
