@@ -17,3 +17,5 @@ examples/.ipynb_checkpoints
 tests/zgoubi*
 .mypy_cache
 *.root
+.python-version
+.vscode/
