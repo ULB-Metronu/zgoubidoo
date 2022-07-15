@@ -51,6 +51,8 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
+    'sphinx_copybutton',
+    'jupyter_sphinx'
 ]
 numpydoc_show_class_members = False  # https://sphinx-automodapi.readthedocs.io/en/latest/
 

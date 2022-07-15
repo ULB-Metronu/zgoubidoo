@@ -19,3 +19,4 @@ tests/zgoubi*
 *.root
 .python-version
 .vscode/
+jupyter_execute/

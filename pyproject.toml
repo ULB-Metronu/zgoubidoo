@@ -31,6 +31,8 @@ ipython = { version = "^7.24.1", optional = true }
 pytest = { version = "^6.2.2", optional = true }
 pytest-bdd = { version = "^4.0.2", optional = true }
 ipykernel = "^6.13.0"
+yapf = "^0.32.0"
+jupyter-sphinx = "^0.3.2"
 
 [tool.poetry.dev-dependencies]
 
@@ -49,6 +51,8 @@ sphinx = [
     "ipython",
     "pytest",
     "pytest-bdd",
+    "yapf",
+    "jupyter-sphinx"
 ]
 
 [build-system]
