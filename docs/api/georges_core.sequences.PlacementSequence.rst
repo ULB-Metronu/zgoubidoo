@@ -11,7 +11,6 @@ PlacementSequence
    .. autosummary::
 
       ~PlacementSequence.betablock
-      ~PlacementSequence.df
       ~PlacementSequence.expanded
 
    .. rubric:: Methods Summary
@@ -31,7 +30,6 @@ PlacementSequence
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: betablock
-   .. autoattribute:: df
    .. autoattribute:: expanded
 
    .. rubric:: Methods Documentation

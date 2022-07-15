@@ -39,6 +39,7 @@ class Comment:
     Examples:
         >>> c = Comment(COMMENT="A very long comment.")
     """
+
     def __init__(self, comment: str = ''):
         self.COMMENT = comment
 
@@ -46,7 +47,7 @@ class Comment:
         return f"""
         ! {self.COMMENT}
     """
-    
+
     def __repr__(self):
         return str(self)
 
@@ -58,9 +59,11 @@ class CommandType(ABCMeta):
 
     TODO
     """
+
     def __new__(mcs, name: str, bases: Tuple[CommandType, type], dct: Dict[str, Any]):
         # Insert a default initializer (constructor) in case one is not present
         if '__init__' not in dct:
+
             def default_init(self, label1: str = '', label2: str = '', *params, **kwargs):
                 """Default initializer for all Commands."""
                 defaults = {}
@@ -73,6 +76,7 @@ class CommandType(ABCMeta):
                 bases[0].__init__(self, label1, label2, dct.get('PARAMETERS', {}), *params, **{**defaults, **kwargs})
                 if 'post_init' in dct:
                     dct['post_init'](self, **kwargs)
+
             dct['__init__'] = default_init
 
         # Collect all post_init arguments
@@ -517,8 +521,8 @@ class AutoRef(Command):
       (compatible for instance with OBJET, KOBJ = 5, 6, together with the use of MATRIX) while T(1), the horizontal
       angle of particle number I1, is set to zero.
     - If I = 3, it is equivalent to CHANGREF[XW,Y W,T(I1)] so that the new reference frame is at the position (X W, Y W)
-     of the waist (calculated automatically in the same way as for IMAGE) of the three rays number I1, I2 and I3
-     specified as data, while T(I1) is set to zero.
+      of the waist (calculated automatically in the same way as for IMAGE) of the three rays number I1, I2 and I3
+      specified as data, while T(I1) is set to zero.
     - If I = 4 : new horizontal beam centroid positionning XCE, YCE, ALE is provided. The beam is moved by XCE and then
       centered on YCE, ALE.
     - If I = 4.1 : new beam centroid positionning XCE, YCE, ALE, DCE, TIME is provided. The beam is moved by XCE and
@@ -527,7 +531,6 @@ class AutoRef(Command):
     - If I = 4.2 : same as 4.1, except that particles all have their timing set to TIME.
     - If I = 5 : new vertical beam centroid positionning ZCE, PLE (position, angle) is provided. The beam is centered on
       vertical position and angle ZCE, PLE.
-
     """
     KEYWORD = 'AUTOREF'
     """Keyword of the command used for the Zgoubi input data."""
@@ -797,15 +800,16 @@ class Collimateur(Command):
     ``COLLIMA`` can act as a longitudinal phase-space aperture, coordinates acted on are selected with IFORM.J.
     Any particle will be stopped if its horizontal (h) and vertical (v) coordinates satisfy
 
-`    .. math::
-`
-    (h ≤ h_{min} or h ≥ h_{max}) or (v ≤ v_{min} or v ≥ v_{max})
+    .. math::
+
+        (h ≤ h_{min} or h ≥ h_{max}) or (v ≤ v_{min} or v ≥ v_{max})
 
     wherein, h is either path length S if IFORM=6 or time if IFORM=7, and v is either 1+DP/P if J=1 or kinetic energy
     if J=2 (provided mass and charge have been defined using the keyword ``PARTICUL``).
 
     *Phase-Space Elliptical Collimation*
-    ``COLLIMA` can act as a phase-space elliptical aperture. Any particle will be stopped if its coordinates satisfy
+
+    ``COLLIMA`` can act as a phase-space elliptical aperture. Any particle will be stopped if its coordinates satisfy
 
     .. math::
 
@@ -829,17 +833,14 @@ class Collimateur(Command):
 
     PARAMETERS = {
         'IA': (2, 'Element active or not (0 - inactive, 1 - active, 2 - active and prints information.'),
-        'IFORM': (
-            1,
-            'Aperture shape (1 - rectangular, 2 - elliptic (other options, see documentation). '
-            'IFORM = 6 or 7 for longitudinal collimation, '
-            '11 ≤ IFORM ≤ 16 for phase-space elliptical collimation'
-        ),
+        'IFORM': (1, 'Aperture shape (1 - rectangular, 2 - elliptic (other options, see documentation). '
+                  'IFORM = 6 or 7 for longitudinal collimation, '
+                  '11 ≤ IFORM ≤ 16 for phase-space elliptical collimation'),
         'J': (0, 'Description of the aperture coordinates system.'),
         'C1': (0.0 * _ureg.cm, 'Half opening (Y).'),
         'C2': (0.0 * _ureg.cm, 'Half opening (Z).'),
         'C3': (0.0 * _ureg.cm, 'Center of the aperture (Y).'),
-        'C4': (0.0 * _ureg.cm, 'Center of the aperture (Z).'),
+        'C4': (0.0 * _ureg.cm, 'Center of the aperture (Z).')
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
@@ -921,12 +922,12 @@ class Focale(Command):
 
     .. rubric:: Zgoubi manual description
 
-    ``FOCALE` calculates the dimensions of the beam and its mean transverse position, at a longitudinal distance XL `
-    from the position corresponding to the keyword ``FOCALE`.
+    ``FOCALE`` calculates the dimensions of the beam and its mean transverse position, at a longitudinal distance XL
+    from the position corresponding to the keyword ``FOCALE``.
 
     ``IMAGE`` computes the location and size of the closest horizontal waist.
 
-    ``IMAGES`` has th same effect as ``IMAGE``, but, in addition, for a non-monochromatic beam it calculates as many
+    ``IMAGES`` has the same effect as ``IMAGE``, but, in addition, for a non-monochromatic beam it calculates as many
     waists as there are distinct momenta in the beam, provided that the object has been defined with a classification
     of momenta (see OBJET, KOBJ= 1, 2 for instance).
 
@@ -934,30 +935,26 @@ class Focale(Command):
     Y , Z planes. The following quantities are calculated for the N particles of the beam (``IMAGE``, ``FOCALE``) or of
     each group of momenta (``IMAGES``)
 
-    • Longitudinal position :
+    - Longitudinal position :
 
         FOCALE : X = XL
 
-        .. math::
+        IMAGE[S] : :math:`X = - \frac{\sum_{i=1}^N Y_i * tgT_i -(\sum_{i=1}^N Y_i * \sum_{i=1}^N tgT_i)/N}{\sum_{i=1}^N tg^2 T_i -(\sum_{i=1}^N tg T_i)^2/N}`
 
-        IMAGE[S] : X = - \frac{\sum_{i=1}^N Y_i * tgT_i -(\sum_{i=1}^N Y_i * \sum_{i=1}^N tgT_i)/N}{\sum_{i=1}^N tg^2 T_i -(\sum_{i=1}^N tg T_i)^2/N}
-
-        .. math::
-
-        Y = Y_1 + X * tgT_1
+                   :math:`Y = Y_1 + X * tgT_1`
 
     where :math:`Y1` and :math:`T_1` are the coordinates of the first particle of the beam (``IMAGE``, ``FOCALE``) or
     the first particle of each group of momenta (``IMAGES``).
 
-    • Transverse position of the center of mass of the waist (``IMAGE``[S]) or of the beam (``FOCALE``), with respect
-    to the reference trajectory
+    • Transverse position of the center of mass of the waist (``IMAGE[S]``) or of the beam (``FOCALE``), with respect
+      to the reference trajectory
 
     .. math::
 
-    YM = \frac{1}{N} \sum_{i=1}^N (Y_i + X tg T_i) - Y = \frac{1}{N} \sum_{i=1}^N Y M_i
+        YM = \frac{1}{N} \sum_{i=1}^N (Y_i + X tg T_i) - Y = \frac{1}{N} \sum_{i=1}^N Y M_i
 
 
-    • FWHM of the image (``IMAGE``[S])  or of the beam (``FOCALE``), and total width, respectively, W and :math:`W_T`
+    - FWHM of the image (``IMAGE[S]``)  or of the beam (``FOCALE``), and total width, respectively, W and :math:`W_T`
 
     $$W = 2.35(\frac{1}{N} \sum_{i=1}^N Y M_i^2 - Y M^2)^{1/2}$$
     $$WT = max(YM_i) - min(YM_i)$$
@@ -1086,8 +1083,8 @@ class Image(Command):
 
     .. rubric:: Zgoubi manual description
 
-    ``FOCALE` calculates the dimensions of the beam and its mean transverse position, at a longitudinal distance XL `
-    from the position corresponding to the keyword ``FOCALE`.
+    ``FOCALE`` calculates the dimensions of the beam and its mean transverse position, at a longitudinal distance XL
+    from the position corresponding to the keyword ``FOCALE``.
 
     ``IMAGE`` computes the location and size of the closest horizontal waist.
 
@@ -1099,30 +1096,26 @@ class Image(Command):
     Y , Z planes. The following quantities are calculated for the N particles of the beam (``IMAGE``, ``FOCALE``) or of
     each group of momenta (``IMAGES``)
 
-    • Longitudinal position :
+    - Longitudinal position :
 
         FOCALE : X = XL
 
-        .. math::
+        IMAGE[S] : :math:`X = - \frac{\sum_{i=1}^N Y_i * tgT_i -(\sum_{i=1}^N Y_i * \sum_{i=1}^N tgT_i)/N}{\sum_{i=1}^N tg^2 T_i -(\sum_{i=1}^N tg T_i)^2/N}`
 
-        IMAGE[S] : X = - \frac{\sum_{i=1}^N Y_i * tgT_i -(\sum_{i=1}^N Y_i * \sum_{i=1}^N tgT_i)/N}{\sum_{i=1}^N tg^2 T_i -(\sum_{i=1}^N tg T_i)^2/N}
-
-        .. math::
-
-        Y = Y_1 + X * tgT_1
+                   :math:`Y = Y_1 + X * tgT_1`
 
     where :math:`Y1` and :math:`T_1` are the coordinates of the first particle of the beam (``IMAGE``, ``FOCALE``) or
     the first particle of each group of momenta (``IMAGES``).
 
-    • Transverse position of the center of mass of the waist (``IMAGE``[S]) or of the beam (``FOCALE``), with respect
-    to the reference trajectory
+    - Transverse position of the center of mass of the waist (``IMAGE``[S]) or of the beam (``FOCALE``), with respect
+      to the reference trajectory
 
     .. math::
 
-    YM = \frac{1}{N} \sum_{i=1}^N (Y_i + X tg T_i) - Y = \frac{1}{N} \sum_{i=1}^N Y M_i
+        YM = \frac{1}{N} \sum_{i=1}^N (Y_i + X tg T_i) - Y = \frac{1}{N} \sum_{i=1}^N Y M_i
 
 
-    • FWHM of the image (``IMAGE``[S])  or of the beam (``FOCALE``), and total width, respectively, W and :math:`W_T`
+    - FWHM of the image (``IMAGE[S]``)  or of the beam (``FOCALE``), and total width, respectively, W and :math:`W_T`
 
     $$W = 2.35(\frac{1}{N} \sum_{i=1}^N Y M_i^2 - Y M^2)^{1/2}$$
     $$WT = max(YM_i) - min(YM_i)$$
@@ -1136,12 +1129,12 @@ class Images(Command):
 
     .. rubric:: Zgoubi manual description
 
-    ``FOCALE` calculates the dimensions of the beam and its mean transverse position, at a longitudinal distance XL `
-    from the position corresponding to the keyword ``FOCALE`.
+    ``FOCALE`` calculates the dimensions of the beam and its mean transverse position, at a longitudinal distance XL
+    from the position corresponding to the keyword ``FOCALE``.
 
     ``IMAGE`` computes the location and size of the closest horizontal waist.
 
-    ``IMAGES`` has th same effect as ``IMAGE``, but, in addition, for a non-monochromatic beam it calculates as many
+    ``IMAGES`` has the same effect as ``IMAGE``, but, in addition, for a non-monochromatic beam it calculates as many
     waists as there are distinct momenta in the beam, provided that the object has been defined with a classification
     of momenta (see OBJET, KOBJ= 1, 2 for instance).
 
@@ -1149,30 +1142,26 @@ class Images(Command):
     Y , Z planes. The following quantities are calculated for the N particles of the beam (``IMAGE``, ``FOCALE``) or of
     each group of momenta (``IMAGES``)
 
-    • Longitudinal position :
+    - Longitudinal position :
 
         FOCALE : X = XL
 
-        .. math::
+        IMAGE[S] : :math:`X = - \frac{\sum_{i=1}^N Y_i * tgT_i -(\sum_{i=1}^N Y_i * \sum_{i=1}^N tgT_i)/N}{\sum_{i=1}^N tg^2 T_i -(\sum_{i=1}^N tg T_i)^2/N}`
 
-        IMAGE[S] : X = - \frac{\sum_{i=1}^N Y_i * tgT_i -(\sum_{i=1}^N Y_i * \sum_{i=1}^N tgT_i)/N}{\sum_{i=1}^N tg^2 T_i -(\sum_{i=1}^N tg T_i)^2/N}
-
-        .. math::
-
-        Y = Y_1 + X * tgT_1
+                   :math:`Y = Y_1 + X * tgT_1`
 
     where :math:`Y1` and :math:`T_1` are the coordinates of the first particle of the beam (``IMAGE``, ``FOCALE``) or
     the first particle of each group of momenta (``IMAGES``).
 
-    • Transverse position of the center of mass of the waist (``IMAGE``[S]) or of the beam (``FOCALE``), with respect
-    to the reference trajectory
+    - Transverse position of the center of mass of the waist (``IMAGE``[S]) or of the beam (``FOCALE``), with respect
+      to the reference trajectory
 
     .. math::
 
-    YM = \frac{1}{N} \sum_{i=1}^N (Y_i + X tg T_i) - Y = \frac{1}{N} \sum_{i=1}^N Y M_i
+        YM = \frac{1}{N} \sum_{i=1}^N (Y_i + X tg T_i) - Y = \frac{1}{N} \sum_{i=1}^N Y M_i
 
 
-    • FWHM of the image (``IMAGE``[S])  or of the beam (``FOCALE``), and total width, respectively, W and :math:`W_T`
+    - FWHM of the image (``IMAGE``[S])  or of the beam (``FOCALE``), and total width, respectively, W and :math:`W_T`
 
     $$W = 2.35(\frac{1}{N} \sum_{i=1}^N Y M_i^2 - Y M^2)^{1/2}$$
     $$WT = max(YM_i) - min(YM_i)$$
@@ -1341,7 +1330,7 @@ class Rebelote(Command):
         their random seeds are not reset and independent statistics will add up.
 
     This includes Monte Carlo simulations, in beam lines : normally K = 0. ``NPASS`` runs through the same structure,
-    from ``MCOBJET`` to ``REBELOTE`` will follow, resulting in the calculation of (1+``NPASS`` )*``IMAX`` trajectories,
+    from ``MCOBJET`` to ``REBELOTE`` will follow, resulting in the calculation of (1+``NPASS``)*``IMAX`` trajectories,
     with as many random initial coordinates.
 
      - ``REBELOTE`` can be used for multi-turn ray-tracing in circular machines : normally K = 99 in that case
@@ -1446,8 +1435,7 @@ class Scaling(Command):
     KEYWORD = 'SCALING'
     """Keyword of the command used for the Zgoubi input data."""
 
-    PARAMETERS = {
-    }
+    PARAMETERS = {}
     """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
 

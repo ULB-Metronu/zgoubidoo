@@ -12,14 +12,17 @@ Patchable
 
       ~Patchable.center
       ~Patchable.entry
+      ~Patchable.entry_integration
       ~Patchable.entry_patched
       ~Patchable.entry_s
       ~Patchable.exit
+      ~Patchable.exit_integration
       ~Patchable.exit_patched
       ~Patchable.exit_s
       ~Patchable.frenet_orientation
       ~Patchable.length
       ~Patchable.optical_length
+      ~Patchable.optical_ref_length
       ~Patchable.reference_trajectory
 
    .. rubric:: Methods Summary
@@ -34,14 +37,17 @@ Patchable
 
    .. autoattribute:: center
    .. autoattribute:: entry
+   .. autoattribute:: entry_integration
    .. autoattribute:: entry_patched
    .. autoattribute:: entry_s
    .. autoattribute:: exit
+   .. autoattribute:: exit_integration
    .. autoattribute:: exit_patched
    .. autoattribute:: exit_s
    .. autoattribute:: frenet_orientation
    .. autoattribute:: length
    .. autoattribute:: optical_length
+   .. autoattribute:: optical_ref_length
    .. autoattribute:: reference_trajectory
 
    .. rubric:: Methods Documentation

@@ -11,7 +11,7 @@ instructions are provided in the following sections.
 Compiling and installing Zgoubi
 -------------------------------
 
-Zgoubi can be obtained from the official SourceForge repository, although we do not explicitely support the
+Zgoubi can be obtained from the official SourceForge repository, although we do not explicitly support the
 compilation and installation of Zgoubi with that method. Indeed, no platform-independent build system is provided and
 it is difficult to support compilation over a variety of platforms. A selection of ``Makefile``s is provided. In case
 one of them suits your needs, a brief description of the build process is given in the next section.

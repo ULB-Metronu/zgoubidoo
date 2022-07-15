@@ -16,6 +16,8 @@ TransportSequence
 
    .. autosummary::
 
+      ~TransportSequence.process_element
+      ~TransportSequence.process_face_angle
       ~TransportSequence.to_df
 
    .. rubric:: Attributes Documentation
@@ -24,4 +26,6 @@ TransportSequence
 
    .. rubric:: Methods Documentation
 
+   .. automethod:: process_element
+   .. automethod:: process_face_angle
    .. automethod:: to_df

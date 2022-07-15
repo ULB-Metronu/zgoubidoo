@@ -1,5 +1,5 @@
 Cyclotron
-========
+=========
 
 .. currentmodule:: zgoubidoo.commands.magnetique
 

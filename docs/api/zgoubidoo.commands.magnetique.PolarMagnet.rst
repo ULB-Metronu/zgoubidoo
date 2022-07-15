@@ -13,14 +13,27 @@ PolarMagnet
       ~PolarMagnet.PARAMETERS
       ~PolarMagnet.angular_opening
       ~PolarMagnet.center
-      ~PolarMagnet.entrance_efb
+      ~PolarMagnet.delta_radius
+      ~PolarMagnet.entrance_field_boundary_linear_extent_down
+      ~PolarMagnet.entrance_field_boundary_linear_extent_up
+      ~PolarMagnet.entrance_field_boundary_linear_radius_down
+      ~PolarMagnet.entrance_field_boundary_linear_radius_up
+      ~PolarMagnet.entrance_field_boundary_wedge_angle
+      ~PolarMagnet.entrance_integration_face
+      ~PolarMagnet.entry_integration
       ~PolarMagnet.entry_patched
-      ~PolarMagnet.entry_wedge_angle
       ~PolarMagnet.exit
-      ~PolarMagnet.exit_efb
+      ~PolarMagnet.exit_field_boundary_linear_extent_down
+      ~PolarMagnet.exit_field_boundary_linear_extent_up
+      ~PolarMagnet.exit_field_boundary_linear_radius_down
+      ~PolarMagnet.exit_field_boundary_linear_radius_up
+      ~PolarMagnet.exit_field_boundary_wedge_angle
+      ~PolarMagnet.exit_integration
+      ~PolarMagnet.exit_integration_face
       ~PolarMagnet.exit_patched
-      ~PolarMagnet.exit_wedge_angle
       ~PolarMagnet.length
+      ~PolarMagnet.n_magnets
+      ~PolarMagnet.optical_ref_length
       ~PolarMagnet.radius
       ~PolarMagnet.reference_angles
 
@@ -38,14 +51,27 @@ PolarMagnet
    .. autoattribute:: PARAMETERS
    .. autoattribute:: angular_opening
    .. autoattribute:: center
-   .. autoattribute:: entrance_efb
+   .. autoattribute:: delta_radius
+   .. autoattribute:: entrance_field_boundary_linear_extent_down
+   .. autoattribute:: entrance_field_boundary_linear_extent_up
+   .. autoattribute:: entrance_field_boundary_linear_radius_down
+   .. autoattribute:: entrance_field_boundary_linear_radius_up
+   .. autoattribute:: entrance_field_boundary_wedge_angle
+   .. autoattribute:: entrance_integration_face
+   .. autoattribute:: entry_integration
    .. autoattribute:: entry_patched
-   .. autoattribute:: entry_wedge_angle
    .. autoattribute:: exit
-   .. autoattribute:: exit_efb
+   .. autoattribute:: exit_field_boundary_linear_extent_down
+   .. autoattribute:: exit_field_boundary_linear_extent_up
+   .. autoattribute:: exit_field_boundary_linear_radius_down
+   .. autoattribute:: exit_field_boundary_linear_radius_up
+   .. autoattribute:: exit_field_boundary_wedge_angle
+   .. autoattribute:: exit_integration
+   .. autoattribute:: exit_integration_face
    .. autoattribute:: exit_patched
-   .. autoattribute:: exit_wedge_angle
    .. autoattribute:: length
+   .. autoattribute:: n_magnets
+   .. autoattribute:: optical_ref_length
    .. autoattribute:: radius
    .. autoattribute:: reference_angles
 
