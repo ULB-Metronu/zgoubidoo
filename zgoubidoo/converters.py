@@ -73,19 +73,16 @@ def rbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
 
     """
     bore_radius = options.get('R0', 10 * _ureg.cm)
-    m = Multipole(
-        XL=element['L'] * _ureg.meter,
-        R0=bore_radius,
-        B1=kinematics.brho / (element['L'] / element['ANGLE'] * _ureg.m),
-        B2=element['K1L'] / element['L'] * kinematics.brho_ * bore_radius.m_as('m') * _ureg.tesla,
-        R1=element['TILT'] * _ureg.radian,
-        R2=element['TILT'] * _ureg.radian,
-        KPOS=3,
-    ).generate_label(prefix=element.name)
+    element['K1L'] = element['K1'] * element['L']
+    m = Multipole(LABEL1=element.name[0:_ZGOUBI_LABEL_LENGTH],
+                  XL=element['L'],
+                  R0=bore_radius,
+                  B1=kinematics.brho / (element['L'] / element['ANGLE']),
+                  R1=element['TILT'] * _ureg.radian,
+                  R2=element['TILT'] * _ureg.radian,
+                  KPOS=3)
 
-    return [
-        m
-    ]
+    return [m]
 
 
 def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:
@@ -102,18 +99,18 @@ def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
     if element.get('ANGLE') == 0.0 and element.get('B') is not None:
         h = element['B'] / kinematics.brho
         element['ANGLE'] = element['L'] * h
-    if element['ANGLE'] == 0.0:  # Avoid division by zero
+    if element['ANGLE'] == 0.0:    # Avoid division by zero
         b1 = 0 * _ureg.tesla
     else:
         b1 = kinematics.brho / (element['L'] / _np.abs(element['ANGLE']))
     if _np.isnan(element['E1']):
-        we = 0.0 * _ureg.radian
+        we = 0.0 * _ureg.degrees
     else:
-        we = element['E1']
+        we = element['E1'].to('degrees')
     if _np.isnan(element['E2']):
-        ws = 0.0 * _ureg.radian
+        ws = 0.0 * _ureg.degrees
     else:
-        ws = element['E2']
+        ws = element['E2'].to('degrees')
     if _np.isnan(element['TILT']):
         tilt = 0.0 * _ureg.radian
     else:
