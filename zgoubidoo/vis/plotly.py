@@ -656,7 +656,8 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                             [(width / 2) * _np.tan(w_e), width / 2, 0.0],
                             [e.length.m_as('m') + (width / 2) * _np.tan(w_s), width / 2, 0.0],
                             [e.length.m_as('m') - (width / 2) * _np.tan(w_s), -width / 2, 0.0],
-                        ]))
+                        ]),
+                                     color=e.COLOR)
 
                         if with_map:
                             x_e = e.entrance_face_integration.m_as('m')
