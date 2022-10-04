@@ -3408,7 +3408,7 @@ class VFFA(CartesianMagnet):
         'DYM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet horizontal offset', 8),
         'DZM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet vertical offset', 9),
         'B0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, 'Reference magnetic field', 10),
-        'K': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Field index for each vFFA magnet', 11),
+        'K': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.m**-1, 'Field index for each vFFA magnet', 11),
         'GAP': ([10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.centimeter, 'gap for the tanh fringe field of each dipole.', 12),
         # General parameters
         # The fit index depends on the number of magnets in the VFFA N-tuple
@@ -3440,7 +3440,7 @@ class VFFA(CartesianMagnet):
         for i in range(0, s.N):
             c = f"""
             {_cm(s.XM[i]):.20e} {_cm(s.L[i]):.12e} {_cm(s.DYM[i]):.20e} {_cm(s.DZM[i]):.12e} 
-            {_kilogauss(s.B0[i]):.12e} {s.K[i]:.12e}
+            {_kilogauss(s.B0[i]):.12e} {(s.K[i]).m_as('1/meter'):.12e}
             {_cm(s.GAP[i]):.12e} 
             """
             command.append(c)
