@@ -1,17 +1,19 @@
-Magnet
-======
+Cyclotron
+=========
 
 .. currentmodule:: zgoubidoo.commands.magnetique
 
-.. autoclass:: Magnet
+.. autoclass:: Cyclotron
    :show-inheritance:
 
    .. rubric:: Attributes Summary
 
    .. autosummary::
 
-      ~Magnet.PARAMETERS
+      ~Cyclotron.KEYWORD
+      ~Cyclotron.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

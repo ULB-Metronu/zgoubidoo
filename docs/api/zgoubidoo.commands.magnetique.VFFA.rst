@@ -1,17 +1,19 @@
-Magnet
-======
+VFFA
+====
 
 .. currentmodule:: zgoubidoo.commands.magnetique
 
-.. autoclass:: Magnet
+.. autoclass:: VFFA
    :show-inheritance:
 
    .. rubric:: Attributes Summary
 
    .. autosummary::
 
-      ~Magnet.PARAMETERS
+      ~VFFA.KEYWORD
+      ~VFFA.PARAMETERS
 
    .. rubric:: Attributes Documentation
 
+   .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS

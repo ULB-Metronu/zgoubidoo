@@ -55,7 +55,7 @@ class CoordinateTranformation(metaclass=CoordinateTransformationType):
 
 class GlobalCoordinateTransformation(CoordinateTranformation):
     @classmethod
-    def transform(cls, tracks: _pd.DataFrame, beamline: _Input, reference_frame: str = 'entry_patched'):
+    def transform(cls, tracks: _pd.DataFrame, beamline: _Input, reference_frame: str = 'entry_integration'):
         for label in tracks.LABEL1.unique():
             e = getattr(beamline, label)
             assert isinstance(e, zgoubidoo.commands.Patchable)

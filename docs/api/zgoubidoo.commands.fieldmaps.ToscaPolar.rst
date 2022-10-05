@@ -1,37 +1,35 @@
-Tosca
-=====
+ToscaPolar
+==========
 
 .. currentmodule:: zgoubidoo.commands.fieldmaps
 
-.. autoclass:: Tosca
+.. autoclass:: ToscaPolar
    :show-inheritance:
 
    .. rubric:: Attributes Summary
 
    .. autosummary::
 
-      ~Tosca.KEYWORD
-      ~Tosca.PARAMETERS
-      ~Tosca.length
-      ~Tosca.optical_ref_length
+      ~ToscaPolar.KEYWORD
+      ~ToscaPolar.PARAMETERS
 
    .. rubric:: Methods Summary
 
    .. autosummary::
 
-      ~Tosca.load
-      ~Tosca.load_map
-      ~Tosca.plotly
+      ~ToscaPolar.adjust_tracks_variables
+      ~ToscaPolar.plotly
+      ~ToscaPolar.post_init
+      ~ToscaPolar.process_output
 
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: KEYWORD
    .. autoattribute:: PARAMETERS
-   .. autoattribute:: length
-   .. autoattribute:: optical_ref_length
 
    .. rubric:: Methods Documentation
 
-   .. automethod:: load
-   .. automethod:: load_map
+   .. automethod:: adjust_tracks_variables
    .. automethod:: plotly
+   .. automethod:: post_init
+   .. automethod:: process_output

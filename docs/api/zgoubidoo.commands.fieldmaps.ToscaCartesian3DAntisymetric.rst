@@ -1,23 +1,23 @@
-AGSMainMagnet
-=============
+ToscaCartesian3DAntisymetric
+============================
 
-.. currentmodule:: zgoubidoo.commands.magnetique
+.. currentmodule:: zgoubidoo.commands.fieldmaps
 
-.. autoclass:: AGSMainMagnet
+.. autoclass:: ToscaCartesian3DAntisymetric
    :show-inheritance:
 
    .. rubric:: Attributes Summary
 
    .. autosummary::
 
-      ~AGSMainMagnet.KEYWORD
-      ~AGSMainMagnet.PARAMETERS
+      ~ToscaCartesian3DAntisymetric.KEYWORD
+      ~ToscaCartesian3DAntisymetric.PARAMETERS
 
    .. rubric:: Methods Summary
 
    .. autosummary::
 
-      ~AGSMainMagnet.post_init
+      ~ToscaCartesian3DAntisymetric.post_init
 
    .. rubric:: Attributes Documentation
 

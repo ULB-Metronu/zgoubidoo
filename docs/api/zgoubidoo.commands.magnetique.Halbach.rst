@@ -1,16 +1,16 @@
-Magnet
-======
+Halbach
+=======
 
 .. currentmodule:: zgoubidoo.commands.magnetique
 
-.. autoclass:: Magnet
+.. autoclass:: Halbach
    :show-inheritance:
 
    .. rubric:: Attributes Summary
 
    .. autosummary::
 
-      ~Magnet.PARAMETERS
+      ~Halbach.PARAMETERS
 
    .. rubric:: Attributes Documentation
 

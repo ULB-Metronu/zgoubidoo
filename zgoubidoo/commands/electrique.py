@@ -42,12 +42,12 @@ class EBMult(_Command):
     r"""Electro-magnetic multipole.
 
     ``EBMULT`` simulates an electro-magnetic multipole, by addition of electric (:math:`\vec{E}`) and
-    magnetic (:math:`\vec{B}`) multipole components (dipole to 20-pole). :math:`\vec{E} and its derivatives
-    :math:`\frac{∂^{i+j+k} \vec{E}}{∂X^i ∂Y^j ∂Z^k}` (i + j + k ≤ 4) are derived from the general expression of the
-    multipole scalar potential (eq. 1.3.5), followed by a :math:`\frac{π}{2n} rotation (n = 1, 2, 3, ...) (see also
-    ``ELMULT``). :math:`\vec{B}` and its derivatives are derived from the same general potential, as described in
-    section 1.3.7 (see also ``MULTIPOL``).
-⃗⃗
+    magnetic (:math:`\vec{B}`) multipole components (dipole to 20-pole). :math:`\vec{E}` and its derivatives
+    :math:`\frac{\partial^{i+j+k} \vec{E}}{\partial X^i \partial Y^j \partial Z^k} (i + j + k \le 4)` are derived from
+    the general expression of the multipole scalar potential (eq. 1.3.5), followed by a :math:`\frac{\pi}{2n}`
+    rotation (n = 1, 2, 3, ...) (see also ``ELMULT``). :math:`\vec{B}` and its derivatives are derived from the same
+    general potential, as described in section 1.3.7 (see also ``MULTIPOL``).
+
     The entrance and exit fringe fields of the :math:`\vec{E}` and :math:`\vec{B}` components are treated separately,
     in the same way as described under ``ELMULT`` and ``MULTIPOL``, for each one of these two fields. Wedge angle
     correction is applied in sharp edge field model if :math:`\vec{B_1}` is non zero, as in ``MULTIPOL``. Any of the

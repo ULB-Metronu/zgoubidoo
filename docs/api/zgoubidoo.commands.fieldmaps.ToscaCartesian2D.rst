@@ -1,23 +1,23 @@
-AGSMainMagnet
-=============
+ToscaCartesian2D
+================
 
-.. currentmodule:: zgoubidoo.commands.magnetique
+.. currentmodule:: zgoubidoo.commands.fieldmaps
 
-.. autoclass:: AGSMainMagnet
+.. autoclass:: ToscaCartesian2D
    :show-inheritance:
 
    .. rubric:: Attributes Summary
 
    .. autosummary::
 
-      ~AGSMainMagnet.KEYWORD
-      ~AGSMainMagnet.PARAMETERS
+      ~ToscaCartesian2D.KEYWORD
+      ~ToscaCartesian2D.PARAMETERS
 
    .. rubric:: Methods Summary
 
    .. autosummary::
 
-      ~AGSMainMagnet.post_init
+      ~ToscaCartesian2D.post_init
 
    .. rubric:: Attributes Documentation
 

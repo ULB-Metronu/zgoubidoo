@@ -83,9 +83,9 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
 
     def process_fit_field_profile(self, fit: lmfit.model.ModelResult):
         """
-        
+
         Args:
-            fit: 
+            fit:
 
         Returns:
 
@@ -1065,39 +1065,42 @@ class Bend(CartesianMagnet):
     easy handling, and is well adapted for the simulation of synchrotron dipoles and such other regular dipoles as
     sector magnets with wedge angles.
 
-    The field in ``BEND`` is defined in a Cartesian coordinate frame (unlike for instance ``DIPOLE``[S] that uses a
+    The field in ``BEND`` is defined in a Cartesian coordinate frame (unlike for instance ``DIPOLE[S]`` that uses a
     polar frame). As a consequence, having particle coordinates at entrance or exit of the magnet referring to the
     curved main direction of motion may require using KPOS, in particular KPOS=3 (in a circular accelerator cell for
     instance, see section 7.9, p. 201).
 
     The dipole simulation accounts for the magnet geometrical length XL, for a possible skew angle (X-rotation, useful
-    for obtaining vertical deviation magnet), and for the field B1 such that in absence of fringe field the  deviation
-    θ satisfies :math:`XL = 2 \frac{BORO}{B1} sin(θ/2).
+    for obtaining vertical deviation magnet), and for the field B1 such that in absence of fringe field the deviation
+    :math:`\theta` satisfies :math:`XL = 2 \frac{BORO}{B1} sin(\theta/2)`.
 
     Then follows the description of the entrance and exit EFBs and fringe fields. The wedge angles :math:`W_E`(entrance)
     and :math:`W_S` (exit) are defined with respect to the sector angle, with the signs as described in Fig. 12.
-    Within a distance :math:`± X_E` :math:`(±X_S)` on both sides of the entrance (exit) EFB, the fringe field model is
-    used (same as for ``QUADRUPO``, Fig. 35, p. 129) ; elsewhere, the field is supposed to be uniform.
+    Within a distance :math:`\pm X_E` :math:`(\pmX_S)` on both sides of the entrance (exit) EFB, the fringe field model
+    is used (same as for ``QUADRUPO``, Fig. 35, p. 129) ; elsewhere, the field is supposed to be uniform.
 
-    If :math:`λ_E` (resp. :math:`λ_S) is zero sharp edge field model is assumed at entrance (resp. exit) of the magnet
-    and :math:`X_E` (resp. :math:`X_S`) is forced to zero. In this case, the wedge angle vertical first order focusing
-    effect (if \vec{B1} is non zero) is simulated at magnet entrance and exit by a kick
-    :math:`P_2 = P_1 − Z_1 tan(ε/ρ)` applied to each particle (:math:`P_1`, :math:`P_2` are the vertical angles
+    If :math:`\lambda_E` (resp. :math:`\lambda_S`) is zero sharp edge field model is assumed at entrance (resp. exit) of
+    the magnet and :math:`X_E` (resp. :math:`X_S`) is forced to zero. In this case, the wedge angle vertical first order
+    focusing effect (if \vec{B1} is non-zero) is simulated at magnet entrance and exit by a kick
+    :math:`P_2 = P_1 − Z_1 tan(\epsilon/ρ)` applied to each particle (:math:`P_1`, :math:`P_2` are the vertical angles
     upstream and downstream the EFB, :math:`Z1` the vertical particle position at the EFB, ρ the local horizontal
-    bending radius and ε the wedge angle experienced by the particle ; ε depends on the horizontal angle T).
+    bending radius and :math:`\epsilon` the wedge angle experienced by the particle ;
+    :math:`\epsilon` depends on the horizontal angle T).
 
     Magnet (mis-)alignment is assured by KPOS. KPOS also allows some degrees of automatic alignment useful for periodic
     structures (section 7.9).
 
-    *From matrice-style code modeling, to zgoubi :*
+    * From matrice-style code modeling, to zgoubi :
+
      Fig. 13 illustrates the conversion of matrix method style of data where the magnet is defined by its length and
      deviation angle (see MAD input below, using ’SBEND’), to zgoubi input data using ``BEND`` (in this particular case
      of an illustration of a rectangular magnet, ``MULTIPOL`` could be used, as well).
 
-    *Negative bend, vertical bend, tricks :*
-    Use ``YMY`` for the former, ``TRAROT`` with a ±π X-rotation for the latter. The two can be combined, so that a
-    vertical negative bend can be represented by the sequence TRAROT[π], YMY, BEND[B>0], YMY, TRAROT[−π], with
-    positionning methods for ``BEND`` as dis- cussed above (Fig. 13) still applying.
+    * Negative bend, vertical bend, tricks :
+    
+      Use ``YMY`` for the former, ``TRAROT`` with a :math:`\pm\pi` X-rotation for the latter. The two can be combined, so
+      that a vertical negative bend can be represented by the sequence TRAROT[:math:`\pi`], YMY, BEND[B>0], YMY,
+      TRAROT[:math:`-\pi`], with positioning methods for ``BEND`` as discussed above (Fig. 13) still applying.
     """
     KEYWORD = 'BEND'
     """Keyword of the command used for the Zgoubi input data."""
@@ -1169,7 +1172,7 @@ class Cyclotron(PolarMultiMagnet):
 
     .. rubric:: Zgoubi manual description
 
-    ``CYCLOTRON` provides a model of a spiral sector dipole field [31, Appendix C, p. 149] [32]. The source code has
+    ``CYCLOTRON`` provides a model of a spiral sector dipole field [31, Appendix C, p. 149] [32]. The source code has
      been derived from ``FFAG-SPI``, thus there is many similarities in their capabilities and operation.
      The field along the particle’s trajectory is computed as the particle motion proceeds, by using the magnet’s
      geometrical boundaries: At any position (R,θ) along the particle trajectory (see Fig 17), the value of the
@@ -1177,53 +1180,56 @@ class Cyclotron(PolarMultiMagnet):
 
     .. math::
 
-    B_Z (R, θ) = B_{norm} × F (R, θ) × R(R)
+        B_Z (R, \theta) = B_{norm} × F (R, \theta) × R(R)
 
 
     • :math:`R(R)= B_0 + B_1 × R + B_2 × R^2 + B_3 × R^3 + B_4 × R^4`,
     • :math:`B_{norm}` is a normalization coefficient,
-    • F(R, θ) is the fringe field coefficient, given by (after Enge’s fringe model):
+    • F(R, :math:`\theta`) is the fringe field coefficient, given by (after Enge’s fringe model):
 
     .. math ::
 
-    F(R,θ) = F_{entr}(R,θ) × F_{exit}(R,θ) = \frac{1}{1 + exp(P_{entr}(d_{entr}))}×\frac{1}{1 + exp(P_{exit}(d_{exit}))}
+        F(R,\theta) = F_{entr}(R,\theta) × F_{exit}(R,\theta) = \frac{1}{1 + exp(P_{entr}(d_{entr}))}×\frac{1}{1 + exp(P_{exit}(d_{exit}))}
 
     where
 
     .. math ::
 
-    P(d) = C_0+ C_1 (\frac{d}{g})+ C_2 (\frac{d}{g})^2+ C_3 (\frac{d}{g})^3+ C_4 (\frac{d}{g})^4+ C_5 (\frac{d}{g})^5
+        P(d) = C_0+ C_1 (\frac{d}{g})+ C_2 (\frac{d}{g})^2+ C_3 (\frac{d}{g})^3+ C_4 (\frac{d}{g})^4+ C_5 (\frac{d}{g})^5
 
     and d is the distance from the Effective Field Boundary (EFB) either at the entrance or at the exit of
-    the magnet (:math:`d_{entr} and d_{exit} as shown in Fig 17)
+    the magnet (:math:`d_{entr}` and :math:`d_{exit}` as shown in Fig 17)
 
-    The EFBs are modelled by a logarithmic spiral for which the angle ξ is allowed to increase radially, namely:
-
-    .. math ::
-
-    r = r_0 × exp􏰇( \frac{θ+ω}{tan ξ(r)} 􏰈 (6.3.14)
-
-    where :math:`ξ(r)=ξ_0 +ξ_1 ×r + ξ_2 × r^2 + ξ_3 × r^3`, θ is the azimuthal angle (origin θ=0) and ω is a parameter
-    used to position the EFB with respect to the azimuthal position θ=0.
-    In this model, the magnet gap is also allowed to vary: g is given as a function of the radius by:
+    The EFBs are modelled by a logarithmic spiral for which the angle :math:`\xi` is allowed to increase radially,
+    namely:
 
     .. math ::
 
-    g(r) = g_0 + g_1 × r + g_2 × r^2 (6.3.15)
+        R = R_0 \times \exp\left(\frac{\theta + \omega}{tan \xi (r)}\right) (6.3.14)
+
+    where :math:`\xi(R)=\xi_0 + \xi_1 \times R + \xi_2 \times R^2 + \xi_3 \times R^3`, :math:`\theta` is the azimuthal
+    angle (origin :math:`\theta = 0`) and :math:`\omega` is a parameter used to position the EFB with respect to the
+    azimuthal position :math:`\theta = 0`. In this model, the magnet gap is also allowed to vary: g is given as a
+    function of the radius by:
+
+    .. math ::
+
+        g(r) = g_0 + g_1 × r + g_2 × r^2 (6.3.15)
 
     The field is then extrapolated off median plane by means of Taylor series: for that, the median plane antisymmetry
     is assumed and the Maxwell equations are accommodated.
 
     Note that ``CYCLOTRON`` allows the overlapping of 5 such dipole fields. This follows the method described in [46].
     In the case of a cyclotron machine, the isochronicity is a crucial point: Because the revolution time has to be
-    constant (:math:`f_{rev} = \frac{qB}{2πγm_0}`), this implies that the radial dependence of the field must be
-    proportional to γ, so that :math:`R(\bar{R}) ∝ γ(\bar{R})`, where R is the average radius of the orbit.
-    Since :math:`f_{rev} = \frac{v}{C}, where C is the path length of the particle for one closed orbit, one obtains,
-    with a good approximation, that :math:'R ∝ β`. Thus,
+    constant (:math:`f_{rev} = \frac{qB}{2\pi\gamma m_0}`), this implies that the radial dependence of the field must be
+    proportional to :math:`\gamma`, so that :math:`R(\bar{R}) \propto \gamma(\bar{R})`, where R is the average radius of
+    the orbit.
+    Since :math:`f_{rev} = \frac{v}{C}`, where C is the path length of the particle for one closed orbit, one obtains,
+    with a good approximation, that :math:`R \propto \beta`. Thus,
 
     .. math ::
 
-    R(R) \approx \frac{1}{\sqrt{1-(\frac{R}{R_0})^2}}
+        R(R) \approx \frac{1}{\sqrt{1-(\frac{R}{R_0})^2}}
 
     """
     KEYWORD = 'CYCLOTRON'
@@ -3374,3 +3380,76 @@ class Venus(Magnet):
         {_cm(self.XPAS):.12e}  
         {int(self.KPOS):d} {_cm(self.XCE):.12e} {_cm(self.YCE):.12e} {_radian(self.ALE):.12e}
         """
+
+
+class VFFA(CartesianMagnet):
+    r"""vertical excursion FFAG, N-tuple.
+
+    .. rubric:: Zgoubi manual description
+
+    .. todo::
+
+        TODO
+
+    """
+
+    KEYWORD = 'VFFA'
+    """Keyword of the command used for the Zgoubi input data."""
+
+    PARAMETERS = {
+        'IL': (0, 'Print field and coordinates along trajectories', 1),
+        'N': (1, 'Number of magnet in the VFFA N-tuple (maximum 5)', 2),
+        'XL': (0.0 * _ureg.centimeter, 'Total length of the element, containing the N magnets', 3),
+        'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 4),
+        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field', 5),
+        # For each magnet in the N-tuple
+        'XM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet start position', 6),
+        'L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet length', 7),
+        'DYM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet horizontal offset', 8),
+        'DZM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet vertical offset', 9),
+        'B0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, 'Reference magnetic field', 10),
+        'K': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.m**-1, 'Field index for each vFFA magnet', 11),
+        'GAP': ([10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.centimeter, 'gap for the tanh fringe field of each dipole.', 12),
+        # General parameters
+        # The fit index depends on the number of magnets in the VFFA N-tuple
+        'KIRD': (
+            0, 'Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives. '
+               'Only KIRD= 0 possible for now', 13
+        ),
+        'RESOL': (2, '', 14),
+        'XPAS': (1.0 * _ureg.centimeter, 'Integration step', 15),
+        'KPOS': (2, '', 16),
+        'XCE': (0 * _ureg.cm, 'x offset', 17),
+        'YCE': (0 * _ureg.cm, 'y offset', 18),
+        'ALE': (0 * _ureg.radian, 'misalignment rotation', 19),
+        'COLOR': '#4169E1',
+    }
+    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    commands (e.g. fit)."""
+
+    def __str__(s):
+        command = []
+        c = f"""       
+            {super().__str__().rstrip()}
+            {s.IL}
+            {s.N} {_cm(s.XL):.20e}
+            {_cm(s.X_E):.12e} {_cm(s.X_S):.12e}
+            """
+        command.append(c)
+
+        for i in range(0, s.N):
+            c = f"""
+            {_cm(s.XM[i]):.20e} {_cm(s.L[i]):.12e} {_cm(s.DYM[i]):.20e} {_cm(s.DZM[i]):.12e} 
+            {_kilogauss(s.B0[i]):.12e} {(s.K[i]).m_as('1/meter'):.12e}
+            {_cm(s.GAP[i]):.12e} 
+            """
+            command.append(c)
+
+        c = f"""
+            {s.KIRD} {s.RESOL}
+            {_cm(s.XPAS):.12e}
+            {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
+            """
+        command.append(c)
+
+        return ''.join(map(lambda _: _.rstrip(), command))

@@ -104,13 +104,12 @@ def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> _pd.DataFram
     The special columns have the following meaning:
         - *LET*: one character string (for tagging (groups of) particles)
         - *IREP* is an index which indicates a symmetry with respect to the median plane. For instance,
-        if Z(I + 1) = −Z(I), then normally IREP(I + 1) = IREP(I ). Consequently the coordinates of particle I + 1
-        will not be obtained from ray-tracing but instead deduced from those of particle I by simple symmetry.
-        This saves on computing time.
+          if Z(I + 1) = −Z(I), then normally IREP(I + 1) = IREP(I ). Consequently the coordinates of particle I + 1
+          will not be obtained from ray-tracing but instead deduced from those of particle I by simple symmetry.
+          This saves on computing time.
 
     Example:
         >>> read_plt_file()
-
     Args:
         filename: the name of the file
         path: the path to the .plt file

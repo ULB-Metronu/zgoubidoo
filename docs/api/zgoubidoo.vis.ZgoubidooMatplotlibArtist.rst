@@ -25,6 +25,7 @@ ZgoubidooMatplotlibArtist
       ~ZgoubidooMatplotlibArtist.cartouche_drift
       ~ZgoubidooMatplotlibArtist.cartouche_quadrupole
       ~ZgoubidooMatplotlibArtist.cartouche_solenoid
+      ~ZgoubidooMatplotlibArtist.hist2d
       ~ZgoubidooMatplotlibArtist.init_plot
       ~ZgoubidooMatplotlibArtist.plot
       ~ZgoubidooMatplotlibArtist.polarmagnet
@@ -46,6 +47,7 @@ ZgoubidooMatplotlibArtist
    .. automethod:: cartouche_drift
    .. automethod:: cartouche_quadrupole
    .. automethod:: cartouche_solenoid
+   .. automethod:: hist2d
    .. automethod:: init_plot
    .. automethod:: plot
    .. automethod:: polarmagnet

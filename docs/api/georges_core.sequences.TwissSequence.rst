@@ -11,7 +11,6 @@ TwissSequence
    .. autosummary::
 
       ~TwissSequence.betablock
-      ~TwissSequence.df
 
    .. rubric:: Methods Summary
 
@@ -22,7 +21,6 @@ TwissSequence
    .. rubric:: Attributes Documentation
 
    .. autoattribute:: betablock
-   .. autoattribute:: df
 
    .. rubric:: Methods Documentation
 
