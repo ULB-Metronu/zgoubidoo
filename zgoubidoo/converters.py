@@ -372,7 +372,8 @@ def octupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict
             elif element['K3L'] == 0:
                 gradient = element['K3'] / _ureg.m ** 2 if isinstance(element['K3'], float) else element['K3']
             else:
-                raise KeyError("K3 and K3L cannot be non zero at the same time.")
+                gradient = element['K3L'] / element['L']
+                # raise KeyError("K3 and K3L cannot be non zero at the same time.")
         elif element.get('K3L') is not None and element.get('K3SL') is not None:
             if element.get('K3SL') == 0:
                 gradient = element['K3L'] / element['L']
@@ -414,15 +415,14 @@ def multipole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dic
     Returns:
 
     """
-
-    multipole_length = options.get('L', 1 * _ureg.cm)
+    multipole_length = element['L']
     k0 = element.get('K0L', 0) / multipole_length
     k1 = element.get('K1L', 0 * _ureg.m**-1) / multipole_length
     k2 = element.get('K2L', 0 * _ureg.m ** -2) / multipole_length
     k3 = element.get('K3L', 0 * _ureg.m ** -3) / multipole_length
     k4 = element.get('K4L', 0 * _ureg.m ** -4) / multipole_length
 
-    bore_radius = element.get('R0', 10.0 * _ureg.cm)
+    bore_radius = options.get('R0', 10.0 * _ureg.cm)
 
     b1_field = k0 * kinematics.brho
     b2_field = k1 * kinematics.brho * bore_radius

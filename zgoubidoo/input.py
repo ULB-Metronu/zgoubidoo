@@ -309,10 +309,14 @@ class Input:
         Returns:
 
         """
-        if not isinstance(items, tuple):
-            items = (items,)
-        l, i = self._filter(items)
-        return len(l)
+        try:
+            return getattr(self, items) is not None
+        except AttributeError:
+            return False
+        # if not isinstance(items, tuple):
+        #     items = (items,)
+        # l, i = self._filter(items)
+        # return len(l)
 
     def _filter(self, items: Union[str, CommandType, Tuple[Union[str, CommandType]]]) -> tuple:
         """
@@ -746,7 +750,7 @@ class Input:
                                                     lambda _, __, ___: [_Drift(XL=_['L'])]
                                                     if use_default_drift and getattr(_, 'L') is not None else []
                                                 )
-                                                (_, sequence.kinematics, options.get(_['KEYWORD'], {}))
+                                                (_, sequence.kinematics, options.get(_['KEYWORD'], options))
                                                 ),
                 axis=1
             ).values
