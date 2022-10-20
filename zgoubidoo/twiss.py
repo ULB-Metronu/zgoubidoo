@@ -43,8 +43,9 @@ def _align_tracks(tracks: _pd.DataFrame,
     Returns:
         aligned data and reference data
     """
-    coordinates: list = ['YT', 'T', 'ZT', 'P', 'D-1', 'YT0', 'T0', 'ZT0', 'P0', 'Do']  # Keep it in this order
-    particules: list = ['O', 'A', 'C', 'E', 'G', 'I', 'B', 'D', 'F', 'H', 'J']  # Keep it in this order
+    coordinates: list = ['YT', 'T', 'ZT', 'P', 'S', 'D-1', 'YT0', 'T0', 'ZT0', 'P0', 'So', 'Do']  # Keep it in this order
+    particules: list = ['O', 'A', 'C', 'E', 'G', 'K', 'I', 'B', 'D', 'F', 'H', 'L', 'J']  # Keep it in this order
+
     assert set(particules) == set(tracks[identifier].unique()), \
         f"Required particles not found for element {tracks['LABEL1'].unique()[0]} (are you using Objet5?)."
     ref: _pd.DataFrame = tracks.query(f"{identifier} == '{reference_track}'")[coordinates +
@@ -95,7 +96,7 @@ def compute_transfer_matrix(beamline: _Input, tracks: _pd.DataFrame) -> _pd.Data
             continue
         t = tracks[tracks.LABEL1 == e.LABEL1]
         data, ref = _align_tracks(t)
-        n_dimensions: int = 5
+        n_dimensions: int = 6
         normalization = [2 * (data[i + 1, :, i + n_dimensions] - data[0, :, i + n_dimensions])
                          for i in range(0, n_dimensions)
                          ]
@@ -111,5 +112,6 @@ def compute_transfer_matrix(beamline: _Input, tracks: _pd.DataFrame) -> _pd.Data
         m['S'] = ref['SREF'].values
         m['LABEL1'] = e.LABEL1
         m['KEYWORD'] = e.KEYWORD
-        matrix = matrix.append(m)
+        matrix = _pd.concat([matrix, m])
+
     return matrix.reset_index()
