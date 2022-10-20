@@ -148,6 +148,7 @@ def read_plt_file(filename: str = 'zgoubi.plt', path: str = '.') -> _pd.DataFram
         df['Po'] *= 1e-3
         df['KEX'] = df['# KEX']
         df['Do'] = df['Do-1']
+        df['So'] *= 1e-2
         del df['Do-1']
         df['KEYWORD'] = df['KLEY'].apply(str.strip)
         del df['# KEX']
