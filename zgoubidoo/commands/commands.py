@@ -1237,33 +1237,40 @@ class MCDesintegration(Command):
 
 
 class Optics(Command):
-    """Write out optical functions.
+    r"""Write out optical functions.
 
-    OPTICS normally appears next to object definition, it normally works in conjunction with element label(s).
-    OPTICS causes the transport and write out, in zgoubi.res, of the 6×6 beam matrix, following options KOPT and
-    ’label ’, below.
+    .. rubric:: Zgoubi manual description
 
-    IF KOPT=0 : Off
-    IF KOPT=1 : Will transport the optical functions with initial values as specified in OBJET, option KOBJ=5.01.
+    ``OPTICS`` normally appears next to object definition, it normally works in conjunction with element label(s).
+    ``OPTICS`` causes the transport and write out, in zgoubi.res, of the 6×6 beam matrix, following options KOPT and
+    `label`, below.
 
-    *Note*: The initial values in OBJET[KOBJ=5.01] may be the periodic ones, as obtained, for instance, from a first
-    run using MATRIX[IFOC=11].
+    - IF ``KOPT`` =0 : Off
+    - IF ``KOPT`` =1 : Will transport the optical functions with initial values as specified in ``OBJET`` , option
+      ``KOBJ=5.1``. Note that ``OPTICS`` assumes the first particle of the set of 13 as defined by ``OBJET`` ,
+      to be the reference particle for computation of the transport coefficients.
 
-    A second argument, ’label ’, allows
+    *Note*: In the case of a periodic optical sequence, the initial coordinate values in ``OBJET[KOBJ=5.1]`` may
+    be the periodic ones (as obtained, for instance, from a first run using ``MATRIX[IFOC=11]`` ). Using ``TWISS``
+    keyword instead may be considered in that case.
+
+    A second argument, ’label’, allows
 
         - if label = all : printing out, into zgoubi.res, after all keywords of the zgoubi.dat structure,
-        - otherwise, printing out at all keyword featuring LABEL ≡ label as a first label (see section 4.6.5,
+        - otherwise, printing out at all keyword featuring ``LABEL`` ≡ label as a first label (see section 4.6.5,
           page 162, regarding the labelling of keywords).
 
-    A third argument, IMP=1, will cause saving of the transported beta functions into file zgoubi.OPTICS.out.
+    ``PRINT`` : An optional third argument, ``IMP`` =1, or equivalently the command ``PRINT`` , will cause saving of
+    the transported optical functions into file zgoubi.OPTICS.out.
     """
+
     KEYWORD = 'OPTICS'
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
         'IOPT': 1,
-        'LABEL': ('all', 'If IFOC=11, periodic parameters (single pass)'),
-        'IMP': 1,
+        'LABEL': ('all', ),
+        'COUPLED': (False, 'If COUPLED = True : use of coupled formalism'),
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other 
     commands (e.g. fit)."""
@@ -1271,7 +1278,7 @@ class Optics(Command):
     def __str__(self):
         return f"""
         {super().__str__().strip()}
-        {self.IOPT} {self.LABEL} {self.IMP}
+        {self.IOPT} {self.LABEL} 'PRINT' {'coupled' if self.COUPLED else ''}
         """
 
 

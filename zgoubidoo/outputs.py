@@ -320,14 +320,15 @@ def read_matrix_file(filename: str = 'zgoubi.MATRIX.out', path: str = '.') -> _p
         'DY', 'DYP',
         'DZ', 'DZP',
         'PHIY', 'PHIZ',
-        'F(1IREF)', 'F(2IREF)', 'F(3IREF)', 'F(4IREF)', 'F(5IREF)', 'F(6IREF)', 'F(7IREF)',
+        'F(1,IREF)', 'F(2,IREF)', 'F(3,IREF)', 'F(4,IREF)', 'F(5,IREF)', 'F(6,IREF)', 'F(7,IREF)',
         'CMUY',
         'CMUZ',
         'QY',
         'QZ',
         'XCE',
         'YCE',
-        'ALE'
+        'ALE',
+        'IPASS'
     ]
 
     df = _pd.read_csv(os.path.join(path, filename),
@@ -340,10 +341,10 @@ def read_matrix_file(filename: str = 'zgoubi.MATRIX.out', path: str = '.') -> _p
 
     df['ALPHA11'] = df['ALFY']
     df['BETA11'] = df['BETY']
-    df['GAMMA11'] = (1 + df['ALPHA11']**2) / df['BETA11']
+    df['GAMMA11'] = (1 + df['ALPHA11'] ** 2) / df['BETA11']
     df['ALPHA22'] = df['ALFZ']
     df['BETA22'] = df['BETZ']
-    df['GAMMA22'] = (1 + df['ALPHA22']**2) / df['BETA22']
+    df['GAMMA22'] = (1 + df['ALPHA22'] ** 2) / df['BETA22']
 
     return df
 

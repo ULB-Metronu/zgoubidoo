@@ -339,26 +339,26 @@ class Objet5(Objet):
     """
 
     PARAMETERS = {
-        'KOBJ': (5, 'Generation of groups 11 particles.'),
-        'NN': (1, 'Number of groups of 11 particles'),
+        'KOBJ': (5, 'Generation of groups 13 particles.'),
+        'NN': (1, 'Number of groups of 13 particles'),
         'PY': 1e-3,
         'PT': 1e-3,
         'PZ': 1e-3,
         'PP': 1e-3,
-        'PX': 1e-3,
+        'PS': 1e-3,
         'PD': 1e-3,
         'YR': ([0, ], 'Y-coordinate of the reference trajectory'),
         'TR': ([0, ], 'T-coordinate of the reference trajectory'),
         'ZR': ([0, ], 'Z-coordinate of the reference trajectory'),
         'PR': ([0, ], 'P-coordinate of the reference trajectory'),
-        'XR': ([0, ], 'X-coordinate of the reference trajectory'),
+        'SR': ([0, ], 'X-coordinate of the reference trajectory'),
         'DR': ([1, ], 'D-coordinate of the reference trajectory'),
         'ALPHA_Y': 0,
         'BETA_Y': 1 * _ureg.m,
         'ALPHA_Z': 0,
         'BETA_Z': 1 * _ureg.m,
-        'ALPHA_X': 0,
-        'BETA_X': 1 * _ureg.m,
+        'ALPHA_S': 0,
+        'BETA_S': 1 * _ureg.m,
         'D_Y': 0 * _ureg.m,
         'D_YP': 0,
         'D_Z': 0 * _ureg.m,
@@ -368,24 +368,24 @@ class Objet5(Objet):
     commands (e.g. fit)."""
 
     def __str__(s) -> str:
-        assert len(s.YR) == len(s.TR) == len(s.ZR) == len(s.PR) == len(s.XR) == len(s.DR) == s.NN, 'Invalid lengths'
+        assert len(s.YR) == len(s.TR) == len(s.ZR) == len(s.PR) == len(s.SR) == len(s.DR) == s.NN, 'Invalid lengths'
         command = []
         c = f"""
         {super().__str__().strip()}
-        {s.KOBJ}.0{s.NN}
-        {s.PY:.12e} {s.PT:.12e} {s.PZ:.12e} {s.PP:.12e} {s.PX:.12e} {s.PD:.12e}
-        {s.YR[0]:.12e} {s.TR[0]:.12e} {s.ZR[0]:.12e} {s.PR[0]:.12e} {s.XR[0]:.12e} {s.DR[0]:.12e}
+        {s.KOBJ}.{s.NN}
+        {s.PY:.12e} {s.PT:.12e} {s.PZ:.12e} {s.PP:.12e} {s.PS:.12e} {s.PD:.12e}
+        {s.YR[0]:.12e} {s.TR[0]:.12e} {s.ZR[0]:.12e} {s.PR[0]:.12e} {s.SR[0]:.12e} {s.DR[0]:.12e}
         """
         command.append(c)
         if s.NN == 1:
             c = f"""
-        {s.ALPHA_Y:.12e} {s.BETA_Y.m_as('m'):.12e} {s.ALPHA_Z:.12e} {s.BETA_Z.m_as('m'):.12e} {s.ALPHA_X:.12e} {s.BETA_X.m_as('m'):.12e} {s.D_Y.m_as('m'):.12e} {s.D_YP:.12e} {s.D_Z.m_as('m'):.12e} {s.D_ZP:.12e}
+        {s.ALPHA_Y:.12e} {s.BETA_Y.m_as('m'):.12e} {s.ALPHA_Z:.12e} {s.BETA_Z.m_as('m'):.12e} {s.ALPHA_S:.12e} {s.BETA_S.m_as('m'):.12e} {s.D_Y.m_as('m'):.12e} {s.D_YP:.12e} {s.D_Z.m_as('m'):.12e} {s.D_ZP:.12e}
             """
             command.append(c)
         elif 1 < s.NN < 99:
             for i in range(1, s.NN):
                 c = f"""
-        {s.YR[i]:.12e} {s.TR[i]:.12e} {s.ZR[i]:.12e} {s.PR[i]:.12e} {s.XR[i]:.12e} {s.DR[i]:.12e}
+        {s.YR[i]:.12e} {s.TR[i]:.12e} {s.ZR[i]:.12e} {s.PR[i]:.12e} {s.SR[i]:.12e} {s.DR[i]:.12e}
                     """
             command.append(c)
 

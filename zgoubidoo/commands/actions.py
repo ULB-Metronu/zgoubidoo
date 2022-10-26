@@ -214,7 +214,7 @@ class Fit(Action, metaclass=FitType):
             self.IC: float = 0
             self.I: int = i
             self.J: int = j
-            self.IR: int = line.zgoubi_index(place)
+            self.IR: int = place if place == '#End' else line.zgoubi_index(place)
             self.V: float = value
             self.WV: float = weight
             self.NP: int = 0
