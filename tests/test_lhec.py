@@ -1,3 +1,4 @@
+import os
 import numpy as _np
 import pandas as _pd
 from georges_core import twiss
@@ -8,7 +9,7 @@ from zgoubidoo.commands import *
 
 
 def check_optics(twiss_madx: _pd.DataFrame, twiss_zgoubi: _pd.DataFrame):
-    s_madx = twiss_madx['S'].values
+    s_madx = twiss_madx['S'].apply(lambda e: e.m_as('m')).values
     betx_madx = twiss_madx['BETX'].values
     bety_madx = twiss_madx['BETY'].values
     alfx_madx = twiss_madx['ALFX'].values
@@ -39,7 +40,7 @@ def check_optics(twiss_madx: _pd.DataFrame, twiss_zgoubi: _pd.DataFrame):
     _np.testing.assert_allclose(dispxp_madx, dispxp_zgoubi_madx, atol=5e-2)
 
     # Test more precisely the IP
-    ip_position = twiss_madx.loc['IP']['S']
+    ip_position = twiss_madx.loc['IP']['S'].m_as('m')
     betx_zgoubi_ip = _np.interp(ip_position, s_zgoubi, betx_zgoubi)
     bety_zgoubi_ip = _np.interp(ip_position, s_zgoubi, bety_zgoubi)
     alfx_zgoubi_ip = _np.interp(ip_position, s_zgoubi, alfx_zgoubi)
@@ -57,7 +58,7 @@ def check_optics(twiss_madx: _pd.DataFrame, twiss_zgoubi: _pd.DataFrame):
 
 def test_lhec():
     # Convert file from MAD-X
-    input_madx = TwissSequence(path="../examples/converter/madx/", filename="test45degspreader.outx")
+    input_madx = TwissSequence(path=f"{os.getcwd()}", filename="test45degspreader.outx")
     zi = zgoubidoo.Input.from_sequence(sequence=input_madx,
                                        beam=BeamTwiss(kinematics=input_madx.kinematics),
                                        with_survey=True,
@@ -76,7 +77,8 @@ def test_lhec():
     survey_zgoubi = survey_zgoubi.apply(lambda e: e.m_as('m'))
     survey_madx = input_madx.df['S']
     survey = _pd.merge(survey_zgoubi, survey_madx, left_index=True, right_index=True)
-    _np.testing.assert_allclose(survey['exit_s'].values, survey['S'].values, rtol=1e-3)
+    s_zgoubidoo = survey['S'].apply(lambda e: e.m_as('m'))
+    _np.testing.assert_allclose(survey['exit_s'].values, s_zgoubidoo.values, rtol=1e-3)
 
     # Ensure plotting is working
     artist = zgoubidoo.vis.ZgoubidooPlotlyArtist(width=1200)
