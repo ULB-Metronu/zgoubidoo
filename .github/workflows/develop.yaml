@@ -14,21 +14,26 @@ jobs:
       #----------------------------------------------
       #  -----  install & configure poetry  -----
       #----------------------------------------------
-      - name: Install Zgoubi
-        run: |
-          git clone https://github.com/ULB-Metronu/zgoubi.git
+      - uses: webfactory/ssh-agent@v0.6.0
+        with:
+          ssh-private-key: ${{ secrets.ZGOUBI_KEY }}
       - name: Set up GCC
         uses: egor-tensin/setup-gcc@v1
         with:
-          version: 9
+          version: 11
           platform: x64
+      - name: Install Zgoubi
+        run: |
+          git clone git@github.com:ULB-Metronu/zgoubi.git
+          cd zgoubi
+          git checkout develop
       - name: Configure CMake
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
         # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_Fortran_COMPILER=/usr/bin/gfortran-9
+        run: cmake -B zgoubi/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_Fortran_COMPILER=/usr/bin/gfortran-9 zgoubi
       - name: Make
-        run:  |
-          cd ${{github.workspace}}/build
+        run: |
+          cd zgoubi/build
           make
           make install
 

@@ -253,6 +253,8 @@ class Tosca(_Magnet):
 
         z(zi, identifier={'TOSCA_LOAD': self.LABEL1}, cb=cb)
         z.wait()
+        zr = z(zi).collect()
+        print(zr.print())
         return self
 
     @property
