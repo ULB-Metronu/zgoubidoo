@@ -99,7 +99,7 @@ def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
     if element.get('ANGLE') == 0.0 and element.get('B') is not None:
         h = element['B'] / kinematics.brho
         element['ANGLE'] = element['L'] * h
-    if element['ANGLE'] == 0.0:    # Avoid division by zero
+    if element['ANGLE'] == 0.0:  # Avoid division by zero
         b1 = 0 * _ureg.tesla
     else:
         b1 = kinematics.brho / (element['L'] / _np.abs(element['ANGLE']))
@@ -139,7 +139,7 @@ def sbend_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -
         if element.K2 is not None and not _np.isnan(element.K1):
             field_index_B = (_np.abs(
                 element.L / 2 * element.ANGLE).to('m') ** 3 * getattr(element, 'K2', 0.0 * _ureg.m ** -3)
-                           ).magnitude
+                             ).magnitude
         elif element.B is not None and not _np.isnan(element.B):
             field_index_B = element.B
         else:
@@ -205,7 +205,11 @@ def quadrupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Di
             elif element['K1L'] == 0:
                 gradient = element['K1'] / _ureg.m ** 2 if isinstance(element['K1'], float) else element['K1']
             else:
-                raise KeyError("K1 and K1L cannot be non zero at the same time.")
+                # TODO Clean converters
+                if element['K1L'] / element['L'] == element['K1']:
+                    gradient = element['K1']
+                else:
+                    raise KeyError("K1 and K1L cannot be non zero at the same time.")
         elif element.get('K1L') is not None and element.get('K1SL') is not None:
             if element.get('K1SL') == 0:
                 gradient = element['K1L'] / element['L']
@@ -313,7 +317,8 @@ def sextupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dic
             elif element['K2L'] == 0:
                 gradient = element['K2'] / _ureg.m ** 2 if isinstance(element['K2'], float) else element['K2']
             else:
-                raise KeyError("K2 and K2L cannot be non zero at the same time.")
+                gradient = element['K2L'] / element['L']
+                # raise KeyError("K2 and K2L cannot be non zero at the same time.")
         elif element.get('K2L') is not None and element.get('K1SL') is not None:
             if element.get('K2SL') == 0:
                 gradient = element['K2L'] / element['L']
@@ -415,9 +420,10 @@ def multipole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dic
     Returns:
 
     """
+
     multipole_length = element['L']
     k0 = element.get('K0L', 0) / multipole_length
-    k1 = element.get('K1L', 0 * _ureg.m**-1) / multipole_length
+    k1 = element.get('K1L', 0 * _ureg.m ** -1) / multipole_length
     k2 = element.get('K2L', 0 * _ureg.m ** -2) / multipole_length
     k3 = element.get('K3L', 0 * _ureg.m ** -3) / multipole_length
     k4 = element.get('K4L', 0 * _ureg.m ** -4) / multipole_length
@@ -478,4 +484,25 @@ def twcavity_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict
     return [
         Drift(XL=1 * _ureg.mm),
         cavity,
+    ]
+
+
+def changeref_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Dict) -> List[Command]:
+    """
+
+    Args:
+        element:
+        kinematics:
+        options:
+
+    Returns:
+
+    """
+    print(element)
+    srotation = ChangeRef(
+        element.name[0:_ZGOUBI_LABEL_LENGTH],
+        TRANSFORMATIONS=[("XR", 180 * _ureg.degrees)]
+    )
+    return [
+        srotation
     ]
