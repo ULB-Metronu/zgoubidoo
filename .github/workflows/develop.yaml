@@ -5,7 +5,7 @@ name: develop
 
 on:
   push:
-    branches: [ features_tests ]
+    branches: [ feature_tests ]
 
 jobs:
   build:
