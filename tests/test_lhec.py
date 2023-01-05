@@ -9,7 +9,7 @@ from zgoubidoo.commands import *
 
 
 def check_optics(twiss_madx: _pd.DataFrame, twiss_zgoubi: _pd.DataFrame):
-    s_madx = twiss_madx['S'].values#.apply(lambda e: e.m_as('m')).values
+    s_madx = twiss_madx['S'].apply(lambda e: e.m_as('m')).values
     betx_madx = twiss_madx['BETX'].values
     bety_madx = twiss_madx['BETY'].values
     alfx_madx = twiss_madx['ALFX'].values
@@ -18,6 +18,7 @@ def check_optics(twiss_madx: _pd.DataFrame, twiss_zgoubi: _pd.DataFrame):
     dispxp_madx = twiss_madx['DPX'].values
 
     s_zgoubi = twiss_zgoubi['S'].values
+
     betx_zgoubi = twiss_zgoubi['BETA11'].values
     bety_zgoubi = twiss_zgoubi['BETA22'].values
     alfx_zgoubi = twiss_zgoubi['ALPHA11'].values
@@ -40,7 +41,7 @@ def check_optics(twiss_madx: _pd.DataFrame, twiss_zgoubi: _pd.DataFrame):
     _np.testing.assert_allclose(dispxp_madx, dispxp_zgoubi_madx, atol=5e-2)
 
     # Test more precisely the IP
-    ip_position = twiss_madx.loc['IP']['S']#.m_as('m')
+    ip_position = twiss_madx.loc['IP']['S'].m_as('m')
     betx_zgoubi_ip = _np.interp(ip_position, s_zgoubi, betx_zgoubi)
     bety_zgoubi_ip = _np.interp(ip_position, s_zgoubi, bety_zgoubi)
     alfx_zgoubi_ip = _np.interp(ip_position, s_zgoubi, alfx_zgoubi)
@@ -75,7 +76,7 @@ def test_lhec():
     survey_zgoubi = zi.survey(output=True, with_reference_trajectory=True, reference_kinematics=input_madx.kinematics)[
         'exit_s']
     survey_zgoubi = survey_zgoubi.apply(lambda e: e.m_as('m'))
-    survey_madx = input_madx.df['S']
+    survey_madx = input_madx.df['S'].apply(lambda e: e.m_as('m'))
     survey = _pd.merge(survey_zgoubi, survey_madx, left_index=True, right_index=True)
     _np.testing.assert_allclose(survey['exit_s'].values, survey['S'].values, rtol=1e-3)
 
