@@ -5,7 +5,7 @@ and its parametrizations.
 
 The standard uncoupled Twiss parametrization (including off-momentum effects, aka. dispersion) is the default option.
 
-Additional formalisms for the parametrization of fully coupled transfer matrices are also available (Teng, Ripken,
+Additional formalisms for the parametrization of fully coupled transfer matrices are also available (Tenge, Ripken,
 etc.).
 
 Example:

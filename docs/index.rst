@@ -26,6 +26,13 @@ Zgoubidoo's documentation
    utilities
    examples
 
+..  toctree::
+    :maxdepth: 2
+    :titlesonly:
+    :caption: API Reference
+    :glob:
+
+    api/zgoubidoo
 
 Indices and tables
 ==================

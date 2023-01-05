@@ -36,7 +36,7 @@ release = zgoubidoo.__version__
 
 # -- General configuration ---------------------------------------------------
 nbsphinx_allow_errors = True
-nbsphinx_execute = "never"
+nbsphinx_execute = "always"
 
 # If your documentation needs a minimal Sphinx version, state it here.
 #
@@ -48,7 +48,6 @@ nbsphinx_execute = "never"
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
-    "sphinx.ext.autosectionlabel",
     "sphinx_automodapi.automodapi",
     "sphinx_tabs.tabs",
     "sphinx.ext.doctest",
@@ -58,6 +57,7 @@ extensions = [
     "sphinx.ext.mathjax",
     "sphinx.ext.ifconfig",
     "sphinx.ext.viewcode",
+    "sphinxcontrib.bibtex",
     "sphinx_copybutton",
     "nbsphinx",
     "jupyter_sphinx",
@@ -72,6 +72,7 @@ templates_path = ["_templates"]
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
+bibtex_bibfiles = ["refs.bib"]
 source_suffix = [".rst", ".md"]
 
 # The master toctree document.

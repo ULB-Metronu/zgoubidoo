@@ -1,10 +1,10 @@
 Installation
 ============
 
-Installing and using the ``Zgoubidoo`` Python library requires a working Python 3.7+ environment.
+Installing and using the :code:`Zgoubidoo` Python library requires a working Python 3.8.1+ environment.
 
-The easiest way is to proceed with ``conda`` to set it up. In case you already have a Python 3.7 environment available,
-you can simply install ``Zgoubidoo`` with ``pip`` directly. ``Zgoubidoo`` has a relatively small number of
+The easiest way is to proceed with ``poetry`` to set it up. In case you already have a Python environment available,
+you can simply install ``Zgoubidoo`` with ``poetry`` directly. ``Zgoubidoo`` has a relatively small number of
 dependencies, and no non-Python dependencies, except of course for ``Zgoubi`` itself. Detailed step-by-step
 instructions are provided in the following sections.
 
@@ -84,24 +84,44 @@ In case the .gitmodules file changes after pulling from upstream (this should be
 
     git submodule sync --recursive
 
-Installation Zgoubidoo using ``pyenv`` and ``poetry``
+Installation Zgoubidoo using ``poetry``
 --------------------------------------------
-Create a Python virtual environment with ``pyenv`` (https://github.com/pyenv/pyenv) and ``pyenv-virtualenv`` (https://github.com/pyenv/pyenv-virtualenv) ::
 
-    pyenv install 3.8-dev
-    pyenv virtualenv 3.8-dev py38
+Assuming you have :code:`poetry` and :code:`python` installed on your system, go to the location of the library and simply use
+these commands::
 
-Then, activate your Python environment and install Zgoubidoo with Poetry ::
+    cd path/to/zgoubidoo
+    poetry install --without dev,docs
 
-    pyenv local py38
-    poetry install
+.. note::
+
+    Zgoubidoo uses python version >=3.8.1 and < 3.11
+
+Zgoubidoo can be subsequently updated by running the following::
+
+    git pull origin master
+    poetry update
+
+.. note::
+
+    You can install a independent python environment with :code:`pyenv` (https://github.com/pyenv/pyenv) and
+    :code:`pyenv-virtualenv` (https://github.com/pyenv/pyenv-virtualenv) ::
+
+        pyenv install 3.8.13
+        pyenv virtualenv 3.8.13 py38
+
+    Then, activate your Python environment and install :code:`zgoubidoo` with Poetry ::
+
+        pyenv local py38
+        poetry install --without dev,docs
+
 
 If you would like to have extra-dependencies such as sphinx or pytest, you can use ::
 
-    poetry install -E sphinx
+    poetry install --with dev,docs
 
-Creating a Python 3.7 environment with Conda
---------------------------------------------
+Creating a Python environment with Conda
+----------------------------------------
 The Zgoubidoo repository contains a ``conda`` environment file that can be used to create a complete Python 3.7
 environment suitable for Zgoubidoo::
 
@@ -112,44 +132,30 @@ or you can give a custom name to the environment with::
 
     conda env create --file environment.yml --name your_custom_name
 
-Installation Zgoubidoo using ``pip``
-------------------------------------
-The first step is to activate your Python 3.7 environment (only needed if you do not use a global
-installation of Python. On Mac OS if you use the Python ``brew`` installation you should already have Python 3.7
+Installation Zgoubidoo using :code:`poetry`
+-------------------------------------------
+The first step is to activate your Python environment (only needed if you do not use a global
+installation of Python. On Mac OS if you use the Python ``brew`` installation you should already have Python
 available from your path). With ``conda`` proceed like this::
 
-    conda activate py37
+    conda activate zgoubidoo
 
-where `py37` is the name of the environment created by default if you used the `requirement.txt` file as described
-above.
+where `zgoubidoo` is the name of the environment created by default.
 
-Zgoubidoo can then be installed using ``pip``::
+Zgoubidoo can then be installed using :code:`poetry` as described in the above section.
 
-    cd path_to_zgoubidoo
-    pip install .
+Using Zgoubidoo with Jupyter Lab
+--------------------------------
+A working installation of :code:`jupyter lab` is directly include when you install :code:`zgoubidoo`.
+Depending where your python is coming from (:code:`pyenv` or :code:`conda`), you can activate your
+environment::
 
-Upgrading Zgoubidoo::
+    conda activate zgoubidoo
+    pyenv shell py38
 
-    pip install . --upgrade
+You can now simply launch::
 
-Alternatively if you intend to develop `Zgoubidoo` you can install it in editable mode::
-
-    pip install -e .
-
-The second method allows any change to be reflected directly to your Zgoubidoo package (only a symlink is created in
-site-packages). This is the recommended way if you want to stay on the latest version of Zgoubidoo (development branch
-`develop`).
-
-Using Zgoubidoo with Jupyter Notebook
--------------------------------------
-Any installation of Jupyter would work as long as the Python 3.7 kernel from the ``conda`` installation can be selected.
-For that it is best to install the extension ``nb_conda_kernels``. The ``conda`` environment already contains a working
-installation of ``jupyter`` with the ``conda`` extensions::
-
-    conda activate py37
-    jupyter notebook
-    # Or using Jupyter Lab
-    jupyter lab
+    jupyter-lab
 
 From there you can create a new notebook and simply import Zgoubidoo::
 

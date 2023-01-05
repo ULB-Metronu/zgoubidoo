@@ -21,3 +21,6 @@ tests/zgoubi*
 .vscode/
 jupyter_execute/
 .conda_config
+zgoubi.dat
+zgoubi.res
+zgoubi.plt

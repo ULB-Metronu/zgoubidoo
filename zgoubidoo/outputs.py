@@ -359,7 +359,7 @@ def read_optics_file(filename: str = 'zgoubi.OPTICS.out', path: str = '.') -> _p
         the resulting DataFrame uses SI units.
 
     Example:
-        >>> read_optcs_file()
+        >>> read_optics_file()
 
     Args:
         filename: the name of the file

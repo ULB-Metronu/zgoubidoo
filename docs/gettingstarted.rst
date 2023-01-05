@@ -28,3 +28,13 @@ Complete code
 ^^^^^^^^^^^^^
 .. literalinclude:: examples/fodo.py
   :linenos:
+
+Tutorials
+---------
+
+.. toctree::
+   :maxdepth: 1
+
+   notebooks/tutorial1
+   notebooks/tutorial2
+   notebooks/tutorial3
