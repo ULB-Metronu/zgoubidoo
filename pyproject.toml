@@ -77,6 +77,7 @@ jupyter-sphinx = "^0.4.0"
 jupyter-server-mathjax = "^0.2.6"
 cairosvg = "^2.5.2"
 sphinxcontrib-svg2pdfconverter = {extras = ["cairosvg"], version = "^1.2.1"}
+sphinx-tabs = "^3.4.0"
 
 [tool.coverage.run]
 branch = true

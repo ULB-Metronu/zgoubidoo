@@ -50,6 +50,7 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx.ext.autosectionlabel",
     "sphinx_automodapi.automodapi",
+    "sphinx_tabs.tabs",
     "sphinx.ext.doctest",
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",

@@ -28,7 +28,7 @@ MAD-X and PTC
 Design goals
 ------------
 
-.. image:: _static/zgoubi_logo.png
+.. image:: docs/_static/zgoubi_logo.png
    :width: 150 px
    :alt: Zgoubi's logo
    :align: right

@@ -96,7 +96,7 @@ def test_lhec():
     check_optics(input_madx.df, results_twiss)
 
     # Plot the comparison
-    artist = zgoubidoo.vis.ZgoubidooPlotlyArtist(width=1200)
-    artist.fig['layout']['xaxis']['title'] = 'X (m)'
-    artist.fig['layout']['yaxis']['title'] = 'Y (m)'
+    artist = zgoubidoo.vis.ZgoubidooPlotlyArtist(width=1200).plot_twiss(beamline=zi,
+                                                                        twiss=results_twiss,
+                                                                        twiss_madx=input_madx.df)
     artist.plot_twiss(beamline=zi, twiss=results_twiss, twiss_madx=input_madx.df)
