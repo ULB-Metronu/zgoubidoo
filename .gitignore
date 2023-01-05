@@ -20,3 +20,4 @@ tests/zgoubi*
 .python-version
 .vscode/
 jupyter_execute/
+.conda_config

@@ -76,9 +76,9 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                         'type': 'rect',
                         'xref': 'x',
                         'yref': 'paper',
-                        'x0': e.entry_s.m_as('m'),
+                        'x0': e.entry_sref.m_as('m'),
                         'y0': vertical_position if e.B0.magnitude > 0 else vertical_position - 0.1,
-                        'x1': e.exit_s.m_as('m'),
+                        'x1': e.exit_sref.m_as('m'),
                         'y1': vertical_position + 0.1 if e.B0.magnitude > 0 else vertical_position,
                         'line': {
                             'width': 0,
@@ -92,9 +92,9 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                         'type': 'rect',
                         'xref': 'x',
                         'yref': 'paper',
-                        'x0': e.entry_s.m_as('m'),
+                        'x0': e.entry_sref.m_as('m'),
                         'y0': vertical_position - 0.05,
-                        'x1': e.exit_s.m_as('m'),
+                        'x1': e.exit_sref.m_as('m'),
                         'y1': vertical_position + 0.05,
                         'line': {
                             'width': 0,
@@ -106,16 +106,16 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 length = e.optical_length.m_as('m')
                 m = e.entry_patched.get_rotation_matrix()
                 if _np.dot(m, _np.array([0, 0, 1]))[2] >= 0.0:
-                    path = f"M{e.entry_s.m_as('m')},{vertical_position + 0.1} " \
-                           f"H{e.exit_s.m_as('m')} " \
-                           f"L{e.exit_s.m_as('m') - 0.15 * length},{vertical_position - 0.1} " \
-                           f"H{e.exit_s.m_as('m') - 0.85 * length} " \
+                    path = f"M{e.entry_sref.m_as('m')},{vertical_position + 0.1} " \
+                           f"H{e.exit_sref.m_as('m')} " \
+                           f"L{e.exit_sref.m_as('m') - 0.15 * length},{vertical_position - 0.1} " \
+                           f"H{e.exit_sref.m_as('m') - 0.85 * length} " \
                            f"Z"
                 else:
-                    path = f"M{e.entry_s.m_as('m') + 0.15 * length},{vertical_position + 0.1} " \
-                           f"H{e.exit_s.m_as('m') - 0.15 * length} " \
-                           f"L{e.exit_s.m_as('m')},{vertical_position - 0.1} " \
-                           f"H{e.entry_s.m_as('m')} " \
+                    path = f"M{e.entry_sref.m_as('m') + 0.15 * length},{vertical_position + 0.1} " \
+                           f"H{e.exit_sref.m_as('m') - 0.15 * length} " \
+                           f"L{e.exit_sref.m_as('m')},{vertical_position - 0.1} " \
+                           f"H{e.entry_sref.m_as('m')} " \
                            f"Z"
                 self.shapes.append(
                     {

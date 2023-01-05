@@ -58,7 +58,7 @@ def check_optics(twiss_madx: _pd.DataFrame, twiss_zgoubi: _pd.DataFrame):
 
 def test_lhec():
     # Convert file from MAD-X
-    input_madx = TwissSequence(path=f"{os.getcwd()}", filename="test45degspreader.outx")
+    input_madx = TwissSequence(path=f"{os.getcwd()}/tests", filename="test45degspreader.outx")
     zi = zgoubidoo.Input.from_sequence(sequence=input_madx,
                                        beam=BeamTwiss(kinematics=input_madx.kinematics),
                                        with_survey=True,

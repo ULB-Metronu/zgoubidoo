@@ -1,28 +1,22 @@
+# https://stackoverflow.com/questions/70851048/does-it-make-sense-to-use-conda-poetry
+
 # Run:
 #    conda env create --file environment.yml
 # Run (overrides the environment name):
 #    conda env create --file environment.yml --name your_env_name
-# Customized environment "Python 3.7"
-name: py37
+# Customized environment "Intel Python 3"
+name: zgoubidoo
 channels:
-  # Anaconda
-  - anaconda
+  # Intel distribution for Python
+  # https://software.intel.com/en-us/distribution-for-python
+  - intel
   # Conda forge distribution
   # https://conda-forge.org
   - conda-forge
   # Default distribution from Continuum/Anaconda
-  - default
+  - nodefaults
 dependencies:
-  - python=3.7
-  - anaconda
-  - lmfit
-  - mypy
-  - nbstripout
-  - numpy-stl
-  - parse
+  - python=3.10.8
   - pip
-  - pint
-  - plotly
-  - pyarrow
-  - quaternion
-  - typed-ast
+  - pip:
+      - poetry
