@@ -3,12 +3,14 @@
 """
 import numpy as _np
 import pandas as _pd
-from ..commands.commands import Fit as _Fit
-from ..commands.commands import FitType as _FitType
+import zgoubidoo
+from ..commands.actions import Fit as _Fit
+from ..commands.actions import FitType as _FitType
 from ..commands.commands import Marker as _Marker
 from ..commands.objet import Objet2 as _Objet2
-from input import Input
-from commands import *
+from ..input import Input as _Input
+from .coordinates import Coordinates
+from .. import Q_ as _Q
 
 
 class PlaneType(type):
@@ -30,11 +32,11 @@ class BothPlanes(HorizontalPlane, VerticalPlane):
     """A type to represent both planes, horizontal and vertical.
 
     Examples:
-        >>> issubclass(Sequence.BothPlanes, Sequence.HorizontalPlane)
+        >>> issubclass(BothPlanes, HorizontalPlane)
         True
-        >>> issubclass(Sequence.BothPlanes, Sequence.VerticalPlane)
+        >>> issubclass(BothPlanes, VerticalPlane)
         True
-        >>> issubclass(Sequence.HorizontalPlane, Sequence.HorizontalPlane)
+        >>> issubclass(HorizontalPlane, HorizontalPlane)
     """
     pass
 
@@ -73,13 +75,13 @@ def find_closed_orbit(self,
         PENALTY=tolerance,
         PARAMS=[
             fit_method.Parameter(line=zi, place='BUNCH', parameter=_Objet2.Y_, range=(-100, 500))
-            if issubclass(plane, Sequence.HorizontalPlane) else None,
+            if issubclass(plane, HorizontalPlane) else None,
             fit_method.Parameter(line=zi, place='BUNCH', parameter=_Objet2.T_, range=(-100, 500))
-            if issubclass(plane, Sequence.HorizontalPlane) else None,
+            if issubclass(plane, HorizontalPlane) else None,
             fit_method.Parameter(line=zi, place='BUNCH', parameter=_Objet2.Z_, range=(-100, 500))
-            if issubclass(plane, Sequence.VerticalPlane) else None,
+            if issubclass(plane, VerticalPlane) else None,
             fit_method.Parameter(line=zi, place='BUNCH', parameter=_Objet2.P_, range=(-100, 500))
-            if issubclass(plane, Sequence.VerticalPlane) else None,
+            if issubclass(plane, VerticalPlane) else None,
         ],
         CONSTRAINTS=[
             fit_method.DifferenceEqualityConstraint(zi, '__END__', fit_method.FitCoordinates.Y)
@@ -103,24 +105,24 @@ def find_closed_orbit(self,
 
 
 def track_closed_orbit(self, brho: _Q) -> _pd.DataFrame:
-        """Track closed orbit.
+    """Track closed orbit.
 
         Args:
             brho: nominal magnetic rigidity of the physics
         """
-        zi = zgoubidoo.Input(
-            name=self.name,
-            line=[
-                     self._particle,
-                     _Objet2('BUNCH', BORO=brho).add([[100 * self._closed_orbit[0],
-                                                      1000 * self._closed_orbit[1],
-                                                      100 * self._closed_orbit[2],
-                                                      1000 * self._closed_orbit[3],
-                                                      0.0,
-                                                      self._closed_orbit[4] + 1,
-                                                      0.0]])
-                 ] + self._sequence
-        )
-        zi.IL = 2
-        self._last_run = self._z(zi())
-        return self._last_run.tracks
+    zi = zgoubidoo.Input(
+        name=self.name,
+        line=[
+                 self._particle,
+                 _Objet2('BUNCH', BORO=brho).add([[100 * self._closed_orbit[0],
+                                                   1000 * self._closed_orbit[1],
+                                                   100 * self._closed_orbit[2],
+                                                   1000 * self._closed_orbit[3],
+                                                   0.0,
+                                                   self._closed_orbit[4] + 1,
+                                                   0.0]])
+             ] + self._sequence
+    )
+    zi.IL = 2
+    self._last_run = self._z(zi())
+    return self._last_run.tracks

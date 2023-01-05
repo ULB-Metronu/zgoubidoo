@@ -7,7 +7,7 @@ zgoubidoo/__pycache__/
 zgoubidoo/commands/__pycache__/
 zgoubidoo.egg-info/
 zgoubidoo/vis/__pycache__/
-docs/_build
+docs/build
 examples/zgoubi.res
 examples/zgoubi.plt
 examples/*.dat
