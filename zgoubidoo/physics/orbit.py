@@ -42,6 +42,7 @@ class BothPlanes(HorizontalPlane, VerticalPlane):
         >>> issubclass(BothPlanes, VerticalPlane)
         True
         >>> issubclass(HorizontalPlane, HorizontalPlane)
+        True
     """
 
     pass

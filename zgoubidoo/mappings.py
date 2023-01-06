@@ -41,7 +41,7 @@ class ParametricMapping:
 
     Examples:
         >>> pm = ParametricMapping([{('B3G', 'B1'): [1.0, 2.0], ('B1G', 'B1'): [11.0, 12.0]}, {('B2G', 'B1'): [1.5, 2.5, 3.5]}])
-        >>> pm.combinations
+        >>> pm.combinations # doctest: +NORMALIZE_WHITESPACE
         [{('B3G', 'B1'): 1.0, ('B1G', 'B1'): 11.0, ('B2G', 'B1'): 1.5},
          {('B3G', 'B1'): 1.0, ('B1G', 'B1'): 11.0, ('B2G', 'B1'): 2.5},
          {('B3G', 'B1'): 1.0, ('B1G', 'B1'): 11.0, ('B2G', 'B1'): 3.5},

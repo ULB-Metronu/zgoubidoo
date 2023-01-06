@@ -61,6 +61,7 @@ class ZgoubiResults:
 
         Examples:
             >>> 1 + 1 # TODO
+            2
 
         Args:
             results: a list of dictionnaries structure with the Zgoubi run information and errors.

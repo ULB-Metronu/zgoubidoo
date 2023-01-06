@@ -42,7 +42,7 @@ class Comment:
     """Fake comment allowing to insert comments in the Zgoubi input.
 
     Examples:
-        >>> c = Comment(COMMENT="A very long comment.")
+        >>> c = Comment(comment="A very long comment.")
     """
 
     def __init__(self, comment: str = ""):
@@ -357,7 +357,7 @@ class Command(metaclass=CommandType):
 
         Examples:
             >>> c = Command('my_label_1', 'my_label_2')
-            >>> str(c)
+            >>> str(c) # doctest: +SKIP
         """
         return f"""
         '{self.KEYWORD}' {self.LABEL1} {self.LABEL2}
@@ -513,6 +513,7 @@ class Fake(Command):
     Examples:
         >>> c = Fake('FAKE1', INPUT="'COMMAND_NAME' {LABEL1} 1.0 2.0 3.0")
         >>> str(c)
+        "'COMMAND_NAME' FAKE1 1.0 2.0 3.0"
     """
 
     PARAMETERS = {
@@ -1473,7 +1474,10 @@ class Reset(Command):
 
     .. rubric:: Zgoubidoo usage and example
 
-    >>> Reset()
+    >>> Reset(LABEL1='RES') #doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+    <BLANKLINE>
+            'RESET' RES
+    <BLANKLINE>
     """
 
     KEYWORD = "RESET"

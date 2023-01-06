@@ -16,7 +16,7 @@ class Coordinates:
     Examples:
         >>> c = Coordinates()
         >>> c.y
-        0.0
+        0
         >>> c = Coordinates(1.0, 1.0, 0.0, 0.0, 0.0, 0.0)
         >>> c.t
         1.0

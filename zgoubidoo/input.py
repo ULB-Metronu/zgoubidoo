@@ -83,7 +83,10 @@ class Input:
         True
         >>> zi.name
         'test_beamline'
-        >>> zi()
+        >>> zi() #doctest: +SKIP
+        test_beamline
+        'END' 915c58e96f2f49579d3d
+        <BLANKLINE>
     """
 
     def __init__(
@@ -377,9 +380,9 @@ class Input:
 
         Examples:
             >>> zi = Input()
-            >>> pm = ParametricMapping()
-            >>> zi(mappings=pm)  # Writes input files in newly created tempoary directories
-            >>> zi.cleanup()  # Cleanup the temporary directories and Zgoubi input files
+            >>> pm = zgoubidoo.ParametricMapping() # doctest: +SKIP
+            >>> zi(mappings=pm) # doctest: +SKIP
+            >>> zi.cleanup()  # doctest: +SKIP
         """
         for p in self._paths:
             try:

@@ -25,3 +25,5 @@ zgoubi.dat
 zgoubi.res
 zgoubi.plt
 zgoubi.log
+.coverage
+coverage.xml

@@ -83,7 +83,7 @@ sphinx-tabs = "^3.4.0"
 [tool.coverage.run]
 branch = true
 relative_files = true
-source = ["georges_core"]
+source = ["zgoubidoo"]
 
 [tool.coverage.report]
 skip_covered = true

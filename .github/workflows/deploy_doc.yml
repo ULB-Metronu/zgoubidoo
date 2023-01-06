@@ -37,11 +37,15 @@ jobs:
           virtualenvs-create: true
           virtualenvs-in-project: true
       - name: Install dependencies
-        run: poetry install --no-interaction --with docs
+        run: |
+          poetry config virtualenvs.create true --local
+          poetry install --no-interaction --with docs
       - name: Run sphinx for html
         run: |
           source .venv/bin/activate
+          python -m ipykernel install --user --name zgoubidoo --display-name "zgoubidoo"
           cd docs
+          sudo apt install -y pandoc
           make html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1

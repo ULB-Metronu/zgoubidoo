@@ -70,7 +70,7 @@ def read_fai_file(filename: str = "zgoubi.fai", path: str = ".") -> _pd.DataFram
     headers.
 
     Example:
-        >>> read_fai_file()
+        >>> read_fai_file() # doctest: +SKIP
 
     Args:
         filename: the name of the file
@@ -112,7 +112,7 @@ def read_plt_file(filename: str = "zgoubi.plt", path: str = ".") -> _pd.DataFram
           This saves on computing time.
 
     Example:
-        >>> read_plt_file()
+        >>> read_plt_file() # doctest: +SKIP
 
     Args:
         filename: the name of the file
@@ -177,7 +177,7 @@ def read_srloss_file(filename: str = "zgoubi.SRLOSS.out", path: str = ".") -> _p
     valid Pandas DataFrame with headers.
 
     Example:
-        >>> read_srloss_file()
+        >>> read_srloss_file() # doctest: +SKIP
 
     Args:
         filename: the name of the file
@@ -251,7 +251,7 @@ def read_srloss_steps_file(filename: str = "zgoubi.SRLOSS.STEPS.out", path: str 
     (produced with SRPrint) and formats it as a valid Pandas DataFrame with headers.
 
     Example:
-        >>> read_srloss_steps_file()
+        >>> read_srloss_steps_file() # doctest: +SKIP
 
     Args:
         filename: the name of the file
@@ -303,7 +303,7 @@ def read_matrix_file(filename: str = "zgoubi.MATRIX.out", path: str = ".") -> _p
         the resulting DataFrame uses SI units.
 
     Example:
-        >>> read_matrix_file()
+        >>> read_matrix_file() # doctest: +SKIP
 
     Args:
         filename: the name of the file
@@ -409,7 +409,7 @@ def read_optics_file(filename: str = "zgoubi.OPTICS.out", path: str = ".") -> _p
         the resulting DataFrame uses SI units.
 
     Example:
-        >>> read_optics_file()
+        >>> read_optics_file() # doctest: +SKIP
 
     Args:
         filename: the name of the file

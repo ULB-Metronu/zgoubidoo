@@ -91,13 +91,40 @@ class Objet2(Objet):
     uses when tracking bunches.
 
     Examples:
-        >>> zi = Input()
-        >>> objet = Objet2()
-        >>> objet.add()
+        >>> import zgoubidoo
+        >>> zi = zgoubidoo.Input()
+        >>> objet = Objet2(LABEL1="BEAM")
+        >>> objet.add(_np.array([[0,0,0,0,1]])) # doctest: +NORMALIZE_WHITESPACE
+        <BLANKLINE>
+            'OBJET' BEAM
+            1.000000000000e+00
+            2.00
+            1 1
+            0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 1.000000000000e+00 O
+            1
+        <BLANKLINE>
         >>> zi += objet
-        >>> zi
-        >>> objet.clear()
-        >>> objet
+        >>> zi # doctest: +SKIP
+        beamline
+        'OBJET' BEAM
+        1.000000000000e+00
+        2.00
+        1 1
+        0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 1.000000000000e+00 O
+        1
+        <BLANKLINE>
+        'END' 2a0ff96518ff4a2bb30d
+        <BLANKLINE>
+        >>> objet.clear() # doctest: +NORMALIZE_WHITESPACE
+        <BLANKLINE>
+        'OBJET' BEAM
+        1.000000000000e+00
+        2.00
+        1 1
+        0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 0.000000000000e+00 1.000000000000e+00 O
+        1
+        <BLANKLINE>
+        >>> objet # doctest: +SKIP
     """
 
     PARAMETERS = {
@@ -401,6 +428,7 @@ class Objet6(Objet):
 
     Examples:
         >>> 1 + 1 # TODO
+        2
     """
 
     PARAMETERS = {

@@ -17,6 +17,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: webfactory/ssh-agent@v0.6.0
+        with:
+          ssh-private-key: ${{ secrets.ZGOUBI_KEY }}
+      - name: Set up GCC
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: 11
+          platform: x64
+      - name: Install Zgoubi
+        run: |
+          git clone git@github.com:ULB-Metronu/zgoubi.git
+          cd zgoubi
+          git checkout develop
+      - name: Configure CMake
+        # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+        # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+        run: cmake -B zgoubi/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_Fortran_COMPILER=/usr/bin/gfortran-9 zgoubi
+      - name: Make
+        run: |
+          cd zgoubi/build
+          make
+          make install
       #----------------------------------------------
       #       check-out repo and set-up python
       #----------------------------------------------
@@ -40,7 +62,9 @@ jobs:
       # install dependencies if cache does not exist
       #----------------------------------------------
       - name: Install dependencies
-        run: poetry install --no-interaction --with docs
+        run: |
+          poetry config virtualenvs.create true --local
+          poetry install --no-interaction --with docs
 
       #----------------------------------------------
       #              Built the doc
@@ -48,7 +72,9 @@ jobs:
       - name: Run sphinx
         run: |
           source .venv/bin/activate
+          python -m ipykernel install --user --name zgoubidoo --display-name "zgoubidoo"
           cd docs
+          sudo apt install -y pandoc
           sudo apt install -y latexmk texlive-latex-extra
           make html
 #          make latexpdf

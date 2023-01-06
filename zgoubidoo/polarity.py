@@ -3,8 +3,9 @@
 Examples:
     The conversion to numeric types can be used for easily in numerical expressions:
 
-    >>> gradient = int(HorizontalPolarity) * 3.1415; gradient
-    >>> 3.1415
+    >>> gradient = int(HorizontalPolarity) * 3.1415
+    >>> gradient
+    3.1415
 
     One major use case consists in type-hinting functions (shown here with default value argument):
 

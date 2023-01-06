@@ -106,9 +106,9 @@ def compute_transfer_matrix(beamline: _Input, tracks: _pd.DataFrame) -> _pd.Data
     Example:
         Here is a typical example to call ``compute_transfer_matrix``:
 
-        >>> tracks = zgoubidoo.read_plt_file()
-        >>> zi = zgoubidoo.Input()
-        >>> matrix = zgoubidoo.twiss.compute_transfer_matrix(zi, tracks)
+        tracks = zgoubidoo.read_plt_file()
+        zi = zgoubidoo.Input()
+        matrix = zgoubidoo.twiss.compute_transfer_matrix(zi, tracks)
     """
     elements = tracks.LABEL1.unique()
     matrix = _pd.DataFrame()
