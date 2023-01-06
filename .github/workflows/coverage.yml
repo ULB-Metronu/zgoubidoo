@@ -1,19 +1,23 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: develop
+name: coverage
 
 on:
   push:
-    branches: [ feature_tests ]
+    branches:
+      - master
+      - develop
+  pull_request:
+    branches:
+      - master
+      - develop
+    types: [opened, synchronize, reopened]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      #----------------------------------------------
-      #  -----  install & configure poetry  -----
-      #----------------------------------------------
       - uses: webfactory/ssh-agent@v0.6.0
         with:
           ssh-private-key: ${{ secrets.ZGOUBI_KEY }}
@@ -36,16 +40,15 @@ jobs:
           cd zgoubi/build
           make
           make install
-
       #----------------------------------------------
       #       check-out repo and set-up python
       #----------------------------------------------
       - name: Check out repository
         uses: actions/checkout@v3
         with:
-          submodules: recursive
+          fetch-depth: 0
       - name: Set up python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: 3.8
       #----------------------------------------------
@@ -57,33 +60,19 @@ jobs:
           virtualenvs-create: true
           virtualenvs-in-project: true
       #----------------------------------------------
-      #       load cached venv if cache exists
-      #----------------------------------------------
-      - name: Load cached venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v2
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-      #----------------------------------------------
       # install dependencies if cache does not exist
       #----------------------------------------------
       - name: Install dependencies
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction -E sphinx
+        run: poetry install --no-interaction --with dev
       #----------------------------------------------
-      #              link with flake8
+      #              run test suite with Sonar
       #----------------------------------------------
-      - name: Link with flake8
-        run: |
-          # stop the build if there are Python syntax errors or undefined names
-          # flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-          # flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-      #----------------------------------------------
-      #              run test suite
-      #----------------------------------------------
-      - name: Run tests
+      - name: Run tox
         run: |
           source .venv/bin/activate
-          pytest tests/
+          tox -e py
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

@@ -32,7 +32,7 @@ Zgoubidoo's documentation
     :caption: API Reference
     :glob:
 
-    api/zgoubidoo
+    api/modules
 
 Indices and tables
 ==================
