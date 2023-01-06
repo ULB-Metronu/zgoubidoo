@@ -2,9 +2,11 @@
 TODO
 """
 from __future__ import annotations
-from typing import Mapping, List, Union, Sequence, Tuple
-from dataclasses import dataclass, field
+
 import itertools
+from dataclasses import dataclass, field
+from typing import List, Mapping, Sequence, Tuple, Union
+
 from . import Q_ as _Q
 
 ParametersMappingType = Mapping[str, Sequence[Union[_Q, float]]]
@@ -31,7 +33,8 @@ class ParametricMapping:
     mapping. It also accounts for "coupled" variables.
 
     Note:
-        TODO FIX Using the special value "LABEL" for the first element of the mapping's label deactivate the sequence adjustment mechanism.
+        TODO FIX Using the special value "LABEL" for the first element of the mapping's label deactivate the sequence
+        adjustment mechanism.
 
     See also:
         for implementation details, see also https://codereview.stackexchange.com/q/211121/52027 .
@@ -46,6 +49,7 @@ class ParametricMapping:
          {('B3G', 'B1'): 2.0, ('B1G', 'B1'): 12.0, ('B2G', 'B1'): 2.5},
          {('B3G', 'B1'): 2.0, ('B1G', 'B1'): 12.0, ('B2G', 'B1'): 3.5}]
     """
+
     mappings: ParametersMappingListType = field(default_factory=lambda: [{}])
 
     @property

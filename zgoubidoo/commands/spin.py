@@ -8,25 +8,29 @@ from .commands import ZgoubidooException as _ZgoubidooException
 
 class SpinRotation(_Action):
     """Spin rotation."""
-    KEYWORD = 'SPINR'
+
+    KEYWORD = "SPINR"
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class Spnprnl(_Action):
     """Store spin coordinates into file FNAME."""
-    KEYWORD = 'SPNPRNL'
+
+    KEYWORD = "SPNPRNL"
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class SpinStore(_Action):
     """Store spin coordinates every IP other pass at labeled elements."""
-    KEYWORD = 'SPNSTORE'
+
+    KEYWORD = "SPNSTORE"
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class SpnPrt(_Action):
     """Print spin coordinates."""
-    KEYWORD = 'SPNPRT'
+
+    KEYWORD = "SPNPRT"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -35,14 +39,15 @@ SpinPrint = SpnPrt
 
 class SpnTrk(_Action):
     """Spin tracking."""
-    KEYWORD = 'SPNTRK'
+
+    KEYWORD = "SPNTRK"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'KSO': (1, ''),
-        'IR': (1, 'Random sequence seed.')
+        "KSO": (1, ""),
+        "IR": (1, "Random sequence seed."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
         commands (e.g. fit)."""
 
     def __str__(self) -> str:

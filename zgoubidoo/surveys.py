@@ -4,19 +4,22 @@ The module performs a 3D global survey of the beamline. Zgoubi is *not* used for
 infered by Zgoubidoo based on the inputs.
 """
 from typing import Optional, Union
+
 import numpy as _np
 import pandas as _pd
-import zgoubidoo.zgoubi
-from .input import Input as _Input
 from georges_core.frame import Frame as _Frame
 from georges_core.frame import FrameFrenet as _FrameFrenet
-from .commands.patchable import Patchable as _Patchable
+
+import zgoubidoo.zgoubi
+
+from . import Kinematics as _Kinematics
 from .commands.objet import Objet2 as _Objet2
 from .commands.particules import Particule as _Particule
 from .commands.particules import ParticuleType as _ParticuleType
 from .commands.particules import Proton as _Proton
-from . import Kinematics as _Kinematics
-from . units import _ureg as _
+from .commands.patchable import Patchable as _Patchable
+from .input import Input as _Input
+from .units import _ureg as _
 
 
 def clear_survey(beamline: _Input):
@@ -32,13 +35,15 @@ def clear_survey(beamline: _Input):
         e.clear_placement()
 
 
-def survey(beamline: _Input,
-           reference_frame: Optional[_Frame] = None,
-           with_reference_trajectory: bool = False,
-           reference_particle: Optional[Union[_Particule, _ParticuleType]] = None,
-           reference_kinematics: Optional[_Kinematics] = None,
-           reference_closed_orbit: Optional[_np.ndarray] = None,
-           output: bool = False) -> Union[_Input, _pd.DataFrame]:
+def survey(
+    beamline: _Input,
+    reference_frame: Optional[_Frame] = None,
+    with_reference_trajectory: bool = False,
+    reference_particle: Optional[Union[_Particule, _ParticuleType]] = None,
+    reference_kinematics: Optional[_Kinematics] = None,
+    reference_closed_orbit: Optional[_np.ndarray] = None,
+    output: bool = False,
+) -> Union[_Input, _pd.DataFrame]:
     """
     Survey a Zgoubidoo input and provides a line with all the elements being placed in space.
 
@@ -108,46 +113,47 @@ def process_survey_output(beamline: _Input) -> _pd.DataFrame:
         element_exit_patched = e.exit_patched.o_
         _.append(
             {
-                'LABEL1': e.LABEL1,
-                'KEYWORD': e.KEYWORD,
-                'entry_s': e.entry_s,
-                'exit_s': e.exit_s,
-                'entry_x': element_entry[0],
-                'entry_y': element_entry[1],
-                'entry_z': element_entry[2],
-                'entry_patched_x': element_entry_patched[0],
-                'entry_patched_y': element_entry_patched[1],
-                'entry_patched_z': element_entry_patched[2],
-                'exit_x': element_exit[0],
-                'exit_y': element_exit[1],
-                'exit_z': element_exit[2],
-                'exit_patched_x': element_exit_patched[0],
-                'exit_patched_y': element_exit_patched[1],
-                'exit_patched_z': element_exit_patched[2],
-                'entry_tx': e.entry.tx.m_as('degree'),
-                'entry_ty': e.entry.ty.m_as('degree'),
-                'entry_tz': e.entry.tz.m_as('degree'),
-                'entry_patched_tx': e.entry_patched.tx.m_as('degree'),
-                'entry_patched_ty': e.entry_patched.ty.m_as('degree'),
-                'entry_patched_tz': e.entry_patched.tz.m_as('degree'),
-                'exit_tx': e.exit.tx.m_as('degree'),
-                'exit_ty': e.exit.ty.m_as('degree'),
-                'exit_tz': e.exit.tz.m_as('degree'),
-                'exit_patched_tx': e.exit_patched.tx.m_as('degree'),
-                'exit_patched_ty': e.exit_patched.ty.m_as('degree'),
-                'exit_patched_tz': e.exit_patched.tz.m_as('degree'),
-            }
+                "LABEL1": e.LABEL1,
+                "KEYWORD": e.KEYWORD,
+                "entry_s": e.entry_s,
+                "exit_s": e.exit_s,
+                "entry_x": element_entry[0],
+                "entry_y": element_entry[1],
+                "entry_z": element_entry[2],
+                "entry_patched_x": element_entry_patched[0],
+                "entry_patched_y": element_entry_patched[1],
+                "entry_patched_z": element_entry_patched[2],
+                "exit_x": element_exit[0],
+                "exit_y": element_exit[1],
+                "exit_z": element_exit[2],
+                "exit_patched_x": element_exit_patched[0],
+                "exit_patched_y": element_exit_patched[1],
+                "exit_patched_z": element_exit_patched[2],
+                "entry_tx": e.entry.tx.m_as("degree"),
+                "entry_ty": e.entry.ty.m_as("degree"),
+                "entry_tz": e.entry.tz.m_as("degree"),
+                "entry_patched_tx": e.entry_patched.tx.m_as("degree"),
+                "entry_patched_ty": e.entry_patched.ty.m_as("degree"),
+                "entry_patched_tz": e.entry_patched.tz.m_as("degree"),
+                "exit_tx": e.exit.tx.m_as("degree"),
+                "exit_ty": e.exit.ty.m_as("degree"),
+                "exit_tz": e.exit.tz.m_as("degree"),
+                "exit_patched_tx": e.exit_patched.tx.m_as("degree"),
+                "exit_patched_ty": e.exit_patched.ty.m_as("degree"),
+                "exit_patched_tz": e.exit_patched.tz.m_as("degree"),
+            },
         )
     output = _pd.DataFrame(_, index=bl.labels1)
     return output
 
 
-def survey_reference_trajectory(beamline: _Input,
-                                reference_kinematics: _Kinematics,
-                                reference_particle: Optional[Union[_Particule, _ParticuleType]] = None,
-                                closed_orbit: Optional[_np.ndarray] = None,
-                                debug: bool = False,
-                                ):
+def survey_reference_trajectory(
+    beamline: _Input,
+    reference_kinematics: _Kinematics,
+    reference_particle: Optional[Union[_Particule, _ParticuleType]] = None,
+    closed_orbit: Optional[_np.ndarray] = None,
+    debug: bool = False,
+):
     """
     TODO
     Args:
@@ -173,7 +179,7 @@ def survey_reference_trajectory(beamline: _Input,
     objet = _Objet2(BORO=reference_kinematics.brho)
     if closed_orbit is not None:
         objet.add(closed_orbit)
-    zi = _Input(name='SURVEY_REFERENCE', line=[objet, reference_particle] + list(sequence))
+    zi = _Input(name="SURVEY_REFERENCE", line=[objet, reference_particle] + list(sequence))
     zi.KINEMATICS = reference_kinematics
     zi.IL = 2
     z = zgoubidoo.Zgoubi()

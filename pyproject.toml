@@ -4,6 +4,7 @@ filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore::FutureWarning:"
 ]
+addopts = "--doctest-modules --ignore=libs --ignore=docs"
 
 [tool.black]
 line-length = 120
@@ -15,12 +16,12 @@ magic_trailing_comma = true
 profile = "black"
 line_length = 120
 include_trailing_comma = true
-extend_skip = ["georges_core/__init__.py"]
+extend_skip = ["__init__.py"]
 
 [tool.flake8]
-ignore = ['E231', 'E241', 'W503', 'E203']
+ignore = ['E231', 'E241', 'W503', 'E203','E501', 'E741', 'F841']
 per-file-ignores = [
-    '__init__.py:F401',
+    '__init__.py:F401, F403',
 ]
 max-line-length = 120
 count = true

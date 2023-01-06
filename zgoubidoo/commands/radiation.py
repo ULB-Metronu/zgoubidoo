@@ -4,10 +4,14 @@ Commands controlling Zgoubi's control flow, geometry, tracking options, etc.
 TODO
 """
 from __future__ import annotations
+
 from typing import TYPE_CHECKING, List, Mapping, Union
+
 import pandas as _pd
-from .actions import Action as _Action
+
 from .. import Q_ as _Q
+from .actions import Action as _Action
+
 if TYPE_CHECKING:
     from ..input import Input as _Input
 
@@ -29,18 +33,19 @@ class SynchrotronRadiationLosses(_Action):
     Statistics on SR parameters are computed and updated while tracking, the results of which can be obtained by means
     of the keyword SRPRNT.
     """
-    KEYWORD = 'SRLOSS'
+
+    KEYWORD = "SRLOSS"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'KSR': (1, 'Switch (0: SR switched off, 1: SR switched on).'),
-        'I': (1, 'Output SRLOSS information to file.'),
-        'KEYWORDS': ('ALL', ''),
-        'SCALING': ('', 'If "scale" then scale magnetic field based on energy loss from synchrotron radiation.'),
-        'OPTION': (2, '1: effect on DP only, 2 : effect on dp and kick angle.'),
-        'SEED': (123456, 'Random seed.'),
+        "KSR": (1, "Switch (0: SR switched off, 1: SR switched on)."),
+        "I": (1, "Output SRLOSS information to file."),
+        "KEYWORDS": ("ALL", ""),
+        "SCALING": ("", 'If "scale" then scale magnetic field based on energy loss from synchrotron radiation.'),
+        "OPTION": (2, "1: effect on DP only, 2 : effect on dp and kick angle."),
+        "SEED": (123456, "Random seed."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -75,16 +80,17 @@ SRLoss = SynchrotronRadiationLosses
 
 
 class SynchrotronRadiationPrint(_Action):
-    """Print SR loss statistics.
+    """Print SR loss statistics."""
 
-    """
-    KEYWORD = 'SRPRNT'
+    KEYWORD = "SRPRNT"
     """Keyword of the command used for the Zgoubi input data."""
 
-    def process_output(self, output: List[str],
-                       parameters: Mapping[str, Union[_Q, float]],
-                       zgoubi_input: _Input
-                       ) -> bool:
+    def process_output(
+        self,
+        output: List[str],
+        parameters: Mapping[str, Union[_Q, float]],
+        zgoubi_input: _Input,
+    ) -> bool:
         """
 
         Args:
@@ -98,8 +104,8 @@ class SynchrotronRadiationPrint(_Action):
         self._results.append(
             (
                 parameters,
-                _Action.CommandResult(success=True, results=_pd.DataFrame())
-            )
+                _Action.CommandResult(success=True, results=_pd.DataFrame()),
+            ),
         )
         return True
 
@@ -108,8 +114,7 @@ SRPrint = SynchrotronRadiationPrint
 
 
 class SynchrotronRadiationSpectral(_Action):
-    """Synchrotron radiation spectral-angular densities.
+    """Synchrotron radiation spectral-angular densities."""
 
-    """
-    KEYWORD = 'SYNRAD'
+    KEYWORD = "SYNRAD"
     """Keyword of the command used for the Zgoubi input data."""

@@ -2,24 +2,26 @@
 
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING, Dict, List, Optional, Callable, Union
+
 import logging
-import shutil
-import tempfile
-import os
-import sys
-import re
-from io import IOBase as _IOBase
 import multiprocessing
-from concurrent.futures import ThreadPoolExecutor as _ThreadPoolExecutor
-from concurrent.futures import Future as _Future
+import os
+import re
+import shutil
 import subprocess as sub
+import sys
+import tempfile
+from concurrent.futures import Future as _Future
+from concurrent.futures import ThreadPoolExecutor as _ThreadPoolExecutor
+from io import IOBase as _IOBase
+from typing import TYPE_CHECKING, Callable, Dict, List, Optional, Union
+
 if TYPE_CHECKING:
     from .input import Input
-    from .mappings import MappedParametersType as _MappedParametersType
     from .mappings import MappedParametersListType as _MappedParametersListType
+    from .mappings import MappedParametersType as _MappedParametersType
 
-__all__ = ['Executable', 'ResultsType']
+__all__ = ["Executable", "ResultsType"]
 _logger = logging.getLogger(__name__)
 
 
@@ -32,11 +34,13 @@ class ExecutableException(Exception):
 
 class ResultsType(type):
     """TODO"""
+
     pass
 
 
 class ExecutableResults(metaclass=ResultsType):
     """TODO"""
+
     @property
     def tracks(self):
         return
@@ -44,7 +48,8 @@ class ExecutableResults(metaclass=ResultsType):
 
 class Executable:
     """High level interface to run Zgoubi from Python."""
-    INPUT_FILENAME: str = ''
+
+    INPUT_FILENAME: str = ""
     """Name of the input file for the executable."""
 
     COMMAND_ARGUMENT: bool = False
@@ -80,15 +85,16 @@ class Executable:
         """
         return self._get_exec()
 
-    def __call__(self,
-                 code_input: Input,
-                 identifier: _MappedParametersType = None,
-                 mappings: _MappedParametersListType = None,
-                 debug: bool = False,
-                 cb: Callable = None,
-                 filename: str = None,
-                 path: Optional[str] = None,
-                 ) -> Executable:
+    def __call__(
+        self,
+        code_input: Input,
+        identifier: _MappedParametersType = None,
+        mappings: _MappedParametersListType = None,
+        debug: bool = False,
+        cb: Callable = None,
+        filename: str = None,
+        path: Optional[str] = None,
+    ) -> Executable:
         """
         Execute up to `n_procs` Zgoubi runs.
 
@@ -162,12 +168,13 @@ class Executable:
         self._futures = dict()
         return self
 
-    def _execute(self,
-                 mapping: _MappedParametersType,
-                 code_input: Input,
-                 path: Union[str, tempfile.TemporaryDirectory] = '.',
-                 debug=False
-                 ) -> dict:
+    def _execute(
+        self,
+        mapping: _MappedParametersType,
+        code_input: Input,
+        path: Union[str, tempfile.TemporaryDirectory] = ".",
+        debug=False,
+    ) -> dict:
         """Run Zgoubi as a subprocess.
 
         Zgoubi is run as a subprocess; the standard IOs are piped to the Python process and retrieved.
@@ -189,14 +196,13 @@ class Executable:
             p = path.name  # Path from a TemporaryDirectory
         except AttributeError:
             p = path  # p is a string
-        proc = sub.Popen([x for x in
-                          [self.executable, self.INPUT_FILENAME if self.COMMAND_ARGUMENT else None] if x is not None
-                          ],
-                         stdin=sub.PIPE,
-                         stdout=sub.PIPE,
-                         stderr=sub.STDOUT,
-                         cwd=p,
-                         )
+        proc = sub.Popen(
+            [x for x in [self.executable, self.INPUT_FILENAME if self.COMMAND_ARGUMENT else None] if x is not None],
+            stdin=sub.PIPE,
+            stdout=sub.PIPE,
+            stderr=sub.STDOUT,
+            cwd=p,
+        )
 
         # Run
         _logger.info(f"Zgoubi process in {path} has started for mapping {mapping}.")
@@ -212,21 +218,20 @@ class Executable:
         # Extract CPU time
         cputime = -1.0
         if stderr is None:
-            lines = [line.strip() for line in output[0].decode().split('\n') if
-                     re.search('CPU time', line)]
+            lines = [line.strip() for line in output[0].decode().split("\n") if re.search("CPU time", line)]
             if len(lines):
                 cputime = float(re.search(r"\d+\.\d+[E|e]?[+|-]?\d+", lines[0]).group())
         if debug:
             print(output[0].decode())
         _logger.info(f"Zgoubi process in {path} for mapping {mapping} finished in {cputime} s.")
         return {
-            'stdout': output[0].decode().split('\n'),
-            'stderr': stderr,
-            'cputime': cputime,
-            'result': result,
-            'input': code_input,
-            'path': path,
-            'mapping': mapping,
+            "stdout": output[0].decode().split("\n"),
+            "stderr": stderr,
+            "cputime": cputime,
+            "result": result,
+            "input": code_input,
+            "path": path,
+            "mapping": mapping,
         }
 
     def _extract_output(self, path, code_input: Input, mapping) -> Optional[_IOBase]:
@@ -246,7 +251,7 @@ class Executable:
         """
         if self._path is not None:
             executable: Optional[str] = os.path.join(self._path, self._executable)
-        elif sys.platform in ('win32', 'win64'):
+        elif sys.platform in ("win32", "win64"):
             executable = shutil.which(self._executable)
         else:
             if os.path.isfile(f"{sys.prefix}/bin/{self._executable}"):

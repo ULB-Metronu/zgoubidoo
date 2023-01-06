@@ -4,21 +4,25 @@ Commands controlling Zgoubi's control flow, geometry, tracking options, etc.
 TODO
 """
 from __future__ import annotations
-from typing import Any, Tuple, Dict, Mapping, List, Union
-from abc import ABCMeta
+
 import inspect
 import uuid
+from abc import ABCMeta
+from typing import Any, Dict, List, Mapping, Tuple, Union
+
 import numpy as _np
 import pandas as _pd
 import parse as _parse
-from pint import UndefinedUnitError as _UndefinedUnitError
-from .patchable import Patchable as _Patchable
-from .. import ureg as _ureg
-from .. import Q_ as _Q
 from georges_core.frame import Frame as _Frame
-from ..units import _radian, _degree, _m, _cm
-from ..constants import ZGOUBI_LABEL_LENGTH as _ZGOUBI_LABEL_LENGTH
+from pint import UndefinedUnitError as _UndefinedUnitError
+
 import zgoubidoo
+
+from .. import Q_ as _Q
+from .. import ureg as _ureg
+from ..constants import ZGOUBI_LABEL_LENGTH as _ZGOUBI_LABEL_LENGTH
+from ..units import _cm, _degree, _m, _radian
+from .patchable import Patchable as _Patchable
 
 
 class ZgoubidooException(Exception):
@@ -30,6 +34,7 @@ class ZgoubidooException(Exception):
 
 class ZgoubidooAttributeException(ZgoubidooException):
     """Exception raised for errors in the Zgoubidoo commands module."""
+
     pass
 
 
@@ -40,7 +45,7 @@ class Comment:
         >>> c = Comment(COMMENT="A very long comment.")
     """
 
-    def __init__(self, comment: str = ''):
+    def __init__(self, comment: str = ""):
         self.COMMENT = comment
 
     def __str__(self):
@@ -62,49 +67,49 @@ class CommandType(ABCMeta):
 
     def __new__(mcs, name: str, bases: Tuple[CommandType, type], dct: Dict[str, Any]):
         # Insert a default initializer (constructor) in case one is not present
-        if '__init__' not in dct:
+        if "__init__" not in dct:
 
-            def default_init(self, label1: str = '', label2: str = '', *params, **kwargs):
+            def default_init(self, label1: str = "", label2: str = "", *params, **kwargs):
                 """Default initializer for all Commands."""
                 defaults = {}
-                if 'post_init' in dct:
+                if "post_init" in dct:
                     defaults = {
                         _: __.default
-                        for _, __ in inspect.signature(dct['post_init']).parameters.items()
+                        for _, __ in inspect.signature(dct["post_init"]).parameters.items()
                         if __.default is not inspect.Parameter.empty
                     }
-                bases[0].__init__(self, label1, label2, dct.get('PARAMETERS', {}), *params, **{**defaults, **kwargs})
-                if 'post_init' in dct:
-                    dct['post_init'](self, **kwargs)
+                bases[0].__init__(self, label1, label2, dct.get("PARAMETERS", {}), *params, **{**defaults, **kwargs})
+                if "post_init" in dct:
+                    dct["post_init"](self, **kwargs)
 
-            dct['__init__'] = default_init
+            dct["__init__"] = default_init
 
         # Collect all post_init arguments
-        if '_POST_INIT' not in dct:
-            dct['_POST_INIT'] = {}
-        if 'post_init' in dct and len(bases) > 0:
-            dct['_POST_INIT'] = {*getattr(bases[0], '_POST_INIT', {}), *dct['post_init'].__code__.co_varnames}
+        if "_POST_INIT" not in dct:
+            dct["_POST_INIT"] = {}
+        if "post_init" in dct and len(bases) > 0:
+            dct["_POST_INIT"] = {*getattr(bases[0], "_POST_INIT", {}), *dct["post_init"].__code__.co_varnames}
 
         # Add a default keyword
-        if 'KEYWORD' not in dct:
+        if "KEYWORD" not in dct:
             for b in bases:
-                if getattr(b, 'KEYWORD', None):
-                    dct['KEYWORD'] = b.KEYWORD
+                if getattr(b, "KEYWORD", None):
+                    dct["KEYWORD"] = b.KEYWORD
                     break
 
         # Add comment to all PARAMETERS entry
-        for k, v in dct.get('PARAMETERS', {}).items():
+        for k, v in dct.get("PARAMETERS", {}).items():
             if not isinstance(v, (tuple, list)):
-                dct['PARAMETERS'][k] = (v, )
-                if isinstance(getattr(bases[0], 'PARAMETERS', {}).get(k), (tuple, list)):
-                    if len(getattr(bases[0], 'PARAMETERS', {}).get(k)) > 1:
-                        dct['PARAMETERS'][k] = (*dct['PARAMETERS'][k], getattr(bases[0], 'PARAMETERS', {}).get(k)[1])
-                    if len(getattr(bases[0], 'PARAMETERS', {}).get(k)) > 2:
-                        dct['PARAMETERS'][k] = (*dct['PARAMETERS'][k], getattr(bases[0], 'PARAMETERS', {}).get(k)[2])
+                dct["PARAMETERS"][k] = (v,)
+                if isinstance(getattr(bases[0], "PARAMETERS", {}).get(k), (tuple, list)):
+                    if len(getattr(bases[0], "PARAMETERS", {}).get(k)) > 1:
+                        dct["PARAMETERS"][k] = (*dct["PARAMETERS"][k], getattr(bases[0], "PARAMETERS", {}).get(k)[1])
+                    if len(getattr(bases[0], "PARAMETERS", {}).get(k)) > 2:
+                        dct["PARAMETERS"][k] = (*dct["PARAMETERS"][k], getattr(bases[0], "PARAMETERS", {}).get(k)[2])
 
         # Add PARAMETERS from the base class
         try:
-            dct['PARAMETERS'] = {**getattr(bases[0], 'PARAMETERS', {}), **dct.get('PARAMETERS', {})}
+            dct["PARAMETERS"] = {**getattr(bases[0], "PARAMETERS", {}), **dct.get("PARAMETERS", {})}
         except IndexError:
             pass
 
@@ -115,9 +120,9 @@ class CommandType(ABCMeta):
         if cls.__doc__ is not None:
             cls.__doc__ = cls.__doc__.rstrip()
             cls.__doc__ += """
-            
+
     .. rubric:: Command attributes
-    
+
     Attributes:
             """
             for k, v in cls.PARAMETERS.items():
@@ -128,8 +133,8 @@ class CommandType(ABCMeta):
 
     def __getattr__(cls, key: str):
         try:
-            if key.endswith('_'):
-                return cls.PARAMETERS[key.rstrip('_')][2]
+            if key.endswith("_"):
+                return cls.PARAMETERS[key.rstrip("_")][2]
             else:
                 return cls.PARAMETERS[key][0]
         except KeyError:
@@ -151,18 +156,20 @@ class Command(metaclass=CommandType):
     More info on this wonderful class.
     TODO
     """
-    KEYWORD: str = ''
+
+    KEYWORD: str = ""
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS: dict = {
-        'LABEL1': ('', 'Primary label for the Zgoubi command (default: auto-generated hash).'),
-        'LABEL2': ('', 'Secondary label for the Zgoubi command.'),
+        "LABEL1": ("", "Primary label for the Zgoubi command (default: auto-generated hash)."),
+        "LABEL2": ("", "Secondary label for the Zgoubi command."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     class CommandResult:
         """TODO"""
+
         def __init__(self, success: bool, results: _pd.DataFrame):
             self._success: bool = success
             self._results: _pd.DataFrame = results
@@ -177,7 +184,7 @@ class Command(metaclass=CommandType):
             """TODO"""
             return self._results
 
-    def __init__(self, label1: str = '', label2: str = '', *params, **kwargs):
+    def __init__(self, label1: str = "", label2: str = "", *params, **kwargs):
         """
         TODO
         Args:
@@ -189,7 +196,7 @@ class Command(metaclass=CommandType):
         self._output: List[Tuple[Mapping[str, Union[_Q, float]], List[str]]] = list()
         self._results: List[Tuple[Mapping[str, Union[_Q, float]], Command.CommandResult]] = list()
         self._attributes = {}
-        for d in (Command.PARAMETERS, ) + params:
+        for d in (Command.PARAMETERS,) + params:
             self._attributes = dict(self._attributes, **{k: v[0] for k, v in d.items()})
         for k, v in kwargs.items():
             if k not in self._POST_INIT:
@@ -197,16 +204,18 @@ class Command(metaclass=CommandType):
         if label1:
             if len(label1) > _ZGOUBI_LABEL_LENGTH:
                 raise ZgoubidooAttributeException(f"LABEL1 '{label1}' for element {self.KEYWORD} is too long.")
-            self._attributes['LABEL1'] = label1
+            self._attributes["LABEL1"] = label1
         if label2:
             if len(label2) > _ZGOUBI_LABEL_LENGTH:
-                raise ZgoubidooAttributeException(f"LABEL2 '{label2}' for element {label1} ({self.KEYWORD}) is too long.")
-            self._attributes['LABEL2'] = label2
-        if not self._attributes['LABEL1']:
+                raise ZgoubidooAttributeException(
+                    f"LABEL2 '{label2}' for element {label1} ({self.KEYWORD}) is too long.",
+                )
+            self._attributes["LABEL2"] = label2
+        if not self._attributes["LABEL1"]:
             self.generate_label()
         Command.post_init(self, **kwargs)
 
-    def generate_label(self, prefix: str = ''):
+    def generate_label(self, prefix: str = ""):
         """
 
         Args:
@@ -215,10 +224,15 @@ class Command(metaclass=CommandType):
         Returns:
 
         """
-        self._attributes['LABEL1'] = '_'.join(filter(None, [
-            prefix,
-            str(uuid.uuid4().hex)
-        ]))[:_ZGOUBI_LABEL_LENGTH]
+        self._attributes["LABEL1"] = "_".join(
+            filter(
+                None,
+                [
+                    prefix,
+                    str(uuid.uuid4().hex),
+                ],
+            ),
+        )[:_ZGOUBI_LABEL_LENGTH]
         return self
 
     def post_init(self, **kwargs):  # -> NoReturn:
@@ -280,22 +294,23 @@ class Command(metaclass=CommandType):
             A ZgoubidooException is raised in case the parameter is not part of the class definition or if it has
             invalid dimension.
         """
-        if k.startswith('_') or not k.isupper():
+        if k.startswith("_") or not k.isupper():
             super().__setattr__(k, v)
         else:
-            k_ = k.rstrip('_')
+            k_ = k.rstrip("_")
             if k_ not in self._attributes.keys():
-                raise ZgoubidooAttributeException(f"The parameter {k_} is not part of the {self.__class__.__name__} "
-                                                  f"definition.")
+                raise ZgoubidooAttributeException(
+                    f"The parameter {k_} is not part of the {self.__class__.__name__} " f"definition.",
+                )
 
             default = self._retrieve_default_parameter_value(k_)
             try:  # Avoid a bug in pint where a string starting with '#' cannot be parsed
-                default = default.lstrip('#')
+                default = default.lstrip("#")
             except AttributeError:
                 pass
-            if isinstance(v, (int, float)) and k.endswith('_'):
+            if isinstance(v, (int, float)) and k.endswith("_"):
                 v = _ureg.Quantity(v, _ureg.Quantity(default).units)
-            elif isinstance(v, str) and default is not None and not isinstance(default, str) and not v.startswith('#'):
+            elif isinstance(v, str) and default is not None and not isinstance(default, str) and not v.startswith("#"):
                 try:
                     v = _ureg.Quantity(v)
                 except _UndefinedUnitError:
@@ -306,10 +321,11 @@ class Command(metaclass=CommandType):
                 dimension = _ureg.Quantity(1).dimensionality  # No dimension
             try:
                 if default is not None and dimension != _ureg.Quantity(default).dimensionality:
-                    raise ZgoubidooAttributeException(f"Invalid dimension ({dimension} "
-                                                      f"instead of {_ureg.Quantity(default).dimensionality}) "
-                                                      f"for parameter {k_}={v} of {self.__class__.__name__}."
-                                                      )
+                    raise ZgoubidooAttributeException(
+                        f"Invalid dimension ({dimension} "
+                        f"instead of {_ureg.Quantity(default).dimensionality}) "
+                        f"for parameter {k_}={v} of {self.__class__.__name__}.",
+                    )
             except (ValueError, TypeError, _UndefinedUnitError):
                 pass
             self._attributes[k_] = v
@@ -421,11 +437,12 @@ class Command(metaclass=CommandType):
         self._results = list()
         return self
 
-    def attach_output(self,
-                      outputs: List[str],
-                      parameters: Mapping[str, Union[_Q, float]],
-                      zgoubi_input: zgoubidoo.Input,
-                      ):  # -> NoReturn:
+    def attach_output(
+        self,
+        outputs: List[str],
+        parameters: Mapping[str, Union[_Q, float]],
+        zgoubi_input: zgoubidoo.Input,
+    ):  # -> NoReturn:
         """
         Attach the ouput that an command has generated during a Zgoubi run.
 
@@ -437,13 +454,14 @@ class Command(metaclass=CommandType):
         self._output.append((parameters, outputs))
         self.process_output(outputs, parameters, zgoubi_input)
 
-    def process_output(self,
-                       output: List[str],
-                       parameters: Mapping[str, Union[_Q, float]],
-                       zgoubi_input: zgoubidoo.Input
-                       ) -> bool:
+    def process_output(
+        self,
+        output: List[str],
+        parameters: Mapping[str, Union[_Q, float]],
+        zgoubi_input: zgoubidoo.Input,
+    ) -> bool:
         """
-        
+
         Args:
             output: the output from a Zgoubi run to be processed by the command.
             parameters: TODO
@@ -481,7 +499,7 @@ class Command(metaclass=CommandType):
         Returns:
 
         """
-        return _parse.search("'{}' {label1:w}", ' '.join(stream.split()))
+        return _parse.search("'{}' {label1:w}", " ".join(stream.split()))
 
 
 class Fake(Command):
@@ -491,16 +509,17 @@ class Fake(Command):
     formatted before being printed, and uses the OPTIONS command attributes list for that purpose (see examples below).
 
     This can also be used to implement new commands easily by using formatted INPUT together with OPTIONS.
-    
+
     Examples:
         >>> c = Fake('FAKE1', INPUT="'COMMAND_NAME' {LABEL1} 1.0 2.0 3.0")
         >>> str(c)
     """
+
     PARAMETERS = {
-        'INPUT': ('', 'Input string.'),
-        'OPTIONS': {},
+        "INPUT": ("", "Input string."),
+        "OPTIONS": {},
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -532,23 +551,24 @@ class AutoRef(Command):
     - If I = 5 : new vertical beam centroid positionning ZCE, PLE (position, angle) is provided. The beam is centered on
       vertical position and angle ZCE, PLE.
     """
-    KEYWORD = 'AUTOREF'
+
+    KEYWORD = "AUTOREF"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'I': (1, 'Mode (1, 2 or 3).'),
-        'I1': (1, 'Particle number (only used if I = 3)'),
-        'I2': (1, 'Particle number (only used if I = 3)'),
-        'I3': (1, 'Particle number (only used if I = 3)'),
-        'XCE': (0.0 * _ureg.cm, ''),
-        'YCE': (0.0 * _ureg.cm, 'Beam centroid new coordinates YCE'),
-        'ALE': (0.0 * _ureg.mradian, 'Beam centroid new coordinates ALE'),
-        'DCE': (0.0, 'New beam centroid positionning: new relative momentum DCE'),
-        'TIME': (0.0 *_ureg.micros, 'New beam centroid positionning: new timing value'),
-        'ZCE': (0.0 * _ureg.cm, 'New vertical beam centroid positionning: position ZCE'),
-        'PLE': (0.0 * _ureg.mradian, 'New vertical beam centroid positionning: angle')
+        "I": (1, "Mode (1, 2 or 3)."),
+        "I1": (1, "Particle number (only used if I = 3)"),
+        "I2": (1, "Particle number (only used if I = 3)"),
+        "I3": (1, "Particle number (only used if I = 3)"),
+        "XCE": (0.0 * _ureg.cm, ""),
+        "YCE": (0.0 * _ureg.cm, "Beam centroid new coordinates YCE"),
+        "ALE": (0.0 * _ureg.mradian, "Beam centroid new coordinates ALE"),
+        "DCE": (0.0, "New beam centroid positionning: new relative momentum DCE"),
+        "TIME": (0.0 * _ureg.micros, "New beam centroid positionning: new timing value"),
+        "ZCE": (0.0 * _ureg.cm, "New vertical beam centroid positionning: position ZCE"),
+        "PLE": (0.0 * _ureg.mradian, "New vertical beam centroid positionning: angle"),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self) -> str:
@@ -586,30 +606,31 @@ class BeamBeam(Command):
     *For software developers*
     rbb.f reads the data from zgoubi.dat; bb.f and programs therein do the beam (and spin when requested) dynamics.
     """
-    KEYWORD = 'BEAMBEAM'
+
+    KEYWORD = "BEAMBEAM"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'SW': (0, '0/1 : off/on'),
-        'I': (0.0 * _ureg.ampere, 'beam intensity'),
-        'ALPHA_Y': (0.0, 'Horizontal beam parameters'),
-        'BETA_Y': (0.0 *_ureg.m, 'Horizontal beam parameters'),
-        'EPSILON_Y': (0.0 *_ureg.m*_ureg.radian, 'Horizontal beam parameters : (EPSILON_Y,norm)/pi'),
-        'ALPHA_Z': (0.0, 'Vertical beam parameters'),
-        'BETA_Z': (0.0 *_ureg.m, 'Vertical beam parameters'),
-        'EPSILON_Z': (0.0 *_ureg.m*_ureg.radian, 'Vertical beam parameters (EPSILON_Z,norm)/pi'),
-        'SIGMA_X': (0.0 *_ureg.m, 'rms bunch length'),
-        'SIGMA_DP': (0.0 , 'rms momentum spread'),
-        'C': (0.0 * _ureg.m, 'Ring circumference'),
-        'ALPHA': (0.0, 'momentum compaction'),
-        'QY': (0.0, 'Horizontal tune'),
-        'QZ': (0.0, 'Vertical tune'),
-        'QS': (0.0, 'Synchrotron tune'),
-        'AY': (0.0, 'Horizontal amplitude'),
-        'AZ': (0.0, 'Vertical amplitude'),
-        'AX': (0.0, 'Longitudinal amplitude'),
+        "SW": (0, "0/1 : off/on"),
+        "I": (0.0 * _ureg.ampere, "beam intensity"),
+        "ALPHA_Y": (0.0, "Horizontal beam parameters"),
+        "BETA_Y": (0.0 * _ureg.m, "Horizontal beam parameters"),
+        "EPSILON_Y": (0.0 * _ureg.m * _ureg.radian, "Horizontal beam parameters : (EPSILON_Y,norm)/pi"),
+        "ALPHA_Z": (0.0, "Vertical beam parameters"),
+        "BETA_Z": (0.0 * _ureg.m, "Vertical beam parameters"),
+        "EPSILON_Z": (0.0 * _ureg.m * _ureg.radian, "Vertical beam parameters (EPSILON_Z,norm)/pi"),
+        "SIGMA_X": (0.0 * _ureg.m, "rms bunch length"),
+        "SIGMA_DP": (0.0, "rms momentum spread"),
+        "C": (0.0 * _ureg.m, "Ring circumference"),
+        "ALPHA": (0.0, "momentum compaction"),
+        "QY": (0.0, "Horizontal tune"),
+        "QZ": (0.0, "Vertical tune"),
+        "QS": (0.0, "Synchrotron tune"),
+        "AY": (0.0, "Horizontal amplitude"),
+        "AZ": (0.0, "Vertical amplitude"),
+        "AX": (0.0, "Longitudinal amplitude"),
     }
-    """Parameters of the command, with their default value, their description and optinally an index used by other 
+    """Parameters of the command, with their default value, their description and optinally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -620,29 +641,31 @@ class BeamBeam(Command):
         {self.ALPHA_Z:.12e} {self.BETA_Z.m_as('m'):.12e} {self.EPSILON_Z.m_as('m*rad'):.12e}
         {self.SIGMA_X.m_as('m'):.12e} {self.SIGMA_DP:.12e}
         {self.C.m_as('m'):.12e} {self.ALPHA:.12e}
-        {self.QY:.12e} {self.QZ:.12e} {self.QS:.12e} 
-        {self.AY:.12e} {self.AZ:.12e} {self.AS:.12e} 
+        {self.QY:.12e} {self.QZ:.12e} {self.QS:.12e}
+        {self.AY:.12e} {self.AZ:.12e} {self.AS:.12e}
         """
+
 
 class Binary(Command):
     """BINARY/FORMATTED data converter.
 
     TODO
     """
-    KEYWORD = 'BINARY'
+
+    KEYWORD = "BINARY"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'FILES': ([], 'List of files to convert'),
-        'NCOL': (6, 'Number of columns in each files'),
-        'NHDR': (8, 'Number of header lines in each files'),
-        'FORMAT': (None, 'READ format')
+        "FILES": ([], "List of files to convert"),
+        "NCOL": (6, "Number of columns in each files"),
+        "NHDR": (8, "Number of header lines in each files"),
+        "FORMAT": (None, "READ format"),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
-        newline = '\n        '
+        newline = "\n        "
         return f"""
         {super().__str__().rstrip()}
         {len(self.FILES)}.{self.FORMAT or ''} {self.NCOL} {self.NHDR}
@@ -677,20 +700,24 @@ class Chambre(Command):
     When a particle is stopped, its index IEX (see OBJET and section 4.6.10) is set to the value -4, and its actual
     path length is stored in the array SORT for possible further use.
     """
-    KEYWORD = 'CHAMBR'
+
+    KEYWORD = "CHAMBR"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IA': (0, '0 (element inactive), 1 ((re)definition of the aperture), 2 (stop testing and reset counters,'
-                  'print information on stopped particles'),
-        'IFORM': (1, '1 (rectangular aperture), 2 (elliptical aperture)'),
-        'J': (0, '0 (default) or 1'),
-        'C1': (100 * _ureg.cm, 'If J=0, Y opening, if J=1, inner Y opening'),
-        'C2': (100 * _ureg.cm, 'If J=0, Z opening, if J=1, outer Y opening'),
-        'C3': (0 * _ureg.cm, 'If J=0, Y center, if J=1, inner Z opening'),
-        'C4': (0 * _ureg.cm, 'If J=0, Z center, if J=1, outer Z opening'),
+        "IA": (
+            0,
+            "0 (element inactive), 1 ((re)definition of the aperture), 2 (stop testing and reset counters,"
+            "print information on stopped particles",
+        ),
+        "IFORM": (1, "1 (rectangular aperture), 2 (elliptical aperture)"),
+        "J": (0, "0 (default) or 1"),
+        "C1": (100 * _ureg.cm, "If J=0, Y opening, if J=1, inner Y opening"),
+        "C2": (100 * _ureg.cm, "If J=0, Z opening, if J=1, outer Y opening"),
+        "C3": (0 * _ureg.cm, "If J=0, Y center, if J=1, inner Z opening"),
+        "C4": (0 * _ureg.cm, "If J=0, Z center, if J=1, outer Z opening"),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -718,13 +745,14 @@ class ChangRef(Command, _Patchable):
 
     TODO
     """
-    KEYWORD = 'CHANGREF'
+
+    KEYWORD = "CHANGREF"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'TRANSFORMATIONS': ([], 'List of transformations for new style ChangeRef'),
+        "TRANSFORMATIONS": ([], "List of transformations for new style ChangeRef"),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -741,10 +769,10 @@ class ChangRef(Command, _Patchable):
                 cc += f"{t[0]} {_degree(t[1])} "
             else:
                 raise ZgoubidooException(f"Incorrect dimensionality in {self.__class__.__name__}.")
-        if cc != '':
+        if cc != "":
             return c + cc
         else:
-            return ''
+            return ""
 
     @property
     def length(self) -> _Q:
@@ -767,9 +795,9 @@ class ChangRef(Command, _Patchable):
             for t in self.TRANSFORMATIONS:
                 if len(t) > 2:
                     raise Exception("Invalid transformation.")
-                if t[0].endswith('S'):
+                if t[0].endswith("S"):
                     self._entry_patched.translate_axis(t[0][0], t[1])
-                elif t[0].endswith('R'):
+                elif t[0].endswith("R"):
                     self._entry_patched.rotate_axis(t[0][0], t[1])
         return self._entry_patched
 
@@ -828,21 +856,24 @@ class Collimateur(Command):
     When a particle is stopped, its index IEX (see ``OBJET`` and section 7.12) is set to the value -4, and its actual
     path length is stored in the array SORT for possible further use (e.g., by ``HISTO``, or for loss studies, etc.).
     """
-    KEYWORD = 'COLLIMA'
+    KEYWORD = "COLLIMA"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IA': (2, 'Element active or not (0 - inactive, 1 - active, 2 - active and prints information.'),
-        'IFORM': (1, 'Aperture shape (1 - rectangular, 2 - elliptic (other options, see documentation). '
-                  'IFORM = 6 or 7 for longitudinal collimation, '
-                  '11 ≤ IFORM ≤ 16 for phase-space elliptical collimation'),
-        'J': (0, 'Description of the aperture coordinates system.'),
-        'C1': (0.0 * _ureg.cm, 'Half opening (Y).'),
-        'C2': (0.0 * _ureg.cm, 'Half opening (Z).'),
-        'C3': (0.0 * _ureg.cm, 'Center of the aperture (Y).'),
-        'C4': (0.0 * _ureg.cm, 'Center of the aperture (Z).')
+        "IA": (2, "Element active or not (0 - inactive, 1 - active, 2 - active and prints information."),
+        "IFORM": (
+            1,
+            "Aperture shape (1 - rectangular, 2 - elliptic (other options, see documentation). "
+            "IFORM = 6 or 7 for longitudinal collimation, "
+            "11 ≤ IFORM ≤ 16 for phase-space elliptical collimation",
+        ),
+        "J": (0, "Description of the aperture coordinates system."),
+        "C1": (0.0 * _ureg.cm, "Half opening (Y)."),
+        "C2": (0.0 * _ureg.cm, "Half opening (Z)."),
+        "C3": (0.0 * _ureg.cm, "Center of the aperture (Y)."),
+        "C4": (0.0 * _ureg.cm, "Center of the aperture (Z)."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -863,7 +894,8 @@ class Cible(Command):
 
     TODO
     """
-    KEYWORD = 'CIBLE'
+
+    KEYWORD = "CIBLE"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -898,15 +930,16 @@ class FaiStore(Command):
     keyword, this will inhibit all storage until the final run following a FIT procedure, and (ii) avoid using the
     ’nofinal’ instruction in FIT[2] (see p. 156)).
     """
-    KEYWORD = 'FAISTORE'
+
+    KEYWORD = "FAISTORE"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'FNAME': ('zgoubi.fai', 'Storage file name.'),
-        'LABELS': ('ALL', 'Label(s) of the element(s) at the exit of which the storage occurs (10 labels maximum).'),
-        'IP': (1, 'Store every IP other pass (when using REBELOTE with NPASS ≥ IP − 1).'),
+        "FNAME": ("zgoubi.fai", "Storage file name."),
+        "LABELS": ("ALL", "Label(s) of the element(s) at the exit of which the storage occurs (10 labels maximum)."),
+        "IP": (1, "Store every IP other pass (when using REBELOTE with NPASS ≥ IP − 1)."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -959,13 +992,13 @@ class Focale(Command):
     $$W = 2.35(\frac{1}{N} \sum_{i=1}^N Y M_i^2 - Y M^2)^{1/2}$$
     $$WT = max(YM_i) - min(YM_i)$$
     """
-    KEYWORD = 'FOCALE'
+    KEYWORD = "FOCALE"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'XL': (0.0 * _ureg.centimeter, 'Distance from the location of the keyword.'),
+        "XL": (0.0 * _ureg.centimeter, "Distance from the location of the keyword."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -983,13 +1016,13 @@ class FocaleZ(Command):
     Similar to ``FOCALE``, but the calculations are performed with respect to the vertical coordinates
     :math:`Z_i` and :math:`P_i`, in place of :math:`Y_i` and :math:`T_i`.
     """
-    KEYWORD = 'FOCALEZ'
+    KEYWORD = "FOCALEZ"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'XL': (0.0 * _ureg.centimeter, 'Distance from the location of the keyword.'),
+        "XL": (0.0 * _ureg.centimeter, "Distance from the location of the keyword."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -1007,15 +1040,16 @@ class GasScattering(Command):
 
     .. note:: Implementation is to be completed in Zgoubi.
     """
-    KEYWORD = 'GASCAT'
+
+    KEYWORD = "GASCAT"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'KGA': (0, 'Off/On switch'),
-        'AI': (0.0, 'Atomic number'),
-        'DEN': (0.0, 'density'),
+        "KGA": (0, "Off/On switch"),
+        "AI": (0.0, "Atomic number"),
+        "DEN": (0.0, "density"),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -1056,13 +1090,14 @@ class GetFitVal(Command):
     the fit. This can be inhibited by indicating ‘nofinal’ option in FIT[2] (see page 156). For that final run
     ``GETFITVAL`` will be inhibited so avoid overridding the updated variable values.
     """
-    KEYWORD = 'GETFITVAL'
+
+    KEYWORD = "GETFITVAL"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'FNAME': 'zgoubi.res',
+        "FNAME": "zgoubi.res",
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -1074,7 +1109,8 @@ class GetFitVal(Command):
 
 class Histo(Command):
     """1-Dhistogram"""
-    KEYWORD = 'HISTO'
+
+    KEYWORD = "HISTO"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -1120,7 +1156,7 @@ class Image(Command):
     $$W = 2.35(\frac{1}{N} \sum_{i=1}^N Y M_i^2 - Y M^2)^{1/2}$$
     $$WT = max(YM_i) - min(YM_i)$$
     """
-    KEYWORD = 'IMAGE'
+    KEYWORD = "IMAGE"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -1166,7 +1202,7 @@ class Images(Command):
     $$W = 2.35(\frac{1}{N} \sum_{i=1}^N Y M_i^2 - Y M^2)^{1/2}$$
     $$WT = max(YM_i) - min(YM_i)$$
     """
-    KEYWORD = 'IMAGES'
+    KEYWORD = "IMAGES"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -1178,7 +1214,7 @@ class ImageZ(Command):
     Similar to IMAGE, but the calculations are performed with respect to the vertical coordinates
     :math:`Z_i` and :math:`P_i`, in place of :math:`Y_i` and :math:`T_i`.
     """
-    KEYWORD = 'IMAGEZ'
+    KEYWORD = "IMAGEZ"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -1190,19 +1226,20 @@ class ImagesZ(Command):
     Similar to IMAGES, but the calculations are performed with respect to the vertical coordinates
     :math:`Z_i` and :math:`P_i`, in place of :math:`Y_i` and :math:`T_i`.
     """
-    KEYWORD = 'IMAGESZ'
+    KEYWORD = "IMAGESZ"
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class Marker(Command, _Patchable):
     """Marker."""
-    KEYWORD = 'MARKER'
+
+    KEYWORD = "MARKER"
     """Keyword of the command used for the Zgoubi input data."""
 
-    def __init__(self, label1='', label2='', *params, with_plt=True, **kwargs):
+    def __init__(self, label1="", label2="", *params, with_plt=True, **kwargs):
         super().__init__(label1, label2, self.PARAMETERS, *params, **kwargs)
-        if self.LABEL2 == '':
-            self.LABEL2 = '.plt' if with_plt else ''
+        if self.LABEL2 == "":
+            self.LABEL2 = ".plt" if with_plt else ""
 
     def __str__(self):
         return f"""
@@ -1212,15 +1249,16 @@ class Marker(Command, _Patchable):
 
 class Matrix(Command):
     """Calculation of transfer coefficients, periodic parameters."""
-    KEYWORD = 'MATRIX'
+
+    KEYWORD = "MATRIX"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IORD': 1,
-        'IFOC': (11, 'If IFOC=11, periodic parameters (single pass)'),
-        'COUPLED': (False, 'If COUPLED = True : use of coupled formalism'),
+        "IORD": 1,
+        "IFOC": (11, "If IFOC=11, periodic parameters (single pass)"),
+        "COUPLED": (False, "If COUPLED = True : use of coupled formalism"),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -1232,7 +1270,8 @@ class Matrix(Command):
 
 class MCDesintegration(Command):
     """Monte-Carlo simulation of in-flight decay."""
-    KEYWORD = 'MCDESINT'
+
+    KEYWORD = "MCDESINT"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -1264,15 +1303,15 @@ class Optics(Command):
     the transported optical functions into file zgoubi.OPTICS.out.
     """
 
-    KEYWORD = 'OPTICS'
+    KEYWORD = "OPTICS"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IOPT': 1,
-        'LABEL': ('all', ),
-        'COUPLED': (False, 'If COUPLED = True : use of coupled formalism'),
+        "IOPT": 1,
+        "LABEL": ("all",),
+        "COUPLED": (False, "If COUPLED = True : use of coupled formalism"),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -1284,13 +1323,14 @@ class Optics(Command):
 
 class Ordre(Command):
     """Taylor expansions order."""
-    KEYWORD = 'ORDRE'
+
+    KEYWORD = "ORDRE"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IO': (4, 'Taylor expansion of R and u up to IO (default is IO = 4, IO = 2..5).'),
+        "IO": (4, "Taylor expansion of R and u up to IO (default is IO = 4, IO = 2..5)."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -1302,13 +1342,15 @@ class Ordre(Command):
 
 class Pickups(Command):
     """Beam centroid path; closed orbit."""
-    KEYWORD = 'PICKUPS'
+
+    KEYWORD = "PICKUPS"
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class PlotData(Command):
     """Intermediate output for the PLOTDATA graphic software."""
-    KEYWORD = 'PLOTDATA'
+
+    KEYWORD = "PLOTDATA"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -1378,24 +1420,24 @@ class Rebelote(Command):
 
     """
 
-    KEYWORD = 'REBELOTE'
+    KEYWORD = "REBELOTE"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'NPASS': 1,
-        'KWRIT': 1.1,
-        'K': 99,
-        'N': None,
-        'LABL1': None,
-        'LABL2': None,
-        'IOPT': None,
-        'NPRM': 1,
-        'LMNT': None,
-        'KPRM': None,
-        'first_value': None,
-        'last_value': None
+        "NPASS": 1,
+        "KWRIT": 1.1,
+        "K": 99,
+        "N": None,
+        "LABL1": None,
+        "LABL2": None,
+        "IOPT": None,
+        "NPRM": 1,
+        "LMNT": None,
+        "KPRM": None,
+        "first_value": None,
+        "last_value": None,
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -1433,17 +1475,19 @@ class Reset(Command):
 
     >>> Reset()
     """
-    KEYWORD = 'RESET'
+
+    KEYWORD = "RESET"
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class Scaling(Command):
     """Power supplies and R.F. function generator."""
-    KEYWORD = 'SCALING'
+
+    KEYWORD = "SCALING"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {}
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -1459,13 +1503,15 @@ class Scaling(Command):
 
 class Separa(Command):
     """Wien Filter - analytical simulation."""
-    KEYWORD = 'SEPARA'
+
+    KEYWORD = "SEPARA"
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class Target(Command):
     """Generate a secondary beam following target interaction."""
-    KEYWORD = 'TARGET'
+
+    KEYWORD = "TARGET"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -1481,24 +1527,26 @@ class TransferMatrix(Command):
 
     .. Note:: MATRIX delivers [Rij] and [Tijk] matrices in a format suitable for straightforward use with TRANSMAT.
     """
-    KEYWORD = 'TRANSMAT'
+
+    KEYWORD = "TRANSMAT"
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class TranslationRotation(Command):
     """Translation-Rotation of the reference frame."""
-    KEYWORD = 'TRAROT'
+
+    KEYWORD = "TRAROT"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'TX': (0 * _ureg.m, 'X axis translation'),
-        'TY': (0 * _ureg.m, 'Y axis translation'),
-        'TZ': (0 * _ureg.m, 'Z axis translation'),
-        'RX': (0 * _ureg.degree, 'X axis rotation'),
-        'RY': (0 * _ureg.degree, 'Y axis rotation'),
-        'RZ': (0 * _ureg.degree, 'Z axis rotation'),
+        "TX": (0 * _ureg.m, "X axis translation"),
+        "TY": (0 * _ureg.m, "Y axis translation"),
+        "TZ": (0 * _ureg.m, "Z axis translation"),
+        "RX": (0 * _ureg.degree, "X axis rotation"),
+        "RY": (0 * _ureg.degree, "Y axis rotation"),
+        "RZ": (0 * _ureg.degree, "Z axis rotation"),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -1514,15 +1562,16 @@ TraRot = TranslationRotation
 
 class Twiss(Command):
     """Calculation of periodic optical parameters."""
-    KEYWORD = 'TWISS'
+
+    KEYWORD = "TWISS"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'KTW': 1,
-        'FACD': 1.0,
-        'FACA': (0.0, 'Unused'),
+        "KTW": 1,
+        "FACD": 1.0,
+        "FACA": (0.0, "Unused"),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -1534,15 +1583,16 @@ class Twiss(Command):
 
 class Ymy(Command, _Patchable):
     """Reverse signs of Y and Z reference axes, equivalent to a 180 degree rotation around the X axis.
-    
-    This is particularly useful for example in combination with a `Dipole` that needs to be flipped so that the 
+
+    This is particularly useful for example in combination with a `Dipole` that needs to be flipped so that the
     geometry matches the negative field value.
 
     ..note: YMY reverses the signs of all transverse variables (Y, T, Z, P); despite its name.
 
     TODO
     """
-    KEYWORD = 'YMY'
+
+    KEYWORD = "YMY"
     """Keyword of the command used for the Zgoubi input data."""
 
     @property

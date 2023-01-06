@@ -3,7 +3,7 @@ from zgoubidoo.commands import Quadrupole
 
 _ = zgoubidoo.ureg
 
-zi = zgoubidoo.Input(name='TEST-INPUT')
+zi = zgoubidoo.Input(name="TEST-INPUT")
 
 qf = Quadrupole(
     XL=50 * _.cm,

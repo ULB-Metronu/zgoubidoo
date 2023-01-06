@@ -53,40 +53,41 @@ Publications
 - Coming soon.
 
 """
-__version__ = "2020.1"
+__version__ = "2023.1"
 
 try:
-    from georges_core import ureg, Q_
+    from georges_core import Q_, ureg
 except ModuleNotFoundError:
     # TODO error handling
     # Manipulation of physical quantities (with units, etc.)
     # https://pint.readthedocs.io/en/latest/
     from pint import UnitRegistry
+
     ureg = UnitRegistry()
     Q_ = ureg.Quantity
-    ureg.define('electronvolt = e * volt = eV')
-    ureg.define('electronvolt_per_c = eV / c = eV_c')
-    ureg.define('electronvolt_per_c2 = eV / c**2 = eV_c2')
-    ureg.define('gauss = 1e-4 * tesla = G')  # see https://github.com/hgrecco/pint/issues/1105
+    ureg.define("electronvolt = e * volt = eV")
+    ureg.define("electronvolt_per_c = eV / c = eV_c")
+    ureg.define("electronvolt_per_c2 = eV / c**2 = eV_c2")
+    ureg.define("gauss = 1e-4 * tesla = G")  # see https://github.com/hgrecco/pint/issues/1105
 
 try:
-    from georges_core import sequences
-    from georges_core import Kinematics, KinematicsException
+    from georges_core import Kinematics, KinematicsException, sequences
     from georges_core.frame import Frame, FrameException
 except ModuleNotFoundError:
     # TODO error handling
     pass
 
-from . import commands
-from . import converters
-from . import fieldmaps
-from . import physics
-from . import vis
-from . import twiss
-from .input import Input, ZgoubiInputValidator, ZgoubiInputException
-from .outputs import read_fai_file, read_matrix_file, read_optics_file, read_plt_file, read_srloss_file, \
-    read_srloss_steps_file
-from .mappings import ParametricMapping, ParametersMappingType
-from .zgoubi import Zgoubi, ZgoubiResults, ZgoubiException
-from .surveys import survey, clear_survey, survey_reference_trajectory
+from . import commands, converters, fieldmaps, physics, twiss, vis
+from .input import Input, ZgoubiInputException, ZgoubiInputValidator
+from .mappings import ParametersMappingType, ParametricMapping
+from .outputs import (
+    read_fai_file,
+    read_matrix_file,
+    read_optics_file,
+    read_plt_file,
+    read_srloss_file,
+    read_srloss_steps_file,
+)
 from .polarity import HorizontalPolarity, VerticalPolarity
+from .surveys import clear_survey, survey, survey_reference_trajectory
+from .zgoubi import Zgoubi, ZgoubiException, ZgoubiResults

@@ -8,30 +8,35 @@
 
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING, List, Mapping, Iterable, Optional, Tuple, Union
+
 import logging
-import tempfile
 import os
+import tempfile
+from typing import TYPE_CHECKING, Iterable, List, Mapping, Optional, Tuple, Union
+
 import numpy as _np
 import pandas as _pd
 import pint
-from .executable import Executable
-from .transformations import GlobalCoordinateTransformation as _GlobalCoordinateTransformation
-from .transformations import FrenetCoordinateTransformation as _FrenetCoordinateTransformation
-from .outputs import read_plt_file, read_matrix_file, read_srloss_file, read_srloss_steps_file, read_optics_file
-from . import ureg as _ureg
-import zgoubidoo
-from .constants import ZGOUBI_INPUT_FILENAME as _ZGOUBI_INPUT_FILENAME
 from georges_core.sequences import BetaBlock as _BetaBlock
 from georges_core.twiss import ParametrizationType as _ParametrizationType
 from georges_core.twiss import Twiss as _Twiss
+
+import zgoubidoo
+
+from . import ureg as _ureg
+from .constants import ZGOUBI_INPUT_FILENAME as _ZGOUBI_INPUT_FILENAME
+from .executable import Executable
+from .outputs import read_matrix_file, read_optics_file, read_plt_file, read_srloss_file, read_srloss_steps_file
+from .transformations import FrenetCoordinateTransformation as _FrenetCoordinateTransformation
+from .transformations import GlobalCoordinateTransformation as _GlobalCoordinateTransformation
+
 if TYPE_CHECKING:
     from .input import Input as _Input
-    from .transformations import CoordinateTransformationType as _CoordinateTransformationType
-    from .mappings import MappedParametersType as _MappedParametersType
     from .mappings import MappedParametersListType as _MappedParametersListType
+    from .mappings import MappedParametersType as _MappedParametersType
+    from .transformations import CoordinateTransformationType as _CoordinateTransformationType
 
-__all__ = ['ZgoubiException', 'ZgoubiResults', 'Zgoubi']
+__all__ = ["ZgoubiException", "ZgoubiResults", "Zgoubi"]
 _logger = logging.getLogger(__name__)
 
 
@@ -44,6 +49,7 @@ class ZgoubiException(Exception):
 
 class ZgoubiResults:
     """Results from a Zgoubi executable run."""
+
     def __init__(self, results: List[Mapping], options: Optional[Mapping] = None):
         """
         `ZgoubiResults` is used to store results and outputs from a single or multiple Zgoubi runs. It is instanciated
@@ -96,11 +102,12 @@ class ZgoubiResults:
         """Retrieve results from the list using a numeric index."""
         return self._results[item]
 
-    def get_tracks(self,
-                   parameters: Optional[_MappedParametersListType] = None,
-                   force_reload: bool = False,
-                   transformation: Optional[_CoordinateTransformationType] = None,
-                   ) -> _pd.DataFrame:
+    def get_tracks(
+        self,
+        parameters: Optional[_MappedParametersListType] = None,
+        force_reload: bool = False,
+        transformation: Optional[_CoordinateTransformationType] = None,
+    ) -> _pd.DataFrame:
         """
         Collects all tracks from the different Zgoubi instances matching the given parameters list
         in the results and concatenate them.
@@ -113,9 +120,10 @@ class ZgoubiResults:
         Returns:
             A concatenated DataFrame with all the tracks in the result matching the parameters list.
         """
+
         def _transform_and_return_tracks(t):
             if transformation is not None:
-                return transformation.transform(tracks=t.copy(), beamline=self.results[0][1]['input'])
+                return transformation.transform(tracks=t.copy(), beamline=self.results[0][1]["input"])
             else:
                 return t
 
@@ -127,12 +135,12 @@ class ZgoubiResults:
             if parameters is None or k in parameters:
                 try:
                     try:
-                        p = r['path'].name
+                        p = r["path"].name
                     except AttributeError:
-                        p = r['path']
+                        p = r["path"]
                     tracks.append(read_plt_file(path=p))
-                    tracks[-1]['IT'] += particle_id
-                    particle_id = _np.max(tracks[-1]['IT'])
+                    tracks[-1]["IT"] += particle_id
+                    particle_id = _np.max(tracks[-1]["IT"])
                     for kk, vv in k.items():
                         try:
                             tracks[-1][f"{kk.replace('.', '__')}"] = _ureg.Quantity(vv).to_base_units().m
@@ -140,8 +148,8 @@ class ZgoubiResults:
                             tracks[-1][f"{kk.replace('.', '__')}"] = vv
                 except FileNotFoundError:
                     _logger.warning(
-                        f"Unable to read and load the Zgoubi .plt files required to collect the tracks for path "
-                        "{r['path']}."
+                        "Unable to read and load the Zgoubi .plt files required to collect the tracks for path "
+                        f"{r['path']}.",
                     )
                     continue
         if len(tracks) > 0:
@@ -182,9 +190,11 @@ class ZgoubiResults:
         """
         return self.get_tracks(transformation=_FrenetCoordinateTransformation)
 
-    def get_srloss(self,
-                   parameters: Optional[_MappedParametersListType] = None,
-                   force_reload: bool = False) -> _pd.DataFrame:
+    def get_srloss(
+        self,
+        parameters: Optional[_MappedParametersListType] = None,
+        force_reload: bool = False,
+    ) -> _pd.DataFrame:
         """
 
         Args:
@@ -201,15 +211,15 @@ class ZgoubiResults:
             if parameters is None or k in parameters:
                 try:
                     try:
-                        p = r['path'].name
+                        p = r["path"].name
                     except AttributeError:
-                        p = r['path']
+                        p = r["path"]
                     srloss.append(read_srloss_file(path=p))
                     for kk, vv in k.items():
                         srloss[-1][f"{kk}"] = vv
                 except FileNotFoundError:
                     _logger.warning(
-                        "Unable to read and load the Zgoubi SRLOSS files required to collect the SRLOSS data."
+                        "Unable to read and load the Zgoubi SRLOSS files required to collect the SRLOSS data.",
                     )
                     continue
         if len(srloss) > 0:
@@ -229,10 +239,12 @@ class ZgoubiResults:
         """
         return self.get_srloss()
 
-    def get_srloss_steps(self,
-                         parameters: Optional[_MappedParametersListType] = None,
-                         force_reload: bool = False,
-                         with_survey: bool = True) -> _pd.DataFrame:
+    def get_srloss_steps(
+        self,
+        parameters: Optional[_MappedParametersListType] = None,
+        force_reload: bool = False,
+        with_survey: bool = True,
+    ) -> _pd.DataFrame:
         """
 
         Args:
@@ -252,16 +264,16 @@ class ZgoubiResults:
             if parameters is None or k in parameters:
                 try:
                     try:
-                        p = r['path'].name
+                        p = r["path"].name
                     except AttributeError:
-                        p = r['path']
+                        p = r["path"]
                     srloss_steps.append(read_srloss_steps_file(path=p))
                     for kk, vv in k.items():
                         srloss_steps[-1][f"{kk}"] = vv
                 except FileNotFoundError:
                     _logger.warning(
                         "Unable to read and load the Zgoubi SRLOSS_STEPS files required to collect "
-                        "the SRLOSS STEPS data."
+                        "the SRLOSS STEPS data.",
                     )
                     continue
         if len(srloss_steps) > 0:
@@ -271,7 +283,10 @@ class ZgoubiResults:
         if parameters is None:
             self._srloss_steps = srloss_steps
         if with_survey and not srloss_steps.empty:
-            self._srloss_steps = _GlobalCoordinateTransformation.transform(tracks=srloss_steps.copy(), beamline=self.results[0][1]['input'])
+            self._srloss_steps = _GlobalCoordinateTransformation.transform(
+                tracks=srloss_steps.copy(),
+                beamline=self.results[0][1]["input"],
+            )
 
         return self._srloss_steps
 
@@ -297,21 +312,22 @@ class ZgoubiResults:
                 m = list()
                 for r in self._results:
                     try:
-                        p = r['path'].name
+                        p = r["path"].name
                     except AttributeError:
-                        p = r['path']
+                        p = r["path"]
                     m.append(read_matrix_file(path=p))
                 self._matrix = _pd.concat(m)
             except FileNotFoundError:
                 _logger.warning(
-                    "Unable to read and load the Zgoubi MATRIX files required to collect the matrix data."
+                    "Unable to read and load the Zgoubi MATRIX files required to collect the matrix data.",
                 )
                 return None
         return self._matrix
 
-    def get_optics(self,
-                   force_reload: bool = False,
-                   ) -> Optional[_pd.DataFrame]:
+    def get_optics(
+        self,
+        force_reload: bool = False,
+    ) -> Optional[_pd.DataFrame]:
         """
         Collects all optics data from the different Zgoubi instances in the results and concatenate them.
 
@@ -326,15 +342,15 @@ class ZgoubiResults:
             m = list()
             for r in self._results:
                 try:
-                    p = r['path'].name
+                    p = r["path"].name
                 except AttributeError:
-                    p = r['path']
+                    p = r["path"]
                 m.append(read_optics_file(path=p))
             self._optics = _pd.concat(m)
         except FileNotFoundError:
             _logger.warning(
-                    "Unable to read and load the Zgoubi OPTICS files required to collect the matrix data."
-                )
+                "Unable to read and load the Zgoubi OPTICS files required to collect the matrix data.",
+            )
             return None
         return self._optics
 
@@ -347,8 +363,10 @@ class ZgoubiResults:
         """
         return self.get_optics()
 
-    def compute_step_by_step_transfer_matrix(self,
-                                             force_reload: bool = False) -> Optional[_pd.DataFrame]:
+    def compute_step_by_step_transfer_matrix(
+        self,
+        force_reload: bool = False,
+    ) -> Optional[_pd.DataFrame]:
         """
 
         Args:
@@ -361,7 +379,7 @@ class ZgoubiResults:
             return self._step_by_step_transfer_matrix
         else:
             self._step_by_step_transfer_matrix = zgoubidoo.twiss.compute_transfer_matrix(
-                beamline=self.results[0][1]['input'],
+                beamline=self.results[0][1]["input"],
                 tracks=self.tracks_frenet,
             )
             return self._step_by_step_transfer_matrix
@@ -375,10 +393,12 @@ class ZgoubiResults:
         """
         return self.compute_step_by_step_transfer_matrix()
 
-    def compute_step_by_step_optics(self,
-                                    parametrization: _ParametrizationType = _Twiss,
-                                    twiss_init: Optional[_BetaBlock] = None,
-                                    force_reload: bool = False) -> Optional[_pd.DataFrame]:
+    def compute_step_by_step_optics(
+        self,
+        parametrization: _ParametrizationType = _Twiss,
+        twiss_init: Optional[_BetaBlock] = None,
+        force_reload: bool = False,
+    ) -> Optional[_pd.DataFrame]:
         """
 
         Args:
@@ -414,7 +434,7 @@ class ZgoubiResults:
         Returns:
             a list of mappings.
         """
-        return [(r['mapping'], r) for r in self._results]
+        return [(r["mapping"], r) for r in self._results]
 
     @property
     def paths(self) -> List[Tuple[_MappedParametersType, Union[str, tempfile.TemporaryDirectory]]]:
@@ -423,7 +443,7 @@ class ZgoubiResults:
         Returns:
             a list of directories.
         """
-        return [(m, r['path']) for m, r in self.results]
+        return [(m, r["path"]) for m, r in self.results]
 
     @property
     def mappings(self) -> List[_MappedParametersType]:
@@ -434,7 +454,7 @@ class ZgoubiResults:
         """
         return [m for m, r in self.results]
 
-    def save(self, destination: str = '.', what: Optional[List[str]] = None):
+    def save(self, destination: str = ".", what: Optional[List[str]] = None):
         """Save files.
 
         Args:
@@ -445,13 +465,13 @@ class ZgoubiResults:
             _ZGOUBI_INPUT_FILENAME,
             Zgoubi.RESULT_FILE,
         ]
-        self.results[0][1]['input'].save(destination=destination, what=files)
+        self.results[0][1]["input"].save(destination=destination, what=files)
 
-    def print(self, what: str = 'result'):
+    def print(self, what: str = "result"):
         """Helper function to print the raw results from a Zgoubi run."""
         for m, r in self.results:
             print(f"Results for mapping {m}\n")
-            print('\n'.join(r[what]))
+            print("\n".join(r[what]))
             print("================================================================================================")
             print("================================================================================================")
             print("================================================================================================")
@@ -460,13 +480,13 @@ class ZgoubiResults:
 class Zgoubi(Executable):
     """High level interface to run Zgoubi from Python."""
 
-    EXECUTABLE_NAME: str = 'zgoubi'
+    EXECUTABLE_NAME: str = "zgoubi"
     """Default name of the Zgoubi executable."""
 
     INPUT_FILENAME: str = _ZGOUBI_INPUT_FILENAME
     """Name of the input file (typically zgoubi.dat)."""
 
-    RESULT_FILE: str = 'zgoubi.res'
+    RESULT_FILE: str = "zgoubi.res"
     """Default name of the Zgoubi result '.res' file."""
 
     def __init__(self, executable: str = EXECUTABLE_NAME, path: str = None, n_procs: Optional[int] = None):
@@ -489,26 +509,28 @@ class Zgoubi(Executable):
 
         """
 
-        super().__init__(executable=executable,
-                         results_type=ZgoubiResults,
-                         path=os.environ.get('ZGOUBI_EXECUTABLE_PATH', None),
-                         n_procs=n_procs
-                         )
+        super().__init__(
+            executable=executable,
+            results_type=ZgoubiResults,
+            path=os.environ.get("ZGOUBI_EXECUTABLE_PATH", None),
+            n_procs=n_procs,
+        )
 
     def _extract_output(self, path, code_input: _Input, mapping) -> List[str]:
         """Extract element by element parent"""
         try:
             with open(os.path.join(path, self.RESULT_FILE)) as file:
-                result = file.read().split('\n')
+                result = file.read().split("\n")
         except FileNotFoundError:
             # TODO add debug mechanism in this case
             raise ZgoubiException(f"Zgoubi execution ended but result '{self.RESULT_FILE}' file not found.")
 
         for e in code_input.line:
-            e.attach_output(outputs=Zgoubi.find_labeled_output(result, e.LABEL1, e.KEYWORD),
-                            zgoubi_input=code_input,
-                            parameters=mapping,
-                            )
+            e.attach_output(
+                outputs=Zgoubi.find_labeled_output(result, e.LABEL1, e.KEYWORD),
+                zgoubi_input=code_input,
+                parameters=mapping,
+            )
         return result
 
     @staticmethod
@@ -526,11 +548,11 @@ class Zgoubi(Executable):
         """
         data: List[str] = []
         for l in out:
-            if ' ' + label + ' ' in l and 'Keyword' in l and keyword in l:  # This might be a bit fragile
+            if " " + label + " " in l and "Keyword" in l and keyword in l:  # This might be a bit fragile
                 data.append(l)
                 continue
             if len(data) > 0:
-                if '****' in l:  # This might be a bit fragile
+                if "****" in l:  # This might be a bit fragile
                     break
                 data.append(l)
         return list(filter(lambda _: len(_), data))

@@ -3,25 +3,29 @@
 More details here.
 """
 from __future__ import annotations
+
 import os
-from typing import TYPE_CHECKING, Optional, List, Mapping, Union
 from abc import abstractmethod
+from typing import TYPE_CHECKING, List, Mapping, Optional, Union
+
 import numpy as _np
 import pandas as _pd
-from scipy.io import FortranFile, FortranEOFError
-from .commands import Command as _Command
-from .actions import Action as _Action
-from .magnetique import Magnet as _Magnet
-from .magnetique import CartesianMagnet as _CartesianMagnet
-from .magnetique import PolarMagnet as _PolarMagnet
-from .. import ureg as _ureg
+import plotly.graph_objects as _go
+from georges_core.frame import Frame as _Frame
+from scipy.io import FortranEOFError, FortranFile
+
+import zgoubidoo
+
 from .. import Q_ as _Q
+from .. import ureg as _ureg
 from ..units import _cm, _radian
 from ..zgoubi import Zgoubi as _Zgoubi
 from ..zgoubi import ZgoubiException as _ZgoubiException
-import zgoubidoo
-import plotly.graph_objects as _go
-from georges_core.frame import Frame as _Frame
+from .actions import Action as _Action
+from .commands import Command as _Command
+from .magnetique import CartesianMagnet as _CartesianMagnet
+from .magnetique import Magnet as _Magnet
+from .magnetique import PolarMagnet as _PolarMagnet
 
 if TYPE_CHECKING:
     from ..input import Input as _Input
@@ -32,7 +36,8 @@ class Brevol(_Command):
 
     TODO
     """
-    KEYWORD = 'BREVOL'
+
+    KEYWORD = "BREVOL"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -41,34 +46,35 @@ class CartesianMesh(_Command):
 
     TODO
     """
-    KEYWORD = 'CARTEMES'
+
+    KEYWORD = "CARTEMES"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IC': (2, 'Print the map'),
-        'IL': (2, 'Print field and coordinates along trajectories'),
-        'BNORM': (1.0, 'Field normalization coefficient'),
-        'XN': (1.0, 'X coordinate normalization coefficient'),
-        'YN': (1.0, 'Y coordinate normalization coefficient'),
-        'TITL': ("CARTEMES_FIELD_MAP", "Title. Start with 'FLIP' to get field map X-flipped"),
-        'IX': (1, 'Number of longitudinal nodes of the map'),
-        'JY': (1, 'Number of transverse nodes of the map'),
-        'FNAME': ("field_map.map", 'File name'),
-        'ID': (0, 'Integration boundary'),
-        'A': (0.0,),
-        'B': (0.0,),
-        'C': (0.0,),
-        'AP': ([0.0]),
-        'BP': ([0.0]),
-        'CP': ([0.0]),
-        'IORDRE': (25, 'Degree of interpolation polynomial'),
-        'XPAS': (1 * _ureg.cm, 'Integration step'),
-        'KPOS': (1, 'Alignment'),
-        'XCE': (0 * _ureg.cm, 'Misalignment X shift'),
-        'YCE': (0 * _ureg.cm, 'Misalignment Y shift'),
-        'ALE': (0 * _ureg.radian, 'Misalignment tilt'),
+        "IC": (2, "Print the map"),
+        "IL": (2, "Print field and coordinates along trajectories"),
+        "BNORM": (1.0, "Field normalization coefficient"),
+        "XN": (1.0, "X coordinate normalization coefficient"),
+        "YN": (1.0, "Y coordinate normalization coefficient"),
+        "TITL": ("CARTEMES_FIELD_MAP", "Title. Start with 'FLIP' to get field map X-flipped"),
+        "IX": (1, "Number of longitudinal nodes of the map"),
+        "JY": (1, "Number of transverse nodes of the map"),
+        "FNAME": ("field_map.map", "File name"),
+        "ID": (0, "Integration boundary"),
+        "A": (0.0,),
+        "B": (0.0,),
+        "C": (0.0,),
+        "AP": ([0.0]),
+        "BP": ([0.0]),
+        "CP": ([0.0]),
+        "IORDRE": (25, "Degree of interpolation polynomial"),
+        "XPAS": (1 * _ureg.cm, "Integration step"),
+        "KPOS": (1, "Alignment"),
+        "XCE": (0 * _ureg.cm, "Misalignment X shift"),
+        "YCE": (0 * _ureg.cm, "Misalignment Y shift"),
+        "ALE": (0 * _ureg.radian, "Misalignment tilt"),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(s) -> str:
@@ -91,7 +97,8 @@ class Map2D(_Command):
 
     TODO
     """
-    KEYWORD = 'MAP2D'
+
+    KEYWORD = "MAP2D"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -100,7 +107,8 @@ class Map2DElectric(_Command):
 
     TODO
     """
-    KEYWORD = 'MAP2D-E'
+
+    KEYWORD = "MAP2D-E"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -109,7 +117,8 @@ class Poisson(_Command):
 
     TODO
     """
-    KEYWORD = 'POISSON'
+
+    KEYWORD = "POISSON"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -118,7 +127,8 @@ class PolarMesh(_Command):
 
     TODO
     """
-    KEYWORD = 'POLARMES'
+
+    KEYWORD = "POLARMES"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -183,40 +193,40 @@ class Tosca(_Magnet):
     .. rubric:: Zgoubidoo usage and example
 
     """
-    KEYWORD = 'TOSCA'
+    KEYWORD = "TOSCA"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IC': (0, 'Print the map.'),
-        'IL': (2, 'Print field and coordinates along trajectories.'),
-        'BNORM': (1.0, 'Field normalization coefficient.'),
-        'XN': (1.0, 'X coordinate normalization coefficient.'),
-        'YN': (1.0, 'Y coordinate normalization coefficient.'),
-        'ZN': (1.0, 'Z coordinate normalization coefficient.'),
-        'TITL': ('FIELDMAP', 'Title.'),
-        'IX': (0, 'Number of nodes of the mesh in the X direction.'),
-        'IY': (0, 'Number of nodes of the mesh in the Y direction.'),
-        'IZ': (1, 'Number of nodes of the mesh in the Z direction.'),
-        'MOD': (0, 'Format reading mode.'),
-        'MOD2': (0, 'Format reading sub-mode.'),
-        'A1': (None, 'Field normalisation factors.'),
-        'A2': (None, 'Field normalisation factors.'),
-        'A3': (None, 'Field normalisation factors.'),
-        'A4': (None, 'Field normalisation factors.'),
-        'FILES': (['tosca.table'], 'File names.'),
-        'ID': (0, 'Integration boundary.'),
-        'A': (1.0,),
-        'A_prime': (1.0,),
-        'B': (1.0,),
-        'B_prime': (1.0,),
-        'C': (1.0,),
-        'C_prime': (1.0,),
-        'IORDRE': (25, 'Degree of interpolation polynomial.'),
-        'XPAS': (1.0 * _ureg.cm, 'Integration step.'),
-        'KPOS': (2, 'Alignment parameter: 1 (element aligned) or 2 (misaligned) ; If polar mesh : KPOS=2'),
-        'COLOR': ('#808080', 'Magnet color for plotting.'),
+        "IC": (0, "Print the map."),
+        "IL": (2, "Print field and coordinates along trajectories."),
+        "BNORM": (1.0, "Field normalization coefficient."),
+        "XN": (1.0, "X coordinate normalization coefficient."),
+        "YN": (1.0, "Y coordinate normalization coefficient."),
+        "ZN": (1.0, "Z coordinate normalization coefficient."),
+        "TITL": ("FIELDMAP", "Title."),
+        "IX": (0, "Number of nodes of the mesh in the X direction."),
+        "IY": (0, "Number of nodes of the mesh in the Y direction."),
+        "IZ": (1, "Number of nodes of the mesh in the Z direction."),
+        "MOD": (0, "Format reading mode."),
+        "MOD2": (0, "Format reading sub-mode."),
+        "A1": (None, "Field normalisation factors."),
+        "A2": (None, "Field normalisation factors."),
+        "A3": (None, "Field normalisation factors."),
+        "A4": (None, "Field normalisation factors."),
+        "FILES": (["tosca.table"], "File names."),
+        "ID": (0, "Integration boundary."),
+        "A": (1.0,),
+        "A_prime": (1.0,),
+        "B": (1.0,),
+        "B_prime": (1.0,),
+        "C": (1.0,),
+        "C_prime": (1.0,),
+        "IORDRE": (25, "Degree of interpolation polynomial."),
+        "XPAS": (1.0 * _ureg.cm, "Integration step."),
+        "KPOS": (2, "Alignment parameter: 1 (element aligned) or 2 (misaligned) ; If polar mesh : KPOS=2"),
+        "COLOR": ("#808080", "Magnet color for plotting."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
         commands (e.g. fit)."""
 
     @abstractmethod
@@ -230,7 +240,7 @@ class Tosca(_Magnet):
         {self.IX:d} {self.IY:d} {self.IZ:d} {self.MOD:d}.{self.MOD2:d} {self.A1 or ''} {self.A2 or ''} {self.A3 or ''} {self.A4 or ''}
         """
         commands.append(c)
-        commands.append('\n'.join(self.FILES))
+        commands.append("\n".join(self.FILES))
         c = f"""
         {self.ID:d} {self.A:.12e} {self.B:.12e} {self.C:.12e} {self.A_prime:.12e} {self.B_prime:.12e} {self.C_prime:.12e}
         {self.IORDRE:d}
@@ -238,7 +248,7 @@ class Tosca(_Magnet):
         """
         commands.append(c)
 
-        return ''.join(commands).rstrip()
+        return "".join(commands).rstrip()
 
     def load(self, zgoubi: Optional[_Zgoubi] = None):
         z = zgoubi or _Zgoubi()
@@ -249,11 +259,11 @@ class Tosca(_Magnet):
             """Post execution callback."""
             if not self.results[0][1].success:
                 raise _ZgoubiException(f"Unable to load field map for keyword {self.__class__.__name__}.")
-            self._length = self.results[0][1].results.iloc[-1]['LENGTH'] * _ureg.cm
+            self._length = self.results[0][1].results.iloc[-1]["LENGTH"] * _ureg.cm
 
-        z(zi, identifier={'TOSCA_LOAD': self.LABEL1}, cb=cb)
+        z(zi, identifier={"TOSCA_LOAD": self.LABEL1}, cb=cb)
         z.wait()
-        zr = z(zi).collect()
+        zr = z(zi).collect()  # noqa: F841
         return self
 
     @property
@@ -274,20 +284,26 @@ class Tosca(_Magnet):
     def load_map(self, file: str = None) -> _pd.DataFrame:
         # Check if the file is a binary
         if os.path.basename(file).startswith("b_"):  # This is a binary file
-            f = FortranFile(file, 'r')
+            f = FortranFile(file, "r")
             field = _np.array([])
             while f:
                 try:
                     field = _np.append(field, f.read_reals(float))
                 except FortranEOFError:
                     break
-            fm = _pd.DataFrame(field.reshape(-1, 6),
-                               columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'])
+            fm = _pd.DataFrame(
+                field.reshape(-1, 6),
+                columns=["Y", "Z", "X", "BY", "BZ", "BX"],
+            )
             # fm = _pd.DataFrame(data=_np.fromfile(file).reshape(-1, 6),
             #                    columns=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'])
         else:
-            fm = _pd.read_csv(file, skiprows=int(self.TITL.split(' ')[1]), names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'],
-                              sep=r'\s+')
+            fm = _pd.read_csv(
+                file,
+                skiprows=int(self.TITL.split(" ")[1]),
+                names=["Y", "Z", "X", "BY", "BZ", "BX"],
+                sep=r"\s+",
+            )
 
         return fm
 
@@ -305,35 +321,35 @@ class Tosca(_Magnet):
         fieldmap = self.load_map(file=file)
 
         #        fieldmap['X'] = fieldmap['X'] + self.length.m_as('cm') / 2
-        fieldmap['X'] = fieldmap['X'] + abs(fieldmap['X'].min())
-        fieldmap['Z_ABS'] = fieldmap['Z'].apply(_np.abs)
-        fieldmap = fieldmap[fieldmap['Z_ABS'] == fieldmap['Z_ABS'].min()]
+        fieldmap["X"] = fieldmap["X"] + abs(fieldmap["X"].min())
+        fieldmap["Z_ABS"] = fieldmap["Z"].apply(_np.abs)
+        fieldmap = fieldmap[fieldmap["Z_ABS"] == fieldmap["Z_ABS"].min()]
 
         rotation_matrix = _np.linalg.inv(self.entry_patched.get_rotation_matrix())
         origin = self.entry_patched.origin
 
-        u = _np.dot(fieldmap[['X', 'Y', 'Z']].values, rotation_matrix)
-        fieldmap['XG'] = (u[:, 0] + origin[0].m_as('cm')) / 100
-        fieldmap['YG'] = (u[:, 1] + origin[1].m_as('cm')) / 100
-        fieldmap['ZG'] = (u[:, 2] + origin[2].m_as('cm')) / 100
+        u = _np.dot(fieldmap[["X", "Y", "Z"]].values, rotation_matrix)
+        fieldmap["XG"] = (u[:, 0] + origin[0].m_as("cm")) / 100
+        fieldmap["YG"] = (u[:, 1] + origin[1].m_as("cm")) / 100
+        fieldmap["ZG"] = (u[:, 2] + origin[2].m_as("cm")) / 100
         return _go.Histogram2d(
-            histfunc='avg',
+            histfunc="avg",
             nbinsx=100,
             nbinsy=100,
-            x=fieldmap['XG'],
-            y=fieldmap['YG'],
-            z=fieldmap['BZ'],
-            zsmooth='best',
+            x=fieldmap["XG"],
+            y=fieldmap["YG"],
+            z=fieldmap["BZ"],
+            zsmooth="best",
             opacity=1.0,
-            colorscale='RdYlBu',
+            colorscale="RdYlBu",
         )
 
 
 class ToscaCartesian(Tosca, _CartesianMagnet):
     PARAMETERS = {
-        'XCE': (0.0 * _ureg.cm, 'X shift'),
-        'YCE': (0.0 * _ureg.cm, 'Y shift'),
-        'ALE': (0.0 * _ureg.radian, 'Tilt'),
+        "XCE": (0.0 * _ureg.cm, "X shift"),
+        "YCE": (0.0 * _ureg.cm, "Y shift"),
+        "ALE": (0.0 * _ureg.radian, "Tilt"),
     }
     """Parameters of the command, with their default value, their description and optionally an index used by other
         commands (e.g. fit)."""
@@ -350,10 +366,12 @@ class ToscaCartesian(Tosca, _CartesianMagnet):
         {self.KPOS:d} {self.XCE.m_as('cm'):.12e} {self.YCE.m_as('cm'):.12e} {self.ALE.m_as('radian'):.12e}
         """
 
-    def process_output(self, output: List[str],
-                       parameters: Mapping[str, Union[_Q, float]],
-                       zgoubi_input: _Input
-                       ) -> bool:
+    def process_output(
+        self,
+        output: List[str],
+        parameters: Mapping[str, Union[_Q, float]],
+        zgoubi_input: _Input,
+    ) -> bool:
         """
 
         Args:
@@ -372,16 +390,16 @@ class ToscaCartesian(Tosca, _CartesianMagnet):
         self._results.append(
             (
                 parameters,
-                _Action.CommandResult(success=True, results=_pd.DataFrame([{'LENGTH': length}]))
-            )
+                _Action.CommandResult(success=True, results=_pd.DataFrame([{"LENGTH": length}])),
+            ),
         )
         return True
 
     def adjust_tracks_variables(self, tracks: _pd.DataFrame):
         super().adjust_tracks_variables(tracks)
         t = tracks[tracks.LABEL1 == self.LABEL1]
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = t['X'] - t['X'].min() + self.entry_s.m_as('m')
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X'] = t['X'] - t['X'].min()
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "SREF"] = t["X"] - t["X"].min() + self.entry_s.m_as("m")
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "X"] = t["X"] - t["X"].min()
 
     @property
     def entry_patched(self) -> Optional[_Frame]:
@@ -428,28 +446,31 @@ class ToscaCartesian(Tosca, _CartesianMagnet):
 
 class ToscaCartesian2D(ToscaCartesian):
     PARAMETERS = {
-        'MOD': (0, 'Format reading mode.'),
-        'MOD2': (1, 'Format reading sub-mode.'),
+        "MOD": (0, "Format reading mode."),
+        "MOD2": (1, "Format reading sub-mode."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
         commands (e.g. fit)."""
 
     def post_init(self, infer_and_check_meshes: bool = True, **kwargs):
-        assert self.MOD in (0, 1, 3, 15), "The value of the variable 'MOD' is incompatible with a 2D cartesian mesh " \
-                                          "with mid-plane antisymmetry assumed."
+        assert self.MOD in (0, 1, 3, 15), (
+            "The value of the variable 'MOD' is incompatible with a 2D cartesian mesh "
+            "with mid-plane antisymmetry assumed."
+        )
 
 
 class ToscaCartesian3D(ToscaCartesian):
     PARAMETERS = {
-        'MOD': (12, 'Format reading mode.'),
-        'MOD2': (1, 'Format reading sub-mode.'),
+        "MOD": (12, "Format reading mode."),
+        "MOD2": (1, "Format reading sub-mode."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
         commands (e.g. fit)."""
 
     def post_init(self, infer_and_check_meshes: bool = True, **kwargs):
-        assert self.MOD in (1, 12, 15, 16), "The value of the variable 'MOD' is incompatible with a 3D cartesian " \
-                                            "mesh with no symmetry assumed."
+        assert self.MOD in (1, 12, 15, 16), (
+            "The value of the variable 'MOD' is incompatible with a 3D cartesian " "mesh with no symmetry assumed."
+        )
         if len(self.FILES) > 1 and self.MOD in (1, 12):
             self.MOD = 1
             self.MOD2 = 0
@@ -457,39 +478,40 @@ class ToscaCartesian3D(ToscaCartesian):
             if infer_and_check_meshes:
                 for f in self.FILES:
                     df = self.load(f)
-                    assert df['Z'].nunique() == 1
+                    assert df["Z"].nunique() == 1
                     if self.IX != 0:
-                        assert self.IX == df['X'].nunique()
+                        assert self.IX == df["X"].nunique()
                     else:
-                        self.IX = df['X'].nunique()
+                        self.IX = df["X"].nunique()
                     if self.IY != 0:
-                        assert self.IY == df['Y'].nunique()
+                        assert self.IY == df["Y"].nunique()
                     else:
-                        self.IY = df['Y'].nunique()
+                        self.IY = df["Y"].nunique()
 
 
 class ToscaCartesian3DAntisymetric(ToscaCartesian):
     PARAMETERS = {
-        'MOD': (12, 'Format reading mode.'),
-        'MOD2': (0, 'Format reading sub-mode.'),
+        "MOD": (12, "Format reading mode."),
+        "MOD2": (0, "Format reading sub-mode."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
         commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
-        assert self.MOD in (0, 12), "The value of the variable 'MOD' is incompatible with a 3D cartesian mesh with " \
-                                    "no symmetry assumed."
+        assert self.MOD in (0, 12), (
+            "The value of the variable 'MOD' is incompatible with a 3D cartesian mesh with " "no symmetry assumed."
+        )
 
 
 class ToscaPolar(Tosca, _PolarMagnet):
     PARAMETERS = {
-        'RM': (0.0 * _ureg.cm, 'Reference radius'),
-        'RE': (0.0 * _ureg.cm, 'X shift'),
-        'TE': (0.0 * _ureg.radian, 'Y shift'),
-        'RS': (0.0 * _ureg.cm, 'Tilt'),
-        'TS': (0.0 * _ureg.radian, 'Tilt'),
+        "RM": (0.0 * _ureg.cm, "Reference radius"),
+        "RE": (0.0 * _ureg.cm, "X shift"),
+        "TE": (0.0 * _ureg.radian, "Y shift"),
+        "RS": (0.0 * _ureg.cm, "Tilt"),
+        "TS": (0.0 * _ureg.radian, "Tilt"),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
         commands (e.g. fit)."""
 
     def __str__(self):
@@ -499,10 +521,12 @@ class ToscaPolar(Tosca, _PolarMagnet):
         {self.RE.m_as('cm'):.12e} {self.TE.m_as('radian'):.12e} {self.RS.m_as('cm'):.12e} {self.TS.m_as('radian'):.12e}
         """
 
-    def process_output(self, output: List[str],
-                       parameters: Mapping[str, Union[_Q, float]],
-                       zgoubi_input: _Input
-                       ) -> bool:
+    def process_output(
+        self,
+        output: List[str],
+        parameters: Mapping[str, Union[_Q, float]],
+        zgoubi_input: _Input,
+    ) -> bool:
         """
 
         Args:
@@ -519,14 +543,14 @@ class ToscaPolar(Tosca, _PolarMagnet):
             if line.strip().startswith("Field map limits, angle :  min, max, max-min (rad) :"):
                 angle = float(line.split()[-1]) * _ureg.rad
             if line.strip().startswith("Integration step : "):
-                radius = float(line.replace(')', ' ').split()[-1]) * _ureg.cm  # For Zgoubi output
+                radius = float(line.replace(")", " ").split()[-1]) * _ureg.cm  # For Zgoubi output
                 break
-        length = (radius * angle).m_as('cm')
+        length = (radius * angle).m_as("cm")
         self._results.append(
             (
                 parameters,
-                _Action.CommandResult(success=True, results=_pd.DataFrame([{'LENGTH': length}]))
-            )
+                _Action.CommandResult(success=True, results=_pd.DataFrame([{"LENGTH": length}])),
+            ),
         )
         return True
 
@@ -535,19 +559,19 @@ class ToscaPolar(Tosca, _PolarMagnet):
 
     def adjust_tracks_variables(self, tracks: _pd.DataFrame):
         t = tracks[tracks.LABEL1 == self.LABEL1]
-        angles = 100 * t['X'] - 100 * t['X'][0]
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ANGLE'] = angles
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'R'] = t['Y']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'R0'] = t['Yo']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = self.radius.m_as('m') * angles + self.entry_s.m_as('m')
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y'] - self.radius.m_as('m')
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo'] - self.radius.m_as('m')
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT0'] = t['Zo']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X'] = t['Y'] * _np.sin(angles)
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X0'] = t['Yo'] * _np.sin(angles)
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y'] = t['Y'] * _np.cos(angles) - self.radius.m_as('m')
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y0'] = t['Yo'] * _np.cos(angles) - self.radius.m_as('m')
+        angles = 100 * t["X"] - 100 * t["X"][0]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "ANGLE"] = angles
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "R"] = t["Y"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "R0"] = t["Yo"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "SREF"] = self.radius.m_as("m") * angles + self.entry_s.m_as("m")
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "YT"] = t["Y"] - self.radius.m_as("m")
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "YT0"] = t["Yo"] - self.radius.m_as("m")
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "ZT"] = t["Z"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "ZT0"] = t["Zo"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "X"] = t["Y"] * _np.sin(angles)
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "X0"] = t["Yo"] * _np.sin(angles)
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "Y"] = t["Y"] * _np.cos(angles) - self.radius.m_as("m")
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "Y0"] = t["Yo"] * _np.cos(angles) - self.radius.m_as("m")
 
     def plotly(self):
         """
@@ -556,58 +580,70 @@ class ToscaPolar(Tosca, _PolarMagnet):
 
         """
         FNAME = self.FILES[0]
-        fieldmap = _pd.read_csv(FNAME, skiprows=8, names=['Y', 'Z', 'X', 'BY', 'BZ', 'BX'], sep=r'\s+')
+        fieldmap = _pd.read_csv(FNAME, skiprows=8, names=["Y", "Z", "X", "BY", "BZ", "BX"], sep=r"\s+")
 
         rotation_matrix = _np.linalg.inv(self.entry_patched.get_rotation_matrix())
         origin = self.entry_patched.origin
 
-        u = _np.dot(fieldmap[['X', 'Y', 'Z']].values, rotation_matrix)
-        fieldmap['XG'] = (u[:, 0] + origin[0].m_as('cm')) / 100
-        fieldmap['YG'] = (u[:, 1] + origin[1].m_as('cm')) / 100
-        fieldmap['ZG'] = (u[:, 2] + origin[2].m_as('cm')) / 100
+        u = _np.dot(fieldmap[["X", "Y", "Z"]].values, rotation_matrix)
+        fieldmap["XG"] = (u[:, 0] + origin[0].m_as("cm")) / 100
+        fieldmap["YG"] = (u[:, 1] + origin[1].m_as("cm")) / 100
+        fieldmap["ZG"] = (u[:, 2] + origin[2].m_as("cm")) / 100
 
         return _go.Histogram2d(
-            histfunc='avg',
+            histfunc="avg",
             nbinsx=100,
             nbinsy=100,
-            x=fieldmap['XG'],
-            y=fieldmap['YG'],
-            z=fieldmap['BZ'],
+            x=fieldmap["XG"],
+            y=fieldmap["YG"],
+            z=fieldmap["BZ"],
             opacity=1.0,
-            colorscale='Jet',
+            colorscale="Jet",
         )
 
 
 class vFFA(ToscaCartesian3D):
     PARAMETERS = {
-        'B0': (0 * _ureg.kilogauss, 'Reference magnetic field'),
-        'k': (0 / _ureg.m, 'Field index'),
-        'tau': (0.0, 'Tangent of the edge angle'),
-        'lmag': (0.0 * _ureg.m, 'Length of the magnet'),
-        'gap': (0.0 * _ureg.m, 'Fringe length'),
-        'xmin': (0.0 * _ureg.m, 'Horizontal extent of the field map'),
-        'xmax': (0.0 * _ureg.m, 'Horizontal extent of the field map'),
-        'ymin': (0.0 * _ureg.m, 'Vertical extent of the field map'),
-        'ymax': (0.0 * _ureg.m, 'Vertical extent of the field map'),
-        'z_ff_1': (0.0 * _ureg.m, 'Additional length before the magnet for the longitudinal extent of the field map'),
-        'z_ff_2': (0.0 * _ureg.m, 'Additional length after the magnet for the longitudinal extent of the field map'),
-        'n': (0.0, 'Order of the expansion'),
-        'IX': (0.0, 'Number of nodes of the mesh - X direction'),
-        'IY': (0.0, 'Number of nodes of the mesh - Y direction'),
-        'IZ': (0.0, 'Number of nodes of the mesh - Z direction'),
-        'path': ('.', '.'),
-        'fieldmap': (None, '...')
+        "B0": (0 * _ureg.kilogauss, "Reference magnetic field"),
+        "k": (0 / _ureg.m, "Field index"),
+        "tau": (0.0, "Tangent of the edge angle"),
+        "lmag": (0.0 * _ureg.m, "Length of the magnet"),
+        "gap": (0.0 * _ureg.m, "Fringe length"),
+        "xmin": (0.0 * _ureg.m, "Horizontal extent of the field map"),
+        "xmax": (0.0 * _ureg.m, "Horizontal extent of the field map"),
+        "ymin": (0.0 * _ureg.m, "Vertical extent of the field map"),
+        "ymax": (0.0 * _ureg.m, "Vertical extent of the field map"),
+        "z_ff_1": (0.0 * _ureg.m, "Additional length before the magnet for the longitudinal extent of the field map"),
+        "z_ff_2": (0.0 * _ureg.m, "Additional length after the magnet for the longitudinal extent of the field map"),
+        "n": (0.0, "Order of the expansion"),
+        "IX": (0.0, "Number of nodes of the mesh - X direction"),
+        "IY": (0.0, "Number of nodes of the mesh - Y direction"),
+        "IZ": (0.0, "Number of nodes of the mesh - Z direction"),
+        "path": (".", "."),
+        "fieldmap": (None, "..."),
     }
 
     def post_init(self, **kwargs):
         if self.fieldmap is None:
-            self.vFFA_map = zgoubidoo.fieldmaps.VFFAFieldMap.generate(self.B0, self.k, self.tau, self.lmag,
-                                                                      self.gap, self.xmin, self.xmax,
-                                                                      self.ymin, self.ymax, self.z_ff_1,
-                                                                      self.z_ff_2, self.n, self.IX,
-                                                                      self.IY_approx, self.IZ)
+            self.vFFA_map = zgoubidoo.fieldmaps.VFFAFieldMap.generate(
+                self.B0,
+                self.k,
+                self.tau,
+                self.lmag,
+                self.gap,
+                self.xmin,
+                self.xmax,
+                self.ymin,
+                self.ymax,
+                self.z_ff_1,
+                self.z_ff_2,
+                self.n,
+                self.IX,
+                self.IY_approx,
+                self.IZ,
+            )
 
-            self.vFFA_map.write(path=self.path, filename='tosca.table', binary=True)
+            self.vFFA_map.write(path=self.path, filename="tosca.table", binary=True)
             self.FILES = [self.vFFA_map.file]
 
         else:

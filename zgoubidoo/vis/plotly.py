@@ -5,27 +5,27 @@ from __future__ import annotations
 
 import logging
 from typing import TYPE_CHECKING, Dict, Optional, Union
+
 import numpy as _np
 import pandas as _pd
 from georges_core.vis import PlotlyArtist as _PlotlyArtist
+
+from ..commands import FFAG as _FFAG
+from ..commands import Bend as _Bend
 from ..commands import Command as _Command
-from ..commands import Plotable as _Plotable
-from ..commands import Patchable as _Patchable
-from ..commands import PolarMagnet as _PolarMagnet
-from ..commands import PolarMultiMagnet as _PolarMultiMagnet
+from ..commands import Cyclotron as _Cyclotron
+from ..commands import Dipole as _Dipole
 from ..commands import Drift as _Drift
+from ..commands import FFAGSpirale as _FFAGSPI
+from ..commands import Multipole as _Multipole
+from ..commands import Octupole as _Octupole
+from ..commands import Patchable as _Patchable
+from ..commands import Plotable as _Plotable
+from ..commands import PolarMagnet as _PolarMagnet
 from ..commands import Quadrupole as _Quadrupole
 from ..commands import Sextupole as _Sextupole
-from ..commands import Octupole as _Octupole
 from ..commands import Solenoid as _Solenoid
-from ..commands import Multipole as _Multipole
-from ..commands import Bend as _Bend
-from ..commands import Dipole as _Dipole
-from ..commands import FFAGSpirale as _FFAGSPI
-from ..commands import FFAG as _FFAG
-from ..commands import Cyclotron as _Cyclotron
 from ..commands.fieldmaps import Tosca as _Tosca
-from ..commands import ZgoubidooException as _ZgoubidooException
 
 if TYPE_CHECKING:
     from ..input import Input as _Input
@@ -36,10 +36,11 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
     TODO
     """
 
-    def plot_cartouche(self,
-                       beamline: _Input,
-                       vertical_position: float = 1.2,
-                       ):
+    def plot_cartouche(
+        self,
+        beamline: _Input,
+        vertical_position: float = 1.2,
+    ):
         """
 
         Args:
@@ -54,16 +55,16 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
         self.shapes.append(
             {
-                'type': 'line',
-                'xref': 'paper',
-                'yref': 'paper',
-                'x0': 0,
-                'y0': vertical_position,
-                'x1': 1,
-                'y1': vertical_position,
-                'line': {
-                    'color': 'rgb(150, 150, 150)',
-                    'width': 2,
+                "type": "line",
+                "xref": "paper",
+                "yref": "paper",
+                "x0": 0,
+                "y0": vertical_position,
+                "x1": 1,
+                "y1": vertical_position,
+                "line": {
+                    "color": "rgb(150, 150, 150)",
+                    "width": 2,
                 },
             },
         )
@@ -73,77 +74,82 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             if isinstance(e, (_Quadrupole, _Sextupole, _Octupole, _Solenoid)):
                 self.shapes.append(
                     {
-                        'type': 'rect',
-                        'xref': 'x',
-                        'yref': 'paper',
-                        'x0': e.entry_sref.m_as('m'),
-                        'y0': vertical_position if e.B0.magnitude > 0 else vertical_position - 0.1,
-                        'x1': e.exit_sref.m_as('m'),
-                        'y1': vertical_position + 0.1 if e.B0.magnitude > 0 else vertical_position,
-                        'line': {
-                            'width': 0,
+                        "type": "rect",
+                        "xref": "x",
+                        "yref": "paper",
+                        "x0": e.entry_sref.m_as("m"),
+                        "y0": vertical_position if e.B0.magnitude > 0 else vertical_position - 0.1,
+                        "x1": e.exit_sref.m_as("m"),
+                        "y1": vertical_position + 0.1 if e.B0.magnitude > 0 else vertical_position,
+                        "line": {
+                            "width": 0,
                         },
-                        'fillcolor': e.COLOR,
+                        "fillcolor": e.COLOR,
                     },
                 )
             if isinstance(e, (_Multipole, _Tosca)):
                 self.shapes.append(
                     {
-                        'type': 'rect',
-                        'xref': 'x',
-                        'yref': 'paper',
-                        'x0': e.entry_sref.m_as('m'),
-                        'y0': vertical_position - 0.05,
-                        'x1': e.exit_sref.m_as('m'),
-                        'y1': vertical_position + 0.05,
-                        'line': {
-                            'width': 0,
+                        "type": "rect",
+                        "xref": "x",
+                        "yref": "paper",
+                        "x0": e.entry_sref.m_as("m"),
+                        "y0": vertical_position - 0.05,
+                        "x1": e.exit_sref.m_as("m"),
+                        "y1": vertical_position + 0.05,
+                        "line": {
+                            "width": 0,
                         },
-                        'fillcolor': e.COLOR,
+                        "fillcolor": e.COLOR,
                     },
                 )
             if isinstance(e, (_Bend, _Dipole, _FFAGSPI, _FFAG, _Cyclotron)):
-                length = e.optical_length.m_as('m')
+                length = e.optical_length.m_as("m")
                 m = e.entry_patched.get_rotation_matrix()
                 if _np.dot(m, _np.array([0, 0, 1]))[2] >= 0.0:
-                    path = f"M{e.entry_sref.m_as('m')},{vertical_position + 0.1} " \
-                           f"H{e.exit_sref.m_as('m')} " \
-                           f"L{e.exit_sref.m_as('m') - 0.15 * length},{vertical_position - 0.1} " \
-                           f"H{e.exit_sref.m_as('m') - 0.85 * length} " \
-                           f"Z"
+                    path = (
+                        f"M{e.entry_sref.m_as('m')},{vertical_position + 0.1} "
+                        f"H{e.exit_sref.m_as('m')} "
+                        f"L{e.exit_sref.m_as('m') - 0.15 * length},{vertical_position - 0.1} "
+                        f"H{e.exit_sref.m_as('m') - 0.85 * length} "
+                        f"Z"
+                    )
                 else:
-                    path = f"M{e.entry_sref.m_as('m') + 0.15 * length},{vertical_position + 0.1} " \
-                           f"H{e.exit_sref.m_as('m') - 0.15 * length} " \
-                           f"L{e.exit_sref.m_as('m')},{vertical_position - 0.1} " \
-                           f"H{e.entry_sref.m_as('m')} " \
-                           f"Z"
+                    path = (
+                        f"M{e.entry_sref.m_as('m') + 0.15 * length},{vertical_position + 0.1} "
+                        f"H{e.exit_sref.m_as('m') - 0.15 * length} "
+                        f"L{e.exit_sref.m_as('m')},{vertical_position - 0.1} "
+                        f"H{e.entry_sref.m_as('m')} "
+                        f"Z"
+                    )
                 self.shapes.append(
                     {
-                        'type': 'path',
-                        'xref': 'x',
-                        'yref': 'paper',
-                        'path': path,
-                        'line': {
-                            'width': 0,
+                        "type": "path",
+                        "xref": "x",
+                        "yref": "paper",
+                        "path": path,
+                        "line": {
+                            "width": 0,
                         },
-                        'fillcolor': e.COLOR,
+                        "fillcolor": e.COLOR,
                     },
                 )
 
-    def plot_beamline(self,
-                      beamline: _Input,
-                      start: Optional[Union[str, _Command]] = None,
-                      stop: Optional[Union[str, _Command]] = None,
-                      with_drifts: bool = False,
-                      with_magnet_poles: bool = True,
-                      with_apertures: bool = True,
-                      with_frames: bool = False,
-                      with_legend: bool = False,
-                      with_map: bool = False,
-                      points_in_polar_paths: int = 20,
-                      opacity: float = 0.5,
-                      reference_frame: str = 'entry_patched',
-                      ) -> None:
+    def plot_beamline(
+        self,
+        beamline: _Input,
+        start: Optional[Union[str, _Command]] = None,
+        stop: Optional[Union[str, _Command]] = None,
+        with_drifts: bool = False,
+        with_magnet_poles: bool = True,
+        with_apertures: bool = True,
+        with_frames: bool = False,
+        with_legend: bool = False,
+        with_map: bool = False,
+        points_in_polar_paths: int = 20,
+        opacity: float = 0.5,
+        reference_frame: str = "entry_patched",
+    ) -> None:
         """
         Use a `ZgoubiPlot` artist to perform the rendering of the beamline with elements and tracks.
 
@@ -164,25 +170,38 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             reference_frame:
         """
         if not beamline.valid_survey:
-            logging.error(f"You should do a survey: \n"
-                                      "zgoubidoo.survey(beamline=zi, reference_frame=zgoubidoo.Frame(), "
-                                      "with_reference_trajectory=True, reference_kinematics=k)")
+            logging.error(
+                "You should do a survey: \n"
+                "zgoubidoo.survey(beamline=zi, reference_frame=zgoubidoo.Frame(), "
+                "with_reference_trajectory=True, reference_kinematics=k)",
+            )
             # raise _ZgoubidooException(f"You should do a survey: \n"
             #                           "zgoubidoo.survey(beamline=zi, reference_frame=zgoubidoo.Frame(), "
             #                           "with_reference_trajectory=True, reference_kinematics=k)")
 
-        def add_svg_path(points, reference_frame: str = 'entry_patched',
-                         color: Optional[str] = None,
-                         opacity: Optional[float] = 0.5, shape='', line: Dict[str, float] = None):
-            points = points.dot(_np.linalg.inv(getattr(e, reference_frame).get_rotation_matrix())) + _np.array([
-                getattr(e, reference_frame).x_, getattr(e, reference_frame).y_, 0.0
-            ])
-            if shape == 'lines':
-                self.scatter(x=points[0],
-                             y=points[1],
-                             line=line,
-                             mode='lines',
-                             showlegend=False)
+        def add_svg_path(
+            points,
+            reference_frame: str = "entry_patched",
+            color: Optional[str] = None,
+            opacity: Optional[float] = 0.5,
+            shape="",
+            line: Dict[str, float] = None,
+        ):
+            points = points.dot(_np.linalg.inv(getattr(e, reference_frame).get_rotation_matrix())) + _np.array(
+                [
+                    getattr(e, reference_frame).x_,
+                    getattr(e, reference_frame).y_,
+                    0.0,
+                ],
+            )
+            if shape == "lines":
+                self.scatter(
+                    x=points[0],
+                    y=points[1],
+                    line=line,
+                    mode="lines",
+                    showlegend=False,
+                )
             else:
                 path = f"M{points[0, 0]},{points[0, 1]} "
                 for p in points[1:]:
@@ -191,44 +210,46 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 if color is None:
                     try:
                         if e.B2.magnitude > 0:
-                            color = 'blue'
+                            color = "blue"
                         else:
-                            color = 'red'
+                            color = "red"
                     except AttributeError:
                         color = e.COLOR
                 self.shapes.append(
                     {
-                        'type': 'path',
-                        'xref': 'x',
-                        'yref': 'y',
-                        'path': path,
-                        'line': {
-                            'width': 1,
+                        "type": "path",
+                        "xref": "x",
+                        "yref": "y",
+                        "path": path,
+                        "line": {
+                            "width": 1,
                         },
-                        'fillcolor': color,
-                        'opacity': opacity,
+                        "fillcolor": color,
+                        "opacity": opacity,
                     },
                 )
 
         def compute_face_angles(width):
 
-            roots = _np.roots([1, -2 * r * _np.cos(_np.pi + entrance_face_angle), r ** 2 - (r + width) ** 2])
+            roots = _np.roots([1, -2 * r * _np.cos(_np.pi + entrance_face_angle), r**2 - (r + width) ** 2])
             length = roots[roots > 0][0]
             entrance_up = _np.arcsin((length / (r + width)) * _np.sin(-entrance_face_angle))
 
-            roots = _np.roots([1, -2 * r * _np.cos(-entrance_face_angle), r ** 2 - (r - width) ** 2])
+            roots = _np.roots([1, -2 * r * _np.cos(-entrance_face_angle), r**2 - (r - width) ** 2])
             length = _np.min(roots[roots > 0])
             entrance_down = _np.sign(-entrance_face_angle) * _np.arccos(
-                _np.min([((r - width) ** 2 + r ** 2 - length ** 2) / (2 * ((r - width) * r)), 1]))
+                _np.min([((r - width) ** 2 + r**2 - length**2) / (2 * ((r - width) * r)), 1]),
+            )
 
-            roots = _np.roots([1, -2 * r * _np.cos(_np.pi + exit_face_angle), r ** 2 - (r + width) ** 2])
+            roots = _np.roots([1, -2 * r * _np.cos(_np.pi + exit_face_angle), r**2 - (r + width) ** 2])
             length = roots[roots > 0][0]
             exit_up = _np.arcsin((length / (r + width)) * _np.sin(exit_face_angle))
 
-            roots = _np.roots([1, -2 * r * _np.cos(exit_face_angle), r ** 2 - (r - width) ** 2])
+            roots = _np.roots([1, -2 * r * _np.cos(exit_face_angle), r**2 - (r - width) ** 2])
             length = _np.min(roots[roots > 0])
             exit_down = _np.sign(exit_face_angle) * _np.arccos(
-                _np.min([((r - width) ** 2 + r ** 2 - length ** 2) / (2 * ((r - width) * r)), 1]))
+                _np.min([((r - width) ** 2 + r**2 - length**2) / (2 * ((r - width) * r)), 1]),
+            )
 
             return [entrance_up, entrance_down, exit_up, exit_down]
 
@@ -244,20 +265,24 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                     thetas_up = _np.linspace(
                         reference_angle - omega_e - entrance_up,
                         reference_angle - omega_s + exit_up,
-                        points_in_polar_paths)
+                        points_in_polar_paths,
+                    )
 
                     thetas_down = _np.linspace(
                         reference_angle - omega_e + entrance_down,
                         reference_angle - omega_s - exit_down,
-                        points_in_polar_paths)
+                        points_in_polar_paths,
+                    )
 
                     for theta in thetas_up:
                         pts.append(
-                            [(r + width_up / 2) * _np.sin(theta), -r0 + (r + width_up / 2) * _np.cos(theta), 0.0])
+                            [(r + width_up / 2) * _np.sin(theta), -r0 + (r + width_up / 2) * _np.cos(theta), 0.0],
+                        )
 
                     for theta in thetas_down[::-1]:
                         pts.append(
-                            [(r - width_down / 2) * _np.sin(theta), -r0 + (r - width_down / 2) * _np.cos(theta), 0.0])
+                            [(r - width_down / 2) * _np.sin(theta), -r0 + (r - width_down / 2) * _np.cos(theta), 0.0],
+                        )
 
                 if isinstance(e, (_FFAGSPI, _Cyclotron)):
                     pts = []
@@ -269,27 +294,33 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                     theta_exit_down = _np.arctan(x_s[0] / (r + y_s[0]))
                     theta_exit_up = _np.arctan(x_s[-1] / (r + y_s[-1]))
 
-                    thetas_up = _np.linspace(theta_entry_up,
-                                             theta_exit_up,
-                                             points_in_polar_paths)
+                    thetas_up = _np.linspace(
+                        theta_entry_up,
+                        theta_exit_up,
+                        points_in_polar_paths,
+                    )
 
-                    thetas_down = _np.linspace(theta_entry_down,
-                                               theta_exit_down,
-                                               points_in_polar_paths)
+                    thetas_down = _np.linspace(
+                        theta_entry_down,
+                        theta_exit_down,
+                        points_in_polar_paths,
+                    )
 
                     for i in range(len(x_e)):
                         pts.append([x_e[i], (r - r0) + y_e[i], 0.0])
 
                     for theta in thetas_up:
                         pts.append(
-                            [(r + width / 2) * _np.sin(theta), -r0 + (r + width / 2) * _np.cos(theta), 0.0])
+                            [(r + width / 2) * _np.sin(theta), -r0 + (r + width / 2) * _np.cos(theta), 0.0],
+                        )
 
                     for i in reversed(range(len(x_s))):
                         pts.append([x_s[i], (r - r0) + y_s[i], 0.0])
 
                     for theta in thetas_down[::-1]:
                         pts.append(
-                            [(r - width / 2) * _np.sin(theta), -r0 + (r - width / 2) * _np.cos(theta), 0.0])
+                            [(r - width / 2) * _np.sin(theta), -r0 + (r - width / 2) * _np.cos(theta), 0.0],
+                        )
 
                 add_svg_path(_np.array(pts), reference_frame=reference_frame)
 
@@ -301,18 +332,26 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                     thetas_up = _np.linspace(
                         reference_angle - omega_e - entrance_up,
                         reference_angle - omega_s + exit_up,
-                        points_in_polar_paths)
+                        points_in_polar_paths,
+                    )
                     entrance_up, _, exit_up, _ = compute_face_angles(width=aper_left)
                     thetas_down = _np.linspace(
                         reference_angle - omega_e - entrance_up,
                         reference_angle - omega_s + exit_up,
-                        points_in_polar_paths)
+                        points_in_polar_paths,
+                    )
                     for theta in thetas_down:
                         pts.append(
-                            [(r + aper_left) * _np.sin(theta), -r0 + (r + aper_left) * _np.cos(theta), 0.0])
+                            [(r + aper_left) * _np.sin(theta), -r0 + (r + aper_left) * _np.cos(theta), 0.0],
+                        )
                     for theta in thetas_up[::-1]:
-                        pts.append([(r + aper_left + pipe_thickness) * _np.sin(theta),
-                                    -r0 + (r + aper_left + pipe_thickness) * _np.cos(theta), 0.0])
+                        pts.append(
+                            [
+                                (r + aper_left + pipe_thickness) * _np.sin(theta),
+                                -r0 + (r + aper_left + pipe_thickness) * _np.cos(theta),
+                                0.0,
+                            ],
+                        )
 
                     add_svg_path(_np.array(pts), reference_frame=reference_frame, color=e.PIPE_COLOR)
                     # Aperture right
@@ -321,94 +360,139 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                     thetas_up = _np.linspace(
                         reference_angle - omega_e + entrance_down,
                         reference_angle - omega_s - exit_down,
-                        points_in_polar_paths)
+                        points_in_polar_paths,
+                    )
                     for theta in thetas_up:
                         pts.append(
-                            [(r - aper_right) * _np.sin(theta), -r0 + (r - aper_right) * _np.cos(theta), 0.0])
+                            [(r - aper_right) * _np.sin(theta), -r0 + (r - aper_right) * _np.cos(theta), 0.0],
+                        )
                     _, entrance_down, _, exit_down = compute_face_angles(width=aper_right + pipe_thickness)
                     thetas_down = _np.linspace(
                         reference_angle - omega_e + entrance_down,
                         reference_angle - omega_s - exit_down,
-                        points_in_polar_paths)
+                        points_in_polar_paths,
+                    )
                     for theta in thetas_down[::-1]:
-                        pts.append([(r - aper_right - pipe_thickness) * _np.sin(theta),
-                                    -r0 + (r - aper_right - pipe_thickness) * _np.cos(theta), 0.0])
+                        pts.append(
+                            [
+                                (r - aper_right - pipe_thickness) * _np.sin(theta),
+                                -r0 + (r - aper_right - pipe_thickness) * _np.cos(theta),
+                                0.0,
+                            ],
+                        )
 
                     add_svg_path(_np.array(pts), reference_frame=reference_frame, color=e.PIPE_COLOR)
 
                 if isinstance(e, (_FFAGSPI, _Cyclotron)):
                     # Aperture left
                     pts = []
-                    x_e, y_e = compute_spiral_coordinates(entrance_spiral_angle, omega_e, -aper_left,
-                                                          aper_left + pipe_thickness)
+                    x_e, y_e = compute_spiral_coordinates(
+                        entrance_spiral_angle,
+                        omega_e,
+                        -aper_left,
+                        aper_left + pipe_thickness,
+                    )
                     theta_entry_down = _np.arctan(x_e[0] / (r + y_e[0]))
                     theta_entry_up = _np.arctan(x_e[-1] / (r + y_e[-1]))
 
-                    x_s, y_s = compute_spiral_coordinates(exit_spiral_angle, omega_s, -aper_left,
-                                                          aper_left + pipe_thickness)
+                    x_s, y_s = compute_spiral_coordinates(
+                        exit_spiral_angle,
+                        omega_s,
+                        -aper_left,
+                        aper_left + pipe_thickness,
+                    )
                     theta_exit_down = _np.arctan(x_s[0] / (r + y_s[0]))
                     theta_exit_up = _np.arctan(x_s[-1] / (r + y_s[-1]))
 
-                    thetas_up = _np.linspace(theta_entry_up,
-                                             theta_exit_up,
-                                             points_in_polar_paths)
+                    thetas_up = _np.linspace(
+                        theta_entry_up,
+                        theta_exit_up,
+                        points_in_polar_paths,
+                    )
 
-                    thetas_down = _np.linspace(theta_entry_down,
-                                               theta_exit_down,
-                                               points_in_polar_paths)
+                    thetas_down = _np.linspace(
+                        theta_entry_down,
+                        theta_exit_down,
+                        points_in_polar_paths,
+                    )
 
                     for i in range(len(x_e)):
                         pts.append([x_e[i], (r - r0) + y_e[i], 0.0])
 
                     for theta in thetas_up:
                         pts.append(
-                            [(r + aper_left + pipe_thickness) * _np.sin(theta),
-                             -r0 + (r + aper_left + pipe_thickness) * _np.cos(theta), 0.0])
+                            [
+                                (r + aper_left + pipe_thickness) * _np.sin(theta),
+                                -r0 + (r + aper_left + pipe_thickness) * _np.cos(theta),
+                                0.0,
+                            ],
+                        )
 
                     for i in reversed(range(len(x_s))):
                         pts.append([x_s[i], (r - r0) + y_s[i], 0.0])
 
                     for theta in thetas_down[::-1]:
                         pts.append(
-                            [(r + aper_left) * _np.sin(theta), -r0 + (r + aper_left) * _np.cos(theta), 0.0])
+                            [(r + aper_left) * _np.sin(theta), -r0 + (r + aper_left) * _np.cos(theta), 0.0],
+                        )
 
                     add_svg_path(_np.array(pts), reference_frame=reference_frame, color=e.PIPE_COLOR)
 
                     # Aperture right
                     pts = []
-                    x_e, y_e = compute_spiral_coordinates(entrance_spiral_angle, omega_e, aper_right + pipe_thickness,
-                                                          -aper_right)
+                    x_e, y_e = compute_spiral_coordinates(
+                        entrance_spiral_angle,
+                        omega_e,
+                        aper_right + pipe_thickness,
+                        -aper_right,
+                    )
                     theta_entry_down = _np.arctan(x_e[0] / (r + y_e[0]))
                     theta_entry_up = _np.arctan(x_e[-1] / (r + y_e[-1]))
 
-                    x_s, y_s = compute_spiral_coordinates(exit_spiral_angle, omega_s, aper_right + pipe_thickness,
-                                                          -aper_right)
+                    x_s, y_s = compute_spiral_coordinates(
+                        exit_spiral_angle,
+                        omega_s,
+                        aper_right + pipe_thickness,
+                        -aper_right,
+                    )
                     theta_exit_down = _np.arctan(x_s[0] / (r + y_s[0]))
                     theta_exit_up = _np.arctan(x_s[-1] / (r + y_s[-1]))
 
-                    thetas_up = _np.linspace(theta_entry_up,
-                                             theta_exit_up,
-                                             points_in_polar_paths)
+                    thetas_up = _np.linspace(
+                        theta_entry_up,
+                        theta_exit_up,
+                        points_in_polar_paths,
+                    )
 
-                    thetas_down = _np.linspace(theta_entry_down,
-                                               theta_exit_down,
-                                               points_in_polar_paths)
+                    thetas_down = _np.linspace(
+                        theta_entry_down,
+                        theta_exit_down,
+                        points_in_polar_paths,
+                    )
 
                     for i in range(len(x_e)):
                         pts.append([x_e[i], (r - r0) + y_e[i], 0.0])
 
                     for theta in thetas_up:
                         pts.append(
-                            [(r - aper_right) * _np.sin(theta),
-                             -r0 + (r - aper_right) * _np.cos(theta), 0.0])
+                            [
+                                (r - aper_right) * _np.sin(theta),
+                                -r0 + (r - aper_right) * _np.cos(theta),
+                                0.0,
+                            ],
+                        )
 
                     for i in reversed(range(len(x_s))):
                         pts.append([x_s[i], (r - r0) + y_s[i], 0.0])
 
                     for theta in thetas_down[::-1]:
                         pts.append(
-                            [(r - aper_right - pipe_thickness) * _np.sin(theta),
-                             -r0 + (r - aper_right - pipe_thickness) * _np.cos(theta), 0.0])
+                            [
+                                (r - aper_right - pipe_thickness) * _np.sin(theta),
+                                -r0 + (r - aper_right - pipe_thickness) * _np.cos(theta),
+                                0.0,
+                            ],
+                        )
 
                     add_svg_path(_np.array(pts), reference_frame=reference_frame, color=e.PIPE_COLOR)
 
@@ -469,11 +553,13 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             pts = []
             for theta in thetas:
                 pts.append(
-                    [(r0 + 1.2 * width / 2) * _np.sin(theta), -r0 + (r0 + 1.2 * width / 2) * _np.cos(theta), 0.0])
+                    [(r0 + 1.2 * width / 2) * _np.sin(theta), -r0 + (r0 + 1.2 * width / 2) * _np.cos(theta), 0.0],
+                )
 
             for theta in thetas[::-1]:
                 pts.append(
-                    [(r0 - 1.2 * width / 2) * _np.sin(theta), -r0 + (r0 - 1.2 * width / 2) * _np.cos(theta), 0.0])
+                    [(r0 - 1.2 * width / 2) * _np.sin(theta), -r0 + (r0 - 1.2 * width / 2) * _np.cos(theta), 0.0],
+                )
 
             add_svg_path(_np.array(pts), reference_frame=reference_frame, opacity=0.2)
 
@@ -485,36 +571,48 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
             x = _np.array([x0, x1])
             y = _np.array([y0, y1])
-            add_svg_path(points=_np.array([x, y, 0], dtype="object"),
-                         reference_frame=reference_frame,
-                         shape='lines',
-                         line={'color': 'black',
-                               'width': 1,
-                               'dash': 'dash'})
+            add_svg_path(
+                points=_np.array([x, y, 0], dtype="object"),
+                reference_frame=reference_frame,
+                shape="lines",
+                line={
+                    "color": "black",
+                    "width": 1,
+                    "dash": "dash",
+                },
+            )
 
             x1 = x0 + (r0 + 1.2 * width / 2) * _np.sin(reference_angle - omega_e)
             y1 = y0 + (r0 + 1.2 * width / 2) * _np.cos(reference_angle - omega_e)
 
             x = _np.array([x0, x1])
             y = _np.array([y0, y1])
-            add_svg_path(points=_np.array([x, y, 0], dtype="object"),
-                         reference_frame=reference_frame,
-                         shape='lines',
-                         line={'color': 'black',
-                               'width': 1,
-                               'dash': 'dash'})
+            add_svg_path(
+                points=_np.array([x, y, 0], dtype="object"),
+                reference_frame=reference_frame,
+                shape="lines",
+                line={
+                    "color": "black",
+                    "width": 1,
+                    "dash": "dash",
+                },
+            )
 
             x1 = x0 + (r0 + 1.2 * width / 2) * _np.sin(reference_angle - omega_s)
             y1 = y0 + (r0 + 1.2 * width / 2) * _np.cos(reference_angle - omega_s)
 
             x = _np.array([x0, x1])
             y = _np.array([y0, y1])
-            add_svg_path(points=_np.array([x, y, 0], dtype="object"),
-                         reference_frame=reference_frame,
-                         shape='lines',
-                         line={'color': 'black',
-                               'width': 1,
-                               'dash': 'dash'})
+            add_svg_path(
+                points=_np.array([x, y, 0], dtype="object"),
+                reference_frame=reference_frame,
+                shape="lines",
+                line={
+                    "color": "black",
+                    "width": 1,
+                    "dash": "dash",
+                },
+            )
 
             # Plot the field boundary extension if it is not a FFAG-SPI
             if not isinstance(e, (_FFAGSPI, _Cyclotron)):
@@ -523,8 +621,13 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 # Left up
                 entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=entrance_efb_extent_up)
                 theta_init = reference_angle - omega_e - entrance_up
-                points_x, points_y = plot_fringes(theta_init, omega_e, -entrance_face_angle,
-                                                  entrance_efb_radius_up, entrance_efb_extent_up)
+                points_x, points_y = plot_fringes(
+                    theta_init,
+                    omega_e,
+                    -entrance_face_angle,
+                    entrance_efb_radius_up,
+                    entrance_efb_extent_up,
+                )
 
                 for i in reversed(range(len(points_x))):
                     pts.append([points_x[i], points_y[i], 0.0])
@@ -532,25 +635,41 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 # Left down
                 entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=entrance_efb_extent_down)
                 theta_init = reference_angle - omega_e + entrance_down
-                points_x, points_y = plot_fringes(theta_init, omega_e, entrance_face_angle, entrance_efb_radius_down,
-                                                  entrance_efb_extent_down, -1)
+                points_x, points_y = plot_fringes(
+                    theta_init,
+                    omega_e,
+                    entrance_face_angle,
+                    entrance_efb_radius_down,
+                    entrance_efb_extent_down,
+                    -1,
+                )
                 for i in range(len(points_x)):
                     pts.append([points_x[i], points_y[i], 0.0])
 
                 x = _np.array(pts)[:, 0]
                 y = _np.array(pts)[:, 1]
-                add_svg_path(points=_np.array([x, y, 0], dtype="object"),
-                             reference_frame=reference_frame,
-                             shape='lines',
-                             line={'color': 'black',
-                                   'width': 1})
+                add_svg_path(
+                    points=_np.array([x, y, 0], dtype="object"),
+                    reference_frame=reference_frame,
+                    shape="lines",
+                    line={
+                        "color": "black",
+                        "width": 1,
+                    },
+                )
 
                 pts = []
                 # Right down
                 entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=exit_efb_extent_down)
                 theta_init = reference_angle - omega_s - exit_down
-                points_x, points_y = plot_fringes(theta_init, omega_s, exit_face_angle, exit_efb_radius_down,
-                                                  exit_efb_extent_down, -1)
+                points_x, points_y = plot_fringes(
+                    theta_init,
+                    omega_s,
+                    exit_face_angle,
+                    exit_efb_radius_down,
+                    exit_efb_extent_down,
+                    -1,
+                )
 
                 for i in reversed(range(len(points_x))):
                     pts.append([points_x[i], points_y[i], 0.0])
@@ -558,33 +677,52 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 # Right up
                 entrance_up, entrance_down, exit_up, exit_down = compute_face_angles(width=exit_efb_extent_up)
                 theta_init = reference_angle - omega_s + exit_up
-                points_x, points_y = plot_fringes(theta_init, omega_s, -exit_face_angle, exit_efb_radius_up,
-                                                  exit_efb_extent_up)
+                points_x, points_y = plot_fringes(
+                    theta_init,
+                    omega_s,
+                    -exit_face_angle,
+                    exit_efb_radius_up,
+                    exit_efb_extent_up,
+                )
 
                 for i in range(len(points_x)):
                     pts.append([points_x[i], points_y[i], 0.0])
 
                 x = _np.array(pts)[:, 0]
                 y = _np.array(pts)[:, 1]
-                add_svg_path(points=_np.array([x, y, 0], dtype="object"),
-                             reference_frame=reference_frame,
-                             shape='lines',
-                             line={'color': 'black',
-                                   'width': 1})
+                add_svg_path(
+                    points=_np.array([x, y, 0], dtype="object"),
+                    reference_frame=reference_frame,
+                    shape="lines",
+                    line={
+                        "color": "black",
+                        "width": 1,
+                    },
+                )
 
         def plot_frames():
-            color = ['red', 'green', 'blue', 'magenta', 'darkorange', 'goldenrod', 'brown']
-            for i, frame in enumerate(['entry', 'entry_patched', 'exit', 'exit_patched',
-                                       'center', 'entry_integration', 'exit_integration']):
+            color = ["red", "green", "blue", "magenta", "darkorange", "goldenrod", "brown"]
+            for i, frame in enumerate(
+                [
+                    "entry",
+                    "entry_patched",
+                    "exit",
+                    "exit_patched",
+                    "center",
+                    "entry_integration",
+                    "exit_integration",
+                ],
+            ):
                 self.scatter(
                     {
-                        'x': [getattr(e, frame).x_],
-                        'y': [getattr(e, frame).y_],
-                        'marker': {'size': 5, 'color': color[i]},
-                        'legendgroup': f"{e.LABEL1}",
-                        'name': f"{frame} - {e.LABEL1}",
-                        'showlegend': with_legend,
-                    })
+                        "x": [getattr(e, frame).x_],
+                        "y": [getattr(e, frame).y_],
+                        "marker": {"size": 5, "color": color[i]},
+                        "legendgroup": f"{e.LABEL1}",
+                        "name": f"{frame} - {e.LABEL1}",
+                        "showlegend": with_legend,
+                    },
+                )
 
         for e in beamline[start:stop]:
             if not isinstance(e, _Plotable):
@@ -599,104 +737,150 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 if with_frames:
                     plot_frames()
 
-                aper_left = e.APERTURE_LEFT.m_as('m')
-                aper_right = e.APERTURE_RIGHT.m_as('m')
-                width = e.POLE_WIDTH.m_as('m')
-                pipe_thickness = e.PIPE_THICKNESS.m_as('m')
+                aper_left = e.APERTURE_LEFT.m_as("m")
+                aper_right = e.APERTURE_RIGHT.m_as("m")
+                width = e.POLE_WIDTH.m_as("m")
+                pipe_thickness = e.PIPE_THICKNESS.m_as("m")
                 if isinstance(e, _PolarMagnet):
-                    r0 = e.RM.m_as('m')
+                    r0 = e.RM.m_as("m")
                     for i in range(0, e.n_magnets):
-                        r = r0 + e.delta_radius[i].m_as('m')
-                        reference_angle = e.reference_angles[i].m_as('radian')
-                        omega_e = e.entrance_integration_face[i].m_as('radian')
-                        omega_s = e.exit_integration_face[i].m_as('radian')
-                        total_angle = e.angular_opening.m_as('radians')
-                        entrance_face_angle = e.entrance_field_boundary_wedge_angle[i].m_as('radians')
-                        exit_face_angle = -e.exit_field_boundary_wedge_angle[i].m_as('radians')
+                        r = r0 + e.delta_radius[i].m_as("m")
+                        reference_angle = e.reference_angles[i].m_as("radian")
+                        omega_e = e.entrance_integration_face[i].m_as("radian")
+                        omega_s = e.exit_integration_face[i].m_as("radian")
+                        total_angle = e.angular_opening.m_as("radians")
+                        entrance_face_angle = e.entrance_field_boundary_wedge_angle[i].m_as("radians")
+                        exit_face_angle = -e.exit_field_boundary_wedge_angle[i].m_as("radians")
 
-                        entrance_efb_extent_up = _np.min([e.entrance_field_boundary_linear_extent_up[i].m_as('m'),
-                                                          width / 2])
-                        entrance_efb_radius_up = e.entrance_field_boundary_linear_radius_up[i].m_as('m')
+                        entrance_efb_extent_up = _np.min(
+                            [
+                                e.entrance_field_boundary_linear_extent_up[i].m_as("m"),
+                                width / 2,
+                            ],
+                        )
+                        entrance_efb_radius_up = e.entrance_field_boundary_linear_radius_up[i].m_as("m")
                         entrance_efb_extent_down = _np.min(
-                            [e.entrance_field_boundary_linear_extent_down[i].m_as('m'),
-                             width / 2])
-                        entrance_efb_radius_down = e.entrance_field_boundary_linear_radius_down[i].m_as('m')
-                        exit_efb_extent_up = _np.min([e.exit_field_boundary_linear_extent_up[i].m_as('m'),
-                                                      width / 2])
-                        exit_efb_radius_up = e.exit_field_boundary_linear_radius_up[i].m_as('m')
-                        exit_efb_extent_down = _np.min([e.exit_field_boundary_linear_extent_down[i].m_as('m'),
-                                                        width / 2])
-                        exit_efb_radius_down = e.exit_field_boundary_linear_radius_down[i].m_as('m')
+                            [
+                                e.entrance_field_boundary_linear_extent_down[i].m_as("m"),
+                                width / 2,
+                            ],
+                        )
+                        entrance_efb_radius_down = e.entrance_field_boundary_linear_radius_down[i].m_as("m")
+                        exit_efb_extent_up = _np.min(
+                            [
+                                e.exit_field_boundary_linear_extent_up[i].m_as("m"),
+                                width / 2,
+                            ],
+                        )
+                        exit_efb_radius_up = e.exit_field_boundary_linear_radius_up[i].m_as("m")
+                        exit_efb_extent_down = _np.min(
+                            [
+                                e.exit_field_boundary_linear_extent_down[i].m_as("m"),
+                                width / 2,
+                            ],
+                        )
+                        exit_efb_radius_down = e.exit_field_boundary_linear_radius_down[i].m_as("m")
                         if isinstance(e, (_FFAGSPI, _Cyclotron)):
                             if isinstance(e, _FFAGSPI):
-                                entrance_spiral_angle = [e.entrance_spiral_angle[i].m_as('radians'), 0, 0, 0]
-                                exit_spiral_angle = [e.exit_spiral_angle[i].m_as('radians'), 0, 0, 0]
+                                entrance_spiral_angle = [e.entrance_spiral_angle[i].m_as("radians"), 0, 0, 0]
+                                exit_spiral_angle = [e.exit_spiral_angle[i].m_as("radians"), 0, 0, 0]
 
                             else:
                                 # TODO Change if TYP = 0, radial face
-                                entrance_spiral_angle = [e.XI0_E[i].m_as('radians'),
-                                                         e.XI1_E[i].m_as('radians * m**-1'),
-                                                         e.XI2_E[i].m_as('radians * m**-2'),
-                                                         e.XI3_E[i].m_as('radians * m**-3')]
-                                exit_spiral_angle = [e.XI0_S[i].m_as('radians'),
-                                                     e.XI1_S[i].m_as('radians * m**-1'),
-                                                     e.XI2_S[i].m_as('radians * m**-2'),
-                                                     e.XI3_S[i].m_as('radians * m**-3')]
+                                entrance_spiral_angle = [
+                                    e.XI0_E[i].m_as("radians"),
+                                    e.XI1_E[i].m_as("radians * m**-1"),
+                                    e.XI2_E[i].m_as("radians * m**-2"),
+                                    e.XI3_E[i].m_as("radians * m**-3"),
+                                ]
+                                exit_spiral_angle = [
+                                    e.XI0_S[i].m_as("radians"),
+                                    e.XI1_S[i].m_as("radians * m**-1"),
+                                    e.XI2_S[i].m_as("radians * m**-2"),
+                                    e.XI3_S[i].m_as("radians * m**-3"),
+                                ]
                         plot_polar_magnet()
 
                         if with_map:
                             plot_polar_map()
 
                 else:  # This is a cartesian magnet
-                    w_e = e.wedge_angle_entrance.m_as('radians')
-                    w_s = -e.wedge_angle_exit.m_as('radians')
+                    w_e = e.wedge_angle_entrance.m_as("radians")
+                    w_s = -e.wedge_angle_exit.m_as("radians")
                     if with_magnet_poles:
-                        add_svg_path(_np.array([
-                            [-(width / 2) * _np.tan(w_e), -width / 2, 0.0],
-                            [(width / 2) * _np.tan(w_e), width / 2, 0.0],
-                            [e.length.m_as('m') + (width / 2) * _np.tan(w_s), width / 2, 0.0],
-                            [e.length.m_as('m') - (width / 2) * _np.tan(w_s), -width / 2, 0.0],
-                        ]),
-                                     color=e.COLOR)
+                        add_svg_path(
+                            _np.array(
+                                [
+                                    [-(width / 2) * _np.tan(w_e), -width / 2, 0.0],
+                                    [(width / 2) * _np.tan(w_e), width / 2, 0.0],
+                                    [e.length.m_as("m") + (width / 2) * _np.tan(w_s), width / 2, 0.0],
+                                    [e.length.m_as("m") - (width / 2) * _np.tan(w_s), -width / 2, 0.0],
+                                ],
+                            ),
+                            color=e.COLOR,
+                        )
 
                         if with_map:
-                            x_e = e.entrance_face_integration.m_as('m')
-                            x_s = e.exit_face_integration.m_as('m')
-                            add_svg_path(_np.array([
-                                [-x_e, -1.2 * width / 2, 0.0],
-                                [-x_e, 1.2 * width / 2, 0.0],
-                                [e.length.m_as('m') + x_s, 1.2 * width / 2, 0.0],
-                                [e.length.m_as('m') + x_s, -1.2 * width / 2, 0.0],
-                            ]), opacity=0.2)
+                            x_e = e.entrance_face_integration.m_as("m")
+                            x_s = e.exit_face_integration.m_as("m")
+                            add_svg_path(
+                                _np.array(
+                                    [
+                                        [-x_e, -1.2 * width / 2, 0.0],
+                                        [-x_e, 1.2 * width / 2, 0.0],
+                                        [e.length.m_as("m") + x_s, 1.2 * width / 2, 0.0],
+                                        [e.length.m_as("m") + x_s, -1.2 * width / 2, 0.0],
+                                    ],
+                                ),
+                                opacity=0.2,
+                            )
 
                     if with_apertures:
-                        add_svg_path(_np.array([
-                            [-aper_left * _np.tan(w_e), -aper_left, 0.0],
-                            [-(aper_left + pipe_thickness) * _np.tan(w_e), -aper_left - pipe_thickness, 0.0],
-                            [e.length.m_as('m') - (aper_left + pipe_thickness) * _np.tan(w_s),
-                             -aper_left - pipe_thickness,
-                             0.0],
-                            [e.length.m_as('m') - aper_left * _np.tan(w_s), -aper_left, 0.0],
-                        ]), reference_frame=reference_frame, color=e.PIPE_COLOR)
-                        add_svg_path(_np.array([
-                            [aper_right * _np.tan(w_e), aper_right, 0.0],
-                            [(aper_right + pipe_thickness) * _np.tan(w_e), aper_right + pipe_thickness, 0.0],
-                            [e.length.m_as('m') + (aper_right + pipe_thickness) * _np.tan(w_s),
-                             aper_right + pipe_thickness, 0.0],
-                            [e.length.m_as('m') + aper_right * _np.tan(w_s), aper_right, 0.0],
-                        ]), reference_frame=reference_frame, color=e.PIPE_COLOR)
+                        add_svg_path(
+                            _np.array(
+                                [
+                                    [-aper_left * _np.tan(w_e), -aper_left, 0.0],
+                                    [-(aper_left + pipe_thickness) * _np.tan(w_e), -aper_left - pipe_thickness, 0.0],
+                                    [
+                                        e.length.m_as("m") - (aper_left + pipe_thickness) * _np.tan(w_s),
+                                        -aper_left - pipe_thickness,
+                                        0.0,
+                                    ],
+                                    [e.length.m_as("m") - aper_left * _np.tan(w_s), -aper_left, 0.0],
+                                ],
+                            ),
+                            reference_frame=reference_frame,
+                            color=e.PIPE_COLOR,
+                        )
+                        add_svg_path(
+                            _np.array(
+                                [
+                                    [aper_right * _np.tan(w_e), aper_right, 0.0],
+                                    [(aper_right + pipe_thickness) * _np.tan(w_e), aper_right + pipe_thickness, 0.0],
+                                    [
+                                        e.length.m_as("m") + (aper_right + pipe_thickness) * _np.tan(w_s),
+                                        aper_right + pipe_thickness,
+                                        0.0,
+                                    ],
+                                    [e.length.m_as("m") + aper_right * _np.tan(w_s), aper_right, 0.0],
+                                ],
+                            ),
+                            reference_frame=reference_frame,
+                            color=e.PIPE_COLOR,
+                        )
 
     @classmethod
-    def plot_twiss(cls,
-                   beamline,
-                   twiss: _pd.DataFrame,
-                   twiss_madx: Optional[_pd.DataFrame],
-                   beta: bool = True,
-                   dispersion: bool = True,
-                   dispersion_prime: bool = False,
-                   alpha: bool = False,
-                   mu: bool = False,
-                   ):
+    def plot_twiss(
+        cls,
+        beamline,
+        twiss: _pd.DataFrame,
+        twiss_madx: Optional[_pd.DataFrame],
+        beta: bool = True,
+        dispersion: bool = True,
+        dispersion_prime: bool = False,
+        alpha: bool = False,
+        mu: bool = False,
+    ):
         """
 
         Args:
@@ -713,208 +897,243 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
         """
 
-        artist = cls(layout={
-            'font': {'family': "serif", 'size': 18},
-            'xaxis': {'title': 'S (m)',
-                      'mirror': True,
-                      'linecolor': 'black',
-                      'linewidth': 1
-                      },
-            'plot_bgcolor': 'rgba(0,0,0,0)',
-        })
+        artist = cls(
+            layout={
+                "font": {"family": "serif", "size": 18},
+                "xaxis": {
+                    "title": "S (m)",
+                    "mirror": True,
+                    "linecolor": "black",
+                    "linewidth": 1,
+                },
+                "plot_bgcolor": "rgba(0,0,0,0)",
+            },
+        )
 
         if beta:
-            artist.add_axis(axis={
-                'title': 'Beta function (m)',
-                'linecolor': 'black',
-                'linewidth': 1,
-                'exponentformat': 'power',
-            })
+            artist.add_axis(
+                axis={
+                    "title": "Beta function (m)",
+                    "linecolor": "black",
+                    "linewidth": 1,
+                    "exponentformat": "power",
+                },
+            )
             artist.scatter(
-                x=twiss['S'],
-                y=twiss['BETA11'],
-                line={'width': 2, 'color': 'blue'},
-                name='BETA11',
-                mode='lines',
+                x=twiss["S"],
+                y=twiss["BETA11"],
+                line={"width": 2, "color": "blue"},
+                name="BETA11",
+                mode="lines",
             )
 
             artist.scatter(
-                x=twiss['S'],
-                y=twiss['BETA22'],
-                line={'width': 2, 'color': 'FireBrick'},
-                name='BETA22',
-                mode='lines',
+                x=twiss["S"],
+                y=twiss["BETA22"],
+                line={"width": 2, "color": "FireBrick"},
+                name="BETA22",
+                mode="lines",
             )
 
             if twiss_madx is not None:
                 artist.scatter(
-                    x=twiss_madx['S'],
-                    y=twiss_madx['BETX'],
-                    marker={'color': 'blue', 'symbol': 'cross-thin', 'size': 5, 'line': {'width': 1, 'color': 'blue'}},
-                    mode='markers',
+                    x=twiss_madx["S"],
+                    y=twiss_madx["BETX"],
+                    marker={"color": "blue", "symbol": "cross-thin", "size": 5, "line": {"width": 1, "color": "blue"}},
+                    mode="markers",
                     showlegend=False,
                 )
                 artist.scatter(
-                    x=twiss_madx['S'],
-                    y=twiss_madx['BETY'],
-                    marker={'color': 'FireBrick', 'symbol': 'cross-thin', 'size': 5,
-                            'line': {'width': 1, 'color': 'FireBrick'}},
-                    mode='markers',
-                    showlegend=False
+                    x=twiss_madx["S"],
+                    y=twiss_madx["BETY"],
+                    marker={
+                        "color": "FireBrick",
+                        "symbol": "cross-thin",
+                        "size": 5,
+                        "line": {"width": 1, "color": "FireBrick"},
+                    },
+                    mode="markers",
+                    showlegend=False,
                 )
 
         if alpha:
-            artist.add_axis(axis={
-                'title': 'Alpha function',
-                'linecolor': 'black',
-                'linewidth': 1,
-                'exponentformat': 'power',
-            })
+            artist.add_axis(
+                axis={
+                    "title": "Alpha function",
+                    "linecolor": "black",
+                    "linewidth": 1,
+                    "exponentformat": "power",
+                },
+            )
             artist.scatter(
-                x=twiss['S'],
-                y=twiss['ALPHA11'],
-                line={'width': 2, 'color': 'blue'},
-                name='ALPHA11',
-                mode='lines',
+                x=twiss["S"],
+                y=twiss["ALPHA11"],
+                line={"width": 2, "color": "blue"},
+                name="ALPHA11",
+                mode="lines",
             )
 
             artist.scatter(
-                x=twiss['S'],
-                y=twiss['ALPHA22'],
-                line={'width': 2, 'color': 'FireBrick'},
-                name='ALPHA22',
-                mode='lines',
+                x=twiss["S"],
+                y=twiss["ALPHA22"],
+                line={"width": 2, "color": "FireBrick"},
+                name="ALPHA22",
+                mode="lines",
             )
 
             if twiss_madx is not None:
                 artist.scatter(
-                    x=twiss_madx['S'],
-                    y=twiss_madx['ALFX'],
-                    marker={'color': 'blue', 'symbol': 'cross-thin', 'size': 5, 'line': {'width': 1, 'color': 'blue'}},
-                    mode='markers',
+                    x=twiss_madx["S"],
+                    y=twiss_madx["ALFX"],
+                    marker={"color": "blue", "symbol": "cross-thin", "size": 5, "line": {"width": 1, "color": "blue"}},
+                    mode="markers",
                     showlegend=False,
                 )
                 artist.scatter(
-                    x=twiss_madx['S'],
-                    y=twiss_madx['ALFY'],
-                    marker={'color': 'FireBrick', 'symbol': 'cross-thin', 'size': 5,
-                            'line': {'width': 1, 'color': 'FireBrick'}},
-                    mode='markers',
-                    showlegend=False
+                    x=twiss_madx["S"],
+                    y=twiss_madx["ALFY"],
+                    marker={
+                        "color": "FireBrick",
+                        "symbol": "cross-thin",
+                        "size": 5,
+                        "line": {"width": 1, "color": "FireBrick"},
+                    },
+                    mode="markers",
+                    showlegend=False,
                 )
 
         if dispersion:
-            artist.add_secondary_axis(title='Dispersion (m)')
+            artist.add_secondary_axis(title="Dispersion (m)")
 
             artist.scatter(
-                x=twiss['S'],
-                y=twiss['DISP1'],
-                line={'width': 2, 'color': 'green', 'dash': 'dashdot'},
-                name='DISP1',
-                mode='lines',
-                yaxis='y2',
+                x=twiss["S"],
+                y=twiss["DISP1"],
+                line={"width": 2, "color": "green", "dash": "dashdot"},
+                name="DISP1",
+                mode="lines",
+                yaxis="y2",
             )
 
             artist.scatter(
-                x=twiss['S'],
-                y=twiss['DISP3'],
-                line={'width': 1, 'color': 'magenta', 'dash': 'dashdot'},
-                name='DISP3',
-                mode='lines',
-                yaxis='y2',
+                x=twiss["S"],
+                y=twiss["DISP3"],
+                line={"width": 1, "color": "magenta", "dash": "dashdot"},
+                name="DISP3",
+                mode="lines",
+                yaxis="y2",
             )
 
             if twiss_madx is not None:
                 artist.scatter(
-                    x=twiss_madx['S'],
-                    y=twiss_madx['DX'],
-                    marker={'color': 'green', 'symbol': 'cross-thin', 'size': 5,
-                            'line': {'width': 1, 'color': 'green'}},
-                    mode='markers',
-                    yaxis='y2',
-                    showlegend=False
+                    x=twiss_madx["S"],
+                    y=twiss_madx["DX"],
+                    marker={
+                        "color": "green",
+                        "symbol": "cross-thin",
+                        "size": 5,
+                        "line": {"width": 1, "color": "green"},
+                    },
+                    mode="markers",
+                    yaxis="y2",
+                    showlegend=False,
                 )
                 artist.scatter(
-                    x=twiss_madx['S'],
-                    y=twiss_madx['DY'],
-                    marker={'color': 'magenta', 'symbol': 'cross-thin', 'size': 5,
-                            'line': {'width': 1, 'color': 'magenta'}},
-                    mode='markers',
-                    yaxis='y2',
-                    showlegend=False
+                    x=twiss_madx["S"],
+                    y=twiss_madx["DY"],
+                    marker={
+                        "color": "magenta",
+                        "symbol": "cross-thin",
+                        "size": 5,
+                        "line": {"width": 1, "color": "magenta"},
+                    },
+                    mode="markers",
+                    yaxis="y2",
+                    showlegend=False,
                 )
 
         if dispersion_prime:
-            artist.add_axis(title='Dispersion prime')
+            artist.add_axis(title="Dispersion prime")
 
             artist.scatter(
-                x=twiss['S'],
-                y=twiss['DISP2'],
-                line={'width': 2, 'color': 'green', 'dash': 'dashdot'},
-                name='DISP2',
-                mode='lines',
+                x=twiss["S"],
+                y=twiss["DISP2"],
+                line={"width": 2, "color": "green", "dash": "dashdot"},
+                name="DISP2",
+                mode="lines",
             )
 
             artist.scatter(
-                x=twiss['S'],
-                y=twiss['DISP4'],
-                line={'width': 1, 'color': 'magenta', 'dash': 'dashdot'},
-                name='DISP4',
-                mode='lines',
+                x=twiss["S"],
+                y=twiss["DISP4"],
+                line={"width": 1, "color": "magenta", "dash": "dashdot"},
+                name="DISP4",
+                mode="lines",
             )
 
             if twiss_madx is not None:
                 artist.scatter(
-                    x=twiss_madx['S'],
-                    y=twiss_madx['DPX'],
-                    marker={'color': 'green', 'symbol': 'cross-thin', 'size': 5,
-                            'line': {'width': 1, 'color': 'green'}},
-                    mode='markers',
-                    showlegend=False
+                    x=twiss_madx["S"],
+                    y=twiss_madx["DPX"],
+                    marker={
+                        "color": "green",
+                        "symbol": "cross-thin",
+                        "size": 5,
+                        "line": {"width": 1, "color": "green"},
+                    },
+                    mode="markers",
+                    showlegend=False,
                 )
                 artist.scatter(
-                    x=twiss_madx['S'],
-                    y=twiss_madx['DPY'],
-                    marker={'color': 'magenta', 'symbol': 'cross-thin', 'size': 5,
-                            'line': {'width': 1, 'color': 'magenta'}},
-                    mode='markers',
-                    showlegend=False
+                    x=twiss_madx["S"],
+                    y=twiss_madx["DPY"],
+                    marker={
+                        "color": "magenta",
+                        "symbol": "cross-thin",
+                        "size": 5,
+                        "line": {"width": 1, "color": "magenta"},
+                    },
+                    mode="markers",
+                    showlegend=False,
                 )
 
         if mu:
-            artist.add_axis(title='Phase advance')
+            artist.add_axis(title="Phase advance")
 
             artist.scatter(
-                x=twiss['S'],
-                y=twiss['MU1'] / (2 * _np.pi),
-                line={'width': 2, 'color': 'blue', 'dash': 'dashdot'},
-                name='MU1',
-                mode='lines',
+                x=twiss["S"],
+                y=twiss["MU1"] / (2 * _np.pi),
+                line={"width": 2, "color": "blue", "dash": "dashdot"},
+                name="MU1",
+                mode="lines",
             )
 
             artist.scatter(
-                x=twiss['S'],
-                y=twiss['MU2'] / (2 * _np.pi),
-                line={'width': 1, 'color': 'FireBrick', 'dash': 'dashdot'},
-                name='MU2',
-                mode='lines',
+                x=twiss["S"],
+                y=twiss["MU2"] / (2 * _np.pi),
+                line={"width": 1, "color": "FireBrick", "dash": "dashdot"},
+                name="MU2",
+                mode="lines",
             )
 
             if twiss_madx is not None:
                 artist.scatter(
-                    x=twiss_madx['S'],
-                    y=twiss_madx['MUX'],
-                    marker={'color': 'blue', 'symbol': 'cross-thin', 'size': 5, 'line': {'width': 1, 'color': 'blue'}},
-                    mode='markers',
-                    showlegend=False
+                    x=twiss_madx["S"],
+                    y=twiss_madx["MUX"],
+                    marker={"color": "blue", "symbol": "cross-thin", "size": 5, "line": {"width": 1, "color": "blue"}},
+                    mode="markers",
+                    showlegend=False,
                 )
                 artist.scatter(
-                    x=twiss_madx['S'],
-                    y=twiss_madx['MUY'],
-                    marker={'color': 'FireBrick', 'symbol': 'cross-thin', 'size': 5,
-                            'line': {'width': 1, 'color': 'FireBrick'}},
-                    mode='markers',
-                    showlegend=False
+                    x=twiss_madx["S"],
+                    y=twiss_madx["MUY"],
+                    marker={
+                        "color": "FireBrick",
+                        "symbol": "cross-thin",
+                        "size": 5,
+                        "line": {"width": 1, "color": "FireBrick"},
+                    },
+                    mode="markers",
+                    showlegend=False,
                 )
 
         artist.plot_cartouche(beamline)

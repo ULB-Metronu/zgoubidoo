@@ -3,6 +3,7 @@
 A dataclass is used for the implementation but conversions to common formats are also provided.
 """
 from dataclasses import dataclass as _dataclass
+
 import numpy as _np
 
 
@@ -20,6 +21,7 @@ class Coordinates:
         >>> c.t
         1.0
     """
+
     y: float = 0
     """Horizontal plane coordinate."""
     t: float = 0

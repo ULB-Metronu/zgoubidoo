@@ -7,6 +7,6 @@ be described in this module.
 The organization of this module is such that a distinct sub-module is created per machine or center.
 """
 
-from .iba import *
-from .cern import *
+from .cern import LHeC
 from .emma import *
+from .iba import CGTR

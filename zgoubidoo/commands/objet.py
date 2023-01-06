@@ -15,27 +15,27 @@ The maximum value allowed for IMAX can be changed at leisure in the include file
 """
 
 import numpy as _np
+
+from .. import ureg as _ureg
 from .commands import Command as _Command
 from .commands import CommandType as _CommandType
 from .commands import ZgoubidooException as _ZgoubidooException
-from .. import ureg as _ureg
 
 
 class ObjetType(_CommandType):
     """Type system for Objet types."""
+
     pass
 
 
 class Objet(_Command, metaclass=ObjetType):
-    """Generation of an object.
+    """Generation of an object."""
 
-
-    """
-    KEYWORD = 'OBJET'
+    KEYWORD = "OBJET"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'BORO': (1.0 * _ureg.kilogauss * _ureg.cm, 'Reference magnetic rigidity.'),
+        "BORO": (1.0 * _ureg.kilogauss * _ureg.cm, "Reference magnetic rigidity."),
     }
 
     def __str__(s):
@@ -44,33 +44,34 @@ class Objet(_Command, metaclass=ObjetType):
         {s.BORO.to("kilogauss * cm").magnitude:.12e}
         """
 
-    def __init__(self, label1='', label2='', *params, **kwargs):
+    def __init__(self, label1="", label2="", *params, **kwargs):
         super().__init__(label1, label2, Objet.PARAMETERS, self.PARAMETERS, *params, **kwargs)
 
 
 class Objet1(Objet):
     """Objet with initial coordinates drawn from a regular grid"""
+
     PARAMETERS = {
-        'KOBJ': 1,
-        'K2': 0,
-        'IY': (1, 'Total number of points in +- Y'),
-        'IT': (1, 'Total number of points in +- T'),
-        'IZ': (1, 'Total number of points in +- Z (or +Z only if K2=01)'),
-        'IP': (1, 'Total number of points in +- P (or +P only if K2=01)'),
-        'IX': (1, 'Total number of points in +- X'),
-        'ID': (1, 'Total number of points in +- D'),
-        'PY': (1.0 * _ureg.centimeter, 'Step size in Y'),
-        'PT': (1.0 * _ureg.milliradian, 'Step size in T'),
-        'PZ': (1.0 * _ureg.centimeter, 'Step size in Z'),
-        'PP': (1.0 * _ureg.milliradian, 'Step size in P'),
-        'PX': (1.0 * _ureg.centimeter, 'Step size in X'),
-        'PD': (0.1, 'Step size in Delta(BRHO)/BORO'),
-        'YR': (0.0 * _ureg.centimeter, 'Reference Y'),
-        'TR': (0.0 * _ureg.milliradian, 'Reference T'),
-        'ZR': (0.0 * _ureg.centimeter, 'Reference Z'),
-        'PR': (0.0 * _ureg.milliradian, 'Reference P'),
-        'XR': (0.0 * _ureg.centimeter, 'Reference X'),
-        'DR': (1.0, 'Reference D'),
+        "KOBJ": 1,
+        "K2": 0,
+        "IY": (1, "Total number of points in +- Y"),
+        "IT": (1, "Total number of points in +- T"),
+        "IZ": (1, "Total number of points in +- Z (or +Z only if K2=01)"),
+        "IP": (1, "Total number of points in +- P (or +P only if K2=01)"),
+        "IX": (1, "Total number of points in +- X"),
+        "ID": (1, "Total number of points in +- D"),
+        "PY": (1.0 * _ureg.centimeter, "Step size in Y"),
+        "PT": (1.0 * _ureg.milliradian, "Step size in T"),
+        "PZ": (1.0 * _ureg.centimeter, "Step size in Z"),
+        "PP": (1.0 * _ureg.milliradian, "Step size in P"),
+        "PX": (1.0 * _ureg.centimeter, "Step size in X"),
+        "PD": (0.1, "Step size in Delta(BRHO)/BORO"),
+        "YR": (0.0 * _ureg.centimeter, "Reference Y"),
+        "TR": (0.0 * _ureg.milliradian, "Reference T"),
+        "ZR": (0.0 * _ureg.centimeter, "Reference Z"),
+        "PR": (0.0 * _ureg.milliradian, "Reference P"),
+        "XR": (0.0 * _ureg.centimeter, "Reference X"),
+        "DR": (1.0, "Reference D"),
     }
 
     def __str__(s) -> str:
@@ -98,12 +99,13 @@ class Objet2(Objet):
         >>> objet.clear()
         >>> objet
     """
+
     PARAMETERS = {
-        'KOBJ': (2, ''),
-        'K2': (0, ''),
-        'IDMAX': (1, ''),
+        "KOBJ": (2, ""),
+        "K2": (0, ""),
+        "IDMAX": (1, ""),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     Y_ = 30
@@ -112,14 +114,16 @@ class Objet2(Objet):
     P_ = 33
     # Used for FIT
 
-    def post_init(self,
-                  reference_y: float = 0.0,
-                  reference_t: float = 0.0,
-                  reference_z: float = 0.0,
-                  reference_p: float = 0.0,
-                  reference_x: float = 0.0,
-                  reference_d: float = 1.0,
-                  **kwargs):
+    def post_init(
+        self,
+        reference_y: float = 0.0,
+        reference_t: float = 0.0,
+        reference_z: float = 0.0,
+        reference_p: float = 0.0,
+        reference_x: float = 0.0,
+        reference_d: float = 1.0,
+        **kwargs,
+    ):
         """Post initialization routine."""
         self._PARTICULES = None
         self._reference_y = reference_y
@@ -245,28 +249,28 @@ class Objet3(Objet):
     """
 
     PARAMETERS = {
-        'KOBJ': 3,
-        'NN': 1,  # 00 to store the file as '[b_]zgoubi.fai'
-        'IT1': 1,
-        'IT2': 1,
-        'ITSTEP': 1,
-        'IP1': 1,
-        'IP2': 1,
-        'IPSTEP': 1,
-        'YF': 0,
-        'TF': 0,
-        'ZF': 0,
-        'PF': 0,
-        'XF': 0,
-        'DF': 0,
-        'TAG': '*',  # No effect if '*'
-        'YR': 0,
-        'ZR': 0,
-        'PR': 0,
-        'XR': 0,
-        'DR': 0,
-        'InitC': 0,
-        'FNAME': 'zgoubi.fai',  # (NN in KOBJ=3.NN determines storage FORMAT)
+        "KOBJ": 3,
+        "NN": 1,  # 00 to store the file as '[b_]zgoubi.fai'
+        "IT1": 1,
+        "IT2": 1,
+        "ITSTEP": 1,
+        "IP1": 1,
+        "IP2": 1,
+        "IPSTEP": 1,
+        "YF": 0,
+        "TF": 0,
+        "ZF": 0,
+        "PF": 0,
+        "XF": 0,
+        "DF": 0,
+        "TAG": "*",  # No effect if '*'
+        "YR": 0,
+        "ZR": 0,
+        "PR": 0,
+        "XR": 0,
+        "DR": 0,
+        "InitC": 0,
+        "FNAME": "zgoubi.fai",  # (NN in KOBJ=3.NN determines storage FORMAT)
     }
 
     def __str__(s) -> str:
@@ -289,31 +293,31 @@ class Objet4(Objet):
     pass
 
     PARAMETERS = {
-        'KOBJ' : 3,
-        'NN' : 1,  # 00 to store the file as '[b_]zgoubi.fai'
-        'IT1' : 1,
-        'IT2': 1,
-        'ITSTEP': 1,
-        'IP1': 1,
-        'IP2': 1,
-        'IPSTEP': 1,
-        'YF': 0,
-        'TF': 0,
-        'ZF': 0,
-        'PF': 0,
-        'XF': 0,
-        'DF': 0,
-        'TF': 0,
-        'TAG': '*',  # No effect if '*'
-        'YR': 0,
-        'TR': 0,
-        'ZR': 0,
-        'PR': 0,
-        'XR': 0,
-        'DR': 0,
-        'TR': 0,
-        'InitC': 0,
-        'FNAME': 'zgoubi.fai',  # (NN in KOBJ=3.NN determines storage FORMAT)
+        "KOBJ": 3,
+        "NN": 1,  # 00 to store the file as '[b_]zgoubi.fai'
+        "IT1": 1,
+        "IT2": 1,
+        "ITSTEP": 1,
+        "IP1": 1,
+        "IP2": 1,
+        "IPSTEP": 1,
+        "YF": 0,
+        "TF": 0,
+        "ZF": 0,
+        "PF": 0,
+        "XF": 0,
+        "DF": 0,
+        "TF": 0,
+        "TAG": "*",  # No effect if '*'
+        "YR": 0,
+        "TR": 0,
+        "ZR": 0,
+        "PR": 0,
+        "XR": 0,
+        "DR": 0,
+        "TR": 0,
+        "InitC": 0,
+        "FNAME": "zgoubi.fai",  # (NN in KOBJ=3.NN determines storage FORMAT)
     }
 
     def __str__(s) -> str:
@@ -339,36 +343,36 @@ class Objet5(Objet):
     """
 
     PARAMETERS = {
-        'KOBJ': (5, 'Generation of groups 13 particles.'),
-        'NN': (1, 'Number of groups of 13 particles'),
-        'PY': 1e-3,
-        'PT': 1e-3,
-        'PZ': 1e-3,
-        'PP': 1e-3,
-        'PS': 1e-3,
-        'PD': 1e-3,
-        'YR': ([0, ], 'Y-coordinate of the reference trajectory'),
-        'TR': ([0, ], 'T-coordinate of the reference trajectory'),
-        'ZR': ([0, ], 'Z-coordinate of the reference trajectory'),
-        'PR': ([0, ], 'P-coordinate of the reference trajectory'),
-        'SR': ([0, ], 'X-coordinate of the reference trajectory'),
-        'DR': ([1, ], 'D-coordinate of the reference trajectory'),
-        'ALPHA_Y': 0,
-        'BETA_Y': 1 * _ureg.m,
-        'ALPHA_Z': 0,
-        'BETA_Z': 1 * _ureg.m,
-        'ALPHA_S': 0,
-        'BETA_S': 1 * _ureg.m,
-        'D_Y': 0 * _ureg.m,
-        'D_YP': 0,
-        'D_Z': 0 * _ureg.m,
-        'D_ZP': 0,
+        "KOBJ": (5, "Generation of groups 13 particles."),
+        "NN": (1, "Number of groups of 13 particles"),
+        "PY": 1e-3,
+        "PT": 1e-3,
+        "PZ": 1e-3,
+        "PP": 1e-3,
+        "PS": 1e-3,
+        "PD": 1e-3,
+        "YR": ([0], "Y-coordinate of the reference trajectory"),
+        "TR": ([0], "T-coordinate of the reference trajectory"),
+        "ZR": ([0], "Z-coordinate of the reference trajectory"),
+        "PR": ([0], "P-coordinate of the reference trajectory"),
+        "SR": ([0], "X-coordinate of the reference trajectory"),
+        "DR": ([1], "D-coordinate of the reference trajectory"),
+        "ALPHA_Y": 0,
+        "BETA_Y": 1 * _ureg.m,
+        "ALPHA_Z": 0,
+        "BETA_Z": 1 * _ureg.m,
+        "ALPHA_S": 0,
+        "BETA_S": 1 * _ureg.m,
+        "D_Y": 0 * _ureg.m,
+        "D_YP": 0,
+        "D_Z": 0 * _ureg.m,
+        "D_ZP": 0,
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(s) -> str:
-        assert len(s.YR) == len(s.TR) == len(s.ZR) == len(s.PR) == len(s.SR) == len(s.DR) == s.NN, 'Invalid lengths'
+        assert len(s.YR) == len(s.TR) == len(s.ZR) == len(s.PR) == len(s.SR) == len(s.DR) == s.NN, "Invalid lengths"
         command = []
         c = f"""
         {super().__str__().strip()}
@@ -389,7 +393,7 @@ class Objet5(Objet):
                     """
             command.append(c)
 
-        return ''.join(map(lambda _: _.rstrip(), command)) + '\n'
+        return "".join(map(lambda _: _.rstrip(), command)) + "\n"
 
 
 class Objet6(Objet):
@@ -400,19 +404,19 @@ class Objet6(Objet):
     """
 
     PARAMETERS = {
-        'KOBJ': (6, 'Generation of groups 61 particles.'),
-        'PY': 1e-3,
-        'PT': 1e-3,
-        'PZ': 1e-3,
-        'PP': 1e-3,
-        'PX': 1e-3,
-        'PD': 1e-3,
-        'YR': (0.0, 'Y-coordinate of the reference trajectory'),
-        'TR': (0.0, 'T-coordinate of the reference trajectory'),
-        'ZR': (0.0, 'Z-coordinate of the reference trajectory'),
-        'PR': (0.0, 'P-coordinate of the reference trajectory'),
-        'XR': (0.0, 'X-coordinate of the reference trajectory'),
-        'DR': (1.0, 'D-coordinate of the reference trajectory'),
+        "KOBJ": (6, "Generation of groups 61 particles."),
+        "PY": 1e-3,
+        "PT": 1e-3,
+        "PZ": 1e-3,
+        "PP": 1e-3,
+        "PX": 1e-3,
+        "PD": 1e-3,
+        "YR": (0.0, "Y-coordinate of the reference trajectory"),
+        "TR": (0.0, "T-coordinate of the reference trajectory"),
+        "ZR": (0.0, "Z-coordinate of the reference trajectory"),
+        "PR": (0.0, "P-coordinate of the reference trajectory"),
+        "XR": (0.0, "X-coordinate of the reference trajectory"),
+        "DR": (1.0, "D-coordinate of the reference trajectory"),
     }
 
     def __str__(self) -> str:
@@ -424,13 +428,12 @@ class Objet6(Objet):
         {self.YR:.12e} {self.TR:.12e} {self.ZR:.12e} {self.PR:.12e} {self.XR:.12e} {self.DR:.12e}
         """
         command.append(c)
-        return ''.join(map(lambda _: _.rstrip(), command)) + '\n'
+        return "".join(map(lambda _: _.rstrip(), command)) + "\n"
 
 
 class Objet7(Objet):
-    """
+    """ """
 
-    """
     pass
 
 
@@ -440,25 +443,25 @@ class Objet8(Objet):
     """
 
     PARAMETERS = {
-        'KOBJ': (8, 'Generation of groups 61 particles.'),
-        'IY': (10, 'Number of samples in each 2-D phase space if zero the central value (below) is assigned'),
-        'IZ': (10, 'Number of samples in each 2-D phase space if zero the central value (below) is assigned'),
-        'IS': (10, 'Number of samples in each 2-D phase space if zero the central value (below) is assigned'),
-        'Y0': (0.0 * _ureg.m, 'Central value Y0'),
-        'T0': (0.0 * _ureg.rad, 'Central value T0'),
-        'Z0': (0.0 * _ureg.m, 'Central value Z0'),
-        'P0': (0.0 * _ureg.rad, 'Central value P0'),
-        'S0': (0.0 * _ureg.m, 'Central value S0'),
-        'D0': (1.0, 'Central value D0'),
-        'ALPHA_Y': (0.0, 'Horizontal (Y) alpha function'),
-        'BETA_Y': (1.0 * _ureg.m, 'Horizontal (Y) beta function'),
-        'EMIT_Y': (1e-9 * _ureg.m, 'Horizontal (Y) emittance'),
-        'ALPHA_Z': (0.0, 'Vertical (Z) alpha function'),
-        'BETA_Z': (1.0 * _ureg.m, 'Vertical (Z) beta function'),
-        'EMIT_Z': (1e-9 * _ureg.m, 'Vertical (Z) emittance'),
-        'ALPHA_S': (0.0, 'Horizontal (S) alpha function'),
-        'BETA_S': (1.0 * _ureg.m, 'Horizontal (S) beta function'),
-        'EMIT_S': (1e-9 * _ureg.m, 'Horizontal (S) emittance'),
+        "KOBJ": (8, "Generation of groups 61 particles."),
+        "IY": (10, "Number of samples in each 2-D phase space if zero the central value (below) is assigned"),
+        "IZ": (10, "Number of samples in each 2-D phase space if zero the central value (below) is assigned"),
+        "IS": (10, "Number of samples in each 2-D phase space if zero the central value (below) is assigned"),
+        "Y0": (0.0 * _ureg.m, "Central value Y0"),
+        "T0": (0.0 * _ureg.rad, "Central value T0"),
+        "Z0": (0.0 * _ureg.m, "Central value Z0"),
+        "P0": (0.0 * _ureg.rad, "Central value P0"),
+        "S0": (0.0 * _ureg.m, "Central value S0"),
+        "D0": (1.0, "Central value D0"),
+        "ALPHA_Y": (0.0, "Horizontal (Y) alpha function"),
+        "BETA_Y": (1.0 * _ureg.m, "Horizontal (Y) beta function"),
+        "EMIT_Y": (1e-9 * _ureg.m, "Horizontal (Y) emittance"),
+        "ALPHA_Z": (0.0, "Vertical (Z) alpha function"),
+        "BETA_Z": (1.0 * _ureg.m, "Vertical (Z) beta function"),
+        "EMIT_Z": (1e-9 * _ureg.m, "Vertical (Z) emittance"),
+        "ALPHA_S": (0.0, "Horizontal (S) alpha function"),
+        "BETA_S": (1.0 * _ureg.m, "Horizontal (S) beta function"),
+        "EMIT_S": (1e-9 * _ureg.m, "Horizontal (S) emittance"),
     }
 
     def __str__(self) -> str:
@@ -473,7 +476,7 @@ class Objet8(Objet):
         {self.ALPHA_S:.12e} {self.BETA_S.m_as('m'):.12e} {self.EMIT_S.m_as('m'):.12e}
         """
         command.append(c)
-        return ''.join(map(lambda _: _.rstrip(), command)) + '\n'
+        return "".join(map(lambda _: _.rstrip(), command)) + "\n"
 
 
 class ObjetA(_Command):
@@ -482,6 +485,6 @@ class ObjetA(_Command):
     Examples:
         TODO
     """
-    KEYWORD = 'OBJETA'
-    """Keyword of the command used for the Zgoubi input data."""
 
+    KEYWORD = "OBJETA"
+    """Keyword of the command used for the Zgoubi input data."""

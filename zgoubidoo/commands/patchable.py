@@ -1,9 +1,11 @@
 """Patchable elements module."""
 from typing import Optional
+
 import pandas as _pd
-from .. import ureg as _ureg
-from .. import Q_ as _Q
 from georges_core.frame import Frame as _Frame
+
+from .. import Q_ as _Q
+from .. import ureg as _ureg
 
 
 class Patchable:
@@ -28,15 +30,15 @@ class Patchable:
 
     def adjust_tracks_variables(self, tracks: _pd.DataFrame):
         t = tracks[tracks.LABEL1 == self.LABEL1]
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = t['X'] + self.entry_sref.m_as('m')
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "SREF"] = t["X"] + self.entry_sref.m_as("m")
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "YT"] = t["Y"]
         try:
-            tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo']
+            tracks.loc[tracks.LABEL1 == self.LABEL1, "YT0"] = t["Yo"]
         except KeyError:
             pass
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "ZT"] = t["Z"]
         try:
-            tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT0'] = t['Zo']
+            tracks.loc[tracks.LABEL1 == self.LABEL1, "ZT0"] = t["Zo"]
         except KeyError:
             pass
 
@@ -181,7 +183,7 @@ class Patchable:
 
         """
         if self.reference_trajectory is not None:
-            return self.reference_trajectory['S'].min() * _ureg.m
+            return self.reference_trajectory["S"].min() * _ureg.m
         else:
             return 0.0 * _ureg.m
 
@@ -193,7 +195,7 @@ class Patchable:
 
         """
         if self.reference_trajectory is not None:
-            return self.reference_trajectory['S'].max() * _ureg.m
+            return self.reference_trajectory["S"].max() * _ureg.m
         else:
             return 0.0 * _ureg.m
 
@@ -205,7 +207,7 @@ class Patchable:
 
         """
         if self.reference_trajectory is not None:
-            return (self.reference_trajectory['S'].max() - self.reference_trajectory['S'].min()) * _ureg.m
+            return (self.reference_trajectory["S"].max() - self.reference_trajectory["S"].min()) * _ureg.m
         else:
             return 0.0 * _ureg.m
 
@@ -217,6 +219,6 @@ class Patchable:
 
         """
         if self.reference_trajectory is not None:
-            return (self.reference_trajectory['S'].max() - self.reference_trajectory['S'].min()) * _ureg.m
+            return (self.reference_trajectory["S"].max() - self.reference_trajectory["S"].min()) * _ureg.m
         else:
             return 0.0 * _ureg.m

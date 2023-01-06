@@ -2,14 +2,16 @@
 
 """
 from dataclasses import dataclass
+
 import pandas as _pd
-from ..commands.radiation import SRLoss, SRPrint
+from georges_core.sequences import Sequence as _Sequence
+
+from .. import ureg as _ureg
 from ..commands.commands import Marker as _Marker
 from ..commands.objet import Objet2 as _Objet2
-from georges_core.sequences import Sequence as _Sequence
-from .results import PhysicsResults as _PhysicsResults
+from ..commands.radiation import SRLoss, SRPrint
 from ..input import Input as _Input
-from .. import ureg as _ureg
+from .results import PhysicsResults as _PhysicsResults
 
 
 @dataclass
@@ -17,6 +19,7 @@ class SynchrotronRadiationLosses(_PhysicsResults):
     """
     TODO
     """
+
     srloss: _pd.DataFrame
     srprint: SRPrint
     zi: _Input
@@ -35,19 +38,23 @@ def srloss(sequence: _Sequence, bunch=None, statistics: int = 1000, debug: bool 
 
     """
     if bunch is None:
-        bunch = _Objet2('BUNCH', BORO=sequence.kinematics.brho)
+        bunch = _Objet2("BUNCH", BORO=sequence.kinematics.brho)
         for i in range(statistics):
-            bunch.add([[0., 0., 0., 0., 0., 1., 1.]])
+            bunch.add([[0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0]])
     srprint = SRPrint()
-    zi = _Input(name=f'SRLOSS_COMPUTATION_FOR_{sequence.name}',
-                line=[
-                    bunch,
-                    sequence.particle,
-                    SRLoss(),
-                ] + sequence.sequence + [
-                    srprint,
-                    _Marker('__END__'),
-                ])
+    zi = _Input(
+        name=f"SRLOSS_COMPUTATION_FOR_{sequence.name}",
+        line=[
+            bunch,
+            sequence.particle,
+            SRLoss(),
+        ]
+        + sequence.sequence
+        + [
+            srprint,
+            _Marker("__END__"),
+        ],
+    )
     zi.XPAS = 1 * _ureg.cm
     _ = sequence.zgoubi(zi).collect()
     r = SynchrotronRadiationLosses(srloss=_.srloss, zi=zi, srprint=srprint)

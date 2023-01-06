@@ -2,7 +2,7 @@
 Constants
 """
 
-ZGOUBI_INPUT_FILENAME: str = 'zgoubi.dat'
+ZGOUBI_INPUT_FILENAME: str = "zgoubi.dat"
 """File name for Zgoubi input data."""
 
 ZGOUBI_LABEL_LENGTH: int = 20

@@ -2,24 +2,30 @@
 TODO
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, List, Union, Tuple, Iterable, Mapping
+
+from typing import TYPE_CHECKING, Iterable, List, Mapping, Optional, Tuple, Union
+
 import pandas as _pd
-from .commands import CommandType as _CommandType
-from .commands import Command as _Command
-from .commands import ZgoubidooException as _ZgoubidooException
 from georges_core.utils import fortran_float
+
 from .. import Q_ as _Q
+from .commands import Command as _Command
+from .commands import CommandType as _CommandType
+from .commands import ZgoubidooException as _ZgoubidooException
+
 if TYPE_CHECKING:
     from ..input import Input as _Input
 
 
 class ActionType(_CommandType):
     """TODO"""
+
     pass
 
 
 class Action(_Command, metaclass=ActionType):
     """TODO"""
+
     pass
 
 
@@ -36,7 +42,8 @@ class End(Action):
     In some cases, these keywords may cause some information to be printed in zgoubi.res, for instance when the keyword
     PICKUPS is used.
     """
-    KEYWORD = 'END'
+
+    KEYWORD = "END"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -52,7 +59,8 @@ class Faisceau(Action):
     (into zgoubi.res) of initial and actual coordinates of the IMAX particles at the location where it stands,
     together tagging indices and letters, etc.
     """
-    KEYWORD = 'FAISCEAU'
+
+    KEYWORD = "FAISCEAU"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -83,15 +91,16 @@ class Faiscnl(Action):
     keyword, this will inhibit all storage until the final run following a FIT procedure, and (ii) avoid using the
     ’nofinal’ instruction in FIT[2] (see p. 156)).
     """
-    KEYWORD = 'FAISCNL'
+
+    KEYWORD = "FAISCNL"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'FNAME': 'zgoubi.fai',
-        'B_FNAME': 'b_zgoubi.fai',
-        'binary': (False, 'Binary storage format.'),
+        "FNAME": "zgoubi.fai",
+        "B_FNAME": "b_zgoubi.fai",
+        "binary": (False, "Binary storage format."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -112,12 +121,14 @@ class Fin(Action):
     In some cases, these keywords may cause some information to be printed in zgoubi.res, for instance when the keyword
     PICKUPS is used.
     """
-    KEYWORD = 'FIN'
+
+    KEYWORD = "FIN"
     """Keyword of the command used for the Zgoubi input data."""
 
 
 class FitType(ActionType):
     """Type for fit commands."""
+
     pass
 
 
@@ -126,22 +137,24 @@ class Fit(Action, metaclass=FitType):
 
     TODO
     """
-    KEYWORD = 'FIT'
+
+    KEYWORD = "FIT"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'PARAMS': ([], 'Physical parameters to be varied'),
-        'CONSTRAINTS': ([], 'Constraints'),
-        'PENALTY': (1.0e-10, 'Penalty'),
-        'ITERATIONS': (50000, 'Iterations'),
-        'FINAL': (True, 'If true, Zgoubi will do an extra pass with the variables set with the fit results'),
-        'SAVE': (True, 'If true, Zgoubi will save the results to file'),
+        "PARAMS": ([], "Physical parameters to be varied"),
+        "CONSTRAINTS": ([], "Constraints"),
+        "PENALTY": (1.0e-10, "Penalty"),
+        "ITERATIONS": (50000, "Iterations"),
+        "FINAL": (True, "If true, Zgoubi will do an extra pass with the variables set with the fit results"),
+        "SAVE": (True, "If true, Zgoubi will save the results to file"),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     class FitCoordinates:
         """Zgoubi coordinates."""
+
         DP = 1
         Y = 2
         T = 3
@@ -152,14 +165,16 @@ class Fit(Action, metaclass=FitType):
         """
         TODO
         """
-        def __init__(self,
-                     line: _Input,
-                     place: Union[str, _Command],
-                     parameter: Union[int, Iterable],
-                     parameter_range: Optional[Union[float, Tuple[float]]] = None,
-                     coupling_place: Optional[Union[str, _Command]] = None,
-                     coupling_parameter: Optional[Union[int, Iterable]] = None,
-                     ):
+
+        def __init__(
+            self,
+            line: _Input,
+            place: Union[str, _Command],
+            parameter: Union[int, Iterable],
+            parameter_range: Optional[Union[float, Tuple[float]]] = None,
+            coupling_place: Optional[Union[str, _Command]] = None,
+            coupling_parameter: Optional[Union[int, Iterable]] = None,
+        ):
             """
 
             Args:
@@ -188,19 +203,22 @@ class Fit(Action, metaclass=FitType):
 
     class Constraint:
         """Generic constraint."""
+
         def __getitem__(self, item):
             return getattr(self, item)
 
     class SigmaMatrixConstraint(Constraint):
         """Constraint on the coefficients of the sigma matrix."""
-        def __init__(self,
-                     line: _Input,
-                     place: Union[str, _Command],
-                     i: int,
-                     j: int,
-                     value: float = 0.0,
-                     weight: float = 1.0,
-                     ):
+
+        def __init__(
+            self,
+            line: _Input,
+            place: Union[str, _Command],
+            i: int,
+            j: int,
+            value: float = 0.0,
+            weight: float = 1.0,
+        ):
             """
 
             Args:
@@ -214,21 +232,23 @@ class Fit(Action, metaclass=FitType):
             self.IC: float = 0
             self.I: int = i
             self.J: int = j
-            self.IR: int = place if place == '#End' else line.zgoubi_index(place)
+            self.IR: int = place if place == "#End" else line.zgoubi_index(place)
             self.V: float = value
             self.WV: float = weight
             self.NP: int = 0
 
     class FirstOrderTransportCoefficientsConstraint(Constraint):
         """Constraint on the coefficients of the transfer matrix."""
-        def __init__(self,
-                     line: _Input,
-                     place: Union[str, _Command],
-                     i: int,
-                     j: int,
-                     value: float = 0.0,
-                     weight: float = 1.0,
-                     ):
+
+        def __init__(
+            self,
+            line: _Input,
+            place: Union[str, _Command],
+            i: int,
+            j: int,
+            value: float = 0.0,
+            weight: float = 1.0,
+        ):
             """
 
             Args:
@@ -249,14 +269,16 @@ class Fit(Action, metaclass=FitType):
 
     class SecondOrderTransportCoefficientsConstraint(Constraint):
         """Constraint on the coefficients of the second-order transport tensor."""
-        def __init__(self,
-                     line: _Input,
-                     place: Union[str, _Command],
-                     i: int,
-                     j: int,
-                     value: float = 0.0,
-                     weight: float = 1.0,
-                     ):
+
+        def __init__(
+            self,
+            line: _Input,
+            place: Union[str, _Command],
+            i: int,
+            j: int,
+            value: float = 0.0,
+            weight: float = 1.0,
+        ):
             """
 
             Args:
@@ -277,18 +299,21 @@ class Fit(Action, metaclass=FitType):
 
     class EllipseParametersConstraint(Constraint):
         """Constraint on the beam ellipse."""
+
         pass
 
     class EqualityConstraint(Constraint):
         """Equality constraint on the trajectories."""
-        def __init__(self,
-                     line: _Input,
-                     place: Union[str, _Command],
-                     variable: int,
-                     value: float = 0.0,
-                     weight: float = 1.0,
-                     particle: int = 1
-                     ):
+
+        def __init__(
+            self,
+            line: _Input,
+            place: Union[str, _Command],
+            variable: int,
+            value: float = 0.0,
+            weight: float = 1.0,
+            particle: int = 1,
+        ):
             """
 
             Args:
@@ -301,61 +326,69 @@ class Fit(Action, metaclass=FitType):
             self.IC: float = 3
             self.I: int = particle
             self.J: int = variable
-            self.IR: int = place if place == '#End' else line.zgoubi_index(place)
+            self.IR: int = place if place == "#End" else line.zgoubi_index(place)
             self.V: float = value
             self.WV: float = weight
             self.NP: int = 0
 
     class DifferenceEqualityConstraint(EqualityConstraint):
         """Equality constraint on the difference between current and initial coordinates."""
-        def __init__(self,
-                     line: _Input,
-                     place: Union[str, _Command],
-                     variable: int,
-                     value: float = 0.0,
-                     weight: float = 1.0,
-                     particle: int = 1
-                     ):
+
+        def __init__(
+            self,
+            line: _Input,
+            place: Union[str, _Command],
+            variable: int,
+            value: float = 0.0,
+            weight: float = 1.0,
+            particle: int = 1,
+        ):
             super().__init__(line, place, variable, value, weight, particle)
             self.IC = 3.1
 
     class SumEqualityConstraint(EqualityConstraint):
         """Equality constraint on the difference between current and initial coordinates."""
-        def __init__(self,
-                     line: _Input,
-                     place: Union[str, _Command],
-                     variable: int,
-                     value: float = 0.0,
-                     weight: float = 1.0,
-                     particle: int = 1
-                     ):
+
+        def __init__(
+            self,
+            line: _Input,
+            place: Union[str, _Command],
+            variable: int,
+            value: float = 0.0,
+            weight: float = 1.0,
+            particle: int = 1,
+        ):
             super().__init__(line, place, variable, value, weight, particle)
             self.IC = 3.2
 
     class MaxEqualityConstraint(EqualityConstraint):
         """Equality constraint on the difference between current and initial coordinates."""
-        def __init__(self,
-                     line: _Input,
-                     place: Union[str, _Command],
-                     variable: int,
-                     value: float = 0.0,
-                     weight: float = 1.0,
-                     particle: int = 1
-                     ):
+
+        def __init__(
+            self,
+            line: _Input,
+            place: Union[str, _Command],
+            variable: int,
+            value: float = 0.0,
+            weight: float = 1.0,
+            particle: int = 1,
+        ):
             super().__init__(line, place, variable, value, weight, particle)
             self.IC = 3.3
             self.NP = 2
 
     class MinEqualityConstraint(EqualityConstraint):
         """Equality constraint on the difference between current and initial coordinates."""
-        def __init__(self,
-                     line: _Input,
-                     place: Union[str, _Command],
-                     variable: int,
-                     value: float = 0.0,
-                     weight: float = 1.0,
-                     particle: int = 1
-                     ):
+
+        def __init__(
+            self,
+            line: _Input,
+            place: Union[str, _Command],
+            variable: int,
+            value: float = 0.0,
+            weight: float = 1.0,
+            particle: int = 1,
+        ):
             super().__init__(line, place, variable, value, weight, particle)
             self.IC = 3.3
             self.NP = 1
@@ -363,40 +396,51 @@ class Fit(Action, metaclass=FitType):
     def __str__(self):
         command = list()
         command.append(super().__str__().rstrip())
-        command.append(f"""
+        command.append(
+            f"""
         {len(self.PARAMS) - list(self.PARAMS).count(None)} {'nofinal' if not self.FINAL else ''} {'save' if self.SAVE else ''}
-        """)
+        """,
+        )
         for p in self.PARAMS:
             if p is None:
                 continue
-            if isinstance(p['IP'], (list, tuple)):
-                ip = p['IP'][2]
+            if isinstance(p["IP"], (list, tuple)):
+                ip = p["IP"][2]
             else:
-                ip = p['IP']
-            if isinstance(p['DV'], (list, tuple)):
-                command.append(f"""
+                ip = p["IP"]
+            if isinstance(p["DV"], (list, tuple)):
+                command.append(
+                    f"""
         {p['IR']} {ip} {p['XC1']}.{p['XC2']:03d} [{p['DV'][0]}, {p['DV'][1]}]
-        """)
+        """,
+                )
             else:
-                command.append(f"""
+                command.append(
+                    f"""
         {p['IR']} {ip} {p['XC1']}.{p['XC2']:03d} {p['DV']}
-        """)
-        command.append(f"""
+        """,
+                )
+        command.append(
+            f"""
         {len(self.CONSTRAINTS) - list(self.PARAMS).count(None)} {self.PENALTY:.12e} {int(self.ITERATIONS):d}
-        """)
+        """,
+        )
         for c in self.CONSTRAINTS:
             if c is None:
                 continue
-            command.append(f"""
+            command.append(
+                f"""
         {c['IC']} {c['I']} {c['J']} {c['IR']} {c['V']} {c['WV']} {c['NP']}
-        """)
-        return ''.join(map(lambda x: x.rstrip(), command))
+        """,
+            )
+        return "".join(map(lambda x: x.rstrip(), command))
 
-    def process_output(self,
-                       output: List[str],
-                       parameters: Mapping[str, Union[_Q, float]],
-                       zgoubi_input: _Input
-                       ) -> bool:
+    def process_output(
+        self,
+        output: List[str],
+        parameters: Mapping[str, Union[_Q, float]],
+        zgoubi_input: _Input,
+    ) -> bool:
         """
 
         Args:
@@ -453,42 +497,42 @@ class Fit(Action, metaclass=FitType):
         status: list = []
         data: list = []
         for line in output:
-            if line.strip().startswith('Lmnt'):
+            if line.strip().startswith("Lmnt"):
                 status.append(line)
-            if line.strip().startswith('LMNT'):
+            if line.strip().startswith("LMNT"):
                 grab = True
                 continue
-            if line.strip().startswith('STATUS OF'):
+            if line.strip().startswith("STATUS OF"):
                 grab = False
             if grab:
                 values = line.split()
                 d = {
-                        'element_id': int(values[0]),
-                        'variable_id': int(values[1]),
-                        'parameter_id': int(values[2]),
-                        'parameter': find_parameter_by_id(int(values[0]), int(values[2])),
-                        'min': fortran_float(values[3]),
-                        'initial': fortran_float(values[4]),
-                        'final': fortran_float(values[5]) * find_dimension_by_id(int(values[0]), int(values[2])),
-                        'max': fortran_float(values[6]),
-                        'stepsize': fortran_float(values[7]),
+                    "element_id": int(values[0]),
+                    "variable_id": int(values[1]),
+                    "parameter_id": int(values[2]),
+                    "parameter": find_parameter_by_id(int(values[0]), int(values[2])),
+                    "min": fortran_float(values[3]),
+                    "initial": fortran_float(values[4]),
+                    "final": fortran_float(values[5]) * find_dimension_by_id(int(values[0]), int(values[2])),
+                    "max": fortran_float(values[6]),
+                    "stepsize": fortran_float(values[7]),
                 }
                 if len(values) >= 9:
-                    d['name'] = values[8]
-                    d['label1'] = values[9]
-                    d['label2'] = values[10]
+                    d["name"] = values[8]
+                    d["label1"] = values[9]
+                    d["label2"] = values[10]
                 data.append(d)
         success = False if len(data) == 0 or len(status) > 0 else True
         try:
             try:
-                _ = _pd.DataFrame(data).set_index('variable_id')
+                _ = _pd.DataFrame(data).set_index("variable_id")
             except KeyError:
                 _ = _pd.DataFrame(data)
             self._results.append(
                 (
                     parameters,
-                    _Command.CommandResult(success=success, results=_)
-                )
+                    _Command.CommandResult(success=success, results=_),
+                ),
             )
         except KeyError:
             raise _ZgoubidooException(f"Results from fit {self.LABEL1} could not be processed.")
@@ -500,7 +544,8 @@ class Fit2(Fit, metaclass=FitType):
 
     Alternative fitting procedure implemented in Zgoubi, see manual.
     """
-    KEYWORD = 'FIT2'
+
+    KEYWORD = "FIT2"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -508,6 +553,7 @@ class Goto(Action):
     """
     TODO
     """
+
     pass
 
 
@@ -515,6 +561,7 @@ class Include(Action):
     """
     TODO
     """
+
     pass
 
 
@@ -522,7 +569,8 @@ class Options(Action):
     """
     TODO
     """
-    KEYWORD = 'OPTIONS'
+
+    KEYWORD = "OPTIONS"
     """Keyword of the command used for the Zgoubi input data."""
 
     def post_init(self, write: bool = True, consty: bool = False, plt: int = 0):
@@ -536,7 +584,7 @@ class Options(Action):
         Returns:
 
         """
-        self.LABEL1 = ' '
+        self.LABEL1 = " "
         self._write = write
         self._consty = consty
         self._plt = plt

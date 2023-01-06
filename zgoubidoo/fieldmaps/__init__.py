@@ -1,3 +1,3 @@
 """Field map manipulations module."""
-from .fieldmap import EngeModel, FieldMap, CartesianFieldMap, PolarFieldMap
+from .fieldmap import CartesianFieldMap, EngeModel, FieldMap, PolarFieldMap
 from .vffa import VFFAFieldMap

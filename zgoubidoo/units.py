@@ -1,15 +1,18 @@
-from typing import Union, Callable
-from . import ureg as _ureg
+from typing import Callable, Union
+
 from . import Q_ as _Q
+from . import ureg as _ureg  # noqa: F401
 
 
 def parse_quantity(f: Callable):
     """Decorator to convert argument 'q' from a string to a quantity."""
+
     def parse_arg(q: Union[str, _Q]):
         """Converts string to a Pint quantity."""
         if isinstance(q, str):
             q: _Q = _Q(q)
         return f(q)
+
     return parse_arg
 
 
@@ -26,7 +29,7 @@ def _m(q: Union[str, _Q]) -> float:
     Returns: the magnitude in meters.
 
     """
-    return float(q.to('m').magnitude)
+    return float(q.to("m").magnitude)
 
 
 @parse_quantity
@@ -42,7 +45,7 @@ def _cm(q: Union[str, _Q]) -> float:
     Returns: the magnitude in centimeters.
 
     """
-    return float(q.to('cm').magnitude)
+    return float(q.to("cm").magnitude)
 
 
 @parse_quantity
@@ -58,7 +61,7 @@ def _mm(q: Union[str, _Q]) -> float:
     Returns: the magnitude in millimeters.
 
     """
-    return float(q.to('mm').magnitude)
+    return float(q.to("mm").magnitude)
 
 
 @parse_quantity
@@ -76,7 +79,7 @@ def _degree(q: Union[str, _Q]) -> float:
     Returns: the magnitude in degrees.
 
     """
-    return float(q.to('degree').magnitude)
+    return float(q.to("degree").magnitude)
 
 
 @parse_quantity
@@ -90,7 +93,7 @@ def _radian(q: Union[str, _Q]) -> float:
 
     Returns: the magnitude in degrees.
     """
-    return float(q.to('radian').magnitude)
+    return float(q.to("radian").magnitude)
 
 
 @parse_quantity
@@ -104,7 +107,7 @@ def _tesla(q: Union[str, _Q]) -> float:
     Returns: the magnitude in Tesla.
 
     """
-    return float(q.to('tesla').magnitude)
+    return float(q.to("tesla").magnitude)
 
 
 @parse_quantity
@@ -118,7 +121,7 @@ def _gauss(q: Union[str, _Q]) -> float:
     Returns: the magnitude in Gauss.
 
     """
-    return float(q.to('gauss').magnitude)
+    return float(q.to("gauss").magnitude)
 
 
 @parse_quantity
@@ -132,7 +135,7 @@ def _kilogauss(q: Union[str, _Q]) -> float:
     Returns: the magnitude in kilogauss.
 
     """
-    return float(q.to('kilogauss').magnitude)
+    return float(q.to("kilogauss").magnitude)
 
 
 @parse_quantity
@@ -146,7 +149,7 @@ def _ampere(q: Union[str, _Q]) -> float:
     Returns: the magnitude in ampere.
 
     """
-    return float(q.to('ampere').magnitude)
+    return float(q.to("ampere").magnitude)
 
 
 @parse_quantity
@@ -161,7 +164,7 @@ def _mev(q: Union[str, _Q]) -> float:
     Returns: the magnitude in MeV.
 
     """
-    return float(q.to('MeV').magnitude)
+    return float(q.to("MeV").magnitude)
 
 
 @parse_quantity
@@ -177,7 +180,7 @@ def _gev(q: Union[str, _Q]) -> float:
     Returns: the magnitude in MeV.
 
     """
-    return float(q.to('GeV').magnitude)
+    return float(q.to("GeV").magnitude)
 
 
 @parse_quantity
@@ -194,7 +197,7 @@ def _mev_c(q: _Q) -> float:
     Returns:
         the magnitude in meters.
     """
-    return float(q.to('MeV_c').magnitude)
+    return float(q.to("MeV_c").magnitude)
 
 
 @parse_quantity
@@ -211,4 +214,4 @@ def _gev_c(q: _Q) -> float:
     Returns:
         the magnitude in meters.
     """
-    return float(q.to('GeV_c').magnitude)
+    return float(q.to("GeV_c").magnitude)

@@ -3,26 +3,32 @@
 TODO
 """
 from __future__ import annotations
+
+import matplotlib.patches as patches
+import matplotlib.pyplot as plt
+import matplotlib.transforms as transforms
 import numpy as _np
 import pandas as _pd
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
-import matplotlib.transforms as transforms
-from .. import ureg as _ureg
 from georges_core.vis import MatplotlibArtist as _MatplotlibArtist
-from ..units import _m, _cm, _degree, _radian
+
 import zgoubidoo.commands
+
+from .. import ureg as _ureg
+from ..units import _cm, _degree, _m, _radian
 
 
 class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
     """A matplotlib implementation of a `ZgoubiPlot` artist."""
-    def __init__(self,
-                 ax=None,
-                 with_boxes: bool = True,
-                 with_frames: bool = True,
-                 with_centers: bool = False,
-                 tracks_color: str = 'b',
-                 **kwargs):
+
+    def __init__(
+        self,
+        ax=None,
+        with_boxes: bool = True,
+        with_frames: bool = True,
+        with_centers: bool = False,
+        tracks_color: str = "b",
+        **kwargs,
+    ):
         """
         Args:
             param ax: the matplotlib ax used for plotting. If None it will be created with `init_plot` (kwargs are
@@ -42,7 +48,7 @@ class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
             self._ax = ax
         self._ax2 = self._ax.twinx()
         self._ax2.set_ylim([0, 1])
-        self._ax2.axis('off')
+        self._ax2.axis("off")
 
     @property
     def tracks_color(self):
@@ -125,12 +131,12 @@ class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
 
         def do_frame() -> None:
             """Plot the coordinates of each frames of the magnet."""
-            self.plot(_cm(magnet.entry.x), _cm(magnet.entry.y), 'gv', ms=5)
-            self.plot(_cm(magnet.entry_patched.x), _cm(magnet.entry_patched.y), 'bs', ms=5)
-            self.plot(_cm(magnet.exit.x), _cm(magnet.exit.y), 'k^', ms=5)
-            self.plot(_cm(magnet.exit_patched.x), _cm(magnet.exit_patched.y), 'rv', ms=10)
+            self.plot(_cm(magnet.entry.x), _cm(magnet.entry.y), "gv", ms=5)
+            self.plot(_cm(magnet.entry_patched.x), _cm(magnet.entry_patched.y), "bs", ms=5)
+            self.plot(_cm(magnet.exit.x), _cm(magnet.exit.y), "k^", ms=5)
+            self.plot(_cm(magnet.exit_patched.x), _cm(magnet.exit_patched.y), "rv", ms=10)
             if self._with_centers:
-                self.plot(_cm(magnet.center.x), _cm(magnet.center.y), 'r.', ms=5)
+                self.plot(_cm(magnet.center.x), _cm(magnet.center.y), "r.", ms=5)
 
         def do_box() -> None:
             """Plot the core of the magnet."""
@@ -158,10 +164,10 @@ class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
                     theta2,
                     width=_cm(magnet.WIDTH),
                     alpha=0.2,
-                    facecolor=self._palette.get(magnet.COLOR, 'gray'),
-                    edgecolor=self._palette.get(magnet.COLOR, 'gray'),
+                    facecolor=self._palette.get(magnet.COLOR, "gray"),
+                    edgecolor=self._palette.get(magnet.COLOR, "gray"),
                     linewidth=2,
-                )
+                ),
             )
             self._ax.add_patch(
                 patches.Wedge(
@@ -174,10 +180,10 @@ class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
                     theta2,
                     width=_cm(magnet.WIDTH / 2.0),
                     alpha=0.2,
-                    facecolor=self._palette.get(magnet.COLOR, 'gray'),
-                    edgecolor=self._palette.get(magnet.COLOR, 'gray'),
+                    facecolor=self._palette.get(magnet.COLOR, "gray"),
+                    edgecolor=self._palette.get(magnet.COLOR, "gray"),
                     linewidth=2,
-                )
+                ),
             )
             self._ax.add_patch(
                 patches.Wedge(
@@ -190,10 +196,10 @@ class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
                     theta4,
                     width=_cm(magnet.WIDTH),
                     alpha=0.2,
-                    facecolor=self._palette.get(magnet.COLOR, 'gray'),
-                    edgecolor=self._palette.get(magnet.COLOR, 'gray'),
+                    facecolor=self._palette.get(magnet.COLOR, "gray"),
+                    edgecolor=self._palette.get(magnet.COLOR, "gray"),
                     linewidth=2,
-                )
+                ),
             )
             self._ax.add_patch(
                 patches.Wedge(
@@ -206,11 +212,12 @@ class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
                     theta3,
                     width=_cm(magnet.WIDTH),
                     alpha=0.2,
-                    facecolor='k',
-                    edgecolor='k',
+                    facecolor="k",
+                    edgecolor="k",
                     linewidth=4,
-                )
+                ),
             )
+
         if self._with_boxes:
             do_box()
         if self._with_frames:
@@ -228,87 +235,99 @@ class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
 
         def do_frame():
             """Plot the coordinates of each frames of the magnet."""
-            self.plot(_m(magnet.entry.x), _m(magnet.entry.y), 'gv', ms=5)
-            self.plot(_m(magnet.entry_patched.x), _m(magnet.entry_patched.y), 'bs', ms=5)
-            self.plot(_m(magnet.exit.x), _m(magnet.exit.y), 'k^', ms=5)
-            self.plot(_m(magnet.exit_patched.x), _m(magnet.exit_patched.y), 'r>', ms=5)
+            self.plot(_m(magnet.entry.x), _m(magnet.entry.y), "gv", ms=5)
+            self.plot(_m(magnet.entry_patched.x), _m(magnet.entry_patched.y), "bs", ms=5)
+            self.plot(_m(magnet.exit.x), _m(magnet.exit.y), "k^", ms=5)
+            self.plot(_m(magnet.exit_patched.x), _m(magnet.exit_patched.y), "r>", ms=5)
 
         def do_box():
             """Plot the core of the magnet."""
             angle = -magnet.entry_patched.tx
-            tr = transforms.Affine2D().rotate_deg_around(
-                _m(magnet.entry_patched.x),
-                _m(magnet.entry_patched.y),
-                _degree(angle)
-            ) + self._ax.transData
+            tr = (
+                transforms.Affine2D().rotate_deg_around(
+                    _m(magnet.entry_patched.x),
+                    _m(magnet.entry_patched.y),
+                    _degree(angle),
+                )
+                + self._ax.transData
+            )
             self._ax.add_patch(
                 patches.Rectangle(
                     (
                         _m(magnet.entry_patched.x),
-                        _m(magnet.entry_patched.y - magnet.WIDTH / 2)
+                        _m(magnet.entry_patched.y - magnet.WIDTH / 2),
                     ),
                     _np.linalg.norm(
-                        _np.array([
-                            _m(magnet.exit.x - magnet.entry_patched.x),
-                            _m(magnet.exit.y - magnet.entry_patched.y)
-                        ]).astype(float)
+                        _np.array(
+                            [
+                                _m(magnet.exit.x - magnet.entry_patched.x),
+                                _m(magnet.exit.y - magnet.entry_patched.y),
+                            ],
+                        ).astype(float),
                     ),
                     _m(magnet.WIDTH),
                     alpha=0.2,
-                    facecolor=self._palette.get(magnet.COLOR, 'gray'),
-                    edgecolor=self._palette.get(magnet.COLOR, 'gray'),
+                    facecolor=self._palette.get(magnet.COLOR, "gray"),
+                    edgecolor=self._palette.get(magnet.COLOR, "gray"),
                     linewidth=2,
                     transform=tr,
-                )
+                ),
             )
 
         def do_apertures():
             """Plot the core of the magnet."""
             angle = -magnet.entry_patched.tx
-            tr = transforms.Affine2D().rotate_deg_around(
-                _m(magnet.entry_patched.x),
-                _m(magnet.entry_patched.y),
-                _degree(angle)
-            ) + self._ax.transData
-            self._ax.add_patch(
-                patches.Rectangle(
-                    (
-                        _m(magnet.entry_patched.x),
-                        _m(magnet.entry_patched.y - magnet.APERTURE_RIGHT - magnet.WIDTH)
-                    ),
-                    _np.linalg.norm(
-                        _np.array([
-                            _m(magnet.exit.x - magnet.entry_patched.x),
-                            _m(magnet.exit.y - magnet.entry_patched.y)
-                        ]).astype(float)
-                    ),
-                    _m(magnet.WIDTH),
-                    alpha=0.2,
-                    facecolor=self._palette.get(magnet.COLOR, 'gray'),
-                    edgecolor=self._palette.get(magnet.COLOR, 'gray'),
-                    linewidth=2,
-                    transform=tr,
+            tr = (
+                transforms.Affine2D().rotate_deg_around(
+                    _m(magnet.entry_patched.x),
+                    _m(magnet.entry_patched.y),
+                    _degree(angle),
                 )
+                + self._ax.transData
             )
             self._ax.add_patch(
                 patches.Rectangle(
                     (
                         _m(magnet.entry_patched.x),
-                        _m(magnet.entry_patched.y + 1 * magnet.APERTURE_LEFT)
+                        _m(magnet.entry_patched.y - magnet.APERTURE_RIGHT - magnet.WIDTH),
                     ),
                     _np.linalg.norm(
-                        _np.array([
-                            _m(magnet.exit.x - magnet.entry_patched.x),
-                            _m(magnet.exit.y - magnet.entry_patched.y)
-                        ]).astype(float)
+                        _np.array(
+                            [
+                                _m(magnet.exit.x - magnet.entry_patched.x),
+                                _m(magnet.exit.y - magnet.entry_patched.y),
+                            ],
+                        ).astype(float),
                     ),
                     _m(magnet.WIDTH),
                     alpha=0.2,
-                    facecolor=self._palette.get(magnet.COLOR, 'gray'),
-                    edgecolor=self._palette.get(magnet.COLOR, 'gray'),
+                    facecolor=self._palette.get(magnet.COLOR, "gray"),
+                    edgecolor=self._palette.get(magnet.COLOR, "gray"),
                     linewidth=2,
                     transform=tr,
-                )
+                ),
+            )
+            self._ax.add_patch(
+                patches.Rectangle(
+                    (
+                        _m(magnet.entry_patched.x),
+                        _m(magnet.entry_patched.y + 1 * magnet.APERTURE_LEFT),
+                    ),
+                    _np.linalg.norm(
+                        _np.array(
+                            [
+                                _m(magnet.exit.x - magnet.entry_patched.x),
+                                _m(magnet.exit.y - magnet.entry_patched.y),
+                            ],
+                        ).astype(float),
+                    ),
+                    _m(magnet.WIDTH),
+                    alpha=0.2,
+                    facecolor=self._palette.get(magnet.COLOR, "gray"),
+                    edgecolor=self._palette.get(magnet.COLOR, "gray"),
+                    linewidth=2,
+                    transform=tr,
+                ),
             )
 
         if self._with_boxes and not apertures:
@@ -352,11 +371,11 @@ class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
                 _m(magnet.length),
                 0.1,
                 alpha=1.0,
-                facecolor=self._palette.get(magnet.COLOR, 'gray'),
-                edgecolor=self._palette.get(magnet.COLOR, 'gray'),
+                facecolor=self._palette.get(magnet.COLOR, "gray"),
+                edgecolor=self._palette.get(magnet.COLOR, "gray"),
                 linewidth=0,
                 clip_on=False,
-            )
+            ),
         )
 
     def cartouche_quadrupole(self, s_location, magnet: zgoubidoo.commands.CartesianMagnet):
@@ -384,11 +403,11 @@ class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
                 _m(magnet.length),
                 0.05,
                 alpha=1.0,
-                facecolor=self._palette.get(magnet.COLOR, 'gray'),
-                edgecolor=self._palette.get(magnet.COLOR, 'gray'),
+                facecolor=self._palette.get(magnet.COLOR, "gray"),
+                edgecolor=self._palette.get(magnet.COLOR, "gray"),
                 linewidth=0,
                 clip_on=False,
-            )
+            ),
         )
 
     def cartouche_solenoid(self, s_location, magnet: zgoubidoo.commands.CartesianMagnet):
@@ -412,8 +431,8 @@ class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
                 _m(magnet.length),
                 0.15,
                 alpha=0.5,
-                facecolor=self._palette.get(magnet.COLOR, 'gray'),
-                edgecolor=self._palette.get(magnet.COLOR, 'gray'),
+                facecolor=self._palette.get(magnet.COLOR, "gray"),
+                edgecolor=self._palette.get(magnet.COLOR, "gray"),
                 linewidth=0,
                 clip_on=False,
                 zorder=10,
@@ -441,11 +460,11 @@ class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
                 1,
                 0.1,
                 alpha=1.0,
-                facecolor=self._palette.get(cavite.COLOR, 'gray'),
-                edgecolor=self._palette.get(cavite.COLOR, 'gray'),
+                facecolor=self._palette.get(cavite.COLOR, "gray"),
+                edgecolor=self._palette.get(cavite.COLOR, "gray"),
                 linewidth=0,
                 clip_on=False,
-            )
+            ),
         )
 
     def tracks_cartesianmagnet(self, magnet: zgoubidoo.commands.CartesianMagnet, tracks: _pd.DataFrame):
@@ -455,13 +474,14 @@ class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
             magnet: the magnet to which the tracks are attached
             tracks: a dataframe containing the tracks
         """
-        self.plot(tracks['XG'],
-                  tracks['YG'],
-                  '.',
-                  markeredgecolor=self._tracks_color,
-                  markerfacecolor=self._tracks_color,
-                  ms=1
-                  )
+        self.plot(
+            tracks["XG"],
+            tracks["YG"],
+            ".",
+            markeredgecolor=self._tracks_color,
+            markerfacecolor=self._tracks_color,
+            ms=1,
+        )
 
     def tracks_polarmagnet(self, magnet: zgoubidoo.commands.PolarMagnet, tracks):
         """Plot tracks for a polar magnet.
@@ -470,18 +490,19 @@ class ZgoubidooMatplotlibArtist(_MatplotlibArtist):
             magnet: the magnet to which the tracks are attached
             tracks: a dataframe containing the tracks
         """
-        x = 100 * tracks['X'].values  # Polar angle
-        y = 100 * tracks['Y-DY'].values
+        x = 100 * tracks["X"].values  # Polar angle
+        y = 100 * tracks["Y-DY"].values
         if _np.cos(_radian(magnet.entry.tz)) > 0:
             angle = _radian(90 * _ureg.degree - magnet.center.tx) - x
         else:
             angle = _radian(-90 * _ureg.degree - magnet.center.tx) + x
         tracks_x = _cm(magnet.center.x) + y * _np.cos(angle)
         tracks_y = _cm(magnet.center.y) + y * _np.sin(angle)
-        self.plot(tracks_x,
-                  tracks_y,
-                  '.',
-                  markeredgecolor=self._tracks_color,
-                  markerfacecolor=self._tracks_color,
-                  ms=1
-                  )
+        self.plot(
+            tracks_x,
+            tracks_y,
+            ".",
+            markeredgecolor=self._tracks_color,
+            markerfacecolor=self._tracks_color,
+            ms=1,
+        )

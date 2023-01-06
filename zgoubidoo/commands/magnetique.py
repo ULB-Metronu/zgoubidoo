@@ -4,35 +4,39 @@ More details here.
 TODO
 """
 
-from typing import Optional, List
+from typing import List, Optional
+
+import lmfit
 import numpy as _np
 import pandas as _pd
 import parse as _parse
-import lmfit
-from .particules import ParticuleType as _ParticuleType
-from .commands import CommandType as _CommandType
-from .actions import FitType as _FitType
-from .commands import Command as _Command
-from .commands import Marker as _Marker
+from georges_core.frame import Frame as _Frame
+from georges_core.kinematics import Kinematics as _Kinematics
+
+import zgoubidoo
+
+from .. import Q_ as _Q
+from .. import ureg as _ureg
+from ..fieldmaps import FieldMap as _FieldMap
+from ..units import _ampere, _cm, _degree, _kilogauss, _radian
+from ..zgoubi import Zgoubi as _Zgoubi
 from .actions import Fit as _Fit
 from .actions import Fit2 as _Fit2
+from .actions import FitType as _FitType
+from .commands import Command as _Command
+from .commands import CommandType as _CommandType
+from .commands import Marker as _Marker
 from .commands import ZgoubidooException as _ZgoubidooException
 from .objet import Objet2 as _Objet2
+from .particules import ParticuleType as _ParticuleType
 from .particules import Proton as _Proton
-from .. import ureg as _ureg
-from .. import Q_ as _Q
-from ..zgoubi import Zgoubi as _Zgoubi
 from .patchable import Patchable as _Patchable
 from .plotable import Plotable as _Plotable
-from ..fieldmaps import FieldMap as _FieldMap
-from ..units import _cm, _radian, _kilogauss, _degree, _ampere
-import zgoubidoo
-from georges_core.kinematics import Kinematics as _Kinematics
-from georges_core.frame import Frame as _Frame
 
 
 class MagnetType(_CommandType):
     """Type for magnetic element commands."""
+
     pass
 
 
@@ -41,15 +45,16 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
 
     TODO
     """
+
     PARAMETERS = {
-        'HEIGHT': (20 * _ureg.cm, 'Height of the magnet (distance between poles), used by plotting functions.'),
-        'POLE_WIDTH': (30 * _ureg.cm, 'Pole width (used for plotting only).'),
-        'PIPE_THICKNESS': (2 * _ureg.cm, 'Thickness of the pipe, used by plotting functions.'),
-        'PIPE_COLOR': ('grey', 'Color of the pipe, used by plotting functions.'),
-        'REFERENCE_FIELD_COMPONENT': ('BZ', 'Orientation of the reference field (used by field maps)'),
-        'KINEMATICS': (None, 'A kinematics object.'),
+        "HEIGHT": (20 * _ureg.cm, "Height of the magnet (distance between poles), used by plotting functions."),
+        "POLE_WIDTH": (30 * _ureg.cm, "Pole width (used for plotting only)."),
+        "PIPE_THICKNESS": (2 * _ureg.cm, "Thickness of the pipe, used by plotting functions."),
+        "PIPE_COLOR": ("grey", "Color of the pipe, used by plotting functions."),
+        "REFERENCE_FIELD_COMPONENT": ("BZ", "Orientation of the reference field (used by field maps)"),
+        "KINEMATICS": (None, "A kinematics object."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
         commands (e.g. fit)."""
 
     def post_init(self, field_map: Optional[_FieldMap] = None, **kwargs):
@@ -95,6 +100,7 @@ class Magnet(_Command, _Patchable, _Plotable, metaclass=MagnetType):
 
 class CartesianMagnetType(MagnetType):
     """Type for cartesian magnets."""
+
     pass
 
 
@@ -103,15 +109,16 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
 
     TODO
     """
+
     PARAMETERS = {
-        'APERTURE_LEFT': (10 * _ureg.cm, 'Aperture size of the magnet, left side (used for plotting only).'),
-        'APERTURE_RIGHT': (10 * _ureg.cm, 'Aperture size of the magnet, right side (used for plotting only).'),
-        'APERTURE_TOP': (10 * _ureg.cm, 'Aperture size of the magnet, top side (used for plotting only).'),
-        'APERTURE_BOTTOM': (10 * _ureg.cm, 'Aperture size of the magnet, bottom side (used for plotting only).'),
-        'COLOR': ('black', 'Magnet color for plotting.'),
-        'LENGTH_IS_ARC_LENGTH': (False, ''),
+        "APERTURE_LEFT": (10 * _ureg.cm, "Aperture size of the magnet, left side (used for plotting only)."),
+        "APERTURE_RIGHT": (10 * _ureg.cm, "Aperture size of the magnet, right side (used for plotting only)."),
+        "APERTURE_TOP": (10 * _ureg.cm, "Aperture size of the magnet, top side (used for plotting only)."),
+        "APERTURE_BOTTOM": (10 * _ureg.cm, "Aperture size of the magnet, bottom side (used for plotting only)."),
+        "COLOR": ("black", "Magnet color for plotting."),
+        "LENGTH_IS_ARC_LENGTH": (False, ""),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
         commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
@@ -190,7 +197,8 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
                     raise _ZgoubidooException("Non zero ALE incompatible with KPOS = 3.")
                 self._entry_patched.rotate_z(
                     -_np.arcsin(
-                        (self.XL * self.B1) / (2 * self.KINEMATICS.brho))
+                        (self.XL * self.B1) / (2 * self.KINEMATICS.brho),
+                    ),
                 )
                 self._entry_patched.translate_y(self.y_offset)
         return self._entry_patched
@@ -234,7 +242,9 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
                 self._exit_patched.translate_y(-self.y_offset)
                 self._exit_patched.rotate_z(
                     -_np.arcsin(
-                        (self.XL * self.B1) / (2 * self.KINEMATICS.brho)) * _ureg.radian
+                        (self.XL * self.B1) / (2 * self.KINEMATICS.brho),
+                    )
+                    * _ureg.radian,
                 )
         return self._exit_patched
 
@@ -273,6 +283,7 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
 
 class PolarMagnetType(MagnetType):
     """Type for polar magnets."""
+
     pass
 
 
@@ -281,33 +292,34 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
 
     TODO
     """
+
     PARAMETERS = {
-        'POLE_WIDTH': 150 * _ureg.cm,
-        'APERTURE_LEFT': (10 * _ureg.cm, 'Aperture size of the magnet, left side (used for plotting only).'),
-        'APERTURE_RIGHT': (10 * _ureg.cm, 'Aperture size of the magnet, right side (used for plotting only).'),
-        'APERTURE_TOP': (10 * _ureg.cm, 'Aperture size of the magnet, top side (used for plotting only).'),
-        'APERTURE_BOTTOM': (10 * _ureg.cm, 'Aperture size of the magnet, bottom side (used for plotting only).'),
-        'COLOR': 'blue',
+        "POLE_WIDTH": 150 * _ureg.cm,
+        "APERTURE_LEFT": (10 * _ureg.cm, "Aperture size of the magnet, left side (used for plotting only)."),
+        "APERTURE_RIGHT": (10 * _ureg.cm, "Aperture size of the magnet, right side (used for plotting only)."),
+        "APERTURE_TOP": (10 * _ureg.cm, "Aperture size of the magnet, top side (used for plotting only)."),
+        "APERTURE_BOTTOM": (10 * _ureg.cm, "Aperture size of the magnet, bottom side (used for plotting only)."),
+        "COLOR": "blue",
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
         commands (e.g. fit)."""
 
     def adjust_tracks_variables(self, tracks: _pd.DataFrame):
         t = tracks[tracks.LABEL1 == self.LABEL1]
-        radius = self.RM.m_as('m')
-        angles = 100 * t['X']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ANGLE'] = angles
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'R'] = t['Y']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'R0'] = t['Yo']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = radius * angles + self.entry_sref.m_as('m')
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y'] - radius
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo'] - radius
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT0'] = t['Zo']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X'] = t['Y'] * _np.sin(angles)
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X0'] = t['Yo'] * _np.sin(angles)
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y'] = t['Y'] * _np.cos(angles) - radius
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y0'] = t['Yo'] * _np.cos(angles) - radius
+        radius = self.RM.m_as("m")
+        angles = 100 * t["X"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "ANGLE"] = angles
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "R"] = t["Y"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "R0"] = t["Yo"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "SREF"] = radius * angles + self.entry_sref.m_as("m")
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "YT"] = t["Y"] - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "YT0"] = t["Yo"] - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "ZT"] = t["Z"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "ZT0"] = t["Zo"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "X"] = t["Y"] * _np.sin(angles)
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "X0"] = t["Yo"] * _np.sin(angles)
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "Y"] = t["Y"] * _np.cos(angles) - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "Y0"] = t["Yo"] * _np.cos(angles) - radius
 
     @property
     def angular_opening(self) -> _Q:
@@ -361,7 +373,7 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
         Returns:
 
         """
-        return self.angular_opening.to('rad').magnitude * self.radius
+        return self.angular_opening.to("rad").magnitude * self.radius
 
     @property
     def entry_integration(self) -> Optional[_Frame]:
@@ -438,7 +450,7 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
         Returns:
 
         """
-        return radius * _np.tan(((magnet_angle - poles_angle) / 2).to('radian').magnitude)
+        return radius * _np.tan(((magnet_angle - poles_angle) / 2).to("radian").magnitude)
 
     @staticmethod
     def efb_offset_from_polar(radius: _Q, magnet_angle: _Q, poles_angle: _Q) -> _Q:
@@ -452,7 +464,7 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
         Returns:
 
         """
-        return radius / _np.cos(((magnet_angle - poles_angle) / 2).to('radian').magnitude)
+        return radius / _np.cos(((magnet_angle - poles_angle) / 2).to("radian").magnitude)
 
     @staticmethod
     def efb_angle_from_polar(magnet_angle: _Q, poles_angle: _Q) -> _Q:
@@ -517,7 +529,7 @@ class PolarMagnet(Magnet, metaclass=PolarMagnetType):
 
     @property
     def optical_ref_length(self) -> _Q:
-        return self.radius * self.angular_opening.m_as('radians')
+        return self.radius * self.angular_opening.m_as("radians")
 
 
 class PolarMultiMagnetType(PolarMagnetType):
@@ -525,10 +537,10 @@ class PolarMultiMagnetType(PolarMagnetType):
 
     def __getattr__(cls, key: str):
         try:
-            if key.endswith('_'):
+            if key.endswith("_"):
                 # TODO
                 return 42
-                return cls.PARAMETERS[key.rstrip('_')][2]
+                return cls.PARAMETERS[key.rstrip("_")][2]
             else:
                 super().__getattr__(key)
         except KeyError:
@@ -536,7 +548,6 @@ class PolarMultiMagnetType(PolarMagnetType):
 
 
 class PolarMultiMagnet(PolarMagnet, metaclass=PolarMultiMagnetType):
-
     def post_init(self, **kwargs):
         """
 
@@ -550,7 +561,7 @@ class PolarMultiMagnet(PolarMagnet, metaclass=PolarMultiMagnetType):
             if _degree(self.OMEGA_E[i]) == 0:
                 self.OMEGA_E[i] = self.AT / (2 * self.N) + i * self.AT / self.N
             if _degree(self.OMEGA_S[i]) == 0:
-                self.OMEGA_S[i] -= (self.AT - self.AT / (2 * self.N) - i * self.AT / self.N)
+                self.OMEGA_S[i] -= self.AT - self.AT / (2 * self.N) - i * self.AT / self.N
             if _cm(self.RE) == 0:
                 self.RE = self.RM
             if _cm(self.RS) == 0:
@@ -659,59 +670,59 @@ class AGSMainMagnet(CartesianMagnet):
     Note : A consequence of items 2 and 3 is that no field value is required in defining the AGS main magnets
     in the zgoubi.dat input data list.
     """
-    KEYWORD = 'AGSMM'
+    KEYWORD = "AGSMM"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (2, "Print field and coordinates along trajectories", 1),
-        'MOD': (1, "Type of dipole magnet"),
-        'dL': (0.0 * _ureg.centimeter, "UNUSED"),
-        'R0': (10.0 * _ureg.centimeter, 'Radius of the pole tips'),
-        'dB1': (0, 'Relative error on dipole component'),
-        'dB2': (0, 'Relative error on quadrupole component'),
-        'dB3': (0, 'Relative error on sextupole component'),
-        'NBLW': (0, 'Number of back-leg windings', 20),
-        'WMOD': (1, 'Back-leg winding model',),
-        'NW': ([0], 'Number of windings',),
-        'I': ([0] * _ureg.ampere, 'Current of windings',),
-        'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 21),
-        'LAM_E': (0 * _ureg.centimeter, 'Entrance face fringe field extent', 22),
-        'E2': (0 * _ureg.centimeter, 'Quadrupole fringe field extent', 23),
-        'E3': (0 * _ureg.centimeter, 'Sextupole fringe field extent', 24),
-        'NCE': (0, 'UNUSED', 30),
-        'C0_E': (0, 'Fringe field coefficient C0', 31),
-        'C1_E': (1, 'Fringe field coefficient C1', 32),
-        'C2_E': (0, 'Fringe field coefficient C2', 33),
-        'C3_E': (0, 'Fringe field coefficient C3', 34),
-        'C4_E': (0, 'Fringe field coefficient C4', 35),
-        'C5_E': (0, 'Fringe field coefficient C5', 36),
-        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field', 40),
-        'LAM_S': (0 * _ureg.centimeter, 'Exit face fringe field extent', 41),
-        'S2': (0 * _ureg.centimeter, 'Quadrupole fringe field extent', 21),
-        'S3': (0 * _ureg.centimeter, 'Sextupole fringe field extent', 21),
-        'NCS': (0, 'UNUSED', 50),
-        'C0_S': (0, 'Fringe field coefficient C0', 51),
-        'C1_S': (1, 'Fringe field coefficient C1', 52),
-        'C2_S': (0, 'Fringe field coefficient C2', 53),
-        'C3_S': (0, 'Fringe field coefficient C3', 54),
-        'C4_S': (0, 'Fringe field coefficient C4', 55),
-        'C5_S': (0, 'Fringe field coefficient C5', 56),
-        'R1': (0 * _ureg.radian, 'Skew angle of field component R1', 60),
-        'R2': (0 * _ureg.radian, 'Skew angle of field component R2', 60),
-        'R3': (0 * _ureg.radian, 'Skew angle of field component R3', 60),
-        'XPAS': (0.1 * _ureg.centimeter, 'Integration step', 70),
-        'KPOS': (1, 'Misalignment type', 80),
-        'XCE': (0 * _ureg.centimeter, 'x offset', 81),
-        'YCE': (0 * _ureg.centimeter, 'y offset', 82),
-        'ALE': (0 * _ureg.radian, 'misalignment rotation', 83),
-        'XS': (0 * _ureg.centimeter, 'X shift', 81),
-        'YS': (0 * _ureg.centimeter, 'Y shift', 81),
-        'ZR': (0 * _ureg.centimeter, 'Z rotation', 81),
-        'ZS': (0 * _ureg.centimeter, 'Z shift', 81),
-        'YR': (0 * _ureg.centimeter, 'Y rotation', 81),
-        'COLOR': ('#FF0000', 'Magnet color for plotting.'),
+        "IL": (2, "Print field and coordinates along trajectories", 1),
+        "MOD": (1, "Type of dipole magnet"),
+        "dL": (0.0 * _ureg.centimeter, "UNUSED"),
+        "R0": (10.0 * _ureg.centimeter, "Radius of the pole tips"),
+        "dB1": (0, "Relative error on dipole component"),
+        "dB2": (0, "Relative error on quadrupole component"),
+        "dB3": (0, "Relative error on sextupole component"),
+        "NBLW": (0, "Number of back-leg windings", 20),
+        "WMOD": (1, "Back-leg winding model"),
+        "NW": ([0], "Number of windings"),
+        "I": ([0] * _ureg.ampere, "Current of windings"),
+        "X_E": (0 * _ureg.centimeter, "Entrance face integration zone for the fringe field", 21),
+        "LAM_E": (0 * _ureg.centimeter, "Entrance face fringe field extent", 22),
+        "E2": (0 * _ureg.centimeter, "Quadrupole fringe field extent", 23),
+        "E3": (0 * _ureg.centimeter, "Sextupole fringe field extent", 24),
+        "NCE": (0, "UNUSED", 30),
+        "C0_E": (0, "Fringe field coefficient C0", 31),
+        "C1_E": (1, "Fringe field coefficient C1", 32),
+        "C2_E": (0, "Fringe field coefficient C2", 33),
+        "C3_E": (0, "Fringe field coefficient C3", 34),
+        "C4_E": (0, "Fringe field coefficient C4", 35),
+        "C5_E": (0, "Fringe field coefficient C5", 36),
+        "X_S": (0 * _ureg.centimeter, "Exit face integration zone for the fringe field", 40),
+        "LAM_S": (0 * _ureg.centimeter, "Exit face fringe field extent", 41),
+        "S2": (0 * _ureg.centimeter, "Quadrupole fringe field extent", 21),
+        "S3": (0 * _ureg.centimeter, "Sextupole fringe field extent", 21),
+        "NCS": (0, "UNUSED", 50),
+        "C0_S": (0, "Fringe field coefficient C0", 51),
+        "C1_S": (1, "Fringe field coefficient C1", 52),
+        "C2_S": (0, "Fringe field coefficient C2", 53),
+        "C3_S": (0, "Fringe field coefficient C3", 54),
+        "C4_S": (0, "Fringe field coefficient C4", 55),
+        "C5_S": (0, "Fringe field coefficient C5", 56),
+        "R1": (0 * _ureg.radian, "Skew angle of field component R1", 60),
+        "R2": (0 * _ureg.radian, "Skew angle of field component R2", 60),
+        "R3": (0 * _ureg.radian, "Skew angle of field component R3", 60),
+        "XPAS": (0.1 * _ureg.centimeter, "Integration step", 70),
+        "KPOS": (1, "Misalignment type", 80),
+        "XCE": (0 * _ureg.centimeter, "x offset", 81),
+        "YCE": (0 * _ureg.centimeter, "y offset", 82),
+        "ALE": (0 * _ureg.radian, "misalignment rotation", 83),
+        "XS": (0 * _ureg.centimeter, "X shift", 81),
+        "YS": (0 * _ureg.centimeter, "Y shift", 81),
+        "ZR": (0 * _ureg.centimeter, "Z rotation", 81),
+        "ZS": (0 * _ureg.centimeter, "Z shift", 81),
+        "YR": (0 * _ureg.centimeter, "Y rotation", 81),
+        "COLOR": ("#FF0000", "Magnet color for plotting."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
@@ -738,7 +749,7 @@ class AGSMainMagnet(CartesianMagnet):
                 {s.NBLW}[.{s.WMOD}]
              """
         command.append(c)
-        c = f""
+        c = ""
         for i in range(s.NBLW):
             c += f" {s.NW[i]} {_ampere(s.I[i]):.12e}"
 
@@ -758,11 +769,11 @@ class AGSMainMagnet(CartesianMagnet):
                     {s.KPOS} {_cm(s.XCE):.12e} {_cm(s.YCE):.12e} {_radian(s.ALE):.12e}
                 """
         else:
-            c = f"""   
+            c = f"""
                     {s.KPOS} {_cm(s.XS):.12e} {_cm(s.YS):.12e} {_cm(s.ZR):.12e} {_cm(s.ZS):.12e} {_cm(s.YR):.12e}
                 """
         command.append(c)
-        return ''.join(map(lambda _: _.rstrip(), command))
+        return "".join(map(lambda _: _.rstrip(), command))
 
 
 class AGSQuadrupole(CartesianMagnet):
@@ -778,46 +789,47 @@ class AGSQuadrupole(CartesianMagnet):
     The field in ``AGSQUAD`` is computed using transfer functions from the ampere-turns in the coils to magnetic
     field that account for the non-linearity of the magnetic permeability [33].
     """
-    KEYWORD = 'AGSQUAD'
+
+    KEYWORD = "AGSQUAD"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (2, "Print field and coordinates along trajectories", 1),
-        'XL': (10.0 * _ureg.centimeter, "Magnet length (straight reference frame)", 10),
-        'R0': (10.0 * _ureg.centimeter, 'Radius of the pole tips', 11),
-        'IW1': (0 * _ureg.ampere, 'Current in windings', 12),
-        'IW2': (0 * _ureg.ampere, 'Current in windings', 13),
-        'IW3': (0 * _ureg.ampere, 'Current in windings', 14),
-        'dIW1': (0, 'Relative error on current', 15),
-        'dIW2': (0, 'Relative error on current', 16),
-        'dIW3': (0, 'Relative error on current', 17),
-        'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 20),
-        'LAM_E': (0 * _ureg.centimeter, 'Entrance face fringe field extent', 21),
-        'NCE': (0, 'UNUSED', 30),
-        'C0_E': (0, 'Fringe field coefficient C0', 31),
-        'C1_E': (1, 'Fringe field coefficient C1', 32),
-        'C2_E': (0, 'Fringe field coefficient C2', 33),
-        'C3_E': (0, 'Fringe field coefficient C3', 34),
-        'C4_E': (0, 'Fringe field coefficient C4', 35),
-        'C5_E': (0, 'Fringe field coefficient C5', 36),
-        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field', 40),
-        'LAM_S': (0 * _ureg.centimeter, 'Exit face fringe field extent', 41),
-        'NCS': (0, 'UNUSED', 50),
-        'C0_S': (0, 'Fringe field coefficient C0', 51),
-        'C1_S': (1, 'Fringe field coefficient C1', 52),
-        'C2_S': (0, 'Fringe field coefficient C2', 53),
-        'C3_S': (0, 'Fringe field coefficient C3', 54),
-        'C4_S': (0, 'Fringe field coefficient C4', 55),
-        'C5_S': (0, 'Fringe field coefficient C5', 56),
-        'R1': (0 * _ureg.radian, 'Roll angle', 60),
-        'XPAS': (0.1 * _ureg.centimeter, 'Integration step', 70),
-        'KPOS': (1, 'Misalignment type', 80),
-        'XCE': (0 * _ureg.centimeter, 'x offset', 81),
-        'YCE': (0 * _ureg.centimeter, 'y offset', 82),
-        'ALE': (0 * _ureg.radian, 'misalignment rotation', 83),
-        'COLOR': ('#FF0000', 'Magnet color for plotting.'),
+        "IL": (2, "Print field and coordinates along trajectories", 1),
+        "XL": (10.0 * _ureg.centimeter, "Magnet length (straight reference frame)", 10),
+        "R0": (10.0 * _ureg.centimeter, "Radius of the pole tips", 11),
+        "IW1": (0 * _ureg.ampere, "Current in windings", 12),
+        "IW2": (0 * _ureg.ampere, "Current in windings", 13),
+        "IW3": (0 * _ureg.ampere, "Current in windings", 14),
+        "dIW1": (0, "Relative error on current", 15),
+        "dIW2": (0, "Relative error on current", 16),
+        "dIW3": (0, "Relative error on current", 17),
+        "X_E": (0 * _ureg.centimeter, "Entrance face integration zone for the fringe field", 20),
+        "LAM_E": (0 * _ureg.centimeter, "Entrance face fringe field extent", 21),
+        "NCE": (0, "UNUSED", 30),
+        "C0_E": (0, "Fringe field coefficient C0", 31),
+        "C1_E": (1, "Fringe field coefficient C1", 32),
+        "C2_E": (0, "Fringe field coefficient C2", 33),
+        "C3_E": (0, "Fringe field coefficient C3", 34),
+        "C4_E": (0, "Fringe field coefficient C4", 35),
+        "C5_E": (0, "Fringe field coefficient C5", 36),
+        "X_S": (0 * _ureg.centimeter, "Exit face integration zone for the fringe field", 40),
+        "LAM_S": (0 * _ureg.centimeter, "Exit face fringe field extent", 41),
+        "NCS": (0, "UNUSED", 50),
+        "C0_S": (0, "Fringe field coefficient C0", 51),
+        "C1_S": (1, "Fringe field coefficient C1", 52),
+        "C2_S": (0, "Fringe field coefficient C2", 53),
+        "C3_S": (0, "Fringe field coefficient C3", 54),
+        "C4_S": (0, "Fringe field coefficient C4", 55),
+        "C5_S": (0, "Fringe field coefficient C5", 56),
+        "R1": (0 * _ureg.radian, "Roll angle", 60),
+        "XPAS": (0.1 * _ureg.centimeter, "Integration step", 70),
+        "KPOS": (1, "Misalignment type", 80),
+        "XCE": (0 * _ureg.centimeter, "x offset", 81),
+        "YCE": (0 * _ureg.centimeter, "y offset", 82),
+        "ALE": (0 * _ureg.radian, "misalignment rotation", 83),
+        "COLOR": ("#FF0000", "Magnet color for plotting."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
@@ -839,7 +851,7 @@ class AGSQuadrupole(CartesianMagnet):
             {super().__str__().rstrip()}
             {s.IL}
             {_cm(s.XL):.12e} {_cm(s.R0):.12e} {_ampere(s.IW1):.12e} {_ampere(s.IW2):.12e} {_ampere(s.IW3):.12e}
-            {s.dIW1 :.12e} {s.dIW2 :.12e} {s.dIW3 :.12e} 
+            {s.dIW1 :.12e} {s.dIW2 :.12e} {s.dIW3 :.12e}
             {_cm(s.X_E):.12e} {_cm(s.LAM_E):.12e}
             {s.NCE} {s.C0_E:.12e} {s.C1_E:.12e} {s.C2_E:.12e} {s.C3_E:.12e} {s.C4_E:.12e} {s.C5_E:.12e}
             {_cm(s.X_S):.12e} {_cm(s.LAM_S):.12e}
@@ -855,96 +867,97 @@ class Aimant(PolarMagnet):
 
     TODO
     """
-    KEYWORD = 'AIMANT'
+
+    KEYWORD = "AIMANT"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'NFACE': 2,
-        'IC': 0,  # 1, 2: print field map
-        'IL': 0,  # 1, 2: print field and coordinates on trajectores
-        'IAMAX': 0,
-        'IRMAX': 0,
-        'B0': 0,
-        'N': 0,
-        'B': 0,
-        'G': 0,
-        'AT': 0,
-        'ACENT': 0,
-        'RM': 0,
-        'RMIN': 0,
-        'RMAX': 0,
-        'LAM_E': 0,
-        'XI_E': 0,
-        'NCE': 0,
-        'C0_E': 0,
-        'C1_E': 0,
-        'C2_E': 0,
-        'C3_E': 0,
-        'C4_E': 0,
-        'C5_E': 0,
-        'SHIFT_E': 0,
-        'OMEGA_E': 0,
-        'THETA_E': 0,
-        'R1_E': 1e9,
-        'U1_E': -1e9,
-        'U2_E': 1e9,
-        'R2_E': 1e9,
-        'LAM_S': 0,
-        'XI_S': 0,
-        'NCS': 0,
-        'C0_S': 0,
-        'C1_S': 0,
-        'C2_S': 0,
-        'C3_S': 0,
-        'C4_S': 0,
-        'C5_S': 0,
-        'SHIFT_S': 0,
-        'OMEGA_S': 0,
-        'THETA_S': 0,
-        'R1_S': 1e9,
-        'U1_S': -1e9,
-        'U2_S': 1e9,
-        'R2_S': 1e9,
-        'LAM_L': 0,
-        'XI_L': 0,
-        'NCL': 0,
-        'C0_L': 0,
-        'C1_L': 0,
-        'C2_L': 0,
-        'C3_L': 0,
-        'C4_L': 0,
-        'C5_L': 0,
-        'SHIFT_L': 0,
-        'OMEGA_L': 0,
-        'THETA_L': 0,
-        'R1_L': 1e9,
-        'U1_L': -1e9,
-        'U2_L': 1e9,
-        'R2_L': 1e9,
-        'RM3': 0,
-        'NBS': 0,
-        'R0': 0,
-        'DELTAB': 0,
-        'THETA_0': 0,
-        'IORDRE': 4,
-        'XPAS': 0.1,
-        'KPOS': 2,
-        'RE': 0,
-        'TE': 0,
-        'RS': 0,
-        'TS': 0,
-        'DP': 0,
-        'SHIM_R1': [],
-        'SHIM_R2': [],
-        'SHIM_THETA1': [],
-        'SHIM_THETA2': [],
-        'SHIM_LAMBDA': [],
-        'SHIM_GAMMA': [],
-        'SHIM_ALPHA': [],
-        'SHIM_BETA': [],
-        'SHIM_MU': [],
+        "NFACE": 2,
+        "IC": 0,  # 1, 2: print field map
+        "IL": 0,  # 1, 2: print field and coordinates on trajectores
+        "IAMAX": 0,
+        "IRMAX": 0,
+        "B0": 0,
+        "N": 0,
+        "B": 0,
+        "G": 0,
+        "AT": 0,
+        "ACENT": 0,
+        "RM": 0,
+        "RMIN": 0,
+        "RMAX": 0,
+        "LAM_E": 0,
+        "XI_E": 0,
+        "NCE": 0,
+        "C0_E": 0,
+        "C1_E": 0,
+        "C2_E": 0,
+        "C3_E": 0,
+        "C4_E": 0,
+        "C5_E": 0,
+        "SHIFT_E": 0,
+        "OMEGA_E": 0,
+        "THETA_E": 0,
+        "R1_E": 1e9,
+        "U1_E": -1e9,
+        "U2_E": 1e9,
+        "R2_E": 1e9,
+        "LAM_S": 0,
+        "XI_S": 0,
+        "NCS": 0,
+        "C0_S": 0,
+        "C1_S": 0,
+        "C2_S": 0,
+        "C3_S": 0,
+        "C4_S": 0,
+        "C5_S": 0,
+        "SHIFT_S": 0,
+        "OMEGA_S": 0,
+        "THETA_S": 0,
+        "R1_S": 1e9,
+        "U1_S": -1e9,
+        "U2_S": 1e9,
+        "R2_S": 1e9,
+        "LAM_L": 0,
+        "XI_L": 0,
+        "NCL": 0,
+        "C0_L": 0,
+        "C1_L": 0,
+        "C2_L": 0,
+        "C3_L": 0,
+        "C4_L": 0,
+        "C5_L": 0,
+        "SHIFT_L": 0,
+        "OMEGA_L": 0,
+        "THETA_L": 0,
+        "R1_L": 1e9,
+        "U1_L": -1e9,
+        "U2_L": 1e9,
+        "R2_L": 1e9,
+        "RM3": 0,
+        "NBS": 0,
+        "R0": 0,
+        "DELTAB": 0,
+        "THETA_0": 0,
+        "IORDRE": 4,
+        "XPAS": 0.1,
+        "KPOS": 2,
+        "RE": 0,
+        "TE": 0,
+        "RS": 0,
+        "TS": 0,
+        "DP": 0,
+        "SHIM_R1": [],
+        "SHIM_R2": [],
+        "SHIM_THETA1": [],
+        "SHIM_THETA2": [],
+        "SHIM_LAMBDA": [],
+        "SHIM_GAMMA": [],
+        "SHIM_ALPHA": [],
+        "SHIM_BETA": [],
+        "SHIM_MU": [],
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
         commands (e.g. fit)."""
 
     def __str__(s):
@@ -976,9 +989,11 @@ class Aimant(PolarMagnet):
             command.append(c)
 
         if s.NBS == 0:
-            command.append(f"""
+            command.append(
+                f"""
                 {s.NBS}
-                """)
+                """,
+            )
         elif s.NBS == -2:
             c = f"""
                     {s.NBS}
@@ -992,8 +1007,10 @@ class Aimant(PolarMagnet):
                     """
             command.append(c)
         elif s.NBS >= 1:
-            command.append(f"""
-                {s.NBS}""")
+            command.append(
+                f"""
+                {s.NBS}""",
+            )
 
             shim_r1 = len(s.SHIM_R1)
             shim_r2 = len(s.SHIM_R2)
@@ -1004,26 +1021,32 @@ class Aimant(PolarMagnet):
             shim_alpha = len(s.SHIM_ALPHA)
             shim_beta = len(s.SHIM_BETA)
             shim_mu = len(s.SHIM_MU)
-            if shim_r1 \
-                    == shim_r2 \
-                    == shim_theta1 \
-                    == shim_theta2 \
-                    == shim_lambda \
-                    == shim_gamma \
-                    == shim_alpha \
-                    == shim_beta \
-                    == shim_mu:
+            if (
+                shim_r1
+                == shim_r2
+                == shim_theta1
+                == shim_theta2
+                == shim_lambda
+                == shim_gamma
+                == shim_alpha
+                == shim_beta
+                == shim_mu
+            ):
                 for i, j, k, l in zip(s.SHIM_R1, s.SHIM_R2, s.SHIM_THETA1, s.SHIM_LAMBDA):
-                    command.append(f"""
+                    command.append(
+                        f"""
                         {i:.12e} {j:.12e} {k:.12e} {l:.12e}
-                        """)
+                        """,
+                    )
 
                 for i, j, k, l in zip(s.GAMMA, s.ALPHA, s.MU, s.BETA):
-                    command.append(f"""
+                    command.append(
+                        f"""
                                        {i:.12e} {j:.12e} {k:.12e} {l:.12e}
-                                       """)
+                                       """,
+                    )
             else:
-                raise _ZgoubidooException('Error : The shim parameters lists must have the same lenghts')
+                raise _ZgoubidooException("Error : The shim parameters lists must have the same lenghts")
 
         c = f"""
                 {s.IORDRE}
@@ -1051,7 +1074,7 @@ class Aimant(PolarMagnet):
                     """
             command.append(c)
 
-        return ''.join(map(lambda _: _.rstrip(), command))
+        return "".join(map(lambda _: _.rstrip(), command))
 
 
 class Bend(CartesianMagnet):
@@ -1097,46 +1120,46 @@ class Bend(CartesianMagnet):
      of an illustration of a rectangular magnet, ``MULTIPOL`` could be used, as well).
 
     * Negative bend, vertical bend, tricks :
-    
+
       Use ``YMY`` for the former, ``TRAROT`` with a :math:`\pm\pi` X-rotation for the latter. The two can be combined, so
       that a vertical negative bend can be represented by the sequence TRAROT[:math:`\pi`], YMY, BEND[B>0], YMY,
       TRAROT[:math:`-\pi`], with positioning methods for ``BEND`` as discussed above (Fig. 13) still applying.
     """
-    KEYWORD = 'BEND'
+    KEYWORD = "BEND"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, "Print field and coordinates along trajectories", 1),
-        'XL': (0.0 * _ureg.centimeter, "Magnet length (straight reference frame)", 10),
-        'SK': (0.0 * _ureg.radian, "Skew angle", 11),
-        'B1': (0.0 * _ureg.kilogauss, "Dipole field", 12),
-        'X_E': (0.0 * _ureg.centimeter, "Integration zone extension (entrance face)"),
-        'LAM_E': (0.0 * _ureg.centimeter, "Fringe field extension (entrance face)"),
-        'W_E': (0.0 * _ureg.radian, "Wedge angle (entrance face)"),
-        'C0_E': (0.0, 'Entrance fringe field coefficient C0'),
-        'C1_E': (1.0, 'Entrance fringe field coefficient C1'),
-        'C2_E': (0.0, 'Entrance fringe field coefficient C2'),
-        'C3_E': (0.0, 'Entrance fringe field coefficient C3'),
-        'C4_E': (0.0, 'Entrance fringe field coefficient C4'),
-        'C5_E': (0.0, 'Entrance fringe field coefficient C5'),
-        'X_S': (0.0 * _ureg.centimeter, "Integration zone extension (exit face)"),
-        'LAM_S': (0.0 * _ureg.centimeter, "Fringe field extension (exit face)"),
-        'W_S': (0.0 * _ureg.radian, "Wedge angle (exit face)"),
-        'C0_S': (0.0, 'Exit fringe field coefficient C0'),
-        'C1_S': (1.0, 'Exit fringe field coefficient C1'),
-        'C2_S': (0.0, 'Exit fringe field coefficient C2'),
-        'C3_S': (0.0, 'Exit fringe field coefficient C3'),
-        'C4_S': (0.0, 'Exit fringe field coefficient C4'),
-        'C5_S': (0.0, 'Exit fringe field coefficient C5'),
-        'XPAS': (1.0 * _ureg.centimeter, "Integration step"),
-        'KPOS': (2, "Alignment parameter"),
-        'XCE': (0.0 * _ureg.centimeter, 'X shift'),
-        'YCE': (0.0 * _ureg.centimeter, 'Y shift'),
-        'ALE': (0.0 * _ureg.radian, 'Tilt'),
-        'COLOR': '#4169E1',
-        'LENGTH_IS_ARC_LENGTH': True,
+        "IL": (0, "Print field and coordinates along trajectories", 1),
+        "XL": (0.0 * _ureg.centimeter, "Magnet length (straight reference frame)", 10),
+        "SK": (0.0 * _ureg.radian, "Skew angle", 11),
+        "B1": (0.0 * _ureg.kilogauss, "Dipole field", 12),
+        "X_E": (0.0 * _ureg.centimeter, "Integration zone extension (entrance face)"),
+        "LAM_E": (0.0 * _ureg.centimeter, "Fringe field extension (entrance face)"),
+        "W_E": (0.0 * _ureg.radian, "Wedge angle (entrance face)"),
+        "C0_E": (0.0, "Entrance fringe field coefficient C0"),
+        "C1_E": (1.0, "Entrance fringe field coefficient C1"),
+        "C2_E": (0.0, "Entrance fringe field coefficient C2"),
+        "C3_E": (0.0, "Entrance fringe field coefficient C3"),
+        "C4_E": (0.0, "Entrance fringe field coefficient C4"),
+        "C5_E": (0.0, "Entrance fringe field coefficient C5"),
+        "X_S": (0.0 * _ureg.centimeter, "Integration zone extension (exit face)"),
+        "LAM_S": (0.0 * _ureg.centimeter, "Fringe field extension (exit face)"),
+        "W_S": (0.0 * _ureg.radian, "Wedge angle (exit face)"),
+        "C0_S": (0.0, "Exit fringe field coefficient C0"),
+        "C1_S": (1.0, "Exit fringe field coefficient C1"),
+        "C2_S": (0.0, "Exit fringe field coefficient C2"),
+        "C3_S": (0.0, "Exit fringe field coefficient C3"),
+        "C4_S": (0.0, "Exit fringe field coefficient C4"),
+        "C5_S": (0.0, "Exit fringe field coefficient C5"),
+        "XPAS": (1.0 * _ureg.centimeter, "Integration step"),
+        "KPOS": (2, "Alignment parameter"),
+        "XCE": (0.0 * _ureg.centimeter, "X shift"),
+        "YCE": (0.0 * _ureg.centimeter, "Y shift"),
+        "ALE": (0.0 * _ureg.radian, "Tilt"),
+        "COLOR": "#4169E1",
+        "LENGTH_IS_ARC_LENGTH": True,
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
         commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
@@ -1232,125 +1255,139 @@ class Cyclotron(PolarMultiMagnet):
         R(R) \approx \frac{1}{\sqrt{1-(\frac{R}{R_0})^2}}
 
     """
-    KEYWORD = 'CYCLOTRON'
+    KEYWORD = "CYCLOTRON"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, 'Print field and coordinates along trajectories', 1),
-        'N': (1, 'Number of dipoles in the FFAG n-tuple (maximum 5)', 2),
-        'AT': (0 * _ureg.degree, 'Total angular extent of the N dipoles', 3),
-        'RM': (0.0 * _ureg.centimeter, 'Reference radius: mean radius used for the positioning of field boundaries', 4),
+        "IL": (0, "Print field and coordinates along trajectories", 1),
+        "N": (1, "Number of dipoles in the FFAG n-tuple (maximum 5)", 2),
+        "AT": (0 * _ureg.degree, "Total angular extent of the N dipoles", 3),
+        "RM": (0.0 * _ureg.centimeter, "Reference radius: mean radius used for the positioning of field boundaries", 4),
         # For each magnet in the n-tuple
-        'TYP': (1.0, 'sector type: spiral, radial, both'),
-        'ACN': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth for dipole positioning', 5),
-        'DRM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter,
-                'Reference radius offset of each dipole : RM_i  = RM + DRM', 6),
-        'BN': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, "Field normalization coefficient"),
-        'BI_0': ([0.0, 0.0, 0.0, 0.0, 0.0], "Field normalization coefficient"),
-        'BI_1': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -1, "Field normalization coefficient"),
-        'BI_2': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -2, "Field normalization coefficient"),
-        'BI_3': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -3, "Field normalization coefficient"),
-        'BI_4': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -4, "Field normalization coefficient"),
-        'BI_5': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -5, "Field normalization coefficient"),
-        'BI_6': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -6, "Field normalization coefficient"),
-        'BI_7': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -7, "Field normalization coefficient"),
-        'BI_8': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -8, "Field normalization coefficient"),
-        'BI_9': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -9, "Field normalization coefficient"),
-        'BI_10': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -10, "Field normalization coefficient"),
-        'BI_11': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -11, "Field normalization coefficient"),
-        'BI_12': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -12, "Field normalization coefficient"),
-        'BI_13': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -13, "Field normalization coefficient"),
-        'BI_14': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -14, "Field normalization coefficient"),
-        'BI_15': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -15, "Field normalization coefficient"),
-        'BI_16': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -16, "Field normalization coefficient"),
-        'BI_17': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -17, "Field normalization coefficient"),
-        'BI_18': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -18, "Field normalization coefficient"),
-        'BI_19': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -19, "Field normalization coefficient"),
-        'BI_20': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm ** -20, "Field normalization coefficient"),
-        'G0_E': ([10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.cm,
-                 'Reference gaps for the entrance fringe fields of each dipole.', 9),
-        'K_E': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 10),
-        'G10_E': ([0, 0, 0, 0, 0] * _ureg.cm, ''),
-        'G11_E': ([0, 0, 0, 0, 0] * _ureg.cm ** -3, ''),
-        'NCE': ([0, 0, 0, 0, 0], 'UNUSED', 11),
-        'C0_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 12),
-        'C1_E': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 13),
-        'C2_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 14),
-        'C3_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 15),
-        'C4_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 16),
-        'C5_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 17),
-        'C6_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C6', 17),
-        'OMEGA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth of an EFB with respect to ACN', 19),
-        'XI0_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Spiral angle coefficient XI_0', 20),
-        'XI1_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree * _ureg.cm ** -1, 'Spiral angle coefficient XI_1', 20),
-        'XI2_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree * _ureg.cm ** -2, 'Spiral angle coefficient XI_2', 20),
-        'XI3_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree * _ureg.cm ** -3, 'Spiral angle coefficient XI_3', 20),
-        'AEN': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Coefficient a for entrance radial face equation', 20),
-        'BEN': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Coefficient b for entrance radial face equation', 20),
-        'CEN': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Coefficient c for entrance radial face equation', 20),
-        'G0_S': ([10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.cm,
-                 'Reference gaps for the exit fringe fields of each dipole.', 9),
-        'K_S': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 10),
-        'G10_S': ([0, 0, 0, 0, 0] * _ureg.cm, ''),
-        'G11_S': ([0, 0, 0, 0, 0] * _ureg.cm ** -3, ''),
-        'NCS': ([0, 0, 0, 0, 0], 'UNUSED', 11),
-        'C0_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 12),
-        'C1_S': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 13),
-        'C2_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 14),
-        'C3_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 15),
-        'C4_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 16),
-        'C5_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 17),
-        'C6_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C6', 17),
-        'OMEGA_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth of an EFB with respect to ACN', 19),
-        'XI0_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Spiral angle coefficient XI_0', 20),
-        'XI1_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree * _ureg.cm ** -1, 'Spiral angle coefficient XI_1', 20),
-        'XI2_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree * _ureg.cm ** -2, 'Spiral angle coefficient XI_2', 20),
-        'XI3_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree * _ureg.cm ** -3, 'Spiral angle coefficient XI_3', 20),
-        'AEX': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Coefficient a for entrance radial face equation', 20),
-        'BEX': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Coefficient b for entrance radial face equation', 20),
-        'CEX': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Coefficient c for entrance radial face equation', 20),
-        'G0_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm,
-                 'UNUSED Reference gaps for the lateral fringe fields of each dipole.', 41),
-        'K_L': ([-1, -1, -1, -1, -1], 'UNUSED Fringe field parameter kappa', 42),
-        'NCL': ([0, 0, 0, 0, 0], 'UNUSED', 43),
-        'C0_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C0', 44),
-        'C1_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C1', 45),
-        'C2_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C2', 46),
-        'C3_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C3', 47),
-        'C4_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C4', 48),
-        'C5_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C5', 49),
-        'SHIFT_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'UNUSED  Shift of the EFB', 50),
-        'OMEGA_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'UNUSED ', 51),
-        'XI_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'UNUSED Entrance face wedge angle', 52),
+        "TYP": (1.0, "sector type: spiral, radial, both"),
+        "ACN": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "Azimuth for dipole positioning", 5),
+        "DRM": (
+            [0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter,
+            "Reference radius offset of each dipole : RM_i  = RM + DRM",
+            6,
+        ),
+        "BN": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, "Field normalization coefficient"),
+        "BI_0": ([0.0, 0.0, 0.0, 0.0, 0.0], "Field normalization coefficient"),
+        "BI_1": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-1, "Field normalization coefficient"),
+        "BI_2": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-2, "Field normalization coefficient"),
+        "BI_3": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-3, "Field normalization coefficient"),
+        "BI_4": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-4, "Field normalization coefficient"),
+        "BI_5": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-5, "Field normalization coefficient"),
+        "BI_6": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-6, "Field normalization coefficient"),
+        "BI_7": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-7, "Field normalization coefficient"),
+        "BI_8": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-8, "Field normalization coefficient"),
+        "BI_9": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-9, "Field normalization coefficient"),
+        "BI_10": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-10, "Field normalization coefficient"),
+        "BI_11": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-11, "Field normalization coefficient"),
+        "BI_12": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-12, "Field normalization coefficient"),
+        "BI_13": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-13, "Field normalization coefficient"),
+        "BI_14": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-14, "Field normalization coefficient"),
+        "BI_15": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-15, "Field normalization coefficient"),
+        "BI_16": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-16, "Field normalization coefficient"),
+        "BI_17": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-17, "Field normalization coefficient"),
+        "BI_18": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-18, "Field normalization coefficient"),
+        "BI_19": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-19, "Field normalization coefficient"),
+        "BI_20": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm**-20, "Field normalization coefficient"),
+        "G0_E": (
+            [10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.cm,
+            "Reference gaps for the entrance fringe fields of each dipole.",
+            9,
+        ),
+        "K_E": ([0, 0, 0, 0, 0], "Fringe field parameter kappa", 10),
+        "G10_E": ([0, 0, 0, 0, 0] * _ureg.cm, ""),
+        "G11_E": ([0, 0, 0, 0, 0] * _ureg.cm**-3, ""),
+        "NCE": ([0, 0, 0, 0, 0], "UNUSED", 11),
+        "C0_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C0", 12),
+        "C1_E": ([1, 1, 1, 1, 1], "Fringe field coefficient C1", 13),
+        "C2_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C2", 14),
+        "C3_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C3", 15),
+        "C4_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C4", 16),
+        "C5_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C5", 17),
+        "C6_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C6", 17),
+        "OMEGA_E": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "Azimuth of an EFB with respect to ACN", 19),
+        "XI0_E": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "Spiral angle coefficient XI_0", 20),
+        "XI1_E": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree * _ureg.cm**-1, "Spiral angle coefficient XI_1", 20),
+        "XI2_E": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree * _ureg.cm**-2, "Spiral angle coefficient XI_2", 20),
+        "XI3_E": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree * _ureg.cm**-3, "Spiral angle coefficient XI_3", 20),
+        "AEN": ([0.0, 0.0, 0.0, 0.0, 0.0], "Coefficient a for entrance radial face equation", 20),
+        "BEN": ([0.0, 0.0, 0.0, 0.0, 0.0], "Coefficient b for entrance radial face equation", 20),
+        "CEN": ([0.0, 0.0, 0.0, 0.0, 0.0], "Coefficient c for entrance radial face equation", 20),
+        "G0_S": (
+            [10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.cm,
+            "Reference gaps for the exit fringe fields of each dipole.",
+            9,
+        ),
+        "K_S": ([0, 0, 0, 0, 0], "Fringe field parameter kappa", 10),
+        "G10_S": ([0, 0, 0, 0, 0] * _ureg.cm, ""),
+        "G11_S": ([0, 0, 0, 0, 0] * _ureg.cm**-3, ""),
+        "NCS": ([0, 0, 0, 0, 0], "UNUSED", 11),
+        "C0_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C0", 12),
+        "C1_S": ([1, 1, 1, 1, 1], "Fringe field coefficient C1", 13),
+        "C2_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C2", 14),
+        "C3_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C3", 15),
+        "C4_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C4", 16),
+        "C5_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C5", 17),
+        "C6_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C6", 17),
+        "OMEGA_S": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "Azimuth of an EFB with respect to ACN", 19),
+        "XI0_S": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "Spiral angle coefficient XI_0", 20),
+        "XI1_S": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree * _ureg.cm**-1, "Spiral angle coefficient XI_1", 20),
+        "XI2_S": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree * _ureg.cm**-2, "Spiral angle coefficient XI_2", 20),
+        "XI3_S": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree * _ureg.cm**-3, "Spiral angle coefficient XI_3", 20),
+        "AEX": ([0.0, 0.0, 0.0, 0.0, 0.0], "Coefficient a for entrance radial face equation", 20),
+        "BEX": ([0.0, 0.0, 0.0, 0.0, 0.0], "Coefficient b for entrance radial face equation", 20),
+        "CEX": ([0.0, 0.0, 0.0, 0.0, 0.0], "Coefficient c for entrance radial face equation", 20),
+        "G0_L": (
+            [0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm,
+            "UNUSED Reference gaps for the lateral fringe fields of each dipole.",
+            41,
+        ),
+        "K_L": ([-1, -1, -1, -1, -1], "UNUSED Fringe field parameter kappa", 42),
+        "NCL": ([0, 0, 0, 0, 0], "UNUSED", 43),
+        "C0_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C0", 44),
+        "C1_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C1", 45),
+        "C2_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C2", 46),
+        "C3_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C3", 47),
+        "C4_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C4", 48),
+        "C5_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C5", 49),
+        "SHIFT_L": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "UNUSED  Shift of the EFB", 50),
+        "OMEGA_L": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "UNUSED ", 51),
+        "XI_L": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "UNUSED Entrance face wedge angle", 52),
         # General parameters
         # The fit index depends on the number of magnets in the FFAG_SPI N-tuple (+52 for each new magnet)
-        'KIRD': (2,
-                 'Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives',
-                 57),
-        'RESOL': (2, '', 58),
-        'XPAS': (1.0 * _ureg.millimeter, 'Integration step', 59),
-        'RE': (0.0 * _ureg.centimeter, '', 61),
-        'TE': (0.0 * _ureg.radian, '', 62),
-        'RS': (0.0 * _ureg.centimeter, '', 63),
-        'TS': (0.0 * _ureg.radian, '', 64),
+        "KIRD": (
+            2,
+            "Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives",
+            57,
+        ),
+        "RESOL": (2, "", 58),
+        "XPAS": (1.0 * _ureg.millimeter, "Integration step", 59),
+        "RE": (0.0 * _ureg.centimeter, "", 61),
+        "TE": (0.0 * _ureg.radian, "", 62),
+        "RS": (0.0 * _ureg.centimeter, "", 63),
+        "TS": (0.0 * _ureg.radian, "", 64),
     }
 
     def adjust_tracks_variables(self, tracks: _pd.DataFrame):
         t = tracks[tracks.LABEL1 == self.LABEL1]
-        radius = self.RM.m_as('m')
-        angles = 100 * t['X'] + self.AT.m_as('radians') / 2
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ANGLE'] = angles
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'R'] = t['Y']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'R0'] = t['Yo']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = radius * angles + self.entry_sref.m_as('m')
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y'] - radius
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo'] - radius
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT0'] = t['Zo']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X'] = t['Y'] * _np.sin(angles)
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X0'] = t['Yo'] * _np.sin(angles)
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y'] = t['Y'] * _np.cos(angles) - radius
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y0'] = t['Yo'] * _np.cos(angles) - radius
+        radius = self.RM.m_as("m")
+        angles = 100 * t["X"] + self.AT.m_as("radians") / 2
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "ANGLE"] = angles
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "R"] = t["Y"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "R0"] = t["Yo"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "SREF"] = radius * angles + self.entry_sref.m_as("m")
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "YT"] = t["Y"] - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "YT0"] = t["Yo"] - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "ZT"] = t["Z"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "ZT0"] = t["Zo"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "X"] = t["Y"] * _np.sin(angles)
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "X0"] = t["Yo"] * _np.sin(angles)
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "Y"] = t["Y"] * _np.cos(angles) - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "Y0"] = t["Yo"] * _np.cos(angles) - radius
 
     @property
     def reference_angles(self) -> List[_Q]:
@@ -1415,7 +1452,7 @@ class Cyclotron(PolarMultiMagnet):
                 {s.G0_E[i].m_as('cm'):.12e} {s.K_E[i]:.12e} {s.G10_E[i].m_as('cm'):.12e} {s.G11_E[i].m_as('cm**-3'):.12e}
                 {s.NCE[i]} {s.C0_E[i]:.12e} {s.C1_E[i]:.12e} {s.C2_E[i]:.12e} {s.C3_E[i]:.12e} {s.C4_E[i]:.12e} {s.C5_E[i]:.12e} {s.C6_E[i]:.12e} 0.0 0.0
                 {s.OMEGA_E[i].m_as('degree'):.12e} {s.XI0_E[i].m_as('degree'):.12e} {s.XI1_E[i].m_as('degree/cm'):.12e} {s.XI2_E[i].m_as('degree/cm**2'):.12e} {s.XI3_E[i].m_as('degree/cm**3'):.12e} \
-    {s.AEN[i]:.12e} {s.BEN[i]:.12e} {s.CEN[i]:.12e}  
+    {s.AEN[i]:.12e} {s.BEN[i]:.12e} {s.CEN[i]:.12e}
                 {s.G0_S[i].m_as('cm'):.12e} {s.K_S[i]:.12e} {s.G10_S[i].m_as('cm'):.12e} {s.G11_S[i].m_as('cm**-3'):.12e}
                 {s.NCS[i]} {s.C0_S[i]:.12e} {s.C1_S[i]:.12e} {s.C2_S[i]:.12e} {s.C3_S[i]:.12e} {s.C4_S[i]:.12e} {s.C5_S[i]:.12e} {s.C6_S[i]:.12e} 0.0 0.0
                 {s.OMEGA_S[i].m_as('degree'):.12e} {s.XI0_S[i].m_as('degree'):.12e} {s.XI1_S[i].m_as('degree/cm'):.12e} {s.XI2_S[i].m_as('degree/cm**2'):.12e} {s.XI3_S[i].m_as('degree/cm**3'):.12e} \
@@ -1426,10 +1463,12 @@ class Cyclotron(PolarMultiMagnet):
                 """
             command.append(c)
 
-        command.append(f"""
+        command.append(
+            f"""
         {s.KIRD} {s.RESOL:.12e}
         {s.XPAS.m_as('cm'):.12e}
-        """)
+        """,
+        )
 
         c = f"""
         2
@@ -1437,7 +1476,7 @@ class Cyclotron(PolarMultiMagnet):
         """
         command.append(c)
 
-        return ''.join(map(lambda _: _.rstrip(), command))
+        return "".join(map(lambda _: _.rstrip(), command))
 
 
 class Decapole(CartesianMagnet):
@@ -1466,40 +1505,40 @@ class Decapole(CartesianMagnet):
             B_Z &= G_0(Y^4 − 6Y^2Z^2 + Z^4)
         \end{align}
     """
-    KEYWORD = 'DECAPOLE'
+    KEYWORD = "DECAPOLE"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (2, "Print field and coordinates along trajectories", 1),
-        'XL': (10.0 * _ureg.centimeter, "Magnet length (straight reference frame)", 10),
-        'R0': (10.0 * _ureg.centimeter, 'Radius of the pole tips', 11),
-        'B0': (0 * _ureg.kilogauss, 'Field at pole tips', 12),
-        'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 20),
-        'LAM_E': (0 * _ureg.centimeter, 'Entrance face fringe field extent', 21),
-        'NCE': (0, 'UNUSED', 30),
-        'C0_E': (0, 'Fringe field coefficient C0', 31),
-        'C1_E': (1, 'Fringe field coefficient C1', 32),
-        'C2_E': (0, 'Fringe field coefficient C2', 33),
-        'C3_E': (0, 'Fringe field coefficient C3', 34),
-        'C4_E': (0, 'Fringe field coefficient C4', 35),
-        'C5_E': (0, 'Fringe field coefficient C5', 36),
-        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field', 40),
-        'LAM_S': (0 * _ureg.centimeter, 'Exit face fringe field extent', 41),
-        'NCS': (0, 'UNUSED', 50),
-        'C0_S': (0, 'Fringe field coefficient C0', 51),
-        'C1_S': (1, 'Fringe field coefficient C1', 52),
-        'C2_S': (0, 'Fringe field coefficient C2', 53),
-        'C3_S': (0, 'Fringe field coefficient C3', 54),
-        'C4_S': (0, 'Fringe field coefficient C4', 55),
-        'C5_S': (0, 'Fringe field coefficient C5', 56),
-        'XPAS': (0.1 * _ureg.centimeter, 'Integration step', 60),
-        'KPOS': (1, 'Misalignment type', 70),
-        'XCE': (0 * _ureg.centimeter, 'x offset', 71),
-        'YCE': (0 * _ureg.centimeter, 'y offset', 72),
-        'ALE': (0 * _ureg.radian, 'misalignment rotation', 73),
-        'COLOR': ('#FF0000', 'Magnet color for plotting.'),
+        "IL": (2, "Print field and coordinates along trajectories", 1),
+        "XL": (10.0 * _ureg.centimeter, "Magnet length (straight reference frame)", 10),
+        "R0": (10.0 * _ureg.centimeter, "Radius of the pole tips", 11),
+        "B0": (0 * _ureg.kilogauss, "Field at pole tips", 12),
+        "X_E": (0 * _ureg.centimeter, "Entrance face integration zone for the fringe field", 20),
+        "LAM_E": (0 * _ureg.centimeter, "Entrance face fringe field extent", 21),
+        "NCE": (0, "UNUSED", 30),
+        "C0_E": (0, "Fringe field coefficient C0", 31),
+        "C1_E": (1, "Fringe field coefficient C1", 32),
+        "C2_E": (0, "Fringe field coefficient C2", 33),
+        "C3_E": (0, "Fringe field coefficient C3", 34),
+        "C4_E": (0, "Fringe field coefficient C4", 35),
+        "C5_E": (0, "Fringe field coefficient C5", 36),
+        "X_S": (0 * _ureg.centimeter, "Exit face integration zone for the fringe field", 40),
+        "LAM_S": (0 * _ureg.centimeter, "Exit face fringe field extent", 41),
+        "NCS": (0, "UNUSED", 50),
+        "C0_S": (0, "Fringe field coefficient C0", 51),
+        "C1_S": (1, "Fringe field coefficient C1", 52),
+        "C2_S": (0, "Fringe field coefficient C2", 53),
+        "C3_S": (0, "Fringe field coefficient C3", 54),
+        "C4_S": (0, "Fringe field coefficient C4", 55),
+        "C5_S": (0, "Fringe field coefficient C5", 56),
+        "XPAS": (0.1 * _ureg.centimeter, "Integration step", 60),
+        "KPOS": (1, "Misalignment type", 70),
+        "XCE": (0 * _ureg.centimeter, "x offset", 71),
+        "YCE": (0 * _ureg.centimeter, "y offset", 72),
+        "ALE": (0 * _ureg.radian, "misalignment rotation", 73),
+        "COLOR": ("#FF0000", "Magnet color for plotting."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
         commands (e.g. fit)."""
 
     def __str__(self):
@@ -1614,78 +1653,78 @@ class Dipole(PolarMagnet):
     >>> m = Dipole()
     >>> m.fit()
     """
-    KEYWORD = 'DIPOLE'
+    KEYWORD = "DIPOLE"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, 'Print field and coordinates along trajectories', 1),
-        'AT': (0 * _ureg.degree, 'Total angular extent of the dipole (positive value in all cases)', 2),
-        'RM': (0 * _ureg.centimeter, 'Reference radius', 3),
-        'ACENT': (0 * _ureg.degree, 'Azimuth for positioning of EFBs', 4),
-        'B0': (0 * _ureg.kilogauss, 'Reference field', 5),
-        'N': (0, 'Field index (radial quadrupolar)', 6),
-        'B': (0, 'Field index (radial sextupolar)', 7),
-        'G': (0, 'Field index (radial octupolar)', 8),
-        'LAM_E': (0 * _ureg.centimeter, 'Entrance fringe field extent (normally ≃ gap size)', 9),
+        "IL": (0, "Print field and coordinates along trajectories", 1),
+        "AT": (0 * _ureg.degree, "Total angular extent of the dipole (positive value in all cases)", 2),
+        "RM": (0 * _ureg.centimeter, "Reference radius", 3),
+        "ACENT": (0 * _ureg.degree, "Azimuth for positioning of EFBs", 4),
+        "B0": (0 * _ureg.kilogauss, "Reference field", 5),
+        "N": (0, "Field index (radial quadrupolar)", 6),
+        "B": (0, "Field index (radial sextupolar)", 7),
+        "G": (0, "Field index (radial octupolar)", 8),
+        "LAM_E": (0 * _ureg.centimeter, "Entrance fringe field extent (normally ≃ gap size)", 9),
         # XI_E: (0, 'UNUSED', 10)
         # NCE: (0, 'UNUSED', 11)
-        'C0_E': (0, 'Fringe field coefficient C0', 12),
-        'C1_E': (1, 'Fringe field coefficient C1', 13),
-        'C2_E': (0, 'Fringe field coefficient C2', 14),
-        'C3_E': (0, 'Fringe field coefficient C3', 15),
-        'C4_E': (0, 'Fringe field coefficient C4', 16),
-        'C5_E': (0, 'Fringe field coefficient C5', 17),
-        'SHIFT_E': (0 * _ureg.centimeter, 'Shift of the EFB', 18),
-        'OMEGA_E': (0 * _ureg.degree, 'Azimuth of entrance EFB with respect to ACENT', 19),
-        'THETA_E': (0 * _ureg.degree, 'Entrance wedge angle of EFB', 20),
-        'R1_E': (1e9 * _ureg.centimeter, 'Entrance EFB radius', 21),
-        'U1_E': (-1e9 * _ureg.centimeter, 'Entrance EFB linear extent', 22),
-        'U2_E': (1e9 * _ureg.centimeter, 'Entrance EFB linear extent', 23),
-        'R2_E': (1e9 * _ureg.centimeter, 'Entrance EFB radius', 24),
-        'LAM_S': (0 * _ureg.centimeter, 'Exit fringe field extent (normally ≃ gap size)', 25),
+        "C0_E": (0, "Fringe field coefficient C0", 12),
+        "C1_E": (1, "Fringe field coefficient C1", 13),
+        "C2_E": (0, "Fringe field coefficient C2", 14),
+        "C3_E": (0, "Fringe field coefficient C3", 15),
+        "C4_E": (0, "Fringe field coefficient C4", 16),
+        "C5_E": (0, "Fringe field coefficient C5", 17),
+        "SHIFT_E": (0 * _ureg.centimeter, "Shift of the EFB", 18),
+        "OMEGA_E": (0 * _ureg.degree, "Azimuth of entrance EFB with respect to ACENT", 19),
+        "THETA_E": (0 * _ureg.degree, "Entrance wedge angle of EFB", 20),
+        "R1_E": (1e9 * _ureg.centimeter, "Entrance EFB radius", 21),
+        "U1_E": (-1e9 * _ureg.centimeter, "Entrance EFB linear extent", 22),
+        "U2_E": (1e9 * _ureg.centimeter, "Entrance EFB linear extent", 23),
+        "R2_E": (1e9 * _ureg.centimeter, "Entrance EFB radius", 24),
+        "LAM_S": (0 * _ureg.centimeter, "Exit fringe field extent (normally ≃ gap size)", 25),
         # XI_S: (0, 'UNUSED', )
         # NCS: (0, 'UNUSED', ) #Check fit number
-        'C0_S': (0, 'Fringe field coefficient C0', 26),
-        'C1_S': (1, 'Fringe field coefficient C1', 27),
-        'C2_S': (0, 'Fringe field coefficient C2', 28),
-        'C3_S': (0, 'Fringe field coefficient C3', 29),
-        'C4_S': (0, 'Fringe field coefficient C4', 30),
-        'C5_S': (0, 'Fringe field coefficient C5', 31),
-        'SHIFT_S': (0 * _ureg.centimeter, 'Shift of the EFB', 32),
-        'OMEGA_S': (0 * _ureg.degree, 'Azimuth of exit EFB with respect to ACENT', 33),
-        'THETA_S': (0 * _ureg.degree, 'Exit wedge angle of EFB', 34),
-        'R1_S': (1e9 * _ureg.centimeter, 'Exit EFB radius', 35),
-        'U1_S': (-1e9 * _ureg.centimeter, 'Exit EFB linear extent', 36),
-        'U2_S': (1e9 * _ureg.centimeter, 'Exit EFB linear extent', 37),
-        'R2_S': (1e9 * _ureg.centimeter, 'Exit EFB radius', 38),
-        'LAM_L': (0.0 * _ureg.centimeter, 'Lateral fringe field extent (normally ≃ gap size)', 39),
-        'XI_L': (0, 'Flag to activate/deactivate the lateral EFB (0 to deactivate)', 40),
-        'C0_L': (0, 'Fringe field coefficient C0', 41),
-        'C1_L': (1, 'Fringe field coefficient C1', 42),
-        'C2_L': (0, 'Fringe field coefficient C2', 43),
-        'C3_L': (0, 'Fringe field coefficient C3', 44),
-        'C4_L': (0, 'Fringe field coefficient C4', 45),
-        'C5_L': (0, 'Fringe field coefficient C5', 46),
-        'SHIFT_L': (0 * _ureg.centimeter, 'Shift of the EFB', 47),
-        'OMEGA_L': (0 * _ureg.degree, '', 48),
-        'THETA_L': (0 * _ureg.degree, 'Lateral field boundary wedge angle', 49),
-        'R1_L': (1e9 * _ureg.centimeter, 'Lateral EFB radius', 50),
-        'U1_L': (1e9 * _ureg.centimeter, 'Lateral EFB linear extent', 51),
-        'U2_L': (1e9 * _ureg.centimeter, 'Lateral EFB linear extent', 52),
-        'R2_L': (1e9 * _ureg.centimeter, 'Lateral EFB radius', 53),
-        'RM3': (1e9 * _ureg.centimeter, 'Reference radius of the lateral EFB', 54),
-        'IORDRE': (2, '', 55),
-        'RESOL': (10, '', 56),
-        'XPAS': (1 * _ureg.millimeter, 'Integration step', 57),
-        'KPOS': (2, 'Positionning of the map, normally 2', 58),
-        'RE': (0 * _ureg.centimeter, 'Entrance reference radius', 64),
-        'TE': (0 * _ureg.radian, 'Entrance reference angle', 65),
-        'RS': (0 * _ureg.centimeter, 'Exit reference radius', 66),
-        'TS': (0 * _ureg.radian, 'Exit reference angle', 67),
-        'DP': (0.0, 'Reference relative momentum', 63),
-        'COLOR': '#4169E1',
+        "C0_S": (0, "Fringe field coefficient C0", 26),
+        "C1_S": (1, "Fringe field coefficient C1", 27),
+        "C2_S": (0, "Fringe field coefficient C2", 28),
+        "C3_S": (0, "Fringe field coefficient C3", 29),
+        "C4_S": (0, "Fringe field coefficient C4", 30),
+        "C5_S": (0, "Fringe field coefficient C5", 31),
+        "SHIFT_S": (0 * _ureg.centimeter, "Shift of the EFB", 32),
+        "OMEGA_S": (0 * _ureg.degree, "Azimuth of exit EFB with respect to ACENT", 33),
+        "THETA_S": (0 * _ureg.degree, "Exit wedge angle of EFB", 34),
+        "R1_S": (1e9 * _ureg.centimeter, "Exit EFB radius", 35),
+        "U1_S": (-1e9 * _ureg.centimeter, "Exit EFB linear extent", 36),
+        "U2_S": (1e9 * _ureg.centimeter, "Exit EFB linear extent", 37),
+        "R2_S": (1e9 * _ureg.centimeter, "Exit EFB radius", 38),
+        "LAM_L": (0.0 * _ureg.centimeter, "Lateral fringe field extent (normally ≃ gap size)", 39),
+        "XI_L": (0, "Flag to activate/deactivate the lateral EFB (0 to deactivate)", 40),
+        "C0_L": (0, "Fringe field coefficient C0", 41),
+        "C1_L": (1, "Fringe field coefficient C1", 42),
+        "C2_L": (0, "Fringe field coefficient C2", 43),
+        "C3_L": (0, "Fringe field coefficient C3", 44),
+        "C4_L": (0, "Fringe field coefficient C4", 45),
+        "C5_L": (0, "Fringe field coefficient C5", 46),
+        "SHIFT_L": (0 * _ureg.centimeter, "Shift of the EFB", 47),
+        "OMEGA_L": (0 * _ureg.degree, "", 48),
+        "THETA_L": (0 * _ureg.degree, "Lateral field boundary wedge angle", 49),
+        "R1_L": (1e9 * _ureg.centimeter, "Lateral EFB radius", 50),
+        "U1_L": (1e9 * _ureg.centimeter, "Lateral EFB linear extent", 51),
+        "U2_L": (1e9 * _ureg.centimeter, "Lateral EFB linear extent", 52),
+        "R2_L": (1e9 * _ureg.centimeter, "Lateral EFB radius", 53),
+        "RM3": (1e9 * _ureg.centimeter, "Reference radius of the lateral EFB", 54),
+        "IORDRE": (2, "", 55),
+        "RESOL": (10, "", 56),
+        "XPAS": (1 * _ureg.millimeter, "Integration step", 57),
+        "KPOS": (2, "Positionning of the map, normally 2", 58),
+        "RE": (0 * _ureg.centimeter, "Entrance reference radius", 64),
+        "TE": (0 * _ureg.radian, "Entrance reference angle", 65),
+        "RS": (0 * _ureg.centimeter, "Exit reference radius", 66),
+        "TS": (0 * _ureg.radian, "Exit reference angle", 67),
+        "DP": (0.0, "Reference relative momentum", 63),
+        "COLOR": "#4169E1",
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
@@ -1748,16 +1787,18 @@ class Dipole(PolarMagnet):
                 """
             command.append(c)
 
-        return ''.join(map(lambda _: _.rstrip(), command))
+        return "".join(map(lambda _: _.rstrip(), command))
 
-    def fit(self,
-            kinematics: _Kinematics,
-            particle: _ParticuleType = _Proton,
-            entry_coordinates: _np.array = None,
-            exit_coordinate: float = 0.0,
-            method: _FitType = _Fit2,
-            zgoubi: Optional[_Zgoubi] = None,
-            debug=False):
+    def fit(
+        self,
+        kinematics: _Kinematics,
+        particle: _ParticuleType = _Proton,
+        entry_coordinates: _np.array = None,
+        exit_coordinate: float = 0.0,
+        method: _FitType = _Fit2,
+        zgoubi: Optional[_Zgoubi] = None,
+        debug=False,
+    ):
         """
 
         Args:
@@ -1777,24 +1818,25 @@ class Dipole(PolarMagnet):
 
         z = zgoubi or _Zgoubi()
         zi = zgoubidoo.Input(f"FIT_{self.LABEL1}_MAGNET")
-        zi += _Objet2('BUNCH', BORO=kinematics.brho).add(entry_coordinates)
+        zi += _Objet2("BUNCH", BORO=kinematics.brho).add(entry_coordinates)
         zi += particle()
-        zi += _Marker('START')
+        zi += _Marker("START")
         zi += self
-        zi += _Marker('END')
-        fit = method(PENALTY=1e-12,
-                     PARAMS=[
-                         _Fit.Parameter(line=zi, place=self.LABEL1, parameter=Dipole.B0_),
-                     ],
-                     CONSTRAINTS=[
-                         _Fit.EqualityConstraint(
-                             line=zi,
-                             place='END',
-                             variable=_Fit.FitCoordinates.Y,
-                             value=exit_coordinate
-                         ),
-                     ]
-                     ).generate_label('FIT_')
+        zi += _Marker("END")
+        fit = method(
+            PENALTY=1e-12,
+            PARAMS=[
+                _Fit.Parameter(line=zi, place=self.LABEL1, parameter=Dipole.B0_),
+            ],
+            CONSTRAINTS=[
+                _Fit.EqualityConstraint(
+                    line=zi,
+                    place="END",
+                    variable=_Fit.FitCoordinates.Y,
+                    value=exit_coordinate,
+                ),
+            ],
+        ).generate_label("FIT_")
         zi += fit
 
         def cb(f):
@@ -1803,11 +1845,11 @@ class Dipole(PolarMagnet):
             if not fit.results[0][1].success:
                 raise _ZgoubidooException(f"Unable to fit {self.__class__.__name__}.")
             if debug:
-                print('\n'.join(r['result']))
-            self.B0 = fit.results[0][1].results.at[1, 'final']
+                print("\n".join(r["result"]))
+            self.B0 = fit.results[0][1].results.at[1, "final"]
             self._fit = fit
 
-        z(zi, identifier={'FITTING': self.LABEL1}, cb=cb)
+        z(zi, identifier={"FITTING": self.LABEL1}, cb=cb)
         return self
 
 
@@ -1817,96 +1859,97 @@ class DipoleM(PolarMagnet):
     .. rubric:: Zgoubi manual description
 
     """
-    KEYWORD = 'DIPOLE-M'
+
+    KEYWORD = "DIPOLE-M"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'NFACE': 2,
-        'IC': 0,  # 1, 2: print field map
-        'IL': 0,  # 1, 2: print field and coordinates on trajectores
-        'IAMAX': 0,
-        'IRMAX': 0,
-        'B0': 0 * _ureg.kilogauss,
-        'N': 0,
-        'B': 0,
-        'G': 0,
-        'AT': 0,
-        'ACENT': 0,
-        'RM': 0,
-        'RMIN': 0,
-        'RMAX': 0,
-        'LAM_E': 0,
-        'XI_E': 0,
-        'NCE': 0,
-        'C0_E': 0,
-        'C1_E': 0,
-        'C2_E': 0,
-        'C3_E': 0,
-        'C4_E': 0,
-        'C5_E': 0,
-        'SHIFT_E': 0,
-        'OMEGA_E': 0,
-        'THETA_E': 0,
-        'R1_E': 1e9,
-        'U1_E': -1e9,
-        'U2_E': 1e9,
-        'R2_E': 1e9,
-        'LAM_S': 0,
-        'XI_S': 0,
-        'NCS': 0,
-        'C0_S': 0,
-        'C1_S': 0,
-        'C2_S': 0,
-        'C3_S': 0,
-        'C4_S': 0,
-        'C5_S': 0,
-        'SHIFT_S': 0,
-        'OMEGA_S': 0,
-        'THETA_S': 0,
-        'R1_S': 1e9,
-        'U1_S': -1e9,
-        'U2_S': 1e9,
-        'R2_S': 1e9,
-        'LAM_L': 0,
-        'XI_L': 0,
-        'NCL': 0,
-        'C0_L': 0,
-        'C1_L': 0,
-        'C2_L': 0,
-        'C3_L': 0,
-        'C4_L': 0,
-        'C5_L': 0,
-        'SHIFT_L': 0,
-        'OMEGA_L': 0,
-        'THETA_L': 0,
-        'R1_L': 1e9,
-        'U1_L': -1e9,
-        'U2_L': 1e9,
-        'R2_L': 1e9,
-        'RM3': 0,
-        'NBS': 0,
-        'R0': 0,
-        'DELTAB': 0,
-        'THETA_0': 0,
-        'IORDRE': 4,
-        'XPAS': 0.1,
-        'KPOS': 2,
-        'RE': 0,
-        'TE': 0,
-        'RS': 0,
-        'TS': 0,
-        'DP': 0,
-        'SHIM_R1': [],
-        'SHIM_R2': [],
-        'SHIM_THETA1': [],
-        'SHIM_THETA2': [],
-        'SHIM_LAMBDA': [],
-        'SHIM_GAMMA': [],
-        'SHIM_ALPHA': [],
-        'SHIM_BETA': [],
-        'SHIM_MU': [],
+        "NFACE": 2,
+        "IC": 0,  # 1, 2: print field map
+        "IL": 0,  # 1, 2: print field and coordinates on trajectores
+        "IAMAX": 0,
+        "IRMAX": 0,
+        "B0": 0 * _ureg.kilogauss,
+        "N": 0,
+        "B": 0,
+        "G": 0,
+        "AT": 0,
+        "ACENT": 0,
+        "RM": 0,
+        "RMIN": 0,
+        "RMAX": 0,
+        "LAM_E": 0,
+        "XI_E": 0,
+        "NCE": 0,
+        "C0_E": 0,
+        "C1_E": 0,
+        "C2_E": 0,
+        "C3_E": 0,
+        "C4_E": 0,
+        "C5_E": 0,
+        "SHIFT_E": 0,
+        "OMEGA_E": 0,
+        "THETA_E": 0,
+        "R1_E": 1e9,
+        "U1_E": -1e9,
+        "U2_E": 1e9,
+        "R2_E": 1e9,
+        "LAM_S": 0,
+        "XI_S": 0,
+        "NCS": 0,
+        "C0_S": 0,
+        "C1_S": 0,
+        "C2_S": 0,
+        "C3_S": 0,
+        "C4_S": 0,
+        "C5_S": 0,
+        "SHIFT_S": 0,
+        "OMEGA_S": 0,
+        "THETA_S": 0,
+        "R1_S": 1e9,
+        "U1_S": -1e9,
+        "U2_S": 1e9,
+        "R2_S": 1e9,
+        "LAM_L": 0,
+        "XI_L": 0,
+        "NCL": 0,
+        "C0_L": 0,
+        "C1_L": 0,
+        "C2_L": 0,
+        "C3_L": 0,
+        "C4_L": 0,
+        "C5_L": 0,
+        "SHIFT_L": 0,
+        "OMEGA_L": 0,
+        "THETA_L": 0,
+        "R1_L": 1e9,
+        "U1_L": -1e9,
+        "U2_L": 1e9,
+        "R2_L": 1e9,
+        "RM3": 0,
+        "NBS": 0,
+        "R0": 0,
+        "DELTAB": 0,
+        "THETA_0": 0,
+        "IORDRE": 4,
+        "XPAS": 0.1,
+        "KPOS": 2,
+        "RE": 0,
+        "TE": 0,
+        "RS": 0,
+        "TS": 0,
+        "DP": 0,
+        "SHIM_R1": [],
+        "SHIM_R2": [],
+        "SHIM_THETA1": [],
+        "SHIM_THETA2": [],
+        "SHIM_LAMBDA": [],
+        "SHIM_GAMMA": [],
+        "SHIM_ALPHA": [],
+        "SHIM_BETA": [],
+        "SHIM_MU": [],
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(s):
@@ -1938,9 +1981,11 @@ class DipoleM(PolarMagnet):
             command.append(c)
 
         if s.NBS == 0:
-            command.append(f"""
+            command.append(
+                f"""
             {s.NBS}
-            """)
+            """,
+            )
         elif s.NBS == -2:
             c = f"""
                 {s.NBS}
@@ -1954,8 +1999,10 @@ class DipoleM(PolarMagnet):
                 """
             command.append(c)
         elif s.NBS >= 1:
-            command.append(f"""
-            {s.NBS}""")
+            command.append(
+                f"""
+            {s.NBS}""",
+            )
 
             shim_r1 = len(s.SHIM_R1)
             shim_r2 = len(s.SHIM_R2)
@@ -1966,26 +2013,32 @@ class DipoleM(PolarMagnet):
             shim_alpha = len(s.SHIM_ALPHA)
             shim_beta = len(s.SHIM_BETA)
             shim_mu = len(s.SHIM_MU)
-            if shim_r1 \
-                    == shim_r2 \
-                    == shim_theta1 \
-                    == shim_theta2 \
-                    == shim_lambda \
-                    == shim_gamma \
-                    == shim_alpha \
-                    == shim_beta \
-                    == shim_mu:
+            if (
+                shim_r1
+                == shim_r2
+                == shim_theta1
+                == shim_theta2
+                == shim_lambda
+                == shim_gamma
+                == shim_alpha
+                == shim_beta
+                == shim_mu
+            ):
                 for i, j, k, l in zip(s.SHIM_R1, s.SHIM_R2, s.SHIM_THETA1, s.SHIM_LAMBDA):
-                    command.append(f"""
+                    command.append(
+                        f"""
                     {i:.12e} {j:.12e} {k:.12e} {l:.12e}
-                    """)
+                    """,
+                    )
 
                 for i, j, k, l in zip(s.GAMMA, s.ALPHA, s.MU, s.BETA):
-                    command.append(f"""
+                    command.append(
+                        f"""
                                    {i:.12e} {j:.12e} {k:.12e} {l:.12e}
-                                   """)
+                                   """,
+                    )
             else:
-                raise _ZgoubidooException('Error : The shim parameters lists must have the same lenghts')
+                raise _ZgoubidooException("Error : The shim parameters lists must have the same lenghts")
 
         c = f"""
             {s.IORDRE}
@@ -2013,7 +2066,7 @@ class DipoleM(PolarMagnet):
                 """
             command.append(c)
 
-        return ''.join(map(lambda _: _.rstrip(), command))
+        return "".join(map(lambda _: _.rstrip(), command))
 
 
 class Dipoles(PolarMultiMagnet):
@@ -2023,88 +2076,99 @@ class Dipoles(PolarMultiMagnet):
 
     TODO
     """
-    KEYWORD = 'DIPOLES'
+
+    KEYWORD = "DIPOLES"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, 'Print field and coordinates along trajectories', 1),
-        'N': (1, 'Number of magnets (maximum 5).', 2),
-        'AT': (0.0 * _ureg.degree, 'Total angular extent of the N dipoles.', 3),
-        'RM': (0.0 * _ureg.cm, 'Reference radius: mean radius used for the positioning of field boundaries', 4),
-        'ACN': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth for dipole positioning', 5),
-        'DRM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter,
-                'Offset for the reference radius of each magnet : RM_i  = RM +DELTA_RM', 6),
-        'B0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, 'Dipole fields of each magnets.', 7),
-        'BI': ([[], [], [], [], []], 'Lists of field coefficients for each magnets.', 8),
+        "IL": (0, "Print field and coordinates along trajectories", 1),
+        "N": (1, "Number of magnets (maximum 5).", 2),
+        "AT": (0.0 * _ureg.degree, "Total angular extent of the N dipoles.", 3),
+        "RM": (0.0 * _ureg.cm, "Reference radius: mean radius used for the positioning of field boundaries", 4),
+        "ACN": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "Azimuth for dipole positioning", 5),
+        "DRM": (
+            [0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter,
+            "Offset for the reference radius of each magnet : RM_i  = RM +DELTA_RM",
+            6,
+        ),
+        "B0": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, "Dipole fields of each magnets.", 7),
+        "BI": ([[], [], [], [], []], "Lists of field coefficients for each magnets.", 8),
         # à partir d'ici, on doit faire +ind pour tous les numéros de fit
-        'G0_E': (
+        "G0_E": (
             [0.00000001, 0.0, 0.0, 0.0, 0.0] * _ureg.cm,
-            'Reference gaps for the entrance fringe fields of each magnets.',
-            9),
-        'K_E': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 10),  # 11 c'est pour le NC
-        'C0_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 12),
-        'C1_E': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 13),
-        'C2_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 14),
-        'C3_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 15),
-        'C4_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 16),
-        'C5_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 17),
-        'SHIFT_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB', 18),
-        'OMEGA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, '', 19),
-        'THETA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Entrance face wedge angle', 20),
-        'R1_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB radius', 21),
-        'U1_E': ([-1e9, -1e9, -1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB linear extent', 22),  ####-1e9 ?
-        'U2_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB linear extent', 23),
-        'R2_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB radius', 24),
-        'G0_S': (
-            [0.00000001, 0.0, 0.0, 0.0, 0.0] * _ureg.cm, 'Reference gaps for the exit fringe fields of each magnet.',
-            25),
-        'K_S': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 26),
-        'C0_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 28),  # 27 pour le NC
-        'C1_S': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 29),
-        'C2_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 30),
-        'C3_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 31),
-        'C4_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 32),
-        'C5_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 33),
-        'SHIFT_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB', 34),
-        'OMEGA_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, '', 35),
-        'THETA_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Entrance face wedge angle', 36),
-        'R1_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB radius', 37),
-        'U1_S': ([-1e9, -1e9, -1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB linear extent', 38),  ####-1e9 ?
-        'U2_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB linear extent', 39),
-        'R2_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB radius', 40),
-        'G0_L': (
-            [0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm, 'UNUSED Reference gaps for the lateral fringe fields of each dipole.',
-            41),
-        'K_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field parameter kappa', 42),  ####POUR FIT : ne pas oublier NC unused
-        'C0_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C0', 44),
-        'C1_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C1', 45),
-        'C2_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C2', 46),
-        'C3_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C3', 47),
-        'C4_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C4', 48),
-        'C5_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C5', 49),
-        'SHIFT_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'UNUSED  Shift of the EFB', 50),
-        'OMEGA_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'UNUSED ', 51),
-        'THETA_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'UNUSED Entrance face wedge angle', 52),
-        'R1_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'UNUSED Lateral EFB radius', 53),
-        'U1_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'UNUSED Lateral EFB linear extent', 54),
-        'U2_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'UNUSED Lateral EFB linear extent', 55),
-        'R2_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'UNUSED Lateral EFB radius', 56),
-        'RM3': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Unused.', 57),
-        'KIRD': (
-            2, 'Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives',
-            58),
+            "Reference gaps for the entrance fringe fields of each magnets.",
+            9,
+        ),
+        "K_E": ([0, 0, 0, 0, 0], "Fringe field parameter kappa", 10),  # 11 c'est pour le NC
+        "C0_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C0", 12),
+        "C1_E": ([1, 1, 1, 1, 1], "Fringe field coefficient C1", 13),
+        "C2_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C2", 14),
+        "C3_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C3", 15),
+        "C4_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C4", 16),
+        "C5_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C5", 17),
+        "SHIFT_E": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "Shift of the EFB", 18),
+        "OMEGA_E": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "", 19),
+        "THETA_E": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "Entrance face wedge angle", 20),
+        "R1_E": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "Entrance EFB radius", 21),
+        "U1_E": ([-1e9, -1e9, -1e9, 1e9, 1e9] * _ureg.centimeter, "Entrance EFB linear extent", 22),  # -1e9 ?
+        "U2_E": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "Entrance EFB linear extent", 23),
+        "R2_E": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "Entrance EFB radius", 24),
+        "G0_S": (
+            [0.00000001, 0.0, 0.0, 0.0, 0.0] * _ureg.cm,
+            "Reference gaps for the exit fringe fields of each magnet.",
+            25,
+        ),
+        "K_S": ([0, 0, 0, 0, 0], "Fringe field parameter kappa", 26),
+        "C0_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C0", 28),  # 27 pour le NC
+        "C1_S": ([1, 1, 1, 1, 1], "Fringe field coefficient C1", 29),
+        "C2_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C2", 30),
+        "C3_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C3", 31),
+        "C4_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C4", 32),
+        "C5_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C5", 33),
+        "SHIFT_S": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "Shift of the EFB", 34),
+        "OMEGA_S": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "", 35),
+        "THETA_S": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "Entrance face wedge angle", 36),
+        "R1_S": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "Exit EFB radius", 37),
+        "U1_S": ([-1e9, -1e9, -1e9, 1e9, 1e9] * _ureg.centimeter, "Exit EFB linear extent", 38),  # -1e9 ?
+        "U2_S": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "Exit EFB linear extent", 39),
+        "R2_S": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "Exit EFB radius", 40),
+        "G0_L": (
+            [0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm,
+            "UNUSED Reference gaps for the lateral fringe fields of each dipole.",
+            41,
+        ),
+        "K_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field parameter kappa", 42),  # POUR FIT : ne pas oublier NC unused
+        "C0_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C0", 44),
+        "C1_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C1", 45),
+        "C2_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C2", 46),
+        "C3_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C3", 47),
+        "C4_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C4", 48),
+        "C5_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C5", 49),
+        "SHIFT_L": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "UNUSED  Shift of the EFB", 50),
+        "OMEGA_L": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "UNUSED ", 51),
+        "THETA_L": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "UNUSED Entrance face wedge angle", 52),
+        "R1_L": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "UNUSED Lateral EFB radius", 53),
+        "U1_L": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "UNUSED Lateral EFB linear extent", 54),
+        "U2_L": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "UNUSED Lateral EFB linear extent", 55),
+        "R2_L": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "UNUSED Lateral EFB radius", 56),
+        "RM3": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "Unused.", 57),
+        "KIRD": (
+            2,
+            "Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives",
+            58,
+        ),
         # 111 (pour chaque dipole supplémentaire, faire +53 pour le fit)
-        'RESOL': (2, '', 59),
-        'XPAS': (1.0 * _ureg.millimeter, 'Integration step', 60),
-        'KPOS': (2, '', 61),
-        'RE': (0.0 * _ureg.centimeter, '', 62),
-        'TE': (0.0 * _ureg.radian, '', 63),
-        'RS': (0.0 * _ureg.centimeter, '', 64),
-        'TS': (0.0 * _ureg.radian, '', 65),
-        'DP': (0.0, '', 62),
-        'COLOR': '#4169E1',
+        "RESOL": (2, "", 59),
+        "XPAS": (1.0 * _ureg.millimeter, "Integration step", 60),
+        "KPOS": (2, "", 61),
+        "RE": (0.0 * _ureg.centimeter, "", 62),
+        "TE": (0.0 * _ureg.radian, "", 63),
+        "RS": (0.0 * _ureg.centimeter, "", 64),
+        "TS": (0.0 * _ureg.radian, "", 65),
+        "DP": (0.0, "", 62),
+        "COLOR": "#4169E1",
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
@@ -2120,7 +2184,7 @@ class Dipoles(PolarMultiMagnet):
             if _degree(self.OMEGA_E[i]) == 0:
                 self.OMEGA_E[i] = self.AT / (2 * self.N) + i * self.AT / self.N
             if _degree(self.OMEGA_S[i]) == 0:
-                self.OMEGA_S[i] -= (self.AT - self.AT / (2 * self.N) - i * self.AT / self.N)
+                self.OMEGA_S[i] -= self.AT - self.AT / (2 * self.N) - i * self.AT / self.N
             if _degree(self.ACN[i]) == 0:
                 self.ACN[i] = self.AT / (2 * self.N) + i * self.AT / self.N
             if _cm(self.RE) == 0:
@@ -2130,14 +2194,17 @@ class Dipoles(PolarMultiMagnet):
 
     def __str__(s):
         command = list()
-        command.append(f"""
+        command.append(
+            f"""
             {super().__str__().rstrip()}
             {s.IL}
             {s.N} {_degree(s.AT):.20e} {_cm(s.RM):.12e}
-            """)
+            """,
+        )
 
         for i in range(0, s.N):
-            command.append(f"""
+            command.append(
+                f"""
             {_degree(s.ACN[i]):.20e} {_cm(s.DRM[i]):.12e} {_kilogauss(s.B0[i]):.12e} {len(s.BI[i])} {' '.join(map(str, s.BI[i]))}
             {_cm(s.G0_E[i]):.12e} {s.K_E[i]:.12e}
             4 {s.C0_E[i]:.12e} {s.C1_E[i]:.12e} {s.C2_E[i]:.12e} {s.C3_E[i]:.12e} {s.C4_E[i]:.12e} {s.C5_E[i]:.12e} {_cm(s.SHIFT_E[i]):.12e}
@@ -2148,7 +2215,8 @@ class Dipoles(PolarMultiMagnet):
             {_cm(s.G0_L[i]):.12e} {s.K_L[i]:.12e}
             4 {s.C0_L[i]:.12e} {s.C1_L[i]:.12e} {s.C2_L[i]:.12e} {s.C3_L[i]:.12e} {s.C4_L[i]:.12e} {s.C5_L[i]:.12e} {_cm(s.SHIFT_L[i]):.12e}
             {_degree(s.OMEGA_L[i]):.20e} {_degree(s.THETA_L[i]):.12e} {_cm(s.R1_L[i]):.12e} {_cm(s.U1_L[i]):.12e} {_cm(s.U2_L[i]):.12e} {_cm(s.R2_L[i]):.12e} {_cm(s.RM3[i]):.12e}
-            """)
+            """,
+            )
 
         c = f"""
             {s.KIRD} {s.RESOL}
@@ -2176,7 +2244,7 @@ class Dipoles(PolarMultiMagnet):
                 """
             command.append(c)
 
-        return ''.join(map(lambda _: _.rstrip(), command))
+        return "".join(map(lambda _: _.rstrip(), command))
 
 
 class Dodecapole(CartesianMagnet):
@@ -2208,40 +2276,40 @@ class Dodecapole(CartesianMagnet):
         \end{align}
     """
 
-    KEYWORD = 'DODECAPO'
+    KEYWORD = "DODECAPO"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, 'Print field and coordinates along trajectories', 1),
-        'XL': (0.0 * _ureg.centimeter, 'Magnet length', 10),
-        'R0': (10.0 * _ureg.centimeter, 'Radius of the pole tips', 11),
-        'B0': (0.0 * _ureg.kilogauss, 'Field at pole tip', 12),
-        'X_E': (0.0 * _ureg.centimeter, 'Entrance face integration zone extent for the fringe field', 20),
-        'LAM_E': (0.0 * _ureg.centimeter, 'Entrance face fringe field extent (λ_E = 0 for sharp edge)', 21),
+        "IL": (0, "Print field and coordinates along trajectories", 1),
+        "XL": (0.0 * _ureg.centimeter, "Magnet length", 10),
+        "R0": (10.0 * _ureg.centimeter, "Radius of the pole tips", 11),
+        "B0": (0.0 * _ureg.kilogauss, "Field at pole tip", 12),
+        "X_E": (0.0 * _ureg.centimeter, "Entrance face integration zone extent for the fringe field", 20),
+        "LAM_E": (0.0 * _ureg.centimeter, "Entrance face fringe field extent (λ_E = 0 for sharp edge)", 21),
         # NCE: (0, 'UNUSED', 7)
-        'C0_E': (0.0, 'Fringe field coefficient C0', 31),
-        'C1_E': (1.0, 'Fringe field coefficient C1', 32),
-        'C2_E': (0.0, 'Fringe field coefficient C2', 33),
-        'C3_E': (0.0, 'Fringe field coefficient C3', 34),
-        'C4_E': (0.0, 'Fringe field coefficient C4', 35),
-        'C5_E': (0.0, 'Fringe field coefficient C5', 36),
-        'X_S': (0.0 * _ureg.centimeter, 'Exit face integration zone extent for the fringe field', 40),
-        'LAM_S': (0.0 * _ureg.centimeter, 'Exit face fringe field extent', 41),
+        "C0_E": (0.0, "Fringe field coefficient C0", 31),
+        "C1_E": (1.0, "Fringe field coefficient C1", 32),
+        "C2_E": (0.0, "Fringe field coefficient C2", 33),
+        "C3_E": (0.0, "Fringe field coefficient C3", 34),
+        "C4_E": (0.0, "Fringe field coefficient C4", 35),
+        "C5_E": (0.0, "Fringe field coefficient C5", 36),
+        "X_S": (0.0 * _ureg.centimeter, "Exit face integration zone extent for the fringe field", 40),
+        "LAM_S": (0.0 * _ureg.centimeter, "Exit face fringe field extent", 41),
         # NCS: (0, 'UNUSED', 7)
-        'C0_S': (0.0, 'Fringe field coefficient C0', 31),
-        'C1_S': (1.0, 'Fringe field coefficient C1', 32),
-        'C2_S': (0.0, 'Fringe field coefficient C2', 33),
-        'C3_S': (0.0, 'Fringe field coefficient C3', 34),
-        'C4_S': (0.0, 'Fringe field coefficient C4', 35),
-        'C5_S': (0.0, 'Fringe field coefficient C5', 36),
-        'XPAS': (0.1 * _ureg.centimeter, 'Integration step', 60),
-        'KPOS': (1, 'Alignment parameter: 1 (element aligned) or 2 (misaligned)', 70),
-        'XCE': (0.0 * _ureg.centimeter, 'X shift', 71),
-        'YCE': (0.0 * _ureg.centimeter, 'Y shift', 72),
-        'ALE': (0.0 * _ureg.radian, 'Tilt', 73),
-        'COLOR': ('green', 'Magnet color for plotting.'),
+        "C0_S": (0.0, "Fringe field coefficient C0", 31),
+        "C1_S": (1.0, "Fringe field coefficient C1", 32),
+        "C2_S": (0.0, "Fringe field coefficient C2", 33),
+        "C3_S": (0.0, "Fringe field coefficient C3", 34),
+        "C4_S": (0.0, "Fringe field coefficient C4", 35),
+        "C5_S": (0.0, "Fringe field coefficient C5", 36),
+        "XPAS": (0.1 * _ureg.centimeter, "Integration step", 60),
+        "KPOS": (1, "Alignment parameter: 1 (element aligned) or 2 (misaligned)", 70),
+        "XCE": (0.0 * _ureg.centimeter, "X shift", 71),
+        "YCE": (0.0 * _ureg.centimeter, "Y shift", 72),
+        "ALE": (0.0 * _ureg.radian, "Tilt", 73),
+        "COLOR": ("green", "Magnet color for plotting."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(s):
@@ -2287,17 +2355,17 @@ class Drift(CartesianMagnet):
     >>> Drift(XL=10 * _ureg.cm)
 
     """
-    KEYWORD = 'DRIFT'
+    KEYWORD = "DRIFT"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, 'Print field and coordinates along trajectories'),
-        'XL': (0 * _ureg.centimeter, 'Drift length'),
-        'SPLIT': (True, 'Split the drift in multiple steps.'),
-        'SPLITS': (10, 'If SPLITS > 1, the drift will be split in multiple steps.'),
-        'COLOR': (None, 'Color used when plotting the element.'),
+        "IL": (0, "Print field and coordinates along trajectories"),
+        "XL": (0 * _ureg.centimeter, "Drift length"),
+        "SPLIT": (True, "Split the drift in multiple steps."),
+        "SPLITS": (10, "If SPLITS > 1, the drift will be split in multiple steps."),
+        "COLOR": (None, "Color used when plotting the element."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self):
@@ -2320,7 +2388,7 @@ class Drift(CartesianMagnet):
 
         """
         if self.reference_trajectory is not None:
-            r = self.reference_trajectory['S']
+            r = self.reference_trajectory["S"]
             return r.min() * _ureg.m
         else:
             return 0.0 * _ureg.m
@@ -2332,25 +2400,26 @@ class Drift(CartesianMagnet):
         '{}' {label1:w}
         {XL_:.12e}
         """
-        return _parse.parse(' '.join(template.split()), ' '.join(stream.split()))
+        return _parse.parse(" ".join(template.split()), " ".join(stream.split()))
 
     def adjust_tracks_variables(self, tracks: _pd.DataFrame):
         t = tracks[tracks.LABEL1 == self.LABEL1]
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = t['X'] + self.entry_sref.m_as('m')
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT0'] = t['Zo']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'BX'] = 0
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'BY'] = 0
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'BZ'] = 0
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'EX'] = 0
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'EY'] = 0
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'EZ'] = 0
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "SREF"] = t["X"] + self.entry_sref.m_as("m")
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "YT"] = t["Y"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "YT0"] = t["Yo"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "ZT"] = t["Z"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "ZT0"] = t["Zo"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "BX"] = 0
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "BY"] = 0
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "BZ"] = 0
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "EX"] = 0
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "EY"] = 0
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "EZ"] = 0
 
 
 class ESL(Drift):
     """Field free drift space ("espace libre")."""
+
     pass
 
 
@@ -2359,7 +2428,8 @@ class Emma(CartesianMagnet):
 
     TODO
     """
-    KEYWORD = 'EMMA'
+
+    KEYWORD = "EMMA"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -2426,92 +2496,98 @@ class FFAG(PolarMultiMagnet):
 
     """
 
-    KEYWORD = 'FFAG'
+    KEYWORD = "FFAG"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, 'Print field and coordinates along trajectories', 1),
-        'N': (1, 'Number of dipoles in the FFAG N -tuple (maximum 5)', 2),
-        'AT': (0.0 * _ureg.degree, 'Total angular extent of the N dipoles', 3),
-        'RM': (0.0 * _ureg.centimeter, 'Reference radius: mean radius used for the positioning of field boundaries', 4),
+        "IL": (0, "Print field and coordinates along trajectories", 1),
+        "N": (1, "Number of dipoles in the FFAG N -tuple (maximum 5)", 2),
+        "AT": (0.0 * _ureg.degree, "Total angular extent of the N dipoles", 3),
+        "RM": (0.0 * _ureg.centimeter, "Reference radius: mean radius used for the positioning of field boundaries", 4),
         # For each magnet in the N-tuple
-        'ACN': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth for dipole positioning', 5),
-        'DRM': (
+        "ACN": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "Azimuth for dipole positioning", 5),
+        "DRM": (
             [0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter,
-            'Offset for the reference radius of each dipole RM_i  = RM + DRM', 6
+            "Offset for the reference radius of each dipole RM_i  = RM + DRM",
+            6,
         ),
-        'BZ0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, 'Field of each dipole', 7),
-        'K': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Field index for each dipole', 8),
-        'G0_E': (
+        "BZ0": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, "Field of each dipole", 7),
+        "K": ([0.0, 0.0, 0.0, 0.0, 0.0], "Field index for each dipole", 8),
+        "G0_E": (
             [10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.cm,
-            'Reference gaps for the entrance fringe fields of each dipole.', 9
+            "Reference gaps for the entrance fringe fields of each dipole.",
+            9,
         ),
-        'K_E': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 10),
-        'C0_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 12),
-        'C1_E': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 13),
-        'C2_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 14),
-        'C3_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 15),
-        'C4_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 16),
-        'C5_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 16),
-        'SHIFT_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB', 18),
-        'OMEGA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth of an EFB with respect to ACN', 19),
-        'THETA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Entrance face wedge angle', 20),
-        'R1_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB radius', 21),
-        'U1_E': ([-1e9, -1e9, -1e9, -1e9, -1e9] * _ureg.centimeter, 'Entrance EFB linear extent', 22),
-        'U2_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB linear extent', 23),
-        'R2_E': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Entrance EFB radius', 24),
-        'G0_S': (
+        "K_E": ([0, 0, 0, 0, 0], "Fringe field parameter kappa", 10),
+        "C0_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C0", 12),
+        "C1_E": ([1, 1, 1, 1, 1], "Fringe field coefficient C1", 13),
+        "C2_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C2", 14),
+        "C3_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C3", 15),
+        "C4_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C4", 16),
+        "C5_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C5", 16),
+        "SHIFT_E": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "Shift of the EFB", 18),
+        "OMEGA_E": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "Azimuth of an EFB with respect to ACN", 19),
+        "THETA_E": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "Entrance face wedge angle", 20),
+        "R1_E": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "Entrance EFB radius", 21),
+        "U1_E": ([-1e9, -1e9, -1e9, -1e9, -1e9] * _ureg.centimeter, "Entrance EFB linear extent", 22),
+        "U2_E": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "Entrance EFB linear extent", 23),
+        "R2_E": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "Entrance EFB radius", 24),
+        "G0_S": (
             [10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.cm,
-            'Reference gaps for the exit fringe fields of each dipole.', 25
+            "Reference gaps for the exit fringe fields of each dipole.",
+            25,
         ),
-        'K_S': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 26),
-        'C0_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 28),
-        'C1_S': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 29),
-        'C2_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 30),
-        'C3_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 31),
-        'C4_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 32),
-        'C5_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 33),
-        'SHIFT_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB', 34),
-        'OMEGA_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth of an EFB with respect to ACN', 35),
-        'THETA_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Entrance face wedge angle', 36),
-        'R1_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB radius', 37),
-        'U1_S': ([-1e9, -1e9, -1e9, -1e9, -1e9] * _ureg.centimeter, 'Exit EFB linear extent', 38),
-        'U2_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB linear extent', 39),
-        'R2_S': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'Exit EFB radius', 40),
-        'G0_L': (
+        "K_S": ([0, 0, 0, 0, 0], "Fringe field parameter kappa", 26),
+        "C0_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C0", 28),
+        "C1_S": ([1, 1, 1, 1, 1], "Fringe field coefficient C1", 29),
+        "C2_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C2", 30),
+        "C3_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C3", 31),
+        "C4_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C4", 32),
+        "C5_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C5", 33),
+        "SHIFT_S": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "Shift of the EFB", 34),
+        "OMEGA_S": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "Azimuth of an EFB with respect to ACN", 35),
+        "THETA_S": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "Entrance face wedge angle", 36),
+        "R1_S": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "Exit EFB radius", 37),
+        "U1_S": ([-1e9, -1e9, -1e9, -1e9, -1e9] * _ureg.centimeter, "Exit EFB linear extent", 38),
+        "U2_S": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "Exit EFB linear extent", 39),
+        "R2_S": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "Exit EFB radius", 40),
+        "G0_L": (
             [0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm,
-            'UNUSED Reference gaps for the lateral fringe fields of each dipole.', 41
+            "UNUSED Reference gaps for the lateral fringe fields of each dipole.",
+            41,
         ),
-        'K_L': ([-1, -1, -1, -1, -1], 'UNUSED Fringe field parameter kappa', 42),
-        'C0_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C0', 44),
-        'C1_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C1', 45),
-        'C2_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C2', 46),
-        'C3_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C3', 47),
-        'C4_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C4', 48),
-        'C5_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C5', 49),
-        'SHIFT_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'UNUSED  Shift of the EFB', 50),
-        'OMEGA_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'UNUSED ', 51),
-        'THETA_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'UNUSED Entrance face wedge angle', 52),
-        'R1_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB radius', 53),
-        'U1_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB linear extent', 54),
-        'U2_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB linear extent', 55),
-        'R2_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB radius', 56),
+        "K_L": ([-1, -1, -1, -1, -1], "UNUSED Fringe field parameter kappa", 42),
+        "C0_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C0", 44),
+        "C1_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C1", 45),
+        "C2_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C2", 46),
+        "C3_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C3", 47),
+        "C4_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C4", 48),
+        "C5_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C5", 49),
+        "SHIFT_L": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "UNUSED  Shift of the EFB", 50),
+        "OMEGA_L": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "UNUSED ", 51),
+        "THETA_L": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "UNUSED Entrance face wedge angle", 52),
+        "R1_L": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "UNUSED Lateral EFB radius", 53),
+        "U1_L": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "UNUSED Lateral EFB linear extent", 54),
+        "U2_L": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "UNUSED Lateral EFB linear extent", 55),
+        "R2_L": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "UNUSED Lateral EFB radius", 56),
         # General parameters
         # The fit index depends on the number of magnets in the FFAG N -tuple (+52 for each new magnet)
-        'KIRD': (
-            2, 'Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives', 57
+        "KIRD": (
+            2,
+            "Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives",
+            57,
         ),
-        'RESOL': (2, '', 58),
-        'XPAS': (1.0 * _ureg.millimeter, 'Integration step', 59),
-        'KPOS': (2, '', 60),
-        'RE': (0.0 * _ureg.centimeter, 'Radius of reference at entrance of the magnet', 61),
-        'TE': (0.0 * _ureg.radian, 'Angle of reference at entrance of the magnet', 62),
-        'RS': (0.0 * _ureg.centimeter, 'Radius of reference at exit of the magnet', 63),
-        'TS': (0.0 * _ureg.radian, 'Angle of reference at exit of the magnet', 64),
-        'DP': (0.0, 'Reference relative momentum', 61),
-        'COLOR': '#4169E1',
+        "RESOL": (2, "", 58),
+        "XPAS": (1.0 * _ureg.millimeter, "Integration step", 59),
+        "KPOS": (2, "", 60),
+        "RE": (0.0 * _ureg.centimeter, "Radius of reference at entrance of the magnet", 61),
+        "TE": (0.0 * _ureg.radian, "Angle of reference at entrance of the magnet", 62),
+        "RS": (0.0 * _ureg.centimeter, "Radius of reference at exit of the magnet", 63),
+        "TS": (0.0 * _ureg.radian, "Angle of reference at exit of the magnet", 64),
+        "DP": (0.0, "Reference relative momentum", 61),
+        "COLOR": "#4169E1",
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
@@ -2529,7 +2605,7 @@ class FFAG(PolarMultiMagnet):
 
     def __str__(s):
         command = []
-        c = f"""       
+        c = f"""
             {super().__str__().rstrip()}
             {s.IL}
             {s.N} {_degree(s.AT):.20e} {_cm(s.RM):.12e}
@@ -2577,7 +2653,7 @@ class FFAG(PolarMultiMagnet):
                 """
             command.append(c)
 
-        return ''.join(map(lambda _: _.rstrip(), command))
+        return "".join(map(lambda _: _.rstrip(), command))
 
 
 class FFAGSpirale(PolarMultiMagnet):
@@ -2629,103 +2705,109 @@ class FFAGSpirale(PolarMultiMagnet):
     things are performed in the same manner as for the ``DIPOLES`` procedure (see page 125).
     """
 
-    KEYWORD = 'FFAG-SPI'
+    KEYWORD = "FFAG-SPI"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, 'Print field and coordinates along trajectories', 1),
-        'N': (1, 'Number of dipoles in the FFAG n-tuple (maximum 5)', 2),
-        'AT': (0.0 * _ureg.degree, 'Total angular extent of the N dipoles', 3),
-        'RM': (0.0 * _ureg.centimeter, 'Reference radius: mean radius used for the positioning of field boundaries', 4),
+        "IL": (0, "Print field and coordinates along trajectories", 1),
+        "N": (1, "Number of dipoles in the FFAG n-tuple (maximum 5)", 2),
+        "AT": (0.0 * _ureg.degree, "Total angular extent of the N dipoles", 3),
+        "RM": (0.0 * _ureg.centimeter, "Reference radius: mean radius used for the positioning of field boundaries", 4),
         # For each magnet in the n-tuple
-        'ACN': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth for dipole positioning', 5),
-        'DRM': (
+        "ACN": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "Azimuth for dipole positioning", 5),
+        "DRM": (
             [0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter,
-            'Reference radius offset of each dipole : RM_i  = RM + DRM', 6
+            "Reference radius offset of each dipole : RM_i  = RM + DRM",
+            6,
         ),
-        'BZ0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, 'Field at the reference radius of each dipole', 7),
-        'K': ([0.0, 0.0, 0.0, 0.0, 0.0], 'Field index for each dipole', 8),
-        'G0_E': (
+        "BZ0": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, "Field at the reference radius of each dipole", 7),
+        "K": ([0.0, 0.0, 0.0, 0.0, 0.0], "Field index for each dipole", 8),
+        "G0_E": (
             [10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.cm,
-            'Reference gaps for the entrance fringe fields of each dipole.', 9
+            "Reference gaps for the entrance fringe fields of each dipole.",
+            9,
         ),
-        'K_E': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 10),
-        'NCE': ([0, 0, 0, 0, 0], 'UNUSED', 11),
-        'C0_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 12),
-        'C1_E': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 13),
-        'C2_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 14),
-        'C3_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 15),
-        'C4_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 16),
-        'C5_E': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 17),
-        'SHIFT_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB', 18),
-        'OMEGA_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth of an EFB with respect to ACN', 19),
-        'XI_E': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Spiral angle', 20),
-        'G0_S': (
+        "K_E": ([0, 0, 0, 0, 0], "Fringe field parameter kappa", 10),
+        "NCE": ([0, 0, 0, 0, 0], "UNUSED", 11),
+        "C0_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C0", 12),
+        "C1_E": ([1, 1, 1, 1, 1], "Fringe field coefficient C1", 13),
+        "C2_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C2", 14),
+        "C3_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C3", 15),
+        "C4_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C4", 16),
+        "C5_E": ([0, 0, 0, 0, 0], "Fringe field coefficient C5", 17),
+        "SHIFT_E": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "Shift of the EFB", 18),
+        "OMEGA_E": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "Azimuth of an EFB with respect to ACN", 19),
+        "XI_E": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "Spiral angle", 20),
+        "G0_S": (
             [10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.cm,
-            'Reference gaps for the exit fringe fields of each dipole.', 25
+            "Reference gaps for the exit fringe fields of each dipole.",
+            25,
         ),
-        'K_S': ([0, 0, 0, 0, 0], 'Fringe field parameter kappa', 26),
-        'NCS': ([0, 0, 0, 0, 0], 'UNUSED', 27),
-        'C0_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C0', 28),
-        'C1_S': ([1, 1, 1, 1, 1], 'Fringe field coefficient C1', 29),
-        'C2_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C2', 30),
-        'C3_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C3', 31),
-        'C4_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C4', 32),
-        'C5_S': ([0, 0, 0, 0, 0], 'Fringe field coefficient C5', 33),
-        'SHIFT_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Shift of the EFB', 34),
-        'OMEGA_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Azimuth of an EFB with respect to ACN', 35),
-        'XI_S': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'Spiral angle', 36),
-        'G0_L': (
+        "K_S": ([0, 0, 0, 0, 0], "Fringe field parameter kappa", 26),
+        "NCS": ([0, 0, 0, 0, 0], "UNUSED", 27),
+        "C0_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C0", 28),
+        "C1_S": ([1, 1, 1, 1, 1], "Fringe field coefficient C1", 29),
+        "C2_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C2", 30),
+        "C3_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C3", 31),
+        "C4_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C4", 32),
+        "C5_S": ([0, 0, 0, 0, 0], "Fringe field coefficient C5", 33),
+        "SHIFT_S": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "Shift of the EFB", 34),
+        "OMEGA_S": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "Azimuth of an EFB with respect to ACN", 35),
+        "XI_S": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "Spiral angle", 36),
+        "G0_L": (
             [0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.cm,
-            'UNUSED Reference gaps for the lateral fringe fields of each dipole.', 41
+            "UNUSED Reference gaps for the lateral fringe fields of each dipole.",
+            41,
         ),
-        'K_L': ([-1, -1, -1, -1, -1], 'UNUSED Fringe field parameter kappa', 42),
-        'NCL': ([0, 0, 0, 0, 0], 'UNUSED', 43),
-        'C0_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C0', 44),
-        'C1_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C1', 45),
-        'C2_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C2', 46),
-        'C3_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C3', 47),
-        'C4_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C4', 48),
-        'C5_L': ([0, 0, 0, 0, 0], 'UNUSED Fringe field coefficient C5', 49),
-        'SHIFT_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'UNUSED  Shift of the EFB', 50),
-        'OMEGA_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'UNUSED ', 51),
-        'THETA_L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, 'UNUSED Entrance face wedge angle', 52),
-        'R1_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB radius', 53),
-        'U1_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB linear extent', 54),
-        'U2_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB linear extent', 55),
-        'R2_L': ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, 'UNUSED Lateral EFB radius', 56),
+        "K_L": ([-1, -1, -1, -1, -1], "UNUSED Fringe field parameter kappa", 42),
+        "NCL": ([0, 0, 0, 0, 0], "UNUSED", 43),
+        "C0_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C0", 44),
+        "C1_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C1", 45),
+        "C2_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C2", 46),
+        "C3_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C3", 47),
+        "C4_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C4", 48),
+        "C5_L": ([0, 0, 0, 0, 0], "UNUSED Fringe field coefficient C5", 49),
+        "SHIFT_L": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "UNUSED  Shift of the EFB", 50),
+        "OMEGA_L": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "UNUSED ", 51),
+        "THETA_L": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.degree, "UNUSED Entrance face wedge angle", 52),
+        "R1_L": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "UNUSED Lateral EFB radius", 53),
+        "U1_L": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "UNUSED Lateral EFB linear extent", 54),
+        "U2_L": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "UNUSED Lateral EFB linear extent", 55),
+        "R2_L": ([1e9, 1e9, 1e9, 1e9, 1e9] * _ureg.centimeter, "UNUSED Lateral EFB radius", 56),
         # General parameters
         # The fit index depends on the number of magnets in the FFAG_SPI N-tuple (+52 for each new magnet)
-        'KIRD': (
-            2, 'Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives', 57
+        "KIRD": (
+            2,
+            "Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives",
+            57,
         ),
-        'RESOL': (2, '', 58),
-        'XPAS': (1.0 * _ureg.millimeter, 'Integration step', 59),
+        "RESOL": (2, "", 58),
+        "XPAS": (1.0 * _ureg.millimeter, "Integration step", 59),
         # 'KPOS': (2, '', 60), # KPOS = 2 for FFA-SPI
-        'RE': (0.0 * _ureg.centimeter, '', 61),
-        'TE': (0.0 * _ureg.radian, '', 62),
-        'RS': (0.0 * _ureg.centimeter, '', 63),
-        'TS': (0.0 * _ureg.radian, '', 64),
+        "RE": (0.0 * _ureg.centimeter, "", 61),
+        "TE": (0.0 * _ureg.radian, "", 62),
+        "RS": (0.0 * _ureg.centimeter, "", 63),
+        "TS": (0.0 * _ureg.radian, "", 64),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def adjust_tracks_variables(self, tracks: _pd.DataFrame):
         t = tracks[tracks.LABEL1 == self.LABEL1]
-        radius = self.RM.m_as('m')
-        angles = 100 * t['X'] + self.AT.m_as('radians') / 2
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ANGLE'] = angles
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'R'] = t['Y']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'R0'] = t['Yo']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'SREF'] = radius * angles + self.entry_sref.m_as('m')
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT'] = t['Y'] - radius
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'YT0'] = t['Yo'] - radius
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT'] = t['Z']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'ZT0'] = t['Zo']
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X'] = t['Y'] * _np.sin(angles)
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'X0'] = t['Yo'] * _np.sin(angles)
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y'] = t['Y'] * _np.cos(angles) - radius
-        tracks.loc[tracks.LABEL1 == self.LABEL1, 'Y0'] = t['Yo'] * _np.cos(angles) - radius
+        radius = self.RM.m_as("m")
+        angles = 100 * t["X"] + self.AT.m_as("radians") / 2
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "ANGLE"] = angles
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "R"] = t["Y"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "R0"] = t["Yo"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "SREF"] = radius * angles + self.entry_sref.m_as("m")
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "YT"] = t["Y"] - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "YT0"] = t["Yo"] - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "ZT"] = t["Z"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "ZT0"] = t["Zo"]
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "X"] = t["Y"] * _np.sin(angles)
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "X0"] = t["Yo"] * _np.sin(angles)
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "Y"] = t["Y"] * _np.cos(angles) - radius
+        tracks.loc[tracks.LABEL1 == self.LABEL1, "Y0"] = t["Yo"] * _np.cos(angles) - radius
 
     @property
     def reference_angles(self) -> List[_Q]:
@@ -2803,10 +2885,12 @@ class FFAGSpirale(PolarMultiMagnet):
                 """
             command.append(c)
 
-        command.append(f"""
+        command.append(
+            f"""
             {s.KIRD} {s.RESOL:.12e}
             {s.XPAS.m_as('cm'):.12e}
-            """)
+            """,
+        )
 
         c = f"""
             2
@@ -2814,7 +2898,7 @@ class FFAGSpirale(PolarMultiMagnet):
             """
         command.append(c)
 
-        return ''.join(map(lambda _: _.rstrip(), command))
+        return "".join(map(lambda _: _.rstrip(), command))
 
 
 class Halbach(CartesianMagnet):
@@ -2853,76 +2937,76 @@ class Multipole(CartesianMagnet):
     Magnet (mis-)alignment is assured by KPOS. KPOS also allows some degrees of automatic alignment useful for periodic
     structures (section 4.6.7).
     """
-    KEYWORD = 'MULTIPOL'
+
+    KEYWORD = "MULTIPOL"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, 'Print field and coordinates along trajectories', 1),
-        'XL': (0 * _ureg.cm, 'Magnet length', 2),
-        'R0': (10.0 * _ureg.cm, 'Radius of the pole tips', 3),
-        'B1': (0 * _ureg.kilogauss, 'Field at pole tip for dipolar component.', 4),
-        'B2': (0 * _ureg.kilogauss, 'Field at pole tip for quadrupolar component.', 5),
-        'B3': (0 * _ureg.kilogauss, 'Field at pole tip for sextupolar component.', 6),
-        'B4': (0 * _ureg.kilogauss, 'Field at pole tip for octupolar component.', 7),
-        'B5': (0 * _ureg.kilogauss, 'Field at pole tip for decapolar component.', 8),
-        'B6': (0 * _ureg.kilogauss, 'Field at pole tip for dodecapolar component.', 9),
-        'B7': (0 * _ureg.kilogauss, 'Field at pole tip for 14-polar component.', 10),
-        'B8': (0 * _ureg.kilogauss, 'Field at pole tip for 16-polar component.', 11),
-        'B9': (0 * _ureg.kilogauss, 'Field at pole tip for 18-polar component.', 12),
-        'B10': (0 * _ureg.kilogauss, 'Field at pole tip for 20-polar component.', 13),
-        'X_E': (0 * _ureg.cm, 'Entrance face integration zone for the fringe field.'),
-        'LAM_E': (0 * _ureg.cm, 'Entrance face fringe field extent'),
-        'E2': (1, 'Quadrupole entrance fringe field extent (E_2 * LAM_E).'),
-        'E3': (1, 'Sextupolar entrance fringe field extent (E_3 * LAM_E).'),
-        'E4': (1, 'Octupolar entrance fringe field extent (E_4 * LAM_E).'),
-        'E5': (1, 'Decapolar entrance fringe field extent (E_5 * LAM_E).'),
-        'E6': (1, 'Dodecapolar entrance fringe field extent (E_6 * LAM_E).'),
-        'E7': (1, '14-polar entrance fringe field extent (E_7 * LAM_E).'),
-        'E8': (1, '16-polar entrance fringe field extent (E_8 * LAM_E).'),
-        'E9': (1, '18-polar entrance fringe field extent (E_9 * LAM_E).'),
-        'E10': (1, '20-polar entrance fringe field extent (E_10 * LAM_E).'),
-        'C0_E': (0, 'Zeroth-order Enge coefficient for entrance fringe field.'),
-        'C1_E': (1, 'First-order Enge coefficient for entrance fringe field.'),
-        'C2_E': (0, 'Second-order Enge coefficient for entrance fringe field.'),
-        'C3_E': (0, 'Third-order Enge coefficient for entrance fringe field.'),
-        'C4_E': (0, 'Fourth-order Enge coefficient for entrance fringe field.'),
-        'C5_E': (0, 'Fifth-order Enge coefficient for entrance fringe field.'),
-        'X_S': (0 * _ureg.cm, 'Exit face integration zone for the fringe field.'),
-        'LAM_S': (0 * _ureg.cm, 'Exit face fringe field extent'),
-        'S2': (1, 'Quadrupole exit fringe field extent (E_2 * LAM_S).'),
-        'S3': (1, 'Sextupolar exit fringe field extent (E_3 * LAM_S).'),
-        'S4': (1, 'Octupolar exit fringe field extent (E_4 * LAM_S).'),
-        'S5': (1, 'Decapolar exit fringe field extent (E_5 * LAM_S).'),
-        'S6': (1, 'Dodecapolar exit fringe field extent (E_6 * LAM_S).'),
-        'S7': (1, '14-polar exit fringe field extent (E_7 * LAM_S).'),
-        'S8': (1, '16-polar exit fringe field extent (E_8 * LAM_S).'),
-        'S9': (1, '18-polar exit fringe field extent (E_9 * LAM_S).'),
-        'S10': (1, '20-polar exit fringe field extent (E_10 * LAM_S).'),
-        'C0_S': (0, 'Zeroth-order Enge coefficient for entrance fringe field.'),
-        'C1_S': (1, 'First-order Enge coefficient for exit fringe field.'),
-        'C2_S': (0, 'Second-order Enge coefficient for exit fringe field.'),
-        'C3_S': (0, 'Third-order Enge coefficient for exit fringe field.'),
-        'C4_S': (0, 'Fourth-order Enge coefficient for exit fringe field.'),
-        'C5_S': (0, 'Fifth-order Enge coefficient for exit fringe field.'),
-        'R1': (0 * _ureg.degree, 'Skew angle of the dipolar component'),
-        'R2': (0 * _ureg.degree, 'Skew angle of the quadrupolar component'),
-        'R3': (0 * _ureg.degree, 'Skew angle of the sextupolar component'),
-        'R4': (0 * _ureg.degree, 'Skew angle of the octupolar component'),
-        'R5': (0 * _ureg.degree, 'Skew angle of the decapolar component'),
-        'R6': (0 * _ureg.degree, 'Skew angle of the dodecapolar component'),
-        'R7': (0 * _ureg.degree, 'Skew angle of the 14-polar component'),
-        'R8': (0 * _ureg.degree, 'Skew angle of the 16-polar component'),
-        'R9': (0 * _ureg.degree, 'Skew angle of the 18-polar component'),
-        'R10': (0 * _ureg.degree, 'Skew angle of the 20-polar component'),
-        'XPAS': (1.0 * _ureg.cm, 'Integration step.'),
-        'KPOS': (1, ''),
-        'XCE': (0 * _ureg.cm, ''),
-        'YCE': (0 * _ureg.cm, ''),
-        'ALE': (0 * _ureg.radian, ''),
-        'COLOR': ('green', 'Magnet color for plotting.'),
-
+        "IL": (0, "Print field and coordinates along trajectories", 1),
+        "XL": (0 * _ureg.cm, "Magnet length", 2),
+        "R0": (10.0 * _ureg.cm, "Radius of the pole tips", 3),
+        "B1": (0 * _ureg.kilogauss, "Field at pole tip for dipolar component.", 4),
+        "B2": (0 * _ureg.kilogauss, "Field at pole tip for quadrupolar component.", 5),
+        "B3": (0 * _ureg.kilogauss, "Field at pole tip for sextupolar component.", 6),
+        "B4": (0 * _ureg.kilogauss, "Field at pole tip for octupolar component.", 7),
+        "B5": (0 * _ureg.kilogauss, "Field at pole tip for decapolar component.", 8),
+        "B6": (0 * _ureg.kilogauss, "Field at pole tip for dodecapolar component.", 9),
+        "B7": (0 * _ureg.kilogauss, "Field at pole tip for 14-polar component.", 10),
+        "B8": (0 * _ureg.kilogauss, "Field at pole tip for 16-polar component.", 11),
+        "B9": (0 * _ureg.kilogauss, "Field at pole tip for 18-polar component.", 12),
+        "B10": (0 * _ureg.kilogauss, "Field at pole tip for 20-polar component.", 13),
+        "X_E": (0 * _ureg.cm, "Entrance face integration zone for the fringe field."),
+        "LAM_E": (0 * _ureg.cm, "Entrance face fringe field extent"),
+        "E2": (1, "Quadrupole entrance fringe field extent (E_2 * LAM_E)."),
+        "E3": (1, "Sextupolar entrance fringe field extent (E_3 * LAM_E)."),
+        "E4": (1, "Octupolar entrance fringe field extent (E_4 * LAM_E)."),
+        "E5": (1, "Decapolar entrance fringe field extent (E_5 * LAM_E)."),
+        "E6": (1, "Dodecapolar entrance fringe field extent (E_6 * LAM_E)."),
+        "E7": (1, "14-polar entrance fringe field extent (E_7 * LAM_E)."),
+        "E8": (1, "16-polar entrance fringe field extent (E_8 * LAM_E)."),
+        "E9": (1, "18-polar entrance fringe field extent (E_9 * LAM_E)."),
+        "E10": (1, "20-polar entrance fringe field extent (E_10 * LAM_E)."),
+        "C0_E": (0, "Zeroth-order Enge coefficient for entrance fringe field."),
+        "C1_E": (1, "First-order Enge coefficient for entrance fringe field."),
+        "C2_E": (0, "Second-order Enge coefficient for entrance fringe field."),
+        "C3_E": (0, "Third-order Enge coefficient for entrance fringe field."),
+        "C4_E": (0, "Fourth-order Enge coefficient for entrance fringe field."),
+        "C5_E": (0, "Fifth-order Enge coefficient for entrance fringe field."),
+        "X_S": (0 * _ureg.cm, "Exit face integration zone for the fringe field."),
+        "LAM_S": (0 * _ureg.cm, "Exit face fringe field extent"),
+        "S2": (1, "Quadrupole exit fringe field extent (E_2 * LAM_S)."),
+        "S3": (1, "Sextupolar exit fringe field extent (E_3 * LAM_S)."),
+        "S4": (1, "Octupolar exit fringe field extent (E_4 * LAM_S)."),
+        "S5": (1, "Decapolar exit fringe field extent (E_5 * LAM_S)."),
+        "S6": (1, "Dodecapolar exit fringe field extent (E_6 * LAM_S)."),
+        "S7": (1, "14-polar exit fringe field extent (E_7 * LAM_S)."),
+        "S8": (1, "16-polar exit fringe field extent (E_8 * LAM_S)."),
+        "S9": (1, "18-polar exit fringe field extent (E_9 * LAM_S)."),
+        "S10": (1, "20-polar exit fringe field extent (E_10 * LAM_S)."),
+        "C0_S": (0, "Zeroth-order Enge coefficient for entrance fringe field."),
+        "C1_S": (1, "First-order Enge coefficient for exit fringe field."),
+        "C2_S": (0, "Second-order Enge coefficient for exit fringe field."),
+        "C3_S": (0, "Third-order Enge coefficient for exit fringe field."),
+        "C4_S": (0, "Fourth-order Enge coefficient for exit fringe field."),
+        "C5_S": (0, "Fifth-order Enge coefficient for exit fringe field."),
+        "R1": (0 * _ureg.degree, "Skew angle of the dipolar component"),
+        "R2": (0 * _ureg.degree, "Skew angle of the quadrupolar component"),
+        "R3": (0 * _ureg.degree, "Skew angle of the sextupolar component"),
+        "R4": (0 * _ureg.degree, "Skew angle of the octupolar component"),
+        "R5": (0 * _ureg.degree, "Skew angle of the decapolar component"),
+        "R6": (0 * _ureg.degree, "Skew angle of the dodecapolar component"),
+        "R7": (0 * _ureg.degree, "Skew angle of the 14-polar component"),
+        "R8": (0 * _ureg.degree, "Skew angle of the 16-polar component"),
+        "R9": (0 * _ureg.degree, "Skew angle of the 18-polar component"),
+        "R10": (0 * _ureg.degree, "Skew angle of the 20-polar component"),
+        "XPAS": (1.0 * _ureg.cm, "Integration step."),
+        "KPOS": (1, ""),
+        "XCE": (0 * _ureg.cm, ""),
+        "YCE": (0 * _ureg.cm, ""),
+        "ALE": (0 * _ureg.radian, ""),
+        "COLOR": ("green", "Magnet color for plotting."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(s):
@@ -2948,38 +3032,39 @@ class Octupole(CartesianMagnet):
 
     TODO
     """
-    KEYWORD = 'OCTUPOLE'
+
+    KEYWORD = "OCTUPOLE"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, 'Print field and coordinates along trajectories', 0),
-        'XL': (0 * _ureg.centimeter, 'Magnet length', 10),
-        'R0': (1.0 * _ureg.centimeter, 'Radius of the pole tips', 11),
-        'B0': (0 * _ureg.kilogauss, 'Field at pole tips', 12),
-        'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 20),
-        'LAM_E': (0 * _ureg.centimeter, 'Entrance face fringe field extent', 21),
-        'C0_E': 0,
-        'C1_E': 1,
-        'C2_E': 0,
-        'C3_E': 0,
-        'C4_E': 0,
-        'C5_E': 0,
-        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field'),
-        'LAM_S': (0 * _ureg.centimeter, 'Exit face fringe field extent'),
-        'C0_S': 0,
-        'C1_S': 1,
-        'C2_S': 0,
-        'C3_S': 0,
-        'C4_S': 0,
-        'C5_S': 0,
-        'XPAS': (0.1 * _ureg.centimeter, 'Integration step', 60),
-        'KPOS': (1, 'Misalignment type', 70),
-        'XCE': (0 * _ureg.centimeter, 'x offset', 71),
-        'YCE': (0 * _ureg.centimeter, 'y offset', 72),
-        'ALE': (0 * _ureg.radian, 'misalignment rotation', 73),
-        'COLOR': ('#FF33E9', 'Magnet color for plotting.'),
+        "IL": (0, "Print field and coordinates along trajectories", 0),
+        "XL": (0 * _ureg.centimeter, "Magnet length", 10),
+        "R0": (1.0 * _ureg.centimeter, "Radius of the pole tips", 11),
+        "B0": (0 * _ureg.kilogauss, "Field at pole tips", 12),
+        "X_E": (0 * _ureg.centimeter, "Entrance face integration zone for the fringe field", 20),
+        "LAM_E": (0 * _ureg.centimeter, "Entrance face fringe field extent", 21),
+        "C0_E": 0,
+        "C1_E": 1,
+        "C2_E": 0,
+        "C3_E": 0,
+        "C4_E": 0,
+        "C5_E": 0,
+        "X_S": (0 * _ureg.centimeter, "Exit face integration zone for the fringe field"),
+        "LAM_S": (0 * _ureg.centimeter, "Exit face fringe field extent"),
+        "C0_S": 0,
+        "C1_S": 1,
+        "C2_S": 0,
+        "C3_S": 0,
+        "C4_S": 0,
+        "C5_S": 0,
+        "XPAS": (0.1 * _ureg.centimeter, "Integration step", 60),
+        "KPOS": (1, "Misalignment type", 70),
+        "XCE": (0 * _ureg.centimeter, "x offset", 71),
+        "YCE": (0 * _ureg.centimeter, "y offset", 72),
+        "ALE": (0 * _ureg.radian, "misalignment rotation", 73),
+        "COLOR": ("#FF33E9", "Magnet color for plotting."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
@@ -3027,21 +3112,22 @@ class PS170(Magnet):
     Examples:
         >>> PS170('PS170', IL=2, XL=2 * _ureg.m, R0 = 1.5 * _ureg.m, B0 = 1 * _ureg.tesla)
     """
-    KEYWORD = 'PS170'
+
+    KEYWORD = "PS170"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, 'print field and coordinates along trajectories'),
-        'XL': (1 * _ureg.m, 'Length of the element'),
-        'R0': (1 * _ureg.m, ', radius of the circular dipole'),
-        'B0': (0 * _ureg.tesla, 'field'),
-        'XPAS': (1.0 * _ureg.mm, 'Integration step'),
-        'KPOS': (0,),
-        'XCE': (0 * _ureg.cm, ''),
-        'YCE': (0 * _ureg.cm, ''),
-        'ALE': (0 * _ureg.degree, ''),
+        "IL": (0, "print field and coordinates along trajectories"),
+        "XL": (1 * _ureg.m, "Length of the element"),
+        "R0": (1 * _ureg.m, ", radius of the circular dipole"),
+        "B0": (0 * _ureg.tesla, "field"),
+        "XPAS": (1.0 * _ureg.mm, "Integration step"),
+        "KPOS": (0,),
+        "XCE": (0 * _ureg.cm, ""),
+        "YCE": (0 * _ureg.cm, ""),
+        "ALE": (0 * _ureg.degree, ""),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self) -> str:
@@ -3051,7 +3137,7 @@ class PS170(Magnet):
         {super().__str__().rstrip()}
         {int(self.IL):d}
         {_cm(self.XL):.12e} {_cm(self.R0):.12e} {_kilogauss(self.B0):.12e}
-        {_cm(self.XPAS):.12e}  
+        {_cm(self.XPAS):.12e}
         {int(self.KPOS):d} {_cm(self.XCE):.12e} {_cm(self.YCE):.12e} {_radian(self.ALE):.12e}
         """
 
@@ -3061,26 +3147,27 @@ class Quadisex(CartesianMagnet):
 
     TODO
     """
-    KEYWORD = 'QUADISEX'
+
+    KEYWORD = "QUADISEX"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': 0,
-        'XL': 0,
-        'R0': 0,
-        'B0': 0,
-        'N': 0,
-        'EB1': 0,
-        'EB2': 0,
-        'EG1': 0,
-        'EG2': 0,
-        'XPAS': 0.1,
-        'KPOS': 1,
-        'XCE': 0,
-        'YCE': 0,
-        'ALE': 0,
+        "IL": 0,
+        "XL": 0,
+        "R0": 0,
+        "B0": 0,
+        "N": 0,
+        "EB1": 0,
+        "EB2": 0,
+        "EG1": 0,
+        "EG2": 0,
+        "XPAS": 0.1,
+        "KPOS": 1,
+        "XCE": 0,
+        "YCE": 0,
+        "ALE": 0,
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(s):
@@ -3089,8 +3176,8 @@ class Quadisex(CartesianMagnet):
                 {super().__str__().rstrip()}
                 {s.IL}
                 {s.XL:.12e} {s.R0:.12e} {s.B0:.12e}
-                {s.N:.12e} {s.EB1:.12e} {s.EB2:.12e} {s.EG1:.12e} {s.EG2:.12e} 
-                {s.XPAS:.12e}  
+                {s.N:.12e} {s.EB1:.12e} {s.EB2:.12e} {s.EG1:.12e} {s.EG2:.12e}
+                {s.XPAS:.12e}
                 """
         command.append(c)
 
@@ -3108,7 +3195,7 @@ class Quadisex(CartesianMagnet):
                 """
             command.append(c)
 
-        return ''.join(map(lambda _: _.rstrip(), command))
+        return "".join(map(lambda _: _.rstrip(), command))
 
 
 class Quadrupole(CartesianMagnet):
@@ -3116,38 +3203,39 @@ class Quadrupole(CartesianMagnet):
 
     TODO
     """
-    KEYWORD = 'QUADRUPO'
+
+    KEYWORD = "QUADRUPO"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, 'Print field and coordinates along trajectories', 1),
-        'XL': (0 * _ureg.centimeter, 'Magnet length', 10),
-        'R0': (1.0 * _ureg.centimeter, 'Radius of the pole tips', 11),
-        'B0': (0 * _ureg.kilogauss, 'Field at pole tips', 12),
-        'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 20),
-        'LAM_E': (0 * _ureg.centimeter, 'Entrance face fringe field extent', 21),
-        'C0_E': (0, 'Fringe field coefficient C0', 31),
-        'C1_E': (1, 'Fringe field coefficient C1', 32),
-        'C2_E': (0, 'Fringe field coefficient C2', 33),
-        'C3_E': (0, 'Fringe field coefficient C3', 34),
-        'C4_E': (0, 'Fringe field coefficient C4', 35),
-        'C5_E': (0, 'Fringe field coefficient C5', 36),
-        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field', 40),
-        'LAM_S': (0 * _ureg.centimeter, 'Exit face fringe field extent', 41),
-        'C0_S': (0, 'Fringe field coefficient C0', 51),
-        'C1_S': (1, 'Fringe field coefficient C1', 52),
-        'C2_S': (0, 'Fringe field coefficient C2', 53),
-        'C3_S': (0, 'Fringe field coefficient C3', 54),
-        'C4_S': (0, 'Fringe field coefficient C4', 55),
-        'C5_S': (0, 'Fringe field coefficient C5', 56),
-        'XPAS': (0.1 * _ureg.centimeter, 'Integration step', 60),
-        'KPOS': (1, 'Misalignment type', 70),
-        'XCE': (0 * _ureg.centimeter, 'x offset', 71),
-        'YCE': (0 * _ureg.centimeter, 'y offset', 72),
-        'ALE': (0 * _ureg.radian, 'misalignment rotation', 73),
-        'COLOR': ('#FF0000', 'Magnet color for plotting.'),
+        "IL": (0, "Print field and coordinates along trajectories", 1),
+        "XL": (0 * _ureg.centimeter, "Magnet length", 10),
+        "R0": (1.0 * _ureg.centimeter, "Radius of the pole tips", 11),
+        "B0": (0 * _ureg.kilogauss, "Field at pole tips", 12),
+        "X_E": (0 * _ureg.centimeter, "Entrance face integration zone for the fringe field", 20),
+        "LAM_E": (0 * _ureg.centimeter, "Entrance face fringe field extent", 21),
+        "C0_E": (0, "Fringe field coefficient C0", 31),
+        "C1_E": (1, "Fringe field coefficient C1", 32),
+        "C2_E": (0, "Fringe field coefficient C2", 33),
+        "C3_E": (0, "Fringe field coefficient C3", 34),
+        "C4_E": (0, "Fringe field coefficient C4", 35),
+        "C5_E": (0, "Fringe field coefficient C5", 36),
+        "X_S": (0 * _ureg.centimeter, "Exit face integration zone for the fringe field", 40),
+        "LAM_S": (0 * _ureg.centimeter, "Exit face fringe field extent", 41),
+        "C0_S": (0, "Fringe field coefficient C0", 51),
+        "C1_S": (1, "Fringe field coefficient C1", 52),
+        "C2_S": (0, "Fringe field coefficient C2", 53),
+        "C3_S": (0, "Fringe field coefficient C3", 54),
+        "C4_S": (0, "Fringe field coefficient C4", 55),
+        "C5_S": (0, "Fringe field coefficient C5", 56),
+        "XPAS": (0.1 * _ureg.centimeter, "Integration step", 60),
+        "KPOS": (1, "Misalignment type", 70),
+        "XCE": (0 * _ureg.centimeter, "x offset", 71),
+        "YCE": (0 * _ureg.centimeter, "y offset", 72),
+        "ALE": (0 * _ureg.radian, "misalignment rotation", 73),
+        "COLOR": ("#FF0000", "Magnet color for plotting."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def post_init(self, **kwargs):
@@ -3192,25 +3280,26 @@ class SexQuad(CartesianMagnet):
 
     TODO
     """
-    KEYWORD = 'SEXQUAD'
+
+    KEYWORD = "SEXQUAD"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': 0,
-        'XL': 0,
-        'R0': 0,
-        'N': 0,
-        'EB1': 0,
-        'EB2': 0,
-        'EG1': 0,
-        'EG2': 0,
-        'XPAS': 0.1,
-        'KPOS': 1,
-        'XCE': 0,
-        'YCE': 0,
-        'ALE': 0,
+        "IL": 0,
+        "XL": 0,
+        "R0": 0,
+        "N": 0,
+        "EB1": 0,
+        "EB2": 0,
+        "EG1": 0,
+        "EG2": 0,
+        "XPAS": 0.1,
+        "KPOS": 1,
+        "XCE": 0,
+        "YCE": 0,
+        "ALE": 0,
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(s):
@@ -3219,8 +3308,8 @@ class SexQuad(CartesianMagnet):
                     {super().__str__().rstrip()}
                     {s.IL}
                     {s.XL:.12e} {s.R0:.12e} {s.B0:.12e}
-                    {s.N:.12e} {s.EB1:.12e} {s.EB2:.12e} {s.EG1:.12e} {s.EG2:.12e} 
-                    {s.XPAS:.12e}  
+                    {s.N:.12e} {s.EB1:.12e} {s.EB2:.12e} {s.EG1:.12e} {s.EG2:.12e}
+                    {s.XPAS:.12e}
                     """
         # Coefficients for the calculation of B.
         # if Y > 0 : B = EB1 and G = EG1;
@@ -3241,7 +3330,7 @@ class SexQuad(CartesianMagnet):
                     """
             command.append(c)
 
-        return ''.join(map(lambda _: _.rstrip(), command))
+        return "".join(map(lambda _: _.rstrip(), command))
 
 
 class Sextupole(CartesianMagnet):
@@ -3249,38 +3338,39 @@ class Sextupole(CartesianMagnet):
 
     TODO
     """
-    KEYWORD = 'SEXTUPOL'
+
+    KEYWORD = "SEXTUPOL"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, 'Print field and coordinates along trajectories', 1),
-        'XL': (0 * _ureg.centimeter, 'Magnet length', 10),
-        'R0': (1.0 * _ureg.centimeter, 'Radius of the pole tips', 11),
-        'B0': (0 * _ureg.kilogauss, 'Field at pole tips', 12),
-        'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 20),
-        'LAM_E': (0 * _ureg.centimeter, 'Entrance face fringe field extent', 21),
-        'C0_E': 0,
-        'C1_E': 1,
-        'C2_E': 0,
-        'C3_E': 0,
-        'C4_E': 0,
-        'C5_E': 0,
-        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field'),
-        'LAM_S': (0 * _ureg.centimeter, 'Exit face fringe field extent'),
-        'C0_S': 0,
-        'C1_S': 1,
-        'C2_S': 0,
-        'C3_S': 0,
-        'C4_S': 0,
-        'C5_S': 0,
-        'XPAS': (1.0 * _ureg.centimeter, 'Integration step', 60),
-        'KPOS': (1, 'Misalignment type', 70),
-        'XCE': (0 * _ureg.centimeter, 'x offset', 71),
-        'YCE': (0 * _ureg.centimeter, 'y offset', 72),
-        'ALE': 0 * _ureg.radian,
-        'COLOR': ('#00FF00', 'Magnet color for plotting.'),
+        "IL": (0, "Print field and coordinates along trajectories", 1),
+        "XL": (0 * _ureg.centimeter, "Magnet length", 10),
+        "R0": (1.0 * _ureg.centimeter, "Radius of the pole tips", 11),
+        "B0": (0 * _ureg.kilogauss, "Field at pole tips", 12),
+        "X_E": (0 * _ureg.centimeter, "Entrance face integration zone for the fringe field", 20),
+        "LAM_E": (0 * _ureg.centimeter, "Entrance face fringe field extent", 21),
+        "C0_E": 0,
+        "C1_E": 1,
+        "C2_E": 0,
+        "C3_E": 0,
+        "C4_E": 0,
+        "C5_E": 0,
+        "X_S": (0 * _ureg.centimeter, "Exit face integration zone for the fringe field"),
+        "LAM_S": (0 * _ureg.centimeter, "Exit face fringe field extent"),
+        "C0_S": 0,
+        "C1_S": 1,
+        "C2_S": 0,
+        "C3_S": 0,
+        "C4_S": 0,
+        "C5_S": 0,
+        "XPAS": (1.0 * _ureg.centimeter, "Integration step", 60),
+        "KPOS": (1, "Misalignment type", 70),
+        "XCE": (0 * _ureg.centimeter, "x offset", 71),
+        "YCE": (0 * _ureg.centimeter, "y offset", 72),
+        "ALE": 0 * _ureg.radian,
+        "COLOR": ("#00FF00", "Magnet color for plotting."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(s):
@@ -3307,25 +3397,26 @@ class Solenoid(CartesianMagnet):
 
     The distance of ray-tracing beyond the effective length XL, is XE at the entrance, and XS at the exit.
     """
-    KEYWORD = 'SOLENOID'
+
+    KEYWORD = "SOLENOID"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, 'Print field and coordinates along trajectories'),
-        'XL': (0 * _ureg.centimeter, 'Magnet length'),
-        'R0': (1.0 * _ureg.centimeter, 'Radius'),
-        'B0': (0 * _ureg.kilogauss, 'Asymptotic field'),
-        'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field'),
-        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field'),
-        'MODL': ('', 'Methods for the computation of the field'),
-        'XPAS': (0.1 * _ureg.centimeter, 'Integration step'),
-        'KPOS': (1, 'Misalignment type'),
-        'XCE': (0 * _ureg.centimeter, 'x offset'),
-        'YCE': (0 * _ureg.centimeter, 'y offset'),
-        'ALE': 0 * _ureg.radian,
-        'COLOR': ('#808000', 'Magnet color for plotting.'),
+        "IL": (0, "Print field and coordinates along trajectories"),
+        "XL": (0 * _ureg.centimeter, "Magnet length"),
+        "R0": (1.0 * _ureg.centimeter, "Radius"),
+        "B0": (0 * _ureg.kilogauss, "Asymptotic field"),
+        "X_E": (0 * _ureg.centimeter, "Entrance face integration zone for the fringe field"),
+        "X_S": (0 * _ureg.centimeter, "Exit face integration zone for the fringe field"),
+        "MODL": ("", "Methods for the computation of the field"),
+        "XPAS": (0.1 * _ureg.centimeter, "Integration step"),
+        "KPOS": (1, "Misalignment type"),
+        "XCE": (0 * _ureg.centimeter, "x offset"),
+        "YCE": (0 * _ureg.centimeter, "y offset"),
+        "ALE": 0 * _ureg.radian,
+        "COLOR": ("#808000", "Magnet color for plotting."),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(s):
@@ -3344,7 +3435,8 @@ class Undulator(Magnet):
 
     TODO
     """
-    KEYWORD = 'UNDULATOR'
+
+    KEYWORD = "UNDULATOR"
     """Keyword of the command used for the Zgoubi input data."""
 
 
@@ -3353,21 +3445,22 @@ class Venus(Magnet):
 
     TODO
     """
-    KEYWORD = 'VENUS'
+
+    KEYWORD = "VENUS"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0,),
-        'XL': (100 * _ureg.centimeter,),
-        'YL': (100 * _ureg.centimeter,),
-        'B0': (10 * _ureg.kilogauss,),
-        'XPAS': (0.1 * _ureg.centimeter,),
-        'KPOS': 1,
-        'XCE': (0 * _ureg.centimeter,),
-        'YCE': (0 * _ureg.centimeter,),
-        'ALE': (0 * _ureg.radian,),
+        "IL": (0,),
+        "XL": (100 * _ureg.centimeter,),
+        "YL": (100 * _ureg.centimeter,),
+        "B0": (10 * _ureg.kilogauss,),
+        "XPAS": (0.1 * _ureg.centimeter,),
+        "KPOS": 1,
+        "XCE": (0 * _ureg.centimeter,),
+        "YCE": (0 * _ureg.centimeter,),
+        "ALE": (0 * _ureg.radian,),
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(self) -> str:
@@ -3377,7 +3470,7 @@ class Venus(Magnet):
         {super().__str__().rstrip()}
         {int(self.IL):d}
         {_cm(self.XL):.12e} {_cm(self.YL):.12e} {_kilogauss(self.B0):.12e}
-        {_cm(self.XPAS):.12e}  
+        {_cm(self.XPAS):.12e}
         {int(self.KPOS):d} {_cm(self.XCE):.12e} {_cm(self.YCE):.12e} {_radian(self.ALE):.12e}
         """
 
@@ -3393,43 +3486,45 @@ class VFFA(CartesianMagnet):
 
     """
 
-    KEYWORD = 'VFFA'
+    KEYWORD = "VFFA"
     """Keyword of the command used for the Zgoubi input data."""
 
     PARAMETERS = {
-        'IL': (0, 'Print field and coordinates along trajectories', 1),
-        'N': (1, 'Number of magnet in the VFFA N-tuple (maximum 5)', 2),
-        'XL': (0.0 * _ureg.centimeter, 'Total length of the element, containing the N magnets', 3),
-        'X_E': (0 * _ureg.centimeter, 'Entrance face integration zone for the fringe field', 4),
-        'X_S': (0 * _ureg.centimeter, 'Exit face integration zone for the fringe field', 5),
+        "IL": (0, "Print field and coordinates along trajectories", 1),
+        "N": (1, "Number of magnet in the VFFA N-tuple (maximum 5)", 2),
+        "XL": (0.0 * _ureg.centimeter, "Total length of the element, containing the N magnets", 3),
+        "X_E": (0 * _ureg.centimeter, "Entrance face integration zone for the fringe field", 4),
+        "X_S": (0 * _ureg.centimeter, "Exit face integration zone for the fringe field", 5),
         # For each magnet in the N-tuple
-        'XM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet start position', 6),
-        'L': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet length', 7),
-        'DYM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet horizontal offset', 8),
-        'DZM': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, 'Magnet vertical offset', 9),
-        'B0': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, 'Reference magnetic field', 10),
-        'K': ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.m**-1, 'Field index for each vFFA magnet', 11),
-        'GAP': ([10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.centimeter, 'gap for the tanh fringe field of each dipole.', 12),
+        "XM": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "Magnet start position", 6),
+        "L": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "Magnet length", 7),
+        "DYM": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "Magnet horizontal offset", 8),
+        "DZM": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.centimeter, "Magnet vertical offset", 9),
+        "B0": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.kilogauss, "Reference magnetic field", 10),
+        "K": ([0.0, 0.0, 0.0, 0.0, 0.0] * _ureg.m**-1, "Field index for each vFFA magnet", 11),
+        "GAP": ([10.0, 10.0, 10.0, 10.0, 10.0] * _ureg.centimeter, "gap for the tanh fringe field of each dipole.", 12),
         # General parameters
         # The fit index depends on the number of magnets in the VFFA N-tuple
-        'KIRD': (
-            0, 'Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives. '
-               'Only KIRD= 0 possible for now', 13
+        "KIRD": (
+            0,
+            "Analytical computation (KIRD = 0) or numerical interpolation (KIRD = 2,4, 25) of field derivatives. "
+            "Only KIRD= 0 possible for now",
+            13,
         ),
-        'RESOL': (2, '', 14),
-        'XPAS': (1.0 * _ureg.centimeter, 'Integration step', 15),
-        'KPOS': (2, '', 16),
-        'XCE': (0 * _ureg.cm, 'x offset', 17),
-        'YCE': (0 * _ureg.cm, 'y offset', 18),
-        'ALE': (0 * _ureg.radian, 'misalignment rotation', 19),
-        'COLOR': '#4169E1',
+        "RESOL": (2, "", 14),
+        "XPAS": (1.0 * _ureg.centimeter, "Integration step", 15),
+        "KPOS": (2, "", 16),
+        "XCE": (0 * _ureg.cm, "x offset", 17),
+        "YCE": (0 * _ureg.cm, "y offset", 18),
+        "ALE": (0 * _ureg.radian, "misalignment rotation", 19),
+        "COLOR": "#4169E1",
     }
-    """Parameters of the command, with their default value, their description and optionally an index used by other 
+    """Parameters of the command, with their default value, their description and optionally an index used by other
     commands (e.g. fit)."""
 
     def __str__(s):
         command = []
-        c = f"""       
+        c = f"""
             {super().__str__().rstrip()}
             {s.IL}
             {s.N} {_cm(s.XL):.20e}
@@ -3439,9 +3534,9 @@ class VFFA(CartesianMagnet):
 
         for i in range(0, s.N):
             c = f"""
-            {_cm(s.XM[i]):.20e} {_cm(s.L[i]):.12e} {_cm(s.DYM[i]):.20e} {_cm(s.DZM[i]):.12e} 
+            {_cm(s.XM[i]):.20e} {_cm(s.L[i]):.12e} {_cm(s.DYM[i]):.20e} {_cm(s.DZM[i]):.12e}
             {_kilogauss(s.B0[i]):.12e} {(s.K[i]).m_as('1/meter'):.12e}
-            {_cm(s.GAP[i]):.12e} 
+            {_cm(s.GAP[i]):.12e}
             """
             command.append(c)
 
@@ -3452,4 +3547,4 @@ class VFFA(CartesianMagnet):
             """
         command.append(c)
 
-        return ''.join(map(lambda _: _.rstrip(), command))
+        return "".join(map(lambda _: _.rstrip(), command))
