@@ -16,10 +16,12 @@ Example:
     _ = zgoubidoo.ureg
 
 """
-from typing import Tuple
+from typing import Tuple, Optional
 
 import numpy as _np
 import pandas as _pd
+from georges_core.sequences import BetaBlock as _BetaBlock
+from georges_core.twiss import Twiss as _Twiss
 
 from .input import Input as _Input
 
@@ -136,3 +138,10 @@ def compute_transfer_matrix(beamline: _Input, tracks: _pd.DataFrame) -> _pd.Data
         matrix = _pd.concat([matrix, m])
 
     return matrix.reset_index()
+
+
+def compute_twiss(
+    twiss_init: Optional[_BetaBlock] = None, with_phase_unrolling: bool = True, matrix: _pd.DataFrame = None
+):
+
+    return _Twiss(twiss_init=twiss_init, with_phase_unrolling=with_phase_unrolling)(matrix=matrix)
