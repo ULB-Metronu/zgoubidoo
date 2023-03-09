@@ -1546,9 +1546,9 @@ class Decapole(CartesianMagnet):
         {super().__str__().rstrip()}
         {int(self.IL):d}
         {_cm(self.XL):.12e} {_cm(self.R0):.12e} {_kilogauss(self.B0):.12e}
-        {_cm(self.XE):.12e} {_cm(self.LAM_E):.12e}
+        {_cm(self.X_E):.12e} {_cm(self.LAM_E):.12e}
         6 {self.C0_E:.12e} {self.C1_E:.12e} {self.C2_E:.12e} {self.C3_E:.12e} {self.C4_E:.12e} {self.C5_E:.12e}
-        {_cm(self.XS):.12e} {_cm(self.LAM_S):.12e}
+        {_cm(self.X_S):.12e} {_cm(self.LAM_S):.12e}
         6 {self.C0_S:.12e} {self.C1_S:.12e} {self.C2_S:.12e} {self.C3_S:.12e} {self.C4_S:.12e} {self.C5_S:.12e}
         {_cm(self.XPAS)}
         {int(self.KPOS):d} {_cm(self.XCE):.12e} {_cm(self.YCE):.12e} {_radian(self.ALE):.12e}
