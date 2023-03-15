@@ -1839,23 +1839,20 @@ class Dipole(PolarMagnet):
         zi = zgoubidoo.Input(f"FIT_{self.LABEL1}_MAGNET")
         zi += _Objet2("BUNCH", BORO=kinematics.brho).add(entry_coordinates)
         zi += particle()
-        zi += _Marker("START")
         zi += self
-        zi += _Marker("END")
-        fit = method(
-            PENALTY=1e-12,
-            PARAMS=[
-                _Fit.Parameter(line=zi, place=self.LABEL1, parameter=Dipole.B0_),
-            ],
-            CONSTRAINTS=[
-                _Fit.EqualityConstraint(
-                    line=zi,
-                    place="END",
-                    variable=_Fit.FitCoordinates.Y,
-                    value=exit_coordinate,
-                ),
-            ],
-        ).generate_label("FIT_")
+        fit = method(PENALTY=1e-12,
+                     PARAMS=[
+                         method.Parameter(line=zi, place=self.LABEL1, parameter=Dipole.B0_),
+                     ],
+                     CONSTRAINTS=[
+                         method.EqualityConstraint(
+                             line=zi,
+                             place='#End',
+                             variable=method.FitCoordinates.Y,
+                             value=exit_coordinate
+                         ),
+                     ]
+                     ).generate_label('FIT_')
         zi += fit
 
         def cb(f):
