@@ -31,6 +31,11 @@ if TYPE_CHECKING:
     from ..input import Input as _Input
 
 
+class ZgoubidooPlotException(Exception):
+    def __init__(self, m: str = ""):
+        self.message = m
+
+
 class ZgoubidooPlotlyArtist(_PlotlyArtist):
     """
     TODO
@@ -51,7 +56,9 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
         """
         if not beamline.valid_survey:
-            print("You should do a survey")
+            logging.warning(
+                "You should do a survey with the options with_reference_trajectory=True and reference_kinematics=k"
+            )
 
         self.shapes.append(
             {
@@ -170,14 +177,11 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
             reference_frame:
         """
         if not beamline.valid_survey:
-            logging.error(
+            raise ZgoubidooPlotException(
                 "You should do a survey: \n"
                 "zgoubidoo.survey(beamline=zi, reference_frame=zgoubidoo.Frame(), "
-                "with_reference_trajectory=True, reference_kinematics=k)",
+                "with_reference_trajectory=True, reference_kinematics=k)"
             )
-            # raise _ZgoubidooException(f"You should do a survey: \n"
-            #                           "zgoubidoo.survey(beamline=zi, reference_frame=zgoubidoo.Frame(), "
-            #                           "with_reference_trajectory=True, reference_kinematics=k)")
 
         def add_svg_path(
             points,
@@ -937,14 +941,14 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
             if twiss_madx is not None:
                 artist.scatter(
-                    x=twiss_madx["S"],
+                    x=twiss_madx["S"].apply(lambda e: e.m_as("m")),
                     y=twiss_madx["BETX"],
                     marker={"color": "blue", "symbol": "cross-thin", "size": 5, "line": {"width": 1, "color": "blue"}},
                     mode="markers",
                     showlegend=False,
                 )
                 artist.scatter(
-                    x=twiss_madx["S"],
+                    x=twiss_madx["S"].apply(lambda e: e.m_as("m")),
                     y=twiss_madx["BETY"],
                     marker={
                         "color": "FireBrick",
@@ -983,14 +987,14 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
             if twiss_madx is not None:
                 artist.scatter(
-                    x=twiss_madx["S"],
+                    x=twiss_madx["S"].apply(lambda e: e.m_as("m")),
                     y=twiss_madx["ALFX"],
                     marker={"color": "blue", "symbol": "cross-thin", "size": 5, "line": {"width": 1, "color": "blue"}},
                     mode="markers",
                     showlegend=False,
                 )
                 artist.scatter(
-                    x=twiss_madx["S"],
+                    x=twiss_madx["S"].apply(lambda e: e.m_as("m")),
                     y=twiss_madx["ALFY"],
                     marker={
                         "color": "FireBrick",
@@ -1025,7 +1029,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
             if twiss_madx is not None:
                 artist.scatter(
-                    x=twiss_madx["S"],
+                    x=twiss_madx["S"].apply(lambda e: e.m_as("m")),
                     y=twiss_madx["DX"],
                     marker={
                         "color": "green",
@@ -1038,7 +1042,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                     showlegend=False,
                 )
                 artist.scatter(
-                    x=twiss_madx["S"],
+                    x=twiss_madx["S"].apply(lambda e: e.m_as("m")),
                     y=twiss_madx["DY"],
                     marker={
                         "color": "magenta",
@@ -1072,7 +1076,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
             if twiss_madx is not None:
                 artist.scatter(
-                    x=twiss_madx["S"],
+                    x=twiss_madx["S"].apply(lambda e: e.m_as("m")),
                     y=twiss_madx["DPX"],
                     marker={
                         "color": "green",
@@ -1084,7 +1088,7 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                     showlegend=False,
                 )
                 artist.scatter(
-                    x=twiss_madx["S"],
+                    x=twiss_madx["S"].apply(lambda e: e.m_as("m")),
                     y=twiss_madx["DPY"],
                     marker={
                         "color": "magenta",
@@ -1117,14 +1121,14 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
             if twiss_madx is not None:
                 artist.scatter(
-                    x=twiss_madx["S"],
+                    x=twiss_madx["S"].apply(lambda e: e.m_as("m")),
                     y=twiss_madx["MUX"],
                     marker={"color": "blue", "symbol": "cross-thin", "size": 5, "line": {"width": 1, "color": "blue"}},
                     mode="markers",
                     showlegend=False,
                 )
                 artist.scatter(
-                    x=twiss_madx["S"],
+                    x=twiss_madx["S"].apply(lambda e: e.m_as("m")),
                     y=twiss_madx["MUY"],
                     marker={
                         "color": "FireBrick",

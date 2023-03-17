@@ -1,6 +1,6 @@
 """Provides an interface to run Zgoubi from Python; supports multiprocessing and concurrent programming.
 
-.. seealso::
+.. see also::
 
     The full `Zgoubi User Guide`_ can also be consulted for reference.
 
