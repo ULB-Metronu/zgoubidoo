@@ -284,7 +284,7 @@ def quadrupole_to_zgoubi(element: _Element, kinematics: _Kinematics, options: Di
 
     if element.get("K1S") is not None or element.get("K1SL") is not None and element.get("K1SL") != 0:
         return [
-            ChangRef("changeref_in", TRANSFORMATIONS=[('XR', -45 * _ureg.degree)]),
+            ChangRef("changeref_in", TRANSFORMATIONS=[("XR", -45 * _ureg.degree)]),
             quad,
             changeref_out,
         ]

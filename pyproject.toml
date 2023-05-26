@@ -43,8 +43,7 @@ mypy = "^0.991"
 nbstripout = "^0.4.0"
 numpy-stl = "^2.16.0"
 sympy = "^1.10.1"
-
-georges-core = { path = "libs/georges-core/", develop = true }
+georges-core = "2023.2"
 
 [tool.poetry.group.docs]
 optional = true
