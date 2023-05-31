@@ -25,6 +25,7 @@ from ..commands import PolarMagnet as _PolarMagnet
 from ..commands import Quadrupole as _Quadrupole
 from ..commands import Sextupole as _Sextupole
 from ..commands import Solenoid as _Solenoid
+from ..commands import VFFA as _vFFA
 from ..commands.fieldmaps import Tosca as _Tosca
 
 if TYPE_CHECKING:
@@ -234,7 +235,6 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 )
 
         def compute_face_angles(width):
-
             roots = _np.roots([1, -2 * r * _np.cos(_np.pi + entrance_face_angle), r**2 - (r + width) ** 2])
             length = roots[roots > 0][0]
             entrance_up = _np.arcsin((length / (r + width)) * _np.sin(-entrance_face_angle))
@@ -500,8 +500,63 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
 
                     add_svg_path(_np.array(pts), reference_frame=reference_frame, color=e.PIPE_COLOR)
 
-        def plot_fringes(theta_init, omega, face_angle, radius, linear_extent, sign_up=1):
+        def plot_cartesian_magnet():
+            if with_magnet_poles:
+                add_svg_path(
+                    _np.array(
+                        [
+                            [x_offset - (width / 2) * _np.tan(w_e), y_offset - width / 2, 0.0],
+                            [x_offset + (width / 2) * _np.tan(w_e), y_offset + width / 2, 0.0],
+                            [x_offset + length + (width / 2) * _np.tan(w_s), y_offset + width / 2, 0.0],
+                            [x_offset + length - (width / 2) * _np.tan(w_s), y_offset - width / 2, 0.0],
+                        ],
+                    ),
+                    color=e.COLOR,
+                )
 
+            if with_apertures:
+                add_svg_path(
+                    _np.array(
+                        [
+                            [x_offset - aper_left * _np.tan(w_e), y_offset - aper_left, 0.0],
+                            [
+                                x_offset - (aper_left + pipe_thickness) * _np.tan(w_e),
+                                y_offset - aper_left - pipe_thickness,
+                                0.0,
+                            ],
+                            [
+                                x_offset + length - (aper_left + pipe_thickness) * _np.tan(w_s),
+                                y_offset - aper_left - pipe_thickness,
+                                0.0,
+                            ],
+                            [x_offset + length - aper_left * _np.tan(w_s), y_offset - aper_left, 0.0],
+                        ],
+                    ),
+                    reference_frame=reference_frame,
+                    color=e.PIPE_COLOR,
+                )
+                add_svg_path(
+                    _np.array(
+                        [
+                            [x_offset + aper_right * _np.tan(w_e), y_offset + aper_right, 0.0],
+                            [
+                                x_offset + (aper_right + pipe_thickness) * _np.tan(w_e),
+                                y_offset + aper_right + pipe_thickness,
+                                0.0,
+                            ],
+                            [
+                                x_offset + length + (aper_right + pipe_thickness) * _np.tan(w_s),
+                                y_offset + aper_right + pipe_thickness,
+                                0.0,
+                            ],
+                            [x_offset + length + aper_right * _np.tan(w_s), y_offset + aper_right, 0.0],
+                        ],
+                    ),
+                    reference_frame=reference_frame,
+                    color=e.PIPE_COLOR,
+                )
+
+        def plot_fringes(theta_init, omega, face_angle, radius, linear_extent, sign_up=1):
             xa = (r + sign_up * linear_extent) * _np.sin(theta_init)
             ya = -r0 + (r + sign_up * linear_extent) * _np.cos(theta_init)
 
@@ -811,66 +866,27 @@ class ZgoubidooPlotlyArtist(_PlotlyArtist):
                 else:  # This is a cartesian magnet
                     w_e = e.wedge_angle_entrance.m_as("radians")
                     w_s = -e.wedge_angle_exit.m_as("radians")
-                    if with_magnet_poles:
-                        add_svg_path(
-                            _np.array(
-                                [
-                                    [-(width / 2) * _np.tan(w_e), -width / 2, 0.0],
-                                    [(width / 2) * _np.tan(w_e), width / 2, 0.0],
-                                    [e.length.m_as("m") + (width / 2) * _np.tan(w_s), width / 2, 0.0],
-                                    [e.length.m_as("m") - (width / 2) * _np.tan(w_s), -width / 2, 0.0],
-                                ],
-                            ),
-                            color=e.COLOR,
-                        )
+                    total_length = e.length.m_as("m")
+                    for i in range(0, e.n_magnets):
+                        length = e.magnet_length[i].m_as("m")
+                        x_offset = e.magnet_xm[i].m_as("m")
+                        y_offset = -e.magnet_dym[i].m_as("m")
 
-                        if with_map:
-                            x_e = e.entrance_face_integration.m_as("m")
-                            x_s = e.exit_face_integration.m_as("m")
-                            add_svg_path(
-                                _np.array(
-                                    [
-                                        [-x_e, -1.2 * width / 2, 0.0],
-                                        [-x_e, 1.2 * width / 2, 0.0],
-                                        [e.length.m_as("m") + x_s, 1.2 * width / 2, 0.0],
-                                        [e.length.m_as("m") + x_s, -1.2 * width / 2, 0.0],
-                                    ],
-                                ),
-                                opacity=0.2,
-                            )
+                        plot_cartesian_magnet()
 
-                    if with_apertures:
+                    if with_map:
+                        x_e = e.entrance_face_integration.m_as("m")
+                        x_s = e.exit_face_integration.m_as("m")
                         add_svg_path(
                             _np.array(
                                 [
-                                    [-aper_left * _np.tan(w_e), -aper_left, 0.0],
-                                    [-(aper_left + pipe_thickness) * _np.tan(w_e), -aper_left - pipe_thickness, 0.0],
-                                    [
-                                        e.length.m_as("m") - (aper_left + pipe_thickness) * _np.tan(w_s),
-                                        -aper_left - pipe_thickness,
-                                        0.0,
-                                    ],
-                                    [e.length.m_as("m") - aper_left * _np.tan(w_s), -aper_left, 0.0],
+                                    [-x_e, -1.2 * width / 2, 0.0],
+                                    [-x_e, 1.2 * width / 2, 0.0],
+                                    [total_length + x_s, 1.2 * width / 2, 0.0],
+                                    [total_length + x_s, -1.2 * width / 2, 0.0],
                                 ],
                             ),
-                            reference_frame=reference_frame,
-                            color=e.PIPE_COLOR,
-                        )
-                        add_svg_path(
-                            _np.array(
-                                [
-                                    [aper_right * _np.tan(w_e), aper_right, 0.0],
-                                    [(aper_right + pipe_thickness) * _np.tan(w_e), aper_right + pipe_thickness, 0.0],
-                                    [
-                                        e.length.m_as("m") + (aper_right + pipe_thickness) * _np.tan(w_s),
-                                        aper_right + pipe_thickness,
-                                        0.0,
-                                    ],
-                                    [e.length.m_as("m") + aper_right * _np.tan(w_s), aper_right, 0.0],
-                                ],
-                            ),
-                            reference_frame=reference_frame,
-                            color=e.PIPE_COLOR,
+                            opacity=0.2,
                         )
 
     @classmethod

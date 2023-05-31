@@ -280,6 +280,22 @@ class CartesianMagnet(Magnet, metaclass=CartesianMagnetType):
     def exit_face_integration(self) -> _Q:
         return self.X_S or 0 * _ureg.m
 
+    @property
+    def n_magnets(self) -> int:
+        return 1
+
+    @property
+    def magnet_length(self) -> List[float]:
+        return [self.XL]
+
+    @property
+    def magnet_xm(self) -> List[float]:
+        return [0 * _ureg.m]
+
+    @property
+    def magnet_dym(self) -> List[float]:
+        return [0 * _ureg.m]
+
 
 class PolarMagnetType(MagnetType):
     """Type for polar magnets."""
@@ -1840,19 +1856,17 @@ class Dipole(PolarMagnet):
         zi += _Objet2("BUNCH", BORO=kinematics.brho).add(entry_coordinates)
         zi += particle()
         zi += self
-        fit = method(PENALTY=1e-12,
-                     PARAMS=[
-                         method.Parameter(line=zi, place=self.LABEL1, parameter=Dipole.B0_),
-                     ],
-                     CONSTRAINTS=[
-                         method.EqualityConstraint(
-                             line=zi,
-                             place='#End',
-                             variable=method.FitCoordinates.Y,
-                             value=exit_coordinate
-                         ),
-                     ]
-                     ).generate_label('FIT_')
+        fit = method(
+            PENALTY=1e-12,
+            PARAMS=[
+                method.Parameter(line=zi, place=self.LABEL1, parameter=Dipole.B0_),
+            ],
+            CONSTRAINTS=[
+                method.EqualityConstraint(
+                    line=zi, place="#End", variable=method.FitCoordinates.Y, value=exit_coordinate
+                ),
+            ],
+        ).generate_label("FIT_")
         zi += fit
 
         def cb(f):
@@ -3577,3 +3591,22 @@ class VFFA(CartesianMagnet):
         command.append(c)
 
         return "".join(map(lambda _: _.rstrip(), command))
+
+    @property
+    def n_magnets(self) -> int:
+        return self.N
+
+    @property
+    def magnet_length(self) -> List[float]:
+        return self.L
+
+    @property
+    def magnet_xm(self) -> List[float]:
+        return self.XM
+
+    @property
+    def magnet_dym(self) -> List[float]:
+        return self.DYM
+
+    # def plotly(self):
+    #     print(self)
